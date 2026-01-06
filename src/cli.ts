@@ -22,7 +22,7 @@ Commands:
   serve              Start MCP server (stdio transport)
   stats              Show database statistics
   doctor             Check installation and configuration
-  daemon <action>    Manage file watcher daemon (TODO)
+  daemon <action>    Manage file watcher (start|stop|status|restart)
 
 Examples:
   amalfa init        # Initialize from ./docs markdown files
@@ -182,6 +182,28 @@ async function cmdInit() {
 	}
 }
 
+async function cmdDaemon() {
+	const action = args[1] || "status";
+	const validActions = ["start", "stop", "status", "restart"];
+
+	if (!validActions.includes(action)) {
+		console.error(`❌ Invalid action: ${action}`);
+		console.error("\nUsage: amalfa daemon <start|stop|status|restart>");
+		process.exit(1);
+	}
+
+	// Run daemon with the specified action
+	const daemonPath = join(import.meta.dir, "daemon/index.ts");
+	const proc = spawn("bun", ["run", daemonPath, action], {
+		stdio: "inherit",
+		cwd: process.cwd(),
+	});
+
+	proc.on("exit", (code) => {
+		process.exit(code ?? 0);
+	});
+}
+
 async function cmdDoctor() {
 	console.log("🩺 AMALFA Health Check\n");
 
@@ -266,10 +288,9 @@ async function main() {
 		await cmdInit();
 		break;
 
-		case "daemon":
-			console.log("❌ 'amalfa daemon' not yet implemented (Phase 5)");
-			process.exit(1);
-			break;
+	case "daemon":
+		await cmdDaemon();
+		break;
 
 		case "version":
 		case "--version":
