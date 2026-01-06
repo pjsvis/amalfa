@@ -68,6 +68,9 @@ resonance/dist
 
 # AMALFA Runtime Artifacts (Database is cache, markdown is source of truth)
 .amalfa/
+.amalfa-pre-flight.log
+.amalfa-daemon.pid
+.amalfa-daemon.log
 
 # Fastembed cache
 local_cache/

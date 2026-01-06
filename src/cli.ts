@@ -3,7 +3,7 @@ import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { spawn } from "node:child_process";
 
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 const DB_PATH = join(process.cwd(), ".amalfa/resonance.db");
 
 // Parse command line arguments
@@ -18,14 +18,20 @@ Usage:
   amalfa <command> [options]
 
 Commands:
-  init               Initialize database from markdown files
+  init [--force]     Initialize database from markdown files
   serve              Start MCP server (stdio transport)
   stats              Show database statistics
   doctor             Check installation and configuration
   daemon <action>    Manage file watcher (start|stop|status|restart)
 
+Options:
+  --force            Override pre-flight warnings (errors still block)
+  --version, -v      Show version number
+  --help, -h         Show this help message
+
 Examples:
-  amalfa init        # Initialize from ./docs markdown files
+  amalfa init        # Initialize with pre-flight validation
+  amalfa init --force # Override warnings (use with caution)
   amalfa serve       # Start MCP server for Claude Desktop
   amalfa stats       # Show knowledge graph statistics
   amalfa doctor      # Verify installation
