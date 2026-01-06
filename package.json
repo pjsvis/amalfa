@@ -1,8 +1,12 @@
 {
 	"name": "amalfa",
 	"version": "1.0.0",
-	"description": "A Memory Layer For Agents - MCP server for knowledge graphs",
+	"description": "Local-first knowledge graph engine for AI agents. Transforms markdown into searchable memory with MCP protocol.",
 	"license": "MIT",
+	"homepage": "https://github.com/pjsvis/amalfa#readme",
+	"bugs": {
+		"url": "https://github.com/pjsvis/amalfa/issues"
+	},
 	"author": "Peter John Smith <729613+pjsvis@users.noreply.github.com>",
 	"repository": {
 		"type": "git",
@@ -15,7 +19,14 @@
 		"ai-agents",
 		"vector-search",
 		"sqlite",
-		"embeddings"
+		"embeddings",
+		"markdown",
+		"local-first",
+		"privacy",
+		"claude",
+		"semantic-search",
+		"zettelkasten",
+		"pkm"
 	],
 	"bin": {
 		"amalfa": "./src/cli.ts"

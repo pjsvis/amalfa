@@ -1,112 +1,356 @@
-# Polyvis: A Neuro-Symbolic Graph Visualizer
+# AMALFA
 
-Polyvis is a lightweight, frontend-only web application for exploring and visualizing neuro-symbolic knowledge graphs. It renders conceptual relationships from a pre-built SQLite database, allowing users to navigate a "Neuro-Map" of interconnected ideas, principles, and directives.
+**A Memory Layer For Agents**
 
-The application is built with HTML, CSS, and [Alpine.js](https://alpinejs.dev/), and uses [Bun](https://bun.sh/) as its JavaScript runtime and toolkit. The graph visualization is powered by [viz.js](https://github.com/mdaines/viz.js) and [Sigma.js](https://www.sigmajs.org/), and the in-browser database is handled by [sql.js](https://sql.js.org/).
+A local-first knowledge graph engine that transforms your markdown files into a searchable memory layer for AI agents. Built for privacy, speed, and zero API costs.
+
+[![NPM Version](https://img.shields.io/npm/v/amalfa)](https://www.npmjs.com/package/amalfa)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Why AMALFA?
+
+AI agents need memory. AMALFA provides:
+
+- **🔒 Privacy-first**: Your data never leaves your machine
+- **⚡️ Fast**: SQLite + vector embeddings for sub-second search
+- **💰 Zero cost**: No API calls, no subscriptions
+- **📝 Markdown native**: Your notes are the source of truth
+- **🔄 Real-time**: File watcher keeps your knowledge graph up-to-date
+- **🤖 Agent-ready**: MCP protocol integration with Claude Desktop
+
+## Quick Start
+
+### Installation
+
+```bash
+# Install globally
+bun add -g amalfa
+
+# Or use with bunx
+bunx amalfa --help
+```
+
+### Initialize Your Knowledge Graph
+
+```bash
+# 1. Navigate to your project with markdown files
+cd ~/Documents/my-notes
+
+# 2. Initialize AMALFA (creates .amalfa/resonance.db)
+amalfa init
+
+# 3. Start the file watcher (optional)
+amalfa daemon start
+
+# 4. Connect to Claude Desktop (see Configuration below)
+```
+
+## Configuration
+
+Create `amalfa.config.json` in your project root:
+
+```json
+{
+  "source": "./docs",
+  "database": ".amalfa/resonance.db",
+  "embeddings": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "dimensions": 384
+  },
+  "watch": {
+    "enabled": true,
+    "debounce": 1000
+  },
+  "excludePatterns": ["node_modules", ".git", ".amalfa"]
+}
+```
+
+Or use TypeScript:
+
+```typescript
+// amalfa.config.ts
+export default {
+  source: "./docs",
+  database: ".amalfa/resonance.db",
+  // ... rest of config
+};
+```
+
+### Claude Desktop Integration
+
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "amalfa": {
+      "command": "amalfa",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+Restart Claude Desktop, and you'll see AMALFA tools available in the conversation.
+
+## CLI Commands
+
+### `amalfa init`
+
+Initialize knowledge graph from markdown files.
+
+```bash
+amalfa init
+```
+
+**What it does:**
+- Scans your source directory for `.md` files
+- Generates vector embeddings (384 dimensions)
+- Extracts WikiLinks (`[[links]]`) and semantic tags
+- Creates edges between related documents
+- Stores everything in SQLite with WAL mode
+
+**Output:**
+```
+📚 Starting ingestion from: ./docs
+📁 Found 127 markdown files
+  100% (127/127)
+✅ Initialization complete!
+
+📊 Summary:
+  Files processed: 127
+  Nodes created: 127
+  Edges created: 243
+  Embeddings: 127
+  Duration: 8.42s
+```
+
+### `amalfa daemon <action>`
+
+Manage the file watcher daemon.
+
+```bash
+amalfa daemon start   # Start watching for changes
+amalfa daemon stop    # Stop the daemon
+amalfa daemon status  # Check if running
+amalfa daemon restart # Restart daemon
+```
+
+**Features:**
+- Watches source directory recursively
+- Debounced updates (1s default)
+- Hash-based change detection (only processes modified files)
+- Retry logic with exponential backoff
+- Native macOS notifications
+
+### `amalfa serve`
+
+Start MCP server for Claude Desktop (stdio transport).
+
+```bash
+amalfa serve
+```
+
+**Available Tools:**
+- `search_knowledge`: Semantic search across all documents
+- `get_node`: Retrieve specific document by ID
+- `get_neighbors`: Find related documents (graph traversal)
+
+See [docs/MCP_TOOLS.md](docs/MCP_TOOLS.md) for detailed tool schemas.
+
+### `amalfa stats`
+
+View knowledge graph statistics.
+
+```bash
+amalfa stats
+```
+
+### `amalfa doctor`
+
+Health check and diagnostics.
+
+```bash
+amalfa doctor
+```
+
+## Architecture
+
+### Philosophy: Markdown is Truth
+
+AMALFA implements the **"Hollow Nodes"** pattern:
+
+- **Markdown files** = Source of truth (version controlled, human-readable)
+- **SQLite database** = Ephemeral cache (can be regenerated anytime)
+
+This means:
+- ✅ You can delete `.amalfa/` and rebuild with `amalfa init`
+- ✅ Your markdown files remain the canonical source
+- ✅ Database changes are never written back to files
+- ✅ No lock-in, no vendor formats
+
+### Technology Stack
+
+- **Runtime**: Bun (fast, modern JavaScript runtime)
+- **Database**: SQLite with WAL mode
+- **Embeddings**: FastEmbed (local, no API calls)
+- **Vectors**: 384-dimensional (BAAI/bge-small-en-v1.5)
+- **Search**: Pure dot product (cosine similarity)
+- **Protocol**: Model Context Protocol (MCP)
+
+### File Structure
+
+```
+your-project/
+├── docs/                    # Your markdown files
+│   ├── README.md
+│   ├── architecture.md
+│   └── ...
+├── .amalfa/                 # AMALFA data (gitignored)
+│   └── resonance.db         # SQLite database (2-5 MB typical)
+├── amalfa.config.json       # Configuration (optional)
+└── .amalfa-daemon.pid       # Daemon process ID (if running)
+```
 
 ## Features
 
-- **Interactive Graph Visualization:** Explore the knowledge graph by searching for terms.
-- **Data-Driven Suggestions:** The search box provides a curated list of high-value terms guaranteed to produce rich, interesting graphs.
-- **In-Browser Database:** The entire graph dataset is loaded into the browser via sql.js, requiring no active backend server for querying.
-- **Alpine.js Reactivity:** Uses [Alpine.js](https://alpinejs.dev/) for a lightweight, reactive UI without a complex build step.
-- **Zero-Build Frontend:** Built with vanilla web technologies and Alpine.js for maximum simplicity and performance.
-- **Themable UI:** All design tokens (colors, dimensions) are centralized in `src/css/layers/theme.css` ("The Control Panel") for easy customization.
-- **Semantic Styling:** No magic numbers. All styles use semantic variables (e.g., `--surface-panel`, `--border-base`) for consistent theming.
-- **Efficient Search:** Two-tier search architecture (vector embeddings + grep) - no FTS or chunking needed.
+### Vector Search (FAFCAS Protocol)
 
-## Search Architecture
+Fast, accurate search without a vector database:
 
-Polyvis uses a **two-tier search system** that eliminates the need for full-text search (FTS) or document chunking:
+- L2-normalized embeddings (unit vectors)
+- Pure dot product = cosine similarity
+- 85%+ accuracy at <10ms per query
+- No chunking needed (markdown files are already chunk-sized)
 
-### 1. Vector Search (Semantic)
-- **Purpose:** Semantic similarity, concept discovery
-- **Accuracy:** 85% average best match across diverse queries
-- **Speed:** <10ms per query
-- **Use case:** "Find documents about CSS patterns" or "Show me graph weaving logic"
+### Edge Weaving
 
-### 2. Grep/Ripgrep (Literal)
-- **Purpose:** Exact phrase matches, symbol lookup
-- **Accuracy:** 100% (literal text matching)
-- **Speed:** <1ms
-- **Use case:** "Find exact phrase 'function fooBar'" or "Where is BentoBoxer imported?"
+Automatic relationship detection:
 
-### Why No Chunking?
+- **WikiLinks**: `[[Document Name]]` creates `CITES` edges
+- **Tags**: `[tag: Concept]` creates `TAGGED_AS` edges
+- **Metadata**: `<!-- tags: [RELATION: Target] -->` for explicit edges
+- **Louvain Gate**: Prevents graph pollution (community detection)
 
-**Document corpus characteristics:**
-- 80% of documents are <5KB (~1,000 words) - already "chunk-sized"
-- Average document: 2.7KB (~550 words)
-- Largest document: 47KB (~9,500 words) - still within LLM context windows
+### Incremental Updates
 
-**Results without chunking:**
-- Vector search achieves 85% accuracy on whole documents
-- Documents are well-structured markdown with clear headers
-- Natural granularity matches search needs
+The daemon watches for changes and only re-processes modified files:
 
-**Future strategy:** If large documents (>20KB) become problematic, split them into multiple markdown files at natural boundaries (H1/H2 headers) and commit to version control. This keeps source files as the source of truth, maintains git-friendly diffs, and requires no runtime infrastructure.
+- MD5 hash tracking
+- Batch transactions (50 files)
+- Debounced (1s default)
+- Automatic retry on failure (3 attempts, exponential backoff)
 
-**See:** `docs/BENTO_BOXING_DEPRECATION.md` for full analysis and decision rationale.
+## Use Cases
 
-## Design System (The Control Center)
-The application's visual design is strictly controlled by **`src/css/layers/theme.css`**. This file acts as a configuration panel for:
--   **Dimensions:** Sidebar widths, header heights.
--   **Colors:** Semantic mappings (e.g., `--surface-1`, `--brand`).
--   **Spacing:** Global padding and gaps.
+### Personal Knowledge Base
 
-**Protocol:** Always check and tweak `theme.css` before modifying component styles.
+```bash
+# Your notes directory
+cd ~/Documents/notes
+amalfa init
+amalfa daemon start
 
-## Prerequisites
-
-- [Bun.js](https://bun.sh/docs/installation) (v1.0 or later) - **MANDATORY**
-- A local web server for development (e.g., `bun x http-server`)
-
-## Getting Started
-
-Follow these steps to set up and run the project locally.
-
-### 1. Installation
-
-There are no external dependencies to install for the application itself, as it relies on vanilla JavaScript and CDN-hosted libraries.
-
-### 2. Development Workflow
-
-For detailed instructions on CSS development, database building, and running the app, please refer to the **[Development Workflow Playbook](playbooks/development-workflow-playbook.md)**.
-
-**Quick Start:**
-1.  **Dev Mode:** `bun run dev` (Starts server & CSS watcher)
-2.  **Build DB:** `bun run scripts/build_db.ts`
-
-## Project Structure
-
-### 3. Detailed Documentation
-For a deep dive on the codebase organization, please see **[Project Structure](docs/webdocs/project-structure.md)**.
-
-## Project Structure (High Level)
-
+# Now ask Claude: "What did I write about X?"
+# Claude uses AMALFA to search your notes
 ```
-├── public/              # Web Root (HTML, Static Data)
-│   ├── explorer/        # Sigma.js Graph Explorer
-│   └── resonance.db     # SQLite Database (generated locally)
-│
-├── src/                 # Application Source Code
-│   ├── core/            # The Bento Box Kernel (Normalizer, Weaver)
-│   ├── config/          # Shared Configuration
-│   └── db/              # Database Schemas
-│
-├── scripts/             # Data Pipeline & Tooling
-│   ├── pipeline/        # ETL Scripts (Sync, Load)
-│   ├── cli/             # Command Line Tools (Harvest)
-│   └── verify/          # Integrity Checks
-│
-├── docs/                # Project Documentation
-├── playbooks/           # Operational Protocols
-├── polyvis.settings.json # Central Configuration
-└── README.md            # This file
+
+### Project Documentation
+
+```bash
+# Your project's docs
+cd ~/Code/my-project
+amalfa init
+
+# Ask Claude: "Explain the architecture"
+# Claude searches ./docs and provides context
 ```
+
+### Research & Zettelkasten
+
+```bash
+# Zettelkasten notes
+cd ~/Zettelkasten
+amalfa init
+
+# Ask Claude: "Find connections between concept A and B"
+# Claude traverses the knowledge graph
+```
+
+## Troubleshooting
+
+### Daemon won't start
+
+Check logs:
+```bash
+tail -f .amalfa-daemon.log
+```
+
+Common issues:
+- Source directory doesn't exist
+- Database permissions
+- Port conflicts (if running multiple instances)
+
+### Database corruption
+
+Rebuild from markdown:
+```bash
+rm -rf .amalfa/
+amalfa init
+```
+
+Your markdown files are the source of truth, so this is always safe.
+
+### Slow initialization
+
+Large repositories (1000+ files) may take 2-5 minutes on first run. Subsequent updates are fast (hash checking prevents re-processing).
+
+## Development
+
+```bash
+# Clone repository
+git clone https://github.com/pjsvis/amalfa.git
+cd amalfa
+
+# Install dependencies
+bun install
+
+# Run CLI locally
+bun run src/cli.ts help
+
+# Run tests
+bun test
+
+# Type checking
+bun run tsc --noEmit
+```
+
+## Roadmap
+
+- [ ] v1.1: Web UI for graph visualization
+- [ ] v1.2: Multi-language embedding models
+- [ ] v1.3: PDF/DOCX support
+- [ ] v2.0: Distributed sync (private P2P)
 
 ## Contributing
-## Contribution Guidelines
-Please review `AGENTS.md` for our operational protocols, specifically:
--   **EVP (Empirical Verification Protocol):** Use the browser to verify, don't guess.
--   **GEP (Granular Execution Protocol):** One step at a time.
- Please feel free to open issues or submit pull requests.
+
+Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Credits
+
+Built with:
+- [Bun](https://bun.sh) - Fast JavaScript runtime
+- [FastEmbed](https://github.com/qdrant/fastembed) - Local embeddings
+- [Model Context Protocol](https://modelcontextprotocol.io) - AI agent integration
+
+---
+
+**AMALFA** = **A Memory Layer For Agents**
+
+Give your AI agents a memory. Keep your privacy. Own your data.
+
+**[GitHub](https://github.com/pjsvis/amalfa)** • **[NPM](https://www.npmjs.com/package/amalfa)** • **[Issues](https://github.com/pjsvis/amalfa/issues)**
