@@ -131,3 +131,5 @@ canary-*.db
 # Large Research Papers (Link to external sources instead)
 *.pdf
 !docs/architecture-diagrams/*.pdf
+test-docs/
+amalfa.config.json

@@ -18,13 +18,14 @@ Usage:
   amalfa <command> [options]
 
 Commands:
+  init               Initialize database from markdown files
   serve              Start MCP server (stdio transport)
   stats              Show database statistics
   doctor             Check installation and configuration
-  init               Initialize database from markdown files (TODO)
   daemon <action>    Manage file watcher daemon (TODO)
 
 Examples:
+  amalfa init        # Initialize from ./docs markdown files
   amalfa serve       # Start MCP server for Claude Desktop
   amalfa stats       # Show knowledge graph statistics
   amalfa doctor      # Verify installation
@@ -114,6 +115,73 @@ Last modified: ${new Date(statSync(DB_PATH).mtime).toISOString()}
 	}
 }
 
+async function cmdInit() {
+	console.log("🚀 AMALFA Initialization\n");
+
+	// Load configuration
+	const { loadConfig } = await import("./config/defaults");
+	const config = await loadConfig();
+
+	console.log(`📁 Source: ${config.source}`);
+	console.log(`💾 Database: ${config.database}`);
+	console.log(`🧠 Model: ${config.embeddings.model}\n`);
+
+	// Check if source directory exists
+	const sourcePath = join(process.cwd(), config.source);
+	if (!existsSync(sourcePath)) {
+		console.error(`❌ Source directory not found: ${sourcePath}`);
+		console.error("\nCreate it first:");
+		console.error(`  mkdir -p ${config.source}`);
+		console.error("  # Add some markdown files");
+		process.exit(1);
+	}
+
+	// Create .amalfa directory
+	const amalfaDir = join(process.cwd(), ".amalfa");
+	if (!existsSync(amalfaDir)) {
+		console.log(`📂 Creating directory: ${amalfaDir}`);
+		const { mkdirSync } = await import("node:fs");
+		mkdirSync(amalfaDir, { recursive: true });
+	}
+
+	// Initialize database
+	const dbPath = join(process.cwd(), config.database);
+	console.log(`🗄️  Initializing database: ${dbPath}\n`);
+
+	try {
+		const { ResonanceDB } = await import("./resonance/db");
+		const { AmalfaIngestor } = await import("./pipeline/AmalfaIngestor");
+
+		// Create/open database
+		const db = new ResonanceDB(dbPath);
+
+		// Run ingestion
+		const ingestor = new AmalfaIngestor(config, db);
+		const result = await ingestor.ingest();
+
+		db.close();
+
+		if (result.success) {
+			console.log("\n✅ Initialization complete!");
+			console.log("\n📊 Summary:");
+			console.log(`  Files processed: ${result.stats.files}`);
+			console.log(`  Nodes created: ${result.stats.nodes}`);
+			console.log(`  Edges created: ${result.stats.edges}`);
+			console.log(`  Embeddings: ${result.stats.vectors}`);
+			console.log(`  Duration: ${result.stats.durationSec.toFixed(2)}s\n`);
+			console.log("Next steps:");
+			console.log("  amalfa serve     # Start MCP server");
+			console.log("  amalfa daemon    # Watch for file changes (coming soon)");
+		} else {
+			console.error("\n❌ Initialization failed");
+			process.exit(1);
+		}
+	} catch (error) {
+		console.error("\n❌ Initialization failed:", error);
+		process.exit(1);
+	}
+}
+
 async function cmdDoctor() {
 	console.log("🩺 AMALFA Health Check\n");
 
@@ -190,17 +258,13 @@ async function main() {
 			await cmdStats();
 			break;
 
-		case "doctor":
-			await cmdDoctor();
-			break;
+	case "doctor":
+		await cmdDoctor();
+		break;
 
-		case "init":
-			console.log("❌ 'amalfa init' not yet implemented (Phase 5)");
-			console.log(
-				"For now, copy an existing database to .amalfa/resonance.db",
-			);
-			process.exit(1);
-			break;
+	case "init":
+		await cmdInit();
+		break;
 
 		case "daemon":
 			console.log("❌ 'amalfa daemon' not yet implemented (Phase 5)");
