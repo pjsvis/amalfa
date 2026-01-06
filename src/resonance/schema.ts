@@ -1,4 +1,4 @@
-export const CURRENT_SCHEMA_VERSION = 5;
+export const CURRENT_SCHEMA_VERSION = 6;
 
 export const GENESIS_SQL = `
     CREATE TABLE IF NOT EXISTS nodes (
@@ -133,6 +133,24 @@ export const MIGRATIONS: Migration[] = [
 			// For now, we keep content column in existing DBs but stop using it
 			// New databases created from GENESIS_SQL won't have content column
 			console.log("   Migration v5: FTS removed, content column deprecated");
+		},
+	},
+	{
+		version: 6,
+		description: "Stop storing content in nodes (NULL all content values)",
+		up: (db) => {
+			console.log("   Migration v6: Nullifying content column...");
+
+			// Clear all content values to free space
+			// Keep column for backward compatibility (will remove in v7)
+			db.run("UPDATE nodes SET content = NULL");
+
+			// Run VACUUM to reclaim space (optional, can be slow)
+			// db.run("VACUUM");
+
+			console.log(
+				"   Migration v6: Content nullified. All content now read from filesystem.",
+			);
 		},
 	},
 ];

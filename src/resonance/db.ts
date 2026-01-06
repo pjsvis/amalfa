@@ -104,9 +104,11 @@ export class ResonanceDB {
 	insertNode(node: Node) {
 		// No inline migrations here anymore!
 
+		// Schema v6: content column deprecated, always set to NULL
+		// Content is read from filesystem via meta.source
 		const stmt = this.db.prepare(`
             INSERT OR REPLACE INTO nodes (id, type, title, content, domain, layer, embedding, hash, meta)
-            VALUES ($id, $type, $title, $content, $domain, $layer, $embedding, $hash, $meta)
+            VALUES ($id, $type, $title, NULL, $domain, $layer, $embedding, $hash, $meta)
         `);
 
 		try {
@@ -124,7 +126,7 @@ export class ResonanceDB {
 				$id: String(node.id),
 				$type: String(node.type),
 				$title: node.label ? String(node.label) : null,
-				$content: node.content ? String(node.content) : null,
+				// $content removed - always NULL per schema v6
 				$domain: String(node.domain || "knowledge"),
 				$layer: String(node.layer || "experience"),
 				$embedding: blob,
