@@ -90,23 +90,10 @@ public/*.db
 public/*.db-wal
 public/*.db-shm
 
-# Enlightenment Experiment
-experiments/enlightenment/models/
-experiments/enlightenment/venv/
-experiments/enlightenment/__pycache__/
-experiments/enlightenment/llama.cpp/
-*.gguf
 
-# Python ML Pipeline
-ingest/.venv/
-ingest/polyvis_classifier_v1/
+# Python
 *.pyc
 __pycache__/
-
-ingest/checkpoints/
-*.pt
-*.safetensors
-public/*.backup*
 
 # Database Files (Generated Artifacts - Never Commit)
 *.db
@@ -124,7 +111,6 @@ backups/db/
 # Built/Bundled JavaScript
 **/dist/*.bundle.js
 **/dist/*.min.js
-experiments/**/dist/
 
 # Test Artifacts
 test-*.db
