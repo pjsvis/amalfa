@@ -1,0 +1,228 @@
+@theme {
+	/* 
+   * CONTROL CENTER
+   * This file is the single source of truth for the application's design.
+   * PROCEDURE: Check here first. Tweak here first. Propose new variables here.
+   */
+
+	/* 
+   * RATIONALIZATION: SPACING
+   * Replacing the linear 0.25rem scale with Open Props relative sizing.
+   * Anchored on 4px grid.
+   */
+	--spacing-0: var(--size-00);
+	--spacing-1: 4px;
+	--spacing-2: 8px;
+	--spacing-3: 12px;
+	--spacing-4: 16px;
+	/* Standard Gap */
+	--spacing-5: 20px;
+	--spacing-6: 24px;
+	--spacing-7: var(--size-7);
+	--spacing-8: var(--size-8);
+	--spacing-9: var(--size-9);
+	--spacing-10: var(--size-10);
+	--spacing-11: var(--size-11);
+	--spacing-12: var(--size-12);
+
+	/* FLUID SPACING */
+	--spacing-fluid-1: var(--size-fluid-1);
+	--spacing-fluid-2: var(--size-fluid-2);
+	--spacing-fluid-3: var(--size-fluid-3);
+
+	/* 
+   * RATIONALIZATION: COLORS
+   * Explicitly mapping semantic names to Open Props OKLCH values.
+   */
+	--color-brand: var(--indigo-5);
+	--color-brand-hover: var(--indigo-7);
+	--color-surface-1: var(--surface-1);
+	--color-surface-2: var(--surface-2);
+	--color-text-1: var(--text-1);
+	--color-text-2: var(--text-2);
+
+	/* 
+   * RATIONALIZATION: TYPOGRAPHY
+   */
+	--font-sans:
+		Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, sans-serif;
+	--font-mono:
+		"JetBrains Mono", "Roboto Mono", "Fira Code", Menlo, Monaco, Consolas,
+		"Liberation Mono", "Courier New", monospace;
+
+	--font-size-xs: 0.75rem;
+	--font-size-sm: 0.875rem;
+	--font-size-base: 1rem;
+	--font-size-lg: 1.125rem;
+	--font-size-xl: 1.25rem;
+	--font-size-2xl: 1.5rem;
+	--font-size-fluid-1: var(--font-size-fluid-1);
+	--font-size-fluid-2: var(--font-size-fluid-2);
+	--font-size-fluid-3: var(--font-size-fluid-3);
+
+	/* HEADING SIZES */
+	--font-size-h1: var(--font-size-2xl);
+	--font-size-h2: var(--font-size-xl);
+	--font-size-h3: var(--font-size-lg);
+	--font-size-h4: var(--font-size-base);
+
+	/* UTILITIES */
+	--font-size-xxs: 0.625rem;
+	--width-stats: 200px;
+	--z-tooltip: 100;
+}
+
+:root {
+	/* 
+     * APP VARIABLES (Default / Light)
+     */
+	font-family: var(--font-sans);
+
+	/* Colors - Google Internal Aesthetic (High Contrast) */
+	--primary: #202124;
+	/* Google Dark Gray */
+	--secondary: #ffffff;
+	/* Crisp White */
+	--accent: #f8f9fa;
+	/* Google Light Gray (Sidebars) */
+
+	/* Dimensions */
+	--border-width: 1px;
+	--shadow-offset: var(--size-1);
+
+	/* Semantic Components */
+	--surface-panel: #ffffff;
+	--surface-hover: #f1f3f4;
+	--border-base: #dadce0;
+	/* Google Border Gray */
+	--radius-component: var(--radius-2);
+	/* Slightly rounder */
+
+	/* Graph variables moved to src/css/layers/graph.css for isolation */
+
+	/* Layout Dimensions */
+	--width-sidebar-base: var(--size-content-2);
+	--sidebar-width-left: var(--width-sidebar-base);
+	--sidebar-width-right: var(--width-sidebar-base);
+	--sidebar-content-align: stretch;
+	--sidebar-padding: 0;
+
+	--header-height: auto;
+	--footer-height: var(--size-10);
+	--width-wrapper: var(--size-content-3);
+	--width-home-box: var(--size-content-3);
+
+	/* Spacing */
+	--app-padding: var(--size-4);
+	--gap-standard: var(--size-4);
+
+	/* TOC Specifics */
+	--toc-gap-section: var(--size-4);
+	--toc-gap-item: var(--size-2);
+	--toc-indent: var(--size-4);
+	--scroll-offset: var(--size-5);
+
+	/* Scrollbar */
+	--scrollthumb-color: #dadce0;
+	--scrollthumb-hover-color: #bdc1c6;
+}
+
+/* System Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+	:root {
+		/* App Variable Overrides (AntiGravity / Google Dark) */
+		--primary: #ffffff;
+		/* Borders/Text (White) */
+		--secondary: #202124;
+		/* Backgrounds (Dark Gray) */
+		--accent: #303134;
+		/* Secondary Background / Sidebar */
+
+		/* Open Props Dark Mode Overrides */
+		--link: #8ab4f8;
+		/* Google Blue (Links) */
+		--link-visited: #c58af9;
+		/* Google Violet (Visited) */
+
+		--text-1: #ffffff;
+		/* Primary Text */
+		--text-2: #bdc1c6;
+		/* Secondary Text */
+
+		--surface-1: #202124;
+		/* App Background */
+		--surface-2: #303134;
+		/* Card / Panel Background */
+		--surface-3: #3c4043;
+		/* Hover */
+		--surface-4: #4d5156;
+		/* Active */
+
+		--scrollthumb-color: #5f6368;
+		--scrollthumb-hover-color: #9aa0a6;
+
+		--shadow-strength: 10%;
+		--shadow-color: 220 40% 2%;
+
+		/* Component Variables */
+		--code-bg: #303134;
+		--surface-panel: #303134;
+		--surface-hover: #3c4043;
+		--border-base: #5f6368;
+		/* Subtle Borders */
+	}
+}
+
+/* Theme Overrides */
+html[data-theme="light"] {
+	color-scheme: light;
+	/* Ensure light mode variables are set (redundant but safe) */
+	--primary: #202124;
+	--secondary: #ffffff;
+	--accent: #f8f9fa;
+
+	--surface-1: #ffffff;
+	--surface-2: #f8f9fa;
+	--text-1: #202124;
+	--text-2: #5f6368;
+
+	/* Component Variables */
+	--code-bg: #f1f3f4;
+	--surface-panel: #ffffff;
+	--surface-hover: #f1f3f4;
+	--border-base: #dadce0;
+}
+
+html[data-theme="dark"] {
+	color-scheme: dark;
+
+	/* App Variable Overrides */
+	--primary: #ffffff;
+	--secondary: #202124;
+	--accent: #303134;
+
+	/* Open Props Dark Mode Overrides */
+	--link: #8ab4f8;
+	--link-visited: #c58af9;
+
+	--text-1: #ffffff;
+	--text-2: #bdc1c6;
+
+	--surface-1: #202124;
+	--surface-2: #303134;
+	--surface-3: #3c4043;
+	--surface-4: #4d5156;
+
+	--scrollthumb-color: #5f6368;
+	--scrollthumb-hover-color: #9aa0a6;
+
+	--shadow-strength: 10%;
+	--shadow-color: 220 40% 2%;
+
+	/* Component Variables */
+	--code-bg: #303134;
+	--surface-panel: #303134;
+	--surface-hover: #3c4043;
+	--border-base: #5f6368;
+}

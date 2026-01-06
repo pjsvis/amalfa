@@ -1,0 +1,61 @@
+/* ========================================
+   NAVIGATION STYLES (TERMINAL)
+   ======================================== */
+
+.nav-wrapper {
+	width: 100%;
+	/* No max-width restriction for terminal look */
+	padding: var(--spacing-2) var(--spacing-4);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--bg-canvas);
+	border-bottom: var(--border-default);
+}
+
+.nav-links {
+	display: flex;
+	gap: 0; /* Removing gap, using borders instead */
+}
+
+.nav-item {
+	font-family: var(--font-mono);
+	font-size: 14px;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: var(--ansi-white);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 var(--spacing-4);
+	height: 100%;
+	min-height: 48px;
+	border-left: var(--border-default);
+
+	/* Last item gets right border */
+	&:last-child {
+		border-right: var(--border-default);
+	}
+
+	&:hover,
+	&.active {
+		background-color: var(--ansi-white);
+		color: var(--ansi-black);
+		text-decoration: none;
+	}
+
+	&.active {
+		font-weight: bold;
+		background-color: var(--ansi-white);
+		color: var(--ansi-black);
+	}
+}
+
+.home-nav {
+	/* For the landing page grid */
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: var(--spacing-4);
+	width: 100%;
+	max-width: 800px;
+}

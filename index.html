@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polyvis</title>
+  <link rel="stylesheet" href="public/css/app.css" />
+  <script defer src="public/js/app.js"></script>
+</head>
+
+<body>
+  <main class="container">
+    <h1>Welcome to Polyvis</h1>
+    <p>This is the beginning of our web project.</p>
+
+    <section style="margin-top: var(--size-8);">
+      <h2>Integration Demo</h2>
+      
+      <!-- RAM Grid -->
+      <div class="card-grid">
+        <article class="p-4 border border-surface-2 rounded bg-surface-1">
+          <h3>Card 1</h3>
+          <p>Responsive card using RAM pattern.</p>
+        </article>
+        <article class="p-4 border border-surface-2 rounded bg-surface-1">
+          <h3>Card 2</h3>
+          <p>Responsive card using RAM pattern.</p>
+        </article>
+        <article class="p-4 border border-surface-2 rounded bg-surface-1">
+          <h3>Card 3</h3>
+          <p>Responsive card using RAM pattern.</p>
+        </article>
+      </div>
+    
+      <!-- Alpine + Open Props Bridge -->
+      <div x-data="{ progress: 50 }" class="mt-8">
+        <h3>Interactive Bridge</h3>
+        <input type="range" x-model="progress" min="0" max="100" class="w-full">
+        <div 
+          class="h-4 bg-surface-2 rounded mt-2 overflow-hidden"
+          :style="{ '--val': progress + '%' }"
+        >
+          <div class="h-full bg-brand transition-all duration-300" style="width: var(--val)"></div>
+        </div>
+        <p>Value: <span x-text="progress"></span>%</p>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

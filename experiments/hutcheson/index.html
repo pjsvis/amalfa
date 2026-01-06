@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUTCHESON.TERM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --fg: #33ff00; /* Phosphor Green */
+            --dim: #1a8000;
+            --font-stack: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-stack);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-transform: uppercase;
+            cursor: crosshair;
+            user-select: none;
+        }
+
+        /* BRUTALIST CONTAINER */
+        .terminal {
+            width: 800px;
+            max-width: 90vw;
+            border: 2px solid var(--fg);
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 0 20px rgba(51, 255, 0, 0.1);
+            background: rgba(10, 10, 10, 0.95);
+            z-index: 20;
+        }
+
+        .header {
+            border-bottom: 2px solid var(--fg);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* THE TEXT CONTAINER */
+        .quote-display {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            min-height: 150px;
+            white-space: pre-wrap;
+            /* No CSS animation here; the JS handles the movement */
+        }
+
+        /* CRT SCANLINE EFFECT */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* CONTROLS */
+        .controls {
+            margin-top: 2rem;
+            border-top: 1px dashed var(--dim);
+            padding-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            background: transparent;
+            color: var(--fg);
+            border: 1px solid var(--fg);
+            padding: 0.5rem 1rem;
+            font-family: var(--font-stack);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        button:hover {
+            background: var(--fg);
+            color: var(--bg);
+            box-shadow: 0 0 10px var(--fg);
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        .status {
+            font-size: 0.8rem;
+            color: var(--dim);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <div class="terminal">
+        <div class="header">
+            <span>> SYSTEM: HUTCHESON.DB</span>
+            <span id="clock">00:00:00</span>
+        </div>
+
+        <div id="output" class="quote-display"></div>
+
+        <div class="controls">
+            <button onclick="runQuery()">EXECUTE_RANDOM()</button>
+            <button onclick="runQuery('SELECT count(*) FROM wisdom')">COUNT(*)</button>
+        </div>
+        <div id="status" class="status">Waiting for SQL.js...</div>
+    </div>
+
+    <script>
+        // 1. THE POLYGLOT CHAR SETS (The Noise)
+        const CHARS = {
+            math: "∀∁∂∃∄∅∆∇∈∉∋∎∏∑−∕∙√∝∞∟∠",
+            cyrillic: "БГДЖИЙЛПФЦЧШЩЪЫЭЮЯ",
+            numeric: "0123456789",
+            // The Jitter Source: Wider characters cause string expansion/contraction
+            japanese: "アイウエオカキクケコサシスセソタチツテト" 
+        };
+        
+        const SCRAMBLE_POOL = CHARS.math + CHARS.cyrillic + CHARS.numeric + CHARS.japanese;
+
+        // 2. THE DATA (The Signal)
+        const SEED_DATA = [
+            "That action is best, which procures the greatest happiness for the greatest numbers.",
+            "Wisdom denotes the pursuing of the best ends by the best means.",
+            "Liberty without virtue becomes destructive.",
+            "Justice is nothing but public benevolence.",
+            "Unalienable rights are essential limitations to all governments.",
+            "The true beauty of the soul lies in benevolence.",
+            "No man can be happy who disregards the happiness of others.",
+            "A kind heart is more valuable than a sharp mind.",
+            "The end of all government is the happiness of society.",
+            "Nature has planted in us the seeds of virtue.",
+            "Virtue is not a matter of interest, but of sentiment."
+        ];
+
+        let db = null;
+        let scrambleInterval = null;
+
+        // 3. THE SCRAMBLER ENGINE (Right-to-Left Decryption)
+        function setText(targetText) {
+            const el = document.getElementById('output');
+            const duration = 1200; // Slower unfold
+            const fps = 30;
+            const steps = duration / (1000 / fps);
+            let currentStep = 0;
+            
+            if (scrambleInterval) clearInterval(scrambleInterval);
+
+            scrambleInterval = setInterval(() => {
+                const progress = currentStep / steps; // 0.0 to 1.0
+                let outputStr = "";
+
+                // For each character in the target string
+                for (let i = 0; i < targetText.length; i++) {
+                    // Preserve spaces to maintain word shape
+                    if (targetText[i] === " ") {
+                        outputStr += " ";
+                        continue;
+                    }
+
+                    // RIGHT-TO-LEFT LOGIC
+                    // We check distance from the END of the string
+                    const distFromEnd = targetText.length - 1 - i;
+                    
+                    // The "Wave" covers the string as progress increases.
+                    // Add randomness to the threshold for "glitching" edge
+                    const threshold = distFromEnd + (Math.random() * 4);
+
+                    // If the wave has passed this index (from the right)
+                    if (progress * targetText.length > threshold) {
+                        // Stabilized
+                        outputStr += targetText[i];
+                    } else {
+                        // Scrambling
+                        const r = Math.floor(Math.random() * SCRAMBLE_POOL.length);
+                        outputStr += SCRAMBLE_POOL[r];
+                    }
+                }
+
+                el.innerText = outputStr;
+                currentStep++;
+
+                if (currentStep > steps) {
+                    clearInterval(scrambleInterval);
+                    el.innerText = targetText; // Final clean lock
+                }
+            }, 1000 / fps);
+        }
+
+        // 4. THE RUNTIME (SQL.js Wrapper)
+        async function initSQL() {
+            const status = document.getElementById('status');
+            try {
+                const SQL = await initSqlJs({
+                    locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+                });
+                
+                // Create DB in Memory
+                db = new SQL.Database();
+                
+                // Schema
+                db.run("CREATE TABLE wisdom (id INTEGER PRIMARY KEY, text TEXT);");
+                
+                // Seed
+                const stmt = db.prepare("INSERT INTO wisdom (text) VALUES (?)");
+                SEED_DATA.forEach(quote => stmt.run([quote]));
+                stmt.free();
+
+                status.innerText = "STATUS: MOUNTED (IN-MEMORY)";
+                runQuery(); // Initial load
+                
+            } catch (err) {
+                status.innerText = "ERROR: " + err.message;
+            }
+        }
+
+        function runQuery(customQuery) {
+            if (!db) return;
+            const sql = customQuery || "SELECT text FROM wisdom ORDER BY RANDOM() LIMIT 1";
+            const result = db.exec(sql);
+            if (result.length > 0) {
+                const row = result[0].values[0][0];
+                setText(row.toString());
+            } else {
+                setText("QUERY RETURNED NULL");
+            }
+        }
+
+        // Clock Update
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toISOString().split('T')[1].split('.')[0];
+        }, 1000);
+
+        // Boot
+        initSQL();
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+/* ========================================
+   BUTTON STYLES (TERMINAL)
+   ======================================== */
+
+button,
+.btn-structural,
+.btn-ghost,
+.btn-search {
+	/* Layout Essentials */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-2);
+	padding: var(--spacing-2) var(--spacing-3);
+	height: 32px; /* Fixed height for consistency */
+
+	/* Typography */
+	font-family: var(--font-mono);
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-decoration: none;
+	letter-spacing: 0.05em;
+
+	/* Visual Definition */
+	background-color: var(--bg-canvas);
+	border: var(--border-default);
+	color: var(--ansi-white);
+
+	/* HARD RESET */
+	border-radius: 0;
+	box-shadow: none;
+	transition: none;
+	cursor: pointer;
+
+	/* States */
+	&:hover {
+		color: var(--ansi-black); /* Use semantic black */
+		background-color: var(--ansi-white); /* Use semantic white */
+		border-color: var(--ansi-white);
+		text-decoration: none; /* No underline on hover */
+	}
+
+	&:active,
+	&.active {
+		color: var(--ansi-black);
+		background-color: var(--ansi-green);
+		border-color: var(--ansi-green);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--ansi-orange);
+		outline-offset: 2px;
+	}
+
+	/* Disabled */
+	&:disabled {
+		border-color: #333;
+		color: #333;
+		background: transparent;
+		cursor: not-allowed;
+	}
+}
+
+/* Specific class for home page navigation cards */
+.btn-structural {
+	width: 100%;
+	height: auto; /* Allow growth */
+	min-height: 48px;
+	padding: 16px;
+	justify-content: space-between;
+	border: 2px solid var(--ansi-white);
+}
+
+/* Button Variants */
+.btn-small {
+	height: 24px;
+	padding: 0 var(--spacing-2);
+	font-size: 10px;
+}
+
+.btn-text {
+	/* Like a link but in button form */
+	background-color: transparent;
+	border: none;
+	color: var(--ansi-white);
+	text-decoration: underline;
+
+	&:hover {
+		background-color: var(--ansi-white);
+		color: var(--ansi-black);
+		text-decoration: none;
+	}
+}
+
+/* AGENT ACTION BUTTON (Orange) */
+.btn-agent {
+	border-color: var(--ansi-orange);
+	color: var(--ansi-orange);
+
+	&:hover {
+		background-color: var(--ansi-orange);
+		color: var(--ansi-black);
+	}
+}

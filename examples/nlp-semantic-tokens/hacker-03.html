@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLYVIS // ABOUT</title>
+    <style>
+        /* --- FAFCAS CORE: Fast As Fudge, Cool As Sugar --- */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #050505;
+            --stuff-color: #445566;  /* Chaos */
+            --thing-color: #EEFFFF;  /* Order */
+            --accent-color: #00FFFF; /* Structural Anchor */
+        }
+
+        body { 
+            background: var(--bg-color); 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+            font-family: 'Space Mono', monospace;
+            overflow: hidden;
+        }
+
+        /* --- THE TITLE ( The Generator ) --- */
+        .title-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .scramble-title {
+            font-size: 6rem; /* Massive Title */
+            font-weight: 700;
+            color: var(--stuff-color);
+            letter-spacing: 0.1rem;
+            cursor: crosshair; /* The Targeting System */
+            user-select: none;
+            white-space: pre;
+            line-height: 1;
+            /* The "Stuff" vibrates slightly */
+            animation: vibrate 0.1s infinite; 
+            animation-play-state: paused;
+        }
+
+        /* Active State: Stop vibrating when locked */
+        .scramble-title:hover {
+            animation-play-state: running; 
+        }
+
+        @keyframes vibrate {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Individual Character Physics */
+        .scramble-title span {
+            display: inline-block;
+            will-change: content, color, text-shadow;
+            min-width: 0.6em;
+        }
+
+        /* --- LOCKED STATES --- */
+        .scramble-title span.locked {
+            color: var(--thing-color); 
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 
+                         0 0 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .scramble-title span.anchor.locked {
+            color: var(--accent-color);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.9);
+        }
+
+        .scramble-title span.source.locked {
+            color: #8899AA; /* Duller steel for "..." */
+            text-shadow: none;
+        }
+
+        /* --- THE TAGLINE ( The Explanation ) --- */
+        .tagline {
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            color: var(--thing-color);
+            opacity: 0; /* Hidden by default */
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Show tagline only when user engages */
+        .container:hover .tagline {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile Scaling */
+        @media (max-width: 768px) {
+            .scramble-title { font-size: 3rem; }
+            .tagline { font-size: 0.7rem; }
+        }
+
+        /* Layout Wrapper */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hint {
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.7rem;
+            color: #334455;
+            letter-spacing: 0.1em;
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title-container">
+            <div id="polyvis-title" class="scramble-title" data-value="...POLYVIS:::"></div>
+        </div>
+
+        <div class="tagline">TURNING STUFF INTO THINGS</div>
+    </div>
+
+    <div class="hint">[ INTERACTION REQUIRED ]</div>
+
+    <script>
+        /**
+         * POLYVIS ABOUT PAGE
+         * Concept: The Observer Effect
+         * The title exists as entropy until the user observes (hovers) it.
+         */
+
+        const el = document.getElementById('polyvis-title');
+        const targetStr = el.dataset.value;
+        const tagline = document.querySelector('.tagline');
+        const chars = "ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝΞΦΨΩΣΠ0123456789≠≈≡≤≥";
+
+        let frame = 0;
+        let isHovering = false;
+
+        // --- INIT ---
+        el.innerHTML = targetStr.split('').map((char, i) => {
+            let type = '';
+            if (i < 3) type = 'source'; // ...
+            else if (i >= targetStr.length - 3) type = 'anchor'; // :::
+            return `<span class="${type}">${chars[Math.floor(Math.random() * chars.length)]}</span>`;
+        }).join('');
+
+        const spans = el.querySelectorAll('span');
+
+        function randomChar() {
+            return chars[Math.floor(Math.random() * chars.length)];
+        }
+
+        // --- ANIMATION LOOP ---
+        function loop() {
+            if (isHovering) {
+                // --- CREATION (Right to Left) ---
+                spans.forEach((span, i) => {
+                    // RTL Sweep Math
+                    const reverseIndex = targetStr.length - 1 - i;
+                    const threshold = reverseIndex * 2.5; // Sweep Speed
+                    
+                    if (frame >= threshold) {
+                        // LOCK IT
+                        if (span.textContent !== targetStr[i]) {
+                            span.textContent = targetStr[i];
+                            span.classList.add('locked');
+                        }
+                    } else {
+                        // SCRAMBLE IT (High Energy)
+                        span.textContent = randomChar(); 
+                        span.classList.remove('locked');
+                    }
+                });
+                frame++;
+            } else {
+                // --- DESTRUCTION (Entropy) ---
+                spans.forEach((span) => {
+                    // If it was solid, break it
+                    if (span.classList.contains('locked')) {
+                        // 10% chance per frame to shatter (Dissolve effect)
+                        if (Math.random() < 0.1) {
+                            span.classList.remove('locked');
+                            span.textContent = randomChar();
+                        }
+                    } else {
+                        // Background Noise (Low Energy)
+                        if (Math.random() < 0.05) span.textContent = randomChar();
+                    }
+                });
+                frame = 0; // Reset for next interaction
+            }
+            requestAnimationFrame(loop);
+        }
+
+        // --- HANDLERS ---
+        const container = document.querySelector('.container');
+        
+        // We attach listeners to the container so the tagline reveal matches the mouse area
+        container.addEventListener('mouseenter', () => { isHovering = true; });
+        container.addEventListener('mouseleave', () => { isHovering = false; });
+        
+        // Touch for Mobile
+        container.addEventListener('touchstart', (e) => { e.preventDefault(); isHovering = true; });
+        container.addEventListener('touchend', () => { isHovering = false; });
+
+        // Start
+        loop();
+
+    </script>
+</body>
+</html>

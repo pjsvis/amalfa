@@ -1,0 +1,175 @@
+@theme {
+	/* 
+   * TERMINAL BRUTALIST THEME (ANSI STANDARD)
+   */
+
+	/* --- THE ANSI PALETTE (Raw) --- */
+	--ansi-black: #0c0c0c; /* CRT Black */
+	--ansi-white: #cccccc; /* System Grey */
+	--ansi-bright-white: #ffffff; /* High Intensity */
+	--ansi-red: #c50f1f; /* Fatal Error */
+	--ansi-green: #16c60c; /* Success/Valid */
+	--ansi-yellow: #c19c00; /* Warning/Process */
+	--ansi-orange: #ff8c00; /* THE AGENT (Distinct) */
+	--ansi-cyan: #00ffff; /* SYSTEM IDENTITY */
+
+	/* E-INK PALETTE (Light Mode) */
+	--paper-white: #f0f0f0;
+	--ink-black: #111111;
+
+	/* --- SEMANTIC MAPPING (Functional) --- */
+	--bg-canvas: var(--ansi-black);
+	--bg-panel: var(--ansi-black);
+
+	--text-primary: var(--ansi-white);
+	--text-highlight: var(--ansi-bright-white);
+	--text-error: var(--ansi-red);
+	--text-agent: var(--ansi-orange);
+	--text-success: var(--ansi-green);
+	--text-warning: var(--ansi-yellow);
+
+	/* --- BORDERS & STRUCTURE --- */
+	--border-default: 2px solid var(--ansi-white);
+	--border-active: 2px solid var(--ansi-green);
+	--border-agent: 2px solid var(--ansi-orange);
+	--border-error: 2px solid var(--ansi-red);
+	--border-muted: 1px dashed var(--ansi-white);
+
+	/* --- TYPOGRAPHY --- */
+	--font-mono: "JetBrains Mono", "Courier New", monospace;
+	--font-sans: var(--font-mono); /* OVERRIDE: Everything is mono */
+
+	/* SPACING (Preserved for compatibility) */
+	--spacing-0: 0px;
+	--spacing-1: 4px;
+	--spacing-2: 8px;
+	--spacing-3: 12px;
+	--spacing-4: 16px;
+	--spacing-5: 20px;
+	--spacing-6: 24px;
+	--spacing-7: 32px;
+	--spacing-8: 48px;
+
+	--radius-component: 0px; /* HARD RESET */
+
+	/* LAYOUT */
+	--header-height: auto;
+	--footer-height: 48px;
+	--width-sidebar-base: 320px;
+
+	/* SCROLLBAR */
+	--scrollthumb-color: var(--ansi-white);
+	--scrollthumb-hover-color: var(--ansi-green);
+
+	/* GRAPH COLORS */
+	--graph-background: var(--ansi-black);
+	--graph-edge-default: var(--ansi-white);
+	--graph-node-orphan: var(--ansi-white);
+	--graph-edge-ghost: var(--ansi-yellow);
+
+	/* LEGACY/COMPATIBILITY MAPPING */
+	--surface-1: var(--bg-canvas);
+	--surface-2: var(--bg-canvas);
+	--surface-3: var(--bg-canvas);
+	--primary: var(--text-primary);
+	--accent: var(--text-highlight);
+	--border-base: var(--ansi-white);
+}
+
+:root {
+	/* GLOBAL SETTINGS (DEFAULT: DARK TERMINAL) */
+	font-family: var(--font-mono);
+	color-scheme: dark;
+	background-color: var(--bg-canvas);
+	color: var(--text-primary);
+}
+
+/* 
+ * LIGHT MODE (PAPER / E-INK) 
+ * Strict inversion. No grays. Black Ink on Off-White Paper.
+ */
+@media (prefers-color-scheme: light) {
+	:root {
+		color-scheme: light;
+
+		--bg-canvas: var(--paper-white);
+		--bg-panel: var(--paper-white);
+
+		--text-primary: var(--ink-black);
+		--text-highlight: #000000;
+
+		/* Keep accents, but ensure visibility */
+		--text-agent: #cc4400; /* Darker Orange for White BG */
+		--text-success: #008800; /* Darker Green for White BG */
+
+		--ansi-white: var(
+			--ink-black
+		); /* Flip semantic "White" to Black for borders */
+		--ansi-black: var(
+			--paper-white
+		); /* Flip semantic "Black" to White for inversions */
+
+		/* Re-map borders using the flipped semantics */
+		--border-default: 2px solid var(--ink-black);
+		--border-active: 2px solid var(--text-success);
+		--border-agent: 2px solid var(--text-agent);
+		--border-muted: 1px dashed #666;
+
+		--graph-background: var(--paper-white);
+		--graph-edge-default: var(--ink-black);
+
+		/* Update Legacy Maps */
+		--surface-1: var(--paper-white);
+		--surface-2: var(--paper-white);
+		--surface-3: #e5e5e5; /* Slight gray for hover */
+		--primary: var(--ink-black);
+		--accent: #000000;
+		--border-base: var(--ink-black);
+	}
+}
+
+/* MANUAL OVERRIDES (Data Attributes) */
+/* MANUAL OVERRIDES (Data Attributes) */
+html[data-theme="light"],
+:root:has(html[data-theme="light"]) {
+	color-scheme: light;
+
+	--bg-canvas: var(--paper-white);
+	--bg-panel: var(--paper-white);
+
+	--text-primary: var(--ink-black);
+	--text-highlight: #000000;
+
+	--text-agent: #cc4400; /* Darker Orange */
+	--text-success: #008800; /* Darker Green */
+
+	--ansi-white: var(--ink-black);
+	--ansi-black: var(--paper-white);
+
+	--border-default: 2px solid var(--ink-black);
+	--border-active: 2px solid var(--text-success);
+	--border-agent: 2px solid var(--text-agent);
+	--border-muted: 1px dashed #666;
+
+	--graph-background: var(--paper-white);
+	--graph-edge-default: var(--ink-black);
+
+	--surface-1: var(--paper-white);
+	--surface-2: var(--paper-white);
+	--surface-3: #e5e5e5;
+	--primary: var(--ink-black);
+	--accent: #000000;
+	--border-base: var(--ink-black);
+}
+
+html[data-theme="dark"],
+:root:has(html[data-theme="dark"]) {
+	color-scheme: dark;
+	--bg-canvas: #0c0c0c;
+	/* Reset to defaults if overridden */
+	--text-primary: #cccccc;
+	--ansi-white: #cccccc;
+	--ansi-black: #0c0c0c;
+	--border-default: 2px solid #cccccc;
+	/* ... rest matches @theme defaults ... */
+}

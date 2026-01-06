@@ -1,0 +1,75 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Conceptual Lexicon (CL) Schema",
+	"description": "Defines the structure for a Conceptual Lexicon file, which is an array of term and heuristic entries.",
+	"type": "array",
+	"items": {
+		"$ref": "#/definitions/lexiconEntry"
+	},
+	"definitions": {
+		"lexiconEntry": {
+			"type": "object",
+			"title": "Lexicon Entry",
+			"description": "A single entry (term or heuristic) in the Conceptual Lexicon.",
+			"properties": {
+				"id": {
+					"description": "The unique identifier for the entry (e.g., 'term-001', 'OH-040').",
+					"type": "string",
+					"pattern": "^[a-zA-Z0-9_-]+$"
+				},
+				"title": {
+					"description": "The human-readable title of the term or heuristic.",
+					"type": "string"
+				},
+				"description": {
+					"description": "The full definition of the entry. Can be a simple string or a structured object for complex definitions.",
+					"type": ["string", "object"]
+				},
+				"type": {
+					"description": "The type of the entry, e.g., 'term', 'operational-heuristic'.",
+					"type": "string"
+				},
+				"category": {
+					"description": "The category of the entry, e.g., 'Core Concept', 'Operational Heuristic'.",
+					"type": "string"
+				},
+				"tags": {
+					"description": "An optional array of tags for establishing relationships (e.g., '[Implements: COG-5]').",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"source": {
+					"description": "The origin of the entry, typically 'cl'.",
+					"type": "string"
+				},
+				"external_refs": {
+					"description": "A list of external grounding resources (URLs, Citations, Code).",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"label": {
+								"description": "Human-readable link text (e.g., 'Wikipedia', 'Source Code').",
+								"type": "string"
+							},
+							"url": {
+								"description": "The fully qualified URI.",
+								"type": "string",
+								"format": "uri"
+							},
+							"type": {
+								"description": "The nature of the reference.",
+								"type": "string",
+								"enum": ["source", "citation", "implementation", "example"]
+							}
+						},
+						"required": ["label", "url", "type"]
+					}
+				}
+			},
+			"required": ["id", "title", "description", "type"]
+		}
+	}
+}

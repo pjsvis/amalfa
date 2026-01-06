@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resonance: Technical Research Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* * COLOR PALETTE: Neon Tech (Based on "Energetic & Playful/Brilliant Blues")
+         * Background: #0F172A (Slate 900)
+         * Surface: #1E293B (Slate 800)
+         * Primary: #4F46E5 (Indigo 600) -> Used for headers, accents
+         * Secondary: #06B6D4 (Cyan 500) -> Used for data points, highlights
+         * Accent: #F43F5E (Rose 500) -> Used for alerts, critical stats
+         * Text: #F8FAFC (Slate 50)
+         */
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A;
+            color: #F8FAFC;
+        }
+
+        .card {
+            background-color: #1E293B;
+            border: 1px solid #334155;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #4F46E5;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #22d3ee 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Chart Container Styling - Responsive & Constrained */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width constraint */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Flowchart Nodes */
+        .flow-node {
+            background: #1E293B;
+            border: 2px solid #06B6D4;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            position: relative;
+            font-weight: 600;
+        }
+        
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748B;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+    <!-- 
+        PLAN NARRATIVE & STRUCTURE:
+        1. Header: Title and context setup (Bun + SQLite + Embeddings).
+        2. Executive Summary: The immediate answer/recommendation.
+        3. Challenge Analysis: Visualizing why the native stack fails (Bun limitations).
+        4. Stack Comparison (Radar Chart): Comparing Native, LibSQL, and Custom builds.
+        5. Embedding Strategy (Bar Chart): Analyzing size/performance of embedding options.
+        6. Architecture Diagram (CSS Flow): Visualizing the final recommended data pipeline.
+        7. Detailed Findings: Textual deep dive into specific technical solutions.
+        
+        VISUALIZATION CHOICES (NO SVG, NO MERMAID):
+        - Stack Comparison -> Radar Chart (Chart.js): Best for multi-variable comparison (Stability, Ease, Features).
+        - Embedding Size -> Bar Chart (Chart.js): Best for comparing quantitative values (MB).
+        - Pipeline -> CSS Grid/Flexbox Diagram: Best for structural organization without SVG.
+    -->
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Header Section -->
+    <header class="max-w-6xl mx-auto mb-12 text-center">
+        <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-cyan-400 uppercase bg-slate-800 rounded-full border border-cyan-900">
+            Technical Research Report
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">
+            Project <span class="gradient-text">Resonance</span>
+        </h1>
+        <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">
+            Architecting a Single-Binary Local-First CLI with Bun, SQLite, and Vector Search on macOS.
+        </p>
+    </header>
+
+    <main class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
+
+        <!-- Executive Summary (Inform) -->
+        <section class="md:col-span-12 bg-gradient-to-r from-indigo-900/50 to-slate-900 border border-indigo-500/30 rounded-xl p-8 shadow-lg">
+            <h2 class="text-2xl font-bold mb-4 text-white flex items-center">
+                <span class="text-cyan-400 mr-2">➜</span> Executive Verdict
+            </h2>
+            <p class="text-slate-300 mb-6 leading-relaxed">
+                Building a single-binary CLI on macOS with Bun is feasible, but the "Pure Native" path is currently blocked by Bun's static SQLite compilation. 
+                The most robust path <strong>today</strong> is adopting the <strong>Turso/LibSQL</strong> ecosystem for the database layer and <strong>ONNX Runtime</strong> for embeddings.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-800/80 p-4 rounded-lg border-l-4 border-cyan-500">
+                    <h3 class="font-bold text-cyan-400 mb-1">Database</h3>
+                    <p class="text-sm text-slate-300">Use <strong>LibSQL (local mode)</strong>. It bypasses Bun's extension limits and includes vector search natively.</p>
+                </div>
+                <div class="bg-slate-800/80 p-4 rounded-lg border-l-4 border-indigo-500">
+                    <h3 class="font-bold text-indigo-400 mb-1">Embeddings</h3>
+                    <p class="text-sm text-slate-300">Use <strong>Transformers.js</strong> with <code class="bg-slate-900 px-1 rounded">sharp</code> disabled, or direct <strong>ONNX Runtime</strong>.</p>
+                </div>
+                <div class="bg-slate-800/80 p-4 rounded-lg border-l-4 border-pink-500">
+                    <h3 class="font-bold text-pink-400 mb-1">Compilation</h3>
+                    <p class="text-sm text-slate-300">Use <strong>Bun Compile</strong>. Configure asset loading for the `.wasm` or `.node` bindings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stack Comparison Chart (Compare) -->
+        <section class="md:col-span-6 card rounded-xl p-6 flex flex-col">
+            <h3 class="text-xl font-bold mb-2 text-indigo-300">Architecture Trade-off Matrix</h3>
+            <p class="text-sm text-slate-400 mb-6">
+                Comparing three potential stacks for stability, ease of bundling, and vector capabilities on macOS.
+            </p>
+            <div class="chart-container flex-grow">
+                <canvas id="stackRadarChart"></canvas>
+            </div>
+            <div class="mt-4 text-xs text-slate-500 text-center">
+                Score 0-10 (Higher is Better) • Source: Technical Investigation
+            </div>
+        </section>
+
+        <!-- The "Why it Fails" Diagram (Organize) -->
+        <section class="md:col-span-6 card rounded-xl p-6">
+            <h3 class="text-xl font-bold mb-2 text-pink-400">The "Bun Native" Blockers</h3>
+            <p class="text-sm text-slate-400 mb-6">
+                Why standard libraries fail in a single-binary Bun environment on macOS.
+            </p>
+            
+            <div class="flex flex-col gap-4 h-full justify-center pb-8">
+                <!-- Step 1 -->
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-xl font-bold text-white">1</div>
+                    <div class="bg-slate-800 border border-slate-600 p-3 rounded w-full">
+                        <div class="font-bold text-indigo-400">bun:sqlite</div>
+                        <div class="text-xs text-slate-300">Statically linked. No `loadExtension` symbol exported on macOS.</div>
+                    </div>
+                </div>
+                <!-- Arrow -->
+                <div class="flex justify-center -my-2">
+                    <span class="text-slate-600 text-2xl">⬇</span>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-xl font-bold text-white">2</div>
+                    <div class="bg-slate-800 border border-slate-600 p-3 rounded w-full">
+                        <div class="font-bold text-pink-400">better-sqlite3</div>
+                        <div class="text-xs text-slate-300">Native Module (`.node`). Often fails DLOPEN in bundled context.</div>
+                    </div>
+                </div>
+                <!-- Arrow -->
+                <div class="flex justify-center -my-2">
+                    <span class="text-slate-600 text-2xl">⬇</span>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-xl font-bold text-white">3</div>
+                    <div class="bg-slate-800 border border-slate-600 p-3 rounded w-full">
+                        <div class="font-bold text-cyan-400">@xenova/transformers</div>
+                        <div class="text-xs text-slate-300">Tries to load `sharp` for image resizing, breaking text-only builds.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Findings: Database -->
+        <section class="md:col-span-12 lg:col-span-8 card rounded-xl p-6">
+            <h3 class="text-xl font-bold mb-4 text-white">Research Focus: Database Layer</h3>
+            <div class="space-y-4">
+                <div class="bg-slate-900/50 p-4 rounded border-l-2 border-indigo-500">
+                    <h4 class="font-bold text-indigo-300">1. Bun & Extensions</h4>
+                    <p class="text-sm text-slate-400 mt-1">
+                        `bun:sqlite` is compiled with `SQLITE_OMIT_LOAD_EXTENSION` on some platforms or simply doesn't expose the C-API required for dynamic loading. While you can technically use `bun:ffi` to load a custom `libsqlite3.dylib`, this defeats the purpose of using the built-in standard library and complicates the single-binary build process significantly.
+                    </p>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded border-l-2 border-cyan-500">
+                    <h4 class="font-bold text-cyan-300">2. The Turso / LibSQL Advantage</h4>
+                    <p class="text-sm text-slate-400 mt-1">
+                        LibSQL is a fork of SQLite that includes vector search features out of the box. By using `@libsql/client` with a `file:` url, you are bypassing Bun's internal SQLite entirely. The client uses a NAPI or Wasm binding that includes the vector logic. This is currently the most reliable way to get Vector Search + Local DB + JS Runtime.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Binary Size / Embeddings Chart (Compare) -->
+        <section class="md:col-span-12 lg:col-span-4 card rounded-xl p-6 flex flex-col">
+            <h3 class="text-xl font-bold mb-2 text-cyan-300">Embedding Overhead</h3>
+            <p class="text-sm text-slate-400 mb-6">
+                Estimated impact on final binary size for different embedding strategies.
+            </p>
+            <div class="chart-container flex-grow">
+                <canvas id="embeddingsChart"></canvas>
+            </div>
+            <div class="mt-4 text-xs text-slate-500">
+                *Estimated sizes. Pure JS is smallest but slowest. ONNX offers best balance.
+            </div>
+        </section>
+
+        <!-- Proposed Architecture Flow (Organize) -->
+        <section class="md:col-span-12 card rounded-xl p-8 bg-slate-900 border border-slate-700">
+            <h3 class="text-2xl font-bold mb-6 text-center text-white">Recommended "Resonance" Architecture</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                
+                <!-- Input -->
+                <div class="flow-node">
+                    <div class="text-2xl mb-2">💻</div>
+                    <div class="text-slate-200">CLI User Input</div>
+                </div>
+
+                <!-- Arrow -->
+                <div class="flow-arrow hidden md:flex">➜</div>
+                <div class="flow-arrow md:hidden">⬇</div>
+
+                <!-- Embeddings -->
+                <div class="flow-node border-pink-500">
+                    <div class="text-xs text-pink-400 uppercase tracking-widest mb-1">Vectorization</div>
+                    <div class="font-bold text-white">Transformers.js</div>
+                    <div class="text-xs text-slate-400 mt-1">Model: all-MiniLM-L6-v2<br>(Quantized)</div>
+                </div>
+
+                <!-- Arrow -->
+                <div class="flow-arrow hidden md:flex">➜</div>
+                <div class="flow-arrow md:hidden">⬇</div>
+
+                <!-- Database -->
+                <div class="flow-node border-indigo-500">
+                    <div class="text-xs text-indigo-400 uppercase tracking-widest mb-1">Storage</div>
+                    <div class="font-bold text-white">LibSQL Local</div>
+                    <div class="text-xs text-slate-400 mt-1">Native Vector Search<br>(File Mode)</div>
+                </div>
+
+            </div>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-2">Implementation Snippet: Embeddings</h4>
+                    <pre class="bg-black p-4 rounded text-xs text-green-400 font-mono overflow-x-auto">
+// Fix Sharp error by mocking or exclusion
+import { pipeline, env } from '@xenova/transformers';
+
+// Skip local checks that trigger sharp
+env.allowLocalModels = false; 
+env.useBrowserCache = false;
+
+const embedder = await pipeline(
+  'feature-extraction', 
+  'Xenova/all-MiniLM-L6-v2'
+);
+                    </pre>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-2">Implementation Snippet: LibSQL</h4>
+                    <pre class="bg-black p-4 rounded text-xs text-cyan-400 font-mono overflow-x-auto">
+import { createClient } from "@libsql/client";
+
+const db = createClient({
+  url: "file:local.db",
+});
+
+// Native Vector Search (LibSQL specific syntax)
+await db.execute(`
+  SELECT * FROM vectors 
+  ORDER BY vector_distance_cos(embedding, ?) 
+  LIMIT 5
+`, [vector]);
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center text-slate-600 py-8 text-sm">
+        <p>Generated by Canvas Infographics AI • Focused on Modern JavaScript Tooling</p>
+    </footer>
+
+    <!-- CHART JS LOGIC -->
+    <script>
+        // 16-char label wrapping utility
+        function wrapLabels(labels) {
+            return labels.map(label => {
+                if (label.length <= 16) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = words[0];
+
+                for (let i = 1; i < words.length; i++) {
+                    if ((currentLine + " " + words[i]).length > 16) {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    } else {
+                        currentLine += " " + words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            });
+        }
+
+        // Global Chart Defaults for "Neon Tech" theme
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.scale.grid.color = '#334155';
+        
+        // Tooltip Configuration for Multi-line support
+        const tooltipConfig = {
+            callbacks: {
+                title: (tooltipItems) => {
+                    const item = tooltipItems[0];
+                    const label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- CHART 1: Architecture Comparison (Radar) ---
+        const ctxRadar = document.getElementById('stackRadarChart').getContext('2d');
+        const radarLabels = wrapLabels([
+            'Vector Capabilities', 
+            'Build Stability', 
+            'Performance', 
+            'Bun Compatibility', 
+            'Ease of Setup'
+        ]);
+
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: radarLabels,
+                datasets: [
+                    {
+                        label: 'Recommended: LibSQL',
+                        data: [9, 9, 8, 9, 8],
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)', // Cyan transparent
+                        borderColor: '#06B6D4',
+                        pointBackgroundColor: '#06B6D4',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Pure Bun Native',
+                        data: [2, 8, 9, 10, 5],
+                        backgroundColor: 'rgba(244, 63, 94, 0.2)', // Pink transparent
+                        borderColor: '#F43F5E',
+                        pointBackgroundColor: '#F43F5E',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Better-SQLite3',
+                        data: [5, 4, 7, 3, 4],
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)', // Indigo transparent
+                        borderColor: '#6366F1',
+                        pointBackgroundColor: '#6366F1',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#334155' },
+                        grid: { color: '#334155' },
+                        pointLabels: {
+                            color: '#F8FAFC',
+                            font: { size: 12, weight: 'bold' }
+                        },
+                        ticks: { display: false, backdropColor: 'transparent' },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#F8FAFC' }
+                    },
+                    tooltip: tooltipConfig
+                }
+            }
+        });
+
+        // --- CHART 2: Embeddings Binary Size (Bar) ---
+        const ctxBar = document.getElementById('embeddingsChart').getContext('2d');
+        const barLabels = wrapLabels([
+            'Pure JS (Custom)', 
+            'ONNX Runtime Node', 
+            'Transformers.js (Optimized)', 
+            'Python Sidecar (Avoid)'
+        ]);
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: barLabels,
+                datasets: [{
+                    label: 'Est. Added Binary Size (MB)',
+                    data: [2, 15, 25, 120],
+                    backgroundColor: [
+                        '#10B981', // Emerald (Custom JS)
+                        '#06B6D4', // Cyan (ONNX - Good)
+                        '#6366F1', // Indigo (Transformers - OK)
+                        '#F43F5E'  // Pink (Python - Bad)
+                    ],
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Horizontal Bar for better label reading
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#F8FAFC', font: { weight: '600' } }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: tooltipConfig
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

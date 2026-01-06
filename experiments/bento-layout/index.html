@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bento Layout Experiment</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/style.css" />
+
+    <!-- Project CSS -->
+    <link rel="stylesheet" href="../../public/css/app.css" />
+
+    <!-- CDN Libs -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        /*
+           Bento Layout Styles
+           Based on experiments/bento-layout/README.md Option A
+        */
+
+        body {
+            font-family: 'Geist Sans', sans-serif;
+            display: grid;
+            /* Sidebar | Content - mimicking the recommendation */
+            grid-template-columns: 80px 1fr;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scroll */
+            background-color: var(--background, #f9fafb);
+            color: var(--foreground, #111827);
+        }
+
+        header {
+            grid-column: 1 / -1;
+            height: 60px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: white;
+            z-index: 10;
+        }
+
+        aside {
+            border-right: 1px solid #e5e7eb;
+            background: #f9fafb;
+            padding: 20px 12px;
+            overflow-y: auto;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Let inner container handle scroll */
+            position: relative;
+            background-color: #f3f4f6;
+        }
+
+        .horizontal-container {
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+
+            /* The Newspaper Magic - Option A from README */
+            column-width: 420px;
+            column-gap: 24px;
+            column-fill: auto;
+
+            padding: 24px 60px 24px 0;
+            margin-left: 20px;
+
+            /* Custom Scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+
+        .bento-card {
+            font-family: 'Geist Sans', sans-serif;
+            scroll-snap-align: start;
+            break-inside: avoid;
+            page-break-inside: avoid;
+
+            background: white;
+            margin-bottom: 24px; /* Space between cards in same column */
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .bento-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Typography fixes for cards */
+        .bento-card h2 {
+            font-family: 'Geist Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: #111827;
+            letter-spacing: -0.025em;
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 8px;
+        }
+
+        .bento-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 0.25rem;
+            color: #1f2937;
+            padding-bottom: 4px;
+        }
+
+        .bento-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #4b5563;
+        }
+
+        .bento-card ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            color: #4b5563;
+        }
+
+        .bento-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .bento-card code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.875em;
+            color: #db2777;
+            font-weight: 500;
+        }
+
+        .bento-card pre {
+            background: #111827;
+            color: #f3f4f6;
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85em;
+            margin-top: 8px;
+            border: 1px solid #374151;
+        }
+
+        /* Title Card Special Styling */
+        .bento-card.title-card {
+            background: linear-gradient(135deg, #111827 0%, #000000 100%);
+            color: white;
+            border: none;
+            justify-content: center;
+            min-height: 300px;
+        }
+        .bento-card.title-card h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: white;
+            letter-spacing: -0.03em;
+        }
+        .bento-card.title-card p {
+            color: #9ca3af;
+            font-size: 1.125rem;
+        }
+    </style>
+</head>
+<body x-data="bentoScroll()" @keydown.window="handleKey($event)">
+    <header>
+        <div class="flex items-center gap-2">
+            <div class="h-8 w-8 bg-black rounded-lg flex items-center justify-center text-white font-bold">P</div>
+            <div class="font-bold text-lg tracking-tight">PolyVis <span class="text-gray-400 font-normal">/ Layouts</span></div>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="../../public/docs/index.html" class="text-sm font-medium text-gray-500 hover:text-black">Back to Docs</a>
+            <button class="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition">Download</button>
+        </div>
+    </header>
+
+    <aside class="flex flex-col items-center">
+        <nav class="flex flex-col gap-4 w-full">
+            <a href="#" class="group relative flex justify-center items-center p-3 rounded-xl bg-white shadow-sm text-black border border-gray-200 hover:scale-105 transition-transform" aria-label="Bento Box">
+                <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                <span class="absolute left-full ml-4 top-1/2 -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity shadow-sm z-50">Bento Box</span>
+            </a>
+            <a href="#" class="group relative flex justify-center items-center p-3 rounded-xl hover:bg-gray-200 text-gray-500 transition-colors" aria-label="Neural Flow">
+                <i data-lucide="cpu" class="w-6 h-6"></i>
+                <span class="absolute left-full ml-4 top-1/2 -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity shadow-sm z-50">Neural Flow</span>
+            </a>
+        </nav>
+
+        <div class="mt-auto">
+             <button class="group relative flex justify-center items-center p-3 rounded-xl text-blue-600 hover:bg-blue-50 transition-colors">
+                <i data-lucide="info" class="w-6 h-6"></i>
+                <span class="absolute left-full ml-4 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 text-white text-xs leading-relaxed rounded opacity-0 group-hover:opacity-100 w-48 pointer-events-none transition-opacity shadow-sm z-50 text-left">
+                    Groups Markdown content into cards by H2/H3 headers and flows them horizontally.
+                </span>
+            </button>
+        </div>
+    </aside>
+
+    <main>
+        <!-- Document Navbar -->
+        <nav class="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200 shrink-0 z-20">
+            <h1 id="doc-title" class="text-base font-bold text-gray-800 truncate pr-4">Document Title</h1>
+
+            <div class="flex items-center gap-6">
+                 <!-- Scroll Dots -->
+                <div id="scroll-dots" class="flex gap-1.5 items-center" role="status" aria-label="Scroll Position">
+                    <!-- Dots injected via JS -->
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex gap-2" role="group" aria-label="Scroll Controls">
+                    <button id="btn-page-prev" aria-controls="bento-container" class="group relative p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors focus:outline-none disabled:opacity-30 disabled:pointer-events-none" aria-label="Scroll Page Left">
+                        <i data-lucide="chevrons-left" class="w-5 h-5"></i>
+                        <span class="absolute z-50 top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs font-mono rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity shadow-sm">Page Left</span>
+                    </button>
+                    <button id="btn-prev" aria-controls="bento-container" class="group relative p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors focus:outline-none disabled:opacity-30 disabled:pointer-events-none" aria-label="Scroll Left">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                        <span class="absolute z-50 top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs font-mono rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity shadow-sm">Left</span>
+                    </button>
+                    <button id="btn-next" aria-controls="bento-container" class="group relative p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors focus:outline-none disabled:opacity-30 disabled:pointer-events-none" aria-label="Scroll Right">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        <span class="absolute z-50 top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs font-mono rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity shadow-sm">Right</span>
+                    </button>
+                    <button id="btn-page-next" aria-controls="bento-container" class="group relative p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors focus:outline-none disabled:opacity-30 disabled:pointer-events-none" aria-label="Scroll Page Right">
+                        <i data-lucide="chevrons-right" class="w-5 h-5"></i>
+                        <span class="absolute z-50 top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs font-mono rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity shadow-sm">Page Right</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <article id="bento-container" class="horizontal-container">
+            <!-- Content will be injected here -->
+        </article>
+    </main>
+
+    <!-- Raw Markdown Content from modern-css-playbook-for-developers.md -->
+    <template id="markdown-source">
+# The Rationalized Frontend: A Playbook for High-Fidelity CSS Architecture
+
+## 1. Architectural Philosophy and The Elimination of Magic Numbers
+
+The central challenge in modern frontend development, particularly when leveraging utility-first frameworks like Tailwind CSS alongside reactive libraries like Alpine.js, is the accumulation of technical debt through "magic numbers." In the context of software engineering, a magic number represents a unique value with unexplained meaning or multiple occurrences which could (and should) be replaced with a named constant. In CSS, these manifest as arbitrary pixel values—margin-top: 37px, z-index: 9999, or color: #4a90e2. While functionally operative, these values lack a systematic derivation, leading to a fragmented codebase where consistency degrades over time and maintenance becomes a game of visual "whack-a-mole."
+
+The rationalization of a web platform—defined here as the systematic replacement of arbitrary values with a cohesive, mathematically sound system of design tokens—is not merely an aesthetic exercise; it is an operational imperative for ensuring scalability and coherence. This report outlines a comprehensive playbook for integrating **Open Props**, **Tailwind CSS**, and **Alpine.js** into a unified stack. The objective is to produce a "Maximum Signal-to-Noise" environment where Coding Agents and human developers alike operate within a constrained, pre-rationalized design system. By offloading the cognitive load of design decisions (spacing, color, easing) to the Open Props system, and managing the application of those decisions via Tailwind's API and Alpine's reactivity, we achieve a state of "Design Engineering" rather than mere "styling."
+
+The following analysis is exhaustive, covering the integration mechanics, the specific CSS heuristics for 2025, and the mathematical underpinnings of modern layout engines. It is designed to be the definitive reference for rationalizing the development stack.
+
+## 2. The Integration Layer: Bridging Tailwind and Open Props
+
+The primary friction point in the user's current stack is the coexistence of Tailwind’s default utility scale (which uses a generic 0.25rem spacing increment) and Open Props (which uses a harmonic sizing scale). To eliminate magic numbers, one source of truth must prevail. The evidence suggests that Open Props provides a superior, adaptively tuned system for modern interfaces, while Tailwind provides the superior *Authoring API*. The architectural goal, therefore, is to inject Open Props values into the Tailwind engine, effectively "hijacking" the utility classes to serve rationalized tokens.
+
+### 2.1 The Tailwind V4 "CSS-First" Configuration
+
+As of late 2024 and moving into 2025, Tailwind CSS has shifted towards a CSS-first configuration model, significantly simplifying the integration of external custom properties. This represents the "Maximum Bang for Minimum Buck" approach, as it eliminates the need for complex JavaScript configuration files and allows the CSS engine to handle the token mapping directly.
+
+In this paradigm, the configuration lives inside the CSS file using the @theme directive. This is a critical evolution for Coding Agents, as it consolidates the styling logic into a single syntax (CSS) rather than splitting it between tailwind.config.js and CSS files.
+
+#### 2.1.1 Implementation Strategy
+
+The following configuration resets Tailwind's default spacing, color, and typography scales, mapping them explicitly to Open Props variables. This action forces the developer (or agent) to use the rationalized system; p-4 no longer yields an arbitrary 1rem, but rather var(--size-4), which is part of a relative, harmonious scale.
+
+```css
+@import "tailwindcss";
+@import "open-props/style";
+@import "open-props/normalize";
+
+@theme {
+  /* RATIONALIZATION: SPACING */
+  --spacing-0: var(--size-00);
+  --spacing-1: var(--size-1);
+  --spacing-2: var(--size-2);
+  --spacing-3: var(--size-3);
+  --spacing-4: var(--size-4);
+  --spacing-8: var(--size-8);
+  --spacing-12: var(--size-12);
+
+  /* RATIONALIZATION: COLORS */
+  --color-brand: var(--indigo-6);
+  --color-surface-1: var(--surface-1);
+  --color-text-1: var(--text-1);
+
+  /* RATIONALIZATION: TYPOGRAPHY */
+  --font-size-base: var(--font-size-1);
+  --font-size-fluid-1: var(--font-size-fluid-1);
+}
+```
+
+## 3. High-Fidelity Layout Engines
+
+The user request highlights the need for modern CSS techniques beyond simple styling—specifically "centering and etc." In 2025, the landscape of CSS layout has evolved from "hacks" (like margin: 0 auto or position: absolute centering) to dedicated alignment engines. The rationalization of layout involves selecting the most robust, concise method for the task, minimizing lines of code (LOC) and cognitive overhead.
+
+### 3.1 The Universal Centering Heuristic
+
+Historically, vertical centering in CSS was a notorious difficulty. Modern CSS offers three primary mechanisms for centering, each appropriate for different contexts. The rational approach is to default to the most concise method supported by the browser baseline.
+
+**Mechanism 1: place-items: center (The Gold Standard)**
+This property is a shorthand for align-items: center and justify-items: center. It works on both Grid and Flex containers (in modern implementations).
+
+```css
+.hero-section {
+  display: grid;
+  place-items: center; /* Instant X/Y centering */
+  min-height: 50vh;
+}
+```
+
+### 3.2 The "Holy Grail" Grid Topology
+
+For the macro-layout of the application (the shell containing header, sidebar, main content, and footer), the CSS Grid template-areas syntax provides the highest signal-to-noise ratio. It allows the code to serve as a visual map of the layout, removing the abstraction layer of counting column indexes.
+
+```css
+.app-shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: var(--size-15) 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+}
+```
+
+## 4. Container Queries: The Component-Centric Future
+
+The user explicitly asks for modern techniques. One of the most significant shifts in CSS architecture is the move from Viewport-based styling (Media Queries) to Container-based styling (Container Queries).
+
+**The Problem:** Using @media (min-width: 1024px) to style a card component is flawed because it assumes the card is the full width of the screen. If that card is placed in a narrow sidebar on a desktop screen, it will render as if it has plenty of room, resulting in broken layouts.
+
+**The Solution:** Use @container to style the component based on the space available *to it*, regardless of the viewport size.
+
+### 4.1 Implementation in Tailwind
+
+Tailwind v4 supports container queries natively. In v3, the @tailwindcss/container-queries plugin is required.
+
+```html
+<div class="@container">
+  <article class="flex flex-col @md:flex-row @md:gap-6">
+    <div class="w-full @md:w-1/3">
+      <img src="image.jpg" class="aspect-square object-cover" />
+    </div>
+    <div class="w-full @md:w-2/3">
+      <h3>Title</h3>
+      <p>Content...</p>
+    </div>
+  </article>
+</div>
+```
+
+## 5. Typography: Fluidity and Balance
+
+Typography often accumulates magic numbers through "breakpoint tweaking"—manually adjusting font sizes at 768px, 1024px, etc. Open Props utilizes a mathematical approach known as **Fluid Typography** to eliminate this.
+
+### 5.1 Fluid Type Variables
+
+Open Props provides variables like --font-size-fluid-1. These utilize the CSS clamp() function, which takes a minimum value, a preferred value (usually viewport-relative), and a maximum value.
+
+**Mathematical Model:**
+`font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);`
+Instead of the text jumping in size as the window resizes, it scales smoothly and linearly.
+
+## 6. Color Theory and Automated Contrast
+
+The user raised a specific concern regarding **text/background contrast**. In legacy CSS, this required manual checking and magic pairs (e.g., needing to know that bg-blue-500 requires text-white but bg-blue-200 requires text-blue-900). Modern CSS automates this using Color Spaces and Relative Color Syntax.
+
+### 6.1 The OKLCH Color Space
+
+We standardize on **OKLCH** (L = Lightness, C = Chroma, H = Hue). Unlike HSL, OKLCH is **perceptually uniform**. Changing the Hue in HSL can drastically change the perceived lightness (yellow vs blue), breaking contrast. In OKLCH, a Lightness of 50% appears equally bright to the human eye regardless of the Hue. This is critical for algorithmic theming.
+
+### 6.2 Automating Contrast with contrast-color()
+
+The contrast-color() function is the "Magic Bullet" for the user's contrast concerns. It accepts a background color and returns a text color (usually black or white, but customizable) that satisfies accessibility guidelines (WCAG AA or AAA).
+
+```css
+.btn-dynamic {
+  background-color: var(--dynamic-bg);
+  color: contrast-color(var(--dynamic-bg));
+}
+```
+
+## 7. Alpine.js: Reactive Integration Strategy
+
+Alpine.js provides the interactive glue. The critical heuristic here is to bind Alpine state to **CSS Variables**, not inline styles. This maintains the separation of concerns: Alpine handles *Data*, CSS handles *Presentation*.
+
+### 7.1 The "CSS Variable Bridge" Pattern
+
+Directly binding styles forces the browser to recalculate styles on the element repeatedly and mixes logic. A cleaner pattern is to set a locally scoped CSS variable.
+
+```html
+<div x-data="{ progress: 65, theme: 'var(--pink-5)' }" class="progress-component">
+  <div class="bar" :style="{ '--val': progress + '%', '--color': theme }"></div>
+</div>
+```
+
+## 8. Defensive CSS: Robustness and Stability
+
+Defensive CSS refers to writing styles that anticipate failure modes (long content, missing images, scrollbar shifts).
+
+### 8.1 Scrollbar Gutter
+
+When content changes length or modals open, scrollbars can appear/disappear, causing the layout to shift horizontally. This is a jarring user experience.
+
+```css
+html {
+  scrollbar-gutter: stable both-edges;
+}
+```
+
+### 8.2 Image Hardening
+
+Images are the most common cause of layout shifts (CLS).
+
+```css
+img {
+  max-width: 100%;
+  height: auto;
+  background-color: var(--surface-2);
+}
+```
+
+## 9. Conclusion: The CSS Playbook Summary
+
+To satisfy the request for a distilled "css-playbook.md" for Coding Agents, the following section synthesizes the analysis into actionable rules.
+
+### Playbook Rules for Coding Agents
+
+1. **Rule of Existence:** Do not use a number unless it exists in the var(--size-*) or var(--font-*) scale.
+2. **Rule of Layout:** Prefer display: grid with grid-template-areas for page shells.
+3. **Rule of Responsiveness:** Use @container queries for components. Use clamp() fluid variables.
+4. **Rule of Centering:** Default to place-items: center for containers.
+5. **Rule of Color:** Use oklch for definitions. Use contrast-color() or color-mix() for derivations.
+6. **Rule of State:** Bind Alpine data to CSS Variables.
+7. **Rule of Defense:** Always apply text-wrap: balance to headings.
+    </template>
+
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('bentoScroll', () => ({
+                handleKey(e) {
+                    const container = document.getElementById('bento-container');
+                    if (!container) return;
+
+                    const stride = 444; // Column (420) + Gap (24)
+                    const page = container.clientWidth;
+
+                    if (e.key === 'ArrowLeft') {
+                        const amount = (e.metaKey || e.ctrlKey) ? page : stride;
+                        container.scrollBy({ left: -amount, behavior: 'smooth' });
+                        e.preventDefault();
+                    }
+                    else if (e.key === 'ArrowRight') {
+                        const amount = (e.metaKey || e.ctrlKey) ? page : stride;
+                        container.scrollBy({ left: amount, behavior: 'smooth' });
+                        e.preventDefault();
+                    }
+                }
+            }))
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const rawMarkdown = document.getElementById('markdown-source').innerHTML;
+            const container = document.getElementById('bento-container');
+
+            // 1. Convert Markdown to Flat HTML using Marked
+            const flatHTML = marked.parse(rawMarkdown);
+
+            // 2. Parse the HTML string into a DOM structure
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = flatHTML;
+            const elements = Array.from(tempDiv.children);
+
+            // 3. Grouping Logic (The "Bento" Transformation)
+            // We group:
+            // - The first H1 + Intro P as the "Title Card"
+            // - Each H2 starts a new "Section Card"
+
+            let currentSection = null;
+            let isFirstSection = true;
+
+            elements.forEach(el => {
+                const tagName = el.tagName.toLowerCase();
+
+                // Extract Title from H1
+                if (tagName === 'h1') {
+                    const titleEl = document.getElementById('doc-title');
+                    if (titleEl) titleEl.textContent = el.textContent;
+                    return;
+                }
+
+                // Start a new card if we hit H2 or H3
+                if (tagName === 'h2' || tagName === 'h3') {
+                     // Close previous
+                    if (currentSection) container.appendChild(currentSection);
+
+                    // Create Standard Card
+                    currentSection = document.createElement('section');
+                    currentSection.className = 'bento-card';
+                    currentSection.appendChild(el);
+                }
+                else {
+                    // Append content to current card
+                    if (currentSection) {
+                        currentSection.appendChild(el);
+                    } else {
+                        // Edge case: content before first header
+                        currentSection = document.createElement('section');
+                        currentSection.className = 'bento-card';
+                        currentSection.appendChild(el);
+                    }
+                }
+            });
+
+            // Append the last section
+            if (currentSection) container.appendChild(currentSection);
+
+            // 4. Scroll Control Logic
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            const btnPagePrev = document.getElementById('btn-page-prev');
+            const btnPageNext = document.getElementById('btn-page-next');
+            const dotsContainer = document.getElementById('scroll-dots');
+
+            // Re-init icons for new buttons
+            lucide.createIcons();
+
+            // Scroll Amount: Column Width (420) + Gap (24) = 444
+            const scrollStride = 444;
+
+            const updateButtons = () => {
+                // Tolerance of 10px
+                const isStart = container.scrollLeft <= 10;
+                const isEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 10;
+
+                const setDisabled = (btn, disabled) => {
+                    if (btn) btn.disabled = disabled;
+                };
+
+                setDisabled(btnPrev, isStart);
+                setDisabled(btnPagePrev, isStart);
+                setDisabled(btnNext, isEnd);
+                setDisabled(btnPageNext, isEnd);
+
+                // Update Column Indicator (Dots)
+                const totalCols = container.scrollWidth ? Math.ceil(container.scrollWidth / scrollStride) : 1;
+
+                // Calculate visible range (0-indexed)
+                // Use a small buffer to avoid flickering on exact boundaries
+                const visibleStart = Math.floor((container.scrollLeft + 10) / scrollStride);
+                const visibleEnd = Math.floor((container.scrollLeft + container.clientWidth - 10) / scrollStride);
+
+                // Regenerate dots if count changes
+                if (dotsContainer.childElementCount !== totalCols) {
+                    dotsContainer.innerHTML = '';
+                    for (let i = 0; i < totalCols; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'w-2 h-2 rounded-full transition-all duration-200 bg-blue-300';
+                        dotsContainer.appendChild(dot);
+                    }
+                }
+
+                // Update active state
+                Array.from(dotsContainer.children).forEach((dot, index) => {
+                     const isActive = index >= visibleStart && index <= visibleEnd;
+                     if (isActive) {
+                         dot.className = 'w-2 h-2 rounded-full transition-all duration-200 bg-red-500 scale-125 shadow-sm';
+                     } else {
+                         dot.className = 'w-2 h-2 rounded-full transition-all duration-200 bg-blue-300';
+                     }
+                });
+            };
+
+            container.addEventListener('scroll', updateButtons);
+            window.addEventListener('resize', updateButtons);
+
+            // Initial check
+            setTimeout(updateButtons, 100);
+
+            btnPrev.addEventListener('click', () => {
+                container.scrollBy({ left: -scrollStride, behavior: 'smooth' });
+            });
+
+            btnNext.addEventListener('click', () => {
+                container.scrollBy({ left: scrollStride, behavior: 'smooth' });
+            });
+
+            btnPagePrev.addEventListener('click', () => {
+                container.scrollBy({ left: -container.clientWidth, behavior: 'smooth' });
+            });
+
+            btnPageNext.addEventListener('click', () => {
+                container.scrollBy({ left: container.clientWidth, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Core Directive Array (CDA) Schema",
+	"description": "Defines the structure for a Core Directive Array file, which contains sections of operational directives.",
+	"type": "object",
+	"properties": {
+		"cda_version": {
+			"description": "The version number of the CDA document.",
+			"type": "string"
+		},
+		"entry_count": {
+			"description": "The total number of individual directive entries.",
+			"type": "integer"
+		},
+		"title": {
+			"description": "The overall title of this Core Directive Array.",
+			"type": "string"
+		},
+		"purpose": {
+			"description": "A high-level statement explaining the purpose of this CDA.",
+			"type": "string"
+		},
+		"directives": {
+			"description": "An array of directive sections, which group related entries.",
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/directiveSection"
+			}
+		}
+	},
+	"required": ["cda_version", "title", "directives"],
+	"definitions": {
+		"directiveSection": {
+			"type": "object",
+			"title": "Directive Section",
+			"description": "A group of related directive entries under a common heading.",
+			"properties": {
+				"section": {
+					"description": "The name of the section (e.g., 'CIP: Core Identity & Persona').",
+					"type": "string"
+				},
+				"entries": {
+					"description": "An array of individual directive entries within this section.",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/directiveEntry"
+					}
+				}
+			},
+			"required": ["section", "entries"]
+		},
+		"directiveEntry": {
+			"type": "object",
+			"title": "Directive Entry",
+			"description": "A single, atomic directive, concept, or principle.",
+			"properties": {
+				"id": {
+					"description": "The unique identifier for the entry (e.g., 'Concept-01', 'CIP-1').",
+					"type": "string"
+				},
+				"term": {
+					"description": "A concise term for the entry, often used for foundational concepts.",
+					"type": "string"
+				},
+				"title": {
+					"description": "A descriptive title for the entry, often used for directives.",
+					"type": "string"
+				},
+				"definition": {
+					"description": "The full definition or explanation of the directive.",
+					"type": ["string", "object"]
+				},
+				"tags": {
+					"description": "An optional array of tags for establishing relationships (e.g., '[Substrate_Issue: Biddability]').",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": ["id", "definition"]
+		}
+	}
+}

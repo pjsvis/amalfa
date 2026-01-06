@@ -1,0 +1,53 @@
+/* 
+ * Layout Classes 
+ * Replaces inline styles in index.html
+ */
+.explorer-sidebar-left {
+	width: var(--sidebar-width-left);
+	background-color: var(--surface-2);
+	border-color: var(--border-base);
+}
+
+.explorer-sidebar-right {
+	width: var(--sidebar-width-right);
+	background-color: var(--surface-panel);
+	border-color: var(--border-base);
+	color: var(--text-1);
+}
+
+.explorer-graph-panel {
+	/* Local Scope for Graph Variables */
+	--graph-bg: var(--graph-background);
+	--graph-edge: var(--graph-edge-default);
+
+	background-color: var(--graph-background);
+	/* Use semantic variable for consistency */
+}
+
+#sigma-container {
+	/* Ensure container inherits or uses the same bg */
+	background-color: inherit;
+}
+
+/* Zoom Controls Isolation */
+.sigma-zoom-controls {
+	/* Local Scope for Zoom Variables */
+	--zoom-bg: var(--surface-1);
+	--zoom-text: var(--text-1);
+	--zoom-border: var(--border-base);
+
+	background-color: var(--zoom-bg);
+	border-color: var(--zoom-border);
+	color: var(--zoom-text);
+	box-shadow: var(--shadow-2);
+}
+
+.sigma-zoom-btn {
+	background-color: var(--zoom-bg);
+	color: var(--zoom-text);
+	border-color: var(--zoom-border);
+
+	&:hover {
+		background-color: var(--surface-2);
+	}
+}

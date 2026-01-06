@@ -1,0 +1,85 @@
+/* ========================================
+   BASE STYLES & RESETS (TERMINAL EDITION)
+   ======================================== */
+
+/* GLOBAL HARD RESET */
+* {
+	border-radius: 0;
+	box-shadow: none;
+	transition: none; /* NO SOFTNESS */
+}
+
+html {
+	scrollbar-gutter: stable both-edges;
+	height: 100%;
+	overflow: hidden;
+	background-color: var(--bg-canvas);
+	color-scheme: dark;
+}
+
+body {
+	font-family: var(--font-mono);
+	background-color: var(--bg-canvas);
+	color: var(--text-primary);
+	margin: 0;
+	line-height: 1.4; /* Tighter for code */
+	height: 100%;
+	overflow: hidden;
+}
+
+/* HEADERS */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-mono);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	border-bottom: var(--border-default);
+	padding-bottom: var(--spacing-2);
+	margin-bottom: var(--spacing-4);
+	font-weight: bold;
+}
+
+/* LINKS */
+a,
+a:visited {
+	color: var(--text-highlight);
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+a:hover {
+	background-color: var(--ansi-white);
+	color: var(--ansi-black);
+	text-decoration: none;
+}
+
+/* SCROLLBARS */
+::-webkit-scrollbar {
+	width: 12px;
+	background: var(--bg-canvas);
+	border-left: 2px solid var(--ansi-white);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--ansi-white);
+	border: 2px solid var(--bg-canvas); /* Creates a 'block' look */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--ansi-green);
+}
+
+/* MONOSPACE UTILITY */
+.mono {
+	font-family: var(--font-mono);
+}
+
+/* BUTTON RESET */
+button {
+	cursor: pointer;
+	font-family: var(--font-mono);
+}

@@ -1,0 +1,11 @@
+{
+	"nanocoder": {
+		"providers": [
+			{
+				"name": "ollama",
+				"models": ["llama3.1:8b"],
+				"baseUrl": "http://localhost:11434/v1"
+			}
+		]
+	}
+}

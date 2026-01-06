@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@import "basecoat-css";
+@import "open-props/style";
+
+@import "./layers/theme.css";
+
+@layer base, layout, components, graph, utilities;
+
+/* REMOVED: open-props/normalize was adding Pico-style opinionated detail/summary styles */
+/* @import "open-props/normalize" layer(base); */
+@import "./layers/base.css" layer(base);
+@import "./layers/layout.css" layer(layout);
+
+/* Components layer - split for FLIP compliance (<300 lines each) */
+@import "./layers/buttons.css" layer(components);
+@import "./layers/forms.css" layer(components);
+@import "./layers/navigation.css" layer(components);
+@import "./layers/components.css" layer(components);
+
+@import "./layers/graph.css" layer(graph);
+@import "./layers/utilities.css" layer(utilities);
+@import "./layers/markdown.css" layer(utilities);

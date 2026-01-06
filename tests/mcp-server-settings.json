@@ -1,0 +1,8 @@
+{
+	"mcpServers": {
+		"polyvis": {
+			"command": "/absolute/path/to/polyvis",
+			"args": ["mcp", "--db", "/absolute/path/to/project_data.sqlite"]
+		}
+	}
+}

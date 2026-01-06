@@ -1,0 +1,31 @@
+# GBNF Grammar for Knowledge Graph Triple Extraction
+# Forces Llama.cpp to output only valid JSON arrays of triples
+
+root        ::= json_arr
+json_arr    ::= "[" ws (json_obj ("," ws json_obj)*)? "]" ws
+
+json_obj    ::= "{" ws
+                "\"source\"" ws ":" ws string "," ws
+                "\"rel\""    ws ":" ws relation "," ws
+                "\"target\"" ws ":" ws string
+                "}" ws
+
+# Restricted relationship vocabulary - add more as needed
+relation    ::= "\"" (
+                  "IS_A" |
+                  "HAS_PART" |
+                  "RELATED_TO" |
+                  "IMPLEMENTS" |
+                  "CONTRADICTS" |
+                  "REQUIRES" |
+                  "PRECEDES" |
+                  "DEFINES" |
+                  "USES" |
+                  "EXTENDS"
+                ) "\""
+
+# Standard JSON string (simplified for speed)
+string      ::= "\"" ( [^"\\\x7F\x00-\x1F] | "\\" (["\\/bfnrt] | "u" [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]) )* "\""
+
+# Optional whitespace
+ws          ::= [ \t\n]*

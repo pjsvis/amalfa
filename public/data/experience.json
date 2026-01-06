@@ -1,0 +1,505 @@
+[
+	{
+		"id": "a11y-and-agent-affordance-playbook",
+		"type": "playbook",
+		"title": "Accessibility (A11y) & Agent Affordance Playbook",
+		"path": "playbooks/a11y-and-agent-affordance-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "problem-solving-playbook",
+		"type": "playbook",
+		"title": "Problem Solving Playbook",
+		"path": "playbooks/problem-solving-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "briefs-playbook",
+		"type": "playbook",
+		"title": "Briefs Playbook",
+		"path": "playbooks/briefs-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "sigma-playbook",
+		"type": "playbook",
+		"title": "Sigma.js Playbook",
+		"path": "playbooks/sigma-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "graphology-playbook",
+		"type": "playbook",
+		"title": "Graphology Playbook",
+		"path": "playbooks/graphology-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "tailwind-v4-playbook",
+		"type": "playbook",
+		"title": "Tailwind CSS v4 Playbook",
+		"path": "playbooks/tailwind-v4-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "schema-playbook",
+		"type": "playbook",
+		"title": "Playbook: Hybrid Data Schema",
+		"path": "playbooks/schema-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "agent-experimentation-protocol",
+		"type": "playbook",
+		"title": "Agent Experimentation Protocol (The \"YOLO\" Mode)",
+		"path": "playbooks/agent-experimentation-protocol.md",
+		"tags": []
+	},
+	{
+		"id": "development-workflow-playbook",
+		"type": "playbook",
+		"title": "Development Workflow Playbook",
+		"path": "playbooks/development-workflow-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "alpinejs-playbook",
+		"type": "playbook",
+		"title": "Alpine.js Playbook",
+		"path": "playbooks/alpinejs-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "css-master-playbook",
+		"type": "playbook",
+		"title": "CSS Master Playbook",
+		"path": "playbooks/css-master-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "web-standards-playbook",
+		"type": "playbook",
+		"title": "Web Standards Playbook",
+		"path": "playbooks/web-standards-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "bun-playbook",
+		"type": "playbook",
+		"title": "Bun Playbook",
+		"path": "playbooks/bun-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "debriefs-playbook",
+		"type": "playbook",
+		"title": "Debriefs Playbook",
+		"path": "playbooks/debriefs-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "marked-playbook",
+		"type": "playbook",
+		"title": "Marked.js Playbook",
+		"path": "playbooks/marked-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "biome-playbook",
+		"type": "playbook",
+		"title": "Biome Playbook",
+		"path": "playbooks/biome-playbook.md",
+		"tags": []
+	},
+	{
+		"id": "2025-11-27-front-page-polish",
+		"type": "debrief",
+		"title": "Debrief: Front Page Polish & Navigation Fixes",
+		"path": "debriefs/2025-11-27-front-page-polish.md",
+		"date": "2025-11-27",
+		"tags": []
+	},
+	{
+		"id": "2025-11-27-layout-stabilization",
+		"type": "debrief",
+		"title": "Session Debrief: Layout Stabilization & Standardization",
+		"path": "debriefs/2025-11-27-layout-stabilization.md",
+		"date": "2025-11-27",
+		"tags": []
+	},
+	{
+		"id": "2025-11-21-01-initial-public-commit",
+		"type": "debrief",
+		"title": "Debrief: Prepare for Initial Public Commit",
+		"path": "debriefs/2025-11-21-01-initial-public-commit.md",
+		"date": "2025-11-21",
+		"tags": []
+	},
+	{
+		"id": "2025-11-25-02-sidebar-refinements",
+		"type": "debrief",
+		"title": "Debrief: Sidebar UI/UX Refinements",
+		"path": "debriefs/2025-11-25-02-sidebar-refinements.md",
+		"date": "2025-11-25",
+		"tags": []
+	},
+	{
+		"id": "2025-11-21-02-forceatlas2-fix",
+		"type": "debrief",
+		"title": "Debrief: Graph Controls & ForceAtlas2 Fix",
+		"path": "debriefs/2025-11-21-02-forceatlas2-fix.md",
+		"date": "2025-11-21",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-scroll-fix",
+		"type": "debrief",
+		"title": "Debrief: Document Scroll Fix",
+		"path": "debriefs/2025-11-29-scroll-fix.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-28-toc-refinement",
+		"type": "debrief",
+		"title": "Debrief: TOC Visual Refinement",
+		"path": "debriefs/2025-11-28-toc-refinement.md",
+		"date": "2025-11-28",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-global-styles",
+		"type": "debrief",
+		"title": "Debrief: Global Markdown Styles",
+		"path": "debriefs/2025-11-29-global-styles.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-25-01-alpine-refactor",
+		"type": "debrief",
+		"title": "Debrief: Site-wide Alpine.js Refactor & Cleanup",
+		"path": "debriefs/2025-11-25-01-alpine-refactor.md",
+		"date": "2025-11-25",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-heading-sizes",
+		"type": "debrief",
+		"title": "Debrief: Heading Font Size Adjustment",
+		"path": "debriefs/2025-11-29-heading-sizes.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-12-01-semantic-edges",
+		"type": "debrief",
+		"title": "Debrief: Semantic Edge Generation",
+		"path": "debriefs/2025-12-01-semantic-edges.md",
+		"date": "2025-12-01",
+		"tags": []
+	},
+	{
+		"id": "2025-11-27-02-debrief-nav-consistency",
+		"type": "debrief",
+		"title": "Debrief: Navigation Consistency Refactor",
+		"path": "debriefs/2025-11-27-02-debrief-nav-consistency.md",
+		"date": "2025-11-27",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-session-2-wrap-up",
+		"type": "debrief",
+		"title": "Session Debrief: Doc Viewer Polish & Features",
+		"path": "debriefs/2025-11-29-session-2-wrap-up.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-12-03-css-nesting-and-graph-stability",
+		"type": "debrief",
+		"title": "Debrief: CSS Nesting & Graph Stability",
+		"path": "debriefs/2025-12-03-css-nesting-and-graph-stability.md",
+		"date": "2025-12-03",
+		"tags": []
+	},
+	{
+		"id": "2025-11-21-03-sigma-zoom",
+		"type": "debrief",
+		"title": "Debrief: Sigma Zoom Implementation",
+		"path": "debriefs/2025-11-21-03-sigma-zoom.md",
+		"date": "2025-11-21",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-text-wrap",
+		"type": "debrief",
+		"title": "Debrief: Text Wrap Optimization",
+		"path": "debriefs/2025-11-29-text-wrap.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-12-01-louvain-refinements",
+		"type": "debrief",
+		"title": "Debrief: Louvain Visualization Refinements & Database Recovery",
+		"path": "debriefs/2025-12-01-louvain-refinements.md",
+		"date": "2025-12-01",
+		"tags": []
+	},
+	{
+		"id": "2025-12-05-mistral-agent-chat-api",
+		"type": "debrief",
+		"title": "Debrief: Implementing an Interactive Chat with the Mistral Agent API",
+		"path": "debriefs/2025-12-05-mistral-agent-chat-api.md",
+		"date": "2025-12-05",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-outline-label",
+		"type": "debrief",
+		"title": "Debrief: Outline Label Cleanup",
+		"path": "debriefs/2025-11-29-outline-label.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-experience-tabs",
+		"type": "debrief",
+		"title": "Debrief: Experience Tabs Integration",
+		"path": "debriefs/2025-11-29-experience-tabs.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-12-07-ui-polish-and-pipeline",
+		"type": "debrief",
+		"title": "Debrief: UI Polish & Pipeline Repairs",
+		"path": "debriefs/2025-12-07-ui-polish-and-pipeline.md",
+		"date": "2025-12-07",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-tab-reorder",
+		"type": "debrief",
+		"title": "Debrief: Sidebar Tab Reordering",
+		"path": "debriefs/2025-11-29-tab-reorder.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-26-03-doc-layout-upgrade",
+		"type": "debrief",
+		"title": "Debrief: Documentation Layout Upgrade",
+		"path": "debriefs/2025-11-26-03-doc-layout-upgrade.md",
+		"date": "2025-11-26",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-browser-capabilities",
+		"type": "debrief",
+		"title": "Debrief: Browser Capabilities Verification",
+		"path": "debriefs/2025-11-29-browser-capabilities.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-session-wrap-up",
+		"type": "debrief",
+		"title": "Debrief: Session Wrap-Up (RAP & Docs Cleanup)",
+		"path": "debriefs/2025-11-29-session-wrap-up.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-12-07-legacy-cleanup",
+		"type": "debrief",
+		"title": "Debrief: Legacy Cleanup and Navbar Refactor",
+		"path": "debriefs/2025-12-07-legacy-cleanup.md",
+		"date": "2025-12-07",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-css-isolation",
+		"type": "debrief",
+		"title": "Debrief: CSS Isolation for Sigma Explorer",
+		"path": "debriefs/2025-11-29-css-isolation.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-vscode-styles",
+		"type": "debrief",
+		"title": "Debrief: VS Code Style Code Blocks",
+		"path": "debriefs/2025-11-29-vscode-styles.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-12-08-fix-sidebar-visibility",
+		"type": "debrief",
+		"title": "Fix Sidebar Visibility in Reference Mode",
+		"path": "debriefs/2025-12-08-fix-sidebar-visibility.md",
+		"date": "2025-12-08",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-indexing-experience",
+		"type": "debrief",
+		"title": "Debrief: Indexing Experience Artifacts",
+		"path": "debriefs/2025-11-29-indexing-experience.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-wikifying-docs",
+		"type": "debrief",
+		"title": "Debrief: Wikifying Documentation",
+		"path": "debriefs/2025-11-29-wikifying-docs.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-25-03-sidebar-scrolling-and-tooltips",
+		"type": "debrief",
+		"title": "Debrief: Sidebar Scrolling and Tooltip Fixes",
+		"path": "debriefs/2025-11-25-03-sidebar-scrolling-and-tooltips.md",
+		"date": "2025-11-25",
+		"tags": []
+	},
+	{
+		"id": "2025-12-07-css-lint-sprint",
+		"type": "debrief",
+		"title": "Debrief: CSS Lint & Hygiene Sprint",
+		"path": "debriefs/2025-12-07-css-lint-sprint.md",
+		"date": "2025-12-07",
+		"tags": []
+	},
+	{
+		"id": "2025-11-27-css-refactor",
+		"type": "debrief",
+		"title": "Debrief: CSS Refactoring & Layer Implementation",
+		"path": "debriefs/2025-11-27-css-refactor.md",
+		"date": "2025-11-27",
+		"tags": []
+	},
+	{
+		"id": "2025-12-08-resonance-engine",
+		"type": "debrief",
+		"title": "Debrief: Resonance Engine v1.0 & Schema Unification",
+		"path": "debriefs/2025-12-08-resonance-engine.md",
+		"date": "2025-12-08",
+		"tags": []
+	},
+	{
+		"id": "2025-11-28-theme-and-nav-refinements",
+		"type": "debrief",
+		"title": "Debrief: Theme and Navigation Refinements",
+		"path": "debriefs/2025-11-28-theme-and-nav-refinements.md",
+		"date": "2025-11-28",
+		"tags": []
+	},
+	{
+		"id": "2025-12-08-sigma-explorer-refactor",
+		"type": "debrief",
+		"title": "Debrief: Sigma Explorer Refactoring & Experience Graph Integration",
+		"path": "debriefs/2025-12-08-sigma-explorer-refactor.md",
+		"date": "2025-12-08",
+		"tags": []
+	},
+	{
+		"id": "2025-11-26-02-debrief-open-props-and-debugging",
+		"type": "debrief",
+		"title": "Debrief: Open Props & Interaction Debugging",
+		"path": "debriefs/2025-11-26-02-debrief-open-props-and-debugging.md",
+		"date": "2025-11-26",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-tab-transition",
+		"type": "debrief",
+		"title": "Debrief: Tab Transition Polish",
+		"path": "debriefs/2025-11-29-tab-transition.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-12-01-markdown-styling-fixes",
+		"type": "debrief",
+		"title": "Debrief: Markdown Styling Fixes",
+		"path": "debriefs/2025-12-01-markdown-styling-fixes.md",
+		"date": "2025-12-01",
+		"tags": []
+	},
+	{
+		"id": "2025-11-26-04-external-grounding",
+		"type": "debrief",
+		"title": "Debrief: External Grounding & Click Regression",
+		"path": "debriefs/2025-11-26-04-external-grounding.md",
+		"date": "2025-11-26",
+		"tags": []
+	},
+	{
+		"id": "2025-11-27-session-performance-review",
+		"type": "debrief",
+		"title": "Session Performance Review: Front Page Polish",
+		"path": "debriefs/2025-11-27-session-performance-review.md",
+		"date": "2025-11-27",
+		"tags": []
+	},
+	{
+		"id": "2025-11-27-theme-and-workflow",
+		"type": "debrief",
+		"title": "Session Debrief: Theme Standardization & Workflow Improvements",
+		"path": "debriefs/2025-11-27-theme-and-workflow.md",
+		"date": "2025-11-27",
+		"tags": []
+	},
+	{
+		"id": "2025-12-01-graph-explorer",
+		"type": "debrief",
+		"title": "Debrief: Semantic Graph & Community Explorer",
+		"path": "debriefs/2025-12-01-graph-explorer.md",
+		"date": "2025-12-01",
+		"tags": []
+	},
+	{
+		"id": "2025-12-08-experience-graph-tuning",
+		"type": "debrief",
+		"title": "Debrief: Experience Graph Tuning & Densification",
+		"path": "debriefs/2025-12-08-experience-graph-tuning.md",
+		"date": "2025-12-08",
+		"tags": []
+	},
+	{
+		"id": "2025-11-27-01-debrief_front_page_refactor",
+		"type": "debrief",
+		"title": "Debrief: Front Page Refactor",
+		"path": "debriefs/2025-11-27-01-debrief_front_page_refactor.md",
+		"date": "2025-11-27",
+		"tags": []
+	},
+	{
+		"id": "2025-11-29-dot-rendering",
+		"type": "debrief",
+		"title": "Debrief: Inline DOT Rendering",
+		"path": "debriefs/2025-11-29-dot-rendering.md",
+		"date": "2025-11-29",
+		"tags": []
+	},
+	{
+		"id": "2025-11-26-01-debrief-graph-search-and-ui",
+		"type": "debrief",
+		"title": "Debrief: Graph Search & UI Refinements",
+		"path": "debriefs/2025-11-26-01-debrief-graph-search-and-ui.md",
+		"date": "2025-11-26",
+		"tags": []
+	},
+	{
+		"id": "AGENTS",
+		"type": "protocol",
+		"title": "Agent Operational Protocols",
+		"path": "AGENTS.md",
+		"tags": []
+	}
+]

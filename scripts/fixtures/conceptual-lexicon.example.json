@@ -1,0 +1,54 @@
+[
+	{
+		"id": "term-ex-001",
+		"title": "Graph",
+		"description": "A data structure consisting of a set of nodes (or vertices) and a set of edges that establish relationships between the nodes.",
+		"type": "term",
+		"category": "Core Concept",
+		"tags": ["[#foundation]"],
+		"source": "example-cl"
+	},
+	{
+		"id": "term-ex-002",
+		"title": "Node",
+		"description": "A fundamental unit of a graph that represents an entity or concept.",
+		"type": "term",
+		"category": "Core Concept",
+		"tags": ["[Part_Of: term-ex-001]"],
+		"source": "example-cl"
+	},
+	{
+		"id": "term-ex-003",
+		"title": "Edge",
+		"description": "A connection between two nodes in a graph, representing a relationship.",
+		"type": "term",
+		"category": "Core Concept",
+		"tags": ["[Part_Of: term-ex-001]"],
+		"source": "example-cl"
+	},
+	{
+		"id": "OH-EX-001",
+		"title": "OH-EX-001: Example Verification Protocol",
+		"description": "Before displaying data, first verify its source and structure to ensure integrity.",
+		"type": "operational-heuristic",
+		"category": "Example Heuristic",
+		"tags": ["[#protocol]"],
+		"source": "example-cl"
+	},
+	{
+		"id": "OH-EX-002",
+		"title": "OH-EX-002: Example Complex Protocol",
+		"description": {
+			"Principle": "Complex data should be broken down for clarity.",
+			"Steps": [
+				"1. Identify the complex data object.",
+				"2. Extract key-value pairs.",
+				"3. Display as a simple list."
+			]
+		},
+		"type": "operational-heuristic",
+		"category": "Example Heuristic",
+		"tags": ["[#protocol]", "[Implements: term-ex-002]"],
+		"source": "example-cl"
+	}
+]

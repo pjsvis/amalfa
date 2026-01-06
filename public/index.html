@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PolyVis | Structural Information Engineering</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <script src="/js/app.js" defer></script>
+  <!-- Inline Theme Init -->
+  <script>
+    (() => {
+      const stored = localStorage.getItem('polyvis-theme');
+      if (stored) {
+        document.documentElement.setAttribute('data-theme', stored);
+      }
+    })();
+  </script>
+  <script type="module" src="/js/utils/theme.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="home-layout" x-data="{ loaded: false, debug: false }" x-init="setTimeout(() => loaded = true, 50)"
+  :class="{ 'loaded': loaded, 'layout-debug-mode': debug }" @keydown.window.shift.d="debug = !debug">
+  
+  <div class="app-shell">
+    <!-- Navbar (Minimal) -->
+    <header class="app-header">
+      <nav class="nav-wrapper" style="justify-content: space-between;">
+           <!-- 1. POLYVIS Header Branding -->
+          <a href="/" class="nav-brand">POLYVIS</a>
+          
+          <button onclick="window.toggleTheme()" class="btn-text" style="font-size: 10px;">
+             THEME
+          </button>
+      </nav>
+    </header>
+
+    <aside class="app-sidebar-left"></aside>
+
+    <main class="app-main">
+      <!-- 2. Centered Text Alignment + Card Aspect Ratio -->
+      <!-- 2. Centered Text Alignment + Card Aspect Ratio -->
+      <!-- Added .stack-large class to parent, Removed inline margins -->
+      <!-- 2. Centered Text Alignment + Card Aspect Ratio -->
+      <!-- Added .stack-large class to parent, Removed inline margins -->
+      <div class="container-box home-box" style="width: 100%; max-width: 400px; aspect-ratio: 5/8; display: flex; flex-direction: column; justify-content: center; gap: var(--spacing-6); text-align: center; border: 2px solid var(--ansi-white); padding: 48px;">
+        
+        <!-- Header / Logo  -->
+        <h1 class="home-title">POLYVIS</h1>
+        <div class="home-subtitle">Structural Information Engineering</div>
+
+        <!-- Navigation Buttons -->
+        <a href="/docs/" class="btn-structural" style="justify-content: center;">
+            DOCS
+        </a>
+        <a href="/sigma-explorer/" class="btn-structural" style="justify-content: center;">
+            GRAPH
+        </a>
+        <a href="/about" class="btn-structural" style="justify-content: center;">
+            ABOUT
+        </a>
+
+
+
+        <!-- System Status -->
+        <div x-data="{ status: 'ONLINE', color: 'var(--ansi-green)' }" 
+                @click="
+                status = 'AUDITING...'; 
+                color = 'var(--ansi-yellow)';
+                setTimeout(() => {
+                    const passed = window.runStyleAudit ? window.runStyleAudit() : false;
+                    status = passed ? 'VERIFIED (SECURE)' : 'CORRUPTED';
+                    color = passed ? 'var(--ansi-green)' : 'var(--ansi-red)';
+                }, 800);
+                "
+                style="display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; user-select: none; color: var(--text-primary); font-size: 10px; font-family: var(--font-mono);"
+                title="Click to run System Integrity Check">
+            <span class="status-dot" :style="`width: 8px; height: 8px; background-color: ${color}; border-radius: 50%; transition: background-color 0.2s;`"></span>
+            <span x-text="'SYSTEM STATUS: ' + status" style="font-weight: bold;"></span>
+        </div>
+
+        <!-- Copyright -->
+        <div style="font-size: 10px; opacity: 0.7; font-family: var(--font-mono);">&copy; 2025 Virtual Information Systems</div>
+      </div>
+    </main>
+
+    <aside class="app-sidebar-right"></aside>
+    <footer class="app-footer"></footer>
+  </div>
+  
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+
+  <script>
+    // AGENT VISIBILITY HELPER
+    window.__AGENT_THEME__ = (() => {
+      const root = getComputedStyle(document.documentElement);
+      const getVar = (name) => root.getPropertyValue(name).trim();
+
+      return {
+        system: "PolyVis Terminal Brutalist",
+        palette: {
+          canvas:    getVar('--ansi-black'),       
+          text:      getVar('--ansi-white'),       
+          highlight: getVar('--ansi-bright-white'),
+          error:     getVar('--ansi-red'),         
+          success:   getVar('--ansi-green'),       
+          warning:   getVar('--ansi-yellow'),      
+          agent:     getVar('--ansi-orange'),      
+        },
+        rules: {
+          borderRadius: '0px', 
+          fontFamily: getVar('--font-mono'),
+          borders: '2px solid', 
+        },
+        interactive: {
+          button: {
+            description: "Hard inversion on hover. Instant transition.",
+            default: { 
+              bg: getVar('--ansi-black'), 
+              text: getVar('--ansi-white'), 
+              border: getVar('--ansi-white') 
+            },
+            hover: { 
+              bg: getVar('--ansi-white'), 
+              text: getVar('--ansi-black'), 
+              border: getVar('--ansi-white') 
+            }
+          }
+        }
+      };
+    })();
+    console.log('%c[AGENT_THEME] System Visible', 'color: #FF8C00');
+  </script>
+</body>
+
+</html>

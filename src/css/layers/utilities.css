@@ -1,0 +1,38 @@
+/* Utilities */
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* NOTE: .stack-large is defined in layout.css (the canonical location) */
+
+.status-dot {
+	height: var(--size-2);
+	width: var(--size-2);
+	background-color: var(--primary);
+	border-radius: var(--radius-round);
+	display: inline-block;
+	margin-right: var(--size-1);
+}
+
+/* ========================================
+   DEBUG UTILITIES
+   ======================================== */
+
+.layout-debug-mode * {
+	/* biome-ignore lint/complexity/noImportantStyles: Debug utility requires overrides */
+	outline: var(--border-size-1) dashed rgba(255, 0, 0, 0.3) !important;
+	/* biome-ignore lint/complexity/noImportantStyles: Debug utility requires overrides */
+	background: rgba(255, 0, 0, 0.02) !important;
+}
+
+.layout-debug-mode .app-shell {
+	/* Visualize Grid Columns (Left Sidebar | Main | Right Sidebar) */
+	background: linear-gradient(
+		90deg,
+		rgba(0, 0, 255, 0.05) 0,
+		rgba(0, 0, 255, 0.05) var(--size-15),
+		transparent var(--size-15),
+		transparent calc(100% - var(--size-15)),
+		rgba(0, 0, 255, 0.05) calc(100% - var(--size-15))
+	);
+}

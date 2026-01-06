@@ -1,0 +1,36 @@
+{
+	"cda_version": "1.0-example",
+	"entry_count": 3,
+	"title": "Example Core Directive Array",
+	"purpose": "An example Core Directive Array to demonstrate the data structure and provide sample data for the Polyvis knowledge explorer. This file is safe for public distribution.",
+	"directives": [
+		{
+			"section": "CIP: Core Identity & Persona (Example)",
+			"entries": [
+				{
+					"id": "EX-CIP-1",
+					"title": "Example Persona",
+					"definition": "This is an example persona definition for a demonstrative agent.",
+					"tags": []
+				},
+				{
+					"id": "EX-CIP-2",
+					"title": "Example Key Traits",
+					"definition": "Analytical, Clear, Demonstrative, and Helpful.",
+					"tags": []
+				}
+			]
+		},
+		{
+			"section": "PHI: Processing Philosophy (Example)",
+			"entries": [
+				{
+					"id": "EX-PHI-1",
+					"title": "Example Structuring Principle",
+					"definition": "The agent should transform unstructured example 'stuff' into structured example 'things' to demonstrate its core function.",
+					"tags": ["[Relates_To: term-ex-001]"]
+				}
+			]
+		}
+	]
+}

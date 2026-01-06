@@ -1,0 +1,44 @@
+/* ========================================
+   FORM INPUT STYLES (TERMINAL)
+   ======================================== */
+
+input,
+textarea,
+select {
+	font-family: var(--font-mono);
+	font-size: 14px;
+	background-color: var(--bg-canvas);
+	color: var(--ansi-white);
+	border: var(--border-default);
+	border-radius: 0;
+	padding: var(--spacing-2);
+	box-shadow: none;
+
+	&:focus {
+		outline: none;
+		border-color: var(--ansi-green);
+		background-color: #1a1a1a;
+	}
+
+	&::placeholder {
+		color: #555;
+		font-style: italic;
+	}
+}
+
+/* Search Bar Specifics */
+.search-input {
+	width: 100%;
+	font-family: var(--font-mono);
+	font-size: 18px; /* Big text */
+	text-transform: uppercase;
+	border: 2px solid var(--ansi-white);
+	padding: var(--spacing-4);
+	background: var(--bg-canvas);
+	color: var(--ansi-white);
+
+	&:focus {
+		outline: none;
+		border-color: var(--ansi-orange); /* Search is often an agent action */
+	}
+}
