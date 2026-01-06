@@ -76,6 +76,16 @@ scripts/
 experiments/
 examples/
 
+# ML models and checkpoints (huge files)
+ingest/
+reports/
+
+# Large images
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
 # Legacy/deprecated
 legacy/
 deprecated/
