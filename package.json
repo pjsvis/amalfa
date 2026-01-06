@@ -10,7 +10,7 @@
 	"author": "Peter John Smith <729613+pjsvis@users.noreply.github.com>",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/pjsvis/amalfa"
+		"url": "git+https://github.com/pjsvis/amalfa.git"
 	},
 	"keywords": [
 		"mcp",
