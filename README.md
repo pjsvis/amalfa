@@ -2,371 +2,291 @@
 
 **A Memory Layer For Agents**
 
-A local-first knowledge graph engine that transforms your markdown files into a searchable memory layer for AI agents. Built for privacy, speed, and zero API costs.
+MCP server that gives AI agents semantic access to project knowledge graphs.
 
-[![NPM Version](https://img.shields.io/npm/v/amalfa)](https://www.npmjs.com/package/amalfa)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+---
 
-## Why AMALFA?
+## Status
 
-AI agents need memory. AMALFA provides:
+🚧 **v1.0 in development** - Package name reserved on npm
 
-- **🔒 Privacy-first**: Your data never leaves your machine
-- **⚡️ Fast**: SQLite + vector embeddings for sub-second search
-- **💰 Zero cost**: No API calls, no subscriptions
-- **📝 Markdown native**: Your notes are the source of truth
-- **🔄 Real-time**: File watcher keeps your knowledge graph up-to-date
-- **🤖 Agent-ready**: MCP protocol integration with Claude Desktop
+[![npm](https://img.shields.io/badge/npm-amalfa-CB3837?logo=npm)](https://www.npmjs.com/package/amalfa)
+
+---
+
+## What is Amalfa?
+
+Amalfa is a **Model Context Protocol (MCP) server** that provides AI agents with:
+
+- 🔍 **Semantic search** over markdown documentation
+- 📊 **Graph traversal** of relationships between documents
+- 🧠 **Agent continuity** across sessions via persistent memory
+- ⚡ **Auto-augmentation** of metadata (tags, links, clusters)
+- 🏷️ **Latent space tagging** for emergent organization
+
+Built with **Bun + SQLite + FastEmbed**.
+
+---
+
+## The Problem
+
+**Current state:** AI agents lose context between sessions. Knowledge resets. Same problems get re-solved.
+
+**Amalfa solves this:** Agents write structured reflections (briefs → work → debriefs → playbooks). Amalfa indexes this as a queryable knowledge graph with semantic search.
+
+**Result:** Agents can query "What did we learn about authentication?" and get ranked, relevant past work—even across different agents and sessions.
+
+---
+
+## Core Concepts
+
+### Brief-Debrief-Playbook Pattern
+
+```
+Brief (task spec)
+   ↓
+Work (implementation)
+   ↓
+Debrief (what we learned)
+   ↓
+Playbook (codified patterns)
+   ↓
+Future briefs (informed by playbooks)
+```
+
+**Debriefs** capture:
+- What worked (successes)
+- What failed (dead ends)
+- Lessons learned (abstractions)
+
+**Playbooks** codify:
+- Principles (how we do things)
+- Patterns (reusable solutions)
+- Anti-patterns (what to avoid)
+- Decision records (why we chose X over Y)
+
+### Auto-Augmentation
+
+Amalfa **automatically** adds:
+
+- **Tags:** Extracted from content + latent space clustering
+- **Links:** Wiki-style links between related documents
+- **Clusters:** Documents organized by embedding similarity
+- **Suggested reading:** Context for new sessions
+
+**Agents don't maintain metadata manually.** Amalfa handles it via git-audited auto-augmentation.
+
+### Latent Space Tagging
+
+**Innovation:** Tags emerge from vector clustering, not predefined taxonomy.
+
+```python
+# Cluster documents in embedding space
+clusters = cluster(all_docs, min_size=3)
+
+# Generate labels from cluster content
+for cluster in clusters:
+    label = generate_label(cluster.docs)  # e.g., "auth-state-patterns"
+    for doc in cluster:
+        doc.add_tag(f"latent:{label}", confidence_score)
+```
+
+**Result:** Self-organizing knowledge base that adapts as it grows.
+
+---
 
 ## Quick Start
 
-### Installation
+**Coming soon.** Package reserved at: https://www.npmjs.com/package/amalfa
 
-```bash
-# Install globally
-bun add -g amalfa
+Watch this repo for v1.0 release.
 
-# Or use with bunx
-bunx amalfa --help
-```
-
-### Initialize Your Knowledge Graph
-
-```bash
-# 1. Navigate to your project with markdown files
-cd ~/Documents/my-notes
-
-# 2. Initialize AMALFA (creates .amalfa/resonance.db)
-amalfa init
-
-# 3. Start the file watcher (optional)
-amalfa daemon start
-
-# 4. Connect to Claude Desktop (see Configuration below)
-```
-
-## Configuration
-
-Create `amalfa.config.json` in your project root:
-
-```json
-{
-  "sources": ["./docs", "./notes"],
-  "database": ".amalfa/resonance.db",
-  "embeddings": {
-    "model": "BAAI/bge-small-en-v1.5",
-    "dimensions": 384
-  },
-  "watch": {
-    "enabled": true,
-    "debounce": 1000
-  },
-  "excludePatterns": ["node_modules", ".git", ".amalfa"]
-}
-```
-
-**New in v1.0.1:** Multi-source support! Use `sources` array to scan multiple directories. Single `source` string still works (auto-migrates).
-
-Or use TypeScript:
-
-```typescript
-// amalfa.config.ts
-export default {
-  source: "./docs",
-  database: ".amalfa/resonance.db",
-  // ... rest of config
-};
-```
-
-### Claude Desktop Integration
-
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "amalfa": {
-      "command": "amalfa",
-      "args": ["serve"]
-    }
-  }
-}
-```
-
-Restart Claude Desktop, and you'll see AMALFA tools available in the conversation.
-
-## CLI Commands
-
-### `amalfa init [--force]`
-
-Initialize knowledge graph from markdown files with pre-flight validation.
-
-```bash
-amalfa init          # With validation
-amalfa init --force  # Override warnings (use with caution)
-```
-
-**What it does:**
-- **Pre-flight validation** (v1.0.1): Checks for large files, symlinks, circular references
-- Scans your source directories for `.md` files
-- Generates vector embeddings (384 dimensions)
-- Extracts WikiLinks (`[[links]]`) and semantic tags
-- Creates edges between related documents
-- Stores metadata in SQLite (content in filesystem - "hollow nodes")
-
-**Pre-Flight Protection** (v1.0.1):
-- Blocks files >10MB (prevents memory issues)
-- Detects symlink loops (prevents infinite recursion)
-- Warns about small files (<50 bytes) and large corpora (10K+ files)
-- Generates `.amalfa-pre-flight.log` with actionable recommendations
-- Use `--force` to override warnings (errors still block)
-
-**Output:**
-```
-📚 Starting ingestion from: ./docs
-📁 Found 127 markdown files
-  100% (127/127)
-✅ Initialization complete!
-
-📊 Summary:
-  Files processed: 127
-  Nodes created: 127
-  Edges created: 243
-  Embeddings: 127
-  Duration: 8.42s
-```
-
-### `amalfa daemon <action>`
-
-Manage the file watcher daemon.
-
-```bash
-amalfa daemon start   # Start watching for changes
-amalfa daemon stop    # Stop the daemon
-amalfa daemon status  # Check if running
-amalfa daemon restart # Restart daemon
-```
-
-**Features:**
-- Watches source directory recursively
-- Debounced updates (1s default)
-- Hash-based change detection (only processes modified files)
-- Retry logic with exponential backoff
-- Native macOS notifications
-
-### `amalfa serve`
-
-Start MCP server for Claude Desktop (stdio transport).
-
-```bash
-amalfa serve
-```
-
-**Available Tools:**
-- `search_knowledge`: Semantic search across all documents
-- `get_node`: Retrieve specific document by ID
-- `get_neighbors`: Find related documents (graph traversal)
-
-See [docs/MCP_TOOLS.md](docs/MCP_TOOLS.md) for detailed tool schemas.
-
-### `amalfa stats`
-
-View knowledge graph statistics.
-
-```bash
-amalfa stats
-```
-
-### `amalfa doctor`
-
-Health check and diagnostics.
-
-```bash
-amalfa doctor
-```
+---
 
 ## Architecture
 
-### Philosophy: Markdown is Truth
-
-AMALFA implements the **"Hollow Nodes"** pattern:
-
-- **Markdown files** = Source of truth (version controlled, human-readable)
-- **SQLite database** = Ephemeral cache (can be regenerated anytime)
-
-**v1.0.1 Enhancement:** Schema v6 fully implements hollow nodes - content is never stored in the database, only metadata and embeddings. This reduces database size dramatically (~350MB saved for 70K documents) and maintains the filesystem as the single source of truth.
-
-This means:
-- ✅ You can delete `.amalfa/` and rebuild with `amalfa init`
-- ✅ Your markdown files remain the canonical source
-- ✅ Database changes are never written back to files
-- ✅ No lock-in, no vendor formats
-- ✅ Smaller databases, faster writes (v1.0.1)
-
 ### Technology Stack
 
-- **Runtime**: Bun (fast, modern JavaScript runtime)
-- **Database**: SQLite with WAL mode
-- **Embeddings**: FastEmbed (local, no API calls)
-- **Vectors**: 384-dimensional (BAAI/bge-small-en-v1.5)
-- **Search**: Pure dot product (cosine similarity)
-- **Protocol**: Model Context Protocol (MCP)
+- **Runtime:** Bun (fast, TypeScript-native)
+- **Database:** SQLite with WAL mode (local-first, portable)
+- **Embeddings:** FastEmbed (`all-MiniLM-L6-v2`, 384 dims)
+- **Search:** Vector similarity + full-text (FTS5)
+- **Protocol:** Model Context Protocol (MCP)
 
-### File Structure
+### Project Structure
 
 ```
-your-project/
-├── docs/                    # Your markdown files
-│   ├── README.md
-│   ├── architecture.md
-│   └── ...
-├── .amalfa/                 # AMALFA data (gitignored)
-│   └── resonance.db         # SQLite database (schema v6 - hollow nodes)
-├── amalfa.config.json       # Configuration (optional)
-├── .amalfa-daemon.pid       # Daemon process ID (if running)
-├── .amalfa-daemon.log       # Daemon logs
-└── .amalfa-pre-flight.log   # Validation report (generated by init)
+amalfa/
+├── src/
+│   ├── mcp/           # MCP server implementation
+│   ├── resonance/     # Database layer (SQLite wrapper)
+│   ├── core/          # Graph processing (EdgeWeaver, VectorEngine)
+│   └── utils/         # Logging, validation, lifecycle
+├── scripts/
+│   ├── cli/           # Command-line tools
+│   └── pipeline/      # Data ingestion pipeline
+├── docs/
+│   ├── VISION-AGENT-LEARNING.md        # Core vision
+│   ├── AGENT-METADATA-PATTERNS.md      # Auto-augmentation design
+│   └── SETUP.md                        # NPM publishing guide
+├── briefs/            # Task specifications
+├── debriefs/          # Reflective documents
+└── playbooks/         # Codified patterns
 ```
 
-## Features
+### Key Patterns
 
-### Vector Search (FAFCAS Protocol)
+1. **Hollow Nodes:** Node metadata in SQLite, content on filesystem
+2. **FAFCAS Protocol:** Fast Approximate Fuzzy Cosine Similarity search
+3. **Git-Based Auditing:** All agent augmentations are git commits
+4. **ServiceLifecycle:** Unified daemon management pattern
 
-Fast, accurate search without a vector database:
+---
 
-- L2-normalized embeddings (unit vectors)
-- Pure dot product = cosine similarity
-- 85%+ accuracy at <10ms per query
-- No chunking needed (markdown files are already chunk-sized)
+## Vision
 
-### Edge Weaving
+See [VISION-AGENT-LEARNING.md](docs/VISION-AGENT-LEARNING.md) for the full vision.
 
-Automatic relationship detection:
+**TL;DR:**
 
-- **WikiLinks**: `[[Document Name]]` creates `CITES` edges
-- **Tags**: `[tag: Concept]` creates `TAGGED_AS` edges
-- **Metadata**: `<!-- tags: [RELATION: Target] -->` for explicit edges
-- **Louvain Gate**: Prevents graph pollution (community detection)
+Agents generate knowledge through structured reflection. Amalfa provides semantic infrastructure to make this knowledge:
 
-### Incremental Updates
+- **Queryable** (vector search + graph traversal)
+- **Persistent** (across sessions and agents)
+- **Self-organizing** (latent space clustering)
+- **Auditable** (git-based workflow)
 
-The daemon watches for changes and only re-processes modified files:
+**The goal:** Enable agents to maintain institutional memory without human bottlenecks.
 
-- MD5 hash tracking
-- Batch transactions (50 files)
-- Debounced (1s default)
-- Automatic retry on failure (3 attempts, exponential backoff)
+---
 
-## Use Cases
+## Implementation Status
 
-### Personal Knowledge Base
+### Phase 1: Basic Auto-Augmentation (In Progress)
 
-```bash
-# Your notes directory
-cd ~/Documents/notes
-amalfa init
-amalfa daemon start
+- [ ] Entity extraction
+- [ ] Auto-linking (wiki-style)
+- [ ] Tag extraction
+- [ ] Embedding generation
+- [ ] Git integration
 
-# Now ask Claude: "What did I write about X?"
-# Claude uses AMALFA to search your notes
-```
+### Phase 2: Latent Space Tagging (Planned)
 
-### Project Documentation
+- [ ] Document clustering (HDBSCAN)
+- [ ] Cluster label generation
+- [ ] Confidence-based tagging
+- [ ] Topic modeling (BERTopic)
 
-```bash
-# Your project's docs
-cd ~/Code/my-project
-amalfa init
+### Phase 3: Semantic Relationships (Planned)
 
-# Ask Claude: "Explain the architecture"
-# Claude searches ./docs and provides context
-```
+- [ ] K-nearest neighbor search
+- [ ] Suggested reading lists
+- [ ] Temporal sequences
+- [ ] Backlink maintenance
 
-### Research & Zettelkasten
+### Phase 4: Learning from Corrections (Future)
 
-```bash
-# Zettelkasten notes
-cd ~/Zettelkasten
-amalfa init
+- [ ] Track human edits
+- [ ] Adjust confidence thresholds
+- [ ] Improve extraction
+- [ ] Weekly digest
 
-# Ask Claude: "Find connections between concept A and B"
-# Claude traverses the knowledge graph
-```
-
-## Troubleshooting
-
-### Daemon won't start
-
-Check logs:
-```bash
-tail -f .amalfa-daemon.log
-```
-
-Common issues:
-- Source directory doesn't exist
-- Database permissions
-- Port conflicts (if running multiple instances)
-
-### Database corruption
-
-Rebuild from markdown:
-```bash
-rm -rf .amalfa/
-amalfa init
-```
-
-Your markdown files are the source of truth, so this is always safe.
-
-### Slow initialization
-
-Large repositories (1000+ files) may take 2-5 minutes on first run. Subsequent updates are fast (hash checking prevents re-processing).
+---
 
 ## Development
 
+### Prerequisites
+
+- **Bun:** v1.0+ (required)
+- **Node:** v22.x (for compatibility)
+- **Git:** For version control
+
+### Setup
+
 ```bash
-# Clone repository
+# Clone repo
 git clone https://github.com/pjsvis/amalfa.git
 cd amalfa
 
 # Install dependencies
 bun install
 
-# Run CLI locally
-bun run src/cli.ts help
-
 # Run tests
 bun test
 
-# Type checking
-bun run tsc --noEmit
+# Start development server
+bun run dev
 ```
 
-## Roadmap
+### Commands
 
-- [ ] v1.1: Web UI for graph visualization
-- [ ] v1.2: Multi-language embedding models
-- [ ] v1.3: PDF/DOCX support
-- [ ] v2.0: Distributed sync (private P2P)
-
-## Contributing
-
-Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
-## Credits
-
-Built with:
-- [Bun](https://bun.sh) - Fast JavaScript runtime
-- [FastEmbed](https://github.com/qdrant/fastembed) - Local embeddings
-- [Model Context Protocol](https://modelcontextprotocol.io) - AI agent integration
+```bash
+bun run dev          # Start dev server
+bun run build        # Build for production
+bun test             # Run tests
+bun run precommit    # TypeScript + Biome checks
+```
 
 ---
 
-**AMALFA** = **A Memory Layer For Agents**
+## Documentation
 
-Give your AI agents a memory. Keep your privacy. Own your data.
+- **[VISION-AGENT-LEARNING.md](docs/VISION-AGENT-LEARNING.md)** - Why agent-generated knowledge works
+- **[AGENT-METADATA-PATTERNS.md](docs/AGENT-METADATA-PATTERNS.md)** - Auto-augmentation design
+- **[SETUP.md](docs/SETUP.md)** - NPM publishing setup
 
-**[GitHub](https://github.com/pjsvis/amalfa)** • **[NPM](https://www.npmjs.com/package/amalfa)** • **[Issues](https://github.com/pjsvis/amalfa/issues)**
+### Playbooks
+
+- **[embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)** - Vector search patterns
+- **[local-first-vector-db-playbook.md](playbooks/local-first-vector-db-playbook.md)** - Database architecture
+- **[problem-solving-playbook.md](playbooks/problem-solving-playbook.md)** - Debugging strategies
+
+---
+
+## Contributing
+
+Amalfa is in early development. Contributions welcome once v1.0 is released.
+
+**For now:**
+- ⭐ Star the repo if interested
+- 👀 Watch for release announcements
+- 💬 Open issues for feedback
+
+---
+
+## License
+
+MIT
+
+---
+
+## Lineage
+
+Amalfa evolved from patterns discovered in the [PolyVis](https://github.com/pjsvis/polyvis) project, where agents spontaneously maintained documentation through brief-debrief-playbook workflows.
+
+**Key insight:** When given minimal structure, agents naturally build institutional memory. Amalfa scales this with semantic infrastructure.
+
+---
+
+## Roadmap
+
+### v1.0 (Q1 2026)
+
+- ✅ Package name reserved on npm
+- ✅ Core vision documented
+- ✅ Auto-augmentation design complete
+- 🚧 MVP implementation (in progress)
+- [ ] MCP server functional
+- [ ] Basic semantic search working
+- [ ] Initial release
+
+### v1.1+ (Future)
+
+- Latent space clustering
+- Multi-agent knowledge sharing
+- Cross-repo knowledge graphs
+- Agent-to-agent learning
+
+---
+
+**Built with ❤️ by developers frustrated with context loss.**
