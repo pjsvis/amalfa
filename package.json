@@ -17,6 +17,9 @@
 		"sqlite",
 		"embeddings"
 	],
+	"bin": {
+		"amalfa": "./src/cli.ts"
+	},
 	"engines": {
 		"bun": "1.3.x",
 		"node": "22.x"
