@@ -41,37 +41,42 @@
 - **Result:** 463 → 163 packages (65% reduction)
 - **Commit:** `4775f17` - "Phase 3: Dependency audit"
 
+#### Phase 4: Rebrand and Update Paths (COMPLETED)
+**Goal:** Update branding from PolyVis to AMALFA and fix paths for NPM distribution
+
+**Changes:**
+- ✅ Database path: `public/resonance.db` → `.amalfa/resonance.db`
+- ✅ Server name: `polyvis-mcp` → `amalfa-mcp`
+- ✅ Branding: PolyVis → AMALFA throughout MCP server
+- ✅ Resource URI: `polyvis://stats/summary` → `amalfa://stats/summary`
+- ✅ Directory listing: Simplified to `docs/`, `notes/` (removed PolyVis-specific folders)
+- ✅ Added `.amalfa/` to `.gitignore` (database is cache, markdown is truth)
+- ✅ Temporarily disabled EnvironmentVerifier (needs update for AMALFA paths)
+- ✅ MCP server tested and working
+
+**Decision:** Kept existing src/ structure intact
+- Current structure is already clean and suitable for packaging
+- Path aliases (@src/, @/) work fine with Bun + TypeScript
+- No need to flatten - would add churn without benefit
+
+**Commit:** `ced3c1b` - "Phase 4: Rebrand for AMALFA and update paths"
+
 ### 🔜 Next Phase
 
-#### Phase 4: Restructure for Package (NOT STARTED)
-**Goal:** Simplify src/ structure for NPM distribution
-
-**Current structure:**
-```
-src/
-├── mcp/index.ts           # MCP server entry point
-├── core/VectorEngine.ts   # Vector search
-├── resonance/db.ts        # ResonanceDB wrapper
-└── utils/                 # Logger, ServiceLifecycle, etc.
-```
-
-**Proposed structure:**
-```
-src/
-├── server.ts              # Main MCP server (from mcp/index.ts)
-├── database.ts            # ResonanceDB
-├── vector.ts              # VectorEngine
-├── utils.ts               # Consolidated utilities
-└── cli.ts                 # CLI entry point
-```
+#### Phase 5: CLI Implementation & Configuration (NOT STARTED)
+**Goal:** Implement CLI commands and configuration system
 
 **Tasks:**
-- [ ] Flatten src/ directory structure
-- [ ] Consolidate utility files
-- [ ] Update imports (remove @src aliases, use relative)
-- [ ] Update package.json with main/bin/exports
-- [ ] Create build script for distribution
-- [ ] Test local installation
+- [ ] Create CLI entry point (`src/cli.ts`)
+- [ ] Implement `amalfa init` command (ingestion pipeline)
+- [ ] Implement `amalfa daemon` command (file watcher)
+- [ ] Implement `amalfa serve` command (MCP server wrapper)
+- [ ] Implement `amalfa doctor` command (health check)
+- [ ] Implement `amalfa stats` command (database statistics)
+- [ ] Add configuration file support (`amalfa.config.ts`)
+- [ ] Update EnvironmentVerifier for AMALFA paths
+- [ ] Configure package.json with bin/exports
+- [ ] Test local installation flow
 
 ---
 
@@ -142,12 +147,7 @@ src/
 5. **inject_tags** - Annotate files (Gardener)
 
 ### Resources
-- **polyvis://stats/summary** - Database statistics
-
-### Current Issues
-- Hardcoded database path: `public/resonance.db` (needs .amalfa/)
-- Hardcoded server name: "polyvis-mcp" (needs "amalfa")
-- No configuration file support yet
+- **amalfa://stats/summary** - Database statistics
 
 ---
 
@@ -174,6 +174,7 @@ src/
 44b3d8d - Initial commit: Lift from PolyVis
 fbe029a - Phase 2: Remove UI/web components and experiments
 4775f17 - Phase 3: Dependency audit and package.json cleanup
+ced3c1b - Phase 4: Rebrand for AMALFA and update paths
 ```
 
 ---
@@ -184,21 +185,11 @@ fbe029a - Phase 2: Remove UI/web components and experiments
 2. ✅ Package name reserved (`amalfa`)
 3. ✅ Git configured with no-reply email
 4. ✅ AMALFA repo created and pushed
-5. ✅ Lift-and-shift completed
-6. ✅ UI/web code removed
-7. ✅ Dependencies reduced by 65%
-8. ✅ MCP server verified working throughout
-
----
-
-## Next Session Tasks
-
-### Immediate (Phase 4)
-1. Flatten src/ directory structure
-2. Update imports to relative paths
-3. Configure package.json for distribution
-4. Add build script (if needed for CLI)
-5. Test local installation flow
+5. ✅ Phases 1-4 completed (lift-and-shift → UI removal → dependency audit → rebrand)
+6. ✅ UI/web code removed (687 files, 30% reduction)
+7. ✅ Dependencies reduced by 65% (163 packages)
+8. ✅ Database path updated to `.amalfa/`
+9. ✅ MCP server rebranded and tested working
 
 ### Soon After (Phase 5)
 1. Implement CLI commands (init, serve, daemon, doctor, stats)
@@ -526,6 +517,6 @@ MCP resource `stats/summary` (for LLMs):
 
 ---
 
-**Status:** Ready for Phase 4 restructuring
-**Timeline:** ~3 weeks to v1.0.0 (per original brief)
+**Status:** Phase 4 complete, ready for Phase 5 (CLI implementation)
+**Timeline:** ~2 weeks remaining to v1.0.0 (per original brief)
 **Blocker:** None - all dependencies resolved
