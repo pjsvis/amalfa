@@ -118,6 +118,9 @@ Last modified: ${new Date(statSync(DB_PATH).mtime).toISOString()}
 async function cmdInit() {
 	console.log("🚀 AMALFA Initialization\n");
 
+	// Check for --force flag
+	const forceMode = args.includes("--force");
+
 	// Load configuration
 	const { loadConfig } = await import("./config/defaults");
 	const config = await loadConfig();
@@ -127,23 +130,50 @@ async function cmdInit() {
 	console.log(`💾 Database: ${config.database}`);
 	console.log(`🧠 Model: ${config.embeddings.model}\n`);
 
-	// Check if source directories exist
-	let hasValidSource = false;
-	for (const source of sources) {
-		const sourcePath = join(process.cwd(), source);
-		if (existsSync(sourcePath)) {
-			hasValidSource = true;
-		} else {
-			console.warn(`Warning: Source directory not found: ${sourcePath}`);
+	// Run pre-flight analysis
+	console.log("🔍 Running pre-flight analysis...\n");
+	const { PreFlightAnalyzer } = await import("./pipeline/PreFlightAnalyzer");
+	const analyzer = new PreFlightAnalyzer(config);
+	const report = await analyzer.analyze();
+
+	// Display summary
+	console.log("📊 Pre-Flight Summary:");
+	console.log(`  Total files: ${report.totalFiles}`);
+	console.log(`  Valid files: ${report.validFiles}`);
+	console.log(`  Skipped files: ${report.skippedFiles}`);
+	console.log(`  Total size: ${(report.totalSizeBytes / 1024 / 1024).toFixed(2)} MB`);
+	console.log(`  Estimated nodes: ${report.estimatedNodes}\n`);
+
+	if (report.hasErrors) {
+		console.error("❌ Pre-flight check failed with errors\n");
+		console.error("Errors detected:");
+		for (const issue of report.issues.filter((i) => i.severity === "error")) {
+			console.error(`  - ${issue.path}: ${issue.details}`);
 		}
+		console.error("\nSee .amalfa-pre-flight.log for details and recommendations");
+		console.error("\nFix these issues and try again.");
+		process.exit(1);
 	}
 
-	if (!hasValidSource) {
-		console.error("\n❌ No valid source directories found");
-		console.error("\nCreate at least one:");
-		console.error(`  mkdir -p ${sources[0]}`);
-		console.error("  # Add some markdown files");
+	if (report.hasWarnings && !forceMode) {
+		console.warn("⚠️  Pre-flight check completed with warnings\n");
+		console.warn("Warnings detected:");
+		for (const issue of report.issues.filter((i) => i.severity === "warning")) {
+			console.warn(`  - ${issue.path}: ${issue.details}`);
+		}
+		console.warn("\nSee .amalfa-pre-flight.log for recommendations");
+		console.warn("\nTo proceed anyway, use: amalfa init --force");
 		process.exit(1);
+	}
+
+	if (report.validFiles === 0) {
+		console.error("\n❌ No valid markdown files found");
+		console.error("See .amalfa-pre-flight.log for details");
+		process.exit(1);
+	}
+
+	if (forceMode && report.hasWarnings) {
+		console.warn("⚠️  Proceeding with --force despite warnings\n");
 	}
 
 	// Create .amalfa directory
