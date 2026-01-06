@@ -31,7 +31,7 @@ const lifecycle = new ServiceLifecycle({
 
 // Helper function to create fresh database connection per request
 function createConnection() {
-	const dbPath = join(import.meta.dir, "../../public/resonance.db");
+	const dbPath = join(import.meta.dir, "../../.amalfa/resonance.db");
 	const db = new ResonanceDB(dbPath);
 	const vectorEngine = new VectorEngine(db.getRawDb());
 	return { db, vectorEngine };
@@ -39,13 +39,14 @@ function createConnection() {
 
 async function runServer() {
 	// 0. Verify Environment
-	await EnvironmentVerifier.verifyOrExit();
+	// TODO: Update EnvironmentVerifier for AMALFA paths (not PolyVis)
+	// await EnvironmentVerifier.verifyOrExit();
 
-	log.info("🚀 PolyVis MCP Server Initializing...");
+	log.info("🚀 AMALFA MCP Server Initializing...");
 
 	// 1. Setup Server
 	const server = new Server(
-		{ name: "polyvis-mcp", version: "1.0.0" },
+		{ name: "amalfa-mcp", version: "1.0.0" },
 		{ capabilities: { tools: {}, resources: {} } },
 	);
 
@@ -238,10 +239,8 @@ async function runServer() {
 			}
 
 			if (name === TOOLS.LIST) {
+				// TODO: Make this configurable via amalfa.config.ts
 				const structure = [
-					"briefs/",
-					"debriefs/",
-					"playbooks/",
 					"docs/",
 					"notes/",
 				];
@@ -286,7 +285,7 @@ async function runServer() {
 		return {
 			resources: [
 				{
-					uri: "polyvis://stats/summary",
+					uri: "amalfa://stats/summary",
 					name: "System Stats",
 					mimeType: "text/plain",
 				},
@@ -295,7 +294,7 @@ async function runServer() {
 	});
 
 	server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
-		if (request.params.uri === "polyvis://stats/summary") {
+		if (request.params.uri === "amalfa://stats/summary") {
 			// Create fresh connection for this request
 			const { db } = createConnection();
 			try {
@@ -314,7 +313,7 @@ async function runServer() {
 	// 4. Connect Transport
 	const transport = new StdioServerTransport();
 	await server.connect(transport);
-	log.info("✅ PolyVis MCP Server Running (Per-Request Connections)");
+	log.info("✅ AMALFA MCP Server Running (Per-Request Connections)");
 }
 
 // --- Global Error Handling ---

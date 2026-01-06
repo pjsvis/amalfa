@@ -66,6 +66,9 @@ resonance/dist
 .resonance/artifacts/
 .resonance/cache/
 
+# AMALFA Runtime Artifacts (Database is cache, markdown is source of truth)
+.amalfa/
+
 # Fastembed cache
 local_cache/
 
