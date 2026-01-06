@@ -1,2 +1,0 @@
-ls -la ~/.claude-code-router* 2>/dev/null || echo "No config found"
-
