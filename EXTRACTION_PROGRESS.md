@@ -205,8 +205,9 @@ fbe029a - Phase 2: Remove UI/web components and experiments
 2. Extract ingestion pipeline from PolyVis scripts
 3. Support `.amalfa/` directory convention
 4. Add `amalfa.config.ts` configuration loading
-5. Create comprehensive README
-6. Write integration tests
+5. Write documentation (see Documentation Structure below)
+6. Configure package.json for both bin + exports (CLI + library)
+7. Write integration tests
 
 ### Launch Prep (Phase 6)
 1. Create demo video (3-5 min)
@@ -236,6 +237,155 @@ fbe029a - Phase 2: Remove UI/web components and experiments
 - Power users can export data for Gephi/Cytoscape
 - Or run PolyVis separately for visualization needs
 - Demand will inform v2.0 priorities
+
+---
+
+## Documentation Structure (v1.0)
+
+### Core Philosophy: "Markdown is Truth, Database is Cache"
+
+AMALFA operates on a fundamental principle:
+- **Markdown documents** = Single source of truth (checked into Git)
+- **`.amalfa/` database** = Runtime cache for discovery (gitignored, ephemeral)
+
+**Why this matters:**
+1. Database is never checked in (`.gitignore` includes `.amalfa/`)
+2. New users run `amalfa init` to rebuild database from markdown
+3. Daemon watches markdown files and updates database incrementally
+4. Annotations (tags, metadata) are stored in markdown frontmatter
+5. Database can be deleted and rebuilt at any time without data loss
+
+**Team Workflow:**
+```bash
+# User A (first time)
+git clone <repo>
+amalfa init              # Creates .amalfa/ and builds database
+amalfa daemon start      # Watches for changes
+
+# User B (joins later)
+git clone <repo>         # Gets markdown, not database
+amalfa init              # Rebuilds database from existing markdown
+amalfa daemon start      # Syncs with local changes
+```
+
+### Documentation Files
+
+**README.md** (Main landing page, ~500 lines)
+- What is AMALFA? (memory layer for AI agents)
+- Installation (`bun add -g amalfa`)
+- Quick start (init → daemon → serve)
+- Claude Desktop configuration
+- Source-of-truth philosophy (markdown > database)
+- Link to docs/ for advanced usage
+
+**docs/MCP_TOOLS.md** (MCP tool reference, ~300 lines)
+- Each MCP tool documented:
+  - `search_documents(query, limit?)` - Vector semantic search
+  - `read_node_content(nodeId)` - Read markdown content
+  - `explore_links(nodeId, direction?)` - Graph traversal
+  - `list_directory_structure(path?)` - Browse doc folders
+  - `inject_tags(filePath, tags)` - Annotate files
+- Input schemas (JSON)
+- Output formats (JSON)
+- Example interactions
+
+**docs/AGENTS.md** (Guide for AI agents, ~400 lines)
+- Title: "AMALFA User Guide for AI Agents"
+- Written in second person ("You are an AI agent...")
+- How to use AMALFA effectively:
+  - Search strategies (semantic vs keyword)
+  - Tool chaining patterns (search → read → explore)
+  - Performance tips (limit results, cache reads)
+  - Handling empty results
+- Common workflows:
+  - "Find relevant context for a coding task"
+  - "Explore documentation structure"
+  - "Annotate files for future reference"
+- Best practices:
+  - Always read full content after search
+  - Use explore_links to find related docs
+  - Inject tags for user's benefit
+
+**docs/API.md** (TypeScript library reference, ~250 lines)
+- For coding agents using AMALFA as a library
+- Installation: `bun add amalfa` (project-local)
+- Core exports:
+  ```typescript
+  import { ResonanceDB, VectorEngine } from 'amalfa';
+  ```
+- Classes:
+  - `ResonanceDB` - Database wrapper
+  - `VectorEngine` - Vector search
+  - `EdgeWeaver` - Graph construction (if exposed)
+- Example usage:
+  ```typescript
+  const db = new ResonanceDB('.amalfa/resonance.db');
+  const engine = new VectorEngine(db);
+  const results = await engine.search('query', 10);
+  db.close();
+  ```
+- Type definitions reference
+
+**docs/CONFIGURATION.md** (Config file reference, ~150 lines)
+- `amalfa.config.ts` schema
+- All available options:
+  - `source` - Source directory path
+  - `database` - Database path (default: `.amalfa/resonance.db`)
+  - `embeddings.model` - Embedding model
+  - `embeddings.dimensions` - Vector dimensions
+  - `watch.enabled` - Enable daemon auto-watch
+  - `watch.debounce` - File watch debounce (ms)
+  - `excludePatterns` - Glob patterns to ignore
+- Example configurations:
+  - Minimal (defaults)
+  - Multi-source (multiple doc folders)
+  - Custom embedding model
+
+**docs/ARCHITECTURE.md** (Technical deep dive, ~400 lines)
+- Hollow nodes pattern
+- Vector search (FAFCAS protocol)
+- Graph construction (EdgeWeaver)
+- Database schema (SQLite)
+- Embedding pipeline (FastEmbed)
+- For contributors and curious developers
+
+### Package Configuration
+
+**package.json exports:**
+```json
+{
+  "name": "amalfa",
+  "version": "1.0.0",
+  "bin": {
+    "amalfa": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  }
+}
+```
+
+**Supports both usage patterns:**
+- **Global install:** `bun add -g amalfa` → CLI + MCP server
+- **Project install:** `bun add amalfa` → TypeScript library
+
+### .gitignore Requirements
+
+```gitignore
+# AMALFA runtime artifacts (DO NOT COMMIT)
+.amalfa/
+*.db
+*.db-shm
+*.db-wal
+```
+
+**Rationale:**
+Database files are large, binary, and platform-specific. They are regenerated from markdown source, so checking them in adds bloat without benefit.
 
 ---
 
@@ -371,6 +521,8 @@ MCP resource `stats/summary` (for LLMs):
 9. **Init/daemon/serve split** - Separates ingestion from serving
 10. **LLM-first, not user-first** - MCP tools over user UI
 11. **No graph visualization in v1.0** - Defer to v2.0 or separate export
+12. **Markdown is truth, database is cache** - Source docs in Git, DB gitignored
+13. **Dual usage: CLI + Library** - Support both MCP server and direct imports
 
 ---
 
