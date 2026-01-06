@@ -216,6 +216,27 @@ fbe029a - Phase 2: Remove UI/web components and experiments
 5. Publish v1.0.0 to NPM
 6. Announce!
 
+### Future Roadmap (Post v1.0)
+
+**v1.1 - Stability & Compatibility**
+- Node.js runtime support (currently Bun-only)
+- Windows native support (beyond WSL2)
+- Performance benchmarks
+- Integration tests
+
+**v2.0 - Export & Visualization**
+- `amalfa export --format graphml|json|csv` - Export graph data
+- `amalfa explore` - Opens Sigma.js UI in browser (optional)
+- HTTP transport for MCP (in addition to stdio)
+- Advanced graph metrics
+
+**Rationale for Delayed Visualization:**
+- v1.0 focuses on core MCP functionality (agent memory layer)
+- Graph viz adds complexity (web server, UI deps, port management)
+- Power users can export data for Gephi/Cytoscape
+- Or run PolyVis separately for visualization needs
+- Demand will inform v2.0 priorities
+
 ---
 
 ## CLI Architecture Design
@@ -292,6 +313,49 @@ export default {
 ✅ **Explicit control** - User decides when to rebuild
 ✅ **Better DX** - `amalfa doctor` catches missing initialization
 
+### CLI vs. MCP Tool Distinction
+
+**Philosophy: "LLM-first, not user-first"**
+
+AMALFA is a memory layer for AI agents, not a user-facing graph explorer.
+
+**User-Facing CLI** (Human operators):
+- `amalfa init` - Setup
+- `amalfa daemon` - Maintenance
+- `amalfa serve` - Run MCP server
+- `amalfa doctor` - Debug/health check
+- `amalfa stats` - Quick database overview
+
+**MCP Tools** (LLM agents via Claude/etc.):
+- `search_documents()` - Vector semantic search
+- `read_node_content()` - Read markdown from hollow nodes
+- `explore_links()` - Graph edge traversal
+- `list_directory_structure()` - Browse doc folders
+- `inject_tags()` - Annotate files (Gardener)
+
+**Example: `amalfa stats` (CLI) vs. MCP Resource**
+
+CLI output (for humans):
+```
+Database: .amalfa/resonance.db
+Nodes: 1,247
+Edges: 3,892
+Embeddings: 1,247 (384-dim)
+Source: ./docs
+Last updated: 2026-01-06 10:15:23
+```
+
+MCP resource `stats/summary` (for LLMs):
+```json
+{
+  "nodes": 1247,
+  "edges": 3892,
+  "avgDegree": 3.12,
+  "graphDensity": 0.0025,
+  "embeddingCoverage": 1.0
+}
+```
+
 ---
 
 ## Key Decisions Made
@@ -305,6 +369,8 @@ export default {
 7. **GitHub no-reply email** - Privacy for package author
 8. **Bun-first** - Node.js compatibility in v1.1
 9. **Init/daemon/serve split** - Separates ingestion from serving
+10. **LLM-first, not user-first** - MCP tools over user UI
+11. **No graph visualization in v1.0** - Defer to v2.0 or separate export
 
 ---
 
