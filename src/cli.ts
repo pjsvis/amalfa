@@ -122,16 +122,26 @@ async function cmdInit() {
 	const { loadConfig } = await import("./config/defaults");
 	const config = await loadConfig();
 
-	console.log(`📁 Source: ${config.source}`);
+	const sources = config.sources || ["./docs"];
+	console.log(`📁 Sources: ${sources.join(", ")}`);
 	console.log(`💾 Database: ${config.database}`);
 	console.log(`🧠 Model: ${config.embeddings.model}\n`);
 
-	// Check if source directory exists
-	const sourcePath = join(process.cwd(), config.source);
-	if (!existsSync(sourcePath)) {
-		console.error(`❌ Source directory not found: ${sourcePath}`);
-		console.error("\nCreate it first:");
-		console.error(`  mkdir -p ${config.source}`);
+	// Check if source directories exist
+	let hasValidSource = false;
+	for (const source of sources) {
+		const sourcePath = join(process.cwd(), source);
+		if (existsSync(sourcePath)) {
+			hasValidSource = true;
+		} else {
+			console.warn(`Warning: Source directory not found: ${sourcePath}`);
+		}
+	}
+
+	if (!hasValidSource) {
+		console.error("\n❌ No valid source directories found");
+		console.error("\nCreate at least one:");
+		console.error(`  mkdir -p ${sources[0]}`);
 		console.error("  # Add some markdown files");
 		process.exit(1);
 	}

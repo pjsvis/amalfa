@@ -9,16 +9,18 @@
 
 export default {
 	/**
-	 * Source directory containing markdown files
+	 * Source directories containing markdown files
 	 * Relative to project root
 	 * 
 	 * Examples:
-	 * - "./docs" - Standard documentation folder
-	 * - "./notes" - Personal notes
-	 * - "./content" - Content management
-	 * - "." - Current directory (scans all .md files)
+	 * - ["./docs"] - Single directory
+	 * - ["./docs", "./notes"] - Multiple directories
+	 * - ["./docs", "../shared/notes"] - Across repositories
+	 * - ["."] - Current directory (scans all .md files)
+	 * 
+	 * Legacy: Single 'source' string still supported for backward compatibility
 	 */
-	source: "./docs",
+	sources: ["./docs"],
 
 	/**
 	 * Database file location

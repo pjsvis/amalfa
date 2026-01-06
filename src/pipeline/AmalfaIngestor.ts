@@ -38,7 +38,8 @@ export class AmalfaIngestor {
 	async ingest(): Promise<IngestionResult> {
 		const startTime = performance.now();
 		
-		this.log.info(`📚 Starting ingestion from: ${this.config.source}`);
+		const sources = this.config.sources || ["./docs"];
+		this.log.info(`📚 Starting ingestion from: ${sources.join(", ")}`);
 
 		try {
 			// Initialize embedder
@@ -139,21 +140,30 @@ export class AmalfaIngestor {
 	}
 
 	/**
-	 * Discover all markdown files in source directory
+	 * Discover all markdown files from all source directories
 	 */
 	private async discoverFiles(): Promise<string[]> {
 		const files: string[] = [];
 		const glob = new Glob("**/*.md");
-		const sourcePath = join(process.cwd(), this.config.source);
+		const sources = this.config.sources || ["./docs"];
 
-		for (const file of glob.scanSync(sourcePath)) {
-			// Filter out excluded patterns
-			const shouldExclude = this.config.excludePatterns.some((pattern) =>
-				file.includes(pattern),
-			);
+		// Scan each source directory
+		for (const source of sources) {
+			const sourcePath = join(process.cwd(), source);
 
-			if (!shouldExclude) {
-				files.push(join(sourcePath, file));
+			try {
+				for (const file of glob.scanSync(sourcePath)) {
+					// Filter out excluded patterns
+					const shouldExclude = this.config.excludePatterns.some((pattern) =>
+						file.includes(pattern),
+					);
+
+					if (!shouldExclude) {
+						files.push(join(sourcePath, file));
+					}
+				}
+			} catch (e) {
+				this.log.warn({ source: sourcePath, err: e }, "⚠️  Failed to scan directory");
 			}
 		}
 

@@ -4,7 +4,9 @@
  */
 
 export interface AmalfaConfig {
-	source: string;
+	/** @deprecated Use sources array instead */
+	source?: string;
+	sources?: string[];
 	database: string;
 	embeddings: {
 		model: string;
@@ -18,7 +20,7 @@ export interface AmalfaConfig {
 }
 
 export const DEFAULT_CONFIG: AmalfaConfig = {
-	source: "./docs",
+	sources: ["./docs"],
 	database: ".amalfa/resonance.db",
 	embeddings: {
 		model: "BAAI/bge-small-en-v1.5",
@@ -57,7 +59,7 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 				}
 
 				// Merge with defaults
-				return {
+				const merged = {
 					...DEFAULT_CONFIG,
 					...userConfig,
 					embeddings: {
@@ -69,6 +71,17 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 						...(userConfig.watch || {}),
 					},
 				};
+
+				// Normalize: Convert legacy 'source' to 'sources' array
+				if (merged.source && !merged.sources) {
+					merged.sources = [merged.source];
+				}
+				if (!merged.sources || merged.sources.length === 0) {
+					merged.sources = ["./docs"];
+				}
+				delete merged.source; // Clean up legacy field
+
+				return merged;
 			}
 		} catch (e) {
 			// Silently continue to next config file
@@ -77,5 +90,10 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 	}
 
 	// Return defaults if no config found
-	return DEFAULT_CONFIG;
+	const defaultCopy = { ...DEFAULT_CONFIG };
+	// Ensure sources is always an array
+	if (!defaultCopy.sources || defaultCopy.sources.length === 0) {
+		defaultCopy.sources = ["./docs"];
+	}
+	return defaultCopy;
 }

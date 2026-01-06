@@ -45,21 +45,25 @@ async function main() {
 	const config = await loadConfig();
 	const DEBOUNCE_MS = config.watch.debounce;
 
+	const sources = config.sources || ["./docs"];
 	log.info({
-		source: config.source,
+		sources,
 		database: config.database,
 		debounce: DEBOUNCE_MS,
 	}, "🚀 AMALFA Daemon starting...");
 
-	// Verify source directory exists
-	const sourcePath = join(process.cwd(), config.source);
-	if (!existsSync(sourcePath)) {
-		log.fatal({ path: sourcePath }, "❌ Source directory not found");
-		process.exit(1);
+	// Verify source directories exist
+	for (const source of sources) {
+		const sourcePath = join(process.cwd(), source);
+		if (!existsSync(sourcePath)) {
+			log.warn({ path: sourcePath }, "⚠️  Source directory not found, skipping");
+		}
 	}
 
-	// Start file watcher
-	startWatcher(config.source, DEBOUNCE_MS);
+	// Start file watchers for all sources
+	for (const source of sources) {
+		startWatcher(source, DEBOUNCE_MS);
+	}
 
 	log.info("✅ Daemon ready. Watching for changes...");
 
