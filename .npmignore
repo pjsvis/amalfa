@@ -1,0 +1,97 @@
+# Development files
+_misc/
+_CURRENT_TASK.md
+_staging/
+*.old.*
+README.old.md
+backups/
+context/
+
+# PolyVis-specific files
+WARP.md
+AGENTS.md
+CHANGELOG.md
+CLAUDE.md
+HUMANS.md
+PROJECT_HISTORY.md
+TRIAD_TESTING.md
+MAINTENANCE.md
+DATABASE_BASELINE.md
+DESIGN_DECISIONS.md
+EXTRACTION_PROGRESS.md
+SCOREBOARD.md
+.legacy-databases-README.md
+.prettierrc
+.env
+
+# Testing
+test-docs/
+*.test.ts
+*.spec.ts
+
+# Build artifacts
+dist/
+.amalfa/
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+.*.log
+*.pid
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+
+# Documentation (keep in repo, not package)
+docs/webdocs/
+docs/architecture/
+playbooks/
+briefs/
+debriefs/
+AGENTS.md
+DESIGN_DECISIONS.md
+EXTRACTION_PROGRESS.md
+SCOREBOARD.md
+
+# Scripts (keep essential, exclude dev scripts)
+scripts/
+experiments/
+examples/
+
+# Legacy/deprecated
+legacy/
+deprecated/
+
+# Beads (AI tool metadata)
+.beads/
+
+# Claude Desktop config
+.claude/
+
+# Config examples (users should create their own)
+amalfa.config.json
+polyvis.settings.json
+
+# Benchmarks
+benchmark*.json
+
+# Drizzle
+drizzle.config.ts
