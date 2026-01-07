@@ -10,8 +10,8 @@
  * Generates .amalfa/logs/pre-flight.log with recommendations.
  */
 
-import { existsSync, lstatSync, readdirSync, realpathSync, statSync, writeFileSync } from "node:fs";
-import { join, relative } from "node:path";
+import { existsSync, lstatSync, readdirSync, realpathSync, statSync, writeFileSync } from "fs";
+import { join, relative } from "path";
 import { getLogger } from "@src/utils/Logger";
 import type { AmalfaConfig } from "@src/config/defaults";
 import { AMALFA_DIRS, initAmalfaDirs } from "@src/config/defaults";

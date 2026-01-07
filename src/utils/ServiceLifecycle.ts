@@ -1,6 +1,6 @@
-import { existsSync } from "node:fs";
-import { unlink } from "node:fs/promises";
-import { join } from "node:path";
+import { existsSync } from "fs";
+import { unlink } from "fs/promises";
+import { join } from "path";
 import { ZombieDefense } from "./ZombieDefense";
 import { AMALFA_DIRS, initAmalfaDirs } from "@src/config/defaults";
 

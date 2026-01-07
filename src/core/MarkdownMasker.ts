@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "crypto";
 
 export class MarkdownMasker {
 	private stash: Map<string, string> = new Map();

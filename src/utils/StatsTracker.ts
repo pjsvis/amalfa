@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, mkdirSync } from "fs";
+import { join } from "path";
 import { AMALFA_DIRS } from "@src/config/defaults";
 
 export interface DatabaseSnapshot {

@@ -5,7 +5,7 @@
  */
 
 import { serve } from "bun";
-import { join } from "node:path";
+import { join } from "path";
 import { EmbeddingModel, FlagEmbedding } from "fastembed";
 import { toFafcas } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";

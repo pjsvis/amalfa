@@ -4,9 +4,9 @@
  * File watcher for incremental database updates
  */
 
-import { existsSync } from "node:fs";
-import { watch } from "node:fs";
-import { join } from "node:path";
+import { existsSync } from "fs";
+import { watch } from "fs";
+import { join } from "path";
 import { loadConfig, AMALFA_DIRS } from "@src/config/defaults";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { ResonanceDB } from "@src/resonance/db";

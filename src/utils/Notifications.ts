@@ -1,5 +1,5 @@
-import { spawn } from "node:child_process";
-import { platform } from "node:os";
+import { spawn } from "child_process";
+import { platform } from "os";
 
 /**
  * Send a native desktop notification

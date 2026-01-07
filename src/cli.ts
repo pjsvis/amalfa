@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
-import { existsSync, statSync } from "node:fs";
-import { join } from "node:path";
-import { spawn } from "node:child_process";
+import { existsSync, statSync } from "fs";
+import { join } from "path";
+import { spawn } from "child_process";
 import pkg from "../package.json" with { type: "json" };
 
 const VERSION = pkg.version;
