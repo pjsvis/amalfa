@@ -196,29 +196,7 @@ amalfa/
 
 AMALFA follows a **Brief → Work → Debrief → Playbook** cycle:
 
-```dot
-digraph workflow {
-  rankdir=LR;
-  node [shape=box, style=filled];
-  
-  // Nodes
-  brief [label="Brief\n(Task Spec)", fillcolor=lightyellow];
-  work [label="Work\n(Implementation)", fillcolor=lightblue];
-  debrief [label="Debrief\n(Lessons Learned)", fillcolor=lightgreen];
-  playbook [label="Playbook\n(Codified Pattern)", fillcolor=orange];
-  db [label="AMALFA\nKnowledge Graph", shape=cylinder, fillcolor=lightgray];
-  
-  // Flow
-  brief -> work [label="guides"];
-  work -> debrief [label="captures"];
-  debrief -> playbook [label="abstracts to"];
-  playbook -> db [label="indexed as"];
-  db -> brief [label="informs\nnext task", style=dashed];
-  
-  // Semantic layer
-  db -> db [label="semantic search\nvector embeddings\ngraph traversal", style=dotted];
-}
-```
+![AMALFA Workflow](https://raw.githubusercontent.com/pjsvis/amalfa/main/docs/workflow.png)
 
 **Example:**
 
