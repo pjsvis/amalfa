@@ -1,6 +1,5 @@
 import type { Database } from "bun:sqlite";
 import { getLogger } from "@src/utils/Logger";
-import settings from "@/polyvis.settings.json";
 import { DatabaseFactory } from "./DatabaseFactory";
 import { CURRENT_SCHEMA_VERSION, MIGRATIONS } from "./schema";
 
@@ -25,10 +24,11 @@ export class ResonanceDB {
 	private dbPath: string;
 
 	/**
-	 * Factory method to load the default Resonance Graph based on settings.
+	 * Factory method to load the default Resonance Graph.
+	 * @deprecated Use constructor with explicit path from config instead.
 	 */
-	static init(): ResonanceDB {
-		return new ResonanceDB(settings.paths.database.resonance);
+	static init(dbPath: string = ".amalfa/resonance.db"): ResonanceDB {
+		return new ResonanceDB(dbPath);
 	}
 
 	/**

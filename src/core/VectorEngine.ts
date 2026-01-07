@@ -1,7 +1,5 @@
 import { Database } from "bun:sqlite";
-import { join } from "node:path";
 import { EmbeddingModel, FlagEmbedding } from "fastembed";
-import settings from "@/polyvis.settings.json";
 
 // Types
 export interface SearchResult {
@@ -89,9 +87,7 @@ export class VectorEngine {
 			console.warn(
 				"⚠️  DEPRECATED: VectorEngine string path constructor bypasses DatabaseFactory. Pass Database object instead. Will be removed in v2.0.",
 			);
-			const path =
-				dbOrPath || join(process.cwd(), settings.paths.database.resonance);
-			this.db = new Database(path);
+			this.db = new Database(dbOrPath);
 
 			// Apply Safeguards if we created it
 			this.db.run("PRAGMA journal_mode = WAL;");

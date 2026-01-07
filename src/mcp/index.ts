@@ -12,7 +12,6 @@ import { loadConfig } from "@src/config/defaults";
 import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
 import { DaemonManager } from "../utils/DaemonManager";
-import { EnvironmentVerifier } from "../utils/EnvironmentVerifier";
 import { getLogger } from "../utils/Logger";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
 
