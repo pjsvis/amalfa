@@ -82,9 +82,15 @@ function triggerIngestion(debounceMs: number) {
 
 ### The Issue
 1. **Watch paths** are set ONCE at daemon startup (line 49-66)
-2. **Database config** IS reloaded per batch (line 135)
-3. **Inconsistency:** Changing `config.sources` requires daemon restart
-4. **Changing `config.database` or `config.embeddings`** works without restart
+2. **ALL config** IS reloaded per batch (line 135) ✅
+3. **What works without restart:**
+   - ✅ `config.database` - Reloaded per ingestion
+   - ✅ `config.embeddings` - Reloaded per ingestion
+   - ✅ `config.excludePatterns` - Reloaded per ingestion
+   - ✅ `config.watch.debounce` - Used from initial config (minor)
+4. **What requires restart:**
+   - ❌ `config.sources` - Watchers set at startup
+   - ❌ Adding/removing directories from sources array
 
 ---
 
@@ -132,6 +138,26 @@ $ git log -1 --format="%ai" -- amalfa.config.json  # When config changed
 # Should have queried: Is daemon watching what config says?
 $ grep "Watching directory" .amalfa/logs/daemon.log | tail -3
 ```
+
+---
+
+## Opinion: Config Reload Strategy
+
+**Observation:** The daemon ALREADY reloads config on every file change trigger (line 135).
+
+**What this means:**
+- ✅ User changes `config.database` → Next file change picks it up
+- ✅ User changes `config.embeddings.model` → Next file change picks it up
+- ✅ Config reload is "opportunistic" - happens when files change
+- ❌ Only limitation: Adding new directories to `config.sources`
+
+**This is elegant because:**
+1. No active polling of config file needed
+2. Config reload triggered by actual work (file changes)
+3. Zero overhead when nothing is happening
+4. User gets feedback quickly (next file change)
+
+**Trade-off:** Adding new source directories requires restart because watchers are created once at startup.
 
 ---
 
