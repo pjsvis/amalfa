@@ -273,12 +273,14 @@ async function cmdDoctor() {
 	// Check Bun runtime
 	console.log("✓ Bun runtime: OK");
 
-	// Check database
-	if (existsSync(DB_PATH)) {
-		const fileSizeMB = (statSync(DB_PATH).size / 1024 / 1024).toFixed(2);
-		console.log(`✓ Database found: ${DB_PATH} (${fileSizeMB} MB)`);
+	// Check config and database
+	const dbPath = await getDbPath();
+	if (existsSync(dbPath)) {
+		const fileSizeMB = (statSync(dbPath).size / 1024 / 1024).toFixed(2);
+		console.log(`✓ Database found: ${dbPath} (${fileSizeMB} MB)`);
 	} else {
-		console.log(`✗ Database not found: ${DB_PATH}`);
+		console.log(`✗ Database not found: ${dbPath}`);
+		console.log(`  Run: amalfa init`);
 		issues++;
 	}
 
@@ -291,12 +293,23 @@ async function cmdDoctor() {
 		issues++;
 	}
 
-	// Check source directories
-	const docsDir = join(process.cwd(), "docs");
-	if (existsSync(docsDir)) {
-		console.log(`✓ Source directory: ${docsDir}`);
-	} else {
-		console.log(`⚠ Source directory not found: ${docsDir} (optional)`);
+	// Check source directories from config
+	const { loadConfig } = await import("./config/defaults");
+	const config = await loadConfig();
+	const sources = config.sources || ["./docs"];
+	let sourcesFound = 0;
+	for (const source of sources) {
+		const sourcePath = join(process.cwd(), source);
+		if (existsSync(sourcePath)) {
+			console.log(`✓ Source directory: ${sourcePath}`);
+			sourcesFound++;
+		} else {
+			console.log(`✗ Source directory not found: ${sourcePath}`);
+			issues++;
+		}
+	}
+	if (sourcesFound === 0) {
+		console.log(`  Configure sources in amalfa.config.json`);
 	}
 
 	// Check dependencies (FastEmbed)
