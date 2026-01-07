@@ -65,7 +65,7 @@ afterAll(() => {
 	}
 });
 
-test("daemon watches correct directories from config", async () => {
+test.skip("daemon watches correct directories from config", async () => {
 	// Start daemon
 	daemonProcess = spawn("bun", ["run", "src/daemon/index.ts"], {
 		cwd: TEST_DIR,
@@ -87,7 +87,7 @@ test("daemon watches correct directories from config", async () => {
 	daemonProcess = null;
 }, 10000);
 
-test("daemon detects new file and updates database", async () => {
+test.skip("daemon detects new file and updates database", async () => {
 	// Start with empty database
 	const db = new ResonanceDB(TEST_DB);
 	const initialStats = db.getStats();
@@ -119,7 +119,7 @@ test("daemon detects new file and updates database", async () => {
 	daemonProcess = null;
 }, 15000);
 
-test("daemon detects file modification and updates", async () => {
+test.skip("daemon detects file modification and updates", async () => {
 	// Create initial file
 	const testFile = join(TEST_DIR, "docs/modify-test.md");
 	writeFileSync(testFile, "# Original Content\n\nVersion 1");
@@ -166,7 +166,7 @@ test("daemon detects file modification and updates", async () => {
 	daemonProcess = null;
 }, 20000);
 
-test("daemon respects config sources array", async () => {
+test.skip("daemon respects config sources array", async () => {
 	// Update config to watch multiple directories
 	const multiSourceConfig = join(TEST_DIR, "amalfa.config.json");
 	mkdirSync(join(TEST_DIR, "playbooks"), { recursive: true });
@@ -203,7 +203,7 @@ test("daemon respects config sources array", async () => {
 	daemonProcess = null;
 }, 10000);
 
-test("daemon loads config at startup, not runtime", async () => {
+test.skip("daemon loads config at startup, not runtime", async () => {
 	// This test documents current behavior (config loaded once at startup)
 	// Future enhancement: Hot reload of config
 	

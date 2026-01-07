@@ -38,7 +38,7 @@ describe("DatabaseFactory", () => {
 	test("connectToResonance returns valid connection", () => {
 		// This connects to the actual dev DB configured in settings, so we just check it opens
 		// We do NOT delete it.
-		const db = DatabaseFactory.connectToResonance({ readonly: false }); // Ensure standard mode
+		const db = DatabaseFactory.connectToResonance(".amalfa/resonance.db", { readonly: false }); // Ensure standard mode
 		expect(db).toBeDefined();
 
 		// Just check one pragma to ensure factory logic ran

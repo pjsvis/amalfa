@@ -14,6 +14,21 @@ class MockDB {
 	insertEdge(sourceId: string, targetId: string, type: string) {
 		this.edges.push({ sourceId, targetId, type });
 	}
+	// Mock getRawDb for LouvainGate.check compatibility
+	getRawDb() {
+		return {
+			query: (sql: string) => ({
+				get: (...args: unknown[]) => {
+					// Mock COUNT(*) queries to return 0 (no edges = not a super node)
+					if (sql.includes("COUNT(*)")) {
+						return { c: 0 };
+					}
+					// Mock shared neighbor query to return null (no shared neighbors)
+					return null;
+				},
+			}),
+		};
+	}
 }
 
 describe("EdgeWeaver", () => {

@@ -1,5 +1,5 @@
 {
-  "sources": ["./docs", "./playbooks", "./debriefs"],
+  "sources": ["./docs", "./playbooks", "./briefs", "./debriefs"],
   "database": ".amalfa/resonance.db",
   "embeddings": {
     "model": "BAAI/bge-small-en-v1.5",
