@@ -3,7 +3,7 @@ import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { spawn } from "node:child_process";
 
-const VERSION = "1.0.11";
+const VERSION = "1.0.12";
 
 // Database path loaded from config (lazy loaded per command)
 let DB_PATH: string | null = null;
@@ -26,6 +26,7 @@ Commands:
   doctor             Check installation and configuration
   setup-mcp          Generate MCP configuration JSON
   daemon <action>    Manage file watcher (start|stop|status|restart)
+  vector <action>    Manage vector daemon (start|stop|status|restart)
   servers [--dot]    Show status of all AMALFA services (--dot for graph)
 
 Options:
@@ -267,6 +268,28 @@ async function cmdDaemon() {
 	});
 }
 
+async function cmdVector() {
+	const action = args[1] || "status";
+	const validActions = ["start", "stop", "status", "restart"];
+
+	if (!validActions.includes(action)) {
+		console.error(`❌ Invalid action: ${action}`);
+		console.error("\nUsage: amalfa vector <start|stop|status|restart>");
+		process.exit(1);
+	}
+
+	// Run vector daemon with the specified action
+	const vectorPath = join(import.meta.dir, "resonance/services/vector-daemon.ts");
+	const proc = spawn("bun", ["run", vectorPath, action], {
+		stdio: "inherit",
+		cwd: process.cwd(),
+	});
+
+	proc.on("exit", (code) => {
+		process.exit(code ?? 0);
+	});
+}
+
 async function cmdSetupMcp() {
 	const { resolve } = await import("node:path");
 	
@@ -321,7 +344,7 @@ async function cmdServers() {
 	
 	const SERVICES = [
 		{ name: "MCP Server", pidFile: ".mcp.pid", port: "stdio", id: "mcp", cmd: "amalfa serve" },
-		{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", id: "vector", cmd: "(auto-start)" },
+		{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", id: "vector", cmd: "amalfa vector start" },
 		{ name: "File Watcher", pidFile: ".amalfa-daemon.pid", port: "-", id: "watcher", cmd: "amalfa daemon start" },
 	];
 
@@ -435,7 +458,7 @@ async function cmdServers() {
 	}
 
 	console.log("─".repeat(95));
-	console.log("\n💡 Commands: amalfa serve | amalfa daemon start | amalfa stats\n");
+	console.log("\n💡 Commands: amalfa serve | amalfa vector start | amalfa daemon start\n");
 }
 
 async function cmdDoctor() {
@@ -537,6 +560,10 @@ async function main() {
 
 	case "daemon":
 		await cmdDaemon();
+		break;
+
+	case "vector":
+		await cmdVector();
 		break;
 
 	case "setup-mcp":
