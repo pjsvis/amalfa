@@ -3,7 +3,7 @@ import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { spawn } from "node:child_process";
 
-const VERSION = "1.0.9";
+const VERSION = "1.0.11";
 
 // Database path loaded from config (lazy loaded per command)
 let DB_PATH: string | null = null;
@@ -320,9 +320,9 @@ async function cmdServers() {
 	const showDot = args.includes("--dot");
 	
 	const SERVICES = [
-		{ name: "MCP Server", pidFile: ".mcp.pid", port: "stdio", id: "mcp" },
-		{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", id: "vector" },
-		{ name: "File Watcher", pidFile: ".amalfa-daemon.pid", port: "-", id: "watcher" },
+		{ name: "MCP Server", pidFile: ".mcp.pid", port: "stdio", id: "mcp", cmd: "amalfa serve" },
+		{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", id: "vector", cmd: "(auto-start)" },
+		{ name: "File Watcher", pidFile: ".amalfa-daemon.pid", port: "-", id: "watcher", cmd: "amalfa daemon start" },
 	];
 
 	async function isRunning(pid: number): Promise<boolean> {
@@ -393,14 +393,15 @@ async function cmdServers() {
 	}
 
 	console.log("\n📡 AMALFA Service Status\n");
-	console.log("─".repeat(70));
+	console.log("─".repeat(95));
 	console.log(
 		"SERVICE".padEnd(18) +
+		"COMMAND".padEnd(25) +
 		"PORT".padEnd(12) +
 		"STATUS".padEnd(15) +
 		"PID".padEnd(10)
 	);
-	console.log("─".repeat(70));
+	console.log("─".repeat(95));
 
 	for (const svc of SERVICES) {
 		const { readFileSync } = await import("node:fs");
@@ -426,14 +427,15 @@ async function cmdServers() {
 
 		console.log(
 			svc.name.padEnd(18) +
+			svc.cmd.padEnd(25) +
 			svc.port.padEnd(12) +
 			status.padEnd(15) +
 			pidStr.padEnd(10)
 		);
 	}
 
-	console.log("─".repeat(70));
-	console.log("\n💡 Tip: Use 'amalfa daemon start' to start the file watcher\n");
+	console.log("─".repeat(95));
+	console.log("\n💡 Commands: amalfa serve | amalfa daemon start | amalfa stats\n");
 }
 
 async function cmdDoctor() {

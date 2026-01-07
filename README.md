@@ -270,20 +270,30 @@ bun run dev
 ### Commands
 
 ```bash
-# CLI commands (available after global install)
+# CLI commands (after global install: bun install -g amalfa)
 amalfa init              # Initialize database from markdown
 amalfa serve             # Start MCP server (stdio)
 amalfa stats             # Show database statistics
 amalfa doctor            # Health check
-amalfa servers           # Show all service status
+amalfa servers           # Show all service status (with commands!)
+amalfa servers --dot     # Generate DOT diagram
 amalfa daemon start      # Start file watcher daemon
 amalfa daemon stop       # Stop file watcher daemon
 amalfa daemon status     # Check daemon status
 amalfa setup-mcp         # Generate MCP config
+amalfa --help            # Show help
 
-# Development commands
+# Local development scripts (bun run <script>)
+bun run servers          # Test servers command
+bun run servers:dot      # Test DOT diagram
+bun run stats            # Test stats
+bun run doctor           # Test doctor
+bun run help             # Show CLI help
+
+# Code quality
 bun test                 # Run tests
-bun run precommit        # TypeScript + Biome checks
+bun run check            # Biome check
+bun run format           # Biome format
 ```
 
 ---
