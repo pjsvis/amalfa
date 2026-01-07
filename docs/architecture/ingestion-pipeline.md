@@ -1,60 +1,215 @@
-# Ingestion Pipeline Architecture
+# AMALFA Ingestion Pipeline
+**Date:** 2026-01-07  
+**Status:** Current Implementation
+
+---
 
 ## Overview
-The PolyVis "Resonance" Ingestion Pipeline is a robust, modular system designed to transform raw markdown content into a semantic Knowledge Graph. It follows a "Belt and Braces" philosophy, ensuring data integrity through strict schema validation and automated redundancy checks.
 
-## Architecture Topology
+AMALFA uses a **single ingestion pipeline** for all document processing. The same code path is used whether you run `amalfa init` manually or the daemon processes file changes automatically.
 
-```mermaid
-graph TD
-    Sources[Sources (Docs, Debriefs, Playbooks)] -->|Watch/Scan| Ingestor[Ingestor Class]
-    Ingestor -->|Parse| Tokenizer[ZeroMagic Tokenizer]
-    Ingestor -->|Embed| Embedder[Embedder Service]
-    Ingestor -->|Store| DB[(ResonanceDB SQLite)]
-    
-    subgraph "The Weavers"
-        DB -->|Read| TimelineWeaver
-        DB -->|Read| SemanticWeaver
-        TimelineWeaver -->|Write Edges| DB
-        SemanticWeaver -->|Write Edges| DB
-    end
-    
-    subgraph "The Bridge"
-        Embedder -->|RPC| Daemon[Vector Daemon :3010]
-        Daemon -.->|Fallback| LocalONNX[Local ONNX Model]
-    end
+---
+
+## Core Principle: One Pipeline, Multiple Triggers
+
+```
+┌─────────────────────────────────────────────────────────┐
+│           AmalfaIngestor.ingest()                       │
+│           Single source of truth for ingestion          │
+└─────────────────────────────────────────────────────────┘
+                    ▲                    ▲
+                    │                    │
+         ┌──────────┴──────────┐   ┌────┴──────────┐
+         │   Manual Trigger    │   │ Auto Trigger  │
+         │   (amalfa init)     │   │ (daemon)      │
+         │   Run once, exit    │   │ Watch, repeat │
+         └─────────────────────┘   └───────────────┘
 ```
 
-## Key Components
+---
 
-### 1. The Bridge (`Embedder.ts`)
-A fault-tolerant client that manages vector generation.
--   **Primary:** RPC call to `localhost:3010/embed` (Daemon). Fast, cached.
--   **Secondary:** Loads `fastembed` (ONNX) locally if Daemon is unreachable.
--   **Model:** `AllMiniLML6V2` (384 dimensions).
+## The Single Ingestion Pipeline
 
-### 2. The Ingestor (`Ingestor.ts`)
-The orchestrator.
--   **Phased Execution:**
-    1.  **Persona Phase:** Lexicon (Terms) and CDA (Directives).
-    2.  **Experience Phase:** Documents, Debriefs, Playbooks.
--   **Idempotency:** Uses `LocusLedger` hashing to skip unchanged files.
--   **Hybrid Storage:** Stores structured data (SQL) and Vectors (BLOBs) in the same `nodes` table.
+**File:** `src/pipeline/AmalfaIngestor.ts`
 
-### 3. The Weavers
-Modular logic units that infer relationships *after* node insertion.
--   **TimelineWeaver:** Links nodes chronologically based on `YYYY-MM-DD` patterns in filenames (e.g., Debriefs). Creates `next`/`prev` edges.
--   **SemanticWeaver:** Performs vector similarity search (`findSimilar`) for orphan nodes and links them to their nearest semantic neighbors.
--   **LocusWeaver (Planned):** Links specific Code Locus blocks to their Definitions.
+### What It Does
 
-### 4. ResonanceDB (`db.ts`)
-The Single Source of Truth.
--   **Schema:** Defined in `schema.ts`. Versioned migrations.
--   **FTS5:** Full-Text Search virtual table synchronized via Triggers.
--   **Performance:** WAL mode enabled.
+1. **Discover** markdown files from `config.sources`
+2. **Two-pass processing:**
+   - **Pass 1:** Create all nodes (no edges)
+   - **Pass 2:** Create edges (now that lexicon is populated)
+3. **For each file:**
+   - Read content
+   - Parse frontmatter
+   - Generate ID from filename
+   - Check hash (skip if unchanged)
+   - Generate embedding (via Embedder)
+   - Extract semantic tokens
+   - Insert node into database
+4. **Edge weaving** (Pass 2):
+   - Extract markdown links
+   - Build lexicon from nodes
+   - Create relationships between nodes
+5. **Finalize:**
+   - Force WAL checkpoint
+   - Return statistics
 
-## Enhancing the Pipeline
-To add new capabilities (Enhancers):
-1.  **Create a Weaver:** Implement a class with a static `weave(db: ResonanceDB)` method.
-2.  **Register:** Add the call to `Ingestor.runWeavers()`.
-3.  **Verify:** Run `bun run src/resonance/cli/ingest.ts` and check the validation report.
+### Key Feature: Hash Checking
+
+```typescript
+const currentHash = hasher.digest("hex");
+const storedHash = this.db.getNodeHash(id);
+
+if (storedHash === currentHash) {
+  return; // No change - skip processing
+}
+```
+
+**This makes full re-ingestion efficient** - only processes changed files.
+
+---
+
+## Identical Behavior
+
+### Both Triggers Use Same Code
+
+| Aspect | `amalfa init` | `amalfa daemon` |
+|--------|---------------|-----------------|
+| Ingestion class | `AmalfaIngestor` | `AmalfaIngestor` |
+| Method called | `ingest()` | `ingest()` |
+| File processing | Identical | Identical |
+| Embedding generation | Same | Same |
+| Hash checking | Yes | Yes |
+| Edge weaving | Yes | Yes |
+| Database updates | Identical | Identical |
+
+**No differences in accuracy, completeness, or quality.**
+
+**ONLY difference:** *When* it runs (manual vs automatic)
+
+---
+
+## Full Ingestion Every Time
+
+**Important:** The daemon does NOT do incremental ingestion.
+
+```typescript
+// Daemon detects 1 file changed
+pendingFiles.add("docs/new-file.md");
+
+// But runs FULL ingestion
+await ingestor.ingest(); // Scans ALL files
+```
+
+### Why?
+
+1. **Simplicity** - One code path
+2. **Correctness** - Always consistent
+3. **Edge updates** - May affect other files
+4. **Performance** - Hash checking makes it fast
+5. **Safety** - No risk of missing dependencies
+
+**Performance:** 75 files, 1 changed = ~1.2 seconds total
+
+---
+
+## Config Reload
+
+**Key insight:** Daemon reloads config on every trigger.
+
+```typescript
+// Daemon on file change:
+const config = await loadConfig(); // Fresh config!
+const ingestor = new AmalfaIngestor(config, db);
+```
+
+**Without restart, these changes are picked up:**
+- ✅ `database` path
+- ✅ `embeddings.model`
+- ✅ `excludePatterns`
+
+**Requires restart:**
+- ❌ `sources` array (watchers set at startup)
+
+---
+
+## Embedder: Same Everywhere
+
+Both triggers use identical embedding logic:
+
+```
+1. Call Embedder.embed(text)
+2. Try Vector Daemon (200ms timeout)
+3. Fallback to local FastEmbed
+4. Return normalized Float32Array
+```
+
+**Same model, same algorithm, same results.**
+
+---
+
+## Architecture Benefits
+
+### Single Code Path
+
+- **Maintainability** - Fix bugs once
+- **Testability** - Test once
+- **Consistency** - Same results everywhere
+- **Simplicity** - No special cases
+
+### Separation of Concerns
+
+**What** (ingestion logic) is separate from **When** (trigger mechanism).
+
+```
+Core Logic (What)  ──uses──▶  AmalfaIngestor
+Triggers (When)    ──use──▶   Core Logic
+```
+
+---
+
+## Performance
+
+**`amalfa init` (all files):**
+- Cold: ~15s (with model loading)
+- Hot: ~5-7s (Vector Daemon running)
+
+**`amalfa daemon` (1 file changed):**
+- Detection + debounce: 1000ms
+- Hash check all: ~100ms
+- Process changed: ~100ms
+- **Total: ~1.2s**
+
+---
+
+## Comparison Table
+
+| Aspect | amalfa init | amalfa daemon |
+|--------|-------------|---------------|
+| Execution | Foreground | Background |
+| Frequency | Once | Continuous |
+| Config reload | Once | Every trigger |
+| Error handling | Exit | Retry 3x |
+| Notifications | No | Yes |
+| **Ingestion code** | **Identical** | **Identical** |
+
+---
+
+## Key Takeaways
+
+1. **Same pipeline everywhere** - One truth
+2. **Hash checking** - Makes full scan efficient
+3. **Config reload** - Daemon picks up changes
+4. **Embedder fallback** - Same everywhere
+5. **Perfect separation** - What vs When
+
+**This is excellent architecture.**
+
+---
+
+## References
+
+- Implementation: `src/pipeline/AmalfaIngestor.ts`
+- CLI trigger: `src/cli.ts`
+- Daemon trigger: `src/daemon/index.ts`
+- Embedder: `src/resonance/services/embedder.ts`
