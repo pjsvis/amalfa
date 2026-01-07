@@ -50,6 +50,7 @@
 		"status": "bun run src/mcp/index.ts status",
 		"servers": "bun run scripts/cli/servers.ts",
 		"validate-config": "bun run scripts/validate-config.ts",
+		"release": "bun run scripts/release.ts",
 		"check": "biome check .",
 		"format": "biome format --write ."
 	},
