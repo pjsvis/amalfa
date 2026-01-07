@@ -155,11 +155,13 @@ function triggerIngestion(debounceMs: number) {
 				retryQueue.delete(file);
 			}
 
-			// Send notification
-			await sendNotification(
-				"AMALFA",
-				`Knowledge graph updated (${batchSize} file${batchSize > 1 ? "s" : ""})`,
-			);
+			// Send notification (if enabled in config)
+			if (config.watch?.notifications !== false) {
+				await sendNotification(
+					"AMALFA",
+					`Knowledge graph updated (${batchSize} file${batchSize > 1 ? "s" : ""})`,
+				);
+			}
 		} catch (e) {
 			const errorMsg = e instanceof Error ? e.message : String(e);
 			log.error({ err: e }, "❌ Update failed");
@@ -202,10 +204,13 @@ function triggerIngestion(debounceMs: number) {
 				}
 			}
 
-			await sendNotification(
-				"AMALFA",
-				`Update failed (${batch.length} file${batch.length > 1 ? "s" : ""} will retry)`,
-			);
+			// Send error notification (if enabled in config)
+			if (config.watch?.notifications !== false) {
+				await sendNotification(
+					"AMALFA",
+					`Update failed (${batch.length} file${batch.length > 1 ? "s" : ""} will retry)`,
+				);
+			}
 		}
 	}, debounceMs);
 }

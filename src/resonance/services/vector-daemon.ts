@@ -35,7 +35,7 @@ async function initEmbedder() {
 		log.info({ model: currentModel }, "🔄 Initializing embedding model...");
 		
 		// Ensure cache directory exists
-		const cacheDir = ".resonance/cache";
+		const cacheDir = ".amalfa/cache";
 		const { mkdir } = await import("node:fs/promises");
 		try {
 			await mkdir(cacheDir, { recursive: true });

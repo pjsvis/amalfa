@@ -96,9 +96,6 @@ deprecated/
 # Beads (AI tool metadata)
 .beads/
 
-# Resonance cache (large model files)
-.resonance/
-
 # Claude Desktop config
 .claude/
 

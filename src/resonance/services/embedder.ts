@@ -71,7 +71,7 @@ export class Embedder {
 
 	private async init() {
 		if (!this.nativeEmbedder) {
-			const cacheDir = join(process.cwd(), ".resonance/cache");
+			const cacheDir = join(process.cwd(), ".amalfa/cache");
 			console.log(
 				`[Embedder] Initializing local embedding model: ${this.currentModel}`,
 			);

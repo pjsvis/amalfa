@@ -7,7 +7,8 @@
   },
   "watch": {
     "enabled": true,
-    "debounce": 1000
+    "debounce": 1000,
+    "notifications": true
   },
   "excludePatterns": ["node_modules", ".git", ".amalfa"]
 }

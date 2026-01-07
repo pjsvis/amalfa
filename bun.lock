@@ -5,7 +5,7 @@
       "name": "polyvis",
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.25.0",
-        "amalfa": "^1.0.16",
+        "amalfa": "^1.0.17",
         "fastembed": "2.0.0",
         "pino": "^10.1.0",
       },
@@ -62,7 +62,7 @@
 
     "ajv-formats": ["ajv-formats@3.0.1", "", { "dependencies": { "ajv": "^8.0.0" } }, "sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ=="],
 
-    "amalfa": ["amalfa@1.0.16", "", { "dependencies": { "@modelcontextprotocol/sdk": "1.25.0", "fastembed": "2.0.0", "pino": "^10.1.0" }, "bin": { "amalfa": "src/cli.ts" } }, "sha512-bpURaOxfbUR8j2t8R06gJgVurVXMCigLbD8f9TY+9PraF4vXj2Flpy1yc6RKA1S6SnB4fNiLX+BteKbvh2Cavw=="],
+    "amalfa": ["amalfa@1.0.17", "", { "dependencies": { "@modelcontextprotocol/sdk": "1.25.0", "amalfa": "^1.0.17", "fastembed": "2.0.0", "pino": "^10.1.0" }, "bin": { "amalfa": "src/cli.ts" } }, "sha512-TJJPlq49/uEalwJIuNWsM30U5GqjV02ycQoUlk0qsHLWD3tWiwD5clfY62QFTPGFBsDxoGwUzb3hGUkDaAzHoQ=="],
 
     "atomic-sleep": ["atomic-sleep@1.0.0", "", {}, "sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ=="],
 

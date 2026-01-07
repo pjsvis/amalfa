@@ -59,19 +59,13 @@ Thumbs.db
 resonance/node_modules
 resonance/dist
 
-# Resonance Generated Artifacts (not source code)
-.resonance/*.db
-.resonance/*.db-wal
-.resonance/*.db-shm
-.resonance/artifacts/
-.resonance/cache/
-
 # AMALFA Runtime Artifacts (Database is cache, markdown is source of truth)
 .amalfa/resonance.db
 .amalfa/resonance.db-wal
 .amalfa/resonance.db-shm
 .amalfa/logs/
 .amalfa/runtime/
+.amalfa/cache/
 
 # Fastembed cache
 local_cache/

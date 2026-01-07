@@ -82,6 +82,17 @@ export default {
 		 * - 2000ms - Less responsive, lower CPU
 		 */
 		debounce: 1000,
+
+		/**
+		 * Show desktop notifications
+		 * 
+		 * When enabled, the daemon sends native OS notifications
+		 * when the knowledge graph is updated.
+		 * 
+		 * Default: true
+		 * Set to false for silent operation
+		 */
+		notifications: true,
 	},
 
 	/**

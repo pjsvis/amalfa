@@ -35,6 +35,7 @@ export interface AmalfaConfig {
 	watch: {
 		enabled: boolean;
 		debounce: number;
+		notifications?: boolean;
 	};
 	excludePatterns: string[];
 	/** Graph analysis tuning parameters (optional) */
@@ -63,6 +64,7 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 	watch: {
 		enabled: true,
 		debounce: 1000,
+		notifications: true,
 	},
 	excludePatterns: ["node_modules", ".git", ".amalfa"],
 	// Optional graph tuning (for advanced use)
