@@ -2,8 +2,9 @@
 import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { spawn } from "node:child_process";
+import pkg from "../package.json" with { type: "json" };
 
-const VERSION = "1.0.16";
+const VERSION = pkg.version;
 
 // Database path loaded from config (lazy loaded per command)
 let DB_PATH: string | null = null;
