@@ -6,7 +6,7 @@ console.log("--- Starting Node Connection Debugger ---");
 const searchTerm = "OH-106: Forced Stubbornness Protocol (FSP)"; // The problematic term
 
 // --- Database Connection ---
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 
 try {
 	// 1. Find the exact node ID for the given label

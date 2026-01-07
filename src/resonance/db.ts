@@ -366,11 +366,24 @@ export class ResonanceDB {
 	checkpoint() {
 		this.db.run("PRAGMA wal_checkpoint(TRUNCATE);");
 	}
+	getNode(id: string): Node | null {
+		const row = this.db.query("SELECT * FROM nodes WHERE id = ?").get(id);
+		if (!row) return null;
+		return this.mapRowToNode(row);
+	}
+
+	updateNodeMeta(id: string, meta: Record<string, unknown>) {
+		this.db.run("UPDATE nodes SET meta = ? WHERE id = ?", [
+			JSON.stringify(meta),
+			id,
+		]);
+	}
 }
 
 // Helper: Calculate magnitude (L2 norm) of a vector
 function magnitude(vec: Float32Array): number {
 	let sum = 0;
+	// Modern JS engines SIMD-optimize this loop automatically
 	for (let i = 0; i < vec.length; i++) {
 		sum += (vec[i] || 0) * (vec[i] || 0);
 	}

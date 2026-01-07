@@ -1,12 +1,12 @@
 #!/usr/bin/env bun
 /**
  * Release Automation Script
- * 
+ *
  * Handles version bumping, testing, GitHub push, and npm publishing
- * 
+ *
  * Usage:
  *   bun run scripts/release.ts <patch|minor|major> [--dry-run]
- * 
+ *
  * Examples:
  *   bun run scripts/release.ts patch           # 1.0.1 -> 1.0.2
  *   bun run scripts/release.ts minor           # 1.0.1 -> 1.1.0
@@ -56,11 +56,11 @@ function bumpVersion(type: "patch" | "minor" | "major"): string {
 
 	switch (type) {
 		case "major":
-			return `${major + 1}.0.0`;
+			return `${(major || 0) + 1}.0.0`;
 		case "minor":
-			return `${major}.${minor + 1}.0`;
+			return `${major}.${(minor || 0) + 1}.0`;
 		case "patch":
-			return `${major}.${minor}.${patch + 1}`;
+			return `${major}.${minor}.${(patch || 0) + 1}`;
 		default:
 			throw new Error(`Invalid version type: ${type}`);
 	}
@@ -98,7 +98,10 @@ async function runChecks(): Promise<boolean> {
 	log("\n2️⃣  Checking branch...");
 	const branchResult = exec("git branch --show-current", { silent: true });
 	if (!branchResult.success || branchResult.output?.trim() !== "main") {
-		log(`❌ Not on main branch (current: ${branchResult.output?.trim()})`, "red");
+		log(
+			`❌ Not on main branch (current: ${branchResult.output?.trim()})`,
+			"red",
+		);
 		log("   Switch to main before releasing", "yellow");
 		return false;
 	}
@@ -276,12 +279,27 @@ const dryRun = args.includes("--dry-run");
 
 if (!["patch", "minor", "major"].includes(versionType)) {
 	log("❌ Invalid version type", "red");
-	log("\nUsage: bun run scripts/release.ts <patch|minor|major> [--dry-run]", "yellow");
+	log(
+		"\nUsage: bun run scripts/release.ts <patch|minor|major> [--dry-run]",
+		"yellow",
+	);
 	log("\nExamples:", "yellow");
-	log("  bun run scripts/release.ts patch           # 1.0.1 -> 1.0.2", "yellow");
-	log("  bun run scripts/release.ts minor           # 1.0.1 -> 1.1.0", "yellow");
-	log("  bun run scripts/release.ts major           # 1.0.1 -> 2.0.0", "yellow");
-	log("  bun run scripts/release.ts patch --dry-run # Test without publishing", "yellow");
+	log(
+		"  bun run scripts/release.ts patch           # 1.0.1 -> 1.0.2",
+		"yellow",
+	);
+	log(
+		"  bun run scripts/release.ts minor           # 1.0.1 -> 1.1.0",
+		"yellow",
+	);
+	log(
+		"  bun run scripts/release.ts major           # 1.0.1 -> 2.0.0",
+		"yellow",
+	);
+	log(
+		"  bun run scripts/release.ts patch --dry-run # Test without publishing",
+		"yellow",
+	);
 	process.exit(1);
 }
 

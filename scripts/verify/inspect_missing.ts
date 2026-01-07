@@ -1,6 +1,6 @@
 import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 console.log("🔍 Inspecting Missing Attributes...");
 
 const missing = db

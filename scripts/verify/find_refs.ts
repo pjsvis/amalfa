@@ -1,6 +1,6 @@
 import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 const query = db.prepare("SELECT id, label, definition FROM nodes");
 const nodes = query.all() as {
 	id: string;

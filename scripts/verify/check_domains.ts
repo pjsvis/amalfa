@@ -2,7 +2,7 @@ import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
 console.log(`🔍 Checking Domains...`);
 
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 
 try {
 	const query = db.query(

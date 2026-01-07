@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Phi3 Sub-Agent**: Robust daemon (`amalfa phi3`) managing local LLM interactions for chat and analysis.
+- **Search Intelligence**: New endpoints `/search/analyze`, `/search/rerank`, `/search/context`.
+- **Metadata Enhancement**: AI-powered document enrichment via `/metadata/enhance` connected to ResonanceDB.
+- **CLI Tooling**: 
+  - `amalfa phi3 chat` (Interactive chat with real-time feedback)
+  - `amalfa phi3 status` (Rich diagnostics)
+  - `amalfa enhance` (Batch/Single doc enhancement)
+- **FAFCAS Optimization**: Prioritized `tinydolphin` (1.1B) model for instant CPU inference.
 - **OH-104 Pinch Check**: Physical file verification after WAL checkpoint to prevent silent corruption
 - Test script `scripts/verify/test-hardening.ts` for validating resilience improvements
 
@@ -17,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Biome formatting: Applied consistent formatting and import organization across modified files
 
 ### Changed
+- **Default Model**: Switched from `phi3` to `tinydolphin` for vastly improved local performance.
 - Hardened ingestion pipeline with explicit file size checks after database checkpoints
 - Enhanced MCP gardening tool with tag deduplication logic
 

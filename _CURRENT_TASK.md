@@ -1,12 +1,40 @@
 # Current Task
 
-**Status**: v1.0.20 Ready ✅  
-**Last Session**: 2026-01-07 (Hardening)  
-**Next Focus**: Production Monitoring
+**Status**: v1.1.0-alpha (Phi3/Dolphin Ready) ✅
+**Last Session**: 2026-01-07 (FAFCAS Optimization)
+**Next Focus**: Production Monitoring & Playbooks
 
 ---
 
-## Session 2026-01-07 (Part 3): Code Audit & Hardening
+## Session 2026-01-07 (Part 4): Phi3 Sub-Agent Implementation
+
+### Completed ✅
+
+**1. Foundation Layer**
+- ✅ `Phi3Agent` daemon implemented (`src/daemon/phi3-agent.ts`)
+- ✅ Ollama discovery & health checks (`src/utils/ollama-discovery.ts`)
+- ✅ Configuration integration (`src/config/defaults.ts`)
+- ✅ `DaemonManager` integration for lifecycle management
+
+**2. Search Intelligence & Metadata**
+- ✅ `/search/analyze`, `/search/rerank`, `/search/context` endpoints
+- ✅ `/metadata/enhance` endpoint (real DB access)
+- ✅ `ResonanceDB` extended with `getNode` and `updateNodeMeta`
+- ✅ Integration test confirms health check passing
+
+**3. CLI Integration**
+- ✅ `amalfa phi3 <start|stop|status|restart|chat>` implemented
+- ✅ `amalfa enhance --batch|--doc` implemented
+- ✅ Interactive chat verified (with elapsed time indicator)
+- ✅ Batch enhancement verified (connected, though slow on CPU)
+
+### Issues / Findings
+- **Performance:** Inference is slow (>30s) on local CPU for search/enhance. Recommend GPU or smaller quantization.
+- **Chat:** Working but latency is high.
+
+---
+
+## Session 2026-01-07 (Part 5): Final Polish
 
 ### Completed ✅
 

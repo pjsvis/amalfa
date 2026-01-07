@@ -15,7 +15,7 @@ const artifactPath = join(
 const originals: IngestionArtifact[] = await Bun.file(artifactPath).json();
 
 // 2. Read from DB
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 
 const rows = db
 	.query(`

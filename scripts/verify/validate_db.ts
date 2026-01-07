@@ -3,7 +3,7 @@ import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
 console.log("🔍 Running Database Validation Check...\n");
 
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 
 const validator = new PipelineValidator();
 validator.captureBaseline(db);

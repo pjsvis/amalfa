@@ -93,7 +93,7 @@ export class StatsTracker {
 	getLatestSnapshot(): DatabaseSnapshot | null {
 		const history = this.loadHistory();
 		return history.snapshots.length > 0
-			? history.snapshots[history.snapshots.length - 1]
+			? (history.snapshots[history.snapshots.length - 1] ?? null)
 			: null;
 	}
 
@@ -127,7 +127,7 @@ export class StatsTracker {
 		}
 
 		// Get previous snapshot for comparison
-		const latest = this.getLatestSnapshot();
+		const latest = this.getLatestSnapshot() ?? null;
 		if (latest) {
 			// Warning: Significant regression in metrics
 			if (current.nodes < latest.nodes * 0.8) {
@@ -188,8 +188,12 @@ export class StatsTracker {
 			return "No historical data available";
 		}
 
-		const latest = history.snapshots[history.snapshots.length - 1];
-		const oldest = history.snapshots[0];
+		const latest = history.snapshots[history.snapshots.length - 1] ?? null;
+		const oldest = history.snapshots[0] ?? null;
+
+		if (!latest || !oldest) {
+			return "Insufficient data for growth summary";
+		}
 
 		const nodeGrowth = latest.nodes - oldest.nodes;
 		const edgeGrowth = latest.edges - oldest.edges;

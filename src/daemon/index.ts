@@ -7,7 +7,11 @@
 import { existsSync } from "fs";
 import { watch } from "fs";
 import { join } from "path";
-import { loadConfig, AMALFA_DIRS } from "@src/config/defaults";
+import {
+	loadConfig,
+	AMALFA_DIRS,
+	type AmalfaConfig,
+} from "@src/config/defaults";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
@@ -47,11 +51,14 @@ async function main() {
 	const DEBOUNCE_MS = config.watch.debounce;
 
 	const sources = config.sources || ["./docs"];
-	log.info({
-		sources,
-		database: config.database,
-		debounce: DEBOUNCE_MS,
-	}, "🚀 AMALFA Daemon starting...");
+	log.info(
+		{
+			sources,
+			database: config.database,
+			debounce: DEBOUNCE_MS,
+		},
+		"🚀 AMALFA Daemon starting...",
+	);
 
 	// Verify source directories exist
 	for (const source of sources) {
@@ -96,11 +103,14 @@ function startWatcher(sourceDir: string, debounceMs: number) {
 			// Only process markdown files
 			if (filename && filename.endsWith(".md")) {
 				const fullPath = join(watchPath, filename);
-				
-				log.debug({
-					file: filename,
-					event,
-				}, "📝 Change detected");
+
+				log.debug(
+					{
+						file: filename,
+						event,
+					},
+					"📝 Change detected",
+				);
 
 				pendingFiles.add(fullPath);
 				triggerIngestion(debounceMs);
@@ -130,9 +140,10 @@ function triggerIngestion(debounceMs: number) {
 		const batch = Array.from(pendingFiles);
 		pendingFiles.clear();
 
+		// Load config for each batch (allows runtime config changes)
+		let config: AmalfaConfig | undefined;
 		try {
-			// Load config for each batch (allows runtime config changes)
-			const config = await loadConfig();
+			config = await loadConfig();
 			const dbPath = join(process.cwd(), config.database);
 
 			// Open database
@@ -189,23 +200,29 @@ function triggerIngestion(debounceMs: number) {
 						triggerIngestion(debounceMs);
 					}, RETRY_BACKOFF_MS * nextAttempt);
 
-					log.warn({
-						file,
-						attempt: nextAttempt,
-						max: MAX_RETRIES,
-						delayMs: RETRY_BACKOFF_MS * nextAttempt,
-					}, "🔄 Scheduling retry");
+					log.warn(
+						{
+							file,
+							attempt: nextAttempt,
+							max: MAX_RETRIES,
+							delayMs: RETRY_BACKOFF_MS * nextAttempt,
+						},
+						"🔄 Scheduling retry",
+					);
 				} else {
-					log.error({
-						file,
-						lastError: retryInfo.lastError,
-					}, "⛔ ABANDONED: Max retries exceeded");
+					log.error(
+						{
+							file,
+							lastError: retryInfo.lastError,
+						},
+						"⛔ ABANDONED: Max retries exceeded",
+					);
 					retryQueue.delete(file);
 				}
 			}
 
 			// Send error notification (if enabled in config)
-			if (config.watch?.notifications !== false) {
+			if (config?.watch?.notifications !== false) {
 				await sendNotification(
 					"AMALFA",
 					`Update failed (${batch.length} file${batch.length > 1 ? "s" : ""} will retry)`,

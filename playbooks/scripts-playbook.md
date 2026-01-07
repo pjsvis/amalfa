@@ -548,6 +548,32 @@ import { DatabaseFactory } from "@src/resonance/DatabaseFactory";
 const sqlite = DatabaseFactory.connectToResonance();
 ```
 
+## Code Organization & Tiers
+
+The project follows a **FAFCAS** approach to velocity vs. quality, separating code into distinctive tiers based on criticality and stability.
+
+### 1. Source (`src/`)
+**Standard**: "Production Grade"
+-   **Strictness**: Highest (noImplicitAny, full type checking).
+-   **Purpose**: The application binary, daemons, and core libraries.
+-   **Gating**: Code here MUST pass `tsc`, `lint`, and have tests.
+
+### 2. Factory (`scripts/core` & `scripts/verify`)
+**Standard**: "Industrial Grade"
+-   **Strictness**: High (but pragmatic).
+-   **Purpose**: Operations, maintenance, release automation, and CI verification.
+-   **Gating**: Must compile and run reliably. Cannot reference legacy/broken imports.
+
+### 3. The Lab (`scripts/lab`)
+**Standard**: "Rough & Ready"
+-   **Strictness**: None (excluded from `tsc`).
+-   **Purpose**: "Vibe coding," one-off experiments, messy debug scripts, and prototyping.
+-   **Philosophy**: "Move fast, break things, then archive them here."
+-   **Rules**:
+    -   Code here is **NOT** run in production/CI.
+    -   Code here can be broken.
+    -   Code here is where you test crazy ideas before promoting them to the Factory or Source.
+
 ## Build & Maintenance Scripts
 
 ### Data Pipeline

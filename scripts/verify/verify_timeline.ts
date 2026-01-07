@@ -10,7 +10,7 @@ const db = ResonanceDB.init();
 TimelineWeaver.weave(db);
 
 // 2. Check Edges (via raw check for speed/independence)
-const rawDb = DatabaseFactory.connectToResonance({ readonly: true });
+const rawDb = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 try {
 	const result = rawDb
 		.query("SELECT COUNT(*) as c FROM edges WHERE type = 'SUCCEEDS'")

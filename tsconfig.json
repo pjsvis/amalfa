@@ -41,6 +41,8 @@
 		".resonance",
 		"briefs",
 		"examples",
-		"experiments"
+		"experiments",
+		"scripts/lab",
+		"scripts/legacy"
 	]
 }

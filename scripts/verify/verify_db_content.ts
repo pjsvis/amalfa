@@ -9,7 +9,7 @@ if (dbPath) {
 	db = DatabaseFactory.connect(dbPath, { readonly: true });
 } else {
 	console.log("Checking Main Resonance DB...");
-	db = DatabaseFactory.connectToResonance({ readonly: true });
+	db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 }
 
 const nodeCount = db.query("SELECT count(*) as count FROM nodes").get() as {

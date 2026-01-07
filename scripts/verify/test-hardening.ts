@@ -41,7 +41,7 @@ try {
 	const tagPattern = /<!-- tags: ([^>]+) -->\s*$/;
 	const match = secondContent.match(tagPattern);
 
-	if (match) {
+	if (match?.[1]) {
 		const existingTags = match[1]
 			.split(",")
 			.map((t) => t.trim())

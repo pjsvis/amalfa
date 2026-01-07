@@ -2,7 +2,7 @@ import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
 console.log("🏥 Analyzing Graph Health...");
 
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 
 // 1. Basic Stats via SQL (Fastest)
 const N = (

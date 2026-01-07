@@ -18,7 +18,7 @@ console.log(`Initial State: RSS=${baseline.rss}MB, Heap=${baseline.heap}MB`);
 
 // 1. Load Database Data (Raw Objects)
 console.log("\n--- Step 1: Loading Data from DB ---");
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance(undefined, { readonly: true });
 const nodes = db.query("SELECT * FROM nodes").all() as unknown[];
 const edges = db.query("SELECT * FROM edges").all() as unknown[];
 const s1 = getMemory();
