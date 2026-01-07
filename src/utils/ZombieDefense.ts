@@ -12,8 +12,12 @@ export interface ZombieReport {
 
 // Services intended to run as singletons
 const WHITELIST = [
-	"src/resonance/daemon.ts",
+	// AMALFA core services
 	"src/mcp/index.ts",
+	"src/resonance/services/vector-daemon.ts",
+	"src/daemon/index.ts",
+	// Legacy services
+	"src/resonance/daemon.ts",
 	"scripts/cli/dev.ts",
 	"src/resonance/cli/ingest.ts",
 	"bun run build:data",

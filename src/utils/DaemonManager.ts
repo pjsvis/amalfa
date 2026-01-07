@@ -16,13 +16,11 @@ export class DaemonManager {
 	private watcherLifecycle: ServiceLifecycle;
 
 	constructor() {
-		// TODO: Vector daemon needs dedicated server implementation
-		// Currently embedder.ts tries to connect to port 3010 but no server exists
 		this.vectorLifecycle = new ServiceLifecycle({
 			name: "Vector-Daemon",
 			pidFile: ".vector-daemon.pid",
 			logFile: ".vector-daemon.log",
-			entryPoint: "src/resonance/services/vector-daemon.ts", // TODO: Create this file
+			entryPoint: "src/resonance/services/vector-daemon.ts",
 		});
 
 		this.watcherLifecycle = new ServiceLifecycle({

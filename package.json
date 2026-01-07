@@ -48,6 +48,7 @@
 		"start": "bun run src/mcp/index.ts start",
 		"stop": "bun run src/mcp/index.ts stop",
 		"status": "bun run src/mcp/index.ts status",
+		"servers": "bun run scripts/cli/servers.ts",
 		"check": "biome check .",
 		"format": "biome format --write ."
 	},

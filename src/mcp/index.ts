@@ -74,9 +74,25 @@ async function runServer() {
 		log.info("ℹ️  File watching disabled in config");
 	}
 
-	// TODO: Start vector daemon when implementation exists
-	// const vectorStatus = await daemonManager.checkVectorDaemon();
-	// if (!vectorStatus.running) { await daemonManager.startVectorDaemon(); }
+	// Start vector daemon for fast embeddings
+	const vectorStatus = await daemonManager.checkVectorDaemon();
+	if (!vectorStatus.running) {
+		log.info("🔄 Starting vector daemon...");
+		try {
+			await daemonManager.startVectorDaemon();
+			log.info("✅ Vector daemon started");
+		} catch (e) {
+			log.warn(
+				{ err: e },
+				"⚠️  Failed to start vector daemon, searches will be slower",
+			);
+		}
+	} else {
+		log.info(
+			{ pid: vectorStatus.pid, port: vectorStatus.port },
+			"✅ Vector daemon already running",
+		);
+	}
 
 	log.info("🚀 AMALFA MCP Server Initializing...");
 

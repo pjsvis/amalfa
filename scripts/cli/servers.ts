@@ -1,23 +1,9 @@
-// Configuration
+// Configuration - AMALFA Services
 const SERVICES = [
-	{ name: "Dev Server", pidFile: ".dev.pid", port: "3000", command: "dev" },
-	{ name: "Daemon", pidFile: ".daemon.pid", port: "3010", command: "daemon" },
-	{ name: "MCP", pidFile: ".mcp.pid", port: "Stdio", command: "mcp" },
-	{ name: "Olmo-3", pidFile: ".olmo3.pid", port: "8084", command: "olmo3" },
-	{ name: "Phi-3.5", pidFile: ".phi.pid", port: "8082", command: "phi" },
-	{ name: "Llama-3", pidFile: ".llama.pid", port: "8083", command: "llama" },
-	{
-		name: "Llama-3-UV",
-		pidFile: ".llamauv.pid",
-		port: "8085",
-		command: "llamauv",
-	},
-	{
-		name: "Reactor",
-		pidFile: ".reactor.pid",
-		port: "3050",
-		command: "reactor",
-	},
+	{ name: "MCP Server", pidFile: ".mcp.pid", port: "stdio", command: "bun run start" },
+	{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", command: "bun run src/resonance/services/vector-daemon.ts start" },
+	{ name: "File Watcher", pidFile: ".amalfa-daemon.pid", port: "-", command: "bun run src/daemon/index.ts start" },
+	{ name: "Dev Server", pidFile: ".dev.pid", port: "3000", command: "bun run dev" },
 ];
 
 async function isRunning(pid: number): Promise<boolean> {
@@ -29,7 +15,7 @@ async function isRunning(pid: number): Promise<boolean> {
 	}
 }
 
-console.log("\n📡 PolyVis Service Status\n");
+console.log("\n📡 AMALFA Service Status\n");
 console.log(
 	"----------------------------------------------------------------------",
 );
