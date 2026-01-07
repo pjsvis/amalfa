@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.19] - 2026-01-07
+
 ### Fixed
 - Version reporting: CLI now reads version from `package.json` instead of hardcoded value, ensuring single source of truth
+- Added missing `validate-config` script to package.json for pre-publish checks
+
+### Documentation
+- Added pre-publish checklist to prevent release issues
 
 ## [1.0.18] - 2026-01-07
 
