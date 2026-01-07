@@ -8,8 +8,10 @@ import {
 	ListToolsRequestSchema,
 	ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+import { loadConfig } from "@src/config/defaults";
 import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
+import { DaemonManager } from "../utils/DaemonManager";
 import { EnvironmentVerifier } from "../utils/EnvironmentVerifier";
 import { getLogger } from "../utils/Logger";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
@@ -29,18 +31,52 @@ const lifecycle = new ServiceLifecycle({
 
 // --- Server Logic ---
 
+// Database path from config (loaded once at startup)
+let DB_PATH: string;
+
 // Helper function to create fresh database connection per request
 function createConnection() {
-	const dbPath = join(import.meta.dir, "../../.amalfa/resonance.db");
-	const db = new ResonanceDB(dbPath);
+	const db = new ResonanceDB(DB_PATH);
 	const vectorEngine = new VectorEngine(db.getRawDb());
 	return { db, vectorEngine };
 }
 
 async function runServer() {
-	// 0. Verify Environment
-	// TODO: Update EnvironmentVerifier for AMALFA paths (not PolyVis)
-	// await EnvironmentVerifier.verifyOrExit();
+	// 0. Load configuration
+	const config = await loadConfig();
+	DB_PATH = join(process.cwd(), config.database);
+	log.info({ database: DB_PATH }, "📁 Database path loaded from config");
+
+	// 1. Start daemons if needed
+	const daemonManager = new DaemonManager();
+
+	// Check file watcher status
+	if (config.watch?.enabled) {
+		const watcherStatus = await daemonManager.checkFileWatcher();
+		if (!watcherStatus.running) {
+			log.info("🔄 Starting file watcher daemon...");
+			try {
+				await daemonManager.startFileWatcher();
+				log.info("✅ File watcher daemon started");
+			} catch (e) {
+				log.warn(
+					{ err: e },
+					"⚠️  Failed to start file watcher, continuing without it",
+				);
+			}
+		} else {
+			log.info(
+				{ pid: watcherStatus.pid },
+				"✅ File watcher daemon already running",
+			);
+		}
+	} else {
+		log.info("ℹ️  File watching disabled in config");
+	}
+
+	// TODO: Start vector daemon when implementation exists
+	// const vectorStatus = await daemonManager.checkVectorDaemon();
+	// if (!vectorStatus.running) { await daemonManager.startVectorDaemon(); }
 
 	log.info("🚀 AMALFA MCP Server Initializing...");
 
