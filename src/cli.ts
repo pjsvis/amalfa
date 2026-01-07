@@ -4,7 +4,9 @@ import { join } from "node:path";
 import { spawn } from "node:child_process";
 
 const VERSION = "1.0.1";
-const DB_PATH = join(process.cwd(), ".amalfa/resonance.db");
+
+// Database path loaded from config (lazy loaded per command)
+let DB_PATH: string | null = null;
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -44,10 +46,21 @@ function showVersion() {
 	console.log(`amalfa v${VERSION}`);
 }
 
+async function getDbPath(): Promise<string> {
+	if (DB_PATH) return DB_PATH;
+	
+	// Load from config
+	const { loadConfig } = await import("./config/defaults");
+	const config = await loadConfig();
+	DB_PATH = join(process.cwd(), config.database);
+	return DB_PATH;
+}
+
 async function checkDatabase(): Promise<boolean> {
-	if (!existsSync(DB_PATH)) {
+	const dbPath = await getDbPath();
+	if (!existsSync(dbPath)) {
 		console.error(`
-❌ Database not found at: ${DB_PATH}
+❌ Database not found at: ${dbPath}
 
 To initialize AMALFA:
 1. Create markdown files in ./docs/ (or your preferred location)
@@ -66,8 +79,9 @@ async function cmdServe() {
 		process.exit(1);
 	}
 
+	const dbPath = await getDbPath();
 	console.error("🚀 Starting AMALFA MCP Server...");
-	console.error(`📊 Database: ${DB_PATH}`);
+	console.error(`📊 Database: ${dbPath}`);
 	console.error("");
 
 	// Run MCP server (it handles stdio transport)
@@ -89,18 +103,19 @@ async function cmdStats() {
 	}
 
 	// Import database wrapper
+	const dbPath = await getDbPath();
 	const { ResonanceDB } = await import("./resonance/db");
-	const db = new ResonanceDB(DB_PATH);
+	const db = new ResonanceDB(dbPath);
 
 	try {
 		const stats = db.getStats();
-		const fileSize = statSync(DB_PATH).size;
+		const fileSize = statSync(dbPath).size;
 		const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2);
 
-		console.log(`
+	console.log(`
 📊 AMALFA Database Statistics
 
-Database: ${DB_PATH}
+Database: ${dbPath}
 Size: ${fileSizeMB} MB
 
 Nodes: ${stats.nodes.toLocaleString()}
@@ -108,7 +123,7 @@ Edges: ${stats.edges.toLocaleString()}
 Embeddings: ${stats.vectors.toLocaleString()} (384-dim)
 
 Source: ./docs (markdown files)
-Last modified: ${new Date(statSync(DB_PATH).mtime).toISOString()}
+Last modified: ${new Date(statSync(dbPath).mtime).toISOString()}
 
 🔍 To search: Use with Claude Desktop or other MCP client
 📝 To update: Run 'amalfa daemon start' (coming soon)
