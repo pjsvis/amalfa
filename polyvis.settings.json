@@ -1,4 +1,5 @@
 {
+	"_comment": "⚠️  DEPRECATED: This file will be removed in v2.0. Use amalfa.config.json for user-facing settings. See docs/CONFIG_UNIFICATION.md",
 	"paths": {
 		"database": {
 			"resonance": "public/resonance.db"

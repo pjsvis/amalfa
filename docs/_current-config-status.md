@@ -80,10 +80,11 @@ Project Root
 
 ## Action Items
 
-- [ ] Decide: Merge AMALFA + Resonance configs for v1.0?
-- [ ] Document: Which config controls what
-- [ ] Validate: No conflicting settings between configs
-- [ ] Clean: Remove unused legacy config options
+- [x] Decide: Keep separate, deprecate polyvis.settings.json gradually (See CONFIG_UNIFICATION.md)
+- [x] Document: Which config controls what (See CONFIG_UNIFICATION.md)
+- [ ] Add deprecation warning when polyvis.settings.json is loaded
+- [ ] Migrate graph tuning to amalfa.config.json (optional)
+- [ ] Remove polyvis.settings.json in v2.0
 
 ## Notes
 
