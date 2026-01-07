@@ -45,7 +45,12 @@ interface ModelResults {
 async function compareModels() {
 	console.log("\n🔬 Embedding Model Comparison\n");
 	console.log("Testing: BGE Small EN v1.5 vs all-MiniLM-L6-v2");
-	console.log("Database: public/resonance.db\n");
+	
+	// Load database path from config
+	const { loadConfig } = await import("@src/config/defaults");
+	const config = await loadConfig();
+	const dbPath = join(process.cwd(), config.database);
+	console.log(`Database: ${dbPath}\n`);
 
 	const cacheDir = join(process.cwd(), ".resonance/cache");
 
@@ -63,7 +68,7 @@ async function compareModels() {
 		showDownloadProgress: false,
 	});
 
-	const db = new Database("public/resonance.db", { readonly: true });
+	const db = new Database(dbPath, { readonly: true });
 
 	// Get all nodes with BGE embeddings (current database)
 	const nodes = db

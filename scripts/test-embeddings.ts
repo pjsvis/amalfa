@@ -41,10 +41,16 @@ interface SearchResult {
 
 async function testEmbeddingEffectiveness() {
 	console.log("\n🔍 Testing Vector Embedding Effectiveness\n");
-	console.log("Database: public/resonance.db");
+	
+	// Load database path from config
+	const { loadConfig } = await import("@src/config/defaults");
+	const config = await loadConfig();
+	const dbPath = Bun.resolveSync(config.database, process.cwd());
+	
+	console.log(`Database: ${dbPath}`);
 	console.log("Model: BGE Small EN v1.5 (384 dimensions)\n");
 
-	const db = new Database("public/resonance.db", { readonly: true });
+	const db = new Database(dbPath, { readonly: true });
 	const embedder = Embedder.getInstance();
 
 	// Test queries covering different domains
