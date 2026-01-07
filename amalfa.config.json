@@ -10,5 +10,37 @@
     "debounce": 1000,
     "notifications": true
   },
-  "excludePatterns": ["node_modules", ".git", ".amalfa"]
+  "excludePatterns": ["node_modules", ".git", ".amalfa"],
+  "phi3": {
+    "enabled": true,
+    "autoDiscovery": true,
+    "discoveryMethod": "cli",
+    "inferenceMethod": "http",
+    "model": "phi3:latest",
+    "modelPriority": [
+      "phi3:latest",
+      "mistral:7b-instruct-v0.3-q4_K_M",
+      "llama3.1:8b"
+    ],
+    "host": "localhost:11434",
+    "port": 3012,
+    "tasks": {
+      "search": {
+        "enabled": true,
+        "timeout": 5000,
+        "priority": "high"
+      },
+      "metadata": {
+        "enabled": true,
+        "timeout": 30000,
+        "autoEnhance": true,
+        "batchSize": 10
+      },
+      "content": {
+        "enabled": false,
+        "timeout": 300000,
+        "schedule": "daily"
+      }
+    }
+  }
 }
