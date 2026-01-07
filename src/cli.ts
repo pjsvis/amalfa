@@ -3,7 +3,7 @@ import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { spawn } from "node:child_process";
 
-const VERSION = "1.0.14";
+const VERSION = "1.0.16";
 
 // Database path loaded from config (lazy loaded per command)
 let DB_PATH: string | null = null;

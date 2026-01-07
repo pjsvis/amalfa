@@ -229,34 +229,47 @@ Agents generate knowledge through structured reflection. Amalfa provides semanti
 
 ## Implementation Status
 
-### Phase 1: Basic Auto-Augmentation (In Progress)
+### ✅ Core Functionality (v1.0 - Released)
 
-- [ ] Entity extraction
-- [ ] Auto-linking (wiki-style)
-- [ ] Tag extraction
-- [ ] Embedding generation
-- [ ] Git integration
+- ✅ **MCP Server** - stdio transport, tools, resources
+- ✅ **Vector Search** - FastEmbed embeddings (384-dim), semantic search
+- ✅ **Database** - SQLite with hollow nodes, FAFCAS protocol
+- ✅ **Ingestion Pipeline** - Markdown → nodes + embeddings
+- ✅ **CLI** - init, serve, stats, doctor, servers, daemon, vector
+- ✅ **Service Management** - Vector daemon, file watcher, lifecycle
+- ✅ **Pre-flight Validation** - Check markdown before ingestion
 
-### Phase 2: Latent Space Tagging (Planned)
+### 🚧 Phase 1: Auto-Augmentation (In Progress)
+
+- [ ] Entity extraction from markdown
+- [ ] Auto-linking (wiki-style [[links]])
+- [ ] Tag extraction and indexing
+- [ ] Git-based auditing for augmentations
+- [ ] Automated file watcher updates
+
+### 📋 Phase 2: Latent Space Organization (Planned)
 
 - [ ] Document clustering (HDBSCAN)
 - [ ] Cluster label generation
 - [ ] Confidence-based tagging
 - [ ] Topic modeling (BERTopic)
+- [ ] Self-organizing taxonomy
 
-### Phase 3: Semantic Relationships (Planned)
+### 🔗 Phase 3: Graph Intelligence (Planned)
 
-- [ ] K-nearest neighbor search
+- [ ] K-nearest neighbor recommendations
 - [ ] Suggested reading lists
-- [ ] Temporal sequences
+- [ ] Temporal sequence tracking
 - [ ] Backlink maintenance
+- [ ] Graph traversal tools
 
-### Phase 4: Learning from Corrections (Future)
+### 🎯 Phase 4: Learning from Feedback (Future)
 
-- [ ] Track human edits
+- [ ] Track human edits to augmentations
 - [ ] Adjust confidence thresholds
-- [ ] Improve extraction
-- [ ] Weekly digest
+- [ ] Improve extraction heuristics
+- [ ] Weekly knowledge digest
+- [ ] Multi-agent coordination
 
 ---
 
@@ -332,12 +345,14 @@ bun run format           # Biome format
 
 ## Contributing
 
-Amalfa is in early development. Contributions welcome once v1.0 is released.
+Amalfa is in active development. Contributions are welcome!
 
-**For now:**
-- ⭐ Star the repo if interested
-- 👀 Watch for release announcements
-- 💬 Open issues for feedback
+**How to contribute:**
+- ⭐ Star the repo if you find it useful
+- 🐛 Report bugs or request features via issues
+- 📝 Improve documentation
+- 🚀 Submit PRs for new features or fixes
+- 💬 Join discussions about the vision and roadmap
 
 ---
 
