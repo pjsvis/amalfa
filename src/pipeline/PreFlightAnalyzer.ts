@@ -7,13 +7,14 @@
  * - Empty or invalid files
  * - Estimated resource usage
  * 
- * Generates .amalfa-pre-flight.log with recommendations.
+ * Generates .amalfa/logs/pre-flight.log with recommendations.
  */
 
 import { existsSync, lstatSync, readdirSync, realpathSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { getLogger } from "@src/utils/Logger";
 import type { AmalfaConfig } from "@src/config/defaults";
+import { AMALFA_DIRS, initAmalfaDirs } from "@src/config/defaults";
 
 const log = getLogger("PreFlightAnalyzer");
 
@@ -48,9 +49,12 @@ export class PreFlightAnalyzer {
 	private config: AmalfaConfig;
 	private visitedPaths = new Set<string>();
 	private issues: FileIssue[] = [];
+	private logPath = join(AMALFA_DIRS.logs, "pre-flight.log");
 
 	constructor(config: AmalfaConfig) {
 		this.config = config;
+		// Ensure .amalfa directories exist
+		initAmalfaDirs();
 	}
 
 	/**

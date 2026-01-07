@@ -66,25 +66,25 @@ export class AmalfaIngestor {
 				};
 			}
 
-			// Build lexicon from existing nodes (for EdgeWeaver)
-			const lexicon = this.buildLexicon();
-			const weaver = new EdgeWeaver(this.db, lexicon);
+			// TWO-PASS INGESTION:
+			// Pass 1: Create all nodes (without edges)
+			// Pass 2: Create edges (now that all nodes exist in lexicon)
 
-			// Process files in batches
 			const BATCH_SIZE = 50;
 			let processedCount = 0;
 
-		for (let i = 0; i < files.length; i++) {
-			const filePath = files[i];
-			if (!filePath) continue;
+			// PASS 1: Nodes only
+			for (let i = 0; i < files.length; i++) {
+				const filePath = files[i];
+				if (!filePath) continue;
 
-			// Start batch transaction
-			if (i % BATCH_SIZE === 0) {
-				this.db.beginTransaction();
-			}
+				// Start batch transaction
+				if (i % BATCH_SIZE === 0) {
+					this.db.beginTransaction();
+				}
 
-			await this.processFile(filePath, embedder, weaver, tokenizer);
-			processedCount++;
+				await this.processFile(filePath, embedder, null, tokenizer); // null = skip edge weaving
+				processedCount++;
 
 				// Progress indicator
 				if (processedCount % 10 === 0 || processedCount === files.length) {
@@ -97,6 +97,21 @@ export class AmalfaIngestor {
 					this.db.commit();
 				}
 			}
+
+			// PASS 2: Edges (now lexicon is populated)
+			const lexicon = this.buildLexicon();
+			const weaver = new EdgeWeaver(this.db, lexicon);
+
+			console.log("\n🔗 Creating edges...");
+			this.db.beginTransaction();
+			for (const filePath of files) {
+				if (!filePath) continue;
+				const content = await Bun.file(filePath).text();
+				const filename = filePath.split("/").pop() || "unknown";
+				const id = filename.replace(".md", "").toLowerCase().replace(/[^a-z0-9-]/g, "-");
+				weaver.weave(id, content);
+			}
+			this.db.commit();
 
 			// Force WAL checkpoint for persistence
 			this.log.info("💾 Forcing WAL checkpoint...");
@@ -192,7 +207,7 @@ export class AmalfaIngestor {
 	private async processFile(
 		filePath: string,
 		embedder: Embedder,
-		weaver: EdgeWeaver,
+		weaver: EdgeWeaver | null,
 		tokenizer: TokenizerService,
 	): Promise<void> {
 		try {
@@ -249,8 +264,10 @@ export class AmalfaIngestor {
 
 			this.db.insertNode(node);
 
-			// Weave edges
-			weaver.weave(id, content);
+			// Weave edges (only if weaver provided - skipped in pass 1)
+			if (weaver) {
+				weaver.weave(id, content);
+			}
 		} catch (e) {
 			this.log.warn({ err: e, file: filePath }, "⚠️  Failed to process file");
 		}

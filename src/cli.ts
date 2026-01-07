@@ -23,6 +23,7 @@ Commands:
   init [--force]     Initialize database from markdown files
   serve              Start MCP server (stdio transport)
   stats              Show database statistics
+  validate           Validate database health (pre-publish gate)
   doctor             Check installation and configuration
   setup-mcp          Generate MCP configuration JSON
   daemon <action>    Manage file watcher (start|stop|status|restart)
@@ -67,9 +68,7 @@ async function checkDatabase(): Promise<boolean> {
 
 To initialize AMALFA:
 1. Create markdown files in ./docs/ (or your preferred location)
-2. Run: amalfa init (coming soon in Phase 5)
-
-For now, you can manually create the .amalfa/ directory and database.
+2. Run: amalfa init
 `);
 		return false;
 	}
@@ -129,7 +128,7 @@ Source: ./docs (markdown files)
 Last modified: ${new Date(statSync(dbPath).mtime).toISOString()}
 
 🔍 To search: Use with Claude Desktop or other MCP client
-📝 To update: Run 'amalfa daemon start' (coming soon)
+📝 To update: Run 'amalfa daemon start' to watch for file changes
 `);
 	} catch (error) {
 		console.error("❌ Failed to read database statistics:", error);
@@ -174,7 +173,7 @@ async function cmdInit() {
 		for (const issue of report.issues.filter((i) => i.severity === "error")) {
 			console.error(`  - ${issue.path}: ${issue.details}`);
 		}
-		console.error("\nSee .amalfa-pre-flight.log for details and recommendations");
+			console.error("\nSee .amalfa/logs/pre-flight.log for details and recommendations");
 		console.error("\nFix these issues and try again.");
 		process.exit(1);
 	}
@@ -185,14 +184,14 @@ async function cmdInit() {
 		for (const issue of report.issues.filter((i) => i.severity === "warning")) {
 			console.warn(`  - ${issue.path}: ${issue.details}`);
 		}
-		console.warn("\nSee .amalfa-pre-flight.log for recommendations");
+			console.warn("\nSee .amalfa/logs/pre-flight.log for recommendations");
 		console.warn("\nTo proceed anyway, use: amalfa init --force");
 		process.exit(1);
 	}
 
 	if (report.validFiles === 0) {
 		console.error("\n❌ No valid markdown files found");
-		console.error("See .amalfa-pre-flight.log for details");
+			console.error("See .amalfa/logs/pre-flight.log for details");
 		process.exit(1);
 	}
 
@@ -226,6 +225,21 @@ async function cmdInit() {
 		db.close();
 
 		if (result.success) {
+			// Record database snapshot for tracking
+			const { StatsTracker } = await import("./utils/StatsTracker");
+			const tracker = new StatsTracker();
+			const fileSize = statSync(dbPath).size;
+			const dbSizeMB = fileSize / 1024 / 1024;
+			
+			await tracker.recordSnapshot({
+				timestamp: new Date().toISOString(),
+				nodes: result.stats.nodes,
+				edges: result.stats.edges,
+				embeddings: result.stats.vectors,
+				dbSizeMB,
+				version: VERSION,
+			});
+
 			console.log("\n✅ Initialization complete!");
 			console.log("\n📊 Summary:");
 			console.log(`  Files processed: ${result.stats.files}`);
@@ -233,6 +247,7 @@ async function cmdInit() {
 			console.log(`  Edges created: ${result.stats.edges}`);
 			console.log(`  Embeddings: ${result.stats.vectors}`);
 			console.log(`  Duration: ${result.stats.durationSec.toFixed(2)}s\n`);
+			console.log("📊 Snapshot saved to: .amalfa/stats-history.json\n");
 			console.log("Next steps:");
 			console.log("  amalfa serve     # Start MCP server");
 			console.log("  amalfa daemon    # Watch for file changes (coming soon)");
@@ -341,11 +356,12 @@ async function cmdSetupMcp() {
 
 async function cmdServers() {
 	const showDot = args.includes("--dot");
+	const { AMALFA_DIRS } = await import("./config/defaults");
 	
 	const SERVICES = [
-		{ name: "MCP Server", pidFile: ".mcp.pid", port: "stdio", id: "mcp", cmd: "amalfa serve" },
-		{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", id: "vector", cmd: "amalfa vector start" },
-		{ name: "File Watcher", pidFile: ".amalfa-daemon.pid", port: "-", id: "watcher", cmd: "amalfa daemon start" },
+		{ name: "MCP Server", pidFile: join(AMALFA_DIRS.runtime, "mcp.pid"), port: "stdio", id: "mcp", cmd: "amalfa serve" },
+		{ name: "Vector Daemon", pidFile: join(AMALFA_DIRS.runtime, "vector-daemon.pid"), port: "3010", id: "vector", cmd: "amalfa vector start" },
+		{ name: "File Watcher", pidFile: join(AMALFA_DIRS.runtime, "daemon.pid"), port: "-", id: "watcher", cmd: "amalfa daemon start" },
 	];
 
 	async function isRunning(pid: number): Promise<boolean> {
@@ -461,6 +477,90 @@ async function cmdServers() {
 	console.log("\n💡 Commands: amalfa serve | amalfa vector start | amalfa daemon start\n");
 }
 
+async function cmdValidate() {
+	console.log("🛡️  AMALFA Database Validation\n");
+
+	// Check database exists
+	if (!(await checkDatabase())) {
+		console.error("\n❌ Validation failed: Database not found");
+		process.exit(1);
+	}
+
+	const dbPath = await getDbPath();
+	const { ResonanceDB } = await import("./resonance/db");
+	const { StatsTracker } = await import("./utils/StatsTracker");
+
+	const db = new ResonanceDB(dbPath);
+	const tracker = new StatsTracker();
+
+	try {
+		// Get current stats
+		const stats = db.getStats();
+		const fileSize = statSync(dbPath).size;
+		const dbSizeMB = fileSize / 1024 / 1024;
+
+		const currentSnapshot = {
+			timestamp: new Date().toISOString(),
+			nodes: stats.nodes,
+			edges: stats.edges,
+			embeddings: stats.vectors,
+			dbSizeMB,
+			version: VERSION,
+		};
+
+		// Validate against history
+		const validation = tracker.validate(currentSnapshot);
+
+		console.log("📊 Current State:");
+		console.log(`  Nodes: ${stats.nodes}`);
+		console.log(`  Edges: ${stats.edges}`);
+		console.log(`  Embeddings: ${stats.vectors}`);
+		console.log(`  Database size: ${dbSizeMB.toFixed(2)} MB\n`);
+
+		if (validation.errors.length > 0) {
+			console.error("❌ ERRORS (Must Fix):");
+			for (const error of validation.errors) {
+				console.error(`  - ${error}`);
+			}
+			console.error("");
+		}
+
+		if (validation.warnings.length > 0) {
+			console.warn("⚠️  WARNINGS:");
+			for (const warning of validation.warnings) {
+				console.warn(`  - ${warning}`);
+			}
+			console.warn("");
+		}
+
+		// Show historical trend
+		const snapshots = tracker.getAllSnapshots();
+		if (snapshots.length > 1) {
+			console.log(tracker.getSummary());
+			console.log("");
+		}
+
+		if (validation.valid) {
+			console.log("✅ Validation passed! Database is healthy.");
+			if (validation.warnings.length > 0) {
+				console.log("\n💡 Consider addressing warnings before publishing.");
+			}
+		} else {
+			console.error("❌ Validation failed! Database has critical issues.");
+			console.error("\nFix errors before publishing:");
+			console.error("  - Run: amalfa init");
+			db.close();
+			process.exit(1);
+		}
+
+		db.close();
+	} catch (error) {
+		db.close();
+		console.error("❌ Validation failed:", error);
+		process.exit(1);
+	}
+}
+
 async function cmdDoctor() {
 	console.log("🩺 AMALFA Health Check\n");
 
@@ -552,6 +652,10 @@ async function main() {
 
 	case "doctor":
 		await cmdDoctor();
+		break;
+
+	case "validate":
+		await cmdValidate();
 		break;
 
 	case "init":

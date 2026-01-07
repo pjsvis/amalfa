@@ -1,6 +1,8 @@
 import { existsSync } from "node:fs";
 import { unlink } from "node:fs/promises";
+import { join } from "node:path";
 import { ZombieDefense } from "./ZombieDefense";
+import { AMALFA_DIRS, initAmalfaDirs } from "@src/config/defaults";
 
 export interface ServiceConfig {
 	name: string; // e.g. "Daemon"
@@ -25,6 +27,9 @@ export class ServiceLifecycle {
 	 * Start the service in the background (detached).
 	 */
 	async start() {
+		// Ensure .amalfa directories exist
+		initAmalfaDirs();
+		
 		// Enforce clean state first (kill duplicates)
 		await ZombieDefense.assertClean(this.config.name, true);
 
@@ -126,10 +131,16 @@ export class ServiceLifecycle {
 	 * Use this to wrap your actual server startup code.
 	 */
 	async serve(serverLogic: () => Promise<void>, checkZombies = true) {
+		// Ensure .amalfa directories exist
+		initAmalfaDirs();
+		
 		// Enforce clean state (ensure we aren't running as a zombie of ourselves)
 		if (checkZombies) {
 			await ZombieDefense.assertClean(`${this.config.name} (Serve)`);
 		}
+
+		// Write PID file for this serving process
+		await Bun.write(this.config.pidFile, process.pid.toString());
 
 		// Register cleanup handlers to remove PID file on exit/crash/kill
 		let cleanupCalled = false;

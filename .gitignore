@@ -67,10 +67,11 @@ resonance/dist
 .resonance/cache/
 
 # AMALFA Runtime Artifacts (Database is cache, markdown is source of truth)
-.amalfa/
-.amalfa-pre-flight.log
-.amalfa-daemon.pid
-.amalfa-daemon.log
+.amalfa/resonance.db
+.amalfa/resonance.db-wal
+.amalfa/resonance.db-shm
+.amalfa/logs/
+.amalfa/runtime/
 
 # Fastembed cache
 local_cache/
@@ -121,4 +122,3 @@ canary-*.db
 *.pdf
 !docs/architecture-diagrams/*.pdf
 test-docs/
-amalfa.config.json

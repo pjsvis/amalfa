@@ -5,10 +5,12 @@
  */
 
 import { serve } from "bun";
+import { join } from "node:path";
 import { EmbeddingModel, FlagEmbedding } from "fastembed";
 import { toFafcas } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
+import { AMALFA_DIRS } from "@src/config/defaults";
 
 const log = getLogger("VectorDaemon");
 const PORT = Number(process.env.VECTOR_PORT || 3010);
@@ -16,8 +18,8 @@ const PORT = Number(process.env.VECTOR_PORT || 3010);
 // Service lifecycle management
 const lifecycle = new ServiceLifecycle({
 	name: "Vector-Daemon",
-	pidFile: ".vector-daemon.pid",
-	logFile: ".vector-daemon.log",
+	pidFile: join(AMALFA_DIRS.runtime, "vector-daemon.pid"),
+	logFile: join(AMALFA_DIRS.logs, "vector-daemon.log"),
 	entryPoint: "src/resonance/services/vector-daemon.ts",
 });
 

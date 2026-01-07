@@ -54,6 +54,7 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "1.25.0",
+		"amalfa": "^1.0.16",
 		"fastembed": "2.0.0",
 		"pino": "^10.1.0"
 	}

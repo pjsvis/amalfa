@@ -3,6 +3,26 @@
  * Default settings that can be overridden via amalfa.config.{ts,js,json}
  */
 
+import { mkdirSync, existsSync } from "node:fs";
+import { join } from "node:path";
+
+/** AMALFA directory structure */
+export const AMALFA_DIRS = {
+	base: ".amalfa",
+	get logs() { return join(this.base, "logs"); },
+	get runtime() { return join(this.base, "runtime"); },
+} as const;
+
+/** Initialize AMALFA directory structure */
+export function initAmalfaDirs(): void {
+	const dirs = [AMALFA_DIRS.base, AMALFA_DIRS.logs, AMALFA_DIRS.runtime];
+	for (const dir of dirs) {
+		if (!existsSync(dir)) {
+			mkdirSync(dir, { recursive: true });
+		}
+	}
+}
+
 export interface AmalfaConfig {
 	/** @deprecated Use sources array instead */
 	source?: string;

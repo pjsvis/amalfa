@@ -1,5 +1,7 @@
 import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { ServiceLifecycle } from "./ServiceLifecycle";
+import { AMALFA_DIRS } from "@src/config/defaults";
 
 export interface DaemonStatus {
 	running: boolean;
@@ -18,15 +20,15 @@ export class DaemonManager {
 	constructor() {
 		this.vectorLifecycle = new ServiceLifecycle({
 			name: "Vector-Daemon",
-			pidFile: ".vector-daemon.pid",
-			logFile: ".vector-daemon.log",
+			pidFile: join(AMALFA_DIRS.runtime, "vector-daemon.pid"),
+			logFile: join(AMALFA_DIRS.logs, "vector-daemon.log"),
 			entryPoint: "src/resonance/services/vector-daemon.ts",
 		});
 
 		this.watcherLifecycle = new ServiceLifecycle({
 			name: "File-Watcher",
-			pidFile: ".amalfa-daemon.pid",
-			logFile: ".amalfa-daemon.log",
+			pidFile: join(AMALFA_DIRS.runtime, "daemon.pid"),
+			logFile: join(AMALFA_DIRS.logs, "daemon.log"),
 			entryPoint: "src/daemon/index.ts",
 		});
 	}
@@ -63,7 +65,7 @@ export class DaemonManager {
 	 * Check if vector daemon is running
 	 */
 	async checkVectorDaemon(): Promise<DaemonStatus> {
-		const pid = await this.readPid(".vector-daemon.pid");
+		const pid = await this.readPid(join(AMALFA_DIRS.runtime, "vector-daemon.pid"));
 		if (!pid) {
 			return { running: false };
 		}
@@ -96,7 +98,7 @@ export class DaemonManager {
 	 * Check if file watcher daemon is running
 	 */
 	async checkFileWatcher(): Promise<DaemonStatus> {
-		const pid = await this.readPid(".amalfa-daemon.pid");
+		const pid = await this.readPid(join(AMALFA_DIRS.runtime, "daemon.pid"));
 		if (!pid) {
 			return { running: false };
 		}

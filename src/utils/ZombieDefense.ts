@@ -82,6 +82,16 @@ export const ZombieDefense = {
 				const match = p.match(/\s+(\d+)\s+/);
 				if (match?.[1] && protectedPids.has(match[1])) return;
 
+				// Ignore CLI commands that are just launching services (parent processes)
+				if (
+					p.includes("src/cli.ts") ||
+					p.includes("cli.ts daemon") ||
+					p.includes("cli.ts vector") ||
+					p.includes("cli.ts servers")
+				) {
+					return;
+				}
+
 				// Strict Filter: Must be in our CWD or explicit bun run
 				if (!p.includes(process.cwd()) && !p.includes("bun run")) return;
 

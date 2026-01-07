@@ -7,11 +7,12 @@
 import { existsSync } from "node:fs";
 import { watch } from "node:fs";
 import { join } from "node:path";
-import { loadConfig } from "@src/config/defaults";
+import { loadConfig, AMALFA_DIRS } from "@src/config/defaults";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
+import { sendNotification } from "@src/utils/Notifications";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -20,8 +21,8 @@ const log = getLogger("AmalfaDaemon");
 // Service lifecycle management
 const lifecycle = new ServiceLifecycle({
 	name: "AMALFA-Daemon",
-	pidFile: ".amalfa-daemon.pid",
-	logFile: ".amalfa-daemon.log",
+	pidFile: join(AMALFA_DIRS.runtime, "daemon.pid"),
+	logFile: join(AMALFA_DIRS.logs, "daemon.log"),
 	entryPoint: "src/daemon/index.ts",
 });
 
@@ -154,7 +155,7 @@ function triggerIngestion(debounceMs: number) {
 				retryQueue.delete(file);
 			}
 
-			// Send notification (macOS only)
+			// Send notification
 			await sendNotification(
 				"AMALFA",
 				`Knowledge graph updated (${batchSize} file${batchSize > 1 ? "s" : ""})`,
@@ -207,18 +208,6 @@ function triggerIngestion(debounceMs: number) {
 			);
 		}
 	}, debounceMs);
-}
-
-/**
- * Send native notification (macOS)
- */
-async function sendNotification(title: string, message: string) {
-	try {
-		const script = `display notification "${message}" with title "${title}"`;
-		await Bun.spawn(["osascript", "-e", script]);
-	} catch (e) {
-		log.debug({ err: e }, "Failed to send notification");
-	}
 }
 
 // Run service lifecycle dispatcher

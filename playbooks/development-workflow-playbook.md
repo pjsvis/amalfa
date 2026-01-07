@@ -122,12 +122,25 @@ bun run mcp stop
 
 ### Service Artifacts
 
-Each service creates two files in the project root:
+Each service creates two files in the `.amalfa/` directory:
 
-- `.<service>.pid` - Process ID file (used for status tracking)
-- `.<service>.log` - Combined stdout + stderr logs
+- `.amalfa/runtime/<service>.pid` - Process ID file (used for status tracking)
+- `.amalfa/logs/<service>.log` - Combined stdout + stderr logs
 
-**Example:** `.dev.pid` contains `12345` and `.dev.log` contains server output.
+**Example:** `.amalfa/runtime/daemon.pid` contains `12345` and `.amalfa/logs/daemon.log` contains server output.
+
+**Directory Structure:**
+```
+.amalfa/
+├── logs/           # Service log files
+│   ├── daemon.log
+│   ├── vector-daemon.log
+│   └── mcp.log
+└── runtime/        # Service PID files
+    ├── daemon.pid
+    ├── vector-daemon.pid
+    └── mcp.pid
+```
 
 ### Viewing Logs
 
@@ -135,13 +148,13 @@ To view a service's logs:
 
 ```bash
 # Tail the log file
-tail -f .daemon.log
+tail -f .amalfa/logs/daemon.log
 
 # View entire log
-cat .daemon.log
+cat .amalfa/logs/daemon.log
 
 # Search for errors
-grep "error" .daemon.log
+grep "error" .amalfa/logs/daemon.log
 ```
 
 ### Protocol Reference

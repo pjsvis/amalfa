@@ -14,6 +14,7 @@ import { ResonanceDB } from "@src/resonance/db";
 import { DaemonManager } from "../utils/DaemonManager";
 import { getLogger } from "../utils/Logger";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
+import { AMALFA_DIRS } from "@src/config/defaults";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -23,8 +24,8 @@ const log = getLogger("MCP");
 
 const lifecycle = new ServiceLifecycle({
 	name: "MCP",
-	pidFile: ".mcp.pid",
-	logFile: ".mcp.log",
+	pidFile: join(AMALFA_DIRS.runtime, "mcp.pid"),
+	logFile: join(AMALFA_DIRS.logs, "mcp.log"),
 	entryPoint: "src/mcp/index.ts",
 });
 

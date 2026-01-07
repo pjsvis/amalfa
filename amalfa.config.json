@@ -1,0 +1,13 @@
+{
+  "sources": ["./docs", "./playbooks", "./debriefs"],
+  "database": ".amalfa/resonance.db",
+  "embeddings": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "dimensions": 384
+  },
+  "watch": {
+    "enabled": true,
+    "debounce": 1000
+  },
+  "excludePatterns": ["node_modules", ".git", ".amalfa"]
+}

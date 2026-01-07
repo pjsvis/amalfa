@@ -48,6 +48,7 @@ export class EdgeWeaver {
 		this.processTags(sourceNodeId, content);
 		this.processWikiLinks(sourceNodeId, content);
 		this.processMetadataTags(sourceNodeId, content);
+		this.processMarkdownLinks(sourceNodeId, content);
 	}
 
 	private processTags(sourceId: string, content: string): void {
@@ -123,6 +124,36 @@ export class EdgeWeaver {
 				// or just ignore it.
 				// For now, if we can't resolve it to an ID, we ignore it to prevent Orphans.
 				// (Orphan Rescue is a separate process).
+			}
+		}
+	}
+
+	private processMarkdownLinks(sourceId: string, content: string): void {
+		// Match standard markdown links: [text](./file.md) or [text](file.md)
+		const matches = content.matchAll(/\[([^\]]+)\]\(([^)]+\.md)\)/g);
+
+		for (const match of matches) {
+			if (!match[2]) continue;
+			let linkPath = match[2].trim();
+
+			// Skip external links (http/https)
+			if (linkPath.startsWith("http://") || linkPath.startsWith("https://")) {
+				continue;
+			}
+
+			// Extract filename from path
+			const filename = linkPath.split("/").pop();
+			if (!filename) continue;
+
+			// Convert filename to node ID (same logic as ingestion)
+			const targetId = filename
+				.replace(".md", "")
+				.toLowerCase()
+				.replace(/[^a-z0-9-]/g, "-");
+
+			// Insert edge only if target node exists in lexicon
+			if (this.lexicon.has(targetId)) {
+				this.safeInsertEdge(sourceId, targetId, "LINKS_TO");
 			}
 		}
 	}
