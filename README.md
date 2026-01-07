@@ -100,11 +100,17 @@ for cluster in clusters:
 
 ### Installation
 
+**Requires Bun** (v1.0+) - [Install Bun](https://bun.sh)
+
 ```bash
-npm install -g amalfa
-# or
 bun install -g amalfa
 ```
+
+**Why Bun?**
+- ⚡ **Fast startup** - Critical for stdio-based MCP servers that spawn on every request
+- 🔄 **Built-in daemon management** - Runs background processes for file watching and vector embeddings
+- 📦 **Native TypeScript** - No compilation step, direct execution from source
+- 🎯 **SQLite performance** - Optimized native bindings for database operations
 
 **From source** (for development):
 ```bash
@@ -140,9 +146,9 @@ bun install
 
 5. **Restart Claude Desktop**
 
-**Full setup guide:** [docs/MCP_SETUP.md](docs/MCP_SETUP.md)
+**Full setup guide:** See repository docs for detailed MCP setup
 
-**Package status:** Reserved at https://www.npmjs.com/package/amalfa (v1.0 coming soon)
+**Package:** Available at https://www.npmjs.com/package/amalfa
 
 ---
 
@@ -264,10 +270,20 @@ bun run dev
 ### Commands
 
 ```bash
-bun run dev          # Start dev server
-bun run build        # Build for production
-bun test             # Run tests
-bun run precommit    # TypeScript + Biome checks
+# CLI commands (available after global install)
+amalfa init              # Initialize database from markdown
+amalfa serve             # Start MCP server (stdio)
+amalfa stats             # Show database statistics
+amalfa doctor            # Health check
+amalfa servers           # Show all service status
+amalfa daemon start      # Start file watcher daemon
+amalfa daemon stop       # Stop file watcher daemon
+amalfa daemon status     # Check daemon status
+amalfa setup-mcp         # Generate MCP config
+
+# Development commands
+bun test                 # Run tests
+bun run precommit        # TypeScript + Biome checks
 ```
 
 ---
@@ -313,15 +329,14 @@ Amalfa evolved from patterns discovered in the [PolyVis](https://github.com/pjsv
 
 ## Roadmap
 
-### v1.0 (Q1 2026)
+### v1.0 (Released)
 
-- ✅ Package name reserved on npm
+- ✅ Published to npm
 - ✅ Core vision documented
 - ✅ Auto-augmentation design complete
-- 🚧 MVP implementation (in progress)
-- [ ] MCP server functional
-- [ ] Basic semantic search working
-- [ ] Initial release
+- ✅ MCP server functional
+- ✅ Basic semantic search working
+- ✅ Initial release
 
 ### v1.1+ (Future)
 

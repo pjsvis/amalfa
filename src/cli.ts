@@ -3,7 +3,7 @@ import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { spawn } from "node:child_process";
 
-const VERSION = "1.0.1";
+const VERSION = "1.0.9";
 
 // Database path loaded from config (lazy loaded per command)
 let DB_PATH: string | null = null;
@@ -26,6 +26,7 @@ Commands:
   doctor             Check installation and configuration
   setup-mcp          Generate MCP configuration JSON
   daemon <action>    Manage file watcher (start|stop|status|restart)
+  servers [--dot]    Show status of all AMALFA services (--dot for graph)
 
 Options:
   --force            Override pre-flight warnings (errors still block)
@@ -315,6 +316,126 @@ async function cmdSetupMcp() {
 	console.log();
 }
 
+async function cmdServers() {
+	const showDot = args.includes("--dot");
+	
+	const SERVICES = [
+		{ name: "MCP Server", pidFile: ".mcp.pid", port: "stdio", id: "mcp" },
+		{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", id: "vector" },
+		{ name: "File Watcher", pidFile: ".amalfa-daemon.pid", port: "-", id: "watcher" },
+	];
+
+	async function isRunning(pid: number): Promise<boolean> {
+		try {
+			process.kill(pid, 0);
+			return true;
+		} catch {
+			return false;
+		}
+	}
+	
+	if (showDot) {
+		// Generate DOT diagram
+		const statuses = new Map<string, { status: string; pid: string }>();
+		
+		for (const svc of SERVICES) {
+			let status = "stopped";
+			let pidStr = "-";
+			
+			if (existsSync(svc.pidFile)) {
+				try {
+					const { readFileSync } = await import("node:fs");
+					const text = readFileSync(svc.pidFile, "utf-8");
+					const pid = Number.parseInt(text.trim(), 10);
+					
+					if (!Number.isNaN(pid) && await isRunning(pid)) {
+						status = "running";
+						pidStr = pid.toString();
+					} else {
+						status = "stale";
+						pidStr = `${pid}`;
+					}
+				} catch {
+					// Ignore
+				}
+			}
+			
+			statuses.set(svc.id, { status, pid: pidStr });
+		}
+		
+		console.log("digraph AMALFA {");
+		console.log("  rankdir=LR;");
+		console.log("  node [shape=box, style=filled];");
+		console.log("");
+		console.log("  // Nodes");
+		
+		for (const svc of SERVICES) {
+			const st = statuses.get(svc.id);
+			const color = st?.status === "running" ? "lightgreen" : st?.status === "stale" ? "orange" : "lightgray";
+			const label = `${svc.name}\\nPort: ${svc.port}\\nPID: ${st?.pid || "-"}`;
+			console.log(`  ${svc.id} [label="${label}", fillcolor=${color}];`);
+		}
+		
+		console.log("");
+		console.log("  // Database");
+		console.log("  db [label=\"SQLite\\n.amalfa/resonance.db\", shape=cylinder, fillcolor=lightyellow];");
+		console.log("");
+		console.log("  // Connections");
+		console.log("  mcp -> db [label=\"read/write\"];");
+		console.log("  vector -> db [label=\"embeddings\"];");
+		console.log("  watcher -> db [label=\"updates\"];");
+		console.log("  mcp -> vector [label=\"query\", style=dashed];");
+		console.log("}");
+		console.log("");
+		console.log("# Save to file: amalfa servers --dot > amalfa.dot");
+		console.log("# Render: dot -Tpng amalfa.dot -o amalfa.png");
+		return;
+	}
+
+	console.log("\n📡 AMALFA Service Status\n");
+	console.log("─".repeat(70));
+	console.log(
+		"SERVICE".padEnd(18) +
+		"PORT".padEnd(12) +
+		"STATUS".padEnd(15) +
+		"PID".padEnd(10)
+	);
+	console.log("─".repeat(70));
+
+	for (const svc of SERVICES) {
+		const { readFileSync } = await import("node:fs");
+		let status = "⚪️ STOPPED";
+		let pidStr = "-";
+
+		if (existsSync(svc.pidFile)) {
+			try {
+				const text = readFileSync(svc.pidFile, "utf-8");
+				const pid = Number.parseInt(text.trim(), 10);
+
+				if (!Number.isNaN(pid) && await isRunning(pid)) {
+					status = "🟢 RUNNING";
+					pidStr = pid.toString();
+				} else {
+					status = "🔴 STALE";
+					pidStr = `${pid} (?)`;
+				}
+			} catch {
+				// Ignore read errors
+			}
+		}
+
+		console.log(
+			svc.name.padEnd(18) +
+			svc.port.padEnd(12) +
+			status.padEnd(15) +
+			pidStr.padEnd(10)
+		);
+	}
+
+	console.log("─".repeat(70));
+	console.log("\n💡 Tip: Use 'amalfa daemon start' to start the file watcher\n");
+}
+
 async function cmdDoctor() {
 	console.log("🩺 AMALFA Health Check\n");
 
@@ -418,6 +539,10 @@ async function main() {
 
 	case "setup-mcp":
 		await cmdSetupMcp();
+		break;
+
+	case "servers":
+		await cmdServers();
 		break;
 
 		case "version":

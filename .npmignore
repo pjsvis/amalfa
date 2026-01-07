@@ -26,6 +26,7 @@ SCOREBOARD.md
 
 # Testing
 test-docs/
+tests/
 *.test.ts
 *.spec.ts
 
@@ -35,6 +36,9 @@ dist/
 *.db
 *.db-shm
 *.db-wal
+
+# Fastembed cache (large model files)
+local_cache/
 
 # Logs
 *.log
@@ -61,8 +65,7 @@ Thumbs.db
 .github/
 
 # Documentation (keep in repo, not package)
-docs/webdocs/
-docs/architecture/
+docs/
 playbooks/
 briefs/
 debriefs/
@@ -92,6 +95,9 @@ deprecated/
 
 # Beads (AI tool metadata)
 .beads/
+
+# Resonance cache (large model files)
+.resonance/
 
 # Claude Desktop config
 .claude/
