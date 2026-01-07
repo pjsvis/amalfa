@@ -44,6 +44,7 @@
 		"precommit": "bun run scripts/maintenance/pre-commit.ts",
 		"check": "biome check .",
 		"format": "biome format --write .",
+		"validate-config": "bun run scripts/validate-config.ts",
 		"amalfa": "bun run src/cli.ts",
 		"servers": "bun run src/cli.ts servers",
 		"servers:dot": "bun run src/cli.ts servers --dot",
