@@ -24,6 +24,7 @@ Commands:
   serve              Start MCP server (stdio transport)
   stats              Show database statistics
   doctor             Check installation and configuration
+  setup-mcp          Generate MCP configuration JSON
   daemon <action>    Manage file watcher (start|stop|status|restart)
 
 Options:
@@ -265,6 +266,55 @@ async function cmdDaemon() {
 	});
 }
 
+async function cmdSetupMcp() {
+	const { resolve } = await import("node:path");
+	
+	const cwd = resolve(process.cwd());
+	const mcpScript = resolve(cwd, "src/mcp/index.ts");
+	
+	// Minimal PATH for MCP - only include essential directories
+	const bunPath = process.execPath.replace(/\/bun$/, ''); // Directory containing bun
+	const minimalPath = [
+		bunPath,
+		'/usr/local/bin',
+		'/usr/bin',
+		'/bin',
+		'/usr/sbin',
+		'/sbin',
+		'/opt/homebrew/bin',  // Apple Silicon Homebrew
+	].join(':');
+	
+	const config = {
+		mcpServers: {
+			amalfa: {
+				command: "bun",
+				args: ["run", mcpScript],
+				env: {
+					PATH: minimalPath,
+				},
+			},
+		},
+	};
+	
+	console.log("\n✅ AMALFA MCP Configuration");
+	console.log("=".repeat(60));
+	console.log(`📂 Installation: ${cwd}`);
+	console.log("=".repeat(60));
+	console.log("\n📋 Copy this JSON to your MCP client config:");
+	console.log("   Claude Desktop: ~/Library/Application Support/Claude/claude_desktop_config.json");
+	console.log("   Warp Preview: MCP settings\n");
+	console.log("=".repeat(60));
+	console.log();
+	
+	console.log(JSON.stringify(config, null, 2));
+	
+	console.log();
+	console.log("=".repeat(60));
+	console.log("💡 Tip: If you move this folder, run 'amalfa setup-mcp' again");
+	console.log("=".repeat(60));
+	console.log();
+}
+
 async function cmdDoctor() {
 	console.log("🩺 AMALFA Health Check\n");
 
@@ -364,6 +414,10 @@ async function main() {
 
 	case "daemon":
 		await cmdDaemon();
+		break;
+
+	case "setup-mcp":
+		await cmdSetupMcp();
 		break;
 
 		case "version":

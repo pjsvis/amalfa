@@ -14,7 +14,17 @@
 
 ## Step 1: Install AMALFA
 
-### Option A: Clone from GitHub (Current)
+### Option A: Install from npm (Recommended)
+
+```bash
+npm install -g amalfa
+# or
+bun install -g amalfa
+```
+
+**Package**: https://www.npmjs.com/package/amalfa
+
+### Option B: Clone from GitHub (Development)
 
 ```bash
 git clone https://github.com/pjsvis/amalfa.git
@@ -22,13 +32,7 @@ cd amalfa
 bun install
 ```
 
-### Option B: npm install (Coming in v1.0)
-
-```bash
-npm install -g amalfa
-```
-
-**Note**: Package reserved at https://www.npmjs.com/package/amalfa but not yet published.
+**Note**: Option A is recommended for users. Option B is for contributors and development.
 
 ---
 
@@ -185,6 +189,12 @@ Next steps:
 
 Generate the JSON configuration for your MCP client:
 
+**If installed globally (npm/bun)**:
+```bash
+amalfa setup-mcp
+```
+
+**If cloned from GitHub**:
 ```bash
 bun run scripts/setup_mcp.ts
 ```

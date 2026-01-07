@@ -8,9 +8,10 @@ MCP server that gives AI agents semantic access to project knowledge graphs.
 
 ## Status
 
-🚧 **v1.0 in development** - Package name reserved on npm
+✅ **v1.0 published** - Available on npm
 
-[![npm](https://img.shields.io/badge/npm-amalfa-CB3837?logo=npm)](https://www.npmjs.com/package/amalfa)
+[![npm](https://img.shields.io/npm/v/amalfa?logo=npm)](https://www.npmjs.com/package/amalfa)
+[![downloads](https://img.shields.io/npm/dm/amalfa)](https://www.npmjs.com/package/amalfa)
 
 ---
 
@@ -99,6 +100,13 @@ for cluster in clusters:
 
 ### Installation
 
+```bash
+npm install -g amalfa
+# or
+bun install -g amalfa
+```
+
+**From source** (for development):
 ```bash
 git clone https://github.com/pjsvis/amalfa.git
 cd amalfa
