@@ -17,6 +17,20 @@ export interface AmalfaConfig {
 		debounce: number;
 	};
 	excludePatterns: string[];
+	/** Graph analysis tuning parameters (optional) */
+	graph?: {
+		tuning?: {
+			louvain?: {
+				persona?: number;
+				experience?: number;
+			};
+		};
+	};
+	/** Persona fixture paths (optional, for legacy Resonance features) */
+	fixtures?: {
+		lexicon?: string;
+		cda?: string;
+	};
 }
 
 export const DEFAULT_CONFIG: AmalfaConfig = {
@@ -31,6 +45,20 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 		debounce: 1000,
 	},
 	excludePatterns: ["node_modules", ".git", ".amalfa"],
+	// Optional graph tuning (for advanced use)
+	graph: {
+		tuning: {
+			louvain: {
+				persona: 0.3,
+				experience: 0.25,
+			},
+		},
+	},
+	// Optional fixtures (for legacy Resonance features)
+	fixtures: {
+		lexicon: "scripts/fixtures/conceptual-lexicon-ref-v1.79.json",
+		cda: "scripts/fixtures/cda-ref-v63.json",
+	},
 };
 
 /**
@@ -58,19 +86,31 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 					userConfig = imported.default || imported;
 				}
 
-				// Merge with defaults
-				const merged = {
-					...DEFAULT_CONFIG,
-					...userConfig,
-					embeddings: {
-						...DEFAULT_CONFIG.embeddings,
-						...(userConfig.embeddings || {}),
+			// Merge with defaults
+			const merged = {
+				...DEFAULT_CONFIG,
+				...userConfig,
+				embeddings: {
+					...DEFAULT_CONFIG.embeddings,
+					...(userConfig.embeddings || {}),
+				},
+				watch: {
+					...DEFAULT_CONFIG.watch,
+					...(userConfig.watch || {}),
+				},
+				graph: {
+					...DEFAULT_CONFIG.graph,
+					...(userConfig.graph || {}),
+					tuning: {
+						...(DEFAULT_CONFIG.graph?.tuning || {}),
+						...(userConfig.graph?.tuning || {}),
 					},
-					watch: {
-						...DEFAULT_CONFIG.watch,
-						...(userConfig.watch || {}),
-					},
-				};
+				},
+				fixtures: {
+					...DEFAULT_CONFIG.fixtures,
+					...(userConfig.fixtures || {}),
+				},
+			};
 
 				// Normalize: Convert legacy 'source' to 'sources' array
 				if (merged.source && !merged.sources) {
