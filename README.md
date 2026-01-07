@@ -186,9 +186,49 @@ amalfa/
 ### Key Patterns
 
 1. **Hollow Nodes:** Node metadata in SQLite, content on filesystem
-2. **FAFCAS Protocol:** Fast Approximate Fuzzy Cosine Similarity search
+2. **FAFCAS Protocol:** Embedding normalization that enables scalar product searches (10x faster than cosine similarity)
 3. **Git-Based Auditing:** All agent augmentations are git commits
 4. **ServiceLifecycle:** Unified daemon management pattern
+
+---
+
+## Example Workflow
+
+AMALFA follows a **Brief → Work → Debrief → Playbook** cycle:
+
+```dot
+digraph workflow {
+  rankdir=LR;
+  node [shape=box, style=filled];
+  
+  // Nodes
+  brief [label="Brief\n(Task Spec)", fillcolor=lightyellow];
+  work [label="Work\n(Implementation)", fillcolor=lightblue];
+  debrief [label="Debrief\n(Lessons Learned)", fillcolor=lightgreen];
+  playbook [label="Playbook\n(Codified Pattern)", fillcolor=orange];
+  db [label="AMALFA\nKnowledge Graph", shape=cylinder, fillcolor=lightgray];
+  
+  // Flow
+  brief -> work [label="guides"];
+  work -> debrief [label="captures"];
+  debrief -> playbook [label="abstracts to"];
+  playbook -> db [label="indexed as"];
+  db -> brief [label="informs\nnext task", style=dashed];
+  
+  // Semantic layer
+  db -> db [label="semantic search\nvector embeddings\ngraph traversal", style=dotted];
+}
+```
+
+**Example:**
+
+1. **Brief:** "Implement user authentication with JWT tokens"
+2. **Work:** Agent implements the feature, commits code
+3. **Debrief:** Document what worked (JWT refresh tokens), what didn't (session storage), lessons learned
+4. **Playbook:** Extract reusable pattern: "Authentication with stateless JWT tokens"
+5. **Query:** Later, "How should we handle auth?" → AMALFA retrieves the playbook via semantic search
+
+**The magic:** Each document is embedded as a vector (384 dimensions), enabling semantic search across all accumulated knowledge.
 
 ---
 
