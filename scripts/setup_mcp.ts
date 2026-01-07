@@ -19,14 +19,25 @@ const cwd = resolve(process.cwd());
 const mcpScript = resolve(cwd, "src/mcp/index.ts");
 const _bunPath = process.execPath; // "bun" executable path
 
+// Minimal PATH for MCP - only include essential directories
+const bunPath = process.execPath.replace(/\/bun$/, ''); // Directory containing bun
+const minimalPath = [
+	bunPath,
+	'/usr/local/bin',
+	'/usr/bin',
+	'/bin',
+	'/usr/sbin',
+	'/sbin',
+	'/opt/homebrew/bin',  // Apple Silicon Homebrew
+].join(':');
+
 const config = {
 	mcpServers: {
-		polyvis: {
+		amalfa: {
 			command: "bun",
 			args: ["run", mcpScript],
 			env: {
-				PATH: process.env.PATH, // Inherit path to find tools
-				// Add specific env vars here if needed
+				PATH: minimalPath,
 			},
 		},
 	},

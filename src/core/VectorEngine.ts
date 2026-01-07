@@ -192,22 +192,35 @@ export class VectorEngine {
 		const topK = scored.sort((a, b) => b.score - a.score).slice(0, limit);
 
 		// 5. Hydrate Content (for top K only)
+		// Note: Hollow Nodes have content=NULL, use meta.source to read from filesystem if needed
 		const results: SearchResult[] = [];
 		const contentStmt = this.db.prepare(
-			"SELECT title, content FROM nodes WHERE id = ?",
+			"SELECT title, content, meta FROM nodes WHERE id = ?",
 		);
 
 		for (const item of topK) {
 			const row = contentStmt.get(item.id) as {
 				title: string;
-				content: string;
+				content: string | null;
+				meta: string | null;
 			};
 			if (row) {
+				// For hollow nodes, extract a preview from title or meta
+				let content = row.content || "";
+				if (!content && row.meta) {
+					try {
+						const meta = JSON.parse(row.meta);
+						// Provide source path as content placeholder for hollow nodes
+						content = `[Hollow Node: ${meta.source || "no source"}]`;
+					} catch {
+						content = "[Hollow Node: parse error]";
+					}
+				}
 				results.push({
 					id: item.id,
 					score: item.score,
-					title: row.title, // Add title
-					content: row.content,
+					title: row.title,
+					content: content,
 				});
 			}
 		}

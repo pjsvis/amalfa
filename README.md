@@ -97,9 +97,44 @@ for cluster in clusters:
 
 ## Quick Start
 
-**Coming soon.** Package reserved at: https://www.npmjs.com/package/amalfa
+### Installation
 
-Watch this repo for v1.0 release.
+```bash
+git clone https://github.com/pjsvis/amalfa.git
+cd amalfa
+bun install
+```
+
+### Setup MCP Server
+
+1. **Configure your sources** in `amalfa.config.json`:
+   ```json
+   {
+     "sources": ["./docs", "./playbooks"],
+     "database": ".amalfa/resonance.db"
+   }
+   ```
+
+2. **Ingest your markdown**:
+   ```bash
+   bun run scripts/cli/ingest.ts
+   ```
+
+3. **Generate MCP config**:
+   ```bash
+   bun run scripts/setup_mcp.ts
+   ```
+
+4. **Add to Claude Desktop**: Copy the JSON output to:
+   ```
+   ~/Library/Application Support/Claude/claude_desktop_config.json
+   ```
+
+5. **Restart Claude Desktop**
+
+**Full setup guide:** [docs/MCP_SETUP.md](docs/MCP_SETUP.md)
+
+**Package status:** Reserved at https://www.npmjs.com/package/amalfa (v1.0 coming soon)
 
 ---
 

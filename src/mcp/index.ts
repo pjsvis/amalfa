@@ -138,10 +138,14 @@ async function runServer() {
 					try {
 						const vectorResults = await vectorEngine.search(query, limit);
 						for (const r of vectorResults) {
+							// Handle hollow nodes: content may be placeholder text
+							const preview = r.content
+								? r.content.slice(0, 200).replace(/\n/g, " ")
+								: "[No preview available]";
 							candidates.set(r.id, {
 								id: r.id,
 								score: r.score,
-								preview: r.content.slice(0, 200).replace(/\n/g, " "),
+								preview: preview,
 								source: "vector",
 							});
 						}
