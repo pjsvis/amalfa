@@ -1,12 +1,84 @@
 # Current Task
 
-**Status**: v1.0.18 Ready ✅  
-**Last Session**: 2026-01-07  
-**Next Focus**: Published and Validated
+**Status**: v1.0.20 Ready ✅  
+**Last Session**: 2026-01-07 (Hardening)  
+**Next Focus**: Production Monitoring
 
 ---
 
-## Session 2026-01-07: Kent Beck "Tidy First" + Architecture Documentation
+## Session 2026-01-07 (Part 3): Code Audit & Hardening
+
+### Completed ✅
+
+**1. Actor Playbook Compliance Audit**
+- ✅ Code-level audit against Actor Playbook heuristics
+- ✅ Identified missing OH-104 (Pinch Check) in ingestion pipeline
+- ✅ Identified inject_tags stacking bug in MCP server
+
+**2. OH-104 Implementation**
+- ✅ Added physical file verification after WAL checkpoint in `AmalfaIngestor.ts`
+- ✅ File existence and size checks prevent silent corruption
+- ✅ Explicit error messages reference OH-104 for debugging
+- ✅ Verified with production `init` command (logs `Pinch Check: db=208.0KB`)
+
+**3. MCP Tool Idempotency**
+- ✅ Fixed inject_tags to merge/deduplicate tags instead of stacking
+- ✅ Implemented tag block detection with regex
+- ✅ Preserved idempotency for repeated agent calls
+
+**4. TypeScript & Code Quality**
+- ✅ Fixed 6 instances of private `db` property access
+- ✅ Replaced with public `getRawDb()` method
+- ✅ Applied Biome formatting to all modified files
+- ✅ Resolved all TypeScript compilation errors
+
+**5. Test Coverage**
+- ✅ Created `scripts/verify/test-hardening.ts`
+- ✅ Validates both OH-104 and inject_tags improvements
+- ✅ All core tests passing (weaver, database factory)
+
+**6. Documentation**
+- ✅ Comprehensive technical debrief (`debriefs/2026-01-07-hardening-improvements.md`)
+- ✅ Wrap-up debrief following playbook format
+- ✅ Updated CHANGELOG.md
+
+### Key Insights
+
+**Actor Playbook Value:**
+- OH-104 and OH-105 patterns caught real production gap
+- "Senior Engineer Paranoia" checks prevent actual failure modes
+- Quarterly code audits against playbooks should be standard practice
+
+**Hollow Node Pattern:**
+- Database stores only metadata + embeddings (index)
+- Content lives on filesystem (source of truth)
+- System can be fully rebuilt from files at any time
+- Brilliant resilience through separation of concerns
+
+**Idempotency for Agents:**
+- MCP tools must handle repeated calls gracefully
+- Merge/deduplicate instead of append
+- Other tools need similar audit (search_documents, explore_links)
+
+### Statistics
+
+**Changes:**
+- Files modified: 6
+- Lines added: 174
+- Lines removed: 94
+- Test script: 1 new
+- Debriefs: 2 created
+
+**Verification:**
+- ✅ OH-104 active in production
+- ✅ inject_tags idempotent
+- ✅ TypeScript errors: 0
+- ✅ Biome compliance: passing
+- ✅ Test suite: passing
+
+---
+
+## Session 2026-01-07 (Part 2): Kent Beck "Tidy First" + Architecture Documentation
 
 ### Completed ✅
 

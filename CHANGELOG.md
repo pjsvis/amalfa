@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **OH-104 Pinch Check**: Physical file verification after WAL checkpoint to prevent silent corruption
+- Test script `scripts/verify/test-hardening.ts` for validating resilience improvements
+
+### Fixed
+- **inject_tags idempotency**: MCP tool now merges tags instead of stacking duplicate tag blocks
+- TypeScript errors: Replaced private `db` property access with public `getRawDb()` method in tests and scripts
+- Biome formatting: Applied consistent formatting and import organization across modified files
+
+### Changed
+- Hardened ingestion pipeline with explicit file size checks after database checkpoints
+- Enhanced MCP gardening tool with tag deduplication logic
+
 ## [1.0.19] - 2026-01-07
 
 ### Fixed

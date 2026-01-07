@@ -4,11 +4,11 @@
  * Verifies daemon behavior with actual file system operations
  */
 
-import { test, expect, beforeAll, afterAll } from "bun:test";
-import { mkdirSync, rmSync, writeFileSync, existsSync } from "node:fs";
+import { afterAll, beforeAll, expect, test } from "bun:test";
+import { spawn } from "node:child_process";
+import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { sleep } from "bun";
-import { spawn } from "node:child_process";
 import { ResonanceDB } from "../src/resonance/db";
 
 const TEST_DIR = join(process.cwd(), "tests/fixtures/daemon-test");
@@ -31,19 +31,23 @@ beforeAll(() => {
 	// Create test config
 	writeFileSync(
 		TEST_CONFIG,
-		JSON.stringify({
-			sources: ["./docs"],
-			database: ".amalfa/resonance.db",
-			embeddings: {
-				model: "BAAI/bge-small-en-v1.5",
-				dimensions: 384,
+		JSON.stringify(
+			{
+				sources: ["./docs"],
+				database: ".amalfa/resonance.db",
+				embeddings: {
+					model: "BAAI/bge-small-en-v1.5",
+					dimensions: 384,
+				},
+				watch: {
+					enabled: true,
+					debounce: DAEMON_DEBOUNCE_MS,
+				},
+				excludePatterns: ["node_modules", ".git", ".amalfa"],
 			},
-			watch: {
-				enabled: true,
-				debounce: DAEMON_DEBOUNCE_MS,
-			},
-			excludePatterns: ["node_modules", ".git", ".amalfa"],
-		}, null, 2),
+			null,
+			2,
+		),
 	);
 
 	// Initialize database with empty state
@@ -82,7 +86,7 @@ test.skip("daemon watches correct directories from config", async () => {
 	const logContent = await Bun.file(logPath).text();
 	expect(logContent).toContain("Watching directory");
 	expect(logContent).toContain(join(TEST_DIR, "docs"));
-	
+
 	daemonProcess.kill();
 	daemonProcess = null;
 }, 10000);
@@ -114,7 +118,7 @@ test.skip("daemon detects new file and updates database", async () => {
 	db2.close();
 
 	expect(newStats.nodes).toBeGreaterThan(initialStats.nodes);
-	
+
 	daemonProcess.kill();
 	daemonProcess = null;
 }, 15000);
@@ -136,7 +140,10 @@ test.skip("daemon detects file modification and updates", async () => {
 
 	// Get node ID
 	const db = new ResonanceDB(TEST_DB);
-	const initialNode = db.db.query("SELECT * FROM nodes WHERE id = 'modify-test'").get() as any;
+	const initialNode = db
+		.getRawDb()
+		.query("SELECT * FROM nodes WHERE id = 'modify-test'")
+		.get() as any;
 	const initialHash = initialNode?.hash;
 	db.close();
 
@@ -156,7 +163,10 @@ test.skip("daemon detects file modification and updates", async () => {
 
 	// Check hash changed
 	const db2 = new ResonanceDB(TEST_DB);
-	const updatedNode = db2.db.query("SELECT * FROM nodes WHERE id = 'modify-test'").get() as any;
+	const updatedNode = db2
+		.getRawDb()
+		.query("SELECT * FROM nodes WHERE id = 'modify-test'")
+		.get() as any;
 	db2.close();
 
 	expect(updatedNode).toBeDefined();
@@ -174,13 +184,17 @@ test.skip("daemon respects config sources array", async () => {
 
 	writeFileSync(
 		multiSourceConfig,
-		JSON.stringify({
-			sources: ["./docs", "./playbooks", "./debriefs"],
-			database: ".amalfa/resonance.db",
-			embeddings: { model: "BAAI/bge-small-en-v1.5", dimensions: 384 },
-			watch: { enabled: true, debounce: DAEMON_DEBOUNCE_MS },
-			excludePatterns: ["node_modules", ".git", ".amalfa"],
-		}, null, 2),
+		JSON.stringify(
+			{
+				sources: ["./docs", "./playbooks", "./debriefs"],
+				database: ".amalfa/resonance.db",
+				embeddings: { model: "BAAI/bge-small-en-v1.5", dimensions: 384 },
+				watch: { enabled: true, debounce: DAEMON_DEBOUNCE_MS },
+				excludePatterns: ["node_modules", ".git", ".amalfa"],
+			},
+			null,
+			2,
+		),
 	);
 
 	// Start daemon
@@ -206,7 +220,7 @@ test.skip("daemon respects config sources array", async () => {
 test.skip("daemon loads config at startup, not runtime", async () => {
 	// This test documents current behavior (config loaded once at startup)
 	// Future enhancement: Hot reload of config
-	
+
 	// Start daemon with initial config
 	daemonProcess = spawn("bun", ["run", "src/daemon/index.ts"], {
 		cwd: TEST_DIR,
@@ -217,7 +231,7 @@ test.skip("daemon loads config at startup, not runtime", async () => {
 
 	// Read initial log
 	const logPath = join(TEST_DIR, ".amalfa/logs/daemon.log");
-	const initialLog = await Bun.file(logPath).text();
+	const _initialLog = await Bun.file(logPath).text();
 
 	// Modify config to add new source
 	mkdirSync(join(TEST_DIR, "new-source"), { recursive: true });

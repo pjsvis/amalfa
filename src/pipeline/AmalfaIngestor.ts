@@ -5,13 +5,13 @@
  */
 
 import { join } from "node:path";
-import { Glob } from "bun";
 import type { AmalfaConfig } from "@src/config/defaults";
 import { EdgeWeaver } from "@src/core/EdgeWeaver";
-import { ResonanceDB, type Node } from "@src/resonance/db";
+import type { Node, ResonanceDB } from "@src/resonance/db";
 import { Embedder } from "@src/resonance/services/embedder";
 import { SimpleTokenizerService as TokenizerService } from "@src/resonance/services/simpleTokenizer";
 import { getLogger } from "@src/utils/Logger";
+import { Glob } from "bun";
 
 export interface IngestionResult {
 	success: boolean;
@@ -37,7 +37,7 @@ export class AmalfaIngestor {
 	 */
 	async ingest(): Promise<IngestionResult> {
 		const startTime = performance.now();
-		
+
 		const sources = this.config.sources || ["./docs"];
 		this.log.info(`📚 Starting ingestion from: ${sources.join(", ")}`);
 
@@ -47,7 +47,7 @@ export class AmalfaIngestor {
 			await embedder.embed("init"); // Warm up
 
 			const tokenizer = TokenizerService.getInstance();
-			
+
 			// Discover markdown files
 			const files = await this.discoverFiles();
 			this.log.info(`📁 Found ${files.length} markdown files`);
@@ -108,7 +108,10 @@ export class AmalfaIngestor {
 				if (!filePath) continue;
 				const content = await Bun.file(filePath).text();
 				const filename = filePath.split("/").pop() || "unknown";
-				const id = filename.replace(".md", "").toLowerCase().replace(/[^a-z0-9-]/g, "-");
+				const id = filename
+					.replace(".md", "")
+					.toLowerCase()
+					.replace(/[^a-z0-9-]/g, "-");
 				weaver.weave(id, content);
 			}
 			this.db.commit();
@@ -117,17 +120,36 @@ export class AmalfaIngestor {
 			this.log.info("💾 Forcing WAL checkpoint...");
 			this.db.getRawDb().run("PRAGMA wal_checkpoint(TRUNCATE);");
 
+			// OH-104: The Pinch Check (verify physical commit)
+			const dbPath = this.db.getRawDb().filename;
+			const dbFile = Bun.file(dbPath);
+			if (!(await dbFile.exists())) {
+				throw new Error(
+					"OH-104 VIOLATION: Database file missing after checkpoint",
+				);
+			}
+			const finalSize = dbFile.size;
+			if (finalSize === 0) {
+				throw new Error(
+					"OH-104 VIOLATION: Database file is empty after checkpoint",
+				);
+			}
+			this.log.info(`✅ Pinch Check: db=${(finalSize / 1024).toFixed(1)}KB`);
+
 			const endTime = performance.now();
 			const durationSec = (endTime - startTime) / 1000;
 
 			const stats = this.db.getStats();
-			this.log.info({
-				files: processedCount,
-				nodes: stats.nodes,
-				edges: stats.edges,
-				vectors: stats.vectors,
-				durationSec: durationSec.toFixed(2),
-			}, "✅ Ingestion complete");
+			this.log.info(
+				{
+					files: processedCount,
+					nodes: stats.nodes,
+					edges: stats.edges,
+					vectors: stats.vectors,
+					durationSec: durationSec.toFixed(2),
+				},
+				"✅ Ingestion complete",
+			);
 
 			return {
 				success: true,
@@ -178,7 +200,10 @@ export class AmalfaIngestor {
 					}
 				}
 			} catch (e) {
-				this.log.warn({ source: sourcePath, err: e }, "⚠️  Failed to scan directory");
+				this.log.warn(
+					{ source: sourcePath, err: e },
+					"⚠️  Failed to scan directory",
+				);
 			}
 		}
 
@@ -215,9 +240,7 @@ export class AmalfaIngestor {
 
 			// Parse frontmatter
 			const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
-			const frontmatter = fmMatch?.[1]
-				? this.parseFrontmatter(fmMatch[1])
-				: {};
+			const frontmatter = fmMatch?.[1] ? this.parseFrontmatter(fmMatch[1]) : {};
 
 			// Generate ID from filename
 			const filename = filePath.split("/").pop() || "unknown";

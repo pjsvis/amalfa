@@ -8,13 +8,12 @@ import {
 	ListToolsRequestSchema,
 	ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { loadConfig } from "@src/config/defaults";
+import { AMALFA_DIRS, loadConfig } from "@src/config/defaults";
 import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
 import { DaemonManager } from "../utils/DaemonManager";
 import { getLogger } from "../utils/Logger";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
-import { AMALFA_DIRS } from "@src/config/defaults";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -296,10 +295,7 @@ async function runServer() {
 
 			if (name === TOOLS.LIST) {
 				// TODO: Make this configurable via amalfa.config.ts
-				const structure = [
-					"docs/",
-					"notes/",
-				];
+				const structure = ["docs/", "notes/"];
 				return {
 					content: [{ type: "text", text: JSON.stringify(structure, null, 2) }],
 				};
@@ -308,17 +304,37 @@ async function runServer() {
 			if (name === TOOLS.GARDEN) {
 				const filePath = String(args?.file_path);
 				const tags = args?.tags as string[];
-				const content = await Bun.file(filePath).text();
-				const tagBlock = `\n<!-- tags: ${tags.join(", ")} -->\n`;
-				const newContent = content.endsWith("\n")
-					? content + tagBlock
-					: `${content}\n${tagBlock}`;
-				await Bun.write(filePath, newContent);
+				let content = await Bun.file(filePath).text();
+
+				// Check for existing tag block and merge/replace
+				const tagPattern = /<!-- tags: ([^>]+) -->\s*$/;
+				const match = content.match(tagPattern);
+
+				let operation = "injected";
+				if (match?.[1]) {
+					// Merge with existing tags
+					const existingTags = match[1]
+						.split(",")
+						.map((t) => t.trim())
+						.filter(Boolean);
+					const mergedTags = [...new Set([...existingTags, ...tags])]; // deduplicate
+					const tagBlock = `<!-- tags: ${mergedTags.join(", ")} -->`;
+					content = content.replace(tagPattern, `${tagBlock}\n`);
+					operation = "merged";
+				} else {
+					// Append new tag block
+					const tagBlock = `<!-- tags: ${tags.join(", ")} -->`;
+					content = content.endsWith("\n")
+						? `${content}\n${tagBlock}\n`
+						: `${content}\n\n${tagBlock}\n`;
+				}
+
+				await Bun.write(filePath, content);
 				return {
 					content: [
 						{
 							type: "text",
-							text: `Injected ${tags.length} tags into ${filePath}`,
+							text: `Successfully ${operation} ${tags.length} tags into ${filePath}`,
 						},
 					],
 				};
