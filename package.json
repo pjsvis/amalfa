@@ -64,6 +64,8 @@
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "1.25.0",
 		"fastembed": "2.0.0",
+		"graphology": "^0.26.0",
+		"graphology-library": "^0.8.0",
 		"pino": "^10.1.0"
 	}
 }

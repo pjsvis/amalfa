@@ -112,6 +112,7 @@ async function runServer() {
 		EXPLORE: "explore_links",
 		LIST: "list_directory_structure",
 		GARDEN: "inject_tags",
+		GAPS: "find_gaps",
 	};
 
 	// 3. Register Handlers
@@ -158,16 +159,15 @@ async function runServer() {
 					inputSchema: { type: "object", properties: {} },
 				},
 				{
-					name: TOOLS.GARDEN,
+					name: TOOLS.GAPS,
 					description:
-						"Inject semantic tags into a source file (Gardener Agent).",
+						"Find semantic gaps (documents that are similar but not linked) in the knowledge graph.",
 					inputSchema: {
 						type: "object",
 						properties: {
-							file_path: { type: "string" },
-							tags: { type: "array", items: { type: "string" } },
+							limit: { type: "number", default: 10 },
+							threshold: { type: "number", default: 0.8 },
 						},
-						required: ["file_path", "tags"],
 					},
 				},
 			],
@@ -405,6 +405,21 @@ async function runServer() {
 				return {
 					content: [{ type: "text", text: JSON.stringify(structure, null, 2) }],
 				};
+			}
+
+			if (name === TOOLS.GAPS) {
+				const limit = Number(args?.limit || 10);
+				try {
+					const gaps = await sonarClient.getGaps(limit);
+					return {
+						content: [{ type: "text", text: JSON.stringify(gaps, null, 2) }],
+					};
+				} catch (e) {
+					return {
+						content: [{ type: "text", text: `Failed to fetch gaps: ${e}` }],
+						isError: true,
+					};
+				}
 			}
 
 			if (name === TOOLS.GARDEN) {

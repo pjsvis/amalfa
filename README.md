@@ -388,3 +388,9 @@ Amalfa evolved from patterns discovered in the [PolyVis](https://github.com/pjsv
 ---
 
 **Built with ❤️ by developers frustrated with context loss.**
+
+---
+
+## Acknowledgments
+
+AMALFA leverages the powerful [Graphology](https://graphology.github.io/) library for in-memory graph analysis. Graphology is published on Zenodo with a DOI ([10.5281/zenodo.5681257](https://doi.org/10.5281/zenodo.5681257)).

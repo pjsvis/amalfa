@@ -1,8 +1,62 @@
 # Current Task
 
-**Status**: v1.0.28 (OpenRouter Ready) ✅
-**Last Session**: 2026-01-08 (Model Selection & Tiered Strategy)
-**Next Focus**: Knowledge Graph Visualization & Navigation
+**Status**: v1.2.0-alpha (Semantic Gardening) 🌿
+**Last Session**: 2026-01-08 (Graph Enhancement Phase 1: The Judge)
+**Next Focus**: Knowledge Graph Synthesis (Community Summary Nodes)
+
+---
+
+## Session 2026-01-08 (Part 4): Graph Enhancement Phase 1
+
+### Completed ✅
+
+**1. Semantic Triangulation (The Judge)**
+- ✅ Implemented `GraphGardener` for dual Vector/Graph topological optimization
+- ✅ Created `judgeRelationship` using LLM as a logical architect to filter vector matches
+- ✅ Implemented `TagInjector` for safe metadata injection into markdown
+- ✅ Integrated `garden` task into Sonar Agent with `autoApply` support
+- ✅ Verified "Semantic Weaving" loop: Analysis → Judging → Injection → Re-Ingestion → New Edges
+- ✅ Exposed `find_gaps` MCP tool for agentic graph optimization
+
+**2. Traversal & Performance**
+- ✅ Implemented `/graph/stats`, `/graph/neighbors`, `/graph/path`, and `/graph/communities`
+- ✅ Verified sub-millisecond graph loading (250 nodes, 54 edges in 1ms)
+- ✅ Resolved global database initialization and scope issues in `sonar-agent.ts`
+
+### Key Insights
+- **The Judge:** Vector similarity connects "Apple Pie" to "Apple Corp"; the LLM Judge ensures only logical dependencies (EXTENDS, SUPPORTS) become permanent edges.
+- **Hollow Nodes:** Reading node content from the filesystem only when judging keeps the memory footprint low while allowing deep analysis.
+- **Self-Healing:** The system now automatically repairs its own topological "blind spots."
+
+---
+
+## Session 2026-01-08 (Part 3): Graphology & Traversal
+
+### Completed ✅
+
+**1. Infrastructure & Core**
+- ✅ Implemented `GraphGardener.ts` for dual Vector/Graph topological optimization
+- ✅ Created `TagInjector` utility for safe metadata injection into markdown
+- ✅ Integrated `garden` task into Sonar Agent with `autoApply` support
+- ✅ Exposed `find_gaps` MCP tool for agentic graph optimization
+- ✅ Verified "Semantic Weaving" loop: Analysis → Injection → Re-Ingestion → New Edges
+
+**2. Traversal API**
+- ✅ Implemented `/graph/stats` for structural overview
+- ✅ Implemented `/graph/neighbors` for neighborhood traversal
+- ✅ Implemented `/graph/path` for shortest-path analysis (unweighted bidirectional)
+- ✅ Implemented `/graph/communities` for Louvain community detection
+
+**3. Validation & Hardening**
+- ✅ Verified sub-millisecond graph loading (118 nodes, 49 edges in 1ms)
+- ✅ Verified all endpoints with `curl` integration tests
+- ✅ Resolved global database initialization and scope issues in `sonar-agent.ts`
+- ✅ Branch-based development strategy established for stable main
+
+### Key Insights
+- **Hollow Nodes:** Traversal does not require text or embeddings; loading only structural IDs and relationships keeps the memory footprint extremely low.
+- **Speed:** In-memory graph operations are orders of magnitude faster than recursive SQL queries for depth-first or breadth-first traversals.
+- **Graphology Ecosystem:** The library's modular architecture (shortest-path, communities, etc.) allows for rapid expansion of analytical capabilities.
 
 ---
 

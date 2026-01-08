@@ -35,6 +35,7 @@ export interface SonarClient {
 		result: { id: string; content: string },
 		query: string,
 	): Promise<{ snippet: string; context: string; confidence: number } | null>;
+	getGaps(limit?: number): Promise<any[]>;
 }
 
 /**
@@ -255,6 +256,19 @@ export async function createSonarClient(): Promise<SonarClient> {
 				return null;
 			}
 		},
+
+		async getGaps(limit?: number): Promise<any[]> {
+			if (!(await isAvailable())) return [];
+			try {
+				const response = await fetch(`${baseUrl}/graph/explore`);
+				if (!response.ok) return [];
+				const data = (await response.json()) as { gaps?: any[] };
+				return data.gaps || [];
+			} catch (error) {
+				log.error({ error }, "Failed to fetch gaps");
+				return [];
+			}
+		},
 	};
 }
 
@@ -289,6 +303,9 @@ function createDisabledClient(): SonarClient {
 			confidence: number;
 		} | null> {
 			return null;
+		},
+		async getGaps(): Promise<any[]> {
+			return [];
 		},
 	};
 }

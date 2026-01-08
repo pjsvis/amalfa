@@ -19,10 +19,16 @@ const args = process.argv.slice(2);
 const command = args[0] || "serve";
 const log = getLogger("SonarAgent");
 
-// Database initialization
+// Database and Graph initialization
 import { ResonanceDB } from "@src/resonance/db";
 import { VectorEngine } from "@src/core/VectorEngine";
+import { GraphEngine } from "@src/core/GraphEngine";
+import { GraphGardener } from "@src/core/GraphGardener";
+import { TagInjector } from "@src/utils/TagInjector";
 let DB_PATH: string;
+let db: ResonanceDB;
+const graphEngine = new GraphEngine();
+let gardener: GraphGardener;
 
 // Service lifecycle management
 const lifecycle = new ServiceLifecycle({
@@ -350,7 +356,8 @@ async function handleBatchEnhancement(limit = 50): Promise<{
 		throw new Error("Sonar is not available");
 	}
 
-	const db = new ResonanceDB(DB_PATH);
+	// Use the globally initialized db
+	// const db = new ResonanceDB(DB_PATH); // This line is removed as db is global
 
 	// Find unenhanced nodes
 	// Note: We need to query nodes that don't have 'sonar_enhanced' in meta
@@ -495,25 +502,48 @@ User can ask you about:
 	}
 
 	// Add user message
-
-	// RAG: Perform vector search to augment context
-	const db = new ResonanceDB(DB_PATH);
 	const vectors = new VectorEngine(db.getRawDb());
 	try {
+		// RAG: Perform Hybrid Search (Vector + Graph)
 		const results = await vectors.search(userMessage, 3);
+		const directNodeIds = new Set(results.map((r) => r.id));
+		const relatedNodeIds = new Set<string>();
 
-		let augmentContext = "";
+		// Graph Expansion: Find neighbors of direct hits
+		for (const r of results) {
+			const neighbors = graphEngine.getNeighbors(r.id);
+			for (const neighborId of neighbors) {
+				if (!directNodeIds.has(neighborId)) {
+					relatedNodeIds.add(neighborId);
+				}
+			}
+		}
+
+		let augmentContext = "\n\nRELEVANT CONTEXT FROM KNOWLEDGE BASE:\n";
+
 		if (results.length > 0) {
-			augmentContext = `\n\nRELEVANT CONTEXT FROM KNOWLEDGE BASE:\n`;
+			augmentContext += `\n--- [DIRECT SEARCH RESULTS] ---\n`;
 			results.forEach((r: { id: string; score: number }, i: number) => {
-				// Read full node content if possible, or just use what we have
 				const node = db.getNode(r.id);
-				// Truncate content to avoid blowing up context window
 				const content = node?.content ?? "";
-				const snippet = content.slice(0, 1000);
-				augmentContext += `[Document ${i + 1}: ${r.id}] (Score: ${r.score.toFixed(2)})\n${snippet}\n\n`;
+				const snippet = content.slice(0, 800);
+				augmentContext += `[Document: ${r.id}] (Similarity: ${r.score.toFixed(2)})\n${snippet}\n\n`;
 			});
-			augmentContext += `INSTRUCTIONS: Use the above context to answer the user's question. Cite sources if possible.\n`;
+
+			if (relatedNodeIds.size > 0) {
+				augmentContext += `\n--- [RELATED NEIGHBORS (GRAPH DISCOVERY)] ---\n`;
+				const neighboursToInclude = Array.from(relatedNodeIds).slice(0, 5); // Limit to 5 neighbors
+				neighboursToInclude.forEach((nrId) => {
+					const node = db.getNode(nrId);
+					const content = node?.content ?? "";
+					const snippet = content.slice(0, 400); // Shorter snippet for neighbors
+					augmentContext += `[Related: ${nrId}] (Via: ${node?.label || nrId})\n${snippet}\n\n`;
+				});
+			}
+
+			augmentContext += `\nINSTRUCTIONS: Use the search results and related neighbors to provide a comprehensive answer. Cite document IDs.\n`;
+		} else {
+			augmentContext = "";
 		}
 
 		// Append context to user message
@@ -622,6 +652,60 @@ Return JSON:
 }
 
 /**
+ * Strategy 1: The "Judge"
+ * Verifies if two nodes should actually be linked and classifies the relationship.
+ */
+async function judgeRelationship(
+	source: { id: string; content: string },
+	target: { id: string; content: string },
+): Promise<{ related: boolean; type?: string; reason?: string }> {
+	if (!ollamaAvailable) return { related: false };
+
+	try {
+		const response = await callOllama(
+			[
+				{
+					role: "system",
+					content: `You are a Semantic Graph Architect. Analyze two markdown notes and determine if they share a direct, non-trivial logical relationship.
+Possible Relationship Types:
+- EXTENDS: One note provides more detail or a follow-up to the other.
+- SUPPORTS: One note provides evidence or arguments for the other.
+- CONTRADICTS: Notes present opposing views or conflict.
+- REFERENCES: A general citation or mention without a strong logical link.
+- DUPLICATE: Notes cover significantly the same information.
+
+Guidelines:
+- Return JSON.
+- relate: boolean (true if a link is justified)
+- type: string (the uppercase relation type)
+- reason: string (brief explanation)
+
+If the link is trivial (e.g. just common words), set relate: false.`,
+				},
+				{
+					role: "user",
+					content: `Node A (ID: ${source.id}):\n${source.content.slice(0, 1500)}\n\n---\n\nNode B (ID: ${target.id}):\n${target.content.slice(0, 1500)}`,
+				},
+			],
+			{
+				temperature: 0.1,
+				format: "json",
+			},
+		);
+
+		const result = JSON.parse(response.message.content);
+		return {
+			related: !!result.relate,
+			type: result.type?.toUpperCase(),
+			reason: result.reason,
+		};
+	} catch (error) {
+		log.warn({ error }, "LLM Judging failed");
+		return { related: false };
+	}
+}
+
+/**
  * Main daemon logic
  */
 async function main() {
@@ -637,6 +721,15 @@ async function main() {
 	}
 
 	log.info("🚀 Sonar Agent starting...");
+
+	// Initialize database and graph
+	db = new ResonanceDB(DB_PATH);
+	await graphEngine.load(db.getRawDb());
+	gardener = new GraphGardener(
+		db,
+		graphEngine,
+		new VectorEngine(db.getRawDb()),
+	);
 
 	// Check Ollama availability
 	log.info("🔍 Checking Ollama availability...");
@@ -848,6 +941,102 @@ async function main() {
 				}
 			}
 
+			// Graph Stats endpoint
+			if (url.pathname === "/graph/stats" && req.method === "GET") {
+				return Response.json(graphEngine.getStats(), { headers: corsHeaders });
+			}
+
+			// Graph Neighbors endpoint
+			if (url.pathname === "/graph/neighbors" && req.method === "POST") {
+				try {
+					const body = (await req.json()) as { nodeId: unknown };
+					const { nodeId } = body;
+					if (!nodeId || typeof nodeId !== "string") {
+						return Response.json(
+							{ error: "Missing 'nodeId' parameter" },
+							{ status: 400, headers: corsHeaders },
+						);
+					}
+					return Response.json(graphEngine.getNeighbors(nodeId), {
+						headers: corsHeaders,
+					});
+				} catch (error) {
+					return Response.json(
+						{ error: error instanceof Error ? error.message : "Unknown error" },
+						{ status: 500, headers: corsHeaders },
+					);
+				}
+			}
+
+			// Graph Path endpoint
+			if (url.pathname === "/graph/path" && req.method === "POST") {
+				try {
+					const body = (await req.json()) as {
+						sourceId: unknown;
+						targetId: unknown;
+					};
+					const { sourceId, targetId } = body;
+					if (
+						!sourceId ||
+						typeof sourceId !== "string" ||
+						!targetId ||
+						typeof targetId !== "string"
+					) {
+						return Response.json(
+							{ error: "Missing 'sourceId' or 'targetId' parameter" },
+							{ status: 400, headers: corsHeaders },
+						);
+					}
+					const path = graphEngine.findShortestPath(sourceId, targetId);
+					return Response.json({ path }, { headers: corsHeaders });
+				} catch (error) {
+					return Response.json(
+						{ error: error instanceof Error ? error.message : "Unknown error" },
+						{ status: 500, headers: corsHeaders },
+					);
+				}
+			}
+
+			// Graph Communities endpoint
+			if (url.pathname === "/graph/communities" && req.method === "GET") {
+				return Response.json(graphEngine.detectCommunities(), {
+					headers: corsHeaders,
+				});
+			}
+
+			// Graph Metrics endpoint
+			if (url.pathname === "/graph/metrics" && req.method === "GET") {
+				return Response.json(graphEngine.getMetrics(), {
+					headers: corsHeaders,
+				});
+			}
+
+			// Graph Explore/Garden endpoint
+			if (url.pathname === "/graph/explore" && req.method === "GET") {
+				try {
+					const gaps = await gardener.findGaps(5);
+					const communities = gardener.analyzeCommunities();
+					const hubs = gardener.identifyHubs();
+					return Response.json(
+						{
+							gaps,
+							communities,
+							hubs,
+							stats: graphEngine.getStats(),
+						},
+						{ headers: corsHeaders },
+					);
+				} catch (error) {
+					return Response.json(
+						{
+							error:
+								error instanceof Error ? error.message : "Gardening failed",
+						},
+						{ status: 500, headers: corsHeaders },
+					);
+				}
+			}
+
 			// Chat endpoint
 			if (url.pathname === "/chat" && req.method === "POST") {
 				try {
@@ -976,6 +1165,55 @@ async function executeTask(task: any): Promise<string> {
 		output += `- Failed: ${result.failed}\n\n`;
 
 		output += `Check daemon logs for detailed errors per document.\n`;
+	} else if (task.type === "garden") {
+		const limit = task.limit || 5;
+		const autoApply = task.autoApply || false;
+		output += `## Objective\nAnalyze graph for semantic gaps and optimize topology (Limit: ${limit}).\n\n`;
+
+		const suggestions = await gardener.findGaps(limit);
+
+		output += `### Detected Gaps & Propositions\n\n`;
+		if (suggestions.length === 0) {
+			output += `No significant gaps found above threshold.\n`;
+		}
+
+		for (const sug of suggestions) {
+			output += `#### Gap: ${sug.sourceId} ↔ ${sug.targetId}\n`;
+			output += `- **Vector Similarity:** ${sug.similarity.toFixed(4)}\n`;
+
+			const sourceContent = await gardener.getContent(sug.sourceId);
+			const targetContent = await gardener.getContent(sug.targetId);
+
+			if (sourceContent && targetContent) {
+				const judgment = await judgeRelationship(
+					{ id: sug.sourceId, content: sourceContent },
+					{ id: sug.targetId, content: targetContent },
+				);
+
+				if (judgment.related) {
+					output += `- **LLM Judgment:** ✅ RELATED (${judgment.type})\n`;
+					output += `- **Reason:** ${judgment.reason}\n`;
+
+					const relType = judgment.type || "SEE_ALSO";
+					const sourcePath = gardener.resolveSource(sug.sourceId);
+
+					if (autoApply && sourcePath) {
+						TagInjector.injectTag(sourcePath, relType, sug.targetId);
+						output += `- **Action:** 💉 Injected semantic tag [${relType}: ${sug.targetId}]\n`;
+					} else {
+						output += `- **Proposed Action:** Add \`[${relType}: ${sug.targetId}]\` to \`${sug.sourceId}\`\n`;
+					}
+				} else {
+					output += `- **LLM Judgment:** ❌ DISMISSED (Trivial or unrelated)\n`;
+					if (judgment.reason) {
+						output += `- **Reason:** ${judgment.reason}\n`;
+					}
+				}
+			} else {
+				output += `- **Error:** Could not retrieve content for judging.\n`;
+			}
+			output += "\n";
+		}
 	} else if (task.type === "research") {
 		output += `## Objective\nResearch Query: "${task.query}"\n\n`;
 

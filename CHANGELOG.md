@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+ 
+### Added
+- **GraphGardener**: Core service for dual Vector/Graph topological optimization
+- **LLM Judge**: Semantic link verification using LLM as an architect (Phase 1)
+- **TagInjector**: Non-destructive metadata injection for markdown files
+- **Graph Traversal API**: New endpoints for `/graph/stats`, `/neighbors`, `/path`, and `/communities`
+- **MCP find_gaps**: New tool for agentic graph optimization
+- **Content Resolution**: Hollow-node content retrieval from filesystem for deep analysis
 
 ## [1.0.28] - 2026-01-08
 

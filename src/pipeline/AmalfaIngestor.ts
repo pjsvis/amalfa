@@ -181,7 +181,7 @@ export class AmalfaIngestor {
 	 */
 	private async discoverFiles(): Promise<string[]> {
 		const files: string[] = [];
-		const glob = new Glob("**/*.md");
+		const glob = new Glob("**/*.{md,ts,js}");
 		const sources = this.config.sources || ["./docs"];
 
 		// Scan each source directory
@@ -245,7 +245,7 @@ export class AmalfaIngestor {
 			// Generate ID from filename
 			const filename = filePath.split("/").pop() || "unknown";
 			const id = filename
-				.replace(".md", "")
+				.replace(/\.(md|ts|js)$/, "")
 				.toLowerCase()
 				.replace(/[^a-z0-9-]/g, "-");
 

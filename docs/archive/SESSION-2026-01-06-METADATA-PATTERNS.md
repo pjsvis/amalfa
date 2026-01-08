@@ -1,3 +1,5 @@
+
+<!-- tags: [SEE_ALSO: agent-metadata-patterns] -->
 # Session Summary: Agent-First Metadata & Latent Space Tagging
 
 **Date:** 2026-01-06  
