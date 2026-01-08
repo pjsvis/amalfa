@@ -8,7 +8,7 @@ MCP server that gives AI agents semantic access to project knowledge graphs.
 
 ## Status
 
-✅ **v1.0.18 published** - Available on npm
+✅ **Published on npm**
 
 [![npm](https://img.shields.io/npm/v/amalfa?logo=npm)](https://www.npmjs.com/package/amalfa)
 [![downloads](https://img.shields.io/npm/dm/amalfa)](https://www.npmjs.com/package/amalfa)
