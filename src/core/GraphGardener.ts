@@ -142,6 +142,13 @@ export class GraphGardener {
 	}
 
 	/**
+	 * findRelated: Search for nodes related to a query.
+	 */
+	async findRelated(query: string, limit = 5) {
+		return await this.vector.search(query, limit);
+	}
+
+	/**
 	 * weaveTimeline: Proposes FOLLOWS/PRECEDES edges based on date metadata.
 	 */
 	weaveTimeline(): BridgeSuggestion[] {

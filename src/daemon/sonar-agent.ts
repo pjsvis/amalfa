@@ -27,6 +27,7 @@ import {
 	handleContextExtraction,
 	handleGardenTask,
 	handleMetadataEnhancement,
+	handleResearchTask,
 	handleResultReranking,
 	handleSearchAnalysis,
 	handleSynthesisTask,
@@ -307,13 +308,7 @@ async function executeTask(task: SonarTask): Promise<string> {
 		} else if (task.type === "garden") {
 			output += await handleGardenTask(task, context, taskModel);
 		} else if (task.type === "research") {
-			const result = await handleChat(
-				`research-${Date.now()}`,
-				task.query || "",
-				context,
-				taskModel,
-			);
-			output += `## Analysis\n${result.message.content}\n`;
+			output += await handleResearchTask(task, context, taskModel);
 		} else if (task.type === "enhance_batch") {
 			const result = await handleBatchEnhancement(task.limit || 10, context);
 			output += `## Results\n- Successful: ${result.successful}\n- Failed: ${result.failed}\n- Total: ${result.total}\n`;

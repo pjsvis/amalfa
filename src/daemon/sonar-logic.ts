@@ -73,7 +73,7 @@ export async function handleBatchEnhancement(
 ): Promise<{ successful: number; failed: number; total: number }> {
 	const allNodes = context.db.getNodes({ excludeContent: true });
 	const unenhanced = allNodes
-		.filter((n: { meta?: Record<string, any> }) => {
+		.filter((n: { meta?: Record<string, unknown> }) => {
 			try {
 				const meta = n.meta || {};
 				return !meta.sonar_enhanced && !meta.phi3_enhanced;
@@ -219,7 +219,12 @@ export async function handleResultReranking(
 	query: string,
 	intent?: string,
 ): Promise<
-	Array<{ id: string; content: string; score: number; relevance_score: number }>
+	Array<{
+		id: string;
+		content: string;
+		score: number;
+		relevance_score: number;
+	}>
 > {
 	if (!inferenceState.ollamaAvailable) {
 		throw new Error("Sonar is not available");
@@ -439,6 +444,129 @@ export async function handleGardenTask(
 		if (task.autoApply && sourcePath)
 			TagInjector.injectTag(sourcePath, "FOLLOWS", sug.targetId);
 		output += `- ${task.autoApply ? "💉" : "🕒"} **${sug.sourceId} → ${sug.targetId}**: FOLLOWS (${sug.reason})\n`;
+	}
+
+	return output;
+}
+
+/**
+ * Handle autonomous research task (Phase 5)
+ */
+export async function handleResearchTask(
+	task: SonarTask,
+	context: SonarContext,
+	taskModel?: string,
+): Promise<string> {
+	if (!task.query) return "❌ Error: Research task requires a query.";
+
+	let output = `## Recursive Discovery: "${task.query}"\n\n`;
+	const maxSteps = 5;
+	const findings: string[] = [];
+	const visitedNodes = new Set<string>();
+
+	log.info({ query: task.query }, "🕵️‍♂️ Starting recursive research");
+
+	for (let step = 1; step <= maxSteps; step++) {
+		output += `### Step ${step}: Analysis\n`;
+
+		// 1. Analyze findings and decide next move
+		const prompt = `
+You are the AMALFA Research Agent. Your goal is to answer this query: "${task.query}"
+Graph Context: ${context.graphEngine.getStats().nodes} nodes available.
+Current Findings:
+${findings.length > 0 ? findings.join("\n") : "None yet."}
+
+Based on these findings, what is your next step? 
+You can:
+- "SEARCH": Provide a vector search query to find more docs.
+- "READ": Provide a specific Node ID to read its full content.
+- "FINISH": Provide the final comprehensive answer.
+
+IMPORTANT: Return ONLY raw JSON. No preamble, no explanation outside JSON.
+Return JSON: { "action": "SEARCH"|"READ"|"FINISH", "query": "...", "nodeId": "...", "reasoning": "...", "answer": "..." }
+`;
+
+		try {
+			const actionResponse = await callOllama(
+				[{ role: "user", content: prompt }],
+				{ model: taskModel, temperature: 0.1, format: "json" },
+			);
+
+			const content = actionResponse.message.content;
+			let decision: {
+				action: "SEARCH" | "READ" | "FINISH";
+				query?: string;
+				nodeId?: string;
+				reasoning: string;
+				answer?: string;
+			};
+			try {
+				decision = JSON.parse(content);
+			} catch {
+				// Try to extract JSON from markdown blocks
+				const match = content.match(/\{[\s\S]*\}/);
+				if (match) {
+					decision = JSON.parse(match[0]);
+				} else {
+					throw new Error("Could not parse JSON from response");
+				}
+			}
+			output += `> **Reasoning:** ${decision.reasoning}\n\n`;
+
+			if (decision.action === "FINISH") {
+				output += `### Final Conclusion\n${decision.answer}\n`;
+				break;
+			}
+
+			if (decision.action === "SEARCH") {
+				const searchQuery = decision.query || task.query;
+				output += `🔍 **Action:** Searching for \`${searchQuery}\`\n`;
+				const results = await context.gardener.findRelated(searchQuery, 3);
+				const summaries = results
+					.map((r) => `- [[${r.id}]] (Score: ${r.score.toFixed(2)})`)
+					.join("\n");
+				findings.push(`Search results for "${searchQuery}":\n${summaries}`);
+				output += `${summaries}\n\n`;
+			} else if (decision.action === "READ") {
+				const nodeId = decision.nodeId;
+				if (!nodeId || visitedNodes.has(nodeId)) {
+					findings.push(`Already visited or invalid node: ${nodeId}`);
+					continue;
+				}
+				output += `📖 **Action:** Reading node \`${nodeId}\`\n`;
+				const content = await context.gardener.getContent(nodeId);
+				visitedNodes.add(nodeId);
+				if (content) {
+					findings.push(`Content of ${nodeId}:\n${content.slice(0, 1000)}...`);
+					output += `Successfully read ${nodeId} (${content.length} chars)\n\n`;
+				} else {
+					findings.push(`Node not found: ${nodeId}`);
+					output += `⚠️ Node not found: ${nodeId}\n\n`;
+				}
+			}
+
+			// Throttling for free tiers
+			if (taskModel?.includes(":free"))
+				await new Promise((r) => setTimeout(r, 1000));
+		} catch (error) {
+			output += `❌ Step failed: ${error}\n`;
+			break;
+		}
+	}
+
+	// Final summary if we didn't FINISH explicitly
+	if (!output.includes("### Final Conclusion")) {
+		output += `### Final Conclusion (Auto-Summarized)\n`;
+		const finalPrompt = `Summarize the findings for: "${task.query}"\n\nFindings:\n${findings.join("\n")}`;
+		try {
+			const summary = await callOllama(
+				[{ role: "user", content: finalPrompt }],
+				{ model: taskModel, temperature: 0.2 },
+			);
+			output += summary.message.content;
+		} catch (e) {
+			output += `⚠️ Failed to generate final summary: ${e}`;
+		}
 	}
 
 	return output;
