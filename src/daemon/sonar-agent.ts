@@ -21,6 +21,7 @@ const log = getLogger("SonarAgent");
 
 // Database initialization
 import { ResonanceDB } from "@src/resonance/db";
+import { VectorEngine } from "@src/core/VectorEngine";
 let DB_PATH: string;
 
 // Service lifecycle management
@@ -62,6 +63,7 @@ interface RequestOptions {
 	num_predict?: number;
 	stream?: boolean;
 	format?: "json"; // Enable GBNF-constrained JSON output
+	model?: string; // Override model for this specific call (tiered strategy)
 }
 
 /**
@@ -73,36 +75,116 @@ async function callOllama(
 	options: RequestOptions = {},
 ): Promise<{ message: Message }> {
 	const config = await loadConfig();
-	// @ts-ignore
+	// @ts-ignore - backward compatibility with phi3 config
 	const hostArgs = config.sonar || config.phi3 || {};
-	const host = hostArgs.host || "localhost:11434";
-	// Use discovered model if available, otherwise config or default
-	const model = ollamaModel || hostArgs.model || "phi3:latest";
 
-	// Extract format from options to put at root level of request
-	const { format, ...modelOptions } = options;
+	// Cloud toggle: dev-cloud/prod-local strategy
+	const cloudConfig = hostArgs.cloud;
+	const useCloud = cloudConfig?.enabled === true;
+	const provider = useCloud ? cloudConfig.provider || "ollama" : "ollama";
 
-	const response = await fetch(`http://${host}/api/chat`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
+	// Tiered model strategy: options.model > cloud.model > discovered > config > default
+	const { format, model: overrideModel, ...modelOptions } = options;
+	const model =
+		overrideModel ||
+		(useCloud ? cloudConfig.model : null) ||
+		ollamaModel ||
+		hostArgs.model ||
+		"qwen2.5:1.5b";
+
+	// Build headers
+	const headers: Record<string, string> = {
+		"Content-Type": "application/json",
+	};
+	// API key: prefer env var (OPENROUTER_API_KEY) over config
+	const apiKey = process.env.OPENROUTER_API_KEY || cloudConfig?.apiKey;
+	if (useCloud && apiKey) {
+		headers["Authorization"] = `Bearer ${apiKey}`;
+		log.info(
+			{ provider, hasKey: !!apiKey, keyLength: apiKey?.length },
+			"Cloud request with API key",
+		);
+	} else if (useCloud) {
+		log.warn("Cloud enabled but no API key found in env or config!");
+	}
+	// OpenRouter requires site headers for tracking
+	if (provider === "openrouter") {
+		headers["HTTP-Referer"] = "https://github.com/pjsvis/amalfa";
+		headers["X-Title"] = "AMALFA Knowledge Graph";
+	}
+
+	// Determine endpoint and request format based on provider
+	let endpoint: string;
+	let body: string;
+
+	if (provider === "openrouter") {
+		// OpenRouter uses OpenAI-compatible format at openrouter.ai/api/v1
+		endpoint = "https://openrouter.ai/api/v1/chat/completions";
+		body = JSON.stringify({
 			model,
 			messages,
 			stream: false,
-			format, // Pass format (e.g. "json") to enable GBNF grammar
+			temperature: modelOptions.temperature ?? 0.1,
+			max_tokens: modelOptions.num_predict ?? 500,
+		});
+	} else {
+		// Ollama format (local or cloud Ollama server)
+		const host = useCloud
+			? cloudConfig.host
+			: hostArgs.host || "localhost:11434";
+		endpoint = `http://${host}/api/chat`;
+		body = JSON.stringify({
+			model,
+			messages,
+			stream: false,
+			format, // Pass format (e.g. "json") for GBNF grammar
 			options: {
 				temperature: 0.1,
 				num_predict: 200,
 				...modelOptions,
 			},
-		}),
+		});
+	}
+
+	const response = await fetch(endpoint, {
+		method: "POST",
+		headers,
+		body,
 	});
 
 	if (!response.ok) {
-		throw new Error(`Ollama API error: ${response.statusText}`);
+		// Try to get error details from response body
+		let errorBody = "";
+		try {
+			errorBody = await response.text();
+		} catch {}
+		log.error(
+			{
+				status: response.status,
+				statusText: response.statusText,
+				body: errorBody,
+			},
+			"API request failed",
+		);
+		throw new Error(`${provider} API error: ${response.statusText}`);
 	}
 
-	return (await response.json()) as { message: Message };
+	const result = await response.json();
+
+	// Normalize response format (OpenRouter uses OpenAI format)
+	if (provider === "openrouter") {
+		// OpenAI format: { choices: [{ message: { role, content } }] }
+		const openaiResult = result as { choices: { message: Message }[] };
+		return {
+			message: openaiResult.choices[0]?.message || {
+				role: "assistant",
+				content: "",
+			},
+		};
+	}
+
+	// Ollama format: { message: { role, content } }
+	return result as { message: Message };
 }
 
 /**
@@ -382,6 +464,7 @@ Return JSON array with relevance scores (0.0 to 1.0):
 async function handleChat(
 	sessionId: string,
 	userMessage: string,
+	modelOverride?: string, // Optional: Use specific model (e.g., mistral-nemo for research)
 ): Promise<{ message: Message; sessionId: string }> {
 	if (!ollamaAvailable) {
 		throw new Error("Sonar is not available");
@@ -412,7 +495,37 @@ User can ask you about:
 	}
 
 	// Add user message
-	session.messages.push({ role: "user", content: userMessage });
+
+	// RAG: Perform vector search to augment context
+	const db = new ResonanceDB(DB_PATH);
+	const vectors = new VectorEngine(db.getRawDb());
+	try {
+		const results = await vectors.search(userMessage, 3);
+
+		let augmentContext = "";
+		if (results.length > 0) {
+			augmentContext = `\n\nRELEVANT CONTEXT FROM KNOWLEDGE BASE:\n`;
+			results.forEach((r: { id: string; score: number }, i: number) => {
+				// Read full node content if possible, or just use what we have
+				const node = db.getNode(r.id);
+				// Truncate content to avoid blowing up context window
+				const content = node?.content ?? "";
+				const snippet = content.slice(0, 1000);
+				augmentContext += `[Document ${i + 1}: ${r.id}] (Score: ${r.score.toFixed(2)})\n${snippet}\n\n`;
+			});
+			augmentContext += `INSTRUCTIONS: Use the above context to answer the user's question. Cite sources if possible.\n`;
+		}
+
+		// Append context to user message
+		session.messages.push({
+			role: "user",
+			content: userMessage + augmentContext,
+		});
+	} catch (e) {
+		// Fallback to ignoring RAG on error
+		log.warn({ err: e }, "RAG search failed, proceeding without context");
+		session.messages.push({ role: "user", content: userMessage });
+	}
 
 	// Maintain context window (keep system msg + last 10 messages)
 	const contextMessages = [
@@ -422,9 +535,11 @@ User can ask you about:
 
 	try {
 		// NOTE: No format: "json" for chat! We want natural language.
+		// Use modelOverride if provided (e.g., mistral-nemo for research)
 		const response = await callOllama(contextMessages, {
 			temperature: 0.7,
 			num_predict: 500,
+			model: modelOverride,
 		});
 
 		// Add assistant response to history
@@ -861,6 +976,24 @@ async function executeTask(task: any): Promise<string> {
 		output += `- Failed: ${result.failed}\n\n`;
 
 		output += `Check daemon logs for detailed errors per document.\n`;
+	} else if (task.type === "research") {
+		output += `## Objective\nResearch Query: "${task.query}"\n\n`;
+
+		try {
+			const sessionId = `task-${Date.now()}`;
+			// For research: use task.model if specified, otherwise let the cloud/local config decide
+			// Don't hardcode mistral-nemo since it's not valid on OpenRouter
+			const researchModel = task.model || undefined;
+			const response = await handleChat(sessionId, task.query, researchModel);
+
+			output += `## Analysis\n${response.message.content}\n\n`;
+			output += `(Model: ${researchModel || "default"})\n`;
+
+			// Note: chat doesn't return structured sources yet
+			output += `(Source citation not available in simple research task)\n`;
+		} catch (e) {
+			output += `## Error\nResearch failed: ${e instanceof Error ? e.message : String(e)}\n`;
+		}
 	} else {
 		output += `Error: Unknown task type '${task.type}'\n`;
 	}

@@ -115,10 +115,28 @@ export interface SonarConfig {
 			schedule: string;
 		};
 	};
+	/** Cloud inference configuration (dev-cloud/prod-local strategy) */
+	cloud?: {
+		/** Enable cloud inference (overrides local Ollama) */
+		enabled: boolean;
+		/** Provider type: 'ollama' for self-hosted, 'openrouter' for OpenRouter.ai */
+		provider: "ollama" | "openrouter";
+		/** API endpoint (e.g., your-gpu-server:11434 or openrouter.ai/api/v1) */
+		host: string;
+		/** Model to use on cloud (can be larger than local) */
+		model: string;
+		/** API key for authenticated endpoints (required for OpenRouter) */
+		apiKey?: string;
+	};
 }
 
 export const DEFAULT_CONFIG: AmalfaConfig = {
-	sources: ["./docs"],
+	sources: [
+		"./docs",
+		"./*.md", // Root documentation (README.md, _CURRENT_TASK.md, etc.)
+		"./src/**/*.md", // Documentation co-located with code
+		"./scripts/**/*.md", // Documentation in scripts
+	],
 	database: ".amalfa/resonance.db",
 	embeddings: {
 		model: "BAAI/bge-small-en-v1.5",
@@ -150,11 +168,11 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 		autoDiscovery: true,
 		discoveryMethod: "cli",
 		inferenceMethod: "http",
-		model: "phi3:latest",
+		model: "qwen2.5:1.5b",
 		modelPriority: [
+			"qwen2.5:1.5b", // Best-in-class reasoning for size
 			"tinydolphin:latest",
 			"tinyllama:latest",
-			"phi3:latest",
 			"mistral:7b-instruct-v0.3-q4_K_M",
 			"llama3.1:8b",
 		],

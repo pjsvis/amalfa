@@ -103,10 +103,12 @@ export async function discoverOllamaCapabilities(): Promise<OllamaCapabilities> 
 		);
 
 		// Model priority order for search tasks (from brief)
+		// Model priority order for search tasks (from brief)
 		const modelPriority = [
+			"qwen2.5:1.5b", // Best-in-class reasoning for size
+			"phi3:mini", // 3.8B but optimized
 			"tinydolphin:latest",
 			"tinyllama:latest",
-			"phi3:latest",
 			"mistral:7b-instruct-v0.3-q4_K_M",
 			"llama3.1:8b",
 		];

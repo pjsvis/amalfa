@@ -1,5 +1,5 @@
 {
-	"sources": ["./docs", "./playbooks", "./briefs", "./debriefs"],
+	"sources": [".", "src", "scripts"],
 	"database": ".amalfa/resonance.db",
 	"embeddings": {
 		"model": "BAAI/bge-small-en-v1.5",
@@ -16,11 +16,11 @@
 		"autoDiscovery": true,
 		"discoveryMethod": "cli",
 		"inferenceMethod": "http",
-		"model": "tinydolphin:latest",
+		"model": "qwen2.5:1.5b",
 		"modelPriority": [
+			"qwen2.5:1.5b",
 			"tinydolphin:latest",
 			"tinyllama:latest",
-			"phi3:latest",
 			"mistral:7b-instruct-v0.3-q4_K_M",
 			"llama3.1:8b"
 		],
@@ -43,6 +43,12 @@
 				"timeout": 300000,
 				"schedule": "daily"
 			}
+		},
+		"cloud": {
+			"enabled": true,
+			"provider": "openrouter",
+			"host": "openrouter.ai/api/v1",
+			"model": "qwen/qwen-2.5-72b-instruct"
 		}
 	}
 }
