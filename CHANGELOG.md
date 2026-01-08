@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.27] - 2026-01-08
+
+### Added
+- **OpenRouter Cloud Integration**: New `sonar.cloud` config with `openrouter` provider for accessing cloud LLMs
+- **Dev-Cloud/Prod-Local Strategy**: Test with large cloud models, deploy with smaller local ones
+- **Model Strategy Guide**: New `docs/guides/model-strategy.md` documentation
+- **RAG Pipeline**: Vector search now augments chat context for grounded responses
+- **ENV API Key**: `OPENROUTER_API_KEY` read from `.env` for secure credential handling
+
+### Changed
+- **Tiered Model Strategy**: Research tasks use cloud config, quick tasks use local `qwen2.5:1.5b`
+- **Expanded Ingestion Sources**: Root markdown files now included in knowledge graph
+- **Model Priority**: Updated to prioritize `qwen2.5:1.5b` as default local model
+
+### Removed
+- Cleaned up unused Ollama models: `tinydolphin`, `tinyllama`, `phi3`, `functiongemma`, `nomic-embed-text`, `llama3.1:8b`, `mistral:7b-instruct`
+
+
 ### Added
 - **Staleness Detection**: `amalfa stats` now warns (`⚠️ STALE`) if source files are newer than the database.
 - **JSON Mode (GBNF)**: Sonar Agent now enforces valid JSON output for `tinydolphin` compatibility.
