@@ -60,12 +60,7 @@ resonance/node_modules
 resonance/dist
 
 # AMALFA Runtime Artifacts (Database is cache, markdown is source of truth)
-.amalfa/resonance.db
-.amalfa/resonance.db-wal
-.amalfa/resonance.db-shm
-.amalfa/logs/
-.amalfa/runtime/
-.amalfa/cache/
+.amalfa/
 
 # Fastembed cache
 local_cache/

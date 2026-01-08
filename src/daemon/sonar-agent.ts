@@ -5,9 +5,11 @@
  */
 
 import { join } from "path";
+import { readdirSync, existsSync, renameSync, writeFileSync } from "node:fs";
 import { loadConfig, AMALFA_DIRS } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
+import { sendNotification } from "@src/utils/Notifications";
 import {
 	checkOllamaHealth,
 	discoverOllamaCapabilities,
@@ -483,7 +485,11 @@ Return JSON:
 
 		const content = response.message.content;
 		try {
-			return JSON.parse(content);
+			const parsed = JSON.parse(content);
+			if (!parsed.snippet && !parsed.context) {
+				throw new Error("Missing snippet/context in JSON");
+			}
+			return parsed;
 		} catch {
 			// Fallback: return simple snippet
 			const words = result.content.split(" ");
@@ -768,6 +774,101 @@ async function main() {
 
 	log.info(`✅ HTTP server listening on port ${port}`);
 	log.info("⏳ Daemon ready to handle requests");
+
+	// Task Watcher Loop
+	log.info(`👀 Watching for tasks in ${AMALFA_DIRS.tasks.pending}`);
+
+	// Check every 5 seconds
+	setInterval(async () => {
+		try {
+			await processPendingTasks();
+		} catch (error) {
+			log.error({ error }, "Task processing error");
+		}
+	}, 5000);
+}
+
+/**
+ * Scan and process pending tasks
+ */
+async function processPendingTasks() {
+	if (!ollamaAvailable) return;
+
+	const pendingDir = AMALFA_DIRS.tasks.pending;
+	if (!existsSync(pendingDir)) return;
+
+	const files = readdirSync(pendingDir);
+	for (const file of files) {
+		if (!file.endsWith(".json")) continue;
+
+		const taskPath = join(pendingDir, file);
+		const processingPath = join(AMALFA_DIRS.tasks.processing, file);
+
+		try {
+			// Move to processing
+			renameSync(taskPath, processingPath);
+			log.info({ file }, "🔄 Processing task...");
+
+			const taskContent = await Bun.file(processingPath).json();
+			const report = await executeTask(taskContent);
+
+			// Save report
+			const reportName = file.replace(".json", "-report.md");
+			const reportPath = join(AMALFA_DIRS.tasks.completed, reportName);
+			writeFileSync(reportPath, report);
+
+			// Move original task to completed
+			const completedPath = join(AMALFA_DIRS.tasks.completed, file);
+			renameSync(processingPath, completedPath);
+
+			log.info({ file }, "✅ Task completed");
+
+			// Notification
+			if (taskContent.notify !== false) {
+				await sendNotification("Sonar Agent", `Task Complete: ${file}`);
+			}
+		} catch (error) {
+			log.error({ file, error }, "❌ Task failed");
+			// Move back to pending? Or to a failed dir? For now, leave in processing or move to failed could be better.
+			// Let's create a failed report so user knows.
+			const reportName = file.replace(".json", "-FAILED.md");
+			const reportPath = join(AMALFA_DIRS.tasks.completed, reportName);
+			writeFileSync(reportPath, `# Task Failed\n\nError: ${error}`);
+
+			// Move to completed so we don't loop forever
+			const completedPath = join(AMALFA_DIRS.tasks.completed, file);
+			renameSync(processingPath, completedPath);
+		}
+	}
+}
+
+/**
+ * Execute a specific task based on its type
+ */
+async function executeTask(task: any): Promise<string> {
+	const startTime = Date.now();
+	let output = `# Task Report: ${task.type}\nDate: ${new Date().toISOString()}\n\n`;
+
+	if (task.type === "enhance_batch") {
+		const limit = task.limit || 10;
+		output += `## Objective\nEnhance ${limit} documents with metadata.\n\n`;
+
+		const result = await handleBatchEnhancement(limit);
+
+		output += `## Results\n`;
+		output += `- Total: ${result.total}\n`;
+		output += `- Successful: ${result.successful}\n`;
+		output += `- Failed: ${result.failed}\n\n`;
+
+		output += `Check daemon logs for detailed errors per document.\n`;
+	} else {
+		output += `Error: Unknown task type '${task.type}'\n`;
+	}
+
+	const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+	output += `\n---\n**Duration:** ${duration}s\n`;
+
+	return output;
 }
 
 // Run service lifecycle dispatcher

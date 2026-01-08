@@ -1,3 +1,0 @@
-Success: Sonar Agent is active and responsive.
-Tested with 'amalfa enhance --doc sonar-manual'.
-Result: Connection successful, fallback response received (likely due to TinyDolphin model limitations).
