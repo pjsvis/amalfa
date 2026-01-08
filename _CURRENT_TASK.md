@@ -1,12 +1,47 @@
 # Current Task
 
-**Status**: v1.1.0-alpha (Phi3/Dolphin Ready) ✅
-**Last Session**: 2026-01-07 (FAFCAS Optimization)
-**Next Focus**: Production Monitoring & Playbooks
+**Status**: v1.0.28 (OpenRouter Ready) ✅
+**Last Session**: 2026-01-08 (Model Selection & Tiered Strategy)
+**Next Focus**: Knowledge Graph Visualization & Navigation
 
 ---
 
-## Session 2026-01-08: Sonar Agent Refactor & Hardening
+## Session 2026-01-08 (Part 2): Model Strategy & OpenRouter
+
+### Completed ✅
+
+**1. Tiered Model Strategy**
+- ✅ Implemented "Dev-Cloud/Prod-Local" strategy in Sonar Agent
+- ✅ Prioritized `qwen2.5:1.5b` for fast local tasks; cloud for deep research
+- ✅ Added `sonar.cloud` configuration block to `amalfa.config.json`
+- ✅ Implemented cloud toggle with `ollama` and `openrouter` providers
+
+**2. RAG & Chat Intelligence**
+- ✅ Integrated Retrieval Augmented Generation (RAG) into `handleChat`
+- ✅ Vector search now injects relevant document segments into chat context
+- ✅ Grounded research reports now cite internal documentation
+- ✅ Fixed `VectorEngine` instantiation to use raw `bun:sqlite` handle
+
+**3. Infrastructure & Security**
+- ✅ Secure API key handling via `.env` (passed to daemon via `spawn` env inheritance)
+- ✅ Expanded ingestion scope to include root markdown (README, _CURRENT_TASK.md)
+- ✅ Standardized default model to Qwen 2.5 across the stack
+- ✅ Performed major model hygiene (20GB+ disk space recovered)
+
+**4. Release & Documentation**
+- ✅ Published **v1.0.28** to npm with all tiered model features
+- ✅ Created Model Strategy Guide (`docs/guides/model-strategy.md`)
+- ✅ Detailed debrief documented (`debriefs/2026-01-08-tiered-model-openrouter.md`)
+- ✅ v1.0.28 Release created on GitHub with detailed notes
+
+### Key Insights
+- **Cloud Scaffold:** Cloud models (72B+) establish the "quality baseline" and help spec future local hardware.
+- **Context Injection:** Even simple RAG makes a massive difference in agent utility for internal repo deep-dives.
+- **Hygiene Matters:** Removing failed models (`phi3`, `tinyllama`) reduces cognitive load and disk bloat.
+
+---
+
+## Session 2026-01-08 (Part 1): Sonar Agent Refactor & Hardening
 
 ### Completed ✅
 
