@@ -1,119 +1,66 @@
-# Playbooks Index
+# Capabilities Summary
 
-**Purpose:** Quick reference for finding the right playbook. Scan this table first.
+This document serves as the central index of AMALFA's capabilities, linking to detailed playbooks and technical reports.
 
-| Domain | Playbook | When to Use |
-|--------|----------|-------------|
-| **Getting Started** | | |
-| Onboarding | `development-workflow-playbook.md` | First time contributing |
-| Quick Tasks | `quick-tasks-playbook.md` | <3 files, <50 lines, no brief needed |
-| Standards | `polyvis-standards-playbook.md` | Creating source documents, new services |
-| **Issue Tracking** | | |
-| Beads (Agents) | `beads-agent-playbook.md` | AI agents creating/updating issues |
-| Beads (Humans) | `beads-human-playbook.md` | Developer guide to Beads workflow |
-| **CSS & Styling** | | |
-| CSS Master | `css-master-playbook.md` | Any CSS work |
-| Alpine.js | `alpinejs-playbook.md` | UI interactions, state management |
-| Tailwind v4 | `tailwind-v4-playbook.md` | Tailwind utilities |
-| Web Standards | `web-standards-playbook.md` | Native browser APIs |
-| **Data & Graph** | | |
-| Graphology | `graphology-playbook.md` | Graph operations, metrics |
-| Ingestion Pipeline | `ingestion-pipeline-playbook.md` | Data processing, ETL |
-| Bento Boxing | `bento-box-playbook-1.md` | Content fragmentation |
-| FAFCAS Protocol | `embeddings-and-fafcas-protocol-playbook.md` | Vector embeddings |
-| SQLite | `sqlite-standards.md` | Database queries, schema |
-| Schema | `schema-playbook.md` | Database migrations |
-| **Infrastructure** | | |
-| Server Management | `development-workflow-playbook.md#21` | Start/stop services (SLP) |
-| Bun Runtime | `bun-playbook.md` | Bun-specific commands |
-| MCP | `src/mcp/README.md` | Model Context Protocol |
-| **Problem Solving** | | |
-| Experimentation | `agent-experimentation-protocol.md` | Stuck, regressions, unknown bugs |
-| Problem Solving | `problem-solving-playbook.md` | Clean room isolation |
-| Change Management | `change-management-protocol.md` | Plan → Verify → Debrief |
-| Grep Strategy | `grep-strategy.md` | Searching codebase |
-| **Process** | | |
-| Briefs | `briefs-playbook.md` | Creating task briefs |
-| Debriefs | `debriefs-playbook.md` | Writing retrospectives |
-| Definition of Done | `definition-of-done-playbook.md` | Completion criteria |
-| UI Refactor | `ui-refactor-playbook.md` | UI restructuring |
-| **Specialized** | | |
-| Actor | `actor-playbook.md` | Agent role definitions |
-| Critic | `critic-playbook.md` | Code review patterns |
-| Inference | `inference-playbook.md` | LLM integration |
-| Marked | `marked-playbook.md` | Markdown parsing |
-| Sigma | `sigma-playbook.md` | Graph visualization |
-| Domain Vocabulary | `domain-vocabulary-playbook.md` | Project terminology |
-| Zero Magic Tokenization | `zero-magic-tokenization-playbook.md` | Text processing |
-| Harden & Flense | `harden-and-flense-protocol.md` | Content preparation |
-| Local-first Vector DB | `local-first-vector-db-playbook.md` | Vector storage |
+## 1. Core Memory (ResonanceDB)
+**Capability:** Semantic knowledge graph engine.
+- **Description:** Stores documents as "Hollow Nodes" (metadata + embeddings) with edges woven by latent semantic analysis.
+- **Key Features:**
+    - **FAFCAS Protocol:** Normalized embeddings for 10x faster search.
+    - **Hollow Nodes:** Filesystem is the source of truth; DB is the index.
+    - **Graph Traversal:** Find related nodes via shared terms/entities.
+- **Reference:** [Local-First Vector DB Playbook](local-first-vector-db-playbook.md)
+- **Reference:** [Embeddings & FAFCAS Playbook](embeddings-and-fafcas-protocol-playbook.md)
+- **Reference:** [SQLite Standards](sqlite-standards.md)
 
----
+## 2. Ingestion Pipeline
+**Capability:** Markdown-to-Graph transformation.
+- **Description:** robust file watcher and batch ingestor.
+- **Key Features:**
+    - **Pre-flight Check:** Validates corpus health before ingestion.
+    - **Pinch Check (OH-104):** Verifies physical file integrity after checkpoints.
+    - **Staleness Detection:** Warns if DB is older than source files.
+- **Reference:** [Ingestion Pipeline Architecture](../docs/architecture/ingestion-pipeline.md)
 
-## Usage
+## 3. Sonar Agent (AI Layer)
+**Capability:** Local LLM intelligence (Phi-3/TinyDolphin).
+- **Description:** Background daemon providing "Intelligence as a Service."
+- **Key Features:**
+    - **Semantic Search:** Hybrid search (Keyword + Vector) with reranking.
+    - **Metadata Enhancement:** Auto-generates tags, summaries, and themes.
+    - **Context Extraction:** Smart snippet generation for RAG.
+    - **Task Queue:** *Filesystem-based async task processing (In Progress).*
+- **Reference:** [Sonar System Overview](sonar-system-overview.md)
+- **Reference:** [Sonar Manual](sonar-manual.md)
+- **Report:** [Capability Report (2026-01-08)](../docs/reports/SONAR-CAPABILITY-REPORT-2026-01-08.md)
 
-1. **Start Here:** Before any task, scan the table above
-2. **Identify Domain:** Match your task to a domain column
-3. **Read Playbook:** Open the referenced file
-4. **Follow Protocol:** Execute according to playbook instructions
+## 4. MCP Server (The Interface)
+**Capability:** Protocol for connecting to Cursor/Claude.
+- **Description:** Exposes AMALFA tools to external agents.
+- **Key Tools:**
+    - `search_documents`: Semantic search.
+    - `read_node`: Full content retrieval.
+    - `explore_links`: Graph traversal.
+    - `inject_tags`: *Gardening* tool for agent-led organization.
+- **Reference:** [MCP Implementation Brief](../briefs/archive/brief-mcp-implementation-01.md)
 
-**Agent Protocol:** See `AGENTS.md` for the full protocol hierarchy (TIER 1/2/3).
+## 5. Deployment & Release
+**Capability:** Automated publishing workflow.
+- **Description:** rigorous release gates and OIDC automation.
+- **Key Features:**
+    - **Single Source of Truth:** `package.json` drives all versioning.
+    - **Automated Validation:** Lint, Build, and Config checks before publish.
+- **Reference:** [Publishing Playbook](publishing-playbook.md)
 
 ---
 
-## 🚨 Troubleshooting
-
-**When you're stuck, follow this path.**
-
-### Symptom → Action
-
-| Symptom | Action | Protocol/Playbook |
-|---------|--------|-------------------|
-| Console errors appeared | STOP. Capture logs. | `agent-experimentation-protocol.md` |
-| One fix → another break | Regression loop. Isolate. | `problem-solving-playbook.md` |
-| 3+ failed attempts | SPIN CYCLE. Follow WSP. | `AGENTS.md` Protocol 6 (WSP) |
-| "Doesn't work" (vague) | Empirical verification. | `AGENTS.md` Protocol 23 (VAP) |
-| Unknown library/API | Read `.d.ts` definitions. | `AGENTS.md` Protocol 23 (VAP) |
-| Fuzzy requirements | "Make it pop" → Define primitives. | `AGENTS.md` Protocol 15 (DSP) |
-| Black-box code | Isolate in clean room. | `problem-solving-playbook.md` |
-
-### Escalation Path
-
-```
-1. Read AGENTS.md "🚨 WHEN STUCK" section
-   ↓
-2. Read Protocol 6 (WSP)
-   ↓
-3. If still stuck: agent-experimentation-protocol.md
-   ↓
-4. If still stuck: problem-solving-playbook.md
-   ↓
-5. If still stuck: Ask user for clarification
-```
-
-### Quick Reference
-
-**WSP (When Stuck Protocol)** - `AGENTS.md` Protocol 6
-- Trigger: 3+ failed attempts, regression loop, unknown errors
-- Action: Stop → Assess → Isolate → Experiment → Ask
-- Key principle: "Spin cycle means your mental model is wrong"
-
-**VAP (Verification & Alignment Protocol)** - `AGENTS.md` Protocol 23
-- Ground truth > assumptions
-- Read `.d.ts` files for library APIs
-- Empirical verification required
-
-**DSP (Design Sanity Protocol)** - `AGENTS.md` Protocol 15
-- Translate emotional keywords to technical primitives
-- Iterate one change at a time
-- Verify each step visually
-
-**Problem Solving Playbook** - `problem-solving-playbook.md`
-- Clean room isolation technique
-- Create minimal reproducible test
-- Verify fix in isolation before applying
-
-**Agent Experimentation Protocol** - `agent-experimentation-protocol.md`
-- Create scratchpad file
-- Document hypothesis → experiment → result
-- Synthesize findings into solution
+## Index of Playbooks
+| Playbook | Purpose |
+| :--- | :--- |
+| **[Local First DB](local-first-vector-db-playbook.md)** | Core database architecture decisions |
+| **[Embeddings & FAFCAS](embeddings-and-fafcas-protocol-playbook.md)** | Vector math and optimization strategies |
+| **[SQLite Standards](sqlite-standards.md)** | SQL patterns for reliability (WAL, Busy Timeout) |
+| **[Sonar System](sonar-system-overview.md)** | Agent architecture and API spec |
+| **[Publishing](publishing-playbook.md)** | Release engineering and safety |
+| **[Scripts](scripts-playbook.md)** | Catalog of maintenance and utility scripts |
+| **[Debriefs](debriefs-playbook.md)** | Guideline for writing reflective debriefs |

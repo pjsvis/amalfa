@@ -15,11 +15,28 @@ export const AMALFA_DIRS = {
 	get runtime() {
 		return join(this.base, "runtime");
 	},
+	get agent() {
+		return join(this.base, "agent");
+	},
+	get tasks() {
+		return {
+			pending: join(this.base, "agent", "tasks", "pending"),
+			processing: join(this.base, "agent", "tasks", "processing"),
+			completed: join(this.base, "agent", "tasks", "completed"),
+		};
+	},
 } as const;
 
 /** Initialize AMALFA directory structure */
 export function initAmalfaDirs(): void {
-	const dirs = [AMALFA_DIRS.base, AMALFA_DIRS.logs, AMALFA_DIRS.runtime];
+	const dirs = [
+		AMALFA_DIRS.base,
+		AMALFA_DIRS.logs,
+		AMALFA_DIRS.runtime,
+		AMALFA_DIRS.tasks.pending,
+		AMALFA_DIRS.tasks.processing,
+		AMALFA_DIRS.tasks.completed,
+	];
 	for (const dir of dirs) {
 		if (!existsSync(dir)) {
 			mkdirSync(dir, { recursive: true });
