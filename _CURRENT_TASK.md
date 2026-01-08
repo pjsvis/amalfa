@@ -21,9 +21,10 @@
 - ✅ Verified successful multi-signal (Semantic + Structural + Temporal) gardening.
 - ✅ Standardized cloud model fallback to `google/gemini-2.0-flash-exp:free`.
 
-**3. Type Safety**
+**3. Code Quality & Refactoring**
 - ✅ Resolved `tsc` error regarding potentially undefined `capabilities.allModels` in daemon startup.
 - ✅ Fixed `GraphEngine` loading bug where the in-memory graph was never populated in the daemon loop.
+- ✅ Refactored `sonar-agent.ts` into a modular architecture using dedicated task handlers in `sonar-logic.ts` to reduce cyclomatic complexity and nesting.
 
 ---
 

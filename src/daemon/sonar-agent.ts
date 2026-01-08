@@ -25,25 +25,21 @@ import {
 	discoverOllamaCapabilities,
 } from "@src/utils/ollama-discovery";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
-import { TagInjector } from "@src/utils/TagInjector";
-
-import { inferenceState } from "./sonar-inference";
 import {
 	handleBatchEnhancement,
 	handleChat,
 	handleContextExtraction,
+	handleGardenTask,
 	handleMetadataEnhancement,
 	handleResultReranking,
 	handleSearchAnalysis,
+	handleSynthesisTask,
+	handleTimelineTask,
 	type SonarContext,
 } from "./sonar-logic";
-import {
-	extractDate,
-	getTaskModel,
-	judgeRelationship,
-	summarizeCommunity,
-} from "./sonar-strategies";
+import { getTaskModel } from "./sonar-strategies";
 import type { ChatSession, SonarTask } from "./sonar-types";
+import { inferenceState } from "./sonar-inference";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -295,147 +291,32 @@ async function executeTask(task: SonarTask): Promise<string> {
 	if (taskModel)
 		output += `> **Routing:** Task assigned to model \`${taskModel}\`\n\n`;
 
-	if (task.type === "synthesis") {
-		const minSize = task.minSize || 5;
-		const validClusters = gardener
-			.analyzeCommunities()
-			.filter((c) => c.nodes.length >= minSize);
+	const context: SonarContext = { db, graphEngine, gardener, chatSessions };
 
-		for (const cluster of validClusters) {
-			const reps = gardener.getClusterRepresentatives(cluster.nodes, 4);
-			const nodeData = [];
-			for (const id of reps) {
-				const content = await gardener.getContent(id);
-				if (content) nodeData.push({ id, content });
-			}
-
-			if (nodeData.length > 0) {
-				const synthesis = await summarizeCommunity(nodeData, taskModel);
-				const slug = synthesis.label
-					.toLowerCase()
-					.replace(/[^a-z0-9]/g, "-")
-					.replace(/-+/g, "-");
-				const filename = `synthesis-${cluster.clusterId}-${slug}.md`;
-
-				output += `#### Community: ${synthesis.label}\n- **Members:** ${cluster.nodes.length} nodes\n- **Summary:** ${synthesis.summary}\n\n`;
-
-				if (task.autoApply) {
-					const synthDir = join(process.cwd(), "docs/synthesis");
-					if (!existsSync(synthDir)) mkdirSync(synthDir, { recursive: true });
-					writeFileSync(
-						join(synthDir, filename),
-						`---\ntitle: "${synthesis.label}"\ntype: synthesis\nnodes: [${cluster.nodes.join(", ")}]\n---\n\n# ${synthesis.label}\n\n${synthesis.summary}\n\n## Cluster Members\n${cluster.nodes.map((id) => `- [[${id}]]`).join("\n")}\n`,
-					);
-					output += `- **Action:** 📝 Created synthesis node at \`${join("docs/synthesis", filename)}\`\n\n`;
-				}
-			}
+	try {
+		if (task.type === "synthesis") {
+			output += await handleSynthesisTask(task, context, taskModel);
+		} else if (task.type === "timeline") {
+			output += await handleTimelineTask(task, context, taskModel);
+		} else if (task.type === "garden") {
+			output += await handleGardenTask(task, context, taskModel);
+		} else if (task.type === "research") {
+			const result = await handleChat(
+				`research-${Date.now()}`,
+				task.query || "",
+				context,
+				taskModel,
+			);
+			output += `## Analysis\n${result.message.content}\n`;
+		} else if (task.type === "enhance_batch") {
+			const result = await handleBatchEnhancement(task.limit || 10, context);
+			output += `## Results\n- Successful: ${result.successful}\n- Failed: ${result.failed}\n- Total: ${result.total}\n`;
+		} else {
+			output += `⚠️ Unknown task type: ${task.type}\n`;
 		}
-	} else if (task.type === "timeline") {
-		const limit = task.limit || 50;
-		const nodes = db.getNodes({ limit, excludeContent: true });
-		let updatedCount = 0;
-
-		for (const node of nodes) {
-			if (node.date) continue;
-			const content = await gardener.getContent(node.id);
-			if (!content) continue;
-			const date = await extractDate(node.id, content, taskModel);
-			if (date) {
-				if (task.autoApply) db.updateNodeDate(node.id, date);
-				output += `- ${task.autoApply ? "✅" : "🔍"} **${node.id}**: Anchored to ${date}\n`;
-				updatedCount++;
-			}
-		}
-		output += `\n**Total Updated:** ${updatedCount} nodes\n`;
-	} else if (task.type === "garden") {
-		const limit = task.limit || 5;
-		const semanticSuggestions = await gardener.findGaps(limit);
-		const structuralSuggestions = gardener.findStructuralGaps(limit);
-		const temporal = gardener.weaveTimeline();
-
-		output += `### Semantic Gaps (Vector)\n`;
-		for (const sug of semanticSuggestions) {
-			const sourceContent = await gardener.getContent(sug.sourceId);
-			const targetContent = await gardener.getContent(sug.targetId);
-			if (sourceContent && targetContent) {
-				const judgment = await judgeRelationship(
-					{ id: sug.sourceId, content: sourceContent },
-					{ id: sug.targetId, content: targetContent },
-					taskModel,
-				);
-				if (judgment.related) {
-					const relType = judgment.type || "SEE_ALSO";
-					const sourcePath = gardener.resolveSource(sug.sourceId);
-					if (task.autoApply && sourcePath)
-						TagInjector.injectTag(sourcePath, relType, sug.targetId);
-					output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
-				} else {
-					output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
-				}
-				// Throttling for free cloud tiers
-				if (taskModel?.includes(":free"))
-					await new Promise((r) => setTimeout(r, 1000));
-			}
-		}
-
-		output += `\n### Structural Gaps (Adamic-Adar)\n`;
-		for (const sug of structuralSuggestions) {
-			const sourceContent = await gardener.getContent(sug.sourceId);
-			const targetContent = await gardener.getContent(sug.targetId);
-			if (sourceContent && targetContent) {
-				const judgment = await judgeRelationship(
-					{ id: sug.sourceId, content: sourceContent },
-					{ id: sug.targetId, content: targetContent },
-					taskModel,
-				);
-				if (judgment.related) {
-					const relType = judgment.type || "SEE_ALSO";
-					const sourcePath = gardener.resolveSource(sug.sourceId);
-					if (task.autoApply && sourcePath)
-						TagInjector.injectTag(sourcePath, relType, sug.targetId);
-					output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
-				} else {
-					output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
-				}
-				// Throttling for free cloud tiers
-				if (taskModel?.includes(":free"))
-					await new Promise((r) => setTimeout(r, 1000));
-			}
-		}
-
-		output += `\n### Temporal Sequence\n`;
-		for (const sug of temporal) {
-			const sourcePath = gardener.resolveSource(sug.sourceId);
-			if (task.autoApply && sourcePath)
-				TagInjector.injectTag(sourcePath, "FOLLOWS", sug.targetId);
-			output += `- ${task.autoApply ? "💉" : "🕒"} **${sug.sourceId} → ${sug.targetId}**: FOLLOWS (${sug.reason})\n`;
-		}
-	} else if (task.type === "research") {
-		const contextResult: SonarContext = {
-			db,
-			graphEngine,
-			gardener,
-			chatSessions,
-		};
-		const result = await handleChat(
-			`research-${Date.now()}`,
-			task.query || "",
-			contextResult,
-			taskModel,
-		);
-		output += `## Analysis\n${result.message.content}\n`;
-	} else if (task.type === "enhance_batch") {
-		const contextResult: SonarContext = {
-			db,
-			graphEngine,
-			gardener,
-			chatSessions,
-		};
-		const result = await handleBatchEnhancement(
-			task.limit || 10,
-			contextResult,
-		);
-		output += `## Results\n- Successful: ${result.successful}\n- Failed: ${result.failed}\n- Total: ${result.total}\n`;
+	} catch (error) {
+		output += `❌ Error during task execution: ${error}\n`;
+		throw error;
 	}
 
 	output += `\n---\n**Duration:** ${((Date.now() - startTime) / 1000).toFixed(1)}s\n`;

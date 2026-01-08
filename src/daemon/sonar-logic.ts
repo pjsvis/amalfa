@@ -1,10 +1,18 @@
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import type { GraphEngine } from "@src/core/GraphEngine";
 import type { GraphGardener } from "@src/core/GraphGardener";
 import { VectorEngine } from "@src/core/VectorEngine";
 import type { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
+import { TagInjector } from "@src/utils/TagInjector";
 import { callOllama, inferenceState } from "./sonar-inference";
-import type { ChatSession, Message } from "./sonar-types";
+import {
+	extractDate,
+	judgeRelationship,
+	summarizeCommunity,
+} from "./sonar-strategies";
+import type { ChatSession, Message, SonarTask } from "./sonar-types";
 
 const log = getLogger("SonarLogic");
 
@@ -286,4 +294,150 @@ export async function handleContextExtraction(
 		log.error({ error, docId: result.id }, "Context extraction failed");
 		throw error;
 	}
+}
+/**
+ * Handle synthesis task (Phase 2)
+ */
+export async function handleSynthesisTask(
+	task: SonarTask,
+	context: SonarContext,
+	taskModel?: string,
+): Promise<string> {
+	let output = "";
+	const minSize = task.minSize || 5;
+	const validClusters = context.gardener
+		.analyzeCommunities()
+		.filter((c) => c.nodes.length >= minSize);
+
+	for (const cluster of validClusters) {
+		const reps = context.gardener.getClusterRepresentatives(cluster.nodes, 4);
+		const nodeData = [];
+		for (const id of reps) {
+			const content = await context.gardener.getContent(id);
+			if (content) nodeData.push({ id, content });
+		}
+
+		if (nodeData.length > 0) {
+			const synthesis = await summarizeCommunity(nodeData, taskModel);
+			const slug = synthesis.label
+				.toLowerCase()
+				.replace(/[^a-z0-9]/g, "-")
+				.replace(/-+/g, "-");
+			const filename = `synthesis-${cluster.clusterId}-${slug}.md`;
+
+			output += `#### Community: ${synthesis.label}\n- **Members:** ${cluster.nodes.length} nodes\n- **Summary:** ${synthesis.summary}\n\n`;
+
+			if (task.autoApply) {
+				const synthDir = join(process.cwd(), "docs/synthesis");
+				if (!existsSync(synthDir)) mkdirSync(synthDir, { recursive: true });
+				writeFileSync(
+					join(synthDir, filename),
+					`---\ntitle: "${synthesis.label}"\ntype: synthesis\nnodes: [${cluster.nodes.join(", ")}]\n---\n\n# ${synthesis.label}\n\n${synthesis.summary}\n\n## Cluster Members\n${cluster.nodes.map((id) => `- [[${id}]]`).join("\n")}\n`,
+				);
+				output += `- **Action:** 📝 Created synthesis node at \`${join("docs/synthesis", filename)}\`\n\n`;
+			}
+		}
+	}
+	return output;
+}
+
+/**
+ * Handle timeline task (Phase 3)
+ */
+export async function handleTimelineTask(
+	task: SonarTask,
+	context: SonarContext,
+	taskModel?: string,
+): Promise<string> {
+	let output = "";
+	const limit = task.limit || 50;
+	const nodes = context.db.getNodes({ limit, excludeContent: true });
+	let updatedCount = 0;
+
+	for (const node of nodes) {
+		if (node.date) continue;
+		const content = await context.gardener.getContent(node.id);
+		if (!content) continue;
+		const date = await extractDate(node.id, content, taskModel);
+		if (date) {
+			if (task.autoApply) context.db.updateNodeDate(node.id, date);
+			output += `- ${task.autoApply ? "✅" : "🔍"} **${node.id}**: Anchored to ${date}\n`;
+			updatedCount++;
+		}
+	}
+	output += `\n**Total Updated:** ${updatedCount} nodes\n`;
+	return output;
+}
+
+/**
+ * Handle garden task (Phase 1 & 4)
+ */
+export async function handleGardenTask(
+	task: SonarTask,
+	context: SonarContext,
+	taskModel?: string,
+): Promise<string> {
+	let output = "";
+	const limit = task.limit || 5;
+	const semanticSuggestions = await context.gardener.findGaps(limit);
+	const structuralSuggestions = context.gardener.findStructuralGaps(limit);
+	const temporal = context.gardener.weaveTimeline();
+
+	output += `### Semantic Gaps (Vector)\n`;
+	for (const sug of semanticSuggestions) {
+		const sourceContent = await context.gardener.getContent(sug.sourceId);
+		const targetContent = await context.gardener.getContent(sug.targetId);
+		if (sourceContent && targetContent) {
+			const judgment = await judgeRelationship(
+				{ id: sug.sourceId, content: sourceContent },
+				{ id: sug.targetId, content: targetContent },
+				taskModel,
+			);
+			if (judgment.related) {
+				const relType = judgment.type || "SEE_ALSO";
+				const sourcePath = context.gardener.resolveSource(sug.sourceId);
+				if (task.autoApply && sourcePath)
+					TagInjector.injectTag(sourcePath, relType, sug.targetId);
+				output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
+			} else {
+				output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
+			}
+			if (taskModel?.includes(":free"))
+				await new Promise((r) => setTimeout(r, 1000));
+		}
+	}
+
+	output += `\n### Structural Gaps (Adamic-Adar)\n`;
+	for (const sug of structuralSuggestions) {
+		const sourceContent = await context.gardener.getContent(sug.sourceId);
+		const targetContent = await context.gardener.getContent(sug.targetId);
+		if (sourceContent && targetContent) {
+			const judgment = await judgeRelationship(
+				{ id: sug.sourceId, content: sourceContent },
+				{ id: sug.targetId, content: targetContent },
+				taskModel,
+			);
+			if (judgment.related) {
+				const relType = judgment.type || "SEE_ALSO";
+				const sourcePath = context.gardener.resolveSource(sug.sourceId);
+				if (task.autoApply && sourcePath)
+					TagInjector.injectTag(sourcePath, relType, sug.targetId);
+				output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
+			} else {
+				output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
+			}
+			if (taskModel?.includes(":free"))
+				await new Promise((r) => setTimeout(r, 1000));
+		}
+	}
+
+	output += `\n### Temporal Sequence\n`;
+	for (const sug of temporal) {
+		const sourcePath = context.gardener.resolveSource(sug.sourceId);
+		if (task.autoApply && sourcePath)
+			TagInjector.injectTag(sourcePath, "FOLLOWS", sug.targetId);
+		output += `- ${task.autoApply ? "💉" : "🕒"} **${sug.sourceId} → ${sug.targetId}**: FOLLOWS (${sug.reason})\n`;
+	}
+
+	return output;
 }
