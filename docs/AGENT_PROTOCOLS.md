@@ -20,9 +20,10 @@ Do not rely on your training data or random file searches. The codebase evolves 
 2.  **Read the Referenced Docs:** (The search results will give you file paths).
 3.  **Implement:** Only then do you write code.
 
-## 4. Known Pitfalls (Do Not Do This)
-*   **Do not hallucinate file paths.** Use `list_directory_structure` or `search_documents` to find where things live.
-*   **Do not ignore `stderr`.** If a tool fails, read the error.
-*   **Do not create "Zombie" processes.** Respect the `ServiceLifecycle`.
+## 5. Autonomous Research Delegation (Phase 5)
+If you are tasked with a complex investigation (e.g., "how did this feature evolve?"), you may delegate this to the **Sonar Discovery Engine**.
+1.  **Create a Research Task:** Push a JSON task to `.amalfa/agent/tasks/pending/`.
+2.  **Monitor Output:** Sonar will perform iterative discovery (Search -> Read -> Explore) and provide a verified report.
+3.  **Consume Findings:** Read the completed report from `.amalfa/agent/tasks/completed/`.
 
 *Trust the Graph. It remembers what you forget.*

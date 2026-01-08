@@ -52,10 +52,12 @@ A minimal, heavy-duty visualization tool.
 - **Sigma Explorer:** Interactive graph exploration.
 - **Quick Look:** Markdown rendering of selected nodes.
 
-### D. MCP Server (The API)
-The interface for AI Agents (Cursor, Claude, etc.).
-- **Tools:** `search_documents`, `read_node_content`, `explore_links`.
-- **Protocol Safety:** strict `stdout` (JSON-RPC) vs `stderr` (Logs) separation.
+### E. Sonar (The Discovery Engine)
+The autonomous reasoning layer of AMALFA.
+- **FAFCAS Engine:** A multi-step discovery loop that uses "Internal Monologue" to research leads across the graph.
+- **Topological Discovery:** Leverages Structural Hubs and PageRank to navigate "blind spots" autonomously.
+- **Recursive Chain Verification:** A built-in Auditor that double-checks research findings to ensure truthfulness and query completion.
+- **Cloud-Hybrid Inference:** Dynamically routes between local Ollama and OpenRouter (Free Tier) to provide high-quality reasoning at zero cost.
 
 ---
 

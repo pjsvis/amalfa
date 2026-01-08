@@ -21,13 +21,18 @@
 - ✅ **Internal Monologue**: Integrated JSON-based reasoning for every research step.
 - ✅ **Robust JSON Recovery**: Defensive parsing for LLM-generated responses.
 
-### Next Steps 🚀
-
-**1. Topological Awareness (Phase 5 Refinement)**
+**3. Topological Intelligence & Final Polish**
 - ✅ **Structural Hub Awareness**: Injects high-centrality "Project Hubs" into the research context.
 - ✅ **Graph Neighborhood Exploration**: Implemented `EXPLORE` action for direct neighbor discovery.
 - ✅ **Traversal Deduplication**: Prevented infinite loops by tracking explored nodes and neighborhoods.
-- [ ] **Chain Verification**: Add a verification step where the agent double-checks its findings against the initial query before finishing.
+- ✅ **Chain Verification**: Implemented an "AMALFA Auditor" step that double-checks findings against the initial query and flags missing info.
+
+### Next Steps 🚀
+
+**1. Semantic Expansion (Phase 6)**
+- [ ] **Cross-Corpus Synthesis**: Enable the agent to research across multiple mapped corpora (`pjsvis/amalfa` and beyond).
+- [ ] **Temporal Analysis**: Use the discovery engine to build narratives of *how* a concept changed over time using the timeline anchors.
+- [ ] **Active Documentation**: Allow the agent to propose new `synthesis` nodes directly during research if it finds a recurring theme.
 
 ---
 
