@@ -5,11 +5,11 @@ import { DaemonManager } from "../utils/DaemonManager";
 
 export async function cmdEnhance(args: string[]) {
 	const manager = new DaemonManager();
-	const status = await manager.checkPhi3Agent();
+	const status = await manager.checkSonarAgent();
 
 	if (!status.running) {
-		console.error("❌ Phi3 Agent is not running.");
-		console.error("   Please start it first: amalfa phi3 start");
+		console.error("❌ Sonar Agent is not running.");
+		console.error("   Please start it first: amalfa sonar start");
 		process.exit(1);
 	}
 
@@ -23,8 +23,11 @@ export async function cmdEnhance(args: string[]) {
 	if (batchIdx !== -1) {
 		// Batch Mode
 		let limit = 50;
-		if (limitIdx !== -1 && args[limitIdx + 1] !== undefined) {
-			limit = parseInt(args[limitIdx + 1]!, 10);
+		if (limitIdx !== -1) {
+			const limitArg = args[limitIdx + 1];
+			if (limitArg !== undefined) {
+				limit = parseInt(limitArg, 10);
+			}
 		}
 
 		console.log(`🚀 Starting batch enhancement (Limit: ${limit})...`);

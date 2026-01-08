@@ -1,22 +1,22 @@
 /**
- * Phi3 HTTP Client
- * Client for interacting with Phi3 daemon HTTP endpoints
+ * Sonar HTTP Client
+ * Client for interacting with Sonar daemon HTTP endpoints
  */
 
 import { loadConfig } from "@src/config/defaults";
 import { getLogger } from "./Logger";
 
-const log = getLogger("Phi3Client");
+const log = getLogger("SonarClient");
 
-// Cache for Phi3 availability to avoid repeated health checks
-let phi3AvailableCache: boolean | null = null;
-let phi3LastCheck: number = 0;
+// Cache for Sonar availability to avoid repeated health checks
+let sonarAvailableCache: boolean | null = null;
+let sonarLastCheck: number = 0;
 const HEALTH_CHECK_CACHE_MS = 30000; // Cache health check for 30 seconds
 
 /**
- * Phi3 Client Interface
+ * Sonar Client Interface
  */
-export interface Phi3Client {
+export interface SonarClient {
 	isAvailable(): Promise<boolean>;
 	analyzeQuery(query: string): Promise<QueryAnalysis | null>;
 	rerankResults(
@@ -48,20 +48,27 @@ export interface QueryAnalysis {
 }
 
 /**
- * Create Phi3 client instance
+ * Create Sonar client instance
  */
-export async function createPhi3Client(): Promise<Phi3Client> {
+export async function createSonarClient(): Promise<SonarClient> {
 	const config = await loadConfig();
 
-	// Check if Phi3 is enabled
-	if (!config.phi3?.enabled) {
-		log.debug("Phi3 is disabled in configuration");
+	// Check if Sonar is enabled
+	// Checking both for backward compatibility or migration
+	// @ts-ignore
+	const isEnabled = config.sonar?.enabled ?? config.phi3?.enabled;
+
+	if (!isEnabled) {
+		log.debug("Sonar/Phi3 is disabled in configuration");
 		return createDisabledClient();
 	}
 
-	const host = config.phi3?.host || "localhost:11434";
-	const baseUrl = `http://localhost:${config.phi3?.port || 3012}`;
-	const timeout = config.phi3?.tasks?.search?.timeout || 5000;
+	// @ts-ignore
+	const hostArgs = config.sonar || config.phi3 || {};
+	const host = hostArgs.host || "localhost:11434";
+	const port = hostArgs.port || 3012;
+	const baseUrl = `http://localhost:${port}`;
+	const timeout = hostArgs.tasks?.search?.timeout || 5000;
 
 	// Define isAvailable as a local function to avoid 'this' context issues
 	const isAvailable = async (): Promise<boolean> => {
@@ -69,10 +76,10 @@ export async function createPhi3Client(): Promise<Phi3Client> {
 
 		// Return cached result if valid
 		if (
-			phi3AvailableCache !== null &&
-			now - phi3LastCheck < HEALTH_CHECK_CACHE_MS
+			sonarAvailableCache !== null &&
+			now - sonarLastCheck < HEALTH_CHECK_CACHE_MS
 		) {
-			return phi3AvailableCache;
+			return sonarAvailableCache;
 		}
 
 		// Perform health check
@@ -87,22 +94,22 @@ export async function createPhi3Client(): Promise<Phi3Client> {
 			clearTimeout(timeoutId);
 
 			if (!response.ok) {
-				phi3AvailableCache = false;
-				phi3LastCheck = now;
+				sonarAvailableCache = false;
+				sonarLastCheck = now;
 				return false;
 			}
 
 			const health = (await response.json()) as { status: string };
 			const healthy = health.status === "healthy";
 
-			phi3AvailableCache = healthy;
-			phi3LastCheck = now;
+			sonarAvailableCache = healthy;
+			sonarLastCheck = now;
 
 			return healthy;
 		} catch (error) {
-			phi3AvailableCache = false;
-			phi3LastCheck = now;
-			log.debug({ error }, "Phi3 health check failed");
+			sonarAvailableCache = false;
+			sonarLastCheck = now;
+			log.debug({ error }, "Sonar health check failed");
 			return false;
 		}
 	};
@@ -112,7 +119,7 @@ export async function createPhi3Client(): Promise<Phi3Client> {
 
 		async analyzeQuery(query: string): Promise<QueryAnalysis | null> {
 			if (!(await isAvailable())) {
-				log.debug("Phi3 not available, skipping query analysis");
+				log.debug("Sonar not available, skipping query analysis");
 				return null;
 			}
 
@@ -157,7 +164,7 @@ export async function createPhi3Client(): Promise<Phi3Client> {
 			}>
 		> {
 			if (!(await isAvailable())) {
-				log.debug("Phi3 not available, skipping result re-ranking");
+				log.debug("Sonar not available, skipping result re-ranking");
 				// Return original results with relevance_score = score
 				return results.map((r) => ({ ...r, relevance_score: r.score }));
 			}
@@ -206,7 +213,7 @@ export async function createPhi3Client(): Promise<Phi3Client> {
 			confidence: number;
 		} | null> {
 			if (!(await isAvailable())) {
-				log.debug("Phi3 not available, skipping context extraction");
+				log.debug("Sonar not available, skipping context extraction");
 				// Fallback: return simple snippet
 				const words = result.content.split(" ");
 				const snippet = words.slice(0, 50).join(" ");
@@ -252,9 +259,9 @@ export async function createPhi3Client(): Promise<Phi3Client> {
 }
 
 /**
- * Create a disabled client (when Phi3 is not enabled)
+ * Create a disabled client (when Sonar is not enabled)
  */
-function createDisabledClient(): Phi3Client {
+function createDisabledClient(): SonarClient {
 	return {
 		async isAvailable(): Promise<boolean> {
 			return false;

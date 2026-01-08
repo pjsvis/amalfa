@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * AMALFA Phi3 Multi-Purpose Sub-Agent
+ * AMALFA Sonar Multi-Purpose Sub-Agent
  * Daemon for search intelligence, metadata enhancement, and interactive chat
  */
 
@@ -15,7 +15,7 @@ import {
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
-const log = getLogger("Phi3Agent");
+const log = getLogger("SonarAgent");
 
 // Database initialization
 import { ResonanceDB } from "@src/resonance/db";
@@ -23,17 +23,15 @@ let DB_PATH: string;
 
 // Service lifecycle management
 const lifecycle = new ServiceLifecycle({
-	name: "Phi3Agent",
-	pidFile: join(AMALFA_DIRS.runtime, "phi3.pid"),
-	logFile: join(AMALFA_DIRS.logs, "phi3.log"),
-	entryPoint: "src/daemon/phi3-agent.ts",
+	name: "SonarAgent",
+	pidFile: join(AMALFA_DIRS.runtime, "sonar.pid"),
+	logFile: join(AMALFA_DIRS.logs, "sonar.log"),
+	entryPoint: "src/daemon/sonar-agent.ts",
 });
 
 // Global state
 // Global state
 let server: Bun.Server<unknown> | null = null;
-
-// Global state
 let ollamaAvailable = false;
 let ollamaModel = "phi3:latest";
 
@@ -61,6 +59,7 @@ interface RequestOptions {
 	temperature?: number;
 	num_predict?: number;
 	stream?: boolean;
+	format?: "json"; // Enable GBNF-constrained JSON output
 }
 
 /**
@@ -72,9 +71,14 @@ async function callOllama(
 	options: RequestOptions = {},
 ): Promise<{ message: Message }> {
 	const config = await loadConfig();
-	const host = config.phi3?.host || "localhost:11434";
+	// @ts-ignore
+	const hostArgs = config.sonar || config.phi3 || {};
+	const host = hostArgs.host || "localhost:11434";
 	// Use discovered model if available, otherwise config or default
-	const model = ollamaModel || config.phi3?.model || "phi3:latest";
+	const model = ollamaModel || hostArgs.model || "phi3:latest";
+
+	// Extract format from options to put at root level of request
+	const { format, ...modelOptions } = options;
 
 	const response = await fetch(`http://${host}/api/chat`, {
 		method: "POST",
@@ -83,10 +87,11 @@ async function callOllama(
 			model,
 			messages,
 			stream: false,
+			format, // Pass format (e.g. "json") to enable GBNF grammar
 			options: {
 				temperature: 0.1,
 				num_predict: 200,
-				...options,
+				...modelOptions,
 			},
 		}),
 	});
@@ -99,16 +104,12 @@ async function callOllama(
 }
 
 /**
- * Check if Phi3/Ollama is available and healthy
- */
-
-/**
  * Handle search analysis task
  * Analyzes query intent, entities, and technical level
  */
 async function handleSearchAnalysis(query: string): Promise<unknown> {
 	if (!ollamaAvailable) {
-		throw new Error("Phi3 is not available");
+		throw new Error("Sonar is not available");
 	}
 
 	try {
@@ -134,6 +135,7 @@ async function handleSearchAnalysis(query: string): Promise<unknown> {
 			{
 				temperature: 0.1,
 				num_predict: 200,
+				format: "json", // Force valid JSON output
 			},
 		);
 
@@ -162,7 +164,7 @@ async function handleSearchAnalysis(query: string): Promise<unknown> {
  */
 async function handleMetadataEnhancement(docId: string): Promise<unknown> {
 	if (!ollamaAvailable) {
-		throw new Error("Phi3 is not available");
+		throw new Error("Sonar is not available");
 	}
 
 	try {
@@ -214,6 +216,7 @@ async function handleMetadataEnhancement(docId: string): Promise<unknown> {
 			{
 				temperature: 0.2,
 				num_predict: 500,
+				format: "json", // Force valid JSON output
 			},
 		);
 
@@ -237,8 +240,8 @@ async function handleMetadataEnhancement(docId: string): Promise<unknown> {
 		// Update node metadata
 		const newMeta = {
 			...node.meta,
-			phi3_enhanced: true,
-			phi3_enhanced_at: new Date().toISOString(),
+			sonar_enhanced: true,
+			sonar_enhanced_at: new Date().toISOString(),
 			...enhancedMeta,
 		};
 
@@ -260,14 +263,13 @@ async function handleBatchEnhancement(limit = 50): Promise<{
 	total: number;
 }> {
 	if (!ollamaAvailable) {
-		throw new Error("Phi3 is not available");
+		throw new Error("Sonar is not available");
 	}
 
 	const db = new ResonanceDB(DB_PATH);
 
 	// Find unenhanced nodes
-	// Note: We need to query nodes that don't have 'phi3_enhanced' in meta
-	// This is a bit expensive with JSON query, so we limit strictly
+	// Note: We need to query nodes that don't have 'sonar_enhanced' in meta
 	const allNodes = db.getRawDb().query("SELECT id, meta FROM nodes").all() as {
 		id: string;
 		meta: string;
@@ -277,7 +279,8 @@ async function handleBatchEnhancement(limit = 50): Promise<{
 		.filter((row) => {
 			try {
 				const meta = JSON.parse(row.meta);
-				return !meta.phi3_enhanced;
+				// Check for sonar_enhanced OR phi3_enhanced (migration)
+				return !meta.sonar_enhanced && !meta.phi3_enhanced;
 			} catch {
 				return false;
 			}
@@ -286,7 +289,7 @@ async function handleBatchEnhancement(limit = 50): Promise<{
 
 	const batch = unenhanced.slice(0, limit);
 
-	log.info(`🔄 Enhancing ${batch.length} docs with Phi3...`);
+	log.info(`🔄 Enhancing ${batch.length} docs with Sonar...`);
 
 	const results = await Promise.allSettled(
 		batch.map((node) => handleMetadataEnhancement(node.id)),
@@ -312,7 +315,7 @@ async function handleResultReranking(
 	Array<{ id: string; content: string; score: number; relevance_score: number }>
 > {
 	if (!ollamaAvailable) {
-		throw new Error("Phi3 is not available");
+		throw new Error("Sonar is not available");
 	}
 
 	try {
@@ -342,6 +345,7 @@ Return JSON array with relevance scores (0.0 to 1.0):
 			{
 				temperature: 0.2,
 				num_predict: 300,
+				format: "json", // Force valid JSON output
 			},
 		);
 
@@ -378,7 +382,7 @@ async function handleChat(
 	userMessage: string,
 ): Promise<{ message: Message; sessionId: string }> {
 	if (!ollamaAvailable) {
-		throw new Error("Phi3 is not available");
+		throw new Error("Sonar is not available");
 	}
 
 	// Get or create session
@@ -415,6 +419,7 @@ User can ask you about:
 	].filter((m): m is Message => m !== undefined);
 
 	try {
+		// NOTE: No format: "json" for chat! We want natural language.
 		const response = await callOllama(contextMessages, {
 			temperature: 0.7,
 			num_predict: 500,
@@ -443,7 +448,7 @@ async function handleContextExtraction(
 	query: string,
 ): Promise<{ snippet: string; context: string; confidence: number }> {
 	if (!ollamaAvailable) {
-		throw new Error("Phi3 is not available");
+		throw new Error("Sonar is not available");
 	}
 
 	try {
@@ -472,6 +477,7 @@ Return JSON:
 			{
 				temperature: 0.1,
 				num_predict: 200,
+				format: "json", // Force valid JSON output
 			},
 		);
 
@@ -501,14 +507,16 @@ async function main() {
 	const config = await loadConfig();
 	DB_PATH = join(process.cwd(), config.database);
 
-	if (!config.phi3?.enabled) {
-		log.warn("⚠️  Phi3 is disabled in configuration. Exiting.");
+	// @ts-ignore
+	const isEnabled = config.sonar?.enabled ?? config.phi3?.enabled;
+
+	if (!isEnabled) {
+		log.warn("⚠️  Sonar is disabled in configuration. Exiting.");
 		process.exit(0);
 	}
 
-	log.info("🚀 Phi3 Agent starting...");
+	log.info("🚀 Sonar Agent starting...");
 
-	// Check Ollama availability
 	// Check Ollama availability
 	log.info("🔍 Checking Ollama availability...");
 	const capabilities = await discoverOllamaCapabilities();
@@ -517,16 +525,21 @@ async function main() {
 	if (ollamaAvailable) {
 		log.info("✅ Ollama is available and healthy");
 		// Use discovered preferred model (e.g., tinydolphin) unless overridden in config
-		ollamaModel = config.phi3?.model || capabilities.model || "phi3:latest";
+		// @ts-ignore
+		ollamaModel =
+			config.sonar?.model ||
+			config.phi3?.model ||
+			capabilities.model ||
+			"phi3:latest";
 		log.info(`✅ Using model: ${ollamaModel}`);
 	} else {
 		log.warn("⚠️  Ollama is not available");
-		log.warn("   Phi3 features will be disabled");
+		log.warn("   Sonar features will be disabled");
 		log.info("   Install: curl -fsSL https://ollama.ai/install.sh | sh");
-		log.info("   Then run: ollama pull phi3:latest");
+		log.info("   Then run: ollama pull phi3:latest (or minidolphin)");
 	}
 
-	log.info("✅ Phi3 Agent ready");
+	log.info("✅ Sonar Agent ready");
 
 	// Register signal handlers for graceful shutdown
 	const shutdown = async (signal: string) => {
@@ -542,7 +555,8 @@ async function main() {
 	process.on("SIGINT", () => shutdown("SIGINT"));
 
 	// Start HTTP server
-	const port = config.phi3?.port || 3012;
+	// @ts-ignore
+	const port = (config.sonar || config.phi3)?.port || 3012;
 
 	log.info(`🚀 Starting HTTP server on port ${port}`);
 	log.info("📋 Available endpoints:");

@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Staleness Detection**: `amalfa stats` now warns (`⚠️ STALE`) if source files are newer than the database.
+- **JSON Mode (GBNF)**: Sonar Agent now enforces valid JSON output for `tinydolphin` compatibility.
 - **Phi3 Sub-Agent**: Robust daemon (`amalfa phi3`) managing local LLM interactions for chat and analysis.
 - **Search Intelligence**: New endpoints `/search/analyze`, `/search/rerank`, `/search/context`.
 - **Metadata Enhancement**: AI-powered document enrichment via `/metadata/enhance` connected to ResonanceDB.
@@ -19,12 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **OH-104 Pinch Check**: Physical file verification after WAL checkpoint to prevent silent corruption
 - Test script `scripts/verify/test-hardening.ts` for validating resilience improvements
 
-### Fixed
-- **inject_tags idempotency**: MCP tool now merges tags instead of stacking duplicate tag blocks
-- TypeScript errors: Replaced private `db` property access with public `getRawDb()` method in tests and scripts
-- Biome formatting: Applied consistent formatting and import organization across modified files
-
 ### Changed
+- **Sonar Refactor**: Renamed "Phi3" sub-agent to "Sonar Agent" (daemon, CLI, config) for better naming.
 - **Default Model**: Switched from `phi3` to `tinydolphin` for vastly improved local performance.
 - Hardened ingestion pipeline with explicit file size checks after database checkpoints
 - Enhanced MCP gardening tool with tag deduplication logic

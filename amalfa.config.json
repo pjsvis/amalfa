@@ -11,7 +11,7 @@
 		"notifications": true
 	},
 	"excludePatterns": ["node_modules", ".git", ".amalfa"],
-	"phi3": {
+	"sonar": {
 		"enabled": true,
 		"autoDiscovery": true,
 		"discoveryMethod": "cli",

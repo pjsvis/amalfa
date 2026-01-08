@@ -6,6 +6,29 @@
 
 ---
 
+## Session 2026-01-08: Sonar Agent Refactor & Hardening
+
+### Completed ✅
+
+**1. Sonar Agent Rename**
+- ✅ Renamed "Phi3" to "Sonar" across entire codebase (`daemon`, `cli`, `utils`, `config`)
+- ✅ Updated documentation (`sonar-manual.md`, `sonar-system-overview.md`)
+- ✅ Added backward compatibility for existing `amalfa.config.json` files
+
+**2. Reliability Engineering**
+- ✅ **JSON Mode (GBNF)**: Enabled `format: "json"` for Sonar Agent to support small models (`tinydolphin`)
+- ✅ **Staleness Detection**: Updated `amalfa stats` to warn (`⚠️ STALE`) on out-of-sync database
+- ✅ **Documentation**: Consolidated SQLite standards into `playbooks/sqlite-standards.md`
+
+### Statistics
+- **Changes**: Rename affected ~10 files, Added 2 new features
+- **Verification**:
+  - `amalfa sonar status`: ✅
+  - `amalfa enhance`: ✅ (JSON output verified)
+  - `amalfa stats`: ✅ (Freshness check verified)
+
+---
+
 ## Session 2026-01-07 (Part 4): Phi3 Sub-Agent Implementation
 
 ### Completed ✅

@@ -29,7 +29,8 @@ Commands:
   setup-mcp          Generate MCP configuration JSON
   daemon <action>    Manage file watcher (start|stop|status|restart)
   vector <action>    Manage vector daemon (start|stop|status|restart)
-  phi3 <action>      Manage Phi3 AI agent (start|stop|status|restart)
+  sonar <action>     Manage Sonar AI agent (start|stop|status|restart)
+  scripts list       List available scripts and their descriptions
   servers [--dot]    Show status of all AMALFA services (--dot for graph)
 
 Options:
@@ -43,7 +44,7 @@ Examples:
   amalfa serve       # Start MCP server for Claude Desktop
   amalfa stats       # Show knowledge graph statistics
   amalfa doctor      # Verify installation
-  amalfa phi3 start  # Start Phi3 AI agent for enhanced search
+  amalfa sonar start # Start Sonar AI agent for enhanced search
 
 Documentation: https://github.com/pjsvis/amalfa
 `);
@@ -110,28 +111,68 @@ async function cmdStats() {
 	// Import database wrapper
 	const dbPath = await getDbPath();
 	const { ResonanceDB } = await import("./resonance/db");
+	const { loadConfig } = await import("./config/defaults");
+
 	const db = new ResonanceDB(dbPath);
+	const config = await loadConfig();
+	const sources = config.sources || ["./docs"];
 
 	try {
 		const stats = db.getStats();
-		const fileSize = statSync(dbPath).size;
-		const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2);
+		const dbStats = statSync(dbPath);
+		const fileSizeMB = (dbStats.size / 1024 / 1024).toFixed(2);
+
+		// Check for stale files
+		let newerFiles = 0;
+		let newestFileDate = new Date(0);
+
+		const { readdirSync, statSync: statSyncFs } = await import("node:fs");
+
+		function scan(dir: string) {
+			if (!existsSync(dir)) return;
+			const entries = readdirSync(dir, { withFileTypes: true });
+			for (const entry of entries) {
+				const fullPath = join(dir, entry.name);
+				if (entry.name.startsWith(".")) continue;
+
+				if (entry.isDirectory()) {
+					scan(fullPath);
+				} else if (entry.name.endsWith(".md")) {
+					const mtime = statSyncFs(fullPath).mtime;
+					if (mtime > dbStats.mtime) {
+						newerFiles++;
+					}
+					if (mtime > newestFileDate) {
+						newestFileDate = mtime;
+					}
+				}
+			}
+		}
+
+		for (const source of sources) {
+			scan(join(process.cwd(), source));
+		}
+
+		const isStale = newerFiles > 0;
+		const statusIcon = isStale ? "⚠️  STALE" : "✅ FRESH";
 
 		console.log(`
 📊 AMALFA Database Statistics
 
 Database: ${dbPath}
-Size: ${fileSizeMB} MB
+Status:   ${statusIcon}
+Size:     ${fileSizeMB} MB
 
-Nodes: ${stats.nodes.toLocaleString()}
-Edges: ${stats.edges.toLocaleString()}
+Nodes:      ${stats.nodes.toLocaleString()}
+Edges:      ${stats.edges.toLocaleString()}
 Embeddings: ${stats.vectors.toLocaleString()} (384-dim)
 
-Source: ./docs (markdown files)
-Last modified: ${new Date(statSync(dbPath).mtime).toISOString()}
+Sources:       ${sources.join(", ")}
+DB Modified:   ${new Date(dbStats.mtime).toISOString()}
+Latest File:   ${newestFileDate.toISOString()}
+Stale Files:   ${newerFiles}
 
-🔍 To search: Use with Claude Desktop or other MCP client
-📝 To update: Run 'amalfa daemon start' to watch for file changes
+${isStale ? "⚠️  ACTION REQUIRED: Run 'amalfa init' or start 'amalfa daemon' to update!" : "🔍 System is up to date."}
 `);
 	} catch (error) {
 		console.error("❌ Failed to read database statistics:", error);
@@ -329,13 +370,13 @@ async function cmdDaemon() {
 	}
 }
 
-async function cmdPhi3() {
+async function cmdSonar() {
 	const action = args[1] || "status";
 	const validActions = ["start", "stop", "status", "restart", "chat"];
 
 	if (!validActions.includes(action)) {
 		console.error(`❌ Invalid action: ${action}`);
-		console.error("\nUsage: amalfa phi3 <start|stop|status|restart|chat>");
+		console.error("\nUsage: amalfa sonar <start|stop|status|restart|chat>");
 		process.exit(1);
 	}
 
@@ -363,11 +404,11 @@ async function cmdPhi3() {
 		}
 
 		// Check Daemon
-		const status = await manager.checkPhi3Agent();
+		const status = await manager.checkSonarAgent();
 
 		if (status.running) {
 			console.log(
-				`✅ Phi3 Agent: Running (PID: ${status.pid}, Port: ${status.port})`,
+				`✅ Sonar Agent: Running (PID: ${status.pid}, Port: ${status.port})`,
 			);
 
 			// Check health endpoint
@@ -379,53 +420,67 @@ async function cmdPhi3() {
 				console.log("   Health: ⚠️  Unresponsive");
 			}
 		} else {
-			console.log("❌ Phi3 Agent: Stopped");
+			console.log("❌ Sonar Agent: Stopped");
 		}
 		return;
 	}
 
 	if (action === "start") {
-		console.log("🚀 Starting Phi3 Agent...");
+		console.log("🚀 Starting Sonar Agent...");
 		try {
-			await manager.startPhi3Agent();
-			console.log("✅ Phi3 Agent started");
+			await manager.startSonarAgent();
+			console.log("✅ Sonar Agent started");
 		} catch (e) {
-			console.error("❌ Failed to start Phi3 Agent:", e);
+			console.error("❌ Failed to start Sonar Agent:", e);
 			process.exit(1);
 		}
 		return;
 	}
 
 	if (action === "stop") {
-		console.log("🛑 Stopping Phi3 Agent...");
+		console.log("🛑 Stopping Sonar Agent...");
 		try {
-			await manager.stopPhi3Agent();
-			console.log("✅ Phi3 Agent stopped");
+			await manager.stopSonarAgent();
+			console.log("✅ Sonar Agent stopped");
 		} catch (e) {
-			console.error("❌ Failed to stop Phi3 Agent:", e);
+			console.error("❌ Failed to stop Sonar Agent:", e);
 			process.exit(1);
 		}
 		return;
 	}
 
 	if (action === "chat") {
-		const { chatLoop } = await import("./cli/phi3-chat");
+		const { chatLoop } = await import("./cli/sonar-chat");
 		await chatLoop();
 		return;
 	}
 
 	if (action === "restart") {
-		console.log("🔄 Restarting Phi3 Agent...");
+		console.log("🔄 Restarting Sonar Agent...");
 		try {
-			await manager.stopPhi3Agent();
-			await manager.startPhi3Agent();
-			console.log("✅ Phi3 Agent restarted");
+			await manager.stopSonarAgent();
+			await manager.startSonarAgent();
+			console.log("✅ Sonar Agent restarted");
 		} catch (e) {
-			console.error("❌ Failed to restart Phi3 Agent:", e);
+			console.error("❌ Failed to restart Sonar Agent:", e);
 			process.exit(1);
 		}
 		return;
 	}
+}
+
+async function cmdScripts() {
+	const action = args[1] || "list";
+
+	if (action === "list") {
+		// Dynamic import to avoid loading everything at startup
+		await import("./cli/list-scripts");
+		return;
+	}
+
+	console.error(`❌ Invalid action: ${action}`);
+	console.error("Usage: amalfa scripts list");
+	process.exit(1);
 }
 
 async function cmdVector() {
@@ -531,11 +586,11 @@ async function cmdServers() {
 			cmd: "amalfa daemon start",
 		},
 		{
-			name: "Phi3 Agent",
-			pidFile: join(AMALFA_DIRS.runtime, "phi3.pid"),
+			name: "Sonar Agent",
+			pidFile: join(AMALFA_DIRS.runtime, "sonar.pid"),
 			port: "3012",
-			id: "phi3",
-			cmd: "amalfa phi3 start",
+			id: "sonar",
+			cmd: "amalfa sonar start",
 		},
 	];
 
@@ -864,8 +919,12 @@ async function main() {
 			await cmdServers();
 			break;
 
-		case "phi3":
-			await cmdPhi3();
+		case "sonar":
+			await cmdSonar();
+			break;
+
+		case "scripts":
+			await cmdScripts();
 			break;
 
 		case "enhance": {

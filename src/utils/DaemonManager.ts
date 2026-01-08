@@ -17,7 +17,7 @@ export interface DaemonStatus {
 export class DaemonManager {
 	private vectorLifecycle: ServiceLifecycle;
 	private watcherLifecycle: ServiceLifecycle;
-	private phi3Lifecycle: ServiceLifecycle;
+	private sonarLifecycle: ServiceLifecycle;
 
 	constructor() {
 		this.vectorLifecycle = new ServiceLifecycle({
@@ -34,11 +34,11 @@ export class DaemonManager {
 			entryPoint: "src/daemon/index.ts",
 		});
 
-		this.phi3Lifecycle = new ServiceLifecycle({
-			name: "Phi3Agent",
-			pidFile: join(AMALFA_DIRS.runtime, "phi3.pid"),
-			logFile: join(AMALFA_DIRS.logs, "phi3.log"),
-			entryPoint: "src/daemon/phi3-agent.ts",
+		this.sonarLifecycle = new ServiceLifecycle({
+			name: "SonarAgent",
+			pidFile: join(AMALFA_DIRS.runtime, "sonar.pid"),
+			logFile: join(AMALFA_DIRS.logs, "sonar.log"),
+			entryPoint: "src/daemon/sonar-agent.ts",
 		});
 	}
 
@@ -138,10 +138,10 @@ export class DaemonManager {
 	}
 
 	/**
-	 * Check if Phi3 Agent is running
+	 * Check if Sonar Agent is running
 	 */
-	async checkPhi3Agent(): Promise<DaemonStatus> {
-		const pid = await this.readPid(join(AMALFA_DIRS.runtime, "phi3.pid"));
+	async checkSonarAgent(): Promise<DaemonStatus> {
+		const pid = await this.readPid(join(AMALFA_DIRS.runtime, "sonar.pid"));
 		if (!pid) {
 			return { running: false };
 		}
@@ -169,19 +169,19 @@ export class DaemonManager {
 	}
 
 	/**
-	 * Start Phi3 Agent
+	 * Start Sonar Agent
 	 */
-	async startPhi3Agent(): Promise<void> {
-		await this.phi3Lifecycle.start();
+	async startSonarAgent(): Promise<void> {
+		await this.sonarLifecycle.start();
 		// Wait a moment for daemon to initialize
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 	}
 
 	/**
-	 * Stop Phi3 Agent
+	 * Stop Sonar Agent
 	 */
-	async stopPhi3Agent(): Promise<void> {
-		await this.phi3Lifecycle.stop();
+	async stopSonarAgent(): Promise<void> {
+		await this.sonarLifecycle.stop();
 	}
 
 	/**
@@ -190,14 +190,14 @@ export class DaemonManager {
 	async checkAll(): Promise<{
 		vector: DaemonStatus;
 		watcher: DaemonStatus;
-		phi3: DaemonStatus;
+		sonar: DaemonStatus;
 	}> {
-		const [vector, watcher, phi3] = await Promise.all([
+		const [vector, watcher, sonar] = await Promise.all([
 			this.checkVectorDaemon(),
 			this.checkFileWatcher(),
-			this.checkPhi3Agent(),
+			this.checkSonarAgent(),
 		]);
-		return { vector, watcher, phi3 };
+		return { vector, watcher, sonar };
 	}
 
 	/**
@@ -207,7 +207,7 @@ export class DaemonManager {
 		await Promise.all([
 			this.stopVectorDaemon(),
 			this.stopFileWatcher(),
-			this.stopPhi3Agent(),
+			this.stopSonarAgent(),
 		]);
 	}
 }

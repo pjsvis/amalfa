@@ -1,7 +1,7 @@
-# Phi3 System Overview
+# Sonar System Overview
 
 ## Purpose
-Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search through semantic understanding and intelligent re-ranking. It excels at quick query analysis and contextual relevance scoring.
+Sonar is a **lightweight, fast AI model** (using models like Phi3, TinyDolphin, etc.) that enhances AMALFA's search through semantic understanding and intelligent re-ranking. It excels at quick query analysis and contextual relevance scoring.
 
 ## Architecture
 
@@ -12,7 +12,7 @@ Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search t
 │                    (main entry point)                             │
 │                                                               │
 │  ┌──────────────┐  ┌──────────────────┐              │
-│  │   Vector     │  │    Phi3         │              │
+│  │   Vector     │  │    Sonar         │              │
 │  │   Engine     │◄─┤   Daemon       │◄───────────────┐
 │  │   (BGE)      │  │   (port 3012)  │               │
 │  └──────────────┘  └──────────────────┘               │
@@ -21,10 +21,10 @@ Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search t
 │         ▼                                                │
 │  ┌──────────────────────────────────────────────────┐          │
 │  │  Enhanced Search Pipeline               │          │
-│  │  1. Analyze query intent (Phi3)      │          │
+│  │  1. Analyze query intent (Sonar)      │          │
 │  │  2. Vector search candidates           │          │
-│  │  3. Re-rank results (Phi3)           │          │
-│  │  4. Extract context (Phi3)            │          │
+│  │  3. Re-rank results (Sonar)           │          │
+│  │  4. Extract context (Sonar)            │          │
 │  └──────────────────────────────────────────────────┘          │
 │                                                               │
 └───────────────────────────────────────────────────────────────────────┘
@@ -36,8 +36,8 @@ Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search t
 
 ### Component Responsibilities
 
-#### 1. Phi3 Daemon (`src/daemon/phi3-agent.ts`)
-**Port:** 3012 (configurable via `phi3.port`)
+#### 1. Sonar Daemon (`src/daemon/sonar-agent.ts`)
+**Port:** 3012 (configurable via `sonar.port`)
 
 **Endpoints:**
 - `GET /health` - Health check and availability status
@@ -48,11 +48,11 @@ Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search t
 **Performance:**
 - 1-2s startup (model loading)
 - 200-500ms per search operation
-- Small model size (2.2GB)
+- Small model size (depends on model, e.g. 2.2GB for Phi3, 600MB for TinyDolphin)
 - Fast inference speed
 
 #### 2. Ollama Integration (`src/utils/ollama-discovery.ts`)
-**Model:** Phi3:latest (2.2GB)
+**Model:** Configurable (e.g. tinydolphin:latest, phi3:latest)
 
 **Discovery:**
 - `discoverOllamaCapabilities()` - CLI-based model detection
@@ -63,10 +63,10 @@ Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search t
 - Discovery: CLI (reliable)
 - Inference: HTTP (10x faster than CLI)
 
-#### 3. Phi3 Client (`src/utils/phi3-client.ts`)
+#### 3. Sonar Client (`src/utils/sonar-client.ts`)
 **Features:**
 - Health check with 30s cache
-- Graceful degradation (returns null when Phi3 unavailable)
+- Graceful degradation (returns null when Sonar unavailable)
 - Timeout handling via AbortController
 - JSON parsing with fallbacks
 
@@ -74,7 +74,7 @@ Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search t
 **Integration:** Enhanced `search_documents` tool
 
 **3-Step Pipeline:**
-1. Analyze query with Phi3 (if available)
+1. Analyze query with Sonar (if available)
 2. Vector search for candidates
 3. Re-rank results based on query intent
 4. Extract smart snippets for top 5 results
@@ -88,7 +88,7 @@ Phi3 is a **lightweight, fast AI model** (2.2GB) that enhances AMALFA's search t
 ```
 User Query "React component lifecycle"
     │
-    ├─► Step 1: Query Analysis (Phi3, 200ms)
+    ├─► Step 1: Query Analysis (Sonar, 200ms)
     │   Intent: "implementation"
     │   Suggested: "React hooks"
     │
@@ -97,12 +97,12 @@ User Query "React component lifecycle"
     │   Candidate 2: "State management in React..."
     │   Candidate 3: "React props and state..."
     │
-    ├─► Step 3: Re-ranking (Phi3, 300ms)
+    ├─► Step 3: Re-ranking (Sonar, 300ms)
     │   Result 1: relevance 0.95 (implementation)
     │   Result 2: relevance 0.92 (implementation)
     │   Result 3: relevance 0.70 (related concept)
     │
-    ├─► Step 4: Context Extraction (Phi3, 500ms)
+    ├─► Step 4: Context Extraction (Sonar, 500ms)
     │   Result 1: AI snippet (high confidence)
     │   Result 2: AI snippet (high confidence)
     │   Result 3: Simple preview
@@ -114,10 +114,10 @@ Total: ~1-1.5s (acceptable for enhanced search)
 
 ## Configuration
 
-### Phi3 Configuration (`amalfa.config.json`)
+### Sonar Configuration (`amalfa.config.json`)
 ```json
 {
-  "phi3": {
+  "sonar": {
     "enabled": true,
     "port": 3012,
     "model": "phi3:latest",
@@ -137,13 +137,13 @@ Total: ~1-1.5s (acceptable for enhanced search)
 | Operation | Latency | Notes |
 |-----------|----------|--------|
 | Vector Search | 50-100ms | Fast, always available |
-| Query Analysis | 200-400ms | Added when Phi3 enabled |
+| Query Analysis | 200-400ms | Added when Sonar enabled |
 | Re-ranking | 300-500ms | Reorders 5-20 results |
 | Context (×5) | 500-1500ms | Smart snippets for top results |
 | Total (enhanced) | 1.1-2.5s | Fast, acceptable latency |
 | Total (basic) | 50-100ms | Minimal, always fast |
 
-### When Phi3 Excels
+### When Sonar Excels
 
 **1. Fast Query Resolution**
 - "How does useEffect cleanup work?" → Intent detected in 200ms
@@ -165,7 +165,7 @@ Total: ~1-1.5s (acceptable for enhanced search)
 - Test changes in seconds, not minutes
 - A/B test different approaches rapidly
 
-### When to Use Phi3
+### When to Use Sonar
 
 ### Perfect Candidates
 - **Technical queries:** "How does React useEffect work?"
@@ -181,7 +181,7 @@ Total: ~1-1.5s (acceptable for enhanced search)
 
 ## Benefits
 
-### What Phi3 Provides
+### What Sonar Provides
 
 **1. Query Understanding**
 - Detects search intent: implementation, conceptual, or example
@@ -200,7 +200,7 @@ Total: ~1-1.5s (acceptable for enhanced search)
 - High confidence scores indicate quality
 
 **4. Backward Compatible**
-- System works perfectly when Phi3 is disabled
+- System works perfectly when Sonar is disabled
 - No breaking changes to existing features
 - Optional enhancement (opt-in by default)
 
@@ -208,16 +208,15 @@ Total: ~1-1.5s (acceptable for enhanced search)
 
 ### Quick Start
 ```bash
-# 1. Enable Phi3
-echo '{"phi3":{"enabled":true}}' | jq . > amalfa.config.json
+# 1. Enable Sonar
+echo '{"sonar":{"enabled":true}}' | jq . > amalfa.config.json
 
-# 2. Start Phi3 daemon
-bun run amalfa phi3 start
+# 2. Start Sonar daemon
+bun run amalfa sonar start
 
 # 3. Verify status
-bun run amalfa phi3 status
+bun run amalfa sonar status
 ```
 
 ### See Also
-- **Setup Guide:** `playbooks/phi3-setup-guide.md` - Installation and configuration
-- **Usage Guide:** `playbooks/phi3-usage-guide.md` - When and how to use Phi3 effectively
+- **Setup Guide:** `playbooks/sonar-manual.md` - Installation and configuration

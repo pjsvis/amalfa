@@ -56,12 +56,14 @@ export interface AmalfaConfig {
 		lexicon?: string;
 		cda?: string;
 	};
-	/** Phi3 multi-purpose sub-agent configuration */
-	phi3: Phi3Config;
+	/** Sonar multi-purpose sub-agent configuration */
+	sonar: SonarConfig;
+	/** @deprecated Use sonar instead */
+	phi3?: SonarConfig;
 }
 
-export interface Phi3Config {
-	/** Enable Phi3 features */
+export interface SonarConfig {
+	/** Enable Sonar features */
 	enabled: boolean;
 	/** Auto-detect Ollama on startup */
 	autoDiscovery: boolean;
@@ -75,7 +77,7 @@ export interface Phi3Config {
 	modelPriority: string[];
 	/** Ollama host */
 	host: string;
-	/** Port for Phi3 daemon service */
+	/** Port for Sonar daemon service */
 	port: number;
 	/** Task-specific configuration */
 	tasks: {
@@ -125,8 +127,8 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 		lexicon: "scripts/fixtures/conceptual-lexicon-ref-v1.79.json",
 		cda: "scripts/fixtures/cda-ref-v63.json",
 	},
-	// Phi3 multi-purpose sub-agent configuration
-	phi3: {
+	// Sonar multi-purpose sub-agent configuration
+	sonar: {
 		enabled: false,
 		autoDiscovery: true,
 		discoveryMethod: "cli",
@@ -159,8 +161,11 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 				schedule: "daily",
 			},
 		},
-	} satisfies Phi3Config,
+	} satisfies SonarConfig,
 };
+
+// Aliasing for backward compatibility
+export type Phi3Config = SonarConfig;
 
 /**
  * Load user configuration from project root
@@ -187,6 +192,11 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 					userConfig = imported.default || imported;
 				}
 
+				// Handle legacy phi3 key
+				if (userConfig.phi3 && !userConfig.sonar) {
+					userConfig.sonar = userConfig.phi3;
+				}
+
 				// Merge with defaults
 				const merged = {
 					...DEFAULT_CONFIG,
@@ -211,26 +221,26 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 						...DEFAULT_CONFIG.fixtures,
 						...(userConfig.fixtures || {}),
 					},
-					phi3: {
-						...DEFAULT_CONFIG.phi3,
-						...(userConfig.phi3 || {}),
+					sonar: {
+						...DEFAULT_CONFIG.sonar,
+						...(userConfig.sonar || {}),
 						tasks: {
-							...DEFAULT_CONFIG.phi3.tasks,
-							...(userConfig.phi3?.tasks || {}),
+							...DEFAULT_CONFIG.sonar.tasks,
+							...(userConfig.sonar?.tasks || {}),
 							search: {
-								...DEFAULT_CONFIG.phi3.tasks.search,
-								...(userConfig.phi3?.tasks?.search || {}),
+								...DEFAULT_CONFIG.sonar.tasks.search,
+								...(userConfig.sonar?.tasks?.search || {}),
 							},
 							metadata: {
-								...DEFAULT_CONFIG.phi3.tasks.metadata,
-								...(userConfig.phi3?.tasks?.metadata || {}),
+								...DEFAULT_CONFIG.sonar.tasks.metadata,
+								...(userConfig.sonar?.tasks?.metadata || {}),
 							},
 							content: {
-								...DEFAULT_CONFIG.phi3.tasks.content,
-								...(userConfig.phi3?.tasks?.content || {}),
+								...DEFAULT_CONFIG.sonar.tasks.content,
+								...(userConfig.sonar?.tasks?.content || {}),
 							},
 						},
-					} as Phi3Config,
+					} as SonarConfig,
 				};
 
 				// Normalize: Convert legacy 'source' to 'sources' array

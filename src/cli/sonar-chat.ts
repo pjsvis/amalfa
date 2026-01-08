@@ -4,11 +4,11 @@ import { DaemonManager } from "../utils/DaemonManager";
 
 export async function chatLoop() {
 	const manager = new DaemonManager();
-	const status = await manager.checkPhi3Agent();
+	const status = await manager.checkSonarAgent();
 
 	if (!status.running) {
 		console.log(
-			"❌ Phi3 Agent is not running. Start it with: amalfa phi3 start",
+			"❌ Sonar Agent is not running. Start it with: amalfa sonar start",
 		);
 		process.exit(1);
 	}
@@ -16,7 +16,7 @@ export async function chatLoop() {
 	const BASE_URL = `http://localhost:${status.port}`;
 	let sessionId: string | undefined;
 
-	console.log(`💬 AMALFA Corpus Assistant (${status.activeModel || "Phi3"})`);
+	console.log(`💬 AMALFA Corpus Assistant (${status.activeModel || "Sonar"})`);
 	console.log("   Type 'exit' or 'quit' to leave.\n");
 
 	const rl = createInterface({
@@ -77,7 +77,7 @@ export async function chatLoop() {
 			process.stdout.clearLine(0);
 			process.stdout.cursorTo(0);
 
-			console.log(`Phi3 > ${data.message.content}\n`);
+			console.log(`Sonar > ${data.message.content}\n`);
 		} catch (e) {
 			clearInterval(timer);
 			process.stdout.clearLine(0);

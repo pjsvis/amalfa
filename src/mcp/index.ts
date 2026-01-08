@@ -14,14 +14,14 @@ import { ResonanceDB } from "@src/resonance/db";
 import { DaemonManager } from "../utils/DaemonManager";
 import { getLogger } from "../utils/Logger";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
-import { createPhi3Client, type Phi3Client } from "../utils/phi3-client";
+import { createSonarClient, type SonarClient } from "../utils/sonar-client";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
 const log = getLogger("MCP");
 
-// Phi3 client for enhanced search
-const phi3Client: Phi3Client = await createPhi3Client();
+// Sonar client for enhanced search
+const sonarClient: SonarClient = await createSonarClient();
 
 // --- Service Lifecycle ---
 
@@ -195,16 +195,16 @@ async function runServer() {
 					>();
 					const errors: string[] = [];
 
-					// Step 1: Analyze query with Phi3 (if available)
-					const phi3Available = await phi3Client.isAvailable();
+					// Step 1: Analyze query with Sonar (if available)
+					const sonarAvailable = await sonarClient.isAvailable();
 					let queryAnalysis: Awaited<
-						ReturnType<typeof phi3Client.analyzeQuery>
+						ReturnType<typeof sonarClient.analyzeQuery>
 					> | null = null;
 					let queryIntent: string | undefined = undefined;
 
-					if (phi3Available) {
-						log.info({ query }, "🔍 Analyzing query with Phi3");
-						queryAnalysis = await phi3Client.analyzeQuery(query);
+					if (sonarAvailable) {
+						log.info({ query }, "🔍 Analyzing query with Sonar");
+						queryAnalysis = await sonarClient.analyzeQuery(query);
 						if (queryAnalysis) {
 							queryIntent = queryAnalysis.intent;
 							log.info(
@@ -240,14 +240,14 @@ async function runServer() {
 						errors.push(msg);
 					}
 
-					// Step 3: Re-rank results with Phi3 (if available)
+					// Step 3: Re-rank results with Sonar (if available)
 					let rankedResults = Array.from(candidates.values())
 						.sort((a, b) => b.score - a.score)
 						.slice(0, limit);
 
-					if (phi3Available && queryAnalysis) {
-						log.info("🔄 Re-ranking results with Phi3");
-						const reRanked = await phi3Client.rerankResults(
+					if (sonarAvailable && queryAnalysis) {
+						log.info("🔄 Re-ranking results with Sonar");
+						const reRanked = await sonarClient.rerankResults(
 							rankedResults,
 							query,
 							queryIntent,
@@ -262,16 +262,17 @@ async function runServer() {
 						log.info("✅ Results re-ranked");
 					}
 
-					// Step 4: Extract context with Phi3 for top results (if available)
+					// Step 4: Extract context with Sonar for top results (if available)
 					// We'll prepare the final output structure here
 					let finalResults: Array<any> = rankedResults;
 
-					if (phi3Available) {
-						log.info("📝 Extracting context with Phi3");
+					if (sonarAvailable) {
+						log.info("📝 Extracting context with Sonar");
 						const contextResults = await Promise.all(
 							rankedResults.slice(0, 5).map(async (r) => {
-								const context = await phi3Client.extractContext(r, query);
+								const context = await sonarClient.extractContext(r, query);
 								return {
+									// ... (keeping structure) ...
 									...r,
 									score: r.score.toFixed(3),
 									snippet: context?.snippet || r.preview,
@@ -304,10 +305,10 @@ async function runServer() {
 						};
 					}
 
-					// Add Phi3 metadata to response
+					// Add Sonar metadata to response
 					const searchMetadata = {
 						query,
-						phi3_enabled: phi3Available,
+						sonar_enabled: sonarAvailable,
 						intent: queryIntent,
 						analysis: queryAnalysis,
 					};

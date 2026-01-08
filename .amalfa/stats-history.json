@@ -1,14 +1,14 @@
 {
   "snapshots": [
     {
-      "timestamp": "2026-01-07T18:08:34.481Z",
-      "nodes": 88,
+      "timestamp": "2026-01-08T09:34:08.378Z",
+      "nodes": 101,
       "edges": 22,
-      "embeddings": 88,
-      "dbSizeMB": 0.21484375,
-      "version": "1.0.19"
+      "embeddings": 101,
+      "dbSizeMB": 0.26171875,
+      "version": "1.0.22"
     }
   ],
-  "created": "2026-01-07T18:08:34.482Z",
-  "lastUpdated": "2026-01-07T18:08:34.481Z"
+  "created": "2026-01-08T09:34:08.378Z",
+  "lastUpdated": "2026-01-08T09:34:08.378Z"
 }
