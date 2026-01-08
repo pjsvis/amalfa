@@ -17,10 +17,10 @@ export async function getTaskModel(
 
 	if (useCloud && provider === "openrouter") {
 		const models: Record<string, string> = {
-			garden: "meta-llama/llama-4-maverick:free",
-			synthesis: "mistralai/devstral-2-2512:free",
+			garden: "google/gemini-2.0-flash-exp:free",
+			synthesis: "google/gemini-2.0-flash-exp:free",
 			timeline: "google/gemini-2.0-flash-exp:free",
-			research: "mistralai/mistral-large-2411",
+			research: "google/gemini-2.0-flash-exp:free",
 		};
 		return models[taskType];
 	}

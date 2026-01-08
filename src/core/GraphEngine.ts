@@ -157,6 +157,71 @@ export class GraphEngine {
 	}
 
 	/**
+	 * Calculate Adamic-Adar index for two nodes.
+	 * Higher score = more likely to have a logical relationship based on specific shared neighbors.
+	 * AA(u, v) = Sum of (1 / log(degree(w))) for each shared neighbor w.
+	 */
+	getAdamicAdar(nodeA: string, nodeB: string): number {
+		if (!this.graph.hasNode(nodeA) || !this.graph.hasNode(nodeB)) return 0;
+		if (nodeA === nodeB) return 0;
+
+		const neighborsA = new Set(this.graph.neighbors(nodeA));
+		const neighborsB = this.graph.neighbors(nodeB);
+		let score = 0;
+
+		for (const neighbor of neighborsB) {
+			if (neighborsA.has(neighbor)) {
+				const degree = this.graph.degree(neighbor);
+				// degree > 1 because it's a shared neighbor (connected to at least A and B)
+				if (degree > 1) {
+					score += 1 / Math.log(degree);
+				}
+			}
+		}
+
+		return score;
+	}
+
+	/**
+	 * Find structural candidates for new edges using Adamic-Adar.
+	 * Identifies nodes that are not linked but share many specific neighbors.
+	 */
+	findStructuralCandidates(
+		limit = 10,
+	): { source: string; target: string; score: number }[] {
+		const candidates: { source: string; target: string; score: number }[] = [];
+		const nodes = this.graph.nodes();
+		const seen = new Set<string>();
+
+		for (const u of nodes) {
+			const neighborsU = new Set(this.graph.neighbors(u));
+			const twoHopPotential = new Set<string>();
+
+			// Find nodes v that share at least one neighbor w with u
+			for (const w of neighborsU) {
+				for (const v of this.graph.neighbors(w)) {
+					if (v !== u && !neighborsU.has(v)) {
+						twoHopPotential.add(v);
+					}
+				}
+			}
+
+			for (const v of twoHopPotential) {
+				const pairId = [u, v].sort().join("|");
+				if (seen.has(pairId)) continue;
+				seen.add(pairId);
+
+				const score = this.getAdamicAdar(u, v);
+				if (score > 0) {
+					candidates.push({ source: u, target: v, score });
+				}
+			}
+		}
+
+		return candidates.sort((a, b) => b.score - a.score).slice(0, limit);
+	}
+
+	/**
 	 * Get graph statistics
 	 */
 	getStats() {

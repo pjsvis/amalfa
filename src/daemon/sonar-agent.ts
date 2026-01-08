@@ -107,6 +107,9 @@ async function main() {
 		log.warn("Sonar Agent limited: Ollama unreachable and Cloud disabled.");
 	}
 
+	// Initial graph load
+	await graphEngine.load(db.getRawDb());
+
 	// Start HTTP API if serve mode
 	if (command === "serve") {
 		startServer(config.sonar.port || 3030);
@@ -117,6 +120,8 @@ async function main() {
 		"Watcher started: Listening for tasks in .amalfa/agent/tasks/pending",
 	);
 	while (true) {
+		// Reload graph to pick up new edges before processing tasks
+		await graphEngine.load(db.getRawDb());
 		await processPendingTasks();
 		await new Promise((resolve) => setTimeout(resolve, 5000));
 	}
@@ -344,10 +349,12 @@ async function executeTask(task: SonarTask): Promise<string> {
 		output += `\n**Total Updated:** ${updatedCount} nodes\n`;
 	} else if (task.type === "garden") {
 		const limit = task.limit || 5;
-		const suggestions = await gardener.findGaps(limit);
+		const semanticSuggestions = await gardener.findGaps(limit);
+		const structuralSuggestions = gardener.findStructuralGaps(limit);
 		const temporal = gardener.weaveTimeline();
 
-		for (const sug of suggestions) {
+		output += `### Semantic Gaps (Vector)\n`;
+		for (const sug of semanticSuggestions) {
 			const sourceContent = await gardener.getContent(sug.sourceId);
 			const targetContent = await gardener.getContent(sug.targetId);
 			if (sourceContent && targetContent) {
@@ -362,10 +369,41 @@ async function executeTask(task: SonarTask): Promise<string> {
 					if (task.autoApply && sourcePath)
 						TagInjector.injectTag(sourcePath, relType, sug.targetId);
 					output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
+				} else {
+					output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
 				}
+				// Throttling for free cloud tiers
+				if (taskModel?.includes(":free"))
+					await new Promise((r) => setTimeout(r, 1000));
 			}
 		}
 
+		output += `\n### Structural Gaps (Adamic-Adar)\n`;
+		for (const sug of structuralSuggestions) {
+			const sourceContent = await gardener.getContent(sug.sourceId);
+			const targetContent = await gardener.getContent(sug.targetId);
+			if (sourceContent && targetContent) {
+				const judgment = await judgeRelationship(
+					{ id: sug.sourceId, content: sourceContent },
+					{ id: sug.targetId, content: targetContent },
+					taskModel,
+				);
+				if (judgment.related) {
+					const relType = judgment.type || "SEE_ALSO";
+					const sourcePath = gardener.resolveSource(sug.sourceId);
+					if (task.autoApply && sourcePath)
+						TagInjector.injectTag(sourcePath, relType, sug.targetId);
+					output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
+				} else {
+					output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
+				}
+				// Throttling for free cloud tiers
+				if (taskModel?.includes(":free"))
+					await new Promise((r) => setTimeout(r, 1000));
+			}
+		}
+
+		output += `\n### Temporal Sequence\n`;
 		for (const sug of temporal) {
 			const sourcePath = gardener.resolveSource(sug.sourceId);
 			if (task.autoApply && sourcePath)

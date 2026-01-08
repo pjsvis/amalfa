@@ -109,7 +109,8 @@ export async function callOllama(
 			message: (result as any).message,
 		};
 	} catch (error) {
-		log.error({ error, endpoint, model }, "Ollama inference failed");
+		const errorMsg = error instanceof Error ? error.message : String(error);
+		log.error({ error: errorMsg, endpoint, model }, "Ollama inference failed");
 		throw error;
 	}
 }

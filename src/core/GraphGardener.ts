@@ -98,6 +98,22 @@ export class GraphGardener {
 	}
 
 	/**
+	 * findStructuralGaps: Finds nodes that share significant structural context (Adamic-Adar)
+	 * but are not directly linked. This is pure topological link prediction.
+	 */
+	findStructuralGaps(limit = 10): BridgeSuggestion[] {
+		log.info("Analyzing graph for structural gaps (Adamic-Adar)...");
+		const candidates = this.graph.findStructuralCandidates(limit);
+
+		return candidates.map((c) => ({
+			sourceId: c.source,
+			targetId: c.target,
+			reason: `Structural Adamic-Adar overlap (score: ${c.score.toFixed(2)})`,
+			similarity: c.score,
+		}));
+	}
+
+	/**
 	 * analyzeCommunities: Provides insights into detected clusters.
 	 */
 	analyzeCommunities(): ClusterInsight[] {
