@@ -2,7 +2,7 @@
 
 **Status**: v1.2.0-beta (Graph Synthesis & Chronos) 🌿
 **Last Session**: 2026-01-08 (Graph Enhancement Phase 2 & 3)
-**Next Focus**: Topological Intelligence (Adamic-Adar Link Prediction)
+**Next Focus**: Phase 4: Topological Intelligence (Adamic-Adar Link Prediction) & Relationship Classification 🧠
 
 ---
 
@@ -10,23 +10,25 @@
  
  ### Completed ✅
  
-+**1. Community Synthesis (Phase 2)**
-+- ✅ Implemented Louvain clustering for automated community detection
-+- ✅ Created synthesis task to summarize clusters into high-level conceptual nodes
-+- ✅ Implemented `getClusterRepresentatives` to ground cluster summaries in key documents
-+- ✅ Automatic generation of synthesis markdown files in `docs/synthesis/`
-+- ✅ Verified collision avoidance for batch synthesis generation
-+
-+**2. Chronos Layer (Phase 3)**
-+- ✅ Updated `ResonanceDB` to v7 with first-class `date` column
-+- ✅ Implemented automated temporal anchoring (Regex + LLM date extraction)
-+- ✅ Created `weaveTimeline` to inject sequential `FOLLOWS` edges within communities
-+- ✅ Integrated temporal weaver into the `garden` task loop
-+
-+**3. Engineering & Type Safety**
-+- ✅ Refactored `sonar-agent.ts` with `SonarTask` interface for strict type checking
-+- ✅ Eliminated multiple Biome lint warnings and unsafe `@ts-ignore` directives
-+- ✅ Increased robustness of JSON extraction from LLM responses
+**1. Community Synthesis (Phase 2)**
+- ✅ Implemented Louvain clustering for automated community detection
+- ✅ Created synthesis task to summarize clusters into high-level conceptual nodes
+- ✅ Implemented `getClusterRepresentatives` to ground cluster summaries in key documents
+- ✅ Automatic generation of synthesis markdown files in `docs/synthesis/`
+- ✅ Verified collision avoidance for batch synthesis generation
+
+**2. Chronos Layer (Phase 3)**
+- ✅ Updated `ResonanceDB` to v7 with first-class `date` column
+- ✅ Implemented automated temporal anchoring (Regex + LLM date extraction)
+- ✅ Created `weaveTimeline` to inject sequential `FOLLOWS` edges within communities
+- ✅ Integrated temporal weaver into the `garden` task loop
+
+**3. Modular Architecture & Sanitization**
+- ✅ **De-Monolithization**: Refactored `sonar-agent.ts` from a 1,511-line monolith into 5 specialized modules (`agent`, `logic`, `strategies`, `inference`, `types`).
+- ✅ **Infrastructure Abstraction**: Created `sonar-inference.ts` to unify Local Ollama and OpenRouter (Cloud) routing.
+- ✅ **Logic Orchestration**: Decoupled stateful handlers into `sonar-logic.ts` and pure LLM strategies into `sonar-strategies.ts`.
+- ✅ **Type Sanitization**: Eliminated `as any` by implementing explicit JSON request interfaces and strict type casting.
+- ✅ Verified `tsc --noEmit` and Biome compliance across the new modular stack.
 +
 +### Key Insights
 +- **Community Drift**: Nodes that are semantically close often form clusters that represent "work streams" or "project phases" rather than just static topics.
