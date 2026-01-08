@@ -466,13 +466,22 @@ export async function handleResearchTask(
 
 	log.info({ query: task.query }, "🕵️‍♂️ Starting recursive research");
 
+	const hubs = context.gardener.identifyHubs(3);
+	const hubContext = hubs
+		.map((h) => `- [[${h.id}]] (Centrality: ${h.score.toFixed(2)})`)
+		.join("\n");
+
 	for (let step = 1; step <= maxSteps; step++) {
 		output += `### Step ${step}: Analysis\n`;
 
 		// 1. Analyze findings and decide next move
 		const prompt = `
 You are the AMALFA Research Agent. Your goal is to answer this query: "${task.query}"
+
 Graph Context: ${context.graphEngine.getStats().nodes} nodes available.
+Structural Hubs (Important Entry Points):
+${hubContext}
+
 Current Findings:
 ${findings.length > 0 ? findings.join("\n") : "None yet."}
 
@@ -480,10 +489,11 @@ Based on these findings, what is your next step?
 You can:
 - "SEARCH": Provide a vector search query to find more docs.
 - "READ": Provide a specific Node ID to read its full content.
+- "EXPLORE": Provide a Node ID to see its direct graph neighbors (traversal).
 - "FINISH": Provide the final comprehensive answer.
 
 IMPORTANT: Return ONLY raw JSON. No preamble, no explanation outside JSON.
-Return JSON: { "action": "SEARCH"|"READ"|"FINISH", "query": "...", "nodeId": "...", "reasoning": "...", "answer": "..." }
+Return JSON: { "action": "SEARCH"|"READ"|"EXPLORE"|"FINISH", "query": "...", "nodeId": "...", "reasoning": "...", "answer": "..." }
 `;
 
 		try {
@@ -494,7 +504,7 @@ Return JSON: { "action": "SEARCH"|"READ"|"FINISH", "query": "...", "nodeId": "..
 
 			const content = actionResponse.message.content;
 			let decision: {
-				action: "SEARCH" | "READ" | "FINISH";
+				action: "SEARCH" | "READ" | "EXPLORE" | "FINISH";
 				query?: string;
 				nodeId?: string;
 				reasoning: string;
@@ -543,6 +553,26 @@ Return JSON: { "action": "SEARCH"|"READ"|"FINISH", "query": "...", "nodeId": "..
 					findings.push(`Node not found: ${nodeId}`);
 					output += `⚠️ Node not found: ${nodeId}\n\n`;
 				}
+			} else if (decision.action === "EXPLORE") {
+				const nodeId = decision.nodeId;
+				if (!nodeId || visitedNodes.has(`explore-${nodeId}`)) {
+					findings.push(`Already explored or invalid node: ${nodeId}`);
+					continue;
+				}
+				output += `🌐 **Action:** Exploring neighborhood of \`${nodeId}\`\n`;
+				const neighbors = context.graphEngine.getNeighbors(nodeId);
+				visitedNodes.add(`explore-${nodeId}`);
+				if (neighbors.length > 0) {
+					const neighborDetails = neighbors
+						.slice(0, 8)
+						.map((n) => `- [[${n}]]`)
+						.join("\n");
+					findings.push(`Graph neighbors of ${nodeId}:\n${neighborDetails}`);
+					output += `Found ${neighbors.length} neighbors. Leads injected into findings.\n\n`;
+				} else {
+					findings.push(`Node ${nodeId} has no graph neighbors.`);
+					output += `⚠️ No neighbors found for ${nodeId}\n\n`;
+				}
 			}
 
 			// Throttling for free tiers
@@ -554,19 +584,58 @@ Return JSON: { "action": "SEARCH"|"READ"|"FINISH", "query": "...", "nodeId": "..
 		}
 	}
 
-	// Final summary if we didn't FINISH explicitly
+	// Final summary and Chain Verification
 	if (!output.includes("### Final Conclusion")) {
 		output += `### Final Conclusion (Auto-Summarized)\n`;
-		const finalPrompt = `Summarize the findings for: "${task.query}"\n\nFindings:\n${findings.join("\n")}`;
+	} else {
+		output += `\n### Chain Verification\n`;
+	}
+
+	const verificationPrompt = `
+You are the AMALFA Auditor. Review the following research findings and the original query.
+Query: "${task.query}"
+Findings:
+${findings.join("\n")}
+
+1. Does the gathered information fully answer the query?
+2. If not, what specifically is missing?
+3. Provide a final, polished answer based ON ONLY the findings.
+
+Return JSON: { "answered": true|false, "missing_info": "...", "final_answer": "..." }
+`;
+
+	try {
+		const verificationResponse = await callOllama(
+			[{ role: "user", content: verificationPrompt }],
+			{ model: taskModel, temperature: 0.1, format: "json" },
+		);
+
+		const resultSnippet = verificationResponse.message.content;
+		let audit: {
+			answered: boolean;
+			missing_info: string;
+			final_answer: string;
+		} | null;
 		try {
-			const summary = await callOllama(
-				[{ role: "user", content: finalPrompt }],
-				{ model: taskModel, temperature: 0.2 },
-			);
-			output += summary.message.content;
-		} catch (e) {
-			output += `⚠️ Failed to generate final summary: ${e}`;
+			audit = JSON.parse(resultSnippet);
+		} catch {
+			const match = resultSnippet.match(/\{[\s\S]*\}/);
+			audit = match ? JSON.parse(match[0]) : null;
 		}
+
+		if (audit) {
+			if (!audit.answered) {
+				output += `⚠️ **Auditor Note:** Research incomplete. Missing: ${audit.missing_info}\n\n`;
+			} else {
+				output += `✅ **Auditor Note:** Research verified. Query fully addressed.\n\n`;
+			}
+			output += audit.final_answer;
+		} else {
+			output += `⚠️ Verification failed to parse. Returning raw summary fallback.\n`;
+			output += findings.join("\n\n");
+		}
+	} catch (e) {
+		output += `⚠️ Verification failed: ${e}`;
 	}
 
 	return output;

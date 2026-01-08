@@ -15,18 +15,19 @@
 - ✅ **Modular Task Handlers**: Fully decoupled `synthesis`, `timeline`, and `garden` tasks into `handleXTask` functions in `sonar-logic.ts`.
 - ✅ **Strict Type Safety**: Implemented `ChatRequest`, `SearchAnalyzeRequest`, and other API interfaces to eliminate `any` casts in the server bridge.
 
-**2. Engineering & Refactoring**
-- ✅ Verified modular task handlers with a test `garden` task.
-- ✅ Optimized task report writing with async non-blocking I/O.
-- ✅ Decoupled `SonarAgent` daemon from task implementation logic.
+**2. Recursive Discovery (Phase 5 Core)**
+- ✅ **handleResearchTask**: Implemented multi-step discovery logic with Analysis → Action loops.
+- ✅ **Action Chain Support**: Agent can autonomously `SEARCH` leads and `READ` content in sequence.
+- ✅ **Internal Monologue**: Integrated JSON-based reasoning for every research step.
+- ✅ **Robust JSON Recovery**: Defensive parsing for LLM-generated responses.
 
 ### Next Steps 🚀
 
-**1. Recursive Discovery (Phase 5 Core)**
-- [ ] Implement `handleResearchTask` with multi-step discovery logic.
-- [ ] Add "Action Chain" support: Research -> Search -> Read -> Analyze -> Search (Repeat).
-- [ ] Implement "Internal Monologue" for the agent to track its reasoning process.
-- [ ] Create `RecursiveSearchEngine` to handle multi-hop graph traversals during research.
+**1. Topological Awareness (Phase 5 Refinement)**
+- ✅ **Structural Hub Awareness**: Injects high-centrality "Project Hubs" into the research context.
+- ✅ **Graph Neighborhood Exploration**: Implemented `EXPLORE` action for direct neighbor discovery.
+- ✅ **Traversal Deduplication**: Prevented infinite loops by tracking explored nodes and neighborhoods.
+- [ ] **Chain Verification**: Add a verification step where the agent double-checks its findings against the initial query before finishing.
 
 ---
 
