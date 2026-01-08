@@ -38,3 +38,31 @@ export interface RequestOptions {
 	format?: "json";
 	model?: string;
 }
+
+/**
+ * API Request Types
+ */
+export interface ChatRequest {
+	sessionId: string;
+	message: string;
+	model?: string;
+}
+
+export interface MetadataEnhanceRequest {
+	docId: string;
+}
+
+export interface SearchAnalyzeRequest {
+	query: string;
+}
+
+export interface SearchRerankRequest {
+	results: Array<{ id: string; content: string; score: number }>;
+	query: string;
+	intent?: string;
+}
+
+export interface SearchContextRequest {
+	result: { id: string; content: string };
+	query: string;
+}

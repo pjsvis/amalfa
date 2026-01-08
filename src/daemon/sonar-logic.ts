@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { GraphEngine } from "@src/core/GraphEngine";
 import type { GraphGardener } from "@src/core/GraphGardener";
@@ -73,7 +73,7 @@ export async function handleBatchEnhancement(
 ): Promise<{ successful: number; failed: number; total: number }> {
 	const allNodes = context.db.getNodes({ excludeContent: true });
 	const unenhanced = allNodes
-		.filter((n) => {
+		.filter((n: { meta?: Record<string, any> }) => {
 			try {
 				const meta = n.meta || {};
 				return !meta.sonar_enhanced && !meta.phi3_enhanced;
@@ -81,13 +81,15 @@ export async function handleBatchEnhancement(
 				return false;
 			}
 		})
-		.map((row) => ({ id: row.id }));
+		.map((row: { id: string }) => ({ id: row.id }));
 
 	const batch = unenhanced.slice(0, limit);
 	log.info(`🔄 Enhancing ${batch.length} docs with Sonar...`);
 
 	const results = await Promise.allSettled(
-		batch.map((node) => handleMetadataEnhancement(node.id, context)),
+		batch.map((node: { id: string }) =>
+			handleMetadataEnhancement(node.id, context),
+		),
 	);
 
 	const successful = results.filter((r) => r.status === "fulfilled").length;
@@ -143,7 +145,7 @@ Current Date: ${new Date().toISOString().split("T")[0]}`,
 		let augmentContext = "\n\nRELEVANT CONTEXT FROM KNOWLEDGE BASE:\n";
 		if (results.length > 0) {
 			augmentContext += `\n--- [DIRECT SEARCH RESULTS] ---\n`;
-			results.forEach((r: { id: string; score: number }) => {
+			results.forEach((r) => {
 				const node = context.db.getNode(r.id);
 				const content = node?.content ?? "";
 				augmentContext += `[Document: ${r.id}] (Similarity: ${r.score.toFixed(2)})\n${content.slice(0, 800)}\n\n`;
@@ -330,7 +332,7 @@ export async function handleSynthesisTask(
 			if (task.autoApply) {
 				const synthDir = join(process.cwd(), "docs/synthesis");
 				if (!existsSync(synthDir)) mkdirSync(synthDir, { recursive: true });
-				writeFileSync(
+				await Bun.write(
 					join(synthDir, filename),
 					`---\ntitle: "${synthesis.label}"\ntype: synthesis\nnodes: [${cluster.nodes.join(", ")}]\n---\n\n# ${synthesis.label}\n\n${synthesis.summary}\n\n## Cluster Members\n${cluster.nodes.map((id) => `- [[${id}]]`).join("\n")}\n`,
 				);

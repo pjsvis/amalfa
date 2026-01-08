@@ -5,13 +5,9 @@
  * Main Entry Point & Daemon Controller
  */
 
-import {
-	existsSync,
-	mkdirSync,
-	readdirSync,
-	renameSync,
-	writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
+import { readdir, rename } from "node:fs/promises";
+
 import { join } from "node:path";
 import { AMALFA_DIRS, loadConfig } from "@src/config/defaults";
 import { GraphEngine } from "@src/core/GraphEngine";
@@ -38,7 +34,15 @@ import {
 	type SonarContext,
 } from "./sonar-logic";
 import { getTaskModel } from "./sonar-strategies";
-import type { ChatSession, SonarTask } from "./sonar-types";
+import type {
+	ChatRequest,
+	ChatSession,
+	MetadataEnhanceRequest,
+	SearchAnalyzeRequest,
+	SearchContextRequest,
+	SearchRerankRequest,
+	SonarTask,
+} from "./sonar-types";
 import { inferenceState } from "./sonar-inference";
 
 const args = process.argv.slice(2);
@@ -153,7 +157,7 @@ function startServer(port: number) {
 			// Chat endpoint
 			if (url.pathname === "/chat" && req.method === "POST") {
 				try {
-					const body = (await req.json()) as any;
+					const body = (await req.json()) as ChatRequest;
 					const { sessionId, message, model } = body;
 					const result = await handleChat(sessionId, message, context, model);
 					return Response.json(result, { headers: corsHeaders });
@@ -168,7 +172,7 @@ function startServer(port: number) {
 			// Metadata enhancement endpoint
 			if (url.pathname === "/metadata/enhance" && req.method === "POST") {
 				try {
-					const body = (await req.json()) as any;
+					const body = (await req.json()) as MetadataEnhanceRequest;
 					const { docId } = body;
 					await handleMetadataEnhancement(docId, context);
 					return Response.json({ status: "success" }, { headers: corsHeaders });
@@ -188,7 +192,7 @@ function startServer(port: number) {
 			// Search endpoints (analysis, rerank, context)
 			if (url.pathname === "/search/analyze" && req.method === "POST") {
 				try {
-					const body = (await req.json()) as any;
+					const body = (await req.json()) as SearchAnalyzeRequest;
 					const { query } = body;
 					const result = await handleSearchAnalysis(query, context);
 					return Response.json(result, { headers: corsHeaders });
@@ -202,7 +206,7 @@ function startServer(port: number) {
 
 			if (url.pathname === "/search/rerank" && req.method === "POST") {
 				try {
-					const body = (await req.json()) as any;
+					const body = (await req.json()) as SearchRerankRequest;
 					const { results, query, intent } = body;
 					const result = await handleResultReranking(results, query, intent);
 					return Response.json(result, { headers: corsHeaders });
@@ -216,7 +220,7 @@ function startServer(port: number) {
 
 			if (url.pathname === "/search/context" && req.method === "POST") {
 				try {
-					const body = (await req.json()) as any;
+					const body = (await req.json()) as SearchContextRequest;
 					const { result, query } = body;
 					const contextResult = await handleContextExtraction(result, query);
 					return Response.json(contextResult, { headers: corsHeaders });
@@ -242,14 +246,16 @@ async function processPendingTasks() {
 	const pendingDir = AMALFA_DIRS.tasks.pending;
 	if (!existsSync(pendingDir)) return;
 
-	const files = readdirSync(pendingDir).filter((f) => f.endsWith(".json"));
+	const files = (await readdir(pendingDir)).filter((f: string) =>
+		f.endsWith(".json"),
+	);
 
 	for (const file of files) {
 		const pendingPath = join(pendingDir, file);
 		const processingPath = join(AMALFA_DIRS.tasks.processing, file);
 
 		try {
-			renameSync(pendingPath, processingPath);
+			await rename(pendingPath, processingPath);
 			const taskContent = JSON.parse(
 				await Bun.file(processingPath).text(),
 			) as SonarTask;
@@ -257,9 +263,9 @@ async function processPendingTasks() {
 			const report = await executeTask(taskContent);
 			const reportName = file.replace(".json", "-report.md");
 			const reportPath = join(AMALFA_DIRS.tasks.completed, reportName);
-			writeFileSync(reportPath, report);
+			await Bun.write(reportPath, report);
 
-			renameSync(processingPath, join(AMALFA_DIRS.tasks.completed, file));
+			await rename(processingPath, join(AMALFA_DIRS.tasks.completed, file));
 			log.info({ file }, "✅ Task completed");
 
 			if (taskContent.notify !== false) {
@@ -271,9 +277,9 @@ async function processPendingTasks() {
 				AMALFA_DIRS.tasks.completed,
 				file.replace(".json", "-FAILED.md"),
 			);
-			writeFileSync(failedReport, `# Task Failed\n\nError: ${error}`);
+			await Bun.write(failedReport, `# Task Failed\n\nError: ${error}`);
 			if (existsSync(processingPath)) {
-				renameSync(processingPath, join(AMALFA_DIRS.tasks.completed, file));
+				await rename(processingPath, join(AMALFA_DIRS.tasks.completed, file));
 			}
 		}
 	}
