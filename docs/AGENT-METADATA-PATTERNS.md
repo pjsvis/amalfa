@@ -1,3 +1,5 @@
+
+<!-- tags: [FOLLOWS: ingestion-pipeline] -->
 # Agent-First Metadata: Auto-Augmentation Patterns
 
 **Status:** Design Document  

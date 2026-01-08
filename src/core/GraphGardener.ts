@@ -1,7 +1,7 @@
 import type { ResonanceDB } from "@src/resonance/db";
+import { getLogger } from "@src/utils/Logger";
 import type { GraphEngine } from "./GraphEngine";
 import type { VectorEngine } from "./VectorEngine";
-import { getLogger } from "@src/utils/Logger";
 
 const log = getLogger("GraphGardener");
 
@@ -113,6 +113,61 @@ export class GraphGardener {
 			clusterId,
 			nodes,
 		}));
+	}
+
+	/**
+	 * summarizeCluster: Logic resides in agent calling LLM,
+	 * but helper to get representative nodes is useful.
+	 */
+	getClusterRepresentatives(nodes: string[], top = 3): string[] {
+		// Get highest PageRank nodes within this set
+		const pr = this.graph.getPagerank();
+		return nodes.sort((a, b) => (pr[b] || 0) - (pr[a] || 0)).slice(0, top);
+	}
+
+	/**
+	 * weaveTimeline: Proposes FOLLOWS/PRECEDES edges based on date metadata.
+	 */
+	weaveTimeline(): BridgeSuggestion[] {
+		const nodes = this.db
+			.getRawDb()
+			.query("SELECT id, date FROM nodes WHERE date IS NOT NULL")
+			.all() as { id: string; date: string }[];
+
+		if (nodes.length < 2) return [];
+
+		// Sort by date
+		nodes.sort((a, b) => a.date.localeCompare(b.date));
+
+		const clusters = this.analyzeCommunities();
+		const nodeToCluster = new Map<string, number>();
+		for (const c of clusters) {
+			for (const nodeId of c.nodes) {
+				nodeToCluster.set(nodeId, c.clusterId);
+			}
+		}
+
+		const suggestions: BridgeSuggestion[] = [];
+		const lastInCluster = new Map<number, { id: string; date: string }>();
+
+		for (const node of nodes) {
+			const clusterId = nodeToCluster.get(node.id);
+			if (clusterId === undefined) continue;
+
+			const last = lastInCluster.get(clusterId);
+			if (last) {
+				suggestions.push({
+					sourceId: last.id,
+					targetId: node.id,
+					reason: `Temporal sequence (${last.date} -> ${node.date}) in community ${clusterId}`,
+					similarity: 1.0,
+				});
+			}
+
+			lastInCluster.set(clusterId, node);
+		}
+
+		return suggestions;
 	}
 
 	/**

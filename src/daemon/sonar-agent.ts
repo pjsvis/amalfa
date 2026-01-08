@@ -1,30 +1,38 @@
 #!/usr/bin/env bun
+
 /**
  * AMALFA Sonar Multi-Purpose Sub-Agent
  * Daemon for search intelligence, metadata enhancement, and interactive chat
  */
 
-import { join } from "path";
-import { readdirSync, existsSync, renameSync, writeFileSync } from "node:fs";
-import { loadConfig, AMALFA_DIRS } from "@src/config/defaults";
+import {
+	existsSync,
+	mkdirSync,
+	readdirSync,
+	renameSync,
+	writeFileSync,
+} from "node:fs";
+import { AMALFA_DIRS, loadConfig } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
-import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 import { sendNotification } from "@src/utils/Notifications";
 import {
 	checkOllamaHealth,
 	discoverOllamaCapabilities,
 } from "@src/utils/ollama-discovery";
+import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
+import { join } from "path";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
 const log = getLogger("SonarAgent");
 
-// Database and Graph initialization
-import { ResonanceDB } from "@src/resonance/db";
-import { VectorEngine } from "@src/core/VectorEngine";
 import { GraphEngine } from "@src/core/GraphEngine";
 import { GraphGardener } from "@src/core/GraphGardener";
+import { VectorEngine } from "@src/core/VectorEngine";
+// Database and Graph initialization
+import { ResonanceDB } from "@src/resonance/db";
 import { TagInjector } from "@src/utils/TagInjector";
+
 let DB_PATH: string;
 let db: ResonanceDB;
 const graphEngine = new GraphEngine();
@@ -51,6 +59,27 @@ interface ChatSession {
 	id: string;
 	messages: Message[];
 	startedAt: Date;
+}
+
+/**
+ * Task definitions for the Sonar Agent
+ */
+interface SonarTask {
+	type:
+		| "synthesis"
+		| "timeline"
+		| "enhance_batch"
+		| "garden"
+		| "research"
+		| "chat";
+	minSize?: number;
+	limit?: number;
+	autoApply?: boolean;
+	notify?: boolean;
+	query?: string;
+	model?: string;
+	sessionId?: string;
+	message?: string;
 }
 
 /**
@@ -81,8 +110,7 @@ async function callOllama(
 	options: RequestOptions = {},
 ): Promise<{ message: Message }> {
 	const config = await loadConfig();
-	// @ts-ignore - backward compatibility with phi3 config
-	const hostArgs = config.sonar || config.phi3 || {};
+	const hostArgs = config.sonar;
 
 	// Cloud toggle: dev-cloud/prod-local strategy
 	const cloudConfig = hostArgs.cloud;
@@ -523,7 +551,7 @@ User can ask you about:
 
 		if (results.length > 0) {
 			augmentContext += `\n--- [DIRECT SEARCH RESULTS] ---\n`;
-			results.forEach((r: { id: string; score: number }, i: number) => {
+			results.forEach((r: { id: string; score: number }) => {
 				const node = db.getNode(r.id);
 				const content = node?.content ?? "";
 				const snippet = content.slice(0, 800);
@@ -706,14 +734,112 @@ If the link is trivial (e.g. just common words), set relate: false.`,
 }
 
 /**
+ * Strategy 2: Community Synthesis
+ * Summarizes a group of related nodes.
+ */
+async function summarizeCommunity(
+	nodes: { id: string; content: string }[],
+): Promise<{ label: string; summary: string }> {
+	if (!ollamaAvailable)
+		return { label: "Synthesis", summary: "LLM Not available" };
+
+	try {
+		const response = await callOllama(
+			[
+				{
+					role: "system",
+					content: `You are a Knowledge Architect. Analyze a cluster of related documents and generate a canonical Label and a concise Synthesis (3 sentences max).
+The Label should be a clear topic name (e.g. "MCP Authentication Protocols").
+The Synthesis should explain the core theme connecting these documents.
+
+Return JSON format: { "label": "string", "summary": "string" }`,
+				},
+				{
+					role: "user",
+					content: nodes
+						.map((n) => `Node ${n.id}:\n${n.content.slice(0, 1000)}`)
+						.join("\n\n---\n\n"),
+				},
+			],
+			{
+				temperature: 0.3,
+				format: "json",
+			},
+		);
+
+		const content = response.message.content;
+		try {
+			// Extract JSON if it's wrapped in code blocks
+			const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/) || [
+				null,
+				content,
+			];
+			const jsonStr = jsonMatch[1] || content;
+			return JSON.parse(jsonStr);
+		} catch (error) {
+			log.warn({ error, content }, "Failed to parse community summary JSON");
+			throw error;
+		}
+	} catch (error) {
+		log.warn(
+			{ error: error instanceof Error ? error.message : String(error) },
+			"Community summary failed",
+		);
+		return { label: "Untitled Cluster", summary: "Failed to generate summary" };
+	}
+}
+
+/**
+ * Strategy 3: Chronos
+ * Extracts the primary temporal anchor from a document.
+ */
+async function extractDate(
+	nodeId: string,
+	content: string,
+): Promise<string | null> {
+	// First try regex for common patterns
+	const dateMatch =
+		content.match(/Date:\*\*\s*(\d{4}-\d{2}-\d{2})/i) ||
+		content.match(/date:\s*(\d{4}-\d{2}-\d{2})/i) ||
+		content.match(/#\s*(\d{4}-\d{2}-\d{2})/i);
+
+	if (dateMatch) return dateMatch[1] || null;
+
+	if (!ollamaAvailable) return null;
+
+	try {
+		const response = await callOllama(
+			[
+				{
+					role: "system",
+					content: `You are a Temporal Chronologist. Extract the primary creation or event date from the following markdown note. 
+Return only the date in YYYY-MM-DD format. If no specific date is found, return "null".`,
+				},
+				{
+					role: "user",
+					content: `Node: ${nodeId}\nContent:\n${content.slice(0, 2000)}`,
+				},
+			],
+			{ temperature: 0 },
+		);
+
+		const result = response.message.content.trim();
+		log.info({ nodeId, result }, "LLM Chronos result");
+		if (result === "null" || !/^\d{4}-\d{2}-\d{2}$/.test(result)) return null;
+		return result;
+	} catch {
+		return null;
+	}
+}
+
+/**
  * Main daemon logic
  */
 async function main() {
 	const config = await loadConfig();
 	DB_PATH = join(process.cwd(), config.database);
 
-	// @ts-ignore
-	const isEnabled = config.sonar?.enabled ?? config.phi3?.enabled;
+	const isEnabled = config.sonar.enabled || config.phi3?.enabled;
 
 	if (!isEnabled) {
 		log.warn("⚠️  Sonar is disabled in configuration. Exiting.");
@@ -739,9 +865,8 @@ async function main() {
 	if (ollamaAvailable) {
 		log.info("✅ Ollama is available and healthy");
 		// Use discovered preferred model (e.g., tinydolphin) unless overridden in config
-		// @ts-ignore
 		ollamaModel =
-			config.sonar?.model ||
+			config.sonar.model ||
 			config.phi3?.model ||
 			capabilities.model ||
 			"phi3:latest";
@@ -769,8 +894,7 @@ async function main() {
 	process.on("SIGINT", () => shutdown("SIGINT"));
 
 	// Start HTTP server
-	// @ts-ignore
-	const port = (config.sonar || config.phi3)?.port || 3012;
+	const port = config.sonar.port || 3012;
 
 	log.info(`🚀 Starting HTTP server on port ${port}`);
 	log.info("📋 Available endpoints:");
@@ -1149,11 +1273,98 @@ async function processPendingTasks() {
 /**
  * Execute a specific task based on its type
  */
-async function executeTask(task: any): Promise<string> {
+async function executeTask(task: SonarTask): Promise<string> {
+	log.info({ type: task.type }, "🚀 Starting executeTask");
 	const startTime = Date.now();
 	let output = `# Task Report: ${task.type}\nDate: ${new Date().toISOString()}\n\n`;
 
-	if (task.type === "enhance_batch") {
+	if (task.type === "synthesis") {
+		const minSize = task.minSize || 5;
+		output += `## Objective\nSynthesize conceptual communities (Min Cluster Size: ${minSize}).\n\n`;
+
+		const insights = gardener.analyzeCommunities();
+		const validClusters = insights.filter((c) => c.nodes.length >= minSize);
+
+		output += `### Community Proposals\n\n`;
+		if (validClusters.length === 0) {
+			output += `No large communities found to synthesize.\n`;
+		}
+
+		for (const cluster of validClusters) {
+			const reps = gardener.getClusterRepresentatives(cluster.nodes, 4);
+			const nodeData = [];
+
+			for (const id of reps) {
+				const content = await gardener.getContent(id);
+				if (content) nodeData.push({ id, content });
+			}
+
+			if (nodeData.length > 0) {
+				const synthesis = await summarizeCommunity(nodeData);
+				const slug = synthesis.label
+					.toLowerCase()
+					.replace(/[^a-z0-9]/g, "-")
+					.replace(/-+/g, "-");
+				const filename = `synthesis-${cluster.clusterId}-${slug}.md`;
+				const synthDir = join(process.cwd(), "docs/synthesis");
+
+				output += `#### Community: ${synthesis.label}\n`;
+				output += `- **Members:** ${cluster.nodes.length} nodes\n`;
+				output += `- **Summary:** ${synthesis.summary}\n`;
+
+				if (task.autoApply) {
+					// Ensure dir exists
+					if (!existsSync(synthDir)) mkdirSync(synthDir, { recursive: true });
+					const targetPath = join(synthDir, filename);
+
+					const fileContent = `---
+title: "${synthesis.label}"
+type: synthesis
+nodes: [${cluster.nodes.join(", ")}]
+---
+
+# ${synthesis.label}
+
+${synthesis.summary}
+
+## Cluster Members
+${cluster.nodes.map((id) => `- [[${id}]]`).join("\n")}
+`;
+					writeFileSync(targetPath, fileContent);
+					output += `- **Action:** 📝 Created synthesis node at \`${join("docs/synthesis", filename)}\`\n`;
+				}
+				output += "\n";
+			}
+		}
+	} else if (task.type === "timeline") {
+		const limit = task.limit || 50;
+		output += `## Objective\nExtract temporal anchors for ${limit} documents.\n\n`;
+
+		const nodes = db.getNodes({ limit, excludeContent: true });
+		let updatedCount = 0;
+
+		output += `### Chronological Updates\n\n`;
+		for (const node of nodes) {
+			// Skip if already has date
+			if (node.date) continue;
+
+			const content = await gardener.getContent(node.id);
+			if (!content) continue;
+
+			const date = await extractDate(node.id, content);
+			if (date) {
+				if (task.autoApply) {
+					db.updateNodeDate(node.id, date);
+					output += `- ✅ **${node.id}**: Anchored to ${date}\n`;
+				} else {
+					output += `- 🔍 **${node.id}**: Potential date ${date}\n`;
+				}
+				updatedCount++;
+			}
+		}
+
+		output += `\n**Total Updated:** ${updatedCount} nodes\n`;
+	} else if (task.type === "enhance_batch") {
 		const limit = task.limit || 10;
 		output += `## Objective\nEnhance ${limit} documents with metadata.\n\n`;
 
@@ -1171,10 +1382,11 @@ async function executeTask(task: any): Promise<string> {
 		output += `## Objective\nAnalyze graph for semantic gaps and optimize topology (Limit: ${limit}).\n\n`;
 
 		const suggestions = await gardener.findGaps(limit);
+		const temporal = gardener.weaveTimeline();
 
 		output += `### Detected Gaps & Propositions\n\n`;
-		if (suggestions.length === 0) {
-			output += `No significant gaps found above threshold.\n`;
+		if (suggestions.length === 0 && temporal.length === 0) {
+			output += `No significant gaps or temporal sequences found.\n`;
 		}
 
 		for (const sug of suggestions) {
@@ -1214,6 +1426,23 @@ async function executeTask(task: any): Promise<string> {
 			}
 			output += "\n";
 		}
+
+		if (temporal.length > 0) {
+			output += `### Temporal Sequences\n\n`;
+			for (const sug of temporal) {
+				output += `#### Sequence: ${sug.sourceId} → ${sug.targetId}\n`;
+				output += `- **Reason:** ${sug.reason}\n`;
+
+				const sourcePath = gardener.resolveSource(sug.sourceId);
+				if (autoApply && sourcePath) {
+					TagInjector.injectTag(sourcePath, "FOLLOWS", sug.targetId);
+					output += `- **Action:** 💉 Injected temporal tag [FOLLOWS: ${sug.targetId}]\n`;
+				} else {
+					output += `- **Proposed Action:** Add \`[FOLLOWS: ${sug.targetId}]\` to \`${sug.sourceId}\`\n`;
+				}
+				output += "\n";
+			}
+		}
 	} else if (task.type === "research") {
 		output += `## Objective\nResearch Query: "${task.query}"\n\n`;
 
@@ -1222,7 +1451,11 @@ async function executeTask(task: any): Promise<string> {
 			// For research: use task.model if specified, otherwise let the cloud/local config decide
 			// Don't hardcode mistral-nemo since it's not valid on OpenRouter
 			const researchModel = task.model || undefined;
-			const response = await handleChat(sessionId, task.query, researchModel);
+			const response = await handleChat(
+				sessionId,
+				task.query || "",
+				researchModel,
+			);
 
 			output += `## Analysis\n${response.message.content}\n\n`;
 			output += `(Model: ${researchModel || "default"})\n`;

@@ -18,14 +18,22 @@ This plan outlines the staged implementation of the strategies defined in `docs/
 - [ ] **Recursive Linking:** Link cluster members to their respective Summary Nodes.
 - [ ] **Outcome:** The graph gains a "Higher Order" layer for easier navigation.
 
-## Phase 3: Topological Intelligence (Structural Link Prediction)
+## Phase 3: Chronos Layer (Timeline Weaver)
+**Objective:** Incorporate the arrow of time as a first-class structural dimension.
+
+- [ ] **Temporal Anchor Extraction:** Implement LLM-based date extraction for both explicit (frontmatter) and implicit (text analysis) dates.
+- [ ] **Sequential Edges:** Automatically inject `PRECEDES`/`FOLLOWS` relationships based on chronology.
+- [ ] **Interpolation Engine:** Use neighbor proximity to estimate dates for un-dated nodes.
+- [ ] **Outcome:** Temporal navigation (e.g., "Show me the evolution of the Search pipeline").
+
+## Phase 4: Topological Intelligence (Structural Link Prediction)
 **Objective:** Find relationships that content alone might miss.
 
 - [ ] **Adamic-Adar Integration:** Implement topological link prediction in `GraphEngine` using `graphology` structural metrics.
 - [ ] **Cross-Engine Comparison:** Compare topological suggestions vs. vector suggestions.
 - [ ] **Outcome:** Multi-signal edge discovery (Semantic + Structural).
 
-## Phase 4: Ontology Guard (Normalization)
+## Phase 5: Ontology Guard (Normalization)
 **Objective:** Unified naming and relationship taxonomy.
 
 - [ ] **Refactor Utility:** Create a script to batch-rename tags and relationship types throughout the Markdown corpus.

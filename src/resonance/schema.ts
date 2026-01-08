@@ -1,4 +1,4 @@
-export const CURRENT_SCHEMA_VERSION = 6;
+export const CURRENT_SCHEMA_VERSION = 7;
 
 export const GENESIS_SQL = `
     CREATE TABLE IF NOT EXISTS nodes (
@@ -9,7 +9,8 @@ export const GENESIS_SQL = `
         layer TEXT,
         embedding BLOB,
         hash TEXT, 
-        meta TEXT
+        meta TEXT,
+        date TEXT
     );
     
     CREATE TABLE IF NOT EXISTS edges (
@@ -151,6 +152,18 @@ export const MIGRATIONS: Migration[] = [
 			console.log(
 				"   Migration v6: Content nullified. All content now read from filesystem.",
 			);
+		},
+	},
+	{
+		version: 7,
+		description: "Add 'date' column for temporal grounding",
+		up: (db) => {
+			try {
+				db.run("ALTER TABLE nodes ADD COLUMN date TEXT");
+			} catch (e: unknown) {
+				const err = e as { message: string };
+				if (!err.message.includes("duplicate column")) throw e;
+			}
 		},
 	},
 ];
