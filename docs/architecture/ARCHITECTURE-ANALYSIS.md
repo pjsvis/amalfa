@@ -4,12 +4,19 @@
 
 ---
 
+Make sure and not put any triple backticks in markdown files. It will break the markdown rendering.
+
+
 ## Current State Summary
 
 **Three independent services:**
+NOTE : That would be four, maybe five, if we count the Ember service.
+
 1. **MCP Server** (stdio) - Read-only query interface
 2. **File Watcher Daemon** (background) - Ingestion coordinator  
 3. **Vector Daemon** (HTTP :3010) - Optional embedding optimization
+
+NOTE: Now we have another service (Ember) that depends on the File Watcher Daemon.
 
 **One shared resource:**
 - SQLite database (`.amalfa/resonance.db`)

@@ -44,6 +44,8 @@ export function initAmalfaDirs(): void {
 	}
 }
 
+import type { EmberConfig } from "@src/ember/types";
+
 export interface AmalfaConfig {
 	/** @deprecated Use sources array instead */
 	source?: string;
@@ -77,6 +79,8 @@ export interface AmalfaConfig {
 	sonar: SonarConfig;
 	/** @deprecated Use sonar instead */
 	phi3?: SonarConfig;
+	/** Ember automated enrichment configuration */
+	ember: EmberConfig;
 }
 
 export interface SonarConfig {
@@ -142,12 +146,18 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 		model: "BAAI/bge-small-en-v1.5",
 		dimensions: 384,
 	},
+	ember: {
+		enabled: true,
+		minConfidence: 0.8,
+		autoSquash: false,
+		backupDir: ".amalfa/backups/ember",
+	},
 	watch: {
 		enabled: true,
 		debounce: 1000,
 		notifications: true,
 	},
-	excludePatterns: ["node_modules", ".git", ".amalfa"],
+	excludePatterns: ["node_modules", ".git", ".amalfa", "tests"],
 	// Optional graph tuning (for advanced use)
 	graph: {
 		tuning: {
@@ -276,6 +286,10 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 							},
 						},
 					} as SonarConfig,
+					ember: {
+						...DEFAULT_CONFIG.ember,
+						...(userConfig.ember || {}),
+					},
 				};
 
 				// Normalize: Convert legacy 'source' to 'sources' array

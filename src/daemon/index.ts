@@ -12,6 +12,7 @@ import {
 	type AmalfaConfig,
 	loadConfig,
 } from "@src/config/defaults";
+import { EmberService } from "@src/ember";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
@@ -156,6 +157,32 @@ function triggerIngestion(debounceMs: number) {
 			// Note: We'd need to modify AmalfaIngestor to accept file list
 			// For now, we'll re-run full ingestion (hash checking prevents duplicates)
 			await ingestor.ingest();
+
+			// --- EMBER INTEGRATION ---
+			if (config.ember?.enabled) {
+				log.info("🔥 Running Ember Analysis...");
+				const ember = new EmberService(db, config.ember);
+				let enrichedCount = 0;
+
+				// Analyze changed files only
+				// Note: Reading again from disk is safer than passing content from ingestor for now
+				for (const file of batch) {
+					try {
+						const content = await Bun.file(file).text();
+						const sidecar = await ember.analyze(file, content);
+						if (sidecar) {
+							await ember.generate(sidecar);
+							enrichedCount++;
+						}
+					} catch (err) {
+						log.warn({ file, err }, "Failed to analyze with Ember");
+					}
+				}
+				if (enrichedCount > 0) {
+					log.info({ enrichedCount }, "🔥 Ember enriched files");
+				}
+			}
+			// -------------------------
 
 			db.close();
 

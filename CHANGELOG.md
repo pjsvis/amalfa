@@ -5,6 +5,13 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.40] - 2026-01-09
+
+### Added
+- **Ember Phase 2**: Integrated `EmberService` into the `AmalfaDaemon`.
+- **Optimization**: Changes to file content now trigger immediate sidecar generation (if applicable).
+- **Configuration**: Added `tests` to default `excludePatterns`.
+
 ## [1.0.39] - 2026-01-09
 
 ### Fixed

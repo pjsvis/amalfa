@@ -17,10 +17,11 @@ export interface EmberSidecar {
 
 export interface EmberConfig {
 	enabled: boolean;
-	sources: string[];
+	sources?: string[];
 	minConfidence: number;
 	backupDir: string;
-	excludePatterns: string[];
+	excludePatterns?: string[];
+	autoSquash?: boolean;
 }
 
 export type EnrichmentType = "tag" | "link" | "summary" | "metadata";

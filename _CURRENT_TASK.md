@@ -34,10 +34,14 @@
 - [x] **Testing**: specific tests for squashing and analysis.
 
 ### Status
-✅ **Ember Service v1.0 Complete**
-Ready for release v1.0.38.
+✅ **Phase 1 Complete**: Ember Core & CLI (Released v1.0.39)
+🔄 **Phase 2 In Progress**: Daemon Integration
 
----
+### Phase 2: Ember Daemon Integration
+- [x] **Config**: Add default Ember configuration to `defaults.ts`.
+- [x] **Integration**: Import and hook EmberService into `src/daemon/index.ts`.
+- [ ] **Verification**: Verify that saving a file triggers sidecar generation automatically.
+- [ ] **Release**: v1.0.40.
 
 ## Session 2026-01-09 (Part 2): Phase 5 - Autonomous Research Initiation
 (Previous content preserved...)
