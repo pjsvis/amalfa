@@ -197,7 +197,7 @@ export async function handleSearchAnalysis(
 				{
 					role: "system",
 					content:
-						'Analyze search queries and extract intent, entities and suggested filters. Return JSON: { "intent": "", "entities": [], "filters": {} }',
+						'Analyze the user query. Extract the search intent, key entities, and any implicit filters. You MUST return valid JSON. Example: { "intent": "informational", "entities": ["vector"], "filters": {} }. Do not include any text outside the JSON object.',
 				},
 				{ role: "user", content: query },
 			],
@@ -205,7 +205,13 @@ export async function handleSearchAnalysis(
 		);
 
 		const parsed = safeJsonParse(response.message.content);
-		if (!parsed) throw new Error("Failed to parse JSON response");
+		if (!parsed) {
+			log.warn(
+				{ content: response.message.content },
+				"Failed to parse JSON response, using fallback",
+			);
+			return { intent: "search", entities: [query], filters: {} };
+		}
 		return parsed;
 	} catch (error) {
 		log.error({ error, query }, "Query analysis failed");
@@ -288,19 +294,25 @@ export async function handleContextExtraction(
 				{
 					role: "system",
 					content:
-						"Extract the most relevant 200-300 character snippet from the document for the given query.",
+						"You are a helpful assistant. Extract the exact text snippet from the document that answers the query. Return ONLY the snippet text. If the answer is not found, return the most relevant paragraph.",
 				},
 				{
 					role: "user",
-					content: `Query: ${query}\nDocument [${result.id}]:\n${result.content.slice(0, 4000)}`,
+					content: `Query: ${query}\n\nDocument Text:\n${result.content.slice(0, 4000)}`,
 				},
 			],
-			{ temperature: 0 },
+			{ temperature: 0.1 },
 		);
+
+		const snippet = response.message.content.trim();
+
+		// Fallback if model refuses to extract or returns empty
+		const finalSnippet =
+			snippet.length > 5 ? snippet : result.content.slice(0, 300).trim();
 
 		return {
 			id: result.id,
-			snippet: response.message.content.trim(),
+			snippet: finalSnippet,
 		};
 	} catch (error) {
 		log.error({ error, docId: result.id }, "Context extraction failed");
@@ -525,17 +537,11 @@ Return JSON: { "action": "SEARCH"|"READ"|"EXPLORE"|"FINISH", "query": "...", "no
 				nodeId?: string;
 				reasoning: string;
 				answer?: string;
-			};
-			try {
-				decision = JSON.parse(content);
-			} catch {
-				// Try to extract JSON from markdown blocks
-				const match = content.match(/\{[\s\S]*\}/);
-				if (match) {
-					decision = JSON.parse(match[0]);
-				} else {
-					throw new Error("Could not parse JSON from response");
-				}
+			} | null = null;
+
+			decision = safeJsonParse(content);
+			if (!decision) {
+				throw new Error("Could not parse JSON from response");
 			}
 			output += `> **Reasoning:** ${decision.reasoning}\n\n`;
 
