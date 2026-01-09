@@ -1,6 +1,6 @@
 # 🔮 Resonance Engine
 
-The vector database and semantic core of Polyvis.
+The vector database and semantic core of Amalfa.
 
 ## Contents
 - **`daemon.ts`**: The Vector Service (HTTP) and Lifecycle Manager.
@@ -23,7 +23,7 @@ The vector database and semantic core of Polyvis.
 - **Accuracy:** High (51-52% on MTEB retrieval benchmarks)
 - **Training:** Optimized for retrieval tasks on 1B+ text pairs
 
-**Performance on Polyvis corpus:**
+**Performance on Amalfa corpus:**
 - 85.2% average best match (excellent semantic understanding)
 - 21.1% average spread (clear differentiation)
 - 76.3% average corpus score (cohesive knowledge base)
@@ -97,7 +97,7 @@ bun run inspect-db public/resonance.db
 
 ### Current: Two-Tier Search (Post-Migration v5)
 
-Polyvis uses a **hybrid search strategy** optimized for semantic understanding and exact matches:
+Amalfa uses a **hybrid search strategy** optimized for semantic understanding and exact matches:
 
 **1. Vector Search (Primary)**
 - **Purpose:** Semantic similarity, concept discovery
@@ -146,3 +146,12 @@ Query type?
 | ~~FTS~~ | ~~5-20ms~~ | ~~70%~~ | ~~(Removed)~~ |
 
 **Conclusion:** Two-tier search is simpler, faster, and more accurate than FTS middle ground.
+
+## ⚠️ Stability
+This module is stable and intentionally designed.
+Do NOT refactor, rewrite, or change the architecture without:
+1. Consulting the user first
+2. Having a documented, compelling reason
+3. Understanding WHY the current design exists
+
+If something looks "wrong," it may be intentional. Ask before you chop.

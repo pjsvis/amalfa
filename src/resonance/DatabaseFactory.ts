@@ -3,8 +3,8 @@ import { Database } from "bun:sqlite";
 /**
  * 🏭 DATABASE FACTORY (The Enforcer)
  *
- * Single Source of Truth for instantiating SQLite connections in PolyVis.
- * strictly enforces the configuration defined in `playbooks/sqlite-standards.md`.
+ * Single Source of Truth for instantiating SQLite connections in Amalfa.
+ * Strictly enforces the configuration defined in `playbooks/sqlite-standards.md`.
  *
  * USAGE:
  * import { DatabaseFactory } from "@src/resonance/DatabaseFactory";

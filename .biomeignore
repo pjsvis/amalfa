@@ -17,3 +17,9 @@ dist
 docs
 examples
 experiments
+scripts/lab
+scripts/legacy
+scripts/verify
+scripts/query-node-ids.ts
+scripts/release.ts
+scripts/validate-config.ts
