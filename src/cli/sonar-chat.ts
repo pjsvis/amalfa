@@ -4,13 +4,21 @@ import { DaemonManager } from "../utils/DaemonManager";
 
 export async function chatLoop() {
 	const manager = new DaemonManager();
-	const status = await manager.checkSonarAgent();
+	let status = await manager.checkSonarAgent();
 
 	if (!status.running) {
-		console.log(
-			"❌ Sonar Agent is not running. Start it with: amalfa sonar start",
-		);
-		process.exit(1);
+		console.log("🚀 Sonar Agent not running. Starting it now...");
+		await manager.startSonarAgent();
+		// Wait for it to be ready
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+		status = await manager.checkSonarAgent();
+		if (!status.running) {
+			console.log(
+				"❌ Failed to start Sonar Agent. Check logs: .amalfa/logs/sonar.log",
+			);
+			process.exit(1);
+		}
+		console.log("✅ Sonar Agent started.\n");
 	}
 
 	const BASE_URL = `http://localhost:${status.port}`;
