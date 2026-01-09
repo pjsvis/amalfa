@@ -27,12 +27,16 @@
 - ✅ **Traversal Deduplication**: Prevented infinite loops by tracking explored nodes and neighborhoods.
 - ✅ **Chain Verification**: Implemented an "AMALFA Auditor" step that double-checks findings against the initial query and flags missing info.
 
-### Next Steps 🚀
+### Phase 5: Autonomous Research & Recursive Discovery `✅ Completed`
+- [x] **Recursive Reasoning Loop**: Implement Analyze -> Action -> Verify cycle. `✅ Completed`
+- [x] **Topological Intelligence**: `EXPLORE` action for graph neighborhood discovery. `✅ Completed`
+- [x] **Chain Verification**: "Amalfa Auditor" to verify research quality. `✅ Completed`
+- [x] **Status & Uplift Reporting**: Documented benefits and current state. `✅ Completed`
 
-**1. Semantic Expansion (Phase 6)**
-- [ ] **Cross-Corpus Synthesis**: Enable the agent to research across multiple mapped corpora (`pjsvis/amalfa` and beyond).
-- [ ] **Temporal Analysis**: Use the discovery engine to build narratives of *how* a concept changed over time using the timeline anchors.
-- [ ] **Active Documentation**: Allow the agent to propose new `synthesis` nodes directly during research if it finds a recurring theme.
+### Phase 6: Semantic Expansion (The Polyglot Era) `🔄 Next Up`
+- [ ] **Cross-Corpus Federation**: Map external repos (e.g., `polyvis`) for multi-project research.
+- [ ] **Code Ingestion (Harvesters)**: Implement RFC-001 to index code structure (`.ts`, `.py`).
+- [ ] **Active Documentation**: Agent-proposed Synthesis nodes for discovered concepts.
 
 ---
 

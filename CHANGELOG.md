@@ -5,20 +5,26 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
- 
+## [1.0.29] - 2026-01-09
+
 ### Added
-- **Graph Enhancement Phase 2 (Synthesis)**: Automatic detection of conceptual communities using Louvain clustering and LLM summarization.
-- **Synthesis Nodes**: Generation of high-level community summary files in `docs/synthesis/`.
-- **Graph Enhancement Phase 3 (Chronos)**: Temporal grounding for documents and "Timeline Weaving" to identify sequential relationships.
-- **ResonanceDB v7**: Added `date` column for temporal anchoring.
-- **Sonar Agent Tasks**: New `synthesis` and `timeline` task types for batch graph optimization.
-- **GraphGardener**: Core service for dual Vector/Graph topological optimization, now with `weaveTimeline` and `analyzeCommunities`.
-- **LLM Judge**: Semantic link verification using LLM as an architect (Phase 1).
-- **TagInjector**: Non-destructive metadata injection for markdown files.
-- **Graph Traversal API**: New endpoints for `/graph/stats`, `/neighbors`, `/path`, and `/communities`.
-- **MCP find_gaps**: New tool for agentic graph optimization.
-- **Content Resolution**: Hollow-node content retrieval from filesystem for deep analysis.
+- **Phase 5: Autonomous Research & Recursive Discovery (FAFCAS)**: Implemented a multi-step "Internal Monologue" research agent.
+  - **Discovery Loop**: Iterative SEARCH → READ → EXPLORE → ANALYZE cycles.
+  - **Topological Discovery**: Hub-aware entry points using PageRank and Betweenness Centrality.
+  - **EXPLORE Action**: Physical graph neighborhood traversal for non-semantic lead discovery.
+  - **Chain Verification**: Autonomous "AMALFA Auditor" that double-checks research findings for truthfulness.
+  - **Robust JSON Recovery**: Defensive parsing to handle non-compliant LLM outputs.
+- **Phase 4: Topological Intelligence**: Integrated structural link prediction into the gardening loop.
+  - **Adamic-Adar Index**: Implemented topological relationship scoring in `GraphEngine`.
+  - **Structural Gap Detection**: 2-hop shared neighbor analysis to find "missing links."
+- **Phase 3 (Chronos) Completion**: Advanced "Timeline Weaving" and temporal grounding verified.
+- **Cross-Corpus Readiness**: Infrastructure for multi-repo research initiated.
+
+### Changed
+- **Architectural Refactor**: decoupled `sonar-agent.ts` daemon from task logic.
+- **Modular Task Handlers**: Synthesis, Timeline, Garden, and Research logic moved to `sonar-logic.ts`.
+- **Bun-Native Async I/O**: Switched to `Bun.write` and `fs/promises` for all task processing and reporting.
+- **Strict Type Safety**: Replaced `any` assertions with explicit API request interfaces.
 
 ## [1.0.28] - 2026-01-08
 
