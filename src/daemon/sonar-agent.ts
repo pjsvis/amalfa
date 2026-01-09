@@ -24,27 +24,14 @@ import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 import { inferenceState } from "./sonar-inference";
 import {
 	handleBatchEnhancement,
-	handleChat,
-	handleContextExtraction,
 	handleGardenTask,
-	handleMetadataEnhancement,
 	handleResearchTask,
-	handleResultReranking,
-	handleSearchAnalysis,
 	handleSynthesisTask,
 	handleTimelineTask,
 	type SonarContext,
 } from "./sonar-logic";
 import { getTaskModel } from "./sonar-strategies";
-import type {
-	ChatRequest,
-	ChatSession,
-	MetadataEnhanceRequest,
-	SearchAnalyzeRequest,
-	SearchContextRequest,
-	SearchRerankRequest,
-	SonarTask,
-} from "./sonar-types";
+import type { ChatSession, SonarTask } from "./sonar-types";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -128,123 +115,18 @@ async function main() {
 	}
 }
 
+import { createSonarApp } from "./sonar-server";
+
 /**
- * Start Bun HTTP Server
+ * Start Bun HTTP Server via Hono
  */
 function startServer(port: number) {
-	const corsHeaders = {
-		"Access-Control-Allow-Origin": "*",
-		"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-		"Access-Control-Allow-Headers": "Content-Type",
-	};
-
 	const context: SonarContext = { db, graphEngine, gardener, chatSessions };
+	const app = createSonarApp(context);
 
 	Bun.serve({
 		port,
-		async fetch(req) {
-			if (req.method === "OPTIONS")
-				return new Response(null, { headers: corsHeaders });
-			const url = new URL(req.url);
-
-			// Health check
-			if (url.pathname === "/health") {
-				const cfg = await loadConfig();
-				const provider = cfg.sonar.cloud?.enabled ? "cloud" : "local";
-				const model = cfg.sonar.cloud?.enabled
-					? cfg.sonar.cloud.model
-					: inferenceState.ollamaModel || cfg.sonar.model;
-				return Response.json(
-					{
-						status: "ok",
-						ollama: inferenceState.ollamaAvailable,
-						provider,
-						model,
-					},
-					{ headers: corsHeaders },
-				);
-			}
-
-			// Chat endpoint
-			if (url.pathname === "/chat" && req.method === "POST") {
-				try {
-					const body = (await req.json()) as ChatRequest;
-					const { sessionId, message, model } = body;
-					const result = await handleChat(sessionId, message, context, model);
-					return Response.json(result, { headers: corsHeaders });
-				} catch (error) {
-					return Response.json(
-						{ error: String(error) },
-						{ status: 500, headers: corsHeaders },
-					);
-				}
-			}
-
-			// Metadata enhancement endpoint
-			if (url.pathname === "/metadata/enhance" && req.method === "POST") {
-				try {
-					const body = (await req.json()) as MetadataEnhanceRequest;
-					const { docId } = body;
-					await handleMetadataEnhancement(docId, context);
-					return Response.json({ status: "success" }, { headers: corsHeaders });
-				} catch (error) {
-					return Response.json(
-						{ error: String(error) },
-						{ status: 500, headers: corsHeaders },
-					);
-				}
-			}
-
-			// Graph Stats endpoint
-			if (url.pathname === "/graph/stats" && req.method === "GET") {
-				return Response.json(graphEngine.getStats(), { headers: corsHeaders });
-			}
-
-			// Search endpoints (analysis, rerank, context)
-			if (url.pathname === "/search/analyze" && req.method === "POST") {
-				try {
-					const body = (await req.json()) as SearchAnalyzeRequest;
-					const { query } = body;
-					const result = await handleSearchAnalysis(query, context);
-					return Response.json(result, { headers: corsHeaders });
-				} catch (error) {
-					return Response.json(
-						{ error: String(error) },
-						{ status: 500, headers: corsHeaders },
-					);
-				}
-			}
-
-			if (url.pathname === "/search/rerank" && req.method === "POST") {
-				try {
-					const body = (await req.json()) as SearchRerankRequest;
-					const { results, query, intent } = body;
-					const result = await handleResultReranking(results, query, intent);
-					return Response.json(result, { headers: corsHeaders });
-				} catch (error) {
-					return Response.json(
-						{ error: String(error) },
-						{ status: 500, headers: corsHeaders },
-					);
-				}
-			}
-
-			if (url.pathname === "/search/context" && req.method === "POST") {
-				try {
-					const body = (await req.json()) as SearchContextRequest;
-					const { result, query } = body;
-					const contextResult = await handleContextExtraction(result, query);
-					return Response.json(contextResult, { headers: corsHeaders });
-				} catch (error) {
-					return Response.json(
-						{ error: String(error) },
-						{ status: 500, headers: corsHeaders },
-					);
-				}
-			}
-
-			return new Response("Not Found", { status: 404, headers: corsHeaders });
-		},
+		fetch: app.fetch,
 	});
 
 	log.info(`Server started on port ${port}`);

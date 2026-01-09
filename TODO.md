@@ -37,28 +37,16 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   - Verify with existing tests
 - **Priority:** Medium (do before UI work begins)
 
-#### 4. Add Colocated README Files to All Code Folders
+#### 4. Add Colocated README Files to All Code Folders ✅ COMPLETED
 - **Folders Missing READMEs:**
   - `src/`, `src/types`, `src/config`, `src/utils`, `src/cli`, `src/daemon`
   - `src/resonance/types`, `src/resonance/transform`, `src/resonance/services`
   - `scripts/enlightenment`, `scripts/maintenance`, `scripts/maintenance/cleanup-root`
 - **Issue:** Agents have no local context when entering a folder. They guess or make drastic changes.
 - **Impact:** Agents may violate architectural constraints or "refactor" working code without understanding why it exists.
-- **Suggested Fix:** 
-  - Create README.md in each folder
-  - Include: Purpose, Key Files, Patterns, In Progress
-  - Include a **⚠️ Stability Clause:**
-    ```
-    ## ⚠️ Stability
-    This module is stable and intentionally designed.
-    Do NOT refactor, rewrite, or change the architecture without:
-    1. Consulting the user first
-    2. Having a documented, compelling reason
-    3. Understanding WHY the current design exists
-    
-    If something looks "wrong," it may be intentional. Ask before you chop.
-    ```
-- **Priority:** High (directly improves agent reliability)
+- **Fix Applied (2026-01-09):**
+  - Created README.md in all identified folders with Stability Clause.
+- **Priority:** High (directly improves agent reliability) ✅
 
 #### 5. Deprecate Legacy `tag-slug` Syntax in EdgeWeaver
 - **File:** `src/core/EdgeWeaver.ts` (lines 74-82)
@@ -85,17 +73,11 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   - Legacy lab scripts referencing `polyvis.settings.json` excluded from Biome linting
 - **Priority:** Medium (branding consistency) ✅
 
-#### 7. Remove or Revive SemanticHarvester (Dead Code)
+#### 7. Remove or Revive SemanticHarvester (Dead Code) ✅ COMPLETED
 - **File:** `src/pipeline/SemanticHarvester.ts`
-- **Issue:** This file implements a Python subprocess bridge to `ingest/harvester.py`, but:
-  - The `ingest/` directory does not exist
-  - `SemanticHarvester` is not imported anywhere
-  - References `polyvis_classifier_v1` which doesn't exist
-- **Impact:** ~220 lines of dead code. Confuses future maintainers.
-- **Suggested Fix:**
-  - **Option A:** Delete the file if Python harvester is abandoned
-  - **Option B:** Recreate `ingest/` with the Python pipeline if still needed
-- **Priority:** Low (doesn't affect runtime, just clutter)
+- **Status:** Already deleted (was dead code)
+- **Impact:** ~220 lines of dead code removed. Confusing Python subprocess bridge eliminated.
+- **Priority:** Low (doesn't affect runtime, just clutter) ✅
 
 #### 8. Clean Up Orphaned/Empty Directories with Stale READMEs ✅ COMPLETED
 - **Locations Found:**
@@ -108,16 +90,12 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   - Cleaned up `scripts/maintenance/cleanup-root/` subdirectory
 - **Priority:** Low (cleanup task) ✅
 
-#### 9. Remove Stale Deprecation Comments
+#### 9. Remove Stale Deprecation Comments ✅ COMPLETED
 - **File:** `src/resonance/DatabaseFactory.ts` (line 16)
 - **Issue:** `connectToResonance()` is marked `@deprecated` but still exists. The deprecation notice adds noise without value.
-- **Principle:** Deprecation notices are for transition periods. Once the old way is dead, remove both the code AND the notice.
-- **Impact:** Confuses agents: "Should I use the deprecated method or not?"
-- **Suggested Fix:**
-  - If `connectToResonance()` is no longer needed, delete it entirely
-  - If it's still needed, remove the `@deprecated` tag
-  - Apply this principle project-wide
-- **Priority:** Low (code hygiene)
+- **Fix Applied (2026-01-09):**
+  - Removed `@deprecated` tag. Method kept for convenience.
+- **Priority:** Low (code hygiene) ✅
 
 #### 10. Delete Empty `src/resonance/transform/` Directory ✅ COMPLETED
 - **Location:** `src/resonance/transform/`
@@ -149,23 +127,12 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   4. Migrate `ResonanceDB` methods to use Drizzle query builder
 - **Priority:** Medium (do before UI work)
 
-#### 13. Scripts Folder Cleanup
+#### 13. Scripts Folder Cleanup ✅ COMPLETED
 - **Summary:** Classify and clean up `scripts/` folder
-- **DELETE (Dead/Legacy):**
-  - `scripts/legacy/*` - Entire folder, uses deprecated `polyvis.settings.json`
-  - `scripts/fix_lexicon_json.ts`, `scripts/fix_oh125_db.ts` - One-time fixes
-  - `scripts/validate-css-variables.js` - PolyVis UI artifact
-  - `scripts/test-classifier.ts`, `scripts/run-semantic-harvest.ts` - Dead SemanticHarvester
-  - `scripts/setup_mcp.ts` - Superseded by `amalfa setup-mcp`
-  - `scripts/lift-to-amalfa*.sh` - Migration done
-  - `scripts/remove-node-deps.ts`, `scripts/fix/*` - One-time cleanups
-- **KEEP:**
-  - `scripts/maintenance/pre-commit.ts`, `doc-consistency-check.ts`
-  - `scripts/verify/verify-sonar-capabilities.test.ts`
-  - `scripts/release.ts`, `scripts/inspect-db.ts`
-- **REVIEW (Lab):**
-  - `scripts/lab/*` - Individual review needed
-- **Priority:** Medium (reduces confusion)
+- **Status (2026-01-09):**
+  - Deleted dead `scripts/legacy/` and one-time fix scripts.
+  - Kept only active maintenance and verification scripts.
+- **Priority:** Medium (reduces confusion) ✅
 
 #### 14. Promote Diagnostic Scripts to API
 - **Candidates:**

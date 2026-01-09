@@ -64,9 +64,12 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "1.25.2",
+		"drizzle-kit": "^0.31.8",
+		"drizzle-orm": "^0.45.1",
 		"fastembed": "2.0.0",
 		"graphology": "^0.26.0",
 		"graphology-library": "^0.8.0",
+		"hono": "^4.11.3",
 		"pino": "^10.1.0"
 	}
 }

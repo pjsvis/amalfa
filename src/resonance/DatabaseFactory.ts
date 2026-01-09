@@ -13,7 +13,7 @@ import { Database } from "bun:sqlite";
 export const DatabaseFactory = {
 	/**
 	 * Connects specifically to the main Resonance Graph database.
-	 * @deprecated Use connect() with explicit path from config instead.
+	 * Kept for convenience and backward compatibility.
 	 */
 	connectToResonance(
 		dbPath: string = ".amalfa/resonance.db",
