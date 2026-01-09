@@ -1,3 +1,10 @@
+---
+tags:
+  - bun
+  - node-dependency
+  - refactoring
+  - testing
+---
 
 <!-- tags: [SEE_ALSO: remove-node-deps] [SEE_ALSO: 2026-01-07-node-dep-removal] -->
 ## Task: Remove Node.js Compatibility Dependencies

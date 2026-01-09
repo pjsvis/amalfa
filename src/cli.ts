@@ -50,6 +50,7 @@ Commands:
   daemon <action>    Manage file watcher (start|stop|status|restart)
   vector <action>    Manage vector daemon (start|stop|status|restart)
   sonar <action>     Manage Sonar AI agent (start|stop|status|restart)
+  ember <action>     Manage Ember enrichment service (scan|squash)
   scripts list       List available scripts and their descriptions
   servers [--dot]    Show status of all AMALFA services (--dot for graph)
 
@@ -821,6 +822,67 @@ async function cmdValidate() {
 	}
 }
 
+async function cmdEmber() {
+	const rawAction = args[1] || "help";
+	const action =
+		rawAction === "--help" || rawAction === "-h" ? "help" : rawAction;
+
+	if (action === "help") {
+		console.log(`
+EMBER - Automated Enrichment Service
+
+Usage:
+  amalfa ember scan [--dry-run]   Analyze files and generate sidecars
+  amalfa ember squash             Merge sidecars into markdown files
+  amalfa ember status             Show pending sidecars (TODO)
+`);
+		return;
+	}
+
+	const { ResonanceDB } = await import("./resonance/db");
+	const { EmberService } = await import("./ember/index");
+	const { loadConfig } = await import("./config/defaults");
+
+	// Check DB
+	const dbPath = await getDbPath();
+	if (!existsSync(dbPath)) {
+		console.error("❌ Database not found. Run 'amalfa init' first.");
+		process.exit(1);
+	}
+
+	const db = new ResonanceDB(dbPath);
+	const appConfig = await loadConfig();
+
+	const emberConfig = {
+		enabled: true,
+		sources: appConfig.sources || ["./docs"],
+		minConfidence: 0.7,
+		backupDir: ".amalfa/backups",
+		excludePatterns: appConfig.excludePatterns || [],
+	};
+
+	const ember = new EmberService(db, emberConfig);
+
+	try {
+		if (action === "scan") {
+			const dryRun = args.includes("--dry-run");
+			await ember.runFullSweep(dryRun);
+		} else if (action === "squash") {
+			await ember.squashAll();
+		} else if (action === "status") {
+			console.log("Checking pending sidecars... (Not yet implemented)");
+		} else {
+			console.error(`❌ Unknown action: ${action}`);
+			process.exit(1);
+		}
+	} catch (e) {
+		console.error("❌ Ember command failed:", e);
+		process.exit(1);
+	} finally {
+		db.close();
+	}
+}
+
 async function cmdDoctor() {
 	console.log("🩺 AMALFA Health Check\n");
 
@@ -942,6 +1004,10 @@ async function main() {
 
 		case "sonar":
 			await cmdSonar();
+			break;
+
+		case "ember":
+			await cmdEmber();
 			break;
 
 		case "scripts":

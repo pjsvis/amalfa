@@ -1,6 +1,6 @@
 {
 	"name": "amalfa",
-	"version": "1.0.37",
+	"version": "1.0.39",
 	"description": "Local-first knowledge graph engine for AI agents. Transforms markdown into searchable memory with MCP protocol.",
 	"license": "MIT",
 	"homepage": "https://github.com/pjsvis/amalfa#readme",
@@ -18,6 +18,7 @@
 		"src",
 		"tsconfig.json",
 		"README.md",
+		"CHANGELOG.md",
 		"LICENSE"
 	],
 	"keywords": [
@@ -69,6 +70,7 @@
 		"fastembed": "2.0.0",
 		"graphology": "0.26.0",
 		"graphology-library": "0.8.0",
+		"gray-matter": "^4.0.3",
 		"hono": "4.11.3",
 		"pino": "10.1.0"
 	}

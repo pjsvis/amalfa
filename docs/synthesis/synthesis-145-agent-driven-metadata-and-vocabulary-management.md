@@ -1,7 +1,24 @@
 ---
-title: "Agent-Driven Metadata and Vocabulary Management"
+title: Agent-Driven Metadata and Vocabulary Management
 type: synthesis
-nodes: [agent-metadata-patterns, domain-vocabulary-playbook, readme, sonar-capability-report-2026-01-08, ingestion-pipeline, setup, problem-solving-playbook, sqlite-standards, sonar-system-overview, publishing-playbook, embeddings-and-fafcas-protocol-playbook, local-first-vector-db-playbook, sonar-manual, debriefs-playbook, session-2026-01-06-metadata-patterns]
+nodes:
+  - agent-metadata-patterns
+  - domain-vocabulary-playbook
+  - readme
+  - sonar-capability-report-2026-01-08
+  - ingestion-pipeline
+  - setup
+  - problem-solving-playbook
+  - sqlite-standards
+  - sonar-system-overview
+  - publishing-playbook
+  - embeddings-and-fafcas-protocol-playbook
+  - local-first-vector-db-playbook
+  - sonar-manual
+  - debriefs-playbook
+  - session-2026-01-06-metadata-patterns
+tags:
+  - o
 ---
 
 # Agent-Driven Metadata and Vocabulary Management

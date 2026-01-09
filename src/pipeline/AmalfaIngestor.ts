@@ -12,6 +12,7 @@ import { Embedder } from "@src/resonance/services/embedder";
 import { SimpleTokenizerService as TokenizerService } from "@src/resonance/services/simpleTokenizer";
 import { getLogger } from "@src/utils/Logger";
 import { Glob } from "bun";
+import matter from "gray-matter";
 
 export interface IngestionResult {
 	success: boolean;
@@ -236,11 +237,12 @@ export class AmalfaIngestor {
 		tokenizer: TokenizerService,
 	): Promise<void> {
 		try {
-			const content = await Bun.file(filePath).text();
+			const rawContent = await Bun.file(filePath).text();
 
-			// Parse frontmatter
-			const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
-			const frontmatter = fmMatch?.[1] ? this.parseFrontmatter(fmMatch[1]) : {};
+			// Parse frontmatter with gray-matter
+			const parsed = matter(rawContent);
+			const frontmatter = parsed.data || {};
+			const content = parsed.content;
 
 			// Generate ID from filename
 			const filename = filePath.split("/").pop() || "unknown";
@@ -251,7 +253,7 @@ export class AmalfaIngestor {
 
 			// Skip if content unchanged (hash check)
 			const hasher = new Bun.CryptoHasher("md5");
-			hasher.update(content.trim());
+			hasher.update(rawContent.trim());
 			const currentHash = hasher.digest("hex");
 			const storedHash = this.db.getNodeHash(id);
 
@@ -267,6 +269,8 @@ export class AmalfaIngestor {
 
 			// Extract semantic tokens
 			const tokens = tokenizer.extract(content);
+
+			// Insert node
 
 			// Insert node
 			const node: Node = {
@@ -294,19 +298,5 @@ export class AmalfaIngestor {
 		} catch (e) {
 			this.log.warn({ err: e, file: filePath }, "⚠️  Failed to process file");
 		}
-	}
-
-	/**
-	 * Parse YAML-like frontmatter
-	 */
-	private parseFrontmatter(text: string): Record<string, unknown> {
-		const meta: Record<string, unknown> = {};
-		text.split("\n").forEach((line) => {
-			const [key, ...vals] = line.split(":");
-			if (key && vals.length) {
-				meta[key.trim()] = vals.join(":").trim();
-			}
-		});
-		return meta;
 	}
 }

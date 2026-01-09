@@ -99,6 +99,20 @@ async function main() {
 	// Determine overall exit code
 	let exitCode = 0;
 
+    // Check Changelog Version
+    const packageJson = await Bun.file("package.json").json();
+    const changelog = await Bun.file("CHANGELOG.md").text();
+    const versionHeader = `[${packageJson.version}]`;
+    
+    if (!changelog.includes(versionHeader)) {
+        exitCode += 4;
+        console.log(`\n❌ Changelog verification failed.`);
+        console.log(`   Expected to find header: ${versionHeader}`);
+        console.log("   Fix: Update CHANGELOG.md with the current version details.");
+    } else {
+        console.log(`\n✅ Changelog verification passed (${packageJson.version}).`);
+    }
+
 	if (!results.ts.passed) {
 		exitCode += 1;
 		console.log("\n❌ TypeScript errors detected. Commit blocked.");

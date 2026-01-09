@@ -25,13 +25,19 @@
 - ✅ **Pivot**: Revised Ember Brief to use "Sidecar + Squash" pattern.
 - ✅ **State Tracking**: Added `ember_state` table definition to Drizzle schema.
 
-### Next Steps (Ember Service) `🔄 Next Up`
-- [ ] **Analyzer**: Implement graph analysis logic (missing tags, links).
-- [ ] **Sidecar Generator**: Implement `.ember.json` writer.
-- [ ] **Squasher**: Implement safe markdown frontmatter merging.
-- [ ] **CLI**: Add `amalfa ember` command.
+### Next Steps (Ember Service) `🔄 In Progress`
+- [x] **Scaffolding**: Created `src/ember/` structure (Analyzer, Generator, Squasher).
+- [x] **Sidecar Generator**: Implemented `.ember.json` writer.
+- [x] **Squasher**: Implemented safe merging with `gray-matter`.
+- [x] **CLI**: Added `amalfa ember` command (`scan`, `squash`).
+- [x] **Analyzer Logic**: Implement real graph analysis (Link Prediction, Community Detection).
+- [x] **Testing**: specific tests for squashing and analysis.
+
+### Status
+✅ **Ember Service v1.0 Complete**
+Ready for release v1.0.38.
 
 ---
 
-## Session 2026-01-08 (Part 7): Phase 5 - Autonomous Research Initiation
+## Session 2026-01-09 (Part 2): Phase 5 - Autonomous Research Initiation
 (Previous content preserved...)

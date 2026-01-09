@@ -1,3 +1,19 @@
+---
+tags:
+  - '"'
+  - '#'
+  - p
+  - r
+  - o
+  - t
+  - c
+  - ','
+  - ' '
+  - e
+  - s
+  - a
+  - 'n'
+---
 # Embeddings & The FAFCAS Protocol
 
 **Status:** Active

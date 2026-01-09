@@ -1,7 +1,15 @@
 ---
-title: "Node.js Dependency Removal for Bun Compatibility"
+title: Node.js Dependency Removal for Bun Compatibility
 type: synthesis
-nodes: [remove-node-deps, 2026-01-07-node-dep-removal, brief-node-dependency-removal]
+nodes:
+  - remove-node-deps
+  - 2026-01-07-node-dep-removal
+  - brief-node-dependency-removal
+tags:
+  - bun
+  - node-dependency
+  - refactoring
+  - testing
 ---
 
 # Node.js Dependency Removal for Bun Compatibility

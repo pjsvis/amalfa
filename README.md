@@ -244,7 +244,13 @@ Agents generate knowledge through structured reflection. Amalfa provides semanti
 - [ ] Git-based auditing for augmentations
 - [ ] Automated file watcher updates
 
-### 📋 Phase 2: Latent Space Organization (Planned)
+### 🚧 Phase 2: Ember Service (Automated Enrichment)
+- ✅ **Analyzer** - Louvain community detection & heuristics
+- ✅ **Sidecar Generator** - Safe proposal mechanism (`.ember.json`)
+- ✅ **Squasher** - Robust metadata merging (preserves user content)
+- ✅ **CLI** - `amalfa ember scan/squash` commands
+
+### 📋 Phase 3: Latent Space Organization (Planned)
 
 - [ ] Document clustering (HDBSCAN)
 - [ ] Cluster label generation

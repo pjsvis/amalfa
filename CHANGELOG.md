@@ -5,6 +5,29 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.39] - 2026-01-09
+
+### Fixed
+- **Documentation**: Updated CHANGELOG.md to include recent Ember Service changes (missed in 1.0.38).
+- **Testing**: Fixed `analyzer.test.ts` to correctly pass file content, resolving pre-commit failures.
+- **Process**: Added Changelog version verification to `pre-commit` hook to prevent future ghost releases.
+
+## [1.0.38] - 2026-01-09
+
+### Added
+- **Ember Service**: Introduced the `amalfa ember` command suite for automated documentation enrichment.
+  - `amalfa ember scan`: Analyzes documents using graph communities to suggest missing tags (Sidecar generation).
+  - `amalfa ember squash`: Safely merges sidecar suggestions into markdown frontmatter using `gray-matter`.
+- **Graph Intelligence**: Integrated `GraphEngine` into Ember for community detection (Louvain) and neighbor-based tag recommendation.
+- **Stub Detection**: Added heuristics to automatically tag short content as `stub`.
+
+### Changed
+- **Ingestion Pipeline**: Upgraded `AmalfaIngestor` to use `gray-matter` for robust frontmatter parsing (replacing legacy regex).
+- **CLI**: Expanded `src/cli.ts` to include `ember` command handling.
+
+### Fixed
+- **Testing**: Resolved content read logic in `analyzer.test.ts`.
+
 ## [1.0.37] - 2026-01-09
 
 ### Added
