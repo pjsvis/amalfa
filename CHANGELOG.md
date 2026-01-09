@@ -10,7 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - **Dependabot**: Updated `@modelcontextprotocol/sdk` to `1.25.2` to resolve ReDoS vulnerability (GHSA-8r9q-7v3j-jr4g).
 
-## [1.0.33] - 2026-01-09
+## [1.0.36] - 2026-01-09
+
+### Fixed
+- **Pre-commit Checks**: Resolved TypeScript regex match narrowing issues in `doc-consistency-check.ts`
+- **Biome Configuration**: Excluded lab/legacy scripts from linting to focus on core code quality
+- **Branch Protection**: Added local pre-commit hook to prevent direct commits to main branch
+
+### Added
+- **Documentation**: Comprehensive README files added throughout codebase (`src/`, `scripts/`, `src/cli/`, `src/config/`, `src/daemon/`, `src/resonance/services/`, `src/resonance/types/`, `src/types/`, `src/utils/`)
+- **Development Tooling**: Pre-commit hook script for local branch protection
+
+## [1.0.35] - 2026-01-09
+
+### Changed
+- **Version Bump**: Minor version increment for release preparation
+
+## [1.0.34] - 2026-01-09
 
 ### Changed
 - **Code Quality**: Applied Biome formatting and lint fixes across the entire codebase to improve consistency and maintainability.
