@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - **Dependabot**: Updated `@modelcontextprotocol/sdk` to `1.25.2` to resolve ReDoS vulnerability (GHSA-8r9q-7v3j-jr4g).
 
+## [1.0.33] - 2026-01-09
+
+### Changed
+- **Code Quality**: Applied Biome formatting and lint fixes across the entire codebase to improve consistency and maintainability.
+
 ## [1.0.32] - 2026-01-09
 
 ### Fixed
