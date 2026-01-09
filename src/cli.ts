@@ -551,7 +551,7 @@ async function cmdSetupMcp() {
 		mcpServers: {
 			amalfa: {
 				command: "bun",
-				args: ["run", mcpScript],
+				args: ["run", "--cwd", cwd, mcpScript],
 				env: {
 					PATH: minimalPath,
 				},
