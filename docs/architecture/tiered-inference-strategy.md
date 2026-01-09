@@ -192,7 +192,78 @@ This pattern lets you **develop with the best, deploy with what's practical.**
 
 ---
 
-## 7. Supported Providers
+## 7. Who Uses the Inference?
+
+### Understanding the Architecture
+It's important to clarify **who** is calling these models:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    The User's World                          │
+│                                                              │
+│  ┌────────────────┐                                          │
+│  │  Claude/Cursor │  ← The USER's coding agent               │
+│  │  (MCP Client)  │                                          │
+│  └───────┬────────┘                                          │
+│          │ MCP Protocol                                      │
+│          ▼                                                   │
+│  ┌────────────────┐                                          │
+│  │  Amalfa MCP    │  ← Amalfa's interface                    │
+│  │  Server        │                                          │
+│  └───────┬────────┘                                          │
+│          │                                                   │
+│          ▼                                                   │
+│  ┌────────────────┐     ┌──────────────────┐                 │
+│  │  Sonar Agent   │────►│  Ollama/Cloud    │                 │
+│  │  (Sub-Agent)   │     │  Inference       │                 │
+│  └────────────────┘     └──────────────────┘                 │
+│                                                              │
+│  The SONAR AGENT uses local/cloud inference,                 │
+│  NOT the user's primary coding agent.                        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Key Distinction
+- **Your Main Agent (Claude, Cursor):** Uses its own models. Amalfa just provides *data* to it via MCP tools.
+- **Sonar Agent:** An *internal* sub-agent within Amalfa that uses local/cloud inference to *enhance* the data before returning it.
+
+The user's main agent never talks directly to Ollama or OpenRouter—that's Sonar's job.
+
+### When Would a User Want Direct Access?
+
+**Yes!** There are cases where users interact directly with the inference:
+
+#### 1. Interactive Chat (`amalfa sonar chat`)
+```bash
+amalfa sonar chat
+```
+This starts an interactive session where **you** (the human) can chat with your knowledge base. The system uses RAG (Retrieval-Augmented Generation) to answer questions grounded in your docs.
+
+**Use Case:** Quick exploration without opening your IDE or MCP client.
+
+#### 2. One-Off Research Queries
+```bash
+# Future: planned CLI command
+amalfa research "How did the authentication system evolve?"
+```
+This would trigger a deep research task using cloud inference (if enabled) and return a structured report.
+
+#### 3. Batch Enhancement
+```bash
+amalfa enhance --all
+```
+Manually trigger AI-powered metadata enhancement across your corpus using the configured inference provider.
+
+### Summary
+| Actor | Uses Inference? | How They Access It |
+| :--- | :--- | :--- |
+| Sonar Agent | ✅ Yes (automatic) | Internal to MCP server |
+| User (via CLI) | ✅ Yes (optional) | `amalfa sonar chat` |
+| User's Main Agent | ❌ No | Receives pre-processed data via MCP |
+
+---
+
+## 8. Supported Providers
 
 ### Currently Implemented
 | Provider | Config Value | Notes |
