@@ -1,6 +1,6 @@
 {
 	"name": "amalfa",
-	"version": "1.0.29",
+	"version": "1.0.30",
 	"description": "Local-first knowledge graph engine for AI agents. Transforms markdown into searchable memory with MCP protocol.",
 	"license": "MIT",
 	"homepage": "https://github.com/pjsvis/amalfa#readme",
@@ -58,11 +58,10 @@
 		"stats": "bun run src/cli.ts stats",
 		"doctor": "bun run src/cli.ts doctor",
 		"daemon": "bun run src/cli.ts daemon status",
-		"help": "bun run src/cli.ts --help",
-		"publish": "npm publish"
+		"help": "bun run src/cli.ts --help"
 	},
 	"dependencies": {
-		"@modelcontextprotocol/sdk": "1.25.0",
+		"@modelcontextprotocol/sdk": "1.25.2",
 		"fastembed": "2.0.0",
 		"graphology": "^0.26.0",
 		"graphology-library": "^0.8.0",
