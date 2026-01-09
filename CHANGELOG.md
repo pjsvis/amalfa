@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - **Dependabot**: Updated `@modelcontextprotocol/sdk` to `1.25.2` to resolve ReDoS vulnerability (GHSA-8r9q-7v3j-jr4g).
 
+## [1.0.32] - 2026-01-09
+
+### Fixed
+- **CLI**: `setup-mcp` now correctly includes the `--cwd` flag in the generated JSON config. This prevents `EROFS` (read-only file system) errors when the MCP server is launched by clients (like Claude Desktop or Antigravity) that might use a read-only root as the working directory. It forces the server to run in the user's project root where it has write permissions for logs and databases.
+
 ## [1.0.31] - 2026-01-09
 
 ### Fixed
