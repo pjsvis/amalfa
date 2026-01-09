@@ -70,7 +70,7 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   - Remove support in a future version
 - **Priority:** Low (works, just noisy)
 
-#### 6. Excise Legacy "Polyvis" Naming
+#### 6. Excise Legacy "Polyvis" Naming ✅ COMPLETED
 - **Files:** ~50+ files across `src/`, `scripts/`, docs
 - **Issue:** The project was renamed from "Polyvis" to "Amalfa" but many references remain.
 - **Impact:** Confusing for new users and agents. Inconsistent branding.
@@ -79,11 +79,11 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   - `scripts/README.md`, `scripts/setup_mcp.ts`
   - Many `scripts/lab/*.ts` files reference `polyvis.settings.json`
   - `DatabaseFactory.ts` docstring
-- **Suggested Fix:**
-  - Global find/replace "Polyvis" → "Amalfa" in docs/comments
-  - Legacy scripts referencing `polyvis.settings.json` can stay (they're deprecated)
-  - Update all README files to use "Amalfa"
-- **Priority:** Medium (branding consistency)
+- **Fix Applied (2026-01-09):**
+  - Updated all README files with "Amalfa" branding
+  - Cleaned up docstrings and comments
+  - Legacy lab scripts referencing `polyvis.settings.json` excluded from Biome linting
+- **Priority:** Medium (branding consistency) ✅
 
 #### 7. Remove or Revive SemanticHarvester (Dead Code)
 - **File:** `src/pipeline/SemanticHarvester.ts`
@@ -97,18 +97,16 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   - **Option B:** Recreate `ingest/` with the Python pipeline if still needed
 - **Priority:** Low (doesn't affect runtime, just clutter)
 
-#### 8. Clean Up Orphaned/Empty Directories with Stale READMEs
+#### 8. Clean Up Orphaned/Empty Directories with Stale READMEs ✅ COMPLETED
 - **Locations Found:**
   - `src/resonance/cli/` - README claims `ingest.ts`, `migrate.ts` (don't exist)
   - `src/resonance/pipeline/` - README claims `extract.ts`, `transform_docs.ts` (don't exist)
   - `src/resonance/transform/` - Likely empty
   - `src/pipeline/README.md` - Claims `Ingestor`, `HarvesterPipeline` (may exist, verify)
-- **Issue:** These are placeholder directories with stale READMEs describing non-existent files.
-- **Impact:** Confuses agents and developers looking for functionality that isn't there.
-- **Suggested Fix:**
-  - Delete empty directories if they serve no purpose
-  - Or populate them with the intended functionality
-- **Priority:** Low (cleanup task)
+- **Fix Applied (2026-01-09):**
+  - Deleted empty directories: `src/resonance/cli/`, `src/resonance/pipeline/`, `src/resonance/transform/`
+  - Cleaned up `scripts/maintenance/cleanup-root/` subdirectory
+- **Priority:** Low (cleanup task) ✅
 
 #### 9. Remove Stale Deprecation Comments
 - **File:** `src/resonance/DatabaseFactory.ts` (line 16)
@@ -121,11 +119,10 @@ This file captures issues surfaced during code reviews. Items are recorded here 
   - Apply this principle project-wide
 - **Priority:** Low (code hygiene)
 
-#### 10. Delete Empty `src/resonance/transform/` Directory
+#### 10. Delete Empty `src/resonance/transform/` Directory ✅ COMPLETED
 - **Location:** `src/resonance/transform/`
-- **Status:** Completely empty (verified)
-- **Suggested Fix:** `rm -rf src/resonance/transform`
-- **Priority:** Low (trivial cleanup)
+- **Status:** Deleted (2026-01-09)
+- **Priority:** Low (trivial cleanup) ✅
 
 #### 11. Add Pipeline History Tracking (Future Feature)
 - **Context:** User request to track nodes, edges, and changes over time
@@ -208,14 +205,13 @@ This file captures issues surfaced during code reviews. Items are recorded here 
 - **Target:** 80%+ coverage on core modules
 - **Priority:** Medium (stability before features)
 
-#### 17. Delete Stale `local_cache/` Directory
+#### 17. Delete Stale `local_cache/` Directory ✅ COMPLETED
 - **Location:** `local_cache/fast-all-MiniLM-L6-v2`
-- **Issue:** Legacy FastEmbed cache from old version. Code now correctly uses `.amalfa/cache/`.
-- **Impact:** ~170MB of unused data on root. Violates "all runtime data in .amalfa/" principle.
-- **Suggested Fix:** 
-  - `rm -rf local_cache`
-  - Add `local_cache/` to `.gitignore` if not already
-- **Priority:** Low (one-time cleanup)
+- **Status:** Deleted (2026-01-09) - Freed ~170MB
+- **Fix Applied:**
+  - Removed legacy cache directory
+  - All runtime data now correctly uses `.amalfa/` directory
+- **Priority:** Low (one-time cleanup) ✅
 
 #### 18. Leverage Unused Graphology Features
 - **Context:** `graphology-library` is already installed but underutilized
