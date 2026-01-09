@@ -74,9 +74,9 @@ describe("Sonar Agent Capabilities Suite", () => {
 		})) as any[];
 
 		console.log("   Sorted Results:");
-		data.forEach((r, i) =>
-			console.log(`   ${i + 1}. [${r.relevance_score.toFixed(2)}] ${r.id}`),
-		);
+		for (const [i, r] of data.entries()) {
+			console.log(`   ${i + 1}. [${r.relevance_score.toFixed(2)}] ${r.id}`);
+		}
 
 		expect(data.length).toBe(3);
 		expect(data[0]).toHaveProperty("relevance_score");

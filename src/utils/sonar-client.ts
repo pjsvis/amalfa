@@ -35,7 +35,7 @@ export interface SonarClient {
 		result: { id: string; content: string },
 		query: string,
 	): Promise<{ snippet: string; context: string; confidence: number } | null>;
-	getGaps(limit?: number): Promise<any[]>;
+	getGaps(limit?: number): Promise<unknown[]>;
 }
 
 /**
@@ -56,7 +56,6 @@ export async function createSonarClient(): Promise<SonarClient> {
 
 	// Check if Sonar is enabled
 	// Checking both for backward compatibility or migration
-	// @ts-expect-error
 	const isEnabled = config.sonar?.enabled ?? config.phi3?.enabled;
 
 	if (!isEnabled) {
@@ -64,7 +63,6 @@ export async function createSonarClient(): Promise<SonarClient> {
 		return createDisabledClient();
 	}
 
-	// @ts-expect-error
 	const hostArgs = config.sonar || config.phi3 || {};
 	const _host = hostArgs.host || "localhost:11434";
 	const port = hostArgs.port || 3012;
@@ -257,12 +255,12 @@ export async function createSonarClient(): Promise<SonarClient> {
 			}
 		},
 
-		async getGaps(_limit?: number): Promise<any[]> {
+		async getGaps(_limit?: number): Promise<unknown[]> {
 			if (!(await isAvailable())) return [];
 			try {
 				const response = await fetch(`${baseUrl}/graph/explore`);
 				if (!response.ok) return [];
-				const data = (await response.json()) as { gaps?: any[] };
+				const data = (await response.json()) as { gaps?: unknown[] };
 				return data.gaps || [];
 			} catch (error) {
 				log.error({ error }, "Failed to fetch gaps");
@@ -304,7 +302,7 @@ function createDisabledClient(): SonarClient {
 		} | null> {
 			return null;
 		},
-		async getGaps(): Promise<any[]> {
+		async getGaps(): Promise<unknown[]> {
 			return [];
 		},
 	};
