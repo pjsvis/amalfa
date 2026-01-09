@@ -204,7 +204,9 @@ export async function handleSearchAnalysis(
 			{ temperature: 0.1, format: "json" },
 		);
 
-		return JSON.parse(response.message.content);
+		const parsed = safeJsonParse(response.message.content);
+		if (!parsed) throw new Error("Failed to parse JSON response");
+		return parsed;
 	} catch (error) {
 		log.error({ error, query }, "Query analysis failed");
 		throw error;
@@ -250,7 +252,10 @@ export async function handleResultReranking(
 
 		const content = response.message.content;
 		try {
-			const rankings = JSON.parse(content);
+			const rankings = safeJsonParse(content);
+			if (!rankings || !Array.isArray(rankings))
+				throw new Error("Invalid JSON");
+
 			return results.map((result, idx) => {
 				const ranking = rankings.find(
 					(r: { index: number }) => r.index === idx + 1,
@@ -635,13 +640,7 @@ Return JSON: { "answered": true|false, "missing_info": "...", "final_answer": ".
 			missing_info: string;
 			final_answer: string;
 		};
-		let audit: AuditResult | null = null;
-		try {
-			audit = JSON.parse(resultSnippet);
-		} catch {
-			const match = resultSnippet.match(/\{[\s\S]*\}/);
-			audit = match ? JSON.parse(match[0]) : null;
-		}
+		const audit = safeJsonParse(resultSnippet) as AuditResult | null;
 
 		if (audit) {
 			if (!audit.answered) {
@@ -659,4 +658,24 @@ Return JSON: { "answered": true|false, "missing_info": "...", "final_answer": ".
 	}
 
 	return output;
+}
+
+/**
+ * Helper to safely parse JSON from LLM responses, handling markdown blocks
+ */
+function safeJsonParse(content: string): any {
+	try {
+		return JSON.parse(content);
+	} catch {
+		// Try to extract JSON from markdown blocks
+		const match = content.match(/\{[\s\S]*\}/);
+		if (match) {
+			try {
+				return JSON.parse(match[0]);
+			} catch {
+				return null;
+			}
+		}
+		return null;
+	}
 }
