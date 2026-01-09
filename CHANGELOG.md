@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - **Dependabot**: Updated `@modelcontextprotocol/sdk` to `1.25.2` to resolve ReDoS vulnerability (GHSA-8r9q-7v3j-jr4g).
 
+## [1.0.31] - 2026-01-09
+
+### Fixed
+- **Publishing**: Included `tsconfig.json` in the published package files. This ensures that global installations (via `npm` or `bun`) can correctly resolve path aliases (e.g., `@src/`) when running the CLI or MCP server.
+- **CLI**: Improved CWD handling when running from system root.
+
 ## [1.0.29] - 2026-01-09
 
 ### Added
