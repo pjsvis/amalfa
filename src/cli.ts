@@ -13,6 +13,26 @@ let DB_PATH: string | null = null;
 const args = process.argv.slice(2);
 const command = args[0];
 
+// FIX: If running from system root (common in some MCP clients), try to find project root
+if (process.cwd() === "/") {
+	const { resolve, join } = await import("node:path");
+	const { existsSync } = await import("node:fs");
+
+	// Try to find package.json relative to this script
+	// src/cli.ts -> .. -> project root
+	const scriptBasedRoot = resolve(import.meta.dir, "..");
+	if (existsSync(join(scriptBasedRoot, "package.json"))) {
+		try {
+			console.error(
+				`⚠️  Detected CWD as system root. Switching to: ${scriptBasedRoot}`,
+			);
+			process.chdir(scriptBasedRoot);
+		} catch (e) {
+			console.error("Failed to switch CWD:", e);
+		}
+	}
+}
+
 function showHelp() {
 	console.log(`
 AMALFA v${VERSION} - A Memory Layer For Agents
@@ -69,6 +89,7 @@ async function checkDatabase(): Promise<boolean> {
 	if (!existsSync(dbPath)) {
 		console.error(`
 ❌ Database not found at: ${dbPath}
+   (CWD: ${process.cwd()})
 
 To initialize AMALFA:
 1. Create markdown files in ./docs/ (or your preferred location)

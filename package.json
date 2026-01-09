@@ -16,6 +16,7 @@
 	"type": "module",
 	"files": [
 		"src",
+		"tsconfig.json",
 		"README.md",
 		"LICENSE"
 	],
