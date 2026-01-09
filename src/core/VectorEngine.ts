@@ -7,6 +7,7 @@ export interface SearchResult {
 	score: number;
 	content: string;
 	title?: string;
+	date?: string;
 }
 
 /**
@@ -191,7 +192,7 @@ export class VectorEngine {
 		// Note: Hollow Nodes have content=NULL, use meta.source to read from filesystem if needed
 		const results: SearchResult[] = [];
 		const contentStmt = this.db.prepare(
-			"SELECT title, content, meta FROM nodes WHERE id = ?",
+			"SELECT title, content, meta, date FROM nodes WHERE id = ?",
 		);
 
 		for (const item of topK) {
@@ -199,6 +200,7 @@ export class VectorEngine {
 				title: string;
 				content: string | null;
 				meta: string | null;
+				date: string | null;
 			};
 			if (row) {
 				// For hollow nodes, extract a preview from title or meta
@@ -217,6 +219,7 @@ export class VectorEngine {
 					score: item.score,
 					title: row.title,
 					content: content,
+					date: row.date || undefined,
 				});
 			}
 		}

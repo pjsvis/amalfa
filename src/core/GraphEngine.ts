@@ -15,6 +15,7 @@ export interface GraphNode {
 	title?: string;
 	domain?: string;
 	layer?: string;
+	date?: string;
 }
 
 export interface GraphEdge {
@@ -50,7 +51,7 @@ export class GraphEngine {
 
 		// 1. Load Nodes
 		const nodes = db
-			.query("SELECT id, type, title, domain, layer FROM nodes")
+			.query("SELECT id, type, title, domain, layer, date FROM nodes")
 			.all() as GraphNode[];
 		for (const node of nodes) {
 			this.graph.addNode(node.id, {
@@ -58,6 +59,7 @@ export class GraphEngine {
 				title: node.title,
 				domain: node.domain,
 				layer: node.layer,
+				date: node.date,
 			});
 		}
 
@@ -99,6 +101,14 @@ export class GraphEngine {
 	getNeighbors(nodeId: string): string[] {
 		if (!this.graph.hasNode(nodeId)) return [];
 		return this.graph.neighbors(nodeId);
+	}
+
+	/**
+	 * Get attributes of a specific node
+	 */
+	getNodeAttributes(nodeId: string): GraphNode | null {
+		if (!this.graph.hasNode(nodeId)) return null;
+		return this.graph.getNodeAttributes(nodeId) as GraphNode;
 	}
 
 	/**

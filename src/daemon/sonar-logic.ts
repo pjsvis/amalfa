@@ -465,6 +465,10 @@ export async function handleResearchTask(
 	const visitedNodes = new Set<string>();
 
 	log.info({ query: task.query }, "🕵️‍♂️ Starting recursive research");
+	const isNarrative =
+		task.query.toLowerCase().includes("timeline") ||
+		task.query.toLowerCase().includes("history") ||
+		task.query.toLowerCase().includes("how did");
 
 	const hubs = context.gardener.identifyHubs(3);
 	const hubContext = hubs
@@ -476,7 +480,14 @@ export async function handleResearchTask(
 
 		// 1. Analyze findings and decide next move
 		const prompt = `
-You are the AMALFA Research Agent. Your goal is to answer this query: "${task.query}"
+You are the AMALFA Research Agent. Your goal is to answer this query: "${
+			task.query
+		}"
+${
+	isNarrative
+		? "MODE: Narrative Investigation (Prioritize dates and chronological sequence)"
+		: ""
+}
 
 Graph Context: ${context.graphEngine.getStats().nodes} nodes available.
 Structural Hubs (Important Entry Points):
@@ -533,7 +544,12 @@ Return JSON: { "action": "SEARCH"|"READ"|"EXPLORE"|"FINISH", "query": "...", "no
 				output += `🔍 **Action:** Searching for \`${searchQuery}\`\n`;
 				const results = await context.gardener.findRelated(searchQuery, 3);
 				const summaries = results
-					.map((r) => `- [[${r.id}]] (Score: ${r.score.toFixed(2)})`)
+					.map(
+						(r) =>
+							`- [[${r.id}]] (Score: ${r.score.toFixed(2)}${
+								r.date ? `, Date: ${r.date}` : ""
+							})`,
+					)
 					.join("\n");
 				findings.push(`Search results for "${searchQuery}":\n${summaries}`);
 				output += `${summaries}\n\n`;
@@ -565,7 +581,10 @@ Return JSON: { "action": "SEARCH"|"READ"|"EXPLORE"|"FINISH", "query": "...", "no
 				if (neighbors.length > 0) {
 					const neighborDetails = neighbors
 						.slice(0, 8)
-						.map((n) => `- [[${n}]]`)
+						.map((n) => {
+							const attrs = context.graphEngine.getNodeAttributes(n);
+							return `- [[${n}]]${attrs?.date ? ` (Date: ${attrs.date})` : ""}`;
+						})
 						.join("\n");
 					findings.push(`Graph neighbors of ${nodeId}:\n${neighborDetails}`);
 					output += `Found ${neighbors.length} neighbors. Leads injected into findings.\n\n`;
@@ -611,11 +630,12 @@ Return JSON: { "answered": true|false, "missing_info": "...", "final_answer": ".
 		);
 
 		const resultSnippet = verificationResponse.message.content;
-		let audit: {
+		type AuditResult = {
 			answered: boolean;
 			missing_info: string;
 			final_answer: string;
-		} | null;
+		};
+		let audit: AuditResult | null = null;
 		try {
 			audit = JSON.parse(resultSnippet);
 		} catch {
