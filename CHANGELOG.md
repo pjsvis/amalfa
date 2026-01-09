@@ -5,7 +5,7 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.37] - 2026-01-09
 
 ### Added
 - **Drizzle Integration**: Added Drizzle ORM for schema management and migrations using `drizzle-kit`.
@@ -15,11 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **Dependency Pinning**: Pinned all dependencies in `package.json` to exact versions to prevent drift.
 - **Cleanup**: Removed stale deprecations and unused imports across the codebase.
-
-## [1.0.30] - 2026-01-09
-
-### Security
-- **Dependabot**: Updated `@modelcontextprotocol/sdk` to `1.25.2` to resolve ReDoS vulnerability (GHSA-8r9q-7v3j-jr4g).
 
 ## [1.0.36] - 2026-01-09
 
@@ -52,6 +47,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **Publishing**: Included `tsconfig.json` in the published package files. This ensures that global installations (via `npm` or `bun`) can correctly resolve path aliases (e.g., `@src/`) when running the CLI or MCP server.
 - **CLI**: Improved CWD handling when running from system root.
+
+## [1.0.30] - 2026-01-09
+
+### Security
+- **Dependabot**: Updated `@modelcontextprotocol/sdk` to `1.25.2` to resolve ReDoS vulnerability (GHSA-8r9q-7v3j-jr4g).
 
 ## [1.0.29] - 2026-01-09
 
