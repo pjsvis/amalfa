@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Ember Phase 2**: Integrated `EmberService` into the `AmalfaDaemon`.
 - **Optimization**: Changes to file content now trigger immediate sidecar generation (if applicable).
 - **Configuration**: Added `tests` to default `excludePatterns`.
+- **CLI**: Added `amalfa stop-all` (alias `kill`) to stop all running services.
 
 ## [1.0.39] - 2026-01-09
 

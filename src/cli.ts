@@ -53,6 +53,7 @@ Commands:
   ember <action>     Manage Ember enrichment service (scan|squash)
   scripts list       List available scripts and their descriptions
   servers [--dot]    Show status of all AMALFA services (--dot for graph)
+  stop-all (kill)    Stop all running AMALFA services
 
 Options:
   --force            Override pre-flight warnings (errors still block)
@@ -738,6 +739,63 @@ async function cmdServers() {
 	);
 }
 
+async function cmdStopAll() {
+	console.log("🛑 Stopping ALL Amalfa Services...\n");
+
+	// We reuse the service definitions from cmdServers logic,
+	// but abstracted slightly or duplicated for simplicity since they are inside cmdServers
+	const { AMALFA_DIRS } = await import("./config/defaults");
+	const { join } = await import("node:path");
+	const { existsSync, readFileSync, unlinkSync } = await import("node:fs");
+
+	const SERVICES = [
+		{
+			name: "Vector Daemon",
+			pidFile: join(AMALFA_DIRS.runtime, "vector-daemon.pid"),
+		},
+		{ name: "File Watcher", pidFile: join(AMALFA_DIRS.runtime, "daemon.pid") },
+		{ name: "Sonar Agent", pidFile: join(AMALFA_DIRS.runtime, "sonar.pid") },
+		// MCP usually runs as stdio, but if we track a PID file for it:
+		{ name: "MCP Server", pidFile: join(AMALFA_DIRS.runtime, "mcp.pid") },
+	];
+
+	let stoppedCount = 0;
+
+	for (const svc of SERVICES) {
+		if (existsSync(svc.pidFile)) {
+			try {
+				const pidStr = readFileSync(svc.pidFile, "utf-8").trim();
+				const pid = Number.parseInt(pidStr, 10);
+
+				if (!Number.isNaN(pid)) {
+					// Check if running
+					try {
+						process.kill(pid, 0); // Check existence
+						process.kill(pid, "SIGTERM");
+						console.log(`✅ Sent SIGTERM to ${svc.name} (PID: ${pid})`);
+						stoppedCount++;
+					} catch {
+						// Not running, just stale
+						console.log(`🧹 Cleaning stale PID file for ${svc.name}`);
+					}
+				}
+			} catch (e) {
+				console.warn(`⚠️ Failed to stop ${svc.name}:`, e);
+			}
+			// Always clean up PID file
+			try {
+				unlinkSync(svc.pidFile);
+			} catch {}
+		}
+	}
+
+	if (stoppedCount === 0) {
+		console.log("✨ No active services found.");
+	} else {
+		console.log(`\n✅ Stopped ${stoppedCount} service(s).`);
+	}
+}
+
 async function cmdValidate() {
 	console.log("🛡️  AMALFA Database Validation\n");
 
@@ -1000,6 +1058,11 @@ async function main() {
 
 		case "servers":
 			await cmdServers();
+			break;
+
+		case "stop-all":
+		case "kill":
+			await cmdStopAll();
 			break;
 
 		case "sonar":
