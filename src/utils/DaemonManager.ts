@@ -1,7 +1,7 @@
-import { existsSync } from "fs";
-import { join } from "path";
-import { ServiceLifecycle } from "./ServiceLifecycle";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { AMALFA_DIRS } from "@src/config/defaults";
+import { ServiceLifecycle } from "./ServiceLifecycle";
 
 export interface DaemonStatus {
 	running: boolean;

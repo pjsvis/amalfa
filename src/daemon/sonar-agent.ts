@@ -21,6 +21,7 @@ import {
 	discoverOllamaCapabilities,
 } from "@src/utils/ollama-discovery";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
+import { inferenceState } from "./sonar-inference";
 import {
 	handleBatchEnhancement,
 	handleChat,
@@ -44,7 +45,6 @@ import type {
 	SearchRerankRequest,
 	SonarTask,
 } from "./sonar-types";
-import { inferenceState } from "./sonar-inference";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";

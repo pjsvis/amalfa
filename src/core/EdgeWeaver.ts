@@ -134,7 +134,7 @@ export class EdgeWeaver {
 
 		for (const match of matches) {
 			if (!match[2]) continue;
-			let linkPath = match[2].trim();
+			const linkPath = match[2].trim();
 
 			// Skip external links (http/https)
 			if (linkPath.startsWith("http://") || linkPath.startsWith("https://")) {

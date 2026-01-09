@@ -30,12 +30,14 @@ export function loadConfig(): ResonanceConfig {
 	if (!existsSync(configPath)) {
 		throw new Error("polyvis.settings.json not found");
 	}
-	
+
 	// DEPRECATION WARNING
-	console.warn("⚠️  WARNING: polyvis.settings.json is DEPRECATED and will be removed in v2.0");
+	console.warn(
+		"⚠️  WARNING: polyvis.settings.json is DEPRECATED and will be removed in v2.0",
+	);
 	console.warn("   Please migrate to amalfa.config.json");
 	console.warn("   See: docs/CONFIG_UNIFICATION.md\n");
-	
+
 	try {
 		const data = JSON.parse(readFileSync(configPath, "utf-8"));
 		return ResonanceConfigSchema.parse(data);

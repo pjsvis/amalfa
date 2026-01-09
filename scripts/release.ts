@@ -70,7 +70,7 @@ function updatePackageJson(newVersion: string) {
 	const pkgPath = join(process.cwd(), "package.json");
 	const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"));
 	pkg.version = newVersion;
-	writeFileSync(pkgPath, JSON.stringify(pkg, null, "\t") + "\n");
+	writeFileSync(pkgPath, `${JSON.stringify(pkg, null, "\t")}\n`);
 }
 
 async function runChecks(): Promise<boolean> {
@@ -113,7 +113,7 @@ async function runChecks(): Promise<boolean> {
 	const behindResult = exec("git rev-list HEAD..origin/main --count", {
 		silent: true,
 	});
-	const behind = Number.parseInt(behindResult.output?.trim() || "0");
+	const behind = Number.parseInt(behindResult.output?.trim() || "0", 10);
 	if (behind > 0) {
 		log(`❌ Local branch is ${behind} commits behind origin/main`, "red");
 		log("   Run: git pull", "yellow");
@@ -123,7 +123,7 @@ async function runChecks(): Promise<boolean> {
 	const aheadResult = exec("git rev-list origin/main..HEAD --count", {
 		silent: true,
 	});
-	const ahead = Number.parseInt(aheadResult.output?.trim() || "0");
+	const ahead = Number.parseInt(aheadResult.output?.trim() || "0", 10);
 	if (ahead > 0) {
 		log(`⚠️  Local branch is ${ahead} commits ahead of origin/main`, "yellow");
 		log("   Will push changes during release", "yellow");
@@ -160,7 +160,7 @@ async function runChecks(): Promise<boolean> {
 	}
 	log(`✅ Logged in as: ${npmWhoamiResult.output?.trim()}`, "green");
 
-	log("\n" + "=".repeat(60), "cyan");
+	log(`\n${"=".repeat(60)}`, "cyan");
 	log("✅ All pre-release checks passed!\n", "green");
 	return true;
 }
@@ -256,7 +256,7 @@ async function release(
 	log("✅ Published to npm", "green");
 
 	// Success!
-	log("\n" + "=".repeat(60), "cyan");
+	log(`\n${"=".repeat(60)}`, "cyan");
 	log("🎉 Release Complete!", "green");
 	log("=".repeat(60), "cyan");
 	log(`\n✅ Version ${newVersion} is live!`, "green");

@@ -128,7 +128,7 @@ export async function discoverOllamaCapabilities(): Promise<OllamaCapabilities> 
 		}
 
 		// Get model details for the selected model
-		const phi3 = models.find((m) => m.name === "phi3:latest");
+		const _phi3 = models.find((m) => m.name === "phi3:latest");
 
 		let modelInfo: unknown = null;
 		try {
@@ -136,7 +136,7 @@ export async function discoverOllamaCapabilities(): Promise<OllamaCapabilities> 
 			if (showResult.exitCode === 0) {
 				modelInfo = parseModelInfo(showResult.stdout?.toString() ?? "");
 			}
-		} catch (e) {
+		} catch (_e) {
 			log.warn(`⚠️  Could not get details for ${searchModel}`);
 		}
 

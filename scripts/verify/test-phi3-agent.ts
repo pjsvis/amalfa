@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import { $ } from "bun";
 
 const PORT = 3012;
 const BASE_URL = `http://localhost:${PORT}`;

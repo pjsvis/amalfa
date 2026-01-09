@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * Codebase Audit
- * 
+ *
  * Walks the codebase and categorizes files by:
  * - Purpose (core, docs, config, legacy, unclear)
  * - Size (flag files > 500 lines)
@@ -27,7 +27,7 @@ const SKIP_DIRS = [
 	".resonance/cache",
 ];
 
-const CATEGORIES = {
+const _CATEGORIES = {
 	CORE: "Core functionality",
 	DOCS: "Documentation",
 	CONFIG: "Configuration",
@@ -113,13 +113,16 @@ function categorizeFile(path: string): string {
 	return "Unclear";
 }
 
-async function walkDir(dir: string, files: FileInfo[] = []): Promise<FileInfo[]> {
+async function walkDir(
+	dir: string,
+	files: FileInfo[] = [],
+): Promise<FileInfo[]> {
 	try {
 		const entries = readdirSync(dir, { withFileTypes: true });
 
 		for (const entry of entries) {
 			const fullPath = join(dir, entry.name);
-			const relativePath = fullPath.replace(process.cwd() + "/", "./");
+			const relativePath = fullPath.replace(`${process.cwd()}/`, "./");
 
 			if (shouldSkip(relativePath)) continue;
 
@@ -138,7 +141,7 @@ async function walkDir(dir: string, files: FileInfo[] = []): Promise<FileInfo[]>
 				});
 			}
 		}
-	} catch (error) {
+	} catch (_error) {
 		// Skip directories we can't read
 	}
 
@@ -160,7 +163,9 @@ async function main() {
 	}
 
 	// Flag large files (>500 lines)
-	const largeFiles = files.filter((f) => f.lines > 500).sort((a, b) => b.lines - a.lines);
+	const largeFiles = files
+		.filter((f) => f.lines > 500)
+		.sort((a, b) => b.lines - a.lines);
 
 	// Flag old files (not modified in 30+ days)
 	const thirtyDaysAgo = new Date();
@@ -187,9 +192,7 @@ async function main() {
 	if (largeFiles.length > 0) {
 		console.log("\n\n⚠️  Large Files (>500 lines):\n");
 		for (const file of largeFiles.slice(0, 20)) {
-			console.log(
-				`${file.lines.toString().padStart(5)} lines  ${file.path}`,
-			);
+			console.log(`${file.lines.toString().padStart(5)} lines  ${file.path}`);
 		}
 	}
 

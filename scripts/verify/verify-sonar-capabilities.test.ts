@@ -1,5 +1,4 @@
-import { describe, expect, test, beforeAll } from "bun:test";
-import { spawnSync } from "bun";
+import { describe, expect, test } from "bun:test";
 
 const PORT = 3012;
 const BASE_URL = `http://localhost:${PORT}`;
@@ -82,9 +81,9 @@ describe("Sonar Agent Capabilities Suite", () => {
 		expect(data.length).toBe(3);
 		expect(data[0]).toHaveProperty("relevance_score");
 		// We expect doc-1 or doc-3 to be boosted over doc-2
-		const pancakeScore =
+		const _pancakeScore =
 			data.find((r) => r.id === "doc-2")?.relevance_score || 0;
-		const configScore =
+		const _configScore =
 			data.find((r) => r.id === "doc-3")?.relevance_score || 0;
 
 		// This assertion might be flaky with tiny models, but logically config should > pancakes

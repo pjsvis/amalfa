@@ -59,18 +59,18 @@ export class SimpleTokenizerService {
 					const realTerm = match ? match[0] : term;
 
 					if (tag === "Protocol") {
-						if (!result.protocols!.includes(realTerm))
-							result.protocols!.push(realTerm);
+						if (!result.protocols?.includes(realTerm))
+							result.protocols?.push(realTerm);
 					} else if (tag === "Concept") {
-						if (!result.concepts!.includes(realTerm))
-							result.concepts!.push(realTerm);
+						if (!result.concepts?.includes(realTerm))
+							result.concepts?.push(realTerm);
 					} else if (tag === "Organization") {
 						if (!result.organizations.includes(realTerm))
 							result.organizations.push(realTerm);
 					} else {
 						// Default to concepts
-						if (!result.concepts!.includes(realTerm))
-							result.concepts!.push(realTerm);
+						if (!result.concepts?.includes(realTerm))
+							result.concepts?.push(realTerm);
 					}
 				}
 			}

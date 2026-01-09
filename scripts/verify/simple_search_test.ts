@@ -1,7 +1,9 @@
 import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
 // Use Shared Factory
-const db = DatabaseFactory.connectToResonance(".amalfa/resonance.db", { readonly: true });
+const db = DatabaseFactory.connectToResonance(".amalfa/resonance.db", {
+	readonly: true,
+});
 
 try {
 	console.log("Opening DB...");

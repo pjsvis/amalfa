@@ -18,7 +18,7 @@ class MockDB {
 	getRawDb() {
 		return {
 			query: (sql: string) => ({
-				get: (...args: unknown[]) => {
+				get: (..._args: unknown[]) => {
 					// Mock COUNT(*) queries to return 0 (no edges = not a super node)
 					if (sql.includes("COUNT(*)")) {
 						return { c: 0 };

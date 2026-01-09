@@ -113,14 +113,13 @@ function validateDatabasePaths(amalfa: any, polyvis: any) {
 				severity: "error",
 				category: "database-conflict",
 				message: "Multiple database files exist",
-				details:
-					"Two separate databases detected - data may be inconsistent",
+				details: "Two separate databases detected - data may be inconsistent",
 			});
 		}
 	}
 }
 
-function validateEmbeddingModels(amalfa: any, polyvis: any) {
+function validateEmbeddingModels(amalfa: any, _polyvis: any) {
 	const amalfaModel = amalfa.embeddings?.model;
 	const amalfaDims = amalfa.embeddings?.dimensions;
 

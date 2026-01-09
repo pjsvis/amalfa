@@ -11,7 +11,7 @@ import { ResonanceDB } from "@src/resonance/db";
 
 async function testConfigSearch() {
 	console.log("\n🧪 Testing Unified Config System\n");
-	console.log("=" .repeat(60));
+	console.log("=".repeat(60));
 
 	// 1. Load config
 	console.log("\n1️⃣  Loading configuration...");
@@ -82,7 +82,7 @@ async function testConfigSearch() {
 
 	db.close();
 
-	console.log("\n" + "=".repeat(60));
+	console.log(`\n${"=".repeat(60)}`);
 	console.log("✅ Config system validation complete!\n");
 }
 

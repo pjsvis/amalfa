@@ -1,22 +1,22 @@
 #!/usr/bin/env bun
+
 /**
  * AMALFA Daemon
  * File watcher for incremental database updates
  */
 
-import { existsSync } from "fs";
-import { watch } from "fs";
-import { join } from "path";
+import { existsSync, watch } from "node:fs";
+import { join } from "node:path";
 import {
-	loadConfig,
 	AMALFA_DIRS,
 	type AmalfaConfig,
+	loadConfig,
 } from "@src/config/defaults";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
-import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 import { sendNotification } from "@src/utils/Notifications";
+import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -101,7 +101,7 @@ function startWatcher(sourceDir: string, debounceMs: number) {
 	try {
 		watch(watchPath, { recursive: true }, (event, filename) => {
 			// Only process markdown files
-			if (filename && filename.endsWith(".md")) {
+			if (filename?.endsWith(".md")) {
 				const fullPath = join(watchPath, filename);
 
 				log.debug(

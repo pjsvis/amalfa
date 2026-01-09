@@ -1,7 +1,6 @@
-import { existsSync } from "fs";
-import { unlink } from "fs/promises";
-import { join } from "path";
-import { AMALFA_DIRS, initAmalfaDirs } from "@src/config/defaults";
+import { existsSync } from "node:fs";
+import { unlink } from "node:fs/promises";
+import { initAmalfaDirs } from "@src/config/defaults";
 
 export interface ServiceConfig {
 	name: string; // e.g. "Daemon"

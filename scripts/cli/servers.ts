@@ -1,9 +1,29 @@
 // Configuration - AMALFA Services
 const SERVICES = [
-	{ name: "MCP Server", pidFile: ".mcp.pid", port: "stdio", command: "bun run start" },
-	{ name: "Vector Daemon", pidFile: ".vector-daemon.pid", port: "3010", command: "bun run src/resonance/services/vector-daemon.ts start" },
-	{ name: "File Watcher", pidFile: ".amalfa-daemon.pid", port: "-", command: "bun run src/daemon/index.ts start" },
-	{ name: "Dev Server", pidFile: ".dev.pid", port: "3000", command: "bun run dev" },
+	{
+		name: "MCP Server",
+		pidFile: ".mcp.pid",
+		port: "stdio",
+		command: "bun run start",
+	},
+	{
+		name: "Vector Daemon",
+		pidFile: ".vector-daemon.pid",
+		port: "3010",
+		command: "bun run src/resonance/services/vector-daemon.ts start",
+	},
+	{
+		name: "File Watcher",
+		pidFile: ".amalfa-daemon.pid",
+		port: "-",
+		command: "bun run src/daemon/index.ts start",
+	},
+	{
+		name: "Dev Server",
+		pidFile: ".dev.pid",
+		port: "3000",
+		command: "bun run dev",
+	},
 ];
 
 async function isRunning(pid: number): Promise<boolean> {

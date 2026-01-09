@@ -1,7 +1,6 @@
 import { loadConfig } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
 import { callOllama, inferenceState } from "./sonar-inference";
-import type { SonarTask } from "./sonar-types";
 
 const log = getLogger("SonarStrategies");
 

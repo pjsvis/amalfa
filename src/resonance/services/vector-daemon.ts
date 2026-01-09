@@ -1,16 +1,17 @@
 #!/usr/bin/env bun
+
 /**
  * Vector Daemon - HTTP server for fast embedding generation
  * Keeps FastEmbed model loaded in memory for <100ms embedding lookups
  */
 
-import { serve } from "bun";
-import { join } from "path";
-import { EmbeddingModel, FlagEmbedding } from "fastembed";
+import { join } from "node:path";
+import { AMALFA_DIRS } from "@src/config/defaults";
 import { toFafcas } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
-import { AMALFA_DIRS } from "@src/config/defaults";
+import { serve } from "bun";
+import { EmbeddingModel, FlagEmbedding } from "fastembed";
 
 const log = getLogger("VectorDaemon");
 const PORT = Number(process.env.VECTOR_PORT || 3010);
@@ -33,16 +34,16 @@ const currentModel = EmbeddingModel.BGESmallENV15;
 async function initEmbedder() {
 	if (!embedder) {
 		log.info({ model: currentModel }, "🔄 Initializing embedding model...");
-		
+
 		// Ensure cache directory exists
 		const cacheDir = ".amalfa/cache";
 		const { mkdir } = await import("node:fs/promises");
 		try {
 			await mkdir(cacheDir, { recursive: true });
-		} catch (e) {
+		} catch (_e) {
 			// Directory might already exist, that's fine
 		}
-		
+
 		embedder = await FlagEmbedding.init({
 			model: currentModel,
 			cacheDir,
@@ -60,7 +61,7 @@ async function runServer() {
 	await initEmbedder();
 
 	// Start HTTP server
-	const server = serve({
+	const _server = serve({
 		port: PORT,
 		async fetch(req) {
 			const url = new URL(req.url);

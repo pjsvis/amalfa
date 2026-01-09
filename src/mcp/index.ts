@@ -1,5 +1,5 @@
-import { appendFileSync } from "fs";
-import { join } from "path";
+import { appendFileSync } from "node:fs";
+import { join } from "node:path";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
@@ -200,7 +200,7 @@ async function runServer() {
 					let queryAnalysis: Awaited<
 						ReturnType<typeof sonarClient.analyzeQuery>
 					> | null = null;
-					let queryIntent: string | undefined = undefined;
+					let queryIntent: string | undefined;
 
 					if (sonarAvailable) {
 						log.info({ query }, "🔍 Analyzing query with Sonar");

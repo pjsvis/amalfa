@@ -1,5 +1,5 @@
 // import { Command } from "commander";
-import { createInterface } from "readline";
+import { createInterface } from "node:readline";
 import { DaemonManager } from "../utils/DaemonManager";
 
 export async function chatLoop() {

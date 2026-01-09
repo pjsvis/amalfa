@@ -15,7 +15,10 @@ export const DatabaseFactory = {
 	 * Connects specifically to the main Resonance Graph database.
 	 * @deprecated Use connect() with explicit path from config instead.
 	 */
-	connectToResonance(dbPath: string = ".amalfa/resonance.db", options: { readonly?: boolean } = {}): Database {
+	connectToResonance(
+		dbPath: string = ".amalfa/resonance.db",
+		options: { readonly?: boolean } = {},
+	): Database {
 		return DatabaseFactory.connect(dbPath, options);
 	},
 	/**

@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { getLogger } from "@src/utils/Logger";
 
 const log = getLogger("TagInjector");
@@ -79,7 +79,7 @@ export class TagInjector {
 
 			if (content.includes(link)) return true;
 
-			content = content.trimEnd() + `\n\nSee also: ${link}\n`;
+			content = `${content.trimEnd()}\n\nSee also: ${link}\n`;
 			writeFileSync(filePath, content, "utf-8");
 			return true;
 		} catch (error) {

@@ -1,11 +1,11 @@
 import type { Database } from "bun:sqlite";
-import { MultiDirectedGraph } from "graphology";
-import { bidirectional as shortestPath } from "graphology-shortest-path/unweighted";
-import communitiesLouvain from "graphology-communities-louvain";
-import pagerank from "graphology-metrics/centrality/pagerank";
-import betweenness from "graphology-metrics/centrality/betweenness";
-import { connectedComponents } from "graphology-components";
 import { getLogger } from "@src/utils/Logger";
+import { MultiDirectedGraph } from "graphology";
+import communitiesLouvain from "graphology-communities-louvain";
+import { connectedComponents } from "graphology-components";
+import betweenness from "graphology-metrics/centrality/betweenness";
+import pagerank from "graphology-metrics/centrality/pagerank";
+import { bidirectional as shortestPath } from "graphology-shortest-path/unweighted";
 
 const log = getLogger("GraphEngine");
 

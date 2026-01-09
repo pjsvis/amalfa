@@ -1,20 +1,27 @@
 /**
  * PreFlightAnalyzer
- * 
+ *
  * Validates source directories before ingestion to detect issues:
  * - Large files that need splitting
  * - Symlinks and circular references
  * - Empty or invalid files
  * - Estimated resource usage
- * 
+ *
  * Generates .amalfa/logs/pre-flight.log with recommendations.
  */
 
-import { existsSync, lstatSync, readdirSync, realpathSync, statSync, writeFileSync } from "fs";
-import { join, relative } from "path";
-import { getLogger } from "@src/utils/Logger";
+import {
+	existsSync,
+	lstatSync,
+	readdirSync,
+	realpathSync,
+	statSync,
+	writeFileSync,
+} from "node:fs";
+import { join } from "node:path";
 import type { AmalfaConfig } from "@src/config/defaults";
-import { AMALFA_DIRS, initAmalfaDirs } from "@src/config/defaults";
+import { initAmalfaDirs } from "@src/config/defaults";
+import { getLogger } from "@src/utils/Logger";
 
 const log = getLogger("PreFlightAnalyzer");
 
@@ -27,7 +34,13 @@ const WARN_TOTAL_SIZE_MB = 100;
 
 export interface FileIssue {
 	path: string;
-	issue: "too_large" | "too_small" | "symlink" | "circular_ref" | "empty" | "non_markdown";
+	issue:
+		| "too_large"
+		| "too_small"
+		| "symlink"
+		| "circular_ref"
+		| "empty"
+		| "non_markdown";
 	severity: "error" | "warning" | "info";
 	details: string;
 	recommendation?: string;
@@ -49,7 +62,6 @@ export class PreFlightAnalyzer {
 	private config: AmalfaConfig;
 	private visitedPaths = new Set<string>();
 	private issues: FileIssue[] = [];
-	private logPath = join(AMALFA_DIRS.logs, "pre-flight.log");
 
 	constructor(config: AmalfaConfig) {
 		this.config = config;
@@ -181,13 +193,14 @@ export class PreFlightAnalyzer {
 							issue: "circular_ref",
 							severity: "error",
 							details: "Circular symlink reference detected",
-							recommendation: "Remove circular symlink to prevent infinite loops",
+							recommendation:
+								"Remove circular symlink to prevent infinite loops",
 						});
 						return { valid: false, size: 0 };
 					}
 
 					this.visitedPaths.add(realPath);
-				} catch (err) {
+				} catch (_err) {
 					this.issues.push({
 						path: filePath,
 						issue: "circular_ref",
@@ -416,7 +429,9 @@ export class PreFlightAnalyzer {
 		lines.push("");
 		lines.push("Why this limit exists:");
 		lines.push("- Prevents excessive memory usage during embedding generation");
-		lines.push("- Ensures good search quality (large files = poor granularity)");
+		lines.push(
+			"- Ensures good search quality (large files = poor granularity)",
+		);
 		lines.push("- Maintains reasonable graph structure");
 		lines.push("");
 		lines.push("How to handle large files:");

@@ -4,7 +4,7 @@
  * No Persona/CDA complexity - just pure markdown → knowledge graph
  */
 
-import { join } from "path";
+import { join } from "node:path";
 import type { AmalfaConfig } from "@src/config/defaults";
 import { EdgeWeaver } from "@src/core/EdgeWeaver";
 import type { Node, ResonanceDB } from "@src/resonance/db";

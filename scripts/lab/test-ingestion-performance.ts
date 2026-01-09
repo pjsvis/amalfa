@@ -1,16 +1,17 @@
 #!/usr/bin/env bun
+
 /**
  * Ingestion Performance Test
- * 
+ *
  * Tests the ingestion pipeline multiple times to gather timing statistics.
  * Exploits idempotency - same results every time, so we can measure pure performance.
  */
 
-import { join } from "node:path";
 import { statSync } from "node:fs";
+import { join } from "node:path";
 import { loadConfig } from "@src/config/defaults";
-import { ResonanceDB } from "@src/resonance/db";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
+import { ResonanceDB } from "@src/resonance/db";
 
 interface TimingBreakdown {
 	total: number;
@@ -160,7 +161,7 @@ async function main() {
 	const mbPerSecond = (dbSizeMB / avg.total) * 1000;
 
 	// Display results
-	console.log("\n" + "=".repeat(70));
+	console.log(`\n${"=".repeat(70)}`);
 	console.log("📈 Performance Summary");
 	console.log("=".repeat(70));
 
@@ -169,7 +170,7 @@ async function main() {
 	console.log(`   Min:      ${min.total.toFixed(2)}ms`);
 	console.log(`   Max:      ${max.total.toFixed(2)}ms`);
 	console.log(
-		`   Variance: ${((max.total - min.total) / avg.total * 100).toFixed(1)}%`,
+		`   Variance: ${(((max.total - min.total) / avg.total) * 100).toFixed(1)}%`,
 	);
 
 	console.log("\n📊 Workload:");
@@ -208,7 +209,7 @@ async function main() {
 
 	const allPassed = Object.values(gates).every((v) => v);
 
-	console.log("\n" + "=".repeat(70));
+	console.log(`\n${"=".repeat(70)}`);
 
 	if (allPassed) {
 		console.log("✅ All performance gates passed!");
@@ -219,7 +220,7 @@ async function main() {
 		process.exit(1);
 	}
 
-	console.log("=".repeat(70) + "\n");
+	console.log(`${"=".repeat(70)}\n`);
 }
 
 main().catch((error) => {

@@ -56,7 +56,7 @@ export async function createSonarClient(): Promise<SonarClient> {
 
 	// Check if Sonar is enabled
 	// Checking both for backward compatibility or migration
-	// @ts-ignore
+	// @ts-expect-error
 	const isEnabled = config.sonar?.enabled ?? config.phi3?.enabled;
 
 	if (!isEnabled) {
@@ -64,9 +64,9 @@ export async function createSonarClient(): Promise<SonarClient> {
 		return createDisabledClient();
 	}
 
-	// @ts-ignore
+	// @ts-expect-error
 	const hostArgs = config.sonar || config.phi3 || {};
-	const host = hostArgs.host || "localhost:11434";
+	const _host = hostArgs.host || "localhost:11434";
 	const port = hostArgs.port || 3012;
 	const baseUrl = `http://localhost:${port}`;
 	const timeout = hostArgs.tasks?.search?.timeout || 5000;
@@ -257,7 +257,7 @@ export async function createSonarClient(): Promise<SonarClient> {
 			}
 		},
 
-		async getGaps(limit?: number): Promise<any[]> {
+		async getGaps(_limit?: number): Promise<any[]> {
 			if (!(await isAvailable())) return [];
 			try {
 				const response = await fetch(`${baseUrl}/graph/explore`);

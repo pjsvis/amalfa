@@ -3,8 +3,8 @@
  * Default settings that can be overridden via amalfa.config.{ts,js,json}
  */
 
-import { mkdirSync, existsSync } from "fs";
-import { join } from "path";
+import { existsSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
 
 /** AMALFA directory structure */
 export const AMALFA_DIRS = {
@@ -289,10 +289,7 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 
 				return merged;
 			}
-		} catch (e) {
-			// Silently continue to next config file
-			continue;
-		}
+		} catch (_e) {}
 	}
 
 	// Return defaults if no config found

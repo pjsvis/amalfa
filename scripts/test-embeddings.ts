@@ -41,12 +41,12 @@ interface SearchResult {
 
 async function testEmbeddingEffectiveness() {
 	console.log("\n🔍 Testing Vector Embedding Effectiveness\n");
-	
+
 	// Load database path from config
 	const { loadConfig } = await import("@src/config/defaults");
 	const config = await loadConfig();
 	const dbPath = Bun.resolveSync(config.database, process.cwd());
-	
+
 	console.log(`Database: ${dbPath}`);
 	console.log("Model: BGE Small EN v1.5 (384 dimensions)\n");
 

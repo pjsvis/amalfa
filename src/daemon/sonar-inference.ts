@@ -1,4 +1,4 @@
-import { AMALFA_DIRS, loadConfig } from "@src/config/defaults";
+import { loadConfig } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
 import type { Message, RequestOptions } from "./sonar-types";
 

@@ -7,9 +7,8 @@
  *   bun run scripts/lab/check_file_sizes.ts
  */
 
-import { readdir } from "node:fs/promises";
+import { readdir, stat } from "node:fs/promises";
 import { join, relative } from "node:path";
-import { stat } from "node:fs/promises";
 
 // Configuration
 const CONFIG = {

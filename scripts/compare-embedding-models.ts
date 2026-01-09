@@ -45,7 +45,7 @@ interface ModelResults {
 async function compareModels() {
 	console.log("\n🔬 Embedding Model Comparison\n");
 	console.log("Testing: BGE Small EN v1.5 vs all-MiniLM-L6-v2");
-	
+
 	// Load database path from config
 	const { loadConfig } = await import("@src/config/defaults");
 	const config = await loadConfig();

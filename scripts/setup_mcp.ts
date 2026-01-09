@@ -20,16 +20,16 @@ const mcpScript = resolve(cwd, "src/mcp/index.ts");
 const _bunPath = process.execPath; // "bun" executable path
 
 // Minimal PATH for MCP - only include essential directories
-const bunPath = process.execPath.replace(/\/bun$/, ''); // Directory containing bun
+const bunPath = process.execPath.replace(/\/bun$/, ""); // Directory containing bun
 const minimalPath = [
 	bunPath,
-	'/usr/local/bin',
-	'/usr/bin',
-	'/bin',
-	'/usr/sbin',
-	'/sbin',
-	'/opt/homebrew/bin',  // Apple Silicon Homebrew
-].join(':');
+	"/usr/local/bin",
+	"/usr/bin",
+	"/bin",
+	"/usr/sbin",
+	"/sbin",
+	"/opt/homebrew/bin", // Apple Silicon Homebrew
+].join(":");
 
 const config = {
 	mcpServers: {

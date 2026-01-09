@@ -1,4 +1,4 @@
-import { join } from "path";
+import { join } from "node:path";
 import { toFafcas } from "@src/resonance/db";
 import { EmbeddingModel, FlagEmbedding } from "fastembed";
 
