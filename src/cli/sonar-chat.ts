@@ -16,7 +16,19 @@ export async function chatLoop() {
 	const BASE_URL = `http://localhost:${status.port}`;
 	let sessionId: string | undefined;
 
-	console.log(`💬 AMALFA Corpus Assistant (${status.activeModel || "Sonar"})`);
+	// Fetch health to get provider info
+	let providerInfo = "";
+	try {
+		const health = (await fetch(`${BASE_URL}/health`).then((r) =>
+			r.json(),
+		)) as { provider?: string; model?: string };
+		const providerLabel = health.provider === "cloud" ? "☁️  Cloud" : "💻 Local";
+		providerInfo = ` [${providerLabel}: ${health.model || "unknown"}]`;
+	} catch {
+		providerInfo = "";
+	}
+
+	console.log(`💬 AMALFA Corpus Assistant${providerInfo}`);
 	console.log("   Type 'exit' or 'quit' to leave.\n");
 
 	const rl = createInterface({

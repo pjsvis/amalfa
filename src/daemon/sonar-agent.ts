@@ -149,8 +149,18 @@ function startServer(port: number) {
 
 			// Health check
 			if (url.pathname === "/health") {
+				const cfg = await loadConfig();
+				const provider = cfg.sonar.cloud?.enabled ? "cloud" : "local";
+				const model = cfg.sonar.cloud?.enabled
+					? cfg.sonar.cloud.model
+					: inferenceState.ollamaModel || cfg.sonar.model;
 				return Response.json(
-					{ status: "ok", ollama: inferenceState.ollamaAvailable },
+					{
+						status: "ok",
+						ollama: inferenceState.ollamaAvailable,
+						provider,
+						model,
+					},
 					{ headers: corsHeaders },
 				);
 			}
