@@ -7,7 +7,7 @@ README.old.md
 backups/
 context/
 
-# PolyVis-specific files
+# project-specific files
 WARP.md
 AGENTS.md
 CHANGELOG.md
@@ -101,7 +101,6 @@ deprecated/
 
 # Config examples (users should create their own)
 amalfa.config.json
-polyvis.settings.json
 
 # Benchmarks
 benchmark*.json

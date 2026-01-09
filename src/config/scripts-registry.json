@@ -1,72 +1,65 @@
 [
-	{
-		"path": "scripts/cli/servers.ts",
-		"command": "amalfa servers",
-		"description": "Dashboard showing the status of all active daemons (Vector, Watcher, MCP, Phi3).",
-		"category": "core",
-		"type": "user"
-	},
-	{
-		"path": "scripts/release.ts",
-		"command": "bun run scripts/release.ts",
-		"description": "Interactive release manager. Bumps version, updates changelog, tags git, publishes to npm.",
-		"category": "core",
-		"type": "dev"
-	},
-	{
-		"path": "scripts/setup_mcp.ts",
-		"command": "amalfa setup-mcp",
-		"description": "Generates the Model Context Protocol configuration JSON for Claude Desktop.",
-		"category": "setup",
-		"type": "user"
-	},
-	{
-		"path": "scripts/maintenance/pre-commit.ts",
-		"command": "bun run precommit",
-		"description": "Runs quality checks (lint, format, test-essential) before commit.",
-		"category": "maintenance",
-		"type": "dev"
-	},
-	{
-		"path": "scripts/verify/simple_search_test.ts",
-		"command": "bun run verify",
-		"description": "Essential connectivity test. Verifies Vector Store can ingest and search.",
-		"category": "verify",
-		"type": "dev"
-	},
-	{
-		"path": "scripts/verify/analyze_health.ts",
-		"command": "amalfa validate",
-		"description": "Deep health check of the Knowledge Graph structure and integrity.",
-		"category": "verify",
-		"type": "user"
-	},
-	{
-		"path": "scripts/lab/check_file_sizes.ts",
-		"command": "bun run scripts/lab/check_file_sizes.ts",
-		"description": "Scans documentation corpus for large files that need chunking.",
-		"category": "lab",
-		"type": "dev"
-	},
-	{
-		"path": "src/cli.ts",
-		"command": "amalfa phi3 start",
-		"description": "Starts the Phi3 Agent daemon for AI enhancement.",
-		"category": "daemon",
-		"type": "user"
-	},
-	{
-		"path": "src/cli.ts",
-		"command": "amalfa phi3 chat",
-		"description": "Starts an interactive chat session with the Knowledge Graph.",
-		"category": "interactive",
-		"type": "user"
-	},
-	{
-		"path": "scripts/lab/harvest.ts",
-		"command": "bun run scripts/lab/harvest.ts",
-		"description": "Legacy tool to extract prompt-context from the codebase (Lab quality).",
-		"category": "lab",
-		"type": "dev"
-	}
+  {
+    "path": "scripts/cli/servers.ts",
+    "command": "amalfa servers",
+    "description": "Dashboard showing the status of all active daemons (Vector, Watcher, MCP, Phi3).",
+    "category": "core",
+    "type": "user"
+  },
+  {
+    "path": "scripts/release.ts",
+    "command": "bun run scripts/release.ts",
+    "description": "Interactive release manager. Bumps version, updates changelog, tags git, publishes to npm.",
+    "category": "core",
+    "type": "dev"
+  },
+  {
+    "path": "scripts/maintenance/pre-commit.ts",
+    "command": "bun run precommit",
+    "description": "Runs quality checks (lint, format, test-essential) before commit.",
+    "category": "maintenance",
+    "type": "dev"
+  },
+  {
+    "path": "scripts/verify/simple_search_test.ts",
+    "command": "bun run verify",
+    "description": "Essential connectivity test. Verifies Vector Store can ingest and search.",
+    "category": "verify",
+    "type": "dev"
+  },
+  {
+    "path": "scripts/verify/analyze_health.ts",
+    "command": "amalfa validate",
+    "description": "Deep health check of the Knowledge Graph structure and integrity.",
+    "category": "verify",
+    "type": "user"
+  },
+  {
+    "path": "scripts/lab/check_file_sizes.ts",
+    "command": "bun run scripts/lab/check_file_sizes.ts",
+    "description": "Scans documentation corpus for large files that need chunking.",
+    "category": "lab",
+    "type": "dev"
+  },
+  {
+    "path": "src/cli.ts",
+    "command": "amalfa phi3 start",
+    "description": "Starts the Phi3 Agent daemon for AI enhancement.",
+    "category": "daemon",
+    "type": "user"
+  },
+  {
+    "path": "src/cli.ts",
+    "command": "amalfa phi3 chat",
+    "description": "Starts an interactive chat session with the Knowledge Graph.",
+    "category": "interactive",
+    "type": "user"
+  },
+  {
+    "path": "scripts/lab/harvest.ts",
+    "command": "bun run scripts/lab/harvest.ts",
+    "description": "Legacy tool to extract prompt-context from the codebase (Lab quality).",
+    "category": "lab",
+    "type": "dev"
+  }
 ]

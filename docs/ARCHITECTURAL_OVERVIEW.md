@@ -44,7 +44,6 @@ The beating heart of the system.
 ### B. The Pipeline (Ingestion)
 Automatically converts raw files into the Knowledge Graph.
 - **Ingestor:** Watches filesystem (`watch`), parses Markdown/Frontmatter, embeds chunks, and upserts to DB.
-- **Semantic Harvester:** A Python bridge (`src/pipeline/SemanticHarvester.ts`) that runs complex NLP (Sieve+Net) to extract semantic triples (`Entity -> Relation -> Entity`).
 - **Gardeners:** Autonomous background agents (e.g., `AutoTagger`) that refine the graph (maintenance).
 
 ### C. The Visor (The UI)

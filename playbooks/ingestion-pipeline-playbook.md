@@ -31,7 +31,6 @@ The Experience pipeline is split into two layers to support the "Hot/Cold" archi
 *(To be populated during verification)*
 
 ## Common Issues & Fixes
--   **Duplicated Nodes:** Run `scripts/fix/link_twins.ts` to merge semantic twins.
 -   **Missing Embeddings:** Ensure `fastembed` is installed and `bun run scripts/pipeline/ingest.ts` completed "Layer B" processing.
 
 ## Phase 2 Update: The Hybrid Bridge

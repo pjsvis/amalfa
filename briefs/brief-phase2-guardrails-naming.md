@@ -1,11 +1,10 @@
 ## Task: Phase 2 - Agent Guardrails & Naming
 
-**Objective:** Add colocated README files to all code folders with stability clauses, and excise legacy "Polyvis" naming throughout the codebase.
+**Objective:** Add colocated README files to all code folders with stability clauses.
 
 **TODO Items:** #4, #6, #9
 
 - [ ] Add colocated README files to all code folders (#4) - **HIGH PRIORITY**
-- [ ] Excise legacy "Polyvis" naming (#6)
 - [ ] Remove stale deprecation comments (#9)
 
 ## Key Actions Checklist:

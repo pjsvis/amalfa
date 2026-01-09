@@ -198,7 +198,7 @@ amalfa setup-mcp
 
 **If cloned from GitHub**:
 ```bash
-bun run scripts/setup_mcp.ts
+bunx amalfa setup-mcp
 ```
 
 **Output** (copy this JSON):

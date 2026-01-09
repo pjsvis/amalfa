@@ -18,7 +18,7 @@
 
 ```bash
 cd /Users/petersmith/Documents/GitHub/amalfa
-bun run scripts/setup_mcp.ts
+amalfa setup-mcp
 ```
 
 Copy the JSON output (will look like this):

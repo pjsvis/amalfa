@@ -12,7 +12,6 @@ ResonanceDB uses multiple methods to generate edges between nodes. This document
 |---|--------|-----------|-------------|
 | 1 | **ConceptualLexicon** | MENTIONS | Concept → Term relationships from structured JSON |
 | 2 | **TimelineWeaver** | SUCCEEDS | Chronological debrief chain |
-| 3 | **SemanticHarvester** | IS_A, IMPLEMENTS | ML-extracted from markdown (SetFit + Llama) |
 
 ---
 
@@ -22,10 +21,9 @@ ResonanceDB uses multiple methods to generate edges between nodes. This document
 
 | Source | Type | Count | % |
 |--------|------|-------|---|
-| ConceptualLexicon | MENTIONS | 386 | 77% |
+| ConceptualLexicon | MENTIONS | 386 | 78% |
 | TimelineWeaver | SUCCEEDS | 110 | 22% |
-| SemanticHarvester | CONCEPT, EXEMPLIFIES | 3 | <1% |
-| **Total** | | **499** | 100% |
+| **Total** | | **496** | 100% |
 
 ---
 
@@ -41,10 +39,6 @@ ResonanceDB uses multiple methods to generate edges between nodes. This document
 - **Logic:** Links debriefs by date via SUCCEEDS edges
 - **Automatic:** Runs on every ingestion
 
-### SemanticHarvester
-- **Source:** `ingest/harvester.py`, `src/pipeline/SemanticHarvester.ts`
-- **Logic:** SetFit classification → Llama.cpp extraction (or regex fallback)
-- **Manual:** Run via `scripts/run-semantic-harvest.ts`
 
 ---
 

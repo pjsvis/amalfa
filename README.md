@@ -133,7 +133,7 @@ bun install
 
 3. **Generate MCP config**:
    ```bash
-   bun run scripts/setup_mcp.ts
+   amalfa setup-mcp
    ```
 
 4. **Add to Claude Desktop**: Copy the JSON output to:

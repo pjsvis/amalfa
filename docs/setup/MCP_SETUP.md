@@ -47,10 +47,10 @@ Before starting the MCP server, you need to:
 
 ## Step 2: Generate MCP Configuration
 
-Run the setup script to generate your machine-specific config:
+Run the built-in setup command to generate your machine-specific config:
 
 ```bash
-bun run scripts/setup_mcp.ts
+amalfa setup-mcp
 ```
 
 This will output configuration JSON like:
