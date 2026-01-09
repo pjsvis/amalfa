@@ -16,6 +16,7 @@ export interface Node {
 	embedding?: Float32Array;
 	hash?: string;
 	meta?: Record<string, unknown>; // JSON object for flexible metadata
+	date?: string; // ISO-8601 or similar temporal anchor
 }
 
 export class ResonanceDB {
@@ -107,8 +108,8 @@ export class ResonanceDB {
 		// Schema v6: content column deprecated, always set to NULL
 		// Content is read from filesystem via meta.source
 		const stmt = this.db.prepare(`
-            INSERT OR REPLACE INTO nodes (id, type, title, content, domain, layer, embedding, hash, meta)
-            VALUES ($id, $type, $title, NULL, $domain, $layer, $embedding, $hash, $meta)
+            INSERT OR REPLACE INTO nodes (id, type, title, content, domain, layer, embedding, hash, meta, date)
+            VALUES ($id, $type, $title, NULL, $domain, $layer, $embedding, $hash, $meta, $date)
         `);
 
 		try {
@@ -132,6 +133,7 @@ export class ResonanceDB {
 				$embedding: blob,
 				$hash: node.hash ? String(node.hash) : null,
 				$meta: node.meta ? JSON.stringify(node.meta) : null,
+				$date: node.date ? String(node.date) : null,
 			});
 		} catch (err) {
 			log.error(
@@ -244,6 +246,10 @@ export class ResonanceDB {
 		return rows.map((row) => this.mapRowToNode(row));
 	}
 
+	updateNodeDate(id: string, date: string) {
+		this.db.run("UPDATE nodes SET date = ? WHERE id = ?", [date, id]);
+	}
+
 	getLexicon(): {
 		id: string;
 		label: string;
@@ -293,6 +299,7 @@ export class ResonanceDB {
 				: undefined,
 			hash: row.hash,
 			meta: row.meta ? JSON.parse(row.meta) : {},
+			date: row.date,
 		};
 	}
 

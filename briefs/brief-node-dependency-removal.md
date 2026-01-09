@@ -1,3 +1,5 @@
+
+<!-- tags: [SEE_ALSO: remove-node-deps] [SEE_ALSO: 2026-01-07-node-dep-removal] -->
 ## Task: Remove Node.js Compatibility Dependencies
 
 **Objective:** Eliminate all `node:` imports and replace them with Bun-native equivalents to improve performance, consistency, and simplify the codebase.

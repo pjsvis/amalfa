@@ -104,9 +104,22 @@ AMALFA automatically uses different models for different tasks:
 
 | Task Type | Default Model | Why |
 |-----------|---------------|-----|
+| `garden` (Logic) | `meta-llama/llama-4-maverick:free` | 400B MoE for high-precision architectural judging |
+| `synthesis` | `mistralai/devstral-2-2512:free` | Optimized for agentic coding and multi-file dependencies |
+| `timeline` | `google/gemini-2.0-flash-exp:free` | Massive context window for batch chronological analysis |
 | `enhance` | `qwen2.5:1.5b` | Speed matters for batch processing |
 | `search` | `qwen2.5:1.5b` | Low latency for interactive queries |
 | `research` | `mistral-nemo:latest` | Quality matters for complex reasoning |
+
+### OpenRouter Free Tier Strategy
+
+As of 2026, OpenRouter provides several high-performance models for free (usually rate-limited). AMALFA's Orchestrator uses these to achieve "Maverick-level" intelligence without hardware overhead:
+
+1. **The Judge (Garden)**: Uses `llama-4-maverick` (400B) to verify logical gaps.
+2. **The Summarizer (Synthesis)**: Uses `devstral-2` for code-aware community insights.
+3. **The Chronologist (Chronos)**: Uses `gemini-2.0-flash` for high-volume date extraction and narration.
+
+To enable this, set `sonar.cloud.provider` to `"openrouter"` and add your `OPENROUTER_API_KEY` to `.env`.
 
 You can override per-task via the task JSON:
 ```json

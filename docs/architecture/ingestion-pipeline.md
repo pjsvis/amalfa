@@ -1,3 +1,5 @@
+
+<!-- tags: [FOLLOWS: sonar-capability-report-2026-01-08] -->
 # AMALFA Ingestion Pipeline
 **Date:** 2026-01-07  
 **Status:** Current Implementation

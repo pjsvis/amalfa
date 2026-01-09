@@ -1,3 +1,5 @@
+
+<!-- tags: [SEE_ALSO: 2026-01-07-cache-consolidation] -->
 # Brief: Consolidate .resonance into .amalfa
 
 **Date**: 2026-01-07  

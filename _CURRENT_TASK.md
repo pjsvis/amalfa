@@ -1,8 +1,149 @@
 # Current Task
 
-**Status**: v1.0.28 (OpenRouter Ready) ✅
-**Last Session**: 2026-01-08 (Model Selection & Tiered Strategy)
-**Next Focus**: Knowledge Graph Visualization & Navigation
+**Status**: v1.3.0-alpha (Autonomous Research) 🕵️‍♂️
+**Last Session**: 2026-01-08 (Refactoring & Modernization)
+**Next Focus**: Phase 5: Recursive Discovery Logic
+
+---
+
+## Session 2026-01-08 (Part 7): Phase 5 - Autonomous Research Initiation
+
+### Completed ✅
+
+**1. Architectural Modernization**
+- ✅ **Bun Async I/O**: Switched from `node:fs` sync calls to `Bun.write` and `fs/promises` for the task watcher and report generation.
+- ✅ **Modular Task Handlers**: Fully decoupled `synthesis`, `timeline`, and `garden` tasks into `handleXTask` functions in `sonar-logic.ts`.
+- ✅ **Strict Type Safety**: Implemented `ChatRequest`, `SearchAnalyzeRequest`, and other API interfaces to eliminate `any` casts in the server bridge.
+
+**2. Recursive Discovery (Phase 5 Core)**
+- ✅ **handleResearchTask**: Implemented multi-step discovery logic with Analysis → Action loops.
+- ✅ **Action Chain Support**: Agent can autonomously `SEARCH` leads and `READ` content in sequence.
+- ✅ **Internal Monologue**: Integrated JSON-based reasoning for every research step.
+- ✅ **Robust JSON Recovery**: Defensive parsing for LLM-generated responses.
+
+**3. Topological Intelligence & Final Polish**
+- ✅ **Structural Hub Awareness**: Injects high-centrality "Project Hubs" into the research context.
+- ✅ **Graph Neighborhood Exploration**: Implemented `EXPLORE` action for direct neighbor discovery.
+- ✅ **Traversal Deduplication**: Prevented infinite loops by tracking explored nodes and neighborhoods.
+- ✅ **Chain Verification**: Implemented an "AMALFA Auditor" step that double-checks findings against the initial query and flags missing info.
+
+### Phase 5: Autonomous Research & Recursive Discovery `✅ Completed`
+- [x] **Recursive Reasoning Loop**: Implement Analyze -> Action -> Verify cycle. `✅ Completed`
+- [x] **Topological Intelligence**: `EXPLORE` action for graph neighborhood discovery. `✅ Completed`
+- [x] **Chain Verification**: "Amalfa Auditor" to verify research quality. `✅ Completed`
+- [x] **Status & Uplift Reporting**: Documented benefits and current state. `✅ Completed`
+
+### Phase 6: Semantic Expansion (The Polyglot Era) `🔄 Next Up`
+- [ ] **Cross-Corpus Federation**: Map external repos (e.g., `polyvis`) for multi-project research.
+- [ ] **Code Ingestion (Harvesters)**: Implement RFC-001 to index code structure (`.ts`, `.py`).
+- [ ] **Active Documentation**: Agent-proposed Synthesis nodes for discovered concepts.
+
+---
+
+## Session 2026-01-08 (Part 6): Phase 4: Topological Intelligence
+ 
+ ### Completed ✅
+ 
+**1. Structural Intelligence (Adamic-Adar)**
+- ✅ Implemented Adamic-Adar link prediction in `GraphEngine`.
+- ✅ Created structural gap detection algorithm using 2-hop shared neighbor analysis.
+- ✅ Integrated structural gaps into the `garden` task loop.
+
+**2. Engineering & Cloud Resilience**
+- ✅ Implemented per-request throttling (1s) for OpenRouter free tier models to prevent 429 Rate Limits.
+- ✅ Hardened `sonar-inference.ts` with descriptive error logging for cloud failures.
+- ✅ Verified successful multi-signal (Semantic + Structural + Temporal) gardening.
+- ✅ Standardized cloud model fallback to `google/gemini-2.0-flash-exp:free`.
+
+**3. Code Quality & Refactoring**
+- ✅ Resolved `tsc` error regarding potentially undefined `capabilities.allModels` in daemon startup.
+- ✅ Fixed `GraphEngine` loading bug where the in-memory graph was never populated in the daemon loop.
+- ✅ Refactored `sonar-agent.ts` into a modular architecture using dedicated task handlers in `sonar-logic.ts` to reduce cyclomatic complexity and nesting.
+
+---
+
+## Session 2026-01-08 (Part 5): Synthesis & Chronos Layers
+ 
+ ### Completed ✅
+ 
+**1. Community Synthesis (Phase 2)**
+- ✅ Implemented Louvain clustering for automated community detection
+- ✅ Created synthesis task to summarize clusters into high-level conceptual nodes
+- ✅ Implemented `getClusterRepresentatives` to ground cluster summaries in key documents
+- ✅ Automatic generation of synthesis markdown files in `docs/synthesis/`
+- ✅ Verified collision avoidance for batch synthesis generation
+
+**2. Chronos Layer (Phase 3)**
+- ✅ Updated `ResonanceDB` to v7 with first-class `date` column
+- ✅ Implemented automated temporal anchoring (Regex + LLM date extraction)
+- ✅ Created `weaveTimeline` to inject sequential `FOLLOWS` edges within communities
+- ✅ Integrated temporal weaver into the `garden` task loop
+
+**3. Modular Architecture & Sanitization**
+- ✅ **De-Monolithization**: Refactored `sonar-agent.ts` from a 1,511-line monolith into 5 specialized modules (`agent`, `logic`, `strategies`, `inference`, `types`).
+- ✅ **Infrastructure Abstraction**: Created `sonar-inference.ts` to unify Local Ollama and OpenRouter (Cloud) routing.
+- ✅ **Logic Orchestration**: Decoupled stateful handlers into `sonar-logic.ts` and pure LLM strategies into `sonar-strategies.ts`.
+- ✅ **Type Sanitization**: Eliminated `as any` by implementing explicit JSON request interfaces and strict type casting.
+- ✅ Verified `tsc --noEmit` and Biome compliance across the new modular stack.
++
++### Key Insights
++- **Community Drift**: Nodes that are semantically close often form clusters that represent "work streams" or "project phases" rather than just static topics.
++- **Temporal Continuity**: Linking notes chronologically within a stream provides narrative context that vector search alone misses.
++- **Synthesis as Compressed RAG**: Synthesis nodes act as a "middle layer" of knowledge that the LLM can use to understand broad repo architecture without reading every file.
++
++---
++
++## Session 2026-01-08 (Part 4): Graph Enhancement Phase 1
+
+### Completed ✅
+
+**1. Semantic Triangulation (The Judge)**
+- ✅ Implemented `GraphGardener` for dual Vector/Graph topological optimization
+- ✅ Created `judgeRelationship` using LLM as a logical architect to filter vector matches
+- ✅ Implemented `TagInjector` for safe metadata injection into markdown
+- ✅ Integrated `garden` task into Sonar Agent with `autoApply` support
+- ✅ Verified "Semantic Weaving" loop: Analysis → Judging → Injection → Re-Ingestion → New Edges
+- ✅ Exposed `find_gaps` MCP tool for agentic graph optimization
+
+**2. Traversal & Performance**
+- ✅ Implemented `/graph/stats`, `/graph/neighbors`, `/graph/path`, and `/graph/communities`
+- ✅ Verified sub-millisecond graph loading (250 nodes, 54 edges in 1ms)
+- ✅ Resolved global database initialization and scope issues in `sonar-agent.ts`
+
+### Key Insights
+- **The Judge:** Vector similarity connects "Apple Pie" to "Apple Corp"; the LLM Judge ensures only logical dependencies (EXTENDS, SUPPORTS) become permanent edges.
+- **Hollow Nodes:** Reading node content from the filesystem only when judging keeps the memory footprint low while allowing deep analysis.
+- **Self-Healing:** The system now automatically repairs its own topological "blind spots."
+
+---
+
+## Session 2026-01-08 (Part 3): Graphology & Traversal
+
+### Completed ✅
+
+**1. Infrastructure & Core**
+- ✅ Implemented `GraphGardener.ts` for dual Vector/Graph topological optimization
+- ✅ Created `TagInjector` utility for safe metadata injection into markdown
+- ✅ Integrated `garden` task into Sonar Agent with `autoApply` support
+- ✅ Exposed `find_gaps` MCP tool for agentic graph optimization
+- ✅ Verified "Semantic Weaving" loop: Analysis → Injection → Re-Ingestion → New Edges
+
+**2. Traversal API**
+- ✅ Implemented `/graph/stats` for structural overview
+- ✅ Implemented `/graph/neighbors` for neighborhood traversal
+- ✅ Implemented `/graph/path` for shortest-path analysis (unweighted bidirectional)
+- ✅ Implemented `/graph/communities` for Louvain community detection
+
+**3. Validation & Hardening**
+- ✅ Verified sub-millisecond graph loading (118 nodes, 49 edges in 1ms)
+- ✅ Verified all endpoints with `curl` integration tests
+- ✅ Resolved global database initialization and scope issues in `sonar-agent.ts`
+- ✅ Branch-based development strategy established for stable main
+
+### Key Insights
+- **Hollow Nodes:** Traversal does not require text or embeddings; loading only structural IDs and relationships keeps the memory footprint extremely low.
+- **Speed:** In-memory graph operations are orders of magnitude faster than recursive SQL queries for depth-first or breadth-first traversals.
+- **Graphology Ecosystem:** The library's modular architecture (shortest-path, communities, etc.) allows for rapid expansion of analytical capabilities.
 
 ---
 

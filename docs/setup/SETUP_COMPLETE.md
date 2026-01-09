@@ -1,3 +1,5 @@
+
+<!-- tags: [SEE_ALSO: quick-start-mcp] -->
 # AMALFA Complete Setup Guide
 
 **From zero to running MCP server in 5 minutes.**
