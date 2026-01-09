@@ -1,11 +1,11 @@
 import {
-	text,
-	integer,
-	real,
 	blob,
-	sqliteTable,
-	primaryKey,
 	index,
+	integer,
+	primaryKey,
+	real,
+	sqliteTable,
+	text,
 } from "drizzle-orm/sqlite-core";
 
 /**

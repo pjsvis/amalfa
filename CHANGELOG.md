@@ -5,6 +5,17 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Drizzle Integration**: Added Drizzle ORM for schema management and migrations using `drizzle-kit`.
+- **Hono Migration**: Migrated Sonar Agent to Hono for robust routing and standard middleware support.
+- **Guardrails**: Added explicit "No ORM Runtime" policy for FAFCAS compliance (Drizzle for schema only).
+
+### Changed
+- **Dependency Pinning**: Pinned all dependencies in `package.json` to exact versions to prevent drift.
+- **Cleanup**: Removed stale deprecations and unused imports across the codebase.
+
 ## [1.0.30] - 2026-01-09
 
 ### Security

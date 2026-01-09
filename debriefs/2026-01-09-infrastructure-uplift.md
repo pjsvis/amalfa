@@ -1,6 +1,8 @@
 ---
 date: 2026-01-09
-tags: [infrastructure, hono, drizzle, migration, cleanup]
+tags: [infrastructure, hono, drizzle, migration, cleanup, verification]
+agent: antigravity
+environment: development
 ---
 
 ## Debrief: Infrastructure Uplift & Cleanup (Phase 1-3)
@@ -21,6 +23,12 @@ tags: [infrastructure, hono, drizzle, migration, cleanup]
   - Defined strict schema in `src/resonance/drizzle/schema.ts` matching existing DB structure.
   - Included a new `ember_state` table for the upcoming Ember service.
   - Generated baseline migration: `0000_happy_thaddeus_ross.sql` ✅.
+  - **Guardrails:** Added `src/resonance/drizzle/README.md` explicitly forbidding ORM usage for runtime queries (FAFCAS compliance).
+
+- **Dependency Hygiene:**
+  - **Fixed Versioning:** Pinned all `package.json` dependencies (removed `^`) to ensure stability (#19).
+  - **Linting:** Fixed `noExplicitAny` warnings in `sonar-inference.ts`, `sonar-logic.ts`, etc.
+  - **Types:** Fixed TS/Import errors in tests.
 
 - **Ember Architecture Pivot:**
   - Revised Ember Service brief to use a **Sidecar + Squash** pattern (safest for local-first).

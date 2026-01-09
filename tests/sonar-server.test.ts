@@ -1,6 +1,6 @@
-import { describe, expect, test, mock } from "bun:test";
+import { describe, expect, mock, test } from "bun:test";
+import type { SonarContext } from "../src/daemon/sonar-logic";
 import { createSonarApp } from "../src/daemon/sonar-server";
-import { SonarContext } from "../src/daemon/sonar-logic";
 
 // Mock dependencies
 const mockGraphEngine = {

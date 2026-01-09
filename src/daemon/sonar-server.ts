@@ -1,21 +1,21 @@
+import { loadConfig } from "@src/config/defaults";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { loadConfig } from "@src/config/defaults";
 import { inferenceState } from "./sonar-inference";
 import {
 	handleChat,
-	handleMetadataEnhancement,
-	handleSearchAnalysis,
-	handleResultReranking,
 	handleContextExtraction,
+	handleMetadataEnhancement,
+	handleResultReranking,
+	handleSearchAnalysis,
 	type SonarContext,
 } from "./sonar-logic";
 import type {
 	ChatRequest,
 	MetadataEnhanceRequest,
 	SearchAnalyzeRequest,
-	SearchRerankRequest,
 	SearchContextRequest,
+	SearchRerankRequest,
 } from "./sonar-types";
 
 /**
