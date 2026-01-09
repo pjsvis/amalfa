@@ -1,60 +1,144 @@
-# PolyVis Backend Services
+# Amalfa Backend Services
 
-This document outlines the architecture and management standards for the PolyVis backend services, including the "Triad" of AI models.
+This document outlines the architecture and management of the Amalfa service ecosystem.
 
-## The Triad (AI Model Servers)
+## The Service Triad
 
-PolyVis relies on a trio of specialized local LLMs, each running as an independent service via `llama.cpp`.
+Amalfa consists of three main background services that work together to provide AI-enhanced knowledge graph capabilities.
 
-### 1. The Auditor (Olmo-3)
-*   **Port**: `8084`
-*   **Role**: Verification and deep thinking.
-*   **Configuration**: 7B Parameter model, Q4_K_M quantization.
-*   **Special Features**: Uses "DeepSeek" reasoning format to expose its thought process.
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    AMALFA Service Layer                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │  MCP Server  │  │   Vector     │  │    Sonar     │       │
+│  │   (stdio)    │  │   Daemon     │  │    Agent     │       │
+│  │              │  │  (port 3010) │  │  (port 3012) │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+│        │                  │                  │               │
+│        └──────────────────┼──────────────────┘               │
+│                           ▼                                  │
+│              ┌────────────────────────┐                      │
+│              │   .amalfa/resonance.db │                      │
+│              │   (SQLite + Vectors)   │                      │
+│              └────────────────────────┘                      │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
 
-### 2. The Scout (Phi-3.5)
-*   **Port**: `8082`
-*   **Role**: Rapid queries, summarization, and initial data fetch.
-*   **Configuration**: Mini-Instruct model. Fast and lightweight.
+### 1. MCP Server
+*   **Transport**: `stdio` (JSON-RPC 2.0)
+*   **Role**: Primary interface for AI agents (Claude, Cursor, etc.)
+*   **Capabilities**: 
+    - `search_documents` - Hybrid vector + keyword search
+    - `read_node_content` - Retrieve full document content
+    - `explore_links` - Graph traversal
+    - `list_directory_structure` - Corpus overview
+    - `find_gaps` - Semantic gap detection
 
-### 3. The Architect (Llama-3)
-*   **Port**: `8083` (Vectored) / `8085` (Unvectored)
-*   **Role**: Synthesis, structure, and professional output.
-*   **Configuration**: 8B Instruct model.
-*   **Steering**:
-    *   **Vectored (`llama`)**: Uses a Control Vector at scale **-0.11** ("The Accountant"). This suppresses "chatty" behaviors and enforces structured, professional responses.
-    *   **Unvectored (`llamauv`)**: The raw base model for comparison.
+### 2. Vector Daemon
+*   **Port**: `3010`
+*   **Role**: Background embedding service
+*   **Function**: Keeps the FastEmbed model loaded in memory for fast vector generation during ingestion.
+*   **When to Use**: Heavy ingestion workloads, file watching.
 
-## Management Standard: "ServiceLifecycle"
+### 3. Sonar Agent
+*   **Port**: `3012`
+*   **Role**: AI-powered search enhancement
+*   **Capabilities**:
+    - Query analysis and intent extraction
+    - Search result re-ranking
+    - Context snippet generation
+    - Metadata enhancement
+    - Interactive chat with knowledge base
+*   **Backend**: Ollama (local) or OpenRouter (cloud)
 
-To ensure reliability, all backend services MUST strictly adhere to the `ServiceLifecycle` pattern (`src/utils/ServiceLifecycle.ts`). This provides:
+---
 
-*   **Unified CLI Interface**: Every service supports `start`, `stop`, `restart`, and `status`.
-*   **Zombie Defense**: Automatic detection and cleanup of rogue processes on startup.
-*   **PID Management**: Reliable tracking of running services via PID files.
+## Service Management
 
 ### Global Status Dashboard
-
-A singular command exists to view the health of the entire backend:
-`bun run servers`
-
-Example Output:
-```
-SERVICE        PORT      COMMAND        STATUS         PID       
-----------------------------------------------------------------------
-Dev Server     3000      dev            ⚪️ STOPPED     -         
-Daemon         3010      daemon         ⚪️ STOPPED     -         
-MCP            Stdio     mcp            ⚪️ STOPPED     -         
-Olmo-3         8084      olmo3          🟢 RUNNING     6526      
-Phi-3.5        8082      phi            ⚪️ STOPPED     -         
-Llama-3        8083      llama          🟢 RUNNING     15561     
-Llama-3-UV     8085      llamauv        🟢 RUNNING     10641     
-----------------------------------------------------------------------
+View the health of all services at a glance:
+```bash
+amalfa servers
 ```
 
-## Adding New Services
+**Example Output:**
+```
+SERVICE        PORT      STATUS         PID       
+────────────────────────────────────────────────
+MCP Server     stdio     ⚪️ STOPPED     -         
+Vector Daemon  3010      🟢 RUNNING     12345     
+Sonar Agent    3012      🟢 RUNNING     12346     
+File Watcher   -         ⚪️ STOPPED     -         
+────────────────────────────────────────────────
+```
 
-When introducing a new long-running process to PolyVis:
-1.  **Do not** write ad-hoc scripts.
-2.  **Create a wrapper** in `src/services/` that implements `ServiceLifecycle`.
-3.  **Register** the service in `package.json`, `ZombieDefense.ts`, and `scripts/cli/servers.ts`.
+### Starting/Stopping Services
+Each service supports a unified command interface:
+
+```bash
+# Vector Daemon
+amalfa vector start
+amalfa vector stop
+amalfa vector status
+
+# Sonar Agent
+amalfa sonar start
+amalfa sonar stop
+amalfa sonar status
+amalfa sonar chat   # Interactive mode
+
+# File Watcher (auto-reindex on changes)
+amalfa daemon start
+amalfa daemon stop
+amalfa daemon status
+```
+
+### MCP Server
+The MCP server is typically started by your AI client (Claude Desktop, Cursor).
+To generate the configuration:
+```bash
+amalfa setup-mcp
+```
+This outputs JSON suitable for your client's MCP configuration file.
+
+---
+
+## Configuration
+
+All services read from `amalfa.config.json` in your project root.
+
+```json
+{
+  "sources": ["docs", "src"],
+  "database": ".amalfa/resonance.db",
+  "sonar": {
+    "enabled": true,
+    "model": "qwen2.5:1.5b",
+    "port": 3012,
+    "cloud": {
+      "enabled": false,
+      "provider": "openrouter",
+      "model": "qwen/qwen-2.5-72b-instruct"
+    }
+  }
+}
+```
+
+---
+
+## Logs
+
+All service logs are written to `.amalfa/logs/`:
+- `sonar.log` - Sonar Agent activity
+- `vector.log` - Vector Daemon activity
+- `watcher.log` - File Watcher activity
+
+---
+
+## See Also
+- **Sonar Deep Dive:** `playbooks/sonar-system-overview.md`
+- **Configuration Guide:** `playbooks/sonar-manual.md`
+- **Architecture Philosophy:** `docs/the-bicameral-graph.md`
