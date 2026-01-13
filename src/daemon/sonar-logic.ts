@@ -145,20 +145,18 @@ Current Date: ${new Date().toISOString().split("T")[0]}`,
 		let augmentContext = "\n\nRELEVANT CONTEXT FROM KNOWLEDGE BASE:\n";
 		if (results.length > 0) {
 			augmentContext += `\n--- [DIRECT SEARCH RESULTS] ---\n`;
-			results.forEach((r) => {
-				const node = context.db.getNode(r.id);
-				const content = node?.content ?? "";
+			for (const r of results) {
+				const content = (await context.gardener.getContent(r.id)) || "";
 				augmentContext += `[Document: ${r.id}] (Similarity: ${r.score.toFixed(2)})\n${content.slice(0, 800)}\n\n`;
-			});
+			}
 
 			if (relatedNodeIds.size > 0) {
 				augmentContext += `\n--- [RELATED NEIGHBORS (GRAPH DISCOVERY)] ---\n`;
-				Array.from(relatedNodeIds)
-					.slice(0, 5)
-					.forEach((nrId) => {
-						const node = context.db.getNode(nrId);
-						augmentContext += `[Related: ${nrId}] (Via: ${node?.label || nrId})\n${(node?.content ?? "").slice(0, 400)}\n\n`;
-					});
+				for (const nrId of Array.from(relatedNodeIds).slice(0, 5)) {
+					const node = context.db.getNode(nrId);
+					const content = (await context.gardener.getContent(nrId)) || "";
+					augmentContext += `[Related: ${nrId}] (Via: ${node?.label || nrId})\n${content.slice(0, 400)}\n\n`;
+				}
 			}
 		}
 

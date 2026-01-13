@@ -3,14 +3,21 @@
 The vector database and semantic core of Amalfa.
 
 ## Contents
-- **`daemon.ts`**: The Vector Service (HTTP) and Lifecycle Manager.
-- **`db.ts`**: Database interface (SQLite + Vectors).
-- **`config.ts`**: Configuration loader.
-- **`schema.ts`**: Database schema definitions.
-- **`cli/`**: CLI entry points (e.g., `ingest.ts`).
-- **`services/`**: Internal services (e.g., `Embedder`).
-- **`transform/`**: Transformation pipelines (e.g., `cda.ts`).
-- **`pipeline/`**: Data processing steps (e.g., `extract.ts`).
+- **`DATABASE-PROCEDURES.md`**: **⚠️ READ THIS FIRST** - Canonical guide for all database operations and migrations
+- **`db.ts`**: Database interface (SQLite + Vectors + Drizzle migrations)
+- **`DatabaseFactory.ts`**: Factory for creating SQLite connections with WAL mode and proper timeouts
+- **`drizzle/`**: Drizzle ORM schema and migrations (**single source of truth for schema**)
+- **`services/`**: Internal services (embeddings, graph operations)
+- **`types/`**: TypeScript type definitions
+
+## Database Migration Protocol
+
+**All schema changes MUST go through Drizzle:**
+1. Edit `drizzle/schema.ts`
+2. Run `bunx drizzle-kit generate`
+3. Apply migrations automatically on next `ResonanceDB` init
+
+**See `DATABASE-PROCEDURES.md` for full protocol.**
 
 ## Embedding Model
 

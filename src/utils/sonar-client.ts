@@ -99,7 +99,7 @@ export async function createSonarClient(): Promise<SonarClient> {
 			}
 
 			const health = (await response.json()) as { status: string };
-			const healthy = health.status === "healthy";
+			const healthy = health.status === "ok" || health.status === "healthy";
 
 			sonarAvailableCache = healthy;
 			sonarLastCheck = now;

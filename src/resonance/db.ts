@@ -1,7 +1,8 @@
 import type { Database } from "bun:sqlite";
 import { getLogger } from "@src/utils/Logger";
+import { drizzle } from "drizzle-orm/bun-sqlite";
+import { migrate } from "drizzle-orm/bun-sqlite/migrator";
 import { DatabaseFactory } from "./DatabaseFactory";
-import { CURRENT_SCHEMA_VERSION, MIGRATIONS } from "./schema";
 
 const log = getLogger("ResonanceDB");
 
@@ -10,7 +11,6 @@ export interface Node {
 	id: string;
 	type: string;
 	label?: string; // stored as 'title'
-	content?: string;
 	domain?: string;
 	layer?: string;
 	embedding?: Float32Array;
@@ -49,67 +49,26 @@ export class ResonanceDB {
 	}
 
 	private migrate() {
-		const row = this.db.query("PRAGMA user_version").get() as {
-			user_version: number;
-		};
-		let currentVersion = row.user_version;
-
-		// Backward Compatibility for existing unversioned DBs
-		if (currentVersion === 0) {
-			const tables = this.db
-				.query(
-					"SELECT name FROM sqlite_master WHERE type='table' AND name='nodes'",
-				)
-				.get();
-			if (tables) {
-				// DB exists but has version 0. Detect schema state.
-				const cols = this.db.query("PRAGMA table_info(nodes)").all() as {
-					name: string;
-				}[];
-				const hasHash = cols.some((c) => c.name === "hash");
-				const hasMeta = cols.some((c) => c.name === "meta");
-
-				if (hasHash && hasMeta) {
-					currentVersion = 3;
-				} else if (hasHash) {
-					currentVersion = 2;
-				} else {
-					currentVersion = 1;
-				}
-				// Update the version on the file so we don't guess next time
-				this.db.run(`PRAGMA user_version = ${currentVersion}`);
-			}
-		}
-
-		if (currentVersion >= CURRENT_SCHEMA_VERSION) return;
-
-		log.info(
-			`📦 ResonanceDB: Migrating from v${currentVersion} to v${CURRENT_SCHEMA_VERSION}...`,
-		);
-
-		for (const migration of MIGRATIONS) {
-			if (migration.version > currentVersion) {
-				// console.log(`   Running Migration v${migration.version}: ${migration.description}`);
-				if (migration.sql) {
-					this.db.run(migration.sql);
-				}
-				if (migration.up) {
-					migration.up(this.db);
-				}
-				this.db.run(`PRAGMA user_version = ${migration.version}`);
-				currentVersion = migration.version;
-			}
+		try {
+			const drizzleDb = drizzle(this.db);
+			migrate(drizzleDb, {
+				migrationsFolder: "src/resonance/drizzle/migrations",
+			});
+			log.info("📦 ResonanceDB: Drizzle migrations applied");
+		} catch (error) {
+			log.error({ error }, "Migration failed");
+			throw new Error(`Database migration failed: ${error}`);
 		}
 	}
 
 	insertNode(node: Node) {
 		// No inline migrations here anymore!
 
-		// Schema v6: content column deprecated, always set to NULL
-		// Content is read from filesystem via meta.source
+		// Schema v9: content column removed (Hollow Node enforcement)
+		// Content is read from filesystem via GraphGardener.getContent()
 		const stmt = this.db.prepare(`
-            INSERT OR REPLACE INTO nodes (id, type, title, content, domain, layer, embedding, hash, meta, date)
-            VALUES ($id, $type, $title, NULL, $domain, $layer, $embedding, $hash, $meta, $date)
+            INSERT OR REPLACE INTO nodes (id, type, title, domain, layer, embedding, hash, meta, date)
+            VALUES ($id, $type, $title, $domain, $layer, $embedding, $hash, $meta, $date)
         `);
 
 		try {
@@ -298,7 +257,6 @@ export class ResonanceDB {
 			id: row.id,
 			type: row.type,
 			label: row.title,
-			content: row.content, // May be undefined if excluded
 			domain: row.domain,
 			layer: row.layer,
 			// Only hydrate embedding if it exists (was selected)

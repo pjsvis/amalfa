@@ -9,8 +9,11 @@ import {
 	ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { AMALFA_DIRS, loadConfig } from "@src/config/defaults";
+import { GraphEngine } from "@src/core/GraphEngine";
+import { GraphGardener } from "@src/core/GraphGardener";
 import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
+import { ContentHydrator } from "../utils/ContentHydrator";
 import { DaemonManager } from "../utils/DaemonManager";
 import { getLogger } from "../utils/Logger";
 import { getScratchpad } from "../utils/Scratchpad";
@@ -224,6 +227,11 @@ async function runServer() {
 			if (name === TOOLS.SEARCH) {
 				// Create fresh connection for this request
 				const { db, vectorEngine } = createConnection();
+				const graphEngine = new GraphEngine();
+				await graphEngine.load(db.getRawDb());
+				const gardener = new GraphGardener(db, graphEngine, vectorEngine);
+				const hydrator = new ContentHydrator(gardener);
+
 				try {
 					const query = String(args?.query);
 					const limit = Number(args?.limit || 20);
@@ -234,7 +242,6 @@ async function runServer() {
 							score: number;
 							preview: string;
 							source: string;
-							content: string;
 						}
 					>();
 					const errors: string[] = [];
@@ -266,16 +273,11 @@ async function runServer() {
 					try {
 						const vectorResults = await vectorEngine.search(query, limit);
 						for (const r of vectorResults) {
-							// Handle hollow nodes: content may be placeholder text
-							const preview = r.content
-								? r.content.slice(0, 200).replace(/\n/g, " ")
-								: "[No preview available]";
 							candidates.set(r.id, {
 								id: r.id,
 								score: r.score,
-								preview: preview,
+								preview: r.title || r.id,
 								source: "vector",
-								content: r.content || "",
 							});
 						}
 					} catch (e: unknown) {
@@ -284,39 +286,53 @@ async function runServer() {
 						errors.push(msg);
 					}
 
-					// Step 3: Re-rank results with Sonar (if available)
+					// Step 3: Prepare results and hydrate content for Sonar
 					let rankedResults = Array.from(candidates.values())
 						.sort((a, b) => b.score - a.score)
 						.slice(0, limit);
 
 					if (sonarAvailable && queryAnalysis) {
+						log.info("💧 Hydrating content for Sonar processing");
+						const hydratedResults = await hydrator.hydrateMany(rankedResults);
+
 						log.info("🔄 Re-ranking results with Sonar");
 						const reRanked = await sonarClient.rerankResults(
-							rankedResults,
+							hydratedResults as Array<{
+								id: string;
+								content: string;
+								score: number;
+							}>,
 							query,
 							queryIntent,
 						);
-						rankedResults = reRanked.map((rr) => {
-							const original = candidates.get(rr.id)!;
-							return {
-								...original,
-								score: rr.relevance_score,
-							};
-						});
+						rankedResults = reRanked.map((rr) => ({
+							id: rr.id,
+							score: rr.relevance_score,
+							preview: candidates.get(rr.id)?.preview || rr.id,
+							source: "vector",
+							content: rr.content,
+						}));
 						log.info("✅ Results re-ranked");
 					}
 
 					// Step 4: Extract context with Sonar for top results (if available)
-					// We'll prepare the final output structure here
 					let finalResults: Array<any> = rankedResults;
 
 					if (sonarAvailable) {
 						log.info("📝 Extracting context with Sonar");
 						const contextResults = await Promise.all(
 							rankedResults.slice(0, 5).map(async (r) => {
-								const context = await sonarClient.extractContext(r, query);
+								const withContent =
+									"content" in r
+										? r
+										: await hydrator.hydrate(
+												r as { id: string; score: number },
+											);
+								const context = await sonarClient.extractContext(
+									withContent as { id: string; content: string },
+									query,
+								);
 								return {
-									// ... (keeping structure) ...
 									...r,
 									score: r.score.toFixed(3),
 									snippet: context?.snippet || r.preview,
@@ -325,7 +341,6 @@ async function runServer() {
 								};
 							}),
 						);
-						// Combine context results with the rest
 						finalResults = [
 							...contextResults,
 							...rankedResults
