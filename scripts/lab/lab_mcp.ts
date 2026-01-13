@@ -1,12 +1,13 @@
-import { VectorEngine } from "@src/core/VectorEngine";
-import { DatabaseFactory } from "@src/resonance/DatabaseFactory";
-import settings from "@/polyvis.settings.json";
+import { join } from "node:path";
+import { ResonanceDB } from "../../src/resonance/db";
+import { VectorEngine } from "../../src/core/VectorEngine";
+import { loadConfig } from "../../src/config/defaults";
 
 console.log("🧊 LAB: MCP (Reader) Starting...");
-const dbPath = settings.paths.database.resonance;
-// STRICTLY TEST READWRITE + WAL
-const db = DatabaseFactory.connect(dbPath);
-const vectorEngine = new VectorEngine(db); // Use Engine
+const config = await loadConfig();
+const dbPath = join(process.cwd(), config.database);
+const db = new ResonanceDB(dbPath);
+const vectorEngine = new VectorEngine(db.getRawDb());
 
 let count = 0;
 const _interval = setInterval(async () => {
@@ -16,7 +17,13 @@ const _interval = setInterval(async () => {
 		// We search for "Excalibur" each time.
 		const results = await vectorEngine.search("Excalibur", 1);
 
-		if (count % 10 === 0) process.stdout.write(`V(${results.length}) `); // Visual heartbeat
+		if (count % 10 === 0) {
+            process.stdout.write(`V(${results.length}) `);
+            if (results.length > 0) {
+                console.log(`\nFound: ${results[0].title} (Score: ${results[0].score.toFixed(3)})`);
+            }
+        }
+
 	} catch (err) {
 		const e = err as Error;
 		console.error("\n❌ READER ERROR:", e.message);

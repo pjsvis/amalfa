@@ -5,7 +5,7 @@ import type { GraphGardener } from "@src/core/GraphGardener";
 import { VectorEngine } from "@src/core/VectorEngine";
 import type { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
-import { TagInjector } from "@src/utils/TagInjector";
+import { injectTag } from "@src/utils/TagInjector";
 import { callOllama, inferenceState } from "./sonar-inference";
 import {
 	extractDate,
@@ -421,7 +421,7 @@ export async function handleGardenTask(
 				const relType = judgment.type || "SEE_ALSO";
 				const sourcePath = context.gardener.resolveSource(sug.sourceId);
 				if (task.autoApply && sourcePath)
-					TagInjector.injectTag(sourcePath, relType, sug.targetId);
+					injectTag(sourcePath, relType, sug.targetId);
 				output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
 			} else {
 				output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
@@ -445,7 +445,7 @@ export async function handleGardenTask(
 				const relType = judgment.type || "SEE_ALSO";
 				const sourcePath = context.gardener.resolveSource(sug.sourceId);
 				if (task.autoApply && sourcePath)
-					TagInjector.injectTag(sourcePath, relType, sug.targetId);
+					injectTag(sourcePath, relType, sug.targetId);
 				output += `- ${task.autoApply ? "💉" : "⚖️"} **${sug.sourceId} ↔ ${sug.targetId}**: ${relType} (${judgment.reason})\n`;
 			} else {
 				output += `- ❌ **${sug.sourceId} ↔ ${sug.targetId}**: DISMISSED (${judgment.reason || "Not related"})\n`;
@@ -459,7 +459,7 @@ export async function handleGardenTask(
 	for (const sug of temporal) {
 		const sourcePath = context.gardener.resolveSource(sug.sourceId);
 		if (task.autoApply && sourcePath)
-			TagInjector.injectTag(sourcePath, "FOLLOWS", sug.targetId);
+			injectTag(sourcePath, "FOLLOWS", sug.targetId);
 		output += `- ${task.autoApply ? "💉" : "🕒"} **${sug.sourceId} → ${sug.targetId}**: FOLLOWS (${sug.reason})\n`;
 	}
 

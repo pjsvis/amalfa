@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { mkdir, rmdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
-import { ResonanceDB } from "@src/resonance/db";
-import { EmberService } from "@src/ember";
 import { DEFAULT_CONFIG } from "@src/config/defaults";
+import { EmberService } from "@src/ember";
 import type { EmberConfig } from "@src/ember/types";
+import { ResonanceDB } from "@src/resonance/db";
 
 const TEST_DB = ".amalfa/test_integration.db";
 const TEST_DIR = join(process.cwd(), ".amalfa", "test_integration_docs");
@@ -35,16 +35,16 @@ describe("Ember Daemon Integration Logic", () => {
 			await unlink(TEST_DB);
 		} catch {}
 		try {
-			await unlink(TEST_DB + "-shm");
+			await unlink(`${TEST_DB}-shm`);
 		} catch {}
 		try {
-			await unlink(TEST_DB + "-wal");
+			await unlink(`${TEST_DB}-wal`);
 		} catch {}
 		try {
 			await unlink(TEST_FILE);
 		} catch {}
 		try {
-			await unlink(TEST_FILE + ".ember.json");
+			await unlink(`${TEST_FILE}.ember.json`);
 		} catch {}
 		try {
 			await rmdir(TEST_DIR);
@@ -77,7 +77,7 @@ describe("Ember Daemon Integration Logic", () => {
 		}
 
 		// 5. Verify file exists
-		const sidecarPath = TEST_FILE + ".ember.json";
+		const sidecarPath = `${TEST_FILE}.ember.json`;
 		expect(await Bun.file(sidecarPath).exists()).toBe(true);
 
 		const generated = await Bun.file(sidecarPath).json();

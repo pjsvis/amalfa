@@ -1,4 +1,7 @@
+# openroute free models
+
 Based on the current OpenRouter listings (as of early 2026), the platform offers several powerful models in its free tier. These models are generally rate-limited or subject to availability queues but provide state-of-the-art capabilities without cost.  
+
 Here are the best free models categorized by their strengths:
 
 ### **1\. Best General Intelligence & Reasoning**
