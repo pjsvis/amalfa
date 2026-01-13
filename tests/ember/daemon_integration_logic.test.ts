@@ -60,7 +60,6 @@ describe("Ember Daemon Integration Logic", () => {
 		db.insertNode({
 			id: "integration-node",
 			type: "doc",
-			content: "ignored",
 			meta: { tags: [], source: TEST_FILE },
 			hash: "hash",
 		});

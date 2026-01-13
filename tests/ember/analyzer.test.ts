@@ -32,21 +32,18 @@ describe("EmberAnalyzer", () => {
 		db.insertNode({
 			id: "node-a",
 			type: "doc",
-			content: "ignored", // Content read from FS
 			meta: { tags: ["security"], source: TEST_NODE_A },
 			hash: "hash-a",
 		});
 		db.insertNode({
 			id: "node-b",
 			type: "doc",
-			content: "ignored",
 			meta: { tags: ["security"], source: TEST_NODE_B },
 			hash: "hash-b",
 		});
 		db.insertNode({
 			id: "node-c",
 			type: "doc",
-			content: "ignored",
 			meta: { tags: [], source: TEST_NODE_C },
 			hash: "hash-c",
 		});
@@ -60,7 +57,6 @@ describe("EmberAnalyzer", () => {
 		db.insertNode({
 			id: "stub-node",
 			type: "doc",
-			content: "ignored",
 			meta: { tags: [], source: TEST_NODE_STUB },
 			hash: "hash-stub",
 		});
@@ -116,7 +112,6 @@ describe("EmberAnalyzer", () => {
 		db.insertNode({
 			id: "stub-node",
 			type: "doc",
-			content: "ignored",
 			meta: { tags: ["stub"], source: TEST_NODE_STUB },
 			hash: "hash-stub-updated",
 		});
