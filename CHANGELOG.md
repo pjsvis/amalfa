@@ -5,6 +5,24 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-01-13
+
+### Added
+- **Graphology Workflows (Phase 6)**:
+  - Added Adamic-Adar ("Friend-of-a-Friend") link prediction strategy.
+  - Added PageRank ("Pillar Content") identification strategy.
+  - Added Louvain ("Global Context") community detection strategy.
+  - Added `amalfa enhance --strategy=<strategy>` CLI command to expose these analyses.
+- **Autonomous Research (Phase 5)**:
+  - **LouvainGate**: Configurable thresholds for super-node detection.
+  - **Pipeline History**: Added `history` table to track graph mutations.
+  - **CLI Promotion**: `amalfa stats --orphans` and `amalfa validate --graph` for advanced diagnostics.
+  - **Graph Features**: Exposed `GraphEngine.traverse()` (BFS) and `validateIntegrity()`.
+
+### Changed
+- **CLI Architecture**: Refactored monolithic `src/cli.ts` into modular command files (`src/cli/commands/*.ts`) for maintainability.
+- **Cleanup**: Deprecated legacy `tag-slug` syntax in EdgeWeaver.
+
 ## [1.0.40] - 2026-01-09
 
 ### Added
