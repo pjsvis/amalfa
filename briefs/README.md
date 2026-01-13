@@ -6,8 +6,7 @@ Active briefs ready for development work.
 
 | Status | Priority | Brief | Description |
 | :--- | :--- | :--- | :--- |
-| 🟢 Ready | High | [Graphology Workflows](./brief-graphology-workflows.md) | Implement advanced graph algorithms (PageRank, Louvain) for content enrichment. |
-| 🟡 Draft | Medium | [Dynamic Tool Discovery](./brief-dynamic-tool-discovery.md) | Runtime discovery of agent tools. |
+| 🟢 Ready | Medium | [Dynamic Tool Discovery](./brief-dynamic-tool-discovery.md) | Runtime discovery of agent tools. |
 | 🟡 Draft | Low | [Meta Swarm](./brief-meta-swarm.md) | Concept for agent swarms. |
 | 🟡 Draft | Low | [Node Dependency Removal](./brief-node-dependency-removal.md) | Reduce dependency footprint. |
 
@@ -15,6 +14,7 @@ Active briefs ready for development work.
 
 | Date | Brief | Debrief |
 | :--- | :--- | :--- |
+| 2026-01-13 | [Phase 6 - Graphology](./archive/brief-graphology-workflows.md) | [2026-01-13-phase6](./debriefs/2026-01-13-phase6-graphology-workflows.md) |
 | 2026-01-13 | [Phase 5 - Autonomous Research](./archive/brief-phase5-enhancements.md) | [2026-01-13-phase5](./debriefs/2026-01-13-phase5-autonomous-research.md) |
 | 2026-01-09 | [Ember Service](./archive/2026-01-09-ember-service.md) | - |
 | 2026-01-09 | [Phase 3 - Infrastructure](./archive/brief-phase3-infrastructure.md) | - |
