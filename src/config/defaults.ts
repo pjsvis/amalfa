@@ -18,6 +18,12 @@ export const AMALFA_DIRS = {
 	get agent() {
 		return join(this.base, "agent");
 	},
+	get cache() {
+		return join(this.base, "cache");
+	},
+	get scratchpad() {
+		return join(this.base, "cache", "scratchpad");
+	},
 	get tasks() {
 		return {
 			pending: join(this.base, "agent", "tasks", "pending"),
@@ -33,6 +39,8 @@ export function initAmalfaDirs(): void {
 		AMALFA_DIRS.base,
 		AMALFA_DIRS.logs,
 		AMALFA_DIRS.runtime,
+		AMALFA_DIRS.cache,
+		AMALFA_DIRS.scratchpad,
 		AMALFA_DIRS.tasks.pending,
 		AMALFA_DIRS.tasks.processing,
 		AMALFA_DIRS.tasks.completed,
@@ -82,6 +90,15 @@ export interface AmalfaConfig {
 	phi3?: SonarConfig;
 	/** Ember automated enrichment configuration */
 	ember: EmberConfig;
+	/** Scratchpad cache configuration */
+	scratchpad?: ScratchpadConfig;
+}
+
+export interface ScratchpadConfig {
+	enabled: boolean;
+	thresholdBytes: number;
+	maxAgeMs: number;
+	maxCacheSizeBytes: number;
 }
 
 export interface SonarConfig {
@@ -152,6 +169,12 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 		minConfidence: 0.8,
 		autoSquash: false,
 		backupDir: ".amalfa/backups/ember",
+	},
+	scratchpad: {
+		enabled: true,
+		thresholdBytes: 4 * 1024,
+		maxAgeMs: 24 * 60 * 60 * 1000,
+		maxCacheSizeBytes: 50 * 1024 * 1024,
 	},
 	watch: {
 		enabled: true,

@@ -6,7 +6,7 @@ Active briefs ready for development work.
 
 | Status | Priority | Brief | Description |
 | :--- | :--- | :--- | :--- |
-| 🟢 Ready | Medium | [Dynamic Tool Discovery](./brief-dynamic-tool-discovery.md) | Runtime discovery of agent tools. |
+| 🟢 Ready | High | [Phase 7 - Dynamic Context & Substrates](./pending/brief-phase7-dynamic-discovery.md) | Dynamic tool discovery, output scratchpads, and multi-provider substrates (Ollama, GLM, MiniMax). |
 | 🟡 Draft | Low | [Meta Swarm](./brief-meta-swarm.md) | Concept for agent swarms. |
 | 🟡 Draft | Low | [Node Dependency Removal](./brief-node-dependency-removal.md) | Reduce dependency footprint. |
 

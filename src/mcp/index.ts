@@ -13,6 +13,7 @@ import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
 import { DaemonManager } from "../utils/DaemonManager";
 import { getLogger } from "../utils/Logger";
+import { getScratchpad } from "../utils/Scratchpad";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
 import { createSonarClient, type SonarClient } from "../utils/sonar-client";
 
@@ -20,8 +21,8 @@ const args = process.argv.slice(2);
 const command = args[0] || "serve";
 const log = getLogger("MCP");
 
-// Sonar client for enhanced search
 const sonarClient: SonarClient = await createSonarClient();
+const scratchpad = getScratchpad();
 
 // --- Service Lifecycle ---
 
@@ -37,11 +38,33 @@ const lifecycle = new ServiceLifecycle({
 // Database path from config (loaded once at startup)
 let DB_PATH: string;
 
-// Helper function to create fresh database connection per request
 function createConnection() {
 	const db = new ResonanceDB(DB_PATH);
 	const vectorEngine = new VectorEngine(db.getRawDb());
 	return { db, vectorEngine };
+}
+
+type ToolResponse = {
+	content: { type: string; text: string }[];
+	isError?: boolean;
+};
+
+function wrapWithScratchpad(
+	toolName: string,
+	response: ToolResponse,
+): ToolResponse {
+	if (response.isError || response.content.length === 0) {
+		return response;
+	}
+
+	const text = response.content[0]?.text;
+	if (!text) return response;
+
+	const cachedText = scratchpad.maybeCache(toolName, text);
+	return {
+		...response,
+		content: [{ type: "text", text: cachedText }],
+	};
 }
 
 async function runServer() {
@@ -105,7 +128,6 @@ async function runServer() {
 		{ capabilities: { tools: {}, resources: {} } },
 	);
 
-	// 2. Define Constants
 	const TOOLS = {
 		SEARCH: "search_documents",
 		READ: "read_node_content",
@@ -113,6 +135,8 @@ async function runServer() {
 		LIST: "list_directory_structure",
 		GARDEN: "inject_tags",
 		GAPS: "find_gaps",
+		SCRATCHPAD_READ: "scratchpad_read",
+		SCRATCHPAD_LIST: "scratchpad_list",
 	};
 
 	// 3. Register Handlers
@@ -169,6 +193,26 @@ async function runServer() {
 							threshold: { type: "number", default: 0.8 },
 						},
 					},
+				},
+				{
+					name: TOOLS.SCRATCHPAD_READ,
+					description:
+						"Read full content from a scratchpad cache entry. Use when a previous tool output was cached.",
+					inputSchema: {
+						type: "object",
+						properties: {
+							id: {
+								type: "string",
+								description: "The scratchpad entry ID (12-char hash)",
+							},
+						},
+						required: ["id"],
+					},
+				},
+				{
+					name: TOOLS.SCRATCHPAD_LIST,
+					description: "List all cached scratchpad entries with metadata.",
+					inputSchema: { type: "object", properties: {} },
 				},
 			],
 		};
@@ -313,7 +357,7 @@ async function runServer() {
 						analysis: queryAnalysis,
 					};
 
-					return {
+					return wrapWithScratchpad(name, {
 						content: [
 							{
 								type: "text",
@@ -327,15 +371,13 @@ async function runServer() {
 								),
 							},
 						],
-					};
+					});
 				} finally {
-					// Cleanup connection
 					db.close();
 				}
 			}
 
 			if (name === TOOLS.READ) {
-				// Hollow Node: Read content from filesystem via meta.source
 				const { db } = createConnection();
 				try {
 					const id = String(args?.id);
@@ -359,10 +401,11 @@ async function runServer() {
 						};
 					}
 
-					// Read content from filesystem
 					try {
 						const content = await Bun.file(sourcePath).text();
-						return { content: [{ type: "text", text: content }] };
+						return wrapWithScratchpad(name, {
+							content: [{ type: "text", text: content }],
+						});
 					} catch {
 						return {
 							content: [
@@ -411,9 +454,9 @@ async function runServer() {
 				const limit = Number(args?.limit || 10);
 				try {
 					const gaps = await sonarClient.getGaps(limit);
-					return {
+					return wrapWithScratchpad(name, {
 						content: [{ type: "text", text: JSON.stringify(gaps, null, 2) }],
-					};
+					});
 				} catch (e) {
 					return {
 						content: [{ type: "text", text: `Failed to fetch gaps: ${e}` }],
@@ -456,6 +499,35 @@ async function runServer() {
 						{
 							type: "text",
 							text: `Successfully ${operation} ${tags.length} tags into ${filePath}`,
+						},
+					],
+				};
+			}
+
+			if (name === TOOLS.SCRATCHPAD_READ) {
+				const id = String(args?.id);
+				const entry = scratchpad.read(id);
+				if (!entry) {
+					return {
+						content: [
+							{ type: "text", text: `Scratchpad entry not found: ${id}` },
+						],
+						isError: true,
+					};
+				}
+				return {
+					content: [{ type: "text", text: entry.content }],
+				};
+			}
+
+			if (name === TOOLS.SCRATCHPAD_LIST) {
+				const entries = scratchpad.list();
+				const stats = scratchpad.stats();
+				return {
+					content: [
+						{
+							type: "text",
+							text: JSON.stringify({ entries, stats }, null, 2),
 						},
 					],
 				};

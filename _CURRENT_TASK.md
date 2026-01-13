@@ -1,29 +1,26 @@
 # Current Task
 
-**Status**: v1.1.0-alpha (Autonomous Research) 🚧
-**Last Session**: 2026-01-13 (Phase 5 - LouvainGate & CLI)
-**Next Focus**: Phase 6 (Graphology Workflows & Strategies)
+**Status**: v1.1.0-alpha (Phase 7 - Dynamic Discovery) 🚧
+**Last Session**: 2026-01-13 (Phase 6 - Graphology)
+**Next Focus**: Phase 7 (Scratchpad, Session History, Modular Tools, Substrates)
 
 ---
 
-## Session 2026-01-13: Phase 5 - Autonomous Research Initiation
+## Session 2026-01-13: Phase 6 - Graphology Workflows
 
 ### Completed ✅
-- ✅ **LouvainGate Config**: Added `graph.tuning.louvain.superNodeThreshold` to config.
-- ✅ **LouvainGate Metrics**: Added stats tracking for checked/rejected edges.
-- ✅ **Legacy Deprecation**: Added warning for legacy `tag-slug` syntax in EdgeWeaver.
-- ✅ **CLI Promotion**: Added `amalfa stats --orphans` and `amalfa validate --graph`.
-- ✅ **History Tracking**: Added `history` table (schema & runtime hooks) for pipeline audit.
-- ✅ **Graph Features**: Added `GraphEngine.traverse()` (BFS) and `validateIntegrity()`.
-- ✅ **CLI Refactoring**: Modularized `src/cli.ts` into `src/cli/commands/`.
+- ✅ **Strategies**: Adamic-Adar, PageRank, Louvain implemented in `GraphEngine`.
+- ✅ **CLI**: `amalfa enhance` command exposing strategies.
+- ✅ **Lifecycle**: `amalfa servers start/restart/stop` for easier dev loops.
+- ✅ **Release**: v1.1.0 published.
 
 ### Status
-✅ **Phase 5 Complete**: Foundation laid.
-🚀 **Phase 6 In Progress**: Implementing active research strategies.
+✅ **Phase 6 Complete**: Graph intelligence operational.
+🚀 **Phase 7 In Progress**: Dynamic Context & Substrates.
 
-## Phase 6: Graphology Workflows (Active)
-- [ ] **Strategy: Adamic-Adar**: Implement "Friend-of-a-Friend" link prediction.
-- [ ] **Strategy: PageRank**: Implement "Pillar Content" identification.
-- [ ] **Strategy: Louvain**: Implement "Global Context" community detection.
-- [ ] **CLI**: Add `amalfa enhance` command to expose strategies.
-- [ ] **Verification**: Add tests for new strategies.
+## Phase 7: Dynamic Context & Substrates (Active)
+- [x] **Protocol: Scratchpad**: Intercept large tool outputs to `.amalfa/cache/scratchpad/`.
+- [ ] **Protocol: Historian**: Persist agent thought loops to `.amalfa/sessions/`.
+- [ ] **Protocol: Modular Toolbox**: Dynamic tool loading from JSON schemas.
+- [ ] **Substrates**: Implement adapters for Ollama Cloud, GLM, MiniMax, ZenMux.
+- [ ] **CLI**: Add `amalfa list-capabilities` to expose dynamic landscape.

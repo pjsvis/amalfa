@@ -77,24 +77,33 @@ if (output.length > threshold) {
 
 ### Phase 3: The "Modular Toolbox" (Dynamic Discovery)
 
-**Goal:** Reduce System Prompt size by removing verbose tool definitions.
-**Priority:** Medium (Optimization)
+**Goal:** Reduce System Prompt size and allow multi-provider flexibility.
+**Priority:** High (Capability Expansion)
 
-* **Mechanism:** Move tool schemas from TypeScript code to JSON files.
+* **Mechanism:** Move tool schemas from TypeScript code to JSON files, and abstract model providers into discoverable "substrates".
 * **Implementation:**
-* Create directory: `.amalfa/tools/`.
-* Create files: `search.tool.json`, `read.tool.json`, `graph.tool.json`.
-* **The Meta-Tool:** Implement a single hardcoded tool: `list_capabilities`.
+  * **Tools:**
+    * Create directory: `.amalfa/tools/`.
+    * Create files: `search.tool.json`, `read.tool.json`, `graph.tool.json`.
+    * **The Meta-Tool:** Implement a single hardcoded tool: `list_capabilities`.
+  * **Substrates (Models):**
+    * Refactor `sonar-inference.ts` to support dynamic provider loading.
+    * Implement adapters for:
+      * **Ollama Cloud** (Standard OpenAI interface)
+      * **GLM** (Zhipu AI)
+      * **MiniMax**
+      * **ZenMux** (Gateway)
+    * Allow the agent to query `list_models` to see what substrates are active based on API keys.
+
 * **Workflow:**
-1. Agent starts with *no* specific tools, just `list_capabilities`.
-2. Agent asks "What can I do?".
-3. System lists tool files.
-4. Agent reads `search.tool.json` to understand how to search.
+  1. Agent starts with *no* specific tools/models in prompt.
+  2. Agent calls `list_capabilities` -> gets list of tools and active substrates.
+  3. Agent selects tool/model based on task complexity (e.g., use GLM-4 for logic, MiniMax for creative).
 
-
-
-
-* **Deliverable:** Refactored MCP server that dynamically loads tool definitions.
+* **Deliverable:** 
+  * Refactored MCP server for dynamic tools.
+  * New `src/daemon/substrates/` directory with provider adapters.
+  * Integration of new providers in `SonarAgent`.
 
 ### Phase 4: The "Mirror" Protocol (Introspection)
 
