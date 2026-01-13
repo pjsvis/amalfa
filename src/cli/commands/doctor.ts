@@ -1,10 +1,9 @@
-import { statSync } from "node:fs";
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { loadConfig } from "@src/config/defaults";
 import { getDbPath } from "../utils";
 
-export async function cmdDoctor(args: string[]) {
+export async function cmdDoctor(_args: string[]) {
 	console.log("🩺 AMALFA Health Check\n");
 
 	let issues = 0;

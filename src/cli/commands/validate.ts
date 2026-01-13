@@ -1,8 +1,8 @@
 import { statSync } from "node:fs";
-import pkg from "../../../package.json" with { type: "json" };
 import { loadConfig } from "@src/config/defaults";
 import { ResonanceDB } from "@src/resonance/db";
 import { StatsTracker } from "@src/utils/StatsTracker";
+import pkg from "../../../package.json" with { type: "json" };
 import { checkDatabase, getDbPath } from "../utils";
 
 const VERSION = pkg.version;

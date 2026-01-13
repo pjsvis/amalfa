@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { AMALFA_DIRS } from "@src/config/defaults";
 import { checkDatabase, getDbPath } from "../utils";
 
-export async function cmdServe(args: string[]) {
+export async function cmdServe(_args: string[]) {
 	// Check database exists
 	if (!(await checkDatabase())) {
 		process.exit(1);
@@ -182,7 +182,7 @@ export async function cmdServers(args: string[]) {
 	);
 }
 
-export async function cmdStopAll(args: string[]) {
+export async function cmdStopAll(_args: string[]) {
 	console.log("🛑 Stopping ALL Amalfa Services...\n");
 
 	const SERVICES = [

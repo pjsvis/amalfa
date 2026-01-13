@@ -1,9 +1,12 @@
-import { readdirSync, statSync, statSync as statSyncFs } from "node:fs";
-import { existsSync } from "node:fs";
+import {
+	existsSync,
+	readdirSync,
+	statSync,
+	statSync as statSyncFs,
+} from "node:fs";
 import { join } from "node:path";
 import { loadConfig } from "@src/config/defaults";
 import { ResonanceDB } from "@src/resonance/db";
-import { StatsTracker } from "@src/utils/StatsTracker";
 import { checkDatabase, getDbPath } from "../utils";
 
 export async function cmdStats(args: string[]) {

@@ -1,4 +1,4 @@
-export async function cmdSetupMcp(args: string[]) {
+export async function cmdSetupMcp(_args: string[]) {
 	const { resolve } = await import("node:path");
 
 	const cwd = resolve(process.cwd());

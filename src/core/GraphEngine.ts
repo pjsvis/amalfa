@@ -205,6 +205,7 @@ export class GraphEngine {
 	): { source: string; target: string; score: number }[] {
 		const candidates: { source: string; target: string; score: number }[] = [];
 		const nodes = this.graph.nodes();
+		// Use set of sorted pairs "u|v" to avoid duplicates and self-loops
 		const seen = new Set<string>();
 
 		for (const u of nodes) {
@@ -214,6 +215,7 @@ export class GraphEngine {
 			// Find nodes v that share at least one neighbor w with u
 			for (const w of neighborsU) {
 				for (const v of this.graph.neighbors(w)) {
+					// v must not be u, and must not already be connected to u
 					if (v !== u && !neighborsU.has(v)) {
 						twoHopPotential.add(v);
 					}
@@ -233,6 +235,37 @@ export class GraphEngine {
 		}
 
 		return candidates.sort((a, b) => b.score - a.score).slice(0, limit);
+	}
+
+	/**
+	 * Find "Pillar" nodes: High PageRank but low Word Count (if content is available)
+	 * or simply return top PageRank nodes that act as authorities.
+	 */
+	findPillars(limit = 10): { id: string; score: number; degree: number }[] {
+		const pr = this.getPagerank();
+		const pillars = Object.entries(pr)
+			.map(([id, score]) => ({
+				id,
+				score,
+				degree: this.graph.degree(id),
+			}))
+			.sort((a, b) => b.score - a.score)
+			.slice(0, limit);
+		return pillars;
+	}
+
+	/**
+	 * Get communities mapped by ID
+	 */
+	getCommunities(): Record<string, string[]> {
+		const communities = this.detectCommunities();
+		const mapping: Record<string, string[]> = {};
+		for (const [node, communityId] of Object.entries(communities)) {
+			const key = communityId.toString();
+			if (!mapping[key]) mapping[key] = [];
+			mapping[key].push(node);
+		}
+		return mapping;
 	}
 
 	/**

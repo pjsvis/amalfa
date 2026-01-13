@@ -1,12 +1,11 @@
-import { mkdirSync, statSync } from "node:fs";
-import { existsSync } from "node:fs";
+import { existsSync, mkdirSync, statSync } from "node:fs";
 import { join } from "node:path";
-import pkg from "../../../package.json" with { type: "json" };
 import { loadConfig } from "@src/config/defaults";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { PreFlightAnalyzer } from "@src/pipeline/PreFlightAnalyzer";
 import { ResonanceDB } from "@src/resonance/db";
 import { StatsTracker } from "@src/utils/StatsTracker";
+import pkg from "../../../package.json" with { type: "json" };
 
 const VERSION = pkg.version;
 
