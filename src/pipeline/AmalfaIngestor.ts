@@ -22,6 +22,7 @@ export interface IngestionResult {
 		edges: number;
 		vectors: number;
 		durationSec: number;
+		louvainStats?: { checked: number; rejected: number };
 	};
 }
 
@@ -101,7 +102,7 @@ export class AmalfaIngestor {
 
 			// PASS 2: Edges (now lexicon is populated)
 			const lexicon = this.buildLexicon();
-			const weaver = new EdgeWeaver(this.db, lexicon);
+			const weaver = new EdgeWeaver(this.db, lexicon, this.config);
 
 			console.log("\n🔗 Creating edges...");
 			this.db.beginTransaction();
@@ -116,6 +117,14 @@ export class AmalfaIngestor {
 				weaver.weave(id, content);
 			}
 			this.db.commit();
+
+			const louvainStats = weaver.getStats();
+			if (louvainStats.rejected > 0) {
+				this.log.info(
+					louvainStats,
+					"🛡️ LouvainGate stats: Edges filtered to prevent super-node collapse",
+				);
+			}
 
 			// Force WAL checkpoint for persistence
 			this.log.info("💾 Forcing WAL checkpoint...");
@@ -160,6 +169,7 @@ export class AmalfaIngestor {
 					edges: stats.edges,
 					vectors: stats.vectors,
 					durationSec,
+					louvainStats,
 				},
 			};
 		} catch (e) {

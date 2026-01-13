@@ -134,9 +134,11 @@ async function cmdStats() {
 	// Import database wrapper
 	const dbPath = await getDbPath();
 	const { ResonanceDB } = await import("./resonance/db");
+	const { StatsTracker } = await import("./utils/StatsTracker");
 	const { loadConfig } = await import("./config/defaults");
 
 	const db = new ResonanceDB(dbPath);
+	const tracker = new StatsTracker();
 	const config = await loadConfig();
 	const sources = config.sources || ["./docs"];
 
@@ -179,6 +181,30 @@ async function cmdStats() {
 		const isStale = newerFiles > 0;
 		const statusIcon = isStale ? "⚠️  STALE" : "✅ FRESH";
 
+		let orphanSection = "";
+		if (args.includes("--orphans")) {
+			const orphanSql = `
+                SELECT n.id, n.type
+                FROM nodes n
+                LEFT JOIN edges e1 ON n.id = e1.source
+                LEFT JOIN edges e2 ON n.id = e2.target
+                WHERE e1.source IS NULL AND e2.target IS NULL
+                  AND n.type != 'root' -- Exclude root
+                  AND n.type != 'domain' -- Exclude domain markers
+            `;
+			const orphans = db.getRawDb().query(orphanSql).all() as {
+				id: string;
+				type: string;
+			}[];
+
+			if (orphans.length > 0) {
+				const orphanRate = ((orphans.length / stats.nodes) * 100).toFixed(1);
+				orphanSection = `\nOrphans:    ${orphans.length} (${orphanRate}%) - Run 'amalfa ember scan' to fix`;
+			} else {
+				orphanSection = "\nOrphans:    0 (Graph is fully connected)";
+			}
+		}
+
 		console.log(`
 📊 AMALFA Database Statistics
 
@@ -188,7 +214,7 @@ Size:     ${fileSizeMB} MB
 
 Nodes:      ${stats.nodes.toLocaleString()}
 Edges:      ${stats.edges.toLocaleString()}
-Embeddings: ${stats.vectors.toLocaleString()} (384-dim)
+Embeddings: ${stats.vectors.toLocaleString()} (384-dim)${orphanSection}
 
 Sources:       ${sources.join(", ")}
 DB Modified:   ${new Date(dbStats.mtime).toISOString()}
@@ -807,10 +833,11 @@ async function cmdValidate() {
 
 	const dbPath = await getDbPath();
 	const { ResonanceDB } = await import("./resonance/db");
-	const { StatsTracker } = await import("./utils/StatsTracker");
+	const { loadConfig } = await import("./config/defaults");
 
 	const db = new ResonanceDB(dbPath);
-	const tracker = new StatsTracker();
+	const statsTracker = new StatsTracker();
+	const config = await loadConfig();
 
 	try {
 		// Get current stats
@@ -829,6 +856,66 @@ async function cmdValidate() {
 
 		// Validate against history
 		const validation = tracker.validate(currentSnapshot);
+
+		const graphIssues: string[] = [];
+		if (args.includes("--graph")) {
+			console.log("🔍 Checking Graph Integrity...");
+
+			const dangling = db
+				.getRawDb()
+				.query(`
+				SELECT COUNT(*) as c FROM edges e
+				LEFT JOIN nodes s ON e.source = s.id
+				LEFT JOIN nodes t ON e.target = t.id
+				WHERE s.id IS NULL OR t.id IS NULL
+			`)
+				.get() as { c: number };
+
+			if (dangling.c > 0) {
+				graphIssues.push(
+					`Found ${dangling.c} dangling edges (source/target missing)`,
+				);
+				validation.errors.push(
+					"Graph integrity compromised: Dangling edges found",
+				);
+			}
+
+			const selfLoops = db
+				.getRawDb()
+				.query(`
+				SELECT COUNT(*) as c FROM edges WHERE source = target
+			`)
+				.get() as { c: number };
+
+			if (selfLoops.c > 0) {
+				graphIssues.push(`Found ${selfLoops.c} self-loops (source == target)`);
+				validation.warnings.push(`Graph contains ${selfLoops.c} self-loops`);
+			}
+
+			const threshold = config.graph?.tuning?.louvain?.superNodeThreshold || 50;
+			const superNodes = db
+				.getRawDb()
+				.query(`
+				SELECT id, (SELECT COUNT(*) FROM edges WHERE source = nodes.id OR target = nodes.id) as degree
+				FROM nodes
+				WHERE degree > ?
+				ORDER BY degree DESC
+				LIMIT 5
+			`)
+				.all(threshold) as { id: string; degree: number }[];
+
+			if (superNodes.length > 0) {
+				graphIssues.push(
+					`Found ${superNodes.length}+ Super Nodes (> ${threshold} edges):`,
+				);
+				superNodes.forEach((n) => {
+					graphIssues.push(`  - ${n.id} (${n.degree})`);
+				});
+				validation.warnings.push(
+					`Graph contains Super Nodes (potential hairballs)`,
+				);
+			}
+		}
 
 		console.log("📊 Current State:");
 		console.log(`  Nodes: ${stats.nodes}`);

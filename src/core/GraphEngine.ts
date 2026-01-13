@@ -2,10 +2,14 @@ import type { Database } from "bun:sqlite";
 import { getLogger } from "@src/utils/Logger";
 import { MultiDirectedGraph } from "graphology";
 import communitiesLouvain from "graphology-communities-louvain";
-import { connectedComponents } from "graphology-components";
+import {
+	connectedComponents,
+	countConnectedComponents,
+} from "graphology-components";
 import betweenness from "graphology-metrics/centrality/betweenness";
 import pagerank from "graphology-metrics/centrality/pagerank";
 import { bidirectional as shortestPath } from "graphology-shortest-path/unweighted";
+import { bfsFromNode } from "graphology-traversal";
 
 const log = getLogger("GraphEngine");
 
@@ -248,5 +252,29 @@ export class GraphEngine {
 	 */
 	getInternalGraph(): MultiDirectedGraph {
 		return this.graph;
+	}
+
+	/**
+	 * Traverse graph starting from a node using BFS
+	 */
+	traverse(startNodeId: string, maxDepth?: number): string[] {
+		if (!this.graph.hasNode(startNodeId)) return [];
+
+		const visited: string[] = [];
+		bfsFromNode(this.graph, startNodeId, (node, _attr, depth) => {
+			if (maxDepth !== undefined && depth > maxDepth) return true;
+			visited.push(node);
+			return false;
+		});
+		return visited;
+	}
+
+	validateIntegrity() {
+		return {
+			selfLoopCount: this.graph.selfLoopCount,
+			connectedComponents: countConnectedComponents(this.graph),
+			order: this.graph.order,
+			size: this.graph.size,
+		};
 	}
 }

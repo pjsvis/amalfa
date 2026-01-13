@@ -1,17 +1,24 @@
+import type { AmalfaConfig } from "@src/config/defaults";
 import type { ResonanceDB } from "@src/resonance/db";
 import { LouvainGate } from "./LouvainGate";
 
 export class EdgeWeaver {
 	private db: ResonanceDB;
+	private superNodeThreshold = 50;
 	// Lexicon for lookups (Slug -> ID)
 	private lexicon: Map<string, string>;
+	private stats = { checked: 0, rejected: 0 };
 
 	constructor(
 		db: ResonanceDB,
 		context: { id: string; title?: string; aliases?: string[] }[] = [],
+		config?: AmalfaConfig,
 	) {
 		this.db = db;
 		this.lexicon = new Map();
+		if (config?.graph?.tuning?.louvain?.superNodeThreshold) {
+			this.superNodeThreshold = config.graph.tuning.louvain.superNodeThreshold;
+		}
 
 		// Build efficient lookup map (Slug -> ID)
 		if (Array.isArray(context)) {
@@ -71,7 +78,13 @@ export class EdgeWeaver {
 
 		// 2. Legacy `tag-slug` (Deprecated but ubiquitous)
 		const matches = content.matchAll(/\btag-([\w-]+)/g);
-		for (const match of matches) {
+		const legacyMatches = Array.from(matches);
+		if (legacyMatches.length > 0) {
+			console.warn(
+				`⚠️  Legacy 'tag-slug' format detected in ${sourceId}. Use [tag: Concept] instead.`,
+			);
+		}
+		for (const match of legacyMatches) {
 			if (match[1]) {
 				const tagStub = match[1].toLowerCase();
 				const conceptId = this.lexicon.get(tagStub);
@@ -159,12 +172,22 @@ export class EdgeWeaver {
 	}
 
 	private safeInsertEdge(source: string, target: string, type: string) {
-		const check = LouvainGate.check(this.db.getRawDb(), source, target);
+		const check = LouvainGate.check(
+			this.db.getRawDb(),
+			source,
+			target,
+			this.superNodeThreshold,
+		);
+		this.stats.checked++;
 		if (check.allowed) {
 			this.db.insertEdge(source, target, type);
 		} else {
-			console.log(`[LouvainGate] ${check.reason}`);
+			this.stats.rejected++;
 		}
+	}
+
+	public getStats() {
+		return { ...this.stats };
 	}
 
 	private slugify(text: string): string {

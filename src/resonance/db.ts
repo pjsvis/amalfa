@@ -135,6 +135,7 @@ export class ResonanceDB {
 				$meta: node.meta ? JSON.stringify(node.meta) : null,
 				$date: node.date ? String(node.date) : null,
 			});
+			this.logHistory("upsert", "node", node.id, undefined, node);
 		} catch (err) {
 			log.error(
 				{
@@ -164,6 +165,17 @@ export class ResonanceDB {
             VALUES (?, ?, ?)
         `,
 			[source, target, type],
+		);
+		this.logHistory(
+			"insert",
+			"edge",
+			`${source}-${target}-${type}`,
+			undefined,
+			{
+				source,
+				target,
+				type,
+			},
 		);
 	}
 
@@ -380,10 +392,33 @@ export class ResonanceDB {
 	}
 
 	updateNodeMeta(id: string, meta: Record<string, unknown>) {
+		const oldMeta = this.getNode(id)?.meta;
 		this.db.run("UPDATE nodes SET meta = ? WHERE id = ?", [
 			JSON.stringify(meta),
 			id,
 		]);
+		this.logHistory("update", "node", id, oldMeta, meta);
+	}
+
+	private logHistory(
+		action: string,
+		type: string,
+		id: string,
+		oldValue?: unknown,
+		newValue?: unknown,
+	) {
+		try {
+			this.db.run(
+				`INSERT INTO history (entity_type, entity_id, action, old_value, new_value) VALUES (?, ?, ?, ?, ?)`,
+				[
+					type,
+					id,
+					action,
+					oldValue ? JSON.stringify(oldValue) : null,
+					newValue ? JSON.stringify(newValue) : null,
+				],
+			);
+		} catch (_e) {}
 	}
 }
 

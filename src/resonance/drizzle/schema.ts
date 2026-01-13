@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
 	blob,
 	index,
@@ -57,4 +58,18 @@ export const emberState = sqliteTable("ember_state", {
 	lastAnalyzed: text("last_analyzed"),
 	sidecarCreated: integer("sidecar_created", { mode: "boolean" }),
 	confidence: real("confidence"),
+});
+
+/**
+ * PIPELINE HISTORY Table
+ * Audit trail for graph mutations (Added in Phase 5).
+ */
+export const history = sqliteTable("history", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	entityType: text("entity_type").notNull(),
+	entityId: text("entity_id").notNull(),
+	action: text("action").notNull(),
+	oldValue: text("old_value"),
+	newValue: text("new_value"),
+	timestamp: text("timestamp").default(sql`(CURRENT_TIMESTAMP)`),
 });

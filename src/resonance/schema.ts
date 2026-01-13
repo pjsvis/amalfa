@@ -1,4 +1,4 @@
-export const CURRENT_SCHEMA_VERSION = 7;
+export const CURRENT_SCHEMA_VERSION = 8;
 
 export const GENESIS_SQL = `
     CREATE TABLE IF NOT EXISTS nodes (
@@ -165,5 +165,26 @@ export const MIGRATIONS: Migration[] = [
 				if (!err.message.includes("duplicate column")) throw e;
 			}
 		},
+	},
+	{
+		version: 8,
+		description: "Add 'ember_state' and 'history' tables",
+		sql: `
+            CREATE TABLE IF NOT EXISTS ember_state (
+                file_path TEXT PRIMARY KEY NOT NULL,
+                last_analyzed TEXT,
+                sidecar_created INTEGER,
+                confidence REAL
+            );
+            CREATE TABLE IF NOT EXISTS history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                entity_type TEXT NOT NULL,
+                entity_id TEXT NOT NULL,
+                action TEXT NOT NULL,
+                old_value TEXT,
+                new_value TEXT,
+                timestamp TEXT DEFAULT (CURRENT_TIMESTAMP)
+            );
+        `,
 	},
 ];

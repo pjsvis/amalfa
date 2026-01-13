@@ -67,6 +67,7 @@ export interface AmalfaConfig {
 			louvain?: {
 				persona?: number;
 				experience?: number;
+				superNodeThreshold?: number;
 			};
 		};
 	};
@@ -164,6 +165,7 @@ export const DEFAULT_CONFIG: AmalfaConfig = {
 			louvain: {
 				persona: 0.3,
 				experience: 0.25,
+				superNodeThreshold: 50,
 			},
 		},
 	},

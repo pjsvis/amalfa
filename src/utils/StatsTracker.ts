@@ -7,6 +7,7 @@ export interface DatabaseSnapshot {
 	nodes: number;
 	edges: number;
 	embeddings: number;
+	louvainGate?: { checked: number; rejected: number };
 	dbSizeMB: number;
 	version?: string;
 }
