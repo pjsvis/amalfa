@@ -32,10 +32,14 @@ export async function cmdServers(args: string[]) {
 	if (
 		action &&
 		!action.startsWith("-") &&
-		["start", "stop", "restart"].includes(action)
+		["start", "stop", "restart", "status"].includes(action)
 	) {
-		await manageAllServers(action as "start" | "stop" | "restart");
-		return;
+		if (action === "status") {
+			// Just fall through to normal status display
+		} else {
+			await manageAllServers(action as "start" | "stop" | "restart");
+			return;
+		}
 	}
 
 	const showDot = args.includes("--dot");
