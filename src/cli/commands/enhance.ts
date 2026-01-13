@@ -8,7 +8,8 @@ export async function cmdEnhance(args: string[]) {
 	const strategyArg = args.find((a) => a.startsWith("--strategy="));
 	const strategy = strategyArg ? strategyArg.split("=")[1] : "help";
 	const limitArg = args.find((a) => a.startsWith("--limit="));
-	const limit = limitArg ? Number.parseInt(limitArg.split("=")[1], 10) : 10;
+	const limitStr = limitArg ? limitArg.split("=")[1] : "10";
+	const limit = limitStr ? Number.parseInt(limitStr, 10) : 10;
 
 	if (strategy === "help" || !strategy) {
 		console.log(`
@@ -72,12 +73,15 @@ Examples:
 			console.log(`🌍 Identifying Global Context (Louvain)...`);
 			const communities = graph.getCommunities();
 			const clusterIds = Object.keys(communities)
-				.sort((a, b) => communities[b].length - communities[a].length)
+				.sort(
+					(a, b) =>
+						(communities[b]?.length || 0) - (communities[a]?.length || 0),
+				)
 				.slice(0, limit);
 
 			console.log("\nTop Communities:");
 			for (const id of clusterIds) {
-				const members = communities[id];
+				const members = communities[id] || [];
 				console.log(`\nCluster ${id} (${members.length} nodes):`);
 				console.log(
 					members.slice(0, 5).join(", ") + (members.length > 5 ? "..." : ""),
