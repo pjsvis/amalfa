@@ -4,6 +4,15 @@ import { Scratchpad } from "@src/utils/Scratchpad";
 
 const TEST_DIR = ".amalfa/cache/scratchpad";
 
+/**
+ * Extract scratchpad ID from a cache reference string.
+ *
+ * Why this exists: TypeScript types regex capture groups as `string | undefined`
+ * because it cannot statically verify the regex will match. Rather than scatter
+ * non-null assertions (`!`) throughout tests—which biome flags—we centralize
+ * the runtime check here. If the regex fails, we get a clear error instead of
+ * a cryptic undefined access. See: playbooks/typescript-patterns-playbook.md
+ */
 function extractId(reference: string): string {
 	const match = reference.match(/Scratchpad\.read\("([^"]+)"\)/);
 	if (!match?.[1])

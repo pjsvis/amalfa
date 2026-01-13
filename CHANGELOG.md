@@ -5,6 +5,14 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Scratchpad Protocol (Phase 7)**: Intercepts large MCP tool outputs (>4KB) and caches them to `.amalfa/cache/scratchpad/`, returning a reference with preview instead of full content. Reduces context window usage for verbose responses.
+  - New `scratchpad_read` and `scratchpad_list` MCP tools for retrieving cached content.
+  - Content-addressable storage with SHA256 deduplication.
+  - Configurable threshold, max age (24h), and cache size limit (50MB).
+
 ## [1.1.0] - 2026-01-13
 
 ### Added
