@@ -2,7 +2,9 @@
 
 **A Memory Layer For Agents**
 
-MCP server that gives AI agents semantic access to project knowledge graphs.
+Local-first knowledge graph with semantic search for AI agents.
+
+**Core Design**: Your documents are the source of truth. The database is a disposable runtime artifact.
 
 ---
 
@@ -24,6 +26,8 @@ Amalfa is a **Model Context Protocol (MCP) server** that provides AI agents with
 
 Built with **Bun + SQLite + FastEmbed**.
 
+**Core distinguisher**: Database is a **disposable runtime artifact**. Documents are the source of truth.
+
 ---
 
 ## The Problem
@@ -36,7 +40,60 @@ Built with **Bun + SQLite + FastEmbed**.
 
 ---
 
-## Core Concepts
+## Core Architecture: Disposable Database
+
+**The Foundation**: AMALFA treats your filesystem as the single source of truth and the database as an ephemeral cache.
+
+### The Philosophy
+
+**Documents = Truth, Database = Cache**
+
+```
+Markdown Files (filesystem)
+    ↓
+  [Ingestion Pipeline]
+    ↓
+SQLite Database (.amalfa/)
+    ↓
+  [Vector Search]
+    ↓
+MCP Server (AI agents)
+```
+
+**Key Insight**: The database can be deleted and regenerated at any time without data loss.
+
+- **Source of Truth**: Your markdown documents (immutable filesystem)
+- **Runtime Artifact**: SQLite database with embeddings and metadata
+- **Regeneration**: `rm -rf .amalfa/ && bun run scripts/cli/ingest.ts`
+
+### Why This Matters
+
+**Benefits**:
+- ✅ **No Migration Hell**: Upgrading? Just re-ingest. No migration scripts.
+- ✅ **Deterministic Rebuilds**: Same documents → same database state
+- ✅ **Version Freedom**: Switch between AMALFA versions without fear
+- ✅ **Corruption Immunity**: Database corrupt? Delete and rebuild in seconds
+- ✅ **Model Flexibility**: Change embedding models by re-ingesting
+
+**Distinguisher**: Unlike traditional systems where the database *is* the truth, AMALFA inverts this. Your prose is permanent, the index is disposable.
+
+### When to Re-Ingest
+
+Just delete `.amalfa/` and re-run ingestion:
+
+```bash
+rm -rf .amalfa/
+bun run scripts/cli/ingest.ts
+```
+
+**Common scenarios**:
+- After upgrading AMALFA versions
+- When experiencing search issues
+- When changing embedding models
+- After adding/modifying many documents
+- Anytime you want a clean slate
+
+**Speed**: 308 nodes in <1 second. Re-ingestion is fast enough to be casual.
 
 ### Brief-Debrief-Playbook Pattern
 

@@ -22,7 +22,8 @@ describe("LouvainGate Configuration & Stats", () => {
 		weaver.safeInsertEdge("source", "target", "LINKS_TO");
 
 		expect(checkSpy).toHaveBeenCalled();
-		expect((checkSpy as any).mock.calls[0][3]).toBe(50);
+		const calls = checkSpy.mock.calls as Array<Array<unknown>>;
+		expect(calls[0]?.[3]).toBe(50);
 
 		LouvainGate.check = originalCheck;
 	});
@@ -47,7 +48,8 @@ describe("LouvainGate Configuration & Stats", () => {
 		weaver.safeInsertEdge("source", "target", "LINKS_TO");
 
 		expect(checkSpy).toHaveBeenCalled();
-		expect((checkSpy as any).mock.calls[0][3]).toBe(100);
+		const calls2 = checkSpy.mock.calls as Array<Array<unknown>>;
+		expect(calls2[0]?.[3]).toBe(100);
 
 		LouvainGate.check = originalCheck;
 	});

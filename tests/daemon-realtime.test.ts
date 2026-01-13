@@ -143,7 +143,7 @@ test.skip("daemon detects file modification and updates", async () => {
 	const initialNode = db
 		.getRawDb()
 		.query("SELECT * FROM nodes WHERE id = 'modify-test'")
-		.get() as any;
+		.get() as { hash?: string } | undefined;
 	const initialHash = initialNode?.hash;
 	db.close();
 
@@ -166,11 +166,11 @@ test.skip("daemon detects file modification and updates", async () => {
 	const updatedNode = db2
 		.getRawDb()
 		.query("SELECT * FROM nodes WHERE id = 'modify-test'")
-		.get() as any;
+		.get() as { hash?: string } | undefined;
 	db2.close();
 
 	expect(updatedNode).toBeDefined();
-	expect(updatedNode.hash).not.toBe(initialHash);
+	expect(updatedNode?.hash).not.toBe(initialHash);
 
 	daemonProcess.kill();
 	daemonProcess = null;

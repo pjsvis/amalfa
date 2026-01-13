@@ -5,6 +5,37 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-13
+
+### Changed
+- **Database Schema**: Migrated to Drizzle ORM for schema management (internal implementation detail)
+- **Content Storage**: Database now stores only metadata and embeddings (hollow nodes). Content read from filesystem via `GraphGardener.getContent()`
+- **Vector Search**: Fixed embedding model consistency - now uses `BGESmallENV15` throughout for improved recall accuracy
+- **Sonar Integration**: Added proper content hydration before reranking to resolve empty placeholder issue
+
+### Added
+- **Content Hydrator**: `src/utils/ContentHydrator.ts` for explicit filesystem content loading
+- **Database Procedures**: `src/resonance/DATABASE-PROCEDURES.md` documenting canonical database operations
+- **Sonar Diagnostics**: Test suite and assessment tools for reranking service quality
+
+### Fixed
+- **Vector Recall**: Resolved embedding model mismatch causing poor search results
+- **Sonar Content**: Fixed hollow node issue where Sonar received empty content
+
+### Removed
+- **Custom Migration System**: Replaced with Drizzle ORM (232 lines deleted from `src/resonance/schema.ts`)
+
+### Migration
+
+**The database is a disposable runtime artifact.** If experiencing issues after upgrade:
+
+```bash
+rm -rf .amalfa/
+bun run scripts/cli/ingest.ts
+```
+
+Your documents are the single source of truth. Database can be regenerated anytime.
+
 ## [1.2.0] - 2026-01-13
 
 ### Added

@@ -316,7 +316,14 @@ async function runServer() {
 					}
 
 					// Step 4: Extract context with Sonar for top results (if available)
-					let finalResults: Array<any> = rankedResults;
+					let finalResults: Array<{
+						id: string;
+						score: number | string;
+						snippet?: string;
+						content?: string;
+						preview?: string;
+						source?: string;
+					}> = rankedResults;
 
 					if (sonarAvailable) {
 						log.info("📝 Extracting context with Sonar");

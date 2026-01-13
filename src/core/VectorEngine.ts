@@ -102,8 +102,9 @@ export class VectorEngine {
 		}
 
 		// Lazy load the model
+		// MUST match Embedder model (BGESmallENV15) for compatibility
 		this.modelPromise = FlagEmbedding.init({
-			model: EmbeddingModel.AllMiniLML6V2,
+			model: EmbeddingModel.BGESmallENV15,
 		});
 	}
 

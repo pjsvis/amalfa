@@ -529,18 +529,17 @@ Return JSON: { "action": "SEARCH"|"READ"|"EXPLORE"|"FINISH", "query": "...", "no
 			);
 
 			const content = actionResponse.message.content;
-			let decision: {
+			const parsed = safeJsonParse(content);
+			if (!parsed || typeof parsed !== "object") {
+				throw new Error("Could not parse JSON from response");
+			}
+			const decision = parsed as {
 				action: "SEARCH" | "READ" | "EXPLORE" | "FINISH";
 				query?: string;
 				nodeId?: string;
 				reasoning: string;
 				answer?: string;
-			} | null = null;
-
-			decision = safeJsonParse(content);
-			if (!decision) {
-				throw new Error("Could not parse JSON from response");
-			}
+			};
 			output += `> **Reasoning:** ${decision.reasoning}\n\n`;
 
 			if (decision.action === "FINISH") {
@@ -667,7 +666,7 @@ Return JSON: { "answered": true|false, "missing_info": "...", "final_answer": ".
 /**
  * Helper to safely parse JSON from LLM responses, handling markdown blocks
  */
-function safeJsonParse(content: string): any {
+function safeJsonParse(content: string): unknown {
 	try {
 		return JSON.parse(content);
 	} catch {

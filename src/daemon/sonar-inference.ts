@@ -99,14 +99,17 @@ export async function callOllama(
 		const result = await response.json();
 
 		if (provider === "openrouter") {
-			// OpenAI format
+			const openAIResult = result as { choices: Array<{ message: Message }> };
+			if (!openAIResult.choices?.[0]?.message) {
+				throw new Error("Invalid OpenRouter response format");
+			}
 			return {
-				message: (result as any).choices[0].message,
+				message: openAIResult.choices[0].message,
 			};
 		}
-		// Ollama format
+		const ollamaResult = result as { message: Message };
 		return {
-			message: (result as any).message,
+			message: ollamaResult.message,
 		};
 	} catch (error) {
 		const errorMsg = error instanceof Error ? error.message : String(error);

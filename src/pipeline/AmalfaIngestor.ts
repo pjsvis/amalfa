@@ -287,7 +287,6 @@ export class AmalfaIngestor {
 				id,
 				type: "document",
 				label: (frontmatter.title as string) || filename,
-				content,
 				domain: "knowledge",
 				layer: "document",
 				embedding,
