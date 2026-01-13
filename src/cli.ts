@@ -836,7 +836,7 @@ async function cmdValidate() {
 	const { loadConfig } = await import("./config/defaults");
 
 	const db = new ResonanceDB(dbPath);
-	const statsTracker = new StatsTracker();
+	const tracker = new TrackerClass();
 	const config = await loadConfig();
 
 	try {
