@@ -15,8 +15,6 @@ export async function cmdServe(_args: string[]) {
 	console.error(`📊 Database: ${dbPath}`);
 	console.error("");
 
-	// Run MCP server (it handles stdio transport)
-	// Note: We need to resolve from project root, not relative to this new file location
 	const serverPath = join(process.cwd(), "src/mcp/index.ts");
 	const proc = spawn("bun", ["run", serverPath, "serve"], {
 		stdio: "inherit",
@@ -29,6 +27,17 @@ export async function cmdServe(_args: string[]) {
 }
 
 export async function cmdServers(args: string[]) {
+	const action = args[1];
+	// If action is provided and isn't a flag (like --dot), treat it as a lifecycle command
+	if (
+		action &&
+		!action.startsWith("-") &&
+		["start", "stop", "restart"].includes(action)
+	) {
+		await manageAllServers(action as "start" | "stop" | "restart");
+		return;
+	}
+
 	const showDot = args.includes("--dot");
 
 	const SERVICES = [
@@ -178,8 +187,51 @@ export async function cmdServers(args: string[]) {
 
 	console.log("─".repeat(95));
 	console.log(
-		"\n💡 Commands: amalfa serve | amalfa vector start | amalfa daemon start\n",
+		"\n💡 Commands: amalfa servers [start|stop|restart] | amalfa vector start | amalfa daemon start\n",
 	);
+}
+
+// Background services to manage via 'amalfa servers start/restart'
+const BACKGROUND_SERVICES = [
+	{
+		name: "Vector Daemon",
+		cmd: "amalfa",
+		args: ["vector", "start"],
+	},
+	{
+		name: "File Watcher",
+		cmd: "amalfa",
+		args: ["daemon", "start"],
+	},
+	{
+		name: "Sonar Agent",
+		cmd: "amalfa",
+		args: ["sonar", "start"],
+	},
+];
+
+async function manageAllServers(action: "start" | "stop" | "restart") {
+	if (action === "stop" || action === "restart") {
+		await cmdStopAll([]);
+	}
+
+	if (action === "start" || action === "restart") {
+		console.log("🚀 Starting background services...\n");
+
+		for (const svc of BACKGROUND_SERVICES) {
+			console.log(`▶️  Starting ${svc.name}...`);
+			const child = spawn(svc.cmd, svc.args, {
+				detached: true,
+				stdio: "ignore", // Daemons manage their own logs
+				cwd: process.cwd(),
+			});
+			child.unref();
+			// Brief pause to allow pid file creation / logging
+			await new Promise((resolve) => setTimeout(resolve, 500));
+		}
+		console.log("\n✅ All background services triggered.");
+		console.log("Run 'amalfa servers' to check status.");
+	}
 }
 
 export async function cmdStopAll(_args: string[]) {
