@@ -9,4 +9,4 @@ The **opinion/proceed** pattern is more than just a personal preference—it is 
 
 ### Why it works for Gemini (The Model)
 * **Explicit State Transition:** `Proceed` acts as a clear "Go" signal, which helps the model transition from a *reflective/analytical* state to an *executive/generative* state.
-* **Recap & Alignment:** Asking for an opinion forces the model to recap its understanding of the "state of the union," which reinforces the long-context window (crucial for a project as complex as an Epstein audit).
+* **Recap & Alignment:** Asking for an opinion forces the model to recap its understanding of the "state of the union," which reinforces the long-context window.
