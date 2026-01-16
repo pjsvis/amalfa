@@ -5,6 +5,10 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.3] - 2026-01-16
+### Documentation
+- Bump to 1.4.3
+
 ## [1.4.2] - 2026-01-16
 ### Documentation
 - Created `docs/USER-MANUAL.md` as the definitive guide for configuration and operations.
