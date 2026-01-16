@@ -18,7 +18,7 @@ interface ComparisonMetrics {
 
 async function compareResults() {
 	console.log("📊 Reranking Results Comparison\n");
-	console.log("=" .repeat(80));
+	console.log("=".repeat(80));
 
 	// Load baseline
 	const baselinePath = join(AMALFA_DIRS.cache, "baseline-results.json");
