@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **CLI Integration**: Added `amalfa reranker` commands and included in `stop-all`.
 
 
+
+## [1.3.0] - 2026-01-13
+
 ### Changed
 - **Database Schema**: Migrated to Drizzle ORM for schema management (internal implementation detail)
 - **Content Storage**: Database now stores only metadata and embeddings (hollow nodes). Content read from filesystem via `GraphGardener.getContent()`
