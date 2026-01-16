@@ -20,20 +20,30 @@ Health checks and debugging.
 - **`verify_*.ts`**: Integrity suites.
 - **`debug_*.ts`**: Node/Edge inspection.
 
+## 📂 `benchmarks/`
+Performance and quality benchmarks.
+- **`benchmark-*.ts`**: Latency and accuracy measurement suites.
+- **`compare-*.ts`**: Regression testing tools.
+- Strict type checking enabled.
+
+## 📂 `lab/`
+Experimental scripts and scratchpad code.
+- Not strictly type-checked (excluded from `tsconfig.json`).
+- Place for temporary experiments before graduation.
+
 ## 📂 `legacy/` & `fixtures/`
-- **Legacy**: Deprecated code (Python, experiments).
+- **Legacy**: Deprecated code (Python, experiments). Not type-checked.
 - **Fixtures**: Static JSON reference data.
 
-## 📂 `enlightenment/`
-Exploratory scripts for understanding system behavior.
-- **`analyze_*.ts`**: Analysis and discovery scripts.
+## ⚠️ Stability & Policies
 
-## 📂 `maintenance/`
-Operational and maintenance scripts.
-- **`cleanup_*.ts`**: Repository cleanup operations.
-- **`migrate_*.ts`**: Data migration scripts.
+### Type Checking Policy
+- **Strict Checking**: `pipeline/`, `cli/`, `verify/`, `benchmarks/`, `maintenance/`.
+- **Loose Checking**: `lab/`, `legacy/`.
+- **Reason**: Lab/Legacy contain experimental or deprecated code that should not block builds or require maintenance overhead.
+- **Graduation**: Once a lab script is valuable/stable, move it to `benchmarks/` or another typed folder.
 
-## ⚠️ Stability
+### Architectural Warning
 This module is stable and intentionally designed.
 Do NOT refactor, rewrite, or change the architecture without:
 1. Consulting the user first
