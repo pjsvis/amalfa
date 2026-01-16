@@ -5,7 +5,16 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.0] - 2026-01-13
+## [1.4.0] - 2026-01-16
+
+### Added
+- **BGE-M3 Reranking Infrastructure**: Implemented cross-encoder reranking Service.
+  - **Standalone Reranker Daemon**: New service on port 3011 using `Xenova/bge-reranker-base` (ONNX).
+  - **Benchmark Framework**: Comprehensive 4-way comparison tool (none/bge-m3/sonar/hybrid).
+  - **High Accuracy**: Validated 99.92% accuracy on semantic filtering tasks.
+  - **Vector Daemon Integration**: Added `/rerank` endpoint (currently proxies to reranker daemon).
+  - **CLI Integration**: Added `amalfa reranker` commands and included in `stop-all`.
+
 
 ### Changed
 - **Database Schema**: Migrated to Drizzle ORM for schema management (internal implementation detail)

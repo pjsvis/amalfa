@@ -14,8 +14,7 @@ export class Embedder {
 
 	// Default to a more modern model: BGE Small v1.5
 	// This offers a better balance of latency vs. semantic quality than AllMiniLML6V2
-	private currentModel: Exclude<EmbeddingModel, EmbeddingModel.CUSTOM> =
-		EmbeddingModel.BGESmallENV15;
+	private currentModel: EmbeddingModel = EmbeddingModel.BGESmallENV15;
 
 	private constructor() {
 		this.configureModel();
@@ -43,15 +42,10 @@ export class Embedder {
 	 * Helper to map string input to EmbeddingModel enum.
 	 * This allows for easy switching via .env without code changes.
 	 */
-	private resolveModel(
-		modelName: string,
-	): Exclude<EmbeddingModel, EmbeddingModel.CUSTOM> | undefined {
+	private resolveModel(modelName: string): EmbeddingModel | undefined {
 		// Normalize input to match enum keys or values roughly
 		const normalized = modelName.toLowerCase().replace(/[^a-z0-9]/g, "");
-		const map: Record<
-			string,
-			Exclude<EmbeddingModel, EmbeddingModel.CUSTOM>
-		> = {
+		const map: Record<string, EmbeddingModel> = {
 			allminilml6v2: EmbeddingModel.AllMiniLML6V2,
 			bgesmallenv15: EmbeddingModel.BGESmallENV15,
 			bgebaseenv15: EmbeddingModel.BGEBaseENV15,
