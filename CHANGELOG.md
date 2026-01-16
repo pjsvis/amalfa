@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Benchmark Framework**: Comprehensive 4-way comparison tool (none/bge-m3/sonar/hybrid).
   - **High Accuracy**: Validated 99.92% accuracy on semantic filtering tasks.
   - **Vector Daemon Integration**: Added `/rerank` endpoint (currently proxies to reranker daemon).
+  - **CLI Integration**: Added `amalfa reranker` commands and included in `stop-all`.
 
 
 ### Changed

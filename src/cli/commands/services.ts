@@ -94,6 +94,31 @@ export async function cmdVector(args: string[]) {
 	});
 }
 
+export async function cmdReranker(args: string[]) {
+	const action = args[1] || "status";
+	const validActions = ["start", "stop", "status", "restart"];
+
+	if (!validActions.includes(action)) {
+		console.error(`❌ Invalid action: ${action}`);
+		console.error("\nUsage: amalfa reranker <start|stop|status|restart>");
+		process.exit(1);
+	}
+
+	// Run reranker daemon with the specified action
+	const daemonPath = join(
+		process.cwd(),
+		"src/resonance/services/reranker-daemon.ts",
+	);
+	const proc = spawn("bun", ["run", daemonPath, action], {
+		stdio: "inherit",
+		cwd: process.cwd(),
+	});
+
+	proc.on("exit", (code) => {
+		process.exit(code ?? 0);
+	});
+}
+
 export async function cmdSonar(args: string[]) {
 	const action = args[1] || "status";
 	const validActions = ["start", "stop", "status", "restart", "chat"];

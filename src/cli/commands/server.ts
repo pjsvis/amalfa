@@ -60,6 +60,13 @@ export async function cmdServers(args: string[]) {
 			cmd: "amalfa vector start",
 		},
 		{
+			name: "Reranker Daemon",
+			pidFile: join(AMALFA_DIRS.runtime, "reranker-daemon.pid"),
+			port: "3011",
+			id: "reranker",
+			cmd: "amalfa reranker start",
+		},
+		{
 			name: "File Watcher",
 			pidFile: join(AMALFA_DIRS.runtime, "daemon.pid"),
 			port: "-",
@@ -141,6 +148,7 @@ export async function cmdServers(args: string[]) {
 		console.log('  vector -> db [label="embeddings"];');
 		console.log('  watcher -> db [label="updates"];');
 		console.log('  mcp -> vector [label="query", style=dashed];');
+		console.log('  vector -> reranker [label="rerank", style=dashed];');
 		console.log("}");
 		console.log("");
 		console.log("# Save to file: amalfa servers --dot > amalfa.dot");
@@ -203,6 +211,11 @@ const BACKGROUND_SERVICES = [
 		args: ["vector", "start"],
 	},
 	{
+		name: "Reranker Daemon",
+		cmd: "amalfa",
+		args: ["reranker", "start"],
+	},
+	{
 		name: "File Watcher",
 		cmd: "amalfa",
 		args: ["daemon", "start"],
@@ -245,6 +258,10 @@ export async function cmdStopAll(_args: string[]) {
 		{
 			name: "Vector Daemon",
 			pidFile: join(AMALFA_DIRS.runtime, "vector-daemon.pid"),
+		},
+		{
+			name: "Reranker Daemon",
+			pidFile: join(AMALFA_DIRS.runtime, "reranker-daemon.pid"),
 		},
 		{ name: "File Watcher", pidFile: join(AMALFA_DIRS.runtime, "daemon.pid") },
 		{ name: "Sonar Agent", pidFile: join(AMALFA_DIRS.runtime, "sonar.pid") },

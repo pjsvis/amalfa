@@ -8,6 +8,7 @@ import { cmdServe, cmdServers, cmdStopAll } from "./cli/commands/server";
 import {
 	cmdDaemon,
 	cmdEmber,
+	cmdReranker,
 	cmdSonar,
 	cmdVector,
 } from "./cli/commands/services";
@@ -54,6 +55,7 @@ Commands:
   setup-mcp          Generate MCP configuration JSON
   daemon <action>    Manage file watcher (start|stop|status|restart)
   vector <action>    Manage vector daemon (start|stop|status|restart)
+  reranker <action>  Manage reranker daemon (start|stop|status|restart)
   sonar <action>     Manage Sonar AI agent (start|stop|status|restart)
   ember <action>     Manage Ember enrichment service (scan|squash)
   scripts list       List available scripts and their descriptions
@@ -124,6 +126,10 @@ async function main() {
 
 		case "vector":
 			await cmdVector(args);
+			break;
+
+		case "reranker":
+			await cmdReranker(args);
 			break;
 
 		case "setup-mcp":
