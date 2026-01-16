@@ -34,7 +34,7 @@ Built with **Bun + SQLite + FastEmbed**.
 
 **Current state:** AI agents lose context between sessions. Knowledge resets. Same problems get re-solved.
 
-**Amalfa solves this:** Agents write structured reflections (briefs → work → debriefs → playbooks). Amalfa indexes this as a queryable knowledge graph with semantic search.
+**Amalfa solves this:** Agents write structured reflections (Write Brief → Do Work → Write Debrief → Update Playbooks). Amalfa indexes this as a queryable knowledge graph with semantic search.
 
 **Result:** Agents can query "What did we learn about authentication?" and get ranked, relevant past work—even across different agents and sessions.
 
@@ -84,7 +84,7 @@ Amalfa employs a tiered maintenance strategy. For standard issues, run `amalfa d
 👉 **Full Guide:** [User Manual - Maintenance & Troubleshooting](docs/USER-MANUAL.md#6-maintenance--troubleshooting)
 
 
-### Brief-Debrief-Playbook Pattern
+### Write Brief → Do Work → Write Debrief → Update Playbooks Pattern
 
 ```
 Brief (task spec)

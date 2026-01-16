@@ -80,7 +80,7 @@ Consult your client's documentation. Common pitfalls:
 
 ## 2. Core Workflow
 
-Amalfa is designed around the **Brief → Work → Debrief → Playbook** cycle.
+Amalfa is designed around the **Write Brief → Do Work → Write Debrief → Update Playbooks** cycle.
 
 ![AMALFA Workflow](https://raw.githubusercontent.com/pjsvis/amalfa/main/docs/workflow.png)
 
