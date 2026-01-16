@@ -11,14 +11,14 @@
  */
 
 import { join } from "node:path";
-import { AMALFA_DIRS, loadConfig } from "../../src/config/defaults";
-import { VectorEngine, type SearchResult } from "../../src/core/VectorEngine";
-import { ResonanceDB } from "../../src/resonance/db";
-import { ContentHydrator } from "../../src/utils/ContentHydrator";
-import { GraphEngine } from "../../src/core/GraphEngine";
-import { GraphGardener } from "../../src/core/GraphGardener";
-import { getLogger } from "../../src/utils/Logger";
-import type { RerankingMode } from "../../src/types/reranking";
+import { AMALFA_DIRS, loadConfig } from "@src/config/defaults";
+import { VectorEngine, type SearchResult } from "@src/core/VectorEngine";
+import { ResonanceDB } from "@src/resonance/db";
+import { ContentHydrator } from "@src/utils/ContentHydrator";
+import { GraphEngine } from "@src/core/GraphEngine";
+import { GraphGardener } from "@src/core/GraphGardener";
+import { getLogger } from "@src/utils/Logger";
+import type { RerankingMode } from "@src/types/reranking";
 
 const log = getLogger("RerankBenchmark");
 
@@ -136,7 +136,9 @@ async function searchWithMode(
 		rerankerEnd = performance.now();
 		
 		// Map back to original results
-		const finalResults = reranked.map((rr) => vectorResults[rr.originalIndex]);
+		const finalResults = reranked
+			.map((rr) => vectorResults[rr.originalIndex])
+			.filter((r): r is SearchResult => r !== undefined);
 		
 		return {
 			results: finalResults,
