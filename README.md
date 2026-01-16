@@ -36,6 +36,8 @@ Built with **Bun + SQLite + FastEmbed**.
 
 **Amalfa solves this:** Agents write structured reflections (Write Brief → Do Work → Write Debrief → Update Playbooks). Amalfa indexes this as a queryable knowledge graph with semantic search.
 
+👉 **Deep Dive:** [Why Structured Reflection Beats Infinite Context](docs/WHY-STRUCTURED-REFLECTION.md)
+
 **Result:** Agents can query "What did we learn about authentication?" and get ranked, relevant past work—even across different agents and sessions.
 
 ---
