@@ -8,6 +8,7 @@
 import { join } from "node:path";
 import { AMALFA_DIRS } from "@src/config/defaults";
 import { toFafcas } from "@src/resonance/db";
+import { BgeReranker } from "@src/services/reranker";
 import { getLogger } from "@src/utils/Logger";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 import { serve } from "bun";
@@ -26,6 +27,7 @@ const lifecycle = new ServiceLifecycle({
 
 // Keep model loaded in memory
 let embedder: FlagEmbedding | null = null;
+let reranker: BgeReranker | null = null;
 const currentModel = EmbeddingModel.BGESmallENV15;
 
 /**
@@ -54,6 +56,17 @@ async function initEmbedder() {
 }
 
 /**
+ * Initialize reranker model (lazy loaded on first request)
+ */
+async function initReranker() {
+	if (!reranker) {
+		log.info("🔄 Initializing BGE-M3 reranker model...");
+		reranker = await BgeReranker.getInstance();
+		log.info("✅ Reranker model loaded and ready");
+	}
+}
+
+/**
  * Main server logic
  */
 async function runServer() {
@@ -73,11 +86,77 @@ async function runServer() {
 						status: "ok",
 						model: currentModel,
 						ready: embedder !== null,
+						reranker_ready: reranker !== null,
 					}),
 					{
 						headers: { "Content-Type": "application/json" },
 					},
 				);
+			}
+
+			// Rerank endpoint
+			if (url.pathname === "/rerank" && req.method === "POST") {
+				try {
+					const body = (await req.json()) as {
+						query?: string;
+						documents?: string[];
+						topK?: number;
+						threshold?: number;
+					};
+					const { query, documents, topK, threshold } = body;
+
+					if (!query || !documents || !Array.isArray(documents)) {
+						return new Response(
+							JSON.stringify({
+								error: "Missing or invalid query/documents parameters",
+							}),
+							{
+								status: 400,
+								headers: { "Content-Type": "application/json" },
+							},
+						);
+					}
+
+					// Lazy load reranker on first request
+					await initReranker();
+
+					if (!reranker) {
+						throw new Error("Reranker not initialized");
+					}
+
+					// Rerank documents
+					const results = await reranker.rerank(
+						query,
+						documents,
+						topK,
+						threshold || 0,
+					);
+
+					return new Response(
+						JSON.stringify({
+							results: results.map((r) => ({
+								text: r.text,
+								score: r.score,
+								originalIndex: r.originalIndex,
+							})),
+							count: results.length,
+						}),
+						{
+							headers: { "Content-Type": "application/json" },
+						},
+					);
+				} catch (e) {
+					log.error({ err: e }, "❌ Reranking failed");
+					return new Response(
+						JSON.stringify({
+							error: e instanceof Error ? e.message : String(e),
+						}),
+						{
+							status: 500,
+							headers: { "Content-Type": "application/json" },
+						},
+					);
+				}
 			}
 
 			// Embed endpoint
