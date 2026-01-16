@@ -59,13 +59,13 @@ environment: local
   - Pre-existing errors documented (cli.ts, generative-ui)
 
 - **Documentation Created**:
-  - `.amalfa/cache/reranking-implementation.md` - Architecture & integration details
-  - `.amalfa/cache/bge-m3-summary.md` - Comprehensive status & findings
+  - `scripts/lab/reranking-implementation.md` - Architecture & integration details
+  - `scripts/lab/bge-m3-summary.md` - Comprehensive status & findings
   - Brief reviewed: `briefs/brief-vector-reranking.md` ✅ Consistent with proposal
 
 ## Problems
 
-### 1. FastEmbed ONNX Compatibility Issue (BLOCKING)
+### 1. FastEmbed ONNX Compatibility Issue ✅ RESOLVED
 **Problem**: Vector Daemon fails to start due to ONNX Opset 19 incompatibility
 ```
 error: ONNX Runtime only *guarantees* support for models stamped with 
@@ -78,26 +78,53 @@ Current official support for domain com.ms.internal.nhwc is till opset 18.
 - Hybrid mode testing blocked
 - Production deployment blocked
 
-**Root Cause**: `fastembed@2.0.0` uses BGESmallENV15 model with experimental ONNX opset
+**Root Cause**: `fastembed@1.14.4` uses BGESmallENV15 model with experimental ONNX opset
 
 **Workarounds Considered**:
-1. **Downgrade FastEmbed**: Try `fastembed@1.x` (may have Opset 18)
-2. **Separate Reranker Daemon**: Create standalone service on port 3011 (no FastEmbed dependency)
+1. **Downgrade FastEmbed**: Try `fastembed@1.x` (may have Opset 18) - Already at 1.14.4, issue persists
+2. ✅ **Separate Reranker Daemon**: Create standalone service on port 3011 (no FastEmbed dependency)
 3. **Use Existing Embedding Daemon**: If running daemon exists from main branch, leverage it
 
-**Resolution**: Deferred to post-commit (infrastructure is complete, just deployment blocked)
+**✅ Resolution IMPLEMENTED** (Same Session):
+- Created `src/resonance/services/reranker-daemon.ts` - standalone daemon on port 3011
+- No FastEmbed dependency (uses `@xenova/transformers` only)
+- ServiceLifecycle integration with PID file and logging
+- Lazy-loaded BGE reranker model (initialized on first request)
+- Successfully started and tested with full benchmark suite
 
-### 2. BGE-M3 Benchmark Fell Back to Vector-Only
-**Problem**: When running `benchmark-reranking-comparison.ts bge-m3`, all rerank calls returned 404
+**Verification**:
+- Daemon started successfully: `bun run src/resonance/services/reranker-daemon.ts serve`
+- Health check: `{"status":"ok","model":"bge-reranker-base","ready":true}`
+- Full benchmark completed: 10 queries, all successfully reranked
+
+### 2. BGE-M3 Benchmark ✅ COMPLETED
+**Original Problem**: When running `benchmark-reranking-comparison.ts bge-m3`, all rerank calls returned 404
 
 **Root Cause**: Vector Daemon wasn't running (couldn't start due to FastEmbed issue)
 
-**Graceful Degradation**: Script fell back to vector-only search and completed successfully
+**Original Graceful Degradation**: Script fell back to vector-only search and completed successfully
 - Avg latency: 134ms
 - Reranker latency: 2ms (attempted calls only)
 - Results saved but not using actual reranking
 
-**Positive**: Demonstrates robust error handling in benchmark framework
+**✅ Resolution**: After implementing separate reranker daemon, benchmark re-executed successfully
+- **10 queries completed** across 4 difficulty levels (easy/medium/hard/edge)
+- **Average total latency**: 12,060ms (vector search + content hydration + reranking)
+- **Average reranker latency**: 11,896ms (98.6% of total time - confirming cross-encoder does heavy lifting)
+- **All results meaningful**: Top matches highly relevant to queries
+
+**Sample Results**:
+| Query | Difficulty | Total (ms) | Reranker (ms) | Top Result Match |
+|-------|-----------|-----------|---------------|------------------|
+| "FAFCAS protocol" | Easy | 11,643 | 11,471 | fafcas_compliance.test.ts ✅ |
+| "opinion/proceed pattern" | Medium | 11,867 | 11,731 | opinion-proceed-pattern.md ✅ |
+| "hollow nodes and FAFCAS" | Hard | 12,502 | 12,353 | Capability Uplift Report: The FAFCAS Era ✅ |
+| "zombie process defense" | Edge | 12,349 | 12,189 | test_mcp_query.ts ✅ |
+
+**Positive**: 
+- Demonstrates robust error handling in benchmark framework (graceful degradation)
+- Proves architecture works end-to-end when daemon is available
+- Shows reranker significantly affects result quality (top matches highly specific)
 
 ### 3. Baseline vs "None" Mode Latency Discrepancy
 **Observation**: Baseline (400ms) vs "None" mode (142ms) both using same vector search
@@ -221,8 +248,8 @@ Current official support for domain com.ms.internal.nhwc is till opset 18.
 - `scripts/lab/benchmark-search-baseline.ts` - Baseline capture (145 lines)
 - `scripts/lab/benchmark-reranking-comparison.ts` - 4-way comparison (277 lines)
 - `scripts/lab/compare-reranking-results.ts` - Results analysis (79 lines)
-- `.amalfa/cache/reranking-implementation.md` - Implementation doc (167 lines)
-- `.amalfa/cache/bge-m3-summary.md` - Status summary (180 lines)
+- `scripts/lab/reranking-implementation.md` - Implementation doc (167 lines)
+- `scripts/lab/bge-m3-summary.md` - Status summary (180 lines)
 
 ### Files Modified (2)
 - `src/resonance/services/vector-daemon.ts` - Added `/rerank` endpoint (+78 lines)

@@ -66,10 +66,10 @@ async function callReranker(
 	topK = 15,
 	threshold = 0.25,
 ): Promise<Array<{ text: string; score: number; originalIndex: number }>> {
-	const VECTOR_PORT = Number(process.env.VECTOR_PORT || 3010);
+	const RERANKER_PORT = Number(process.env.RERANKER_PORT || 3011);
 	
 	try {
-		const response = await fetch(`http://localhost:${VECTOR_PORT}/rerank`, {
+		const response = await fetch(`http://localhost:${RERANKER_PORT}/rerank`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ query, documents, topK, threshold }),
