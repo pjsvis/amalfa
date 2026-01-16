@@ -72,7 +72,9 @@ export class AmalfaIngestor {
 			// Pass 1: Create all nodes (without edges)
 			// Pass 2: Create edges (now that all nodes exist in lexicon)
 
-			const BATCH_SIZE = 50;
+			// Reduced from 50 to 10 to minimize lock duration and prevent SQLITE_BUSY errors
+			// when daemons/MCP server are running concurrently
+			const BATCH_SIZE = 10;
 			let processedCount = 0;
 
 			// PASS 1: Nodes only

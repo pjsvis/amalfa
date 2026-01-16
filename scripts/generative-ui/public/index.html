@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REIFY - Generative UI Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/@sudodevnull/datastar"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <div 
+    id="reify-container" 
+    data-fetch-url="/api/reify"
+    class="min-h-screen"
+  >
+    <div class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <p class="mt-4 text-gray-600">Loading generative UI...</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

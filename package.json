@@ -64,6 +64,7 @@
 		"help": "bun run src/cli.ts --help"
 	},
 	"dependencies": {
+		"@google/generative-ai": "^0.24.1",
 		"@modelcontextprotocol/sdk": "1.25.2",
 		"drizzle-kit": "0.31.8",
 		"drizzle-orm": "0.45.1",

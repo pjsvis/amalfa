@@ -1,4 +1,4 @@
-import {ComponentNodeSchema} from './components';
+import {ComponentNodeSchema} from './component-schema';
 import {z} from 'zod';
 
 // --- LAYOUT ---
