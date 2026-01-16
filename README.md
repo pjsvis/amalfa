@@ -77,23 +77,23 @@ MCP Server (AI agents)
 
 **Distinguisher**: Unlike traditional systems where the database *is* the truth, AMALFA inverts this. Your prose is permanent, the index is disposable.
 
-### When to Re-Ingest
+### Troubleshooting & Maintenance
 
-Just delete `.amalfa/` and re-run ingestion:
+Amalfa employs a **Tiered Maintenance Strategy** to ensure stability without data loss.
 
-```bash
-rm -rf .amalfa/
-bun run scripts/cli/ingest.ts
-```
+1.  **Tier 1: Diagnose**
+    Run `amalfa doctor` to check for configuration issues, port conflicts, or missing dependencies.
 
-**Common scenarios**:
-- After upgrading AMALFA versions
-- When experiencing search issues
-- When changing embedding models
-- After adding/modifying many documents
-- Anytime you want a clean slate
+2.  **Tier 2: Re-Index (Safe)**
+    Run `amalfa init` to re-scan your documents and update the graph. This is safe to run anytime and will update metadata without deleting the database.
+    *   *When to use:* After adding many files or changing `amalfa.config.json`.
 
-**Speed**: 308 nodes in <1 second. Re-ingestion is fast enough to be casual.
+3.  **Tier 3: Factory Reset (Last Resort)**
+    Only if the database is corrupted or you are changing embedding models (incompatible dimensions):
+    ```bash
+    rm -rf .amalfa/
+    amalfa init
+    ```
 
 ### Brief-Debrief-Playbook Pattern
 
@@ -131,24 +131,97 @@ Amalfa **automatically** adds:
 
 **Agents don't maintain metadata manually.** Amalfa handles it via git-audited auto-augmentation.
 
-### Latent Space Tagging
+---
 
-**Innovation:** Tags emerge from vector clustering, not predefined taxonomy.
+## Sub-Agents & Discovery
 
-```python
-# Cluster documents in embedding space
-clusters = cluster(all_docs, min_size=3)
+Amalfa is designed to orchestrate specialized sub-agents. Currently, it integrates deeply with **Ollama** for local inference.
 
-# Generate labels from cluster content
-for cluster in clusters:
-    label = generate_label(cluster.docs)  # e.g., "auth-state-patterns"
-    for doc in cluster:
-        doc.add_tag(f"latent:{label}", confidence_score)
+### 1. Local LLM (Sonar Agent)
+The **Sonar Agent** (Port 3012) provides reasoning capabilities on top of your knowledge graph.
+- **Provider:** Ollama (default `localhost:11434`)
+- **Model:** Configurable (defaults to `phi3:mini` or `mistral`)
+- **Capabilities:**
+    - **Reranking**: Scores search results for relevance.
+    - **Synthesis**: Summarizes document clusters.
+    - **Research**: Performs recursive graph traversal to answer complex queries.
+
+**Configuration:**
+Edit `amalfa.config.json`:
+```json
+{
+  "sonar": {
+    "enabled": true,
+    "model": "phi3:medium",
+    "host": "http://localhost:11434"
+  }
+}
 ```
 
-**Result:** Self-organizing knowledge base that adapts as it grows.
+### 2. BYOK (Bring Your Own Key) Agents
+To use cloud models (OpenAI, Anthropic) as the backend for Sonar:
+1.  Use an **Ollama-compatible bridge** (like `litellm` or `ollama-proxy`).
+2.  Point `sonar.host` to your bridge URL.
+3.  Amalfa will treat it as a local agent.
+
+### 3. Usage Examples
+
+**Semantic Search (Vector Daemon)**
+> "What are the authentication patterns for the API?"
+> *Result: Returns top 5 relevant playbook entries.*
+
+**Deep Research (Sonar Agent)**
+> "Analyze the history of our database migration decisions."
+> *Result: Sonar traverses the graph, reads Debriefs from Phase 1 & 2, and synthesizes a timeline of decisions.*
+
+**Interactive Chat**
+```bash
+# Chat with your knowledge base
+amalfa sonar chat
+```
 
 ---
+
+## Architecture
+
+### Technology Stack
+
+- **Runtime:** Bun (fast, TypeScript-native)
+- **Database:** SQLite with WAL mode (local-first, portable)
+- **Embeddings:** FastEmbed (`bge-small-en-v1.5`, 384 dims)
+- **Reranking:** Xenova Transformers (`bge-reranker-base`)
+- **Protocol:** Model Context Protocol (MCP)
+
+### Project Structure
+
+```
+amalfa/
+├── src/
+│   ├── mcp/           # MCP server implementation
+│   ├── resonance/     # Database layer (SQLite wrapper)
+│   ├── core/          # Graph processing (EdgeWeaver, VectorEngine)
+│   └── utils/         # Logging, validation, lifecycle
+├── scripts/
+│   ├── cli/           # Command-line tools
+│   └── pipeline/      # Data ingestion pipeline
+├── docs/
+│   ├── VISION-AGENT-LEARNING.md        # Core vision
+│   ├── AGENT-METADATA-PATTERNS.md      # Auto-augmentation design
+│   └── SETUP.md                        # NPM publishing guide
+├── briefs/            # Task specifications
+├── debriefs/          # Reflective documents
+└── playbooks/         # Codified patterns
+```
+
+### Key Patterns
+
+1.  **Hollow Nodes:** Node metadata in SQLite, content on filesystem
+2.  **FAFCAS Protocol:** Embedding normalization that enables scalar product searches (10x faster than cosine similarity)
+3.  **Micro-Daemon Mesh:**
+    *   **Vector Daemon (3010)**: Embeddings
+    *   **Reranker Daemon (3011)**: Relevance Scoring
+    *   **Sonar Agent (3012)**: Reasoning loop
+4.  **ServiceLifecycle:** Unified daemon management pattern
 
 ## Quick Start
 
@@ -206,46 +279,6 @@ bun install
 
 ---
 
-## Architecture
-
-### Technology Stack
-
-- **Runtime:** Bun (fast, TypeScript-native)
-- **Database:** SQLite with WAL mode (local-first, portable)
-- **Embeddings:** FastEmbed (`all-MiniLM-L6-v2`, 384 dims)
-- **Search:** Vector similarity + full-text (FTS5)
-- **Protocol:** Model Context Protocol (MCP)
-
-### Project Structure
-
-```
-amalfa/
-├── src/
-│   ├── mcp/           # MCP server implementation
-│   ├── resonance/     # Database layer (SQLite wrapper)
-│   ├── core/          # Graph processing (EdgeWeaver, VectorEngine)
-│   └── utils/         # Logging, validation, lifecycle
-├── scripts/
-│   ├── cli/           # Command-line tools
-│   └── pipeline/      # Data ingestion pipeline
-├── docs/
-│   ├── VISION-AGENT-LEARNING.md        # Core vision
-│   ├── AGENT-METADATA-PATTERNS.md      # Auto-augmentation design
-│   └── SETUP.md                        # NPM publishing guide
-├── briefs/            # Task specifications
-├── debriefs/          # Reflective documents
-└── playbooks/         # Codified patterns
-```
-
-### Key Patterns
-
-1. **Hollow Nodes:** Node metadata in SQLite, content on filesystem
-2. **FAFCAS Protocol:** Embedding normalization that enables scalar product searches (10x faster than cosine similarity)
-3. **Git-Based Auditing:** All agent augmentations are git commits
-4. **ServiceLifecycle:** Unified daemon management pattern
-
----
-
 ## Example Workflow
 
 AMALFA follows a **Brief → Work → Debrief → Playbook** cycle:
@@ -283,14 +316,15 @@ Agents generate knowledge through structured reflection. Amalfa provides semanti
 
 ## Implementation Status
 
-### ✅ Core Functionality (v1.0 - Released)
+### ✅ Core Functionality (v1.4.0 - Released)
 
 - ✅ **MCP Server** - stdio transport, tools, resources
 - ✅ **Vector Search** - FastEmbed embeddings (384-dim), semantic search
+- ✅ **Reranking** - BGE-M3 cross-encoder for high precision
 - ✅ **Database** - SQLite with hollow nodes, FAFCAS protocol
 - ✅ **Ingestion Pipeline** - Markdown → nodes + embeddings
-- ✅ **CLI** - init, serve, stats, doctor, servers, daemon, vector
-- ✅ **Service Management** - Vector daemon, file watcher, lifecycle
+- ✅ **CLI** - init, serve, stats, doctor, servers, daemon, vector, reranker
+- ✅ **Service Management** - Vector/Reranker daemons, file watcher, Sonar agent
 - ✅ **Pre-flight Validation** - Check markdown before ingestion
 
 ### 🚧 Phase 1: Auto-Augmentation (In Progress)
