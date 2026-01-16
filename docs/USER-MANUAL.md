@@ -37,11 +37,44 @@ bun install -g amalfa
     ```bash
     amalfa init
     ```
-3.  Generate MCP Configuration for Claude Desktop:
-    ```bash
-    amalfa setup-mcp
-    ```
-4.  Add the output to your `claude_desktop_config.json`.
+
+### Configuring Your AI Client (MCP)
+
+To use Amalfa with an AI agent, you must register it as an MCP server.
+
+**1. Generate Base Config**
+Run `amalfa setup-mcp` to get the JSON snippet.
+
+**2. Add to Your Client**
+
+#### A. Claude Desktop
+File: `~/Library/Application Support/Claude/claude_desktop_config.json`
+Key: `mcpServers`
+
+```json
+{
+  "mcpServers": {
+    "amalfa": {
+      "command": "amalfa",
+      "args": ["serve"],
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin"
+      }
+    }
+  }
+}
+```
+
+#### B. Cline / Roo Code (VSCode)
+File: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`
+*Note: Cline uses the standard `env` key.*
+
+#### C. Other Clients (Cursor, Windsurf, etc.)
+Consult your client's documentation. Common pitfalls:
+*   **Environment Variables**: Some clients use `"env": { ... }`, others use `"environment": { ... }`.
+*   **Path**: Use absolute paths for `command`. If `amalfa` is not found, run `which amalfa` and use the full path (e.g., `/Users/me/.bun/bin/amalfa`).
+*   **CWD**: Ensure the client runs the server in your project root, or specify explicit sources in `amalfa.config.json` with absolute paths.
+
 
 ---
 
@@ -49,11 +82,17 @@ bun install -g amalfa
 
 Amalfa is designed around the **Brief → Work → Debrief → Playbook** cycle.
 
-1.  **Brief**: Agent receives a task.
-2.  **Work**: Agent performs actions.
-3.  **Debrief**: Agent creates a markdown file in `debriefs/` summarizing what worked/failed.
-4.  **Playbook**: Agent extracts reusable patterns into `playbooks/`.
-5.  **Query**: In future sessions, Amalfa retrieves these Playbooks via semantic search, preventing regression.
+![AMALFA Workflow](https://raw.githubusercontent.com/pjsvis/amalfa/main/docs/workflow.png)
+
+### The Cycle
+1.  **Brief**: Agent receives a task / user request.
+2.  **Work**: Agent performs actions (coding, writing).
+3.  **Debrief**: Agent creates a markdown file (e.g., `debriefs/task-001.md`) summarizing what worked, what failed, and lessons learned.
+4.  **Playbook**: Agent extracts reusable patterns into `playbooks/` (e.g., `playbooks/auth-patterns.md`).
+5.  **Query**: In future sessions, Amalfa retrieves these Playbooks via semantic search ("How do we handle auth?"), preventing regression.
+
+### Philosophy (The "Why")
+Agents suffer from context loss. By forcing structured reflection (Debriefs) and codification (Playbooks), you create an external "Long-Term Memory" that persists across sessions and models.
 
 **Best Practice**: Treat your markdown files as the "Source of Truth". The database is just an index of these files.
 

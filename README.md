@@ -232,40 +232,7 @@ bun install
 
 ---
 
-## Example Workflow
 
-AMALFA follows a **Brief → Work → Debrief → Playbook** cycle:
-
-![AMALFA Workflow](https://raw.githubusercontent.com/pjsvis/amalfa/main/docs/workflow.png)
-
-**Example:**
-
-1. **Brief:** "Implement user authentication with JWT tokens"
-2. **Work:** Agent implements the feature, commits code
-3. **Debrief:** Document what worked (JWT refresh tokens), what didn't (session storage), lessons learned
-4. **Playbook:** Extract reusable pattern: "Authentication with stateless JWT tokens"
-5. **Query:** Later, "How should we handle auth?" → AMALFA retrieves the playbook via semantic search
-
-**The magic:** Each document is embedded as a vector (384 dimensions), enabling semantic search across all accumulated knowledge.
-
----
-
-## Vision
-
-See [VISION-AGENT-LEARNING.md](docs/VISION-AGENT-LEARNING.md) for the full vision.
-
-**TL;DR:**
-
-Agents generate knowledge through structured reflection. Amalfa provides semantic infrastructure to make this knowledge:
-
-- **Queryable** (vector search + graph traversal)
-- **Persistent** (across sessions and agents)
-- **Self-organizing** (latent space clustering)
-- **Auditable** (git-based workflow)
-
-**The goal:** Enable agents to maintain institutional memory without human bottlenecks.
-
----
 
 ## Implementation Status
 
