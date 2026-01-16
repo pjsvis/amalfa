@@ -79,21 +79,10 @@ MCP Server (AI agents)
 
 ### Troubleshooting & Maintenance
 
-Amalfa employs a **Tiered Maintenance Strategy** to ensure stability without data loss.
+Amalfa employs a tiered maintenance strategy. For standard issues, run `amalfa doctor`. For data updates, run `amalfa init`.
 
-1.  **Tier 1: Diagnose**
-    Run `amalfa doctor` to check for configuration issues, port conflicts, or missing dependencies.
+👉 **Full Guide:** [User Manual - Maintenance & Troubleshooting](docs/USER-MANUAL.md#6-maintenance--troubleshooting)
 
-2.  **Tier 2: Re-Index (Safe)**
-    Run `amalfa init` to re-scan your documents and update the graph. This is safe to run anytime and will update metadata without deleting the database.
-    *   *When to use:* After adding many files or changing `amalfa.config.json`.
-
-3.  **Tier 3: Factory Reset (Last Resort)**
-    Only if the database is corrupted or you are changing embedding models (incompatible dimensions):
-    ```bash
-    rm -rf .amalfa/
-    amalfa init
-    ```
 
 ### Brief-Debrief-Playbook Pattern
 
@@ -135,50 +124,14 @@ Amalfa **automatically** adds:
 
 ## Sub-Agents & Discovery
 
-Amalfa is designed to orchestrate specialized sub-agents. Currently, it integrates deeply with **Ollama** for local inference.
+Amalfa orchestrates specialized sub-agents (Vector, Reranker, Sonar) to provide intelligence.
 
-### 1. Local LLM (Sonar Agent)
-The **Sonar Agent** (Port 3012) provides reasoning capabilities on top of your knowledge graph.
-- **Provider:** Ollama (default `localhost:11434`)
-- **Model:** Configurable (defaults to `phi3:mini` or `mistral`)
-- **Capabilities:**
-    - **Reranking**: Scores search results for relevance.
-    - **Synthesis**: Summarizes document clusters.
-    - **Research**: Performs recursive graph traversal to answer complex queries.
+*   **Vector Daemon**: Handles embeddings.
+*   **Reranker Daemon**: Re-scores search results for precision.
+*   **Sonar Agent**: Performs reasoning and deep research using local LLMs (Ollama) or Cloud APIs.
 
-**Configuration:**
-Edit `amalfa.config.json`:
-```json
-{
-  "sonar": {
-    "enabled": true,
-    "model": "phi3:medium",
-    "host": "http://localhost:11434"
-  }
-}
-```
+👉 **Full Guide:** [User Manual - Services & Sub-Agents](docs/USER-MANUAL.md#5-services--sub-agents)
 
-### 2. BYOK (Bring Your Own Key) Agents
-To use cloud models (OpenAI, Anthropic) as the backend for Sonar:
-1.  Use an **Ollama-compatible bridge** (like `litellm` or `ollama-proxy`).
-2.  Point `sonar.host` to your bridge URL.
-3.  Amalfa will treat it as a local agent.
-
-### 3. Usage Examples
-
-**Semantic Search (Vector Daemon)**
-> "What are the authentication patterns for the API?"
-> *Result: Returns top 5 relevant playbook entries.*
-
-**Deep Research (Sonar Agent)**
-> "Analyze the history of our database migration decisions."
-> *Result: Sonar traverses the graph, reads Debriefs from Phase 1 & 2, and synthesizes a timeline of decisions.*
-
-**Interactive Chat**
-```bash
-# Chat with your knowledge base
-amalfa sonar chat
-```
 
 ---
 
