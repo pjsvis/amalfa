@@ -51,6 +51,21 @@ In a "Structured Reflection" loop, mistakes become assets.
 
 The system gets smarter *because* it failed. In a traditional system, a failure is just an error log that gets buried.
 
+## 5. The Inuit Navigation Model (Sastrugi)
+
+Consider how Inuit navigators traverse the Arctic whiteout. They often lack a global map or GPS. Instead, they navigate by reading **sastrugi**—wind-eroded ridges in the snow.
+
+*   **Global Map**: Often unavailable or too abstract.
+*   **Sastrugi**: Immediate, local features that indicate the **prevailing wind** (a global constant). By reading the snow at their feet, they know their orientation relative to the entire world.
+
+**For AI Agents, Folder READMEs are Sastrugi.**
+
+When an agent drops into a deep directory `src/core/weavers/`, it is in a whiteout. It sees code files (`Weaver.ts`, `Spinner.ts`) but lacks orientation.
+*   **The Guardrail**: A short `README.md` in that folder acts as the sastrugi.
+*   **The Signal**: "This specific folder handles Graph Topology. The prevailing architectural wind flows from `src/core` to `src/utils`. Do not import `src/cli` here."
+
+Amalfa's architecture encourages this **Fractal Documentation**. By maintaining local "sastrugi" (Folder READMEs) and global "Stars" (Playbooks), an agent can navigate complex codebases without ever needing to load the entire project into context.
+
 ---
 
 ## The Verdict
