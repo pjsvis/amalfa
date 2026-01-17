@@ -2,6 +2,8 @@
 
 This file provides guidance to WARP (warp.dev) when working with code in this repository.
 
+**Note:** For agent behavior and philosophy, see `AGENTS.md`. That content is most effective when placed in your agent's **system prompt** rather than loaded as a file-based rule.
+
 ## Project Overview
 
 **Amalfa** gives AI agents persistent memory and semantic search across sessions via Model Context Protocol (MCP). Agents can query past work ("What did we learn about auth?") and get ranked, relevant results from structured markdown documentation (briefs, debriefs, playbooks).
