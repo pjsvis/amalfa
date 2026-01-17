@@ -4,6 +4,8 @@ import { join, resolve } from "node:path";
 import pkg from "../package.json" with { type: "json" };
 import { cmdDoctor } from "./cli/commands/doctor";
 import { cmdInit } from "./cli/commands/init";
+import { cmdRead } from "./cli/commands/read";
+import { cmdSearch } from "./cli/commands/search";
 import { cmdServe, cmdServers, cmdStopAll } from "./cli/commands/server";
 import {
 	cmdDaemon,
@@ -49,6 +51,8 @@ Usage:
 Commands:
   init [--force]     Initialize database from markdown files
   serve              Start MCP server (stdio transport)
+  search <query>     Search knowledge graph [--limit N] [--json]
+  read <node-id>     Read document content [--json]
   stats              Show database statistics
   validate           Validate database health (pre-publish gate)
   doctor             Check installation and configuration
@@ -71,6 +75,8 @@ Examples:
   amalfa init        # Initialize with pre-flight validation
   amalfa init --force # Override warnings (use with caution)
   amalfa serve       # Start MCP server for Claude Desktop
+  amalfa search "oauth patterns"  # Search knowledge graph
+  amalfa read docs/README.md      # Read document content
   amalfa stats       # Show knowledge graph statistics
   amalfa doctor      # Verify installation
   amalfa sonar start # Start Sonar AI agent for enhanced search
@@ -104,13 +110,21 @@ async function main() {
 			await cmdServe(args);
 			break;
 
-		case "stats":
-			await cmdStats(args);
-			break;
+	case "search":
+		await cmdSearch(args.slice(1));
+		break;
 
-		case "doctor":
-			await cmdDoctor(args);
-			break;
+	case "read":
+		await cmdRead(args.slice(1));
+		break;
+
+	case "stats":
+		await cmdStats(args);
+		break;
+
+	case "doctor":
+		await cmdDoctor(args);
+		break;
 
 		case "validate":
 			await cmdValidate(args);
