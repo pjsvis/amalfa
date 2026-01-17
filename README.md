@@ -173,7 +173,8 @@ amalfa/
 1.  **Hollow Nodes:** Node metadata in SQLite, content on filesystem
 2.  **FAFCAS Protocol:** Embedding normalization that enables scalar product searches (10x faster than cosine similarity)
 3.  **Micro-Daemon Mesh:**
-    *   **Vector Daemon (3010)**: Embeddings
+    *   **File Watcher Daemon**: Monitors markdown changes, triggers re-ingestion with embeddings
+    *   **Vector Daemon (3010)**: Standalone HTTP service for embedding generation
     *   **Reranker Daemon (3011)**: Relevance Scoring
     *   **Sonar Agent (3012)**: Reasoning loop
 4.  **ServiceLifecycle:** Unified daemon management pattern
@@ -320,7 +321,7 @@ These packages (`onnxruntime-node`, `protobufjs`) run native build scripts durin
 - [ ] Auto-linking (wiki-style [[links]])
 - [ ] Tag extraction and indexing
 - [ ] Git-based auditing for augmentations
-- [ ] Automated file watcher updates
+- [x] Automated file watcher updates
 
 ### 🚧 Phase 2: Ember Service (Automated Enrichment)
 - ✅ **Analyzer** - Louvain community detection & heuristics
@@ -375,26 +376,30 @@ bun install
 
 # Run tests
 bun test
-
-# Start development server
-bun run dev
 ```
 
 ### Commands
 
 ```bash
-# CLI commands (after global install: bun install -g amalfa)
+# Core commands (after global install: bun install -g amalfa)
 amalfa init              # Initialize database from markdown
 amalfa serve             # Start MCP server (stdio)
 amalfa stats             # Show database statistics
 amalfa doctor            # Health check
-amalfa servers           # Show all service status (with commands!)
-amalfa servers --dot     # Generate DOT diagram
-amalfa daemon start      # Start file watcher daemon
-amalfa daemon stop       # Stop file watcher daemon
-amalfa daemon status     # Check daemon status
 amalfa setup-mcp         # Generate MCP config
 amalfa --help            # Show help
+
+# Service management
+amalfa servers           # Show all service status
+amalfa servers --dot     # Generate DOT diagram
+amalfa stop-all          # Stop all running services
+
+# Individual services (start|stop|status|restart)
+amalfa daemon <action>   # File watcher daemon
+amalfa vector <action>   # Vector embedding daemon
+amalfa reranker <action> # Reranking daemon
+amalfa sonar <action>    # Sonar AI agent
+amalfa ember <action>    # Ember enrichment (scan|squash)
 
 # Local development scripts (bun run <script>)
 bun run servers          # Test servers command
