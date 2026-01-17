@@ -11,6 +11,7 @@ import type { Node, ResonanceDB } from "@src/resonance/db";
 import { Embedder } from "@src/resonance/services/embedder";
 import { SimpleTokenizerService as TokenizerService } from "@src/resonance/services/simpleTokenizer";
 import { getLogger } from "@src/utils/Logger";
+import { toRootRelative } from "@src/utils/projectRoot";
 import { Glob } from "bun";
 import matter from "gray-matter";
 
@@ -397,7 +398,7 @@ export class AmalfaIngestor {
 				hash: currentHash,
 				meta: {
 					...frontmatter,
-					source: filePath,
+					source: toRootRelative(filePath), // Store relative to project root
 					semantic_tokens: tokens,
 				},
 			};

@@ -2,7 +2,7 @@
 
 This file provides guidance to WARP (warp.dev) when working with code in this repository.
 
-**Note:** For agent behavior and philosophy, see `AGENTS.md`. That content is most effective when placed in your agent's **system prompt** rather than loaded as a file-based rule.
+**Note:** For agent behavior and philosophy, see `AGENTS.md`. The Edinburgh Protocol (Scottish Enlightenment-inspired reasoning) is most effective when placed in your agent's **system prompt** rather than loaded as a file-based rule. Key principles: Mentational Humility (maps vs territory), systems over villains, anti-dogma pragmatism.
 
 ## Project Overview
 
@@ -192,14 +192,14 @@ const content = await gardener.getContent(id);
 
 **3. Micro-Daemon Mesh**
 Four background services provide intelligence:
-- **File Watcher Daemon:** Monitors markdown changes, triggers re-ingestion with embeddings
-- **Vector Daemon (3010):** Standalone embedding HTTP service (optional)
-- **Reranker Daemon (3011):** Result relevance scoring
-- **Sonar Agent (3012):** LLM reasoning loop
+- **File Watcher Daemon:** Monitors markdown changes, triggers re-ingestion with embeddings. Watches directories specified in config sources.
+- **Vector Daemon (3010):** Standalone embedding HTTP service (optional). Provides on-demand embedding generation via HTTP API.
+- **Reranker Daemon (3011):** Result relevance scoring using BGE cross-encoder. Improves search precision by 3-5 position changes.
+- **Sonar Agent (3012):** LLM reasoning loop. Query intent analysis, result reranking, context extraction. Requires local Ollama or cloud provider (OpenRouter).
 
 **Note:** The file watcher daemon includes its own embedding pipeline. The vector daemon is a separate HTTP service for on-demand embedding generation.
 
-Managed via `amalfa servers` command.
+Managed via `amalfa servers` command. Use `amalfa servers --dot` to visualize service dependencies as a graph.
 
 **4. Brief-Debrief-Playbook Pattern**
 Agents follow a structured reflection workflow:
@@ -241,9 +241,14 @@ scripts/
 └── pipeline/      # Batch processing
 
 docs/              # Vision and architecture docs
-briefs/            # Task specifications
-debriefs/          # Agent reflections
-playbooks/         # Codified patterns
+briefs/            # Task specifications (work to be done)
+debriefs/          # Agent reflections (what was learned)
+playbooks/         # Codified patterns (reusable knowledge)
+
+# Brief-Debrief-Playbook Workflow
+briefs/            # Start: Task specifications written before work
+debriefs/          # During/After: Learnings and insights from implementation
+playbooks/         # End: Distilled patterns for future reuse
 ```
 
 ## Critical Files
@@ -419,7 +424,20 @@ which amalfa
 
 ## Package Information
 - **Package:** amalfa
-- **Version:** 1.4.3
+- **Version:** 1.4.4
 - **npm:** https://www.npmjs.com/package/amalfa
 - **Repository:** https://github.com/pjsvis/amalfa
 - **License:** MIT
+
+## Agent Output Style
+When working with agents in this repository (especially those using the Edinburgh Protocol), prefer concise terminal output with full details in documents:
+
+```
+✅ Task Complete
+
+[2-3 line summary of what was done]
+
+📄 Full details: path/to/document.md
+```
+
+This reduces cognitive load and keeps terminal scannable while preserving full context in readable documents. See `AGENTS.md` for complete interaction guidelines.

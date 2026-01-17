@@ -256,8 +256,71 @@ The database stores absolute file paths in `meta.source`. If you move the reposi
 - Database regeneration: `docs/USER-MANUAL.md`
 - Path resolution: `src/core/GraphGardener.ts` (lines 202-228)
 
+## Update: Implementation Complete (2026-01-17)
+
+**Status:** ✅ Root-relative paths implemented (Option 1)
+
+### Changes Made
+
+**1. Created Project Root Detector** (`src/utils/projectRoot.ts`)
+- Detects project root by searching upward for markers (`.git`, `amalfa.config.*`, `package.json`)
+- Caches result per process for performance
+- Provides `toRootRelative()` and `fromRootRelative()` utilities
+
+**2. Updated Ingestion Pipeline** (`src/pipeline/AmalfaIngestor.ts`)
+```typescript
+// Before
+source: filePath  // Absolute: /Users/.../amalfa/debriefs/doc.md
+
+// After
+source: toRootRelative(filePath)  // Relative: debriefs/doc.md
+```
+
+**3. Updated Content Resolution** (`src/core/GraphGardener.ts`)
+```typescript
+resolveSource(nodeId: string): string | null {
+  const meta = JSON.parse(row.meta);
+  // Convert root-relative to absolute at runtime
+  return fromRootRelative(meta.source);
+}
+```
+
+### Verification
+
+```bash
+# Database now stores relative paths
+$ sqlite3 .amalfa/resonance.db \
+  "SELECT id, json_extract(meta, '$.source') FROM nodes LIMIT 2"
+scratchpad-innovation|docs/SCRATCHPAD-INNOVATION.md
+2026-01-13-scratchpad-protocol|debriefs/2026-01-13-scratchpad-protocol.md
+
+# Read command works
+$ amalfa read "scratchpad-innovation"
+📄 scratchpad-innovation
+[content displays correctly]
+
+# Portability test: Copy to /tmp/amalfa-test
+$ cp -r . /tmp/amalfa-test && cd /tmp/amalfa-test
+$ amalfa read "scratchpad-innovation"
+📄 scratchpad-innovation  # ✅ Works in new location!
+```
+
+### Benefits Achieved
+
+✅ **Portability:** Database works after moving repository  
+✅ **No regeneration needed:** Move and continue working  
+✅ **Cross-machine sharing:** Database can be committed to git  
+✅ **Backward compatible:** Old databases still work (get fixed on next init)  
+✅ **Same performance:** Root detection cached, negligible overhead
+
+### Files Changed
+
+- `src/utils/projectRoot.ts` (new, 112 lines)
+- `src/pipeline/AmalfaIngestor.ts` (1 line changed + import)
+- `src/core/GraphGardener.ts` (1 line changed + import)
+
 ## Conclusion
 
-The issue was caused by storing absolute file paths in the database, which become invalid when the repository moves. Short-term fix is database regeneration. Long-term fix should be root-relative paths for portability while maintaining the hollow nodes architecture.
+The issue was caused by storing absolute file paths in the database, which become invalid when the repository moves. **We implemented root-relative paths (Option 1)** which provides full portability while maintaining the hollow nodes architecture.
 
-**Impact:** Demonstrates importance of thinking about path portability in systems that bridge filesystem and database. Absolute paths are convenient but fragile.
+**Impact:** The database is now a truly portable artifact. You can move the repository, work from different directories, or share the database across machines - it just works. This aligns with Amalfa's philosophy that markdown files are the source of truth and the database is a disposable (but now portable) index.

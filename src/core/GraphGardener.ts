@@ -1,5 +1,6 @@
 import type { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
+import { fromRootRelative } from "@src/utils/projectRoot";
 import type { GraphEngine } from "./GraphEngine";
 import type { VectorEngine } from "./VectorEngine";
 
@@ -196,8 +197,10 @@ export class GraphGardener {
 	/**
 	 * identifyHubs: Finds nodes with high betweenness or pagerank that lack tags.
 	 */
+
 	/**
 	 * resolveSource: Returns the absolute file path for a node ID.
+	 * Converts root-relative paths to absolute paths.
 	 */
 	resolveSource(nodeId: string): string | null {
 		const row = this.db
@@ -207,7 +210,10 @@ export class GraphGardener {
 		if (row?.meta) {
 			try {
 				const meta = JSON.parse(row.meta);
-				return meta.source || null;
+				if (!meta.source) return null;
+
+				// Convert root-relative path to absolute
+				return fromRootRelative(meta.source);
 			} catch {
 				return null;
 			}
