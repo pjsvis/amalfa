@@ -31,3 +31,10 @@
 - File watcher daemon integration
 
 See individual debriefs for full details.
+
+### README Clarity
+- `2026-01-17-readme-clarity-and-documentation-overhaul.md`
+  - Status: Iterative work, ongoing
+  - Multiple improvements made to README and documentation
+  - Will revisit regularly with fresh eyes
+  - Archived as checkpoint, not completion
