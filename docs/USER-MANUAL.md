@@ -17,6 +17,7 @@ This manual provides comprehensive instructions for installing, configuring, and
 4.  [Configuration](#configuration)
 5.  [Services & Sub-Agents](#services--sub-agents)
 6.  [Maintenance & Troubleshooting](#maintenance--troubleshooting)
+7.  [Common Gotchas](#common-gotchas)
 
 ---
 
@@ -24,12 +25,33 @@ This manual provides comprehensive instructions for installing, configuring, and
 
 ### Requirements
 *   **Bun** (v1.0+): [Install Bun](https://bun.sh)
-*   **Node.js** (v18+): For some compatibility layers.
+
+**IMPORTANT**: Node.js is NOT required. Amalfa runs entirely on Bun.
 
 ### Installation
 ```bash
 bun install -g amalfa
 ```
+
+**Critical**: Do NOT use npm, yarn, or pnpm. Amalfa requires Bun-specific features.
+
+### Uninstallation
+
+To remove Amalfa:
+```bash
+bun remove -g amalfa
+```
+
+**Troubleshooting**: If `which amalfa` still shows a binary path:
+```bash
+# Remove manually
+rm $(which amalfa)
+
+# If you accidentally installed via npm (this won't work, but try anyway)
+npm uninstall -g amalfa
+```
+
+**Key Insight**: Bun and npm are separate package managers. You cannot uninstall a Bun package with npm, just like you can't uninstall a Homebrew package with apt-get.
 
 ### Initial Setup
 1.  Navigate to your project root (where your markdown docs live).
@@ -206,3 +228,53 @@ amalfa init
 ```
 
 **Note**: This will regenerate all embeddings from scratch. On large repos (10k+ files), this may take a few minutes.
+
+---
+
+## 7. Common Gotchas
+
+### Bun vs npm Confusion
+
+**Problem**: "I ran `npm uninstall -g amalfa` but it's still installed."
+
+**Root Cause**: Package managers are **isolated systems** ("crossed porpoises"—swimming in opposite directions):
+
+| Aspect | Bun | npm |
+| :--- | :--- | :--- |
+| Install location | `~/.bun/bin/` | `/usr/local/lib/node_modules/` |
+| Package database | Bun's lockfile | npm registry cache |
+| Binary symlinks | `~/.bun/bin/amalfa` | `/usr/local/bin/amalfa` |
+
+They don't communicate. Installing with Bun creates entries in Bun's database. npm has no knowledge of this.
+
+**Solution**:
+```bash
+# Always use Bun for Amalfa
+bun remove -g amalfa
+
+# Verify removal
+which amalfa  # Should return nothing
+```
+
+### PATH Issues
+
+**Problem**: "Command not found: amalfa" after installation.
+
+**Cause**: Shell doesn't know about `~/.bun/bin`.
+
+**Fix**: Add to `~/.zshrc` or `~/.bashrc`:
+```bash
+export PATH="$HOME/.bun/bin:$PATH"
+```
+Then: `source ~/.zshrc`
+
+### trustedDependencies Warning
+
+During `bun install`, you may see messages about `onnxruntime-node` or `protobufjs`. This is expected.
+
+**What's happening**: These packages compile native code (C++) during installation. Bun's security model blocks postinstall scripts by default. The `trustedDependencies` field in `package.json` whitelists them.
+
+**No action needed** unless the install fails, in which case:
+```bash
+bun install --trust
+```

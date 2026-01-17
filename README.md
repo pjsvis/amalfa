@@ -188,18 +188,83 @@ amalfa/
 bun install -g amalfa
 ```
 
+**IMPORTANT**: Amalfa must be installed via **Bun only**. Do not use npm or other package managers.
+
 **Why Bun?**
 - ⚡ **Fast startup** - Critical for stdio-based MCP servers that spawn on every request
 - 🔄 **Built-in daemon management** - Runs background processes for file watching and vector embeddings
 - 📦 **Native TypeScript** - No compilation step, direct execution from source
 - 🎯 **SQLite performance** - Optimized native bindings for database operations
 
+### Uninstalling
+
+```bash
+bun remove -g amalfa
+```
+
+**Note**: Bun and npm maintain separate package registries. If you accidentally tried `npm install -g amalfa`, it won't work. Always use Bun for Amalfa installation and removal.
+
 **From source** (for development):
 ```bash
 git clone https://github.com/pjsvis/amalfa.git
 cd amalfa
-bun install
+bun install  # Must use bun, not npm
 ```
+
+### Common Gotchas
+
+#### "I can't uninstall amalfa"
+
+**Problem**: `npm uninstall -g amalfa` does nothing.
+
+**Cause**: Bun and npm are **separate package managers** with separate:
+- Installation directories (`~/.bun/bin/` vs `/usr/local/lib/node_modules/`)
+- Package databases
+- Binary locations
+
+Think of them as **crossed porpoises**—two systems swimming in opposite directions, each functional in its own ecosystem, but never coordinating.
+
+**Solution**: Use the same package manager you installed with:
+```bash
+# If installed with Bun (correct)
+bun remove -g amalfa
+
+# If you somehow have a stale npm install
+npm uninstall -g amalfa
+```
+
+**Check which is active**:
+```bash
+which amalfa
+# ~/.bun/bin/amalfa = Bun install ✓
+# /usr/local/bin/amalfa = npm install (wrong)
+```
+
+#### "amalfa command not found after install"
+
+**Problem**: Shell can't find the `amalfa` binary.
+
+**Cause**: `~/.bun/bin` not in your `$PATH`.
+
+**Solution**: Add to your shell profile (`~/.zshrc` or `~/.bashrc`):
+```bash
+export PATH="$HOME/.bun/bin:$PATH"
+```
+Then reload: `source ~/.zshrc`
+
+#### "Why can't I use npm? It's on npmjs.org"
+
+**Answer**: Amalfa is **published** to npm (for discoverability) but **requires Bun to run**. This is because:
+- Bun's native TypeScript execution (no build step)
+- Optimized SQLite bindings
+- Daemon lifecycle management
+- Faster stdio transport for MCP
+
+Think of it like a Rust crate that's listed but requires `cargo` to build. npm and Bun are crossed porpoises—both legitimate package managers, but trying to use one to manage the other's installations leads nowhere.
+
+#### "trustedDependencies in package.json?"
+
+These packages (`onnxruntime-node`, `protobufjs`) run native build scripts during `bun install`. Bun blocks untrusted scripts by default. This whitelist lets them compile native bindings for ML operations.
 
 ### Setup MCP Server
 
@@ -293,9 +358,10 @@ bun install
 
 ### Prerequisites
 
-- **Bun:** v1.0+ (required)
-- **Node:** v22.x (for compatibility)
+- **Bun:** v1.0+ (required - cannot use npm/yarn/pnpm)
 - **Git:** For version control
+
+**Note**: Node.js is NOT required. Bun replaces Node entirely.
 
 ### Setup
 
