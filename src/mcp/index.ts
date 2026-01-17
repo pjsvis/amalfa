@@ -16,6 +16,7 @@ import { ResonanceDB } from "@src/resonance/db";
 import { ContentHydrator } from "../utils/ContentHydrator";
 import { DaemonManager } from "../utils/DaemonManager";
 import { getLogger } from "../utils/Logger";
+import { rerankDocuments } from "../utils/reranker-client";
 import { getScratchpad } from "../utils/Scratchpad";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
 import { createSonarClient, type SonarClient } from "../utils/sonar-client";
@@ -290,18 +291,42 @@ async function runServer() {
 						errors.push(msg);
 					}
 
-					// Step 3: Prepare results and hydrate content for Sonar
+					// Step 3: Cross-encoder reranking (BGE reranker)
 					let rankedResults = Array.from(candidates.values())
 						.sort((a, b) => b.score - a.score)
-						.slice(0, limit);
+						.slice(0, Math.min(limit * 3, 50)); // Get more candidates for reranking
 
+					// Hydrate content for reranking
+					log.info("💧 Hydrating content for reranking");
+					const hydratedResults = await hydrator.hydrateMany(rankedResults);
+
+					// Apply cross-encoder reranking
+					log.info("🔄 Reranking with BGE cross-encoder");
+					const reranked = await rerankDocuments(
+						query,
+						hydratedResults as Array<{
+							id: string;
+							content: string;
+							score: number;
+						}>,
+						Math.min(limit * 2, 30), // Keep top results after reranking
+					);
+
+					// Update ranked results with reranked scores
+					rankedResults = reranked.slice(0, limit).map((rr) => ({
+						id: rr.id,
+						score: rr.score,
+						preview: candidates.get(rr.id)?.preview || rr.id,
+						source: "vector+rerank",
+						content: rr.content,
+					}));
+
+					// Step 4: LLM reranking with Sonar (optional, for intent understanding)
 					if (sonarAvailable && queryAnalysis) {
-						log.info("💧 Hydrating content for Sonar processing");
-						const hydratedResults = await hydrator.hydrateMany(rankedResults);
-
-						log.info("🔄 Re-ranking results with Sonar");
+						// Content already hydrated in step 3
+						log.info("🔄 Re-ranking with Sonar LLM");
 						const reRanked = await sonarClient.rerankResults(
-							hydratedResults as Array<{
+							rankedResults as Array<{
 								id: string;
 								content: string;
 								score: number;

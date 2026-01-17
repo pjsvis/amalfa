@@ -1,0 +1,189 @@
+// Search and Ingestion Flow Diagrams
+// Generate with: dot -Tpng search-and-ingestion-flows.dot -o flows.png
+// Or view online: https://dreampuf.github.io/GraphvizOnline/
+
+digraph AmalfaFlows {
+    // Graph styling
+    rankdir=TB;
+    node [shape=box, style=rounded, fontname="Arial"];
+    edge [fontname="Arial"];
+    
+    // Color scheme
+    bgcolor="white";
+    
+    // ============================================================================
+    // SUBGRAPH 1: CURRENT SEARCH PIPELINE (with BGE reranking)
+    // ============================================================================
+    subgraph cluster_search {
+        label="Search Pipeline (Current Implementation)";
+        style=filled;
+        color=lightblue;
+        fontsize=14;
+        fontname="Arial Bold";
+        
+        query [label="User Query", shape=ellipse, fillcolor=yellow, style=filled];
+        
+        // Vector search stage
+        embed_query [label="FastEmbed\n(bi-encoder)", fillcolor=lightgreen, style=filled];
+        vector_search [label="Vector Search\nTop 50 candidates", fillcolor=lightgreen, style=filled];
+        
+        // BGE reranking stage
+        hydrate1 [label="Hydrate Content", fillcolor=orange, style=filled];
+        bge_rerank [label="BGE Reranker\n(cross-encoder)\n~50ms", fillcolor=orange, style=filled];
+        top20 [label="Top 20 Results", shape=ellipse, fillcolor=lightgreen, style=filled];
+        
+        // Sonar stage (optional)
+        sonar_opt [label="Sonar LLM\n(optional)\n~2-5s", fillcolor=pink, style="filled,dashed"];
+        top5 [label="Top 5 Results", shape=ellipse, fillcolor=pink, style="filled,dashed"];
+        
+        results [label="Return Results", shape=doubleoctagon, fillcolor=yellow, style=filled];
+        
+        // Flow
+        query -> embed_query [label="  embed"];
+        embed_query -> vector_search [label="  similarity\n  search"];
+        vector_search -> hydrate1 [label="  50 docs"];
+        hydrate1 -> bge_rerank [label="  with content"];
+        bge_rerank -> top20 [label="  reranked\n  by relevance"];
+        top20 -> results [label="  default"];
+        top20 -> sonar_opt [label="  if --deep\n  flag", style=dashed];
+        sonar_opt -> top5 [style=dashed];
+        top5 -> results [style=dashed, label="  deep search"];
+    }
+    
+    // ============================================================================
+    // SUBGRAPH 2: INGESTION PIPELINE (Fast + Enhancement)
+    // ============================================================================
+    subgraph cluster_ingestion {
+        label="Ingestion Pipeline (Proposed)";
+        style=filled;
+        color=lightyellow;
+        fontsize=14;
+        fontname="Arial Bold";
+        
+        new_doc [label="New Document", shape=ellipse, fillcolor=yellow, style=filled];
+        
+        // Phase 1: Fast ingestion
+        parse [label="Parse Markdown", fillcolor=lightgreen, style=filled];
+        extract_links [label="Extract Links\n[[wikilinks]]", fillcolor=lightgreen, style=filled];
+        create_explicit [label="Create Explicit Edges\n(~10ms)", fillcolor=lightgreen, style=filled];
+        store [label="Store in Database", fillcolor=lightgreen, style=filled];
+        searchable [label="✓ Searchable", shape=doubleoctagon, fillcolor=lightgreen, style=filled];
+        
+        // Phase 2: Enhancement (async)
+        async_start [label="Async Enhancement\n(background)", fillcolor=orange, style="filled,dashed"];
+        find_candidates [label="Vector Search\nFind Similar Docs", fillcolor=orange, style=filled];
+        hydrate2 [label="Hydrate Content", fillcolor=orange, style=filled];
+        rerank_edges [label="BGE Reranker\nScore Similarity\n(~100ms)", fillcolor=orange, style=filled];
+        create_semantic [label="Create Semantic Edges\nif score > threshold", fillcolor=orange, style=filled];
+        enhanced [label="✓ Graph Enhanced", shape=doubleoctagon, fillcolor=orange, style=filled];
+        
+        // Flow
+        new_doc -> parse [label="  ingest"];
+        parse -> extract_links;
+        extract_links -> create_explicit [label="  explicit\n  links only"];
+        create_explicit -> store;
+        store -> searchable [label="  Phase 1\n  DONE", style=bold];
+        
+        searchable -> async_start [label="  trigger", style=dashed];
+        async_start -> find_candidates [style=dashed];
+        find_candidates -> hydrate2 [label="  20 candidates", style=dashed];
+        hydrate2 -> rerank_edges [style=dashed];
+        rerank_edges -> create_semantic [label="  weighted\n  edges", style=dashed];
+        create_semantic -> enhanced [label="  Phase 2\n  DONE", style="bold,dashed"];
+    }
+    
+    // ============================================================================
+    // SUBGRAPH 3: EDGE TYPES (Visual Legend)
+    // ============================================================================
+    subgraph cluster_edges {
+        label="Edge Types";
+        style=filled;
+        color=lightgray;
+        fontsize=14;
+        fontname="Arial Bold";
+        
+        doc_a [label="Document A"];
+        doc_b [label="Document B"];
+        doc_c [label="Document C"];
+        
+        doc_a -> doc_b [label="explicit\nweight=1.0", color=blue, style=bold];
+        doc_a -> doc_c [label="semantic\nweight=0.75", color=orange, style=dashed];
+        
+        edge_legend [label="Blue solid = Explicit links\nOrange dashed = Semantic edges", shape=note];
+    }
+    
+    // ============================================================================
+    // NOTES
+    // ============================================================================
+    
+    note1 [label="KEY INSIGHTS:\n\n• Search reranking = runtime (query-dependent)\n• Edge reranking = ingestion (doc-doc similarity)\n• BGE reranker used in BOTH contexts\n• Sonar is separate, opt-in feature", 
+           shape=note, fillcolor=lightyellow, style=filled, fontsize=10];
+}
+
+// ============================================================================
+// SEPARATE DIAGRAM: COMPARISON VIEW
+// ============================================================================
+
+digraph Comparison {
+    rankdir=LR;
+    node [shape=box, style=rounded, fontname="Arial"];
+    
+    subgraph cluster_before {
+        label="Before (Vector Only)";
+        style=filled;
+        color=lightgray;
+        
+        q1 [label="Query"];
+        v1 [label="Vector\nSearch"];
+        r1 [label="Results\n(approximate)"];
+        
+        q1 -> v1 -> r1;
+    }
+    
+    subgraph cluster_after {
+        label="After (Vector + BGE)";
+        style=filled;
+        color=lightgreen;
+        
+        q2 [label="Query"];
+        v2 [label="Vector\nSearch\n(Top 50)"];
+        b2 [label="BGE\nRerank"];
+        r2 [label="Results\n(precise)"];
+        
+        q2 -> v2 -> b2 -> r2;
+        
+        speed [label="+50ms\n3x quality", shape=note, fillcolor=yellow, style=filled];
+        b2 -> speed [style=invis];
+    }
+}
+
+// ============================================================================
+// SEPARATE DIAGRAM: DECISION TREE
+// ============================================================================
+
+digraph DecisionTree {
+    rankdir=TB;
+    node [fontname="Arial"];
+    
+    start [label="User Search Request", shape=ellipse, fillcolor=yellow, style=filled];
+    
+    // Decision nodes
+    simple [label="Simple lookup?", shape=diamond, fillcolor=lightblue, style=filled];
+    need_deep [label="Need deep\nanalysis?", shape=diamond, fillcolor=lightblue, style=filled];
+    
+    // Action nodes
+    vector_only [label="Vector Search\n(~10ms)", shape=box, fillcolor=lightgreen, style=filled];
+    vector_bge [label="Vector + BGE\n(~60ms)", shape=box, fillcolor=orange, style=filled];
+    vector_bge_sonar [label="Vector + BGE + Sonar\n(~3s)", shape=box, fillcolor=pink, style=filled];
+    
+    // Flow
+    start -> simple;
+    simple -> vector_only [label="Yes\n(rare)"];
+    simple -> need_deep [label="No\n(most queries)"];
+    need_deep -> vector_bge [label="No\n(default)", style=bold];
+    need_deep -> vector_bge_sonar [label="Yes\n(--deep flag)"];
+    
+    recommend [label="RECOMMENDED:\nAlways use BGE\nMake Sonar optional", 
+               shape=note, fillcolor=yellow, style=filled];
+    vector_bge -> recommend [style=invis];
+}

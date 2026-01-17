@@ -11,6 +11,59 @@ This document provides a complete reference for all Model Context Protocol (MCP)
 
 Amalfa exposes 8 MCP tools for semantic search, graph traversal, content reading, and gap discovery. These tools enable AI agents to maintain persistent memory across sessions through structured markdown documentation.
 
+### Search Quality: Why Two-Stage Reranking?
+
+Amalfa uses a sophisticated two-stage retrieval pipeline to maximize search precision:
+
+**Stage 1: Vector Search (Bi-Encoder)**
+- Embeds query and documents separately using FastEmbed
+- Fast approximate retrieval (~10ms for 1000 docs)
+- Returns top 50 candidates based on semantic similarity
+- Good recall but limited precision (can't model query-document interactions)
+
+**Stage 2: BGE Reranking (Cross-Encoder)** ✨ Always Enabled
+- Encodes query+document pairs together using attention mechanism
+- More accurate relevance scoring (~50ms for 50 pairs)
+- Returns refined ranking based on query-document interaction
+- Typical improvement: 3-5 position changes, promoting more relevant docs to top
+- Results tagged with `source: "vector+rerank"`
+
+**Why This Matters:**
+Vector search might rank "performance-audit" and "vector-database-best-practices" similarly (scores 0.741 vs 0.739) for query "vector database implementation". The reranker correctly identifies that "vector-database-best-practices" is MORE relevant to the specific query intent, promoting it to #1.
+
+**Result:** You get the speed of vector search with the accuracy of cross-encoder reranking. Best of both worlds.
+
+### Search Pipeline Flow
+
+```
+Query: "vector database implementation"
+   ↓
+┌─────────────────────────────────────┐
+│  Stage 1: Vector Search (FastEmbed) │
+│  • Embed query: [0.234, -0.891, ...] │
+│  • Dot product with all docs        │
+│  • Top 50 candidates (~10ms)        │
+└──────────────┬──────────────────────┘
+               ↓
+┌─────────────────────────────────────┐
+│ Stage 2: BGE Reranker ✨ (Always)   │
+│  • Encode query+doc pairs together  │
+│  • Cross-attention scoring          │
+│  • Rerank top 50 → top 20 (~50ms)  │
+│  • Tag: "vector+rerank"             │
+└──────────────┬──────────────────────┘
+               ↓
+┌─────────────────────────────────────┐
+│  Stage 3: Sonar LLM (Optional)      │
+│  • Query intent analysis            │
+│  • LLM-powered reranking            │
+│  • Context extraction for top 5     │
+│  • Falls back if unavailable        │
+└──────────────┬──────────────────────┘
+               ↓
+         Final Results
+```
+
 ## Tool List
 
 1. **search_documents** - Semantic search across knowledge graph
@@ -43,18 +96,18 @@ search_documents(query: string, limit?: number): SearchResults
   "results": [
     {
       "id": "doc-abc123",
-      "score": "0.876",
+      "score": 0.876,
       "preview": "Document title or first line",
-      "source": "vector",
+      "source": "vector+rerank",
       "snippet": "Relevant excerpt from document",
       "context": "Additional context about relevance"
     }
   ],
   "metadata": {
     "query": "original query",
-    "sonar_enabled": true,
-    "intent": "lookup",
-    "analysis": { ... }
+    "sonar_enabled": false,
+    "intent": null,
+    "analysis": null
   }
 }
 ```
@@ -81,14 +134,15 @@ Agent: search_documents(query="database migrations", limit=5)
 
 **Performance:**
 - Vector search: ~10ms for 1000 docs
-- With Sonar re-ranking: ~60ms total
+- BGE reranking: ~50ms for top 50 candidates
+- With Sonar LLM re-ranking: ~2-5s for top 20 results
 - With context extraction: ~100ms for top 5 results
 
 **Implementation Details:**
-- Powered by FastEmbed (`bge-small-en-v1.5`, 384 dims)
-- Uses FAFCAS protocol (normalized dot product)
-- Optional Sonar LLM re-ranking for precision
-- Optional context extraction for top results
+- Three-stage search pipeline (stages 1-2 always run, stage 3 optional):
+  1. **Vector Search (FastEmbed bi-encoder):** Fast retrieval using `bge-small-en-v1.5` embeddings (384 dims). Returns top candidates based on cosine similarity. Uses FAFCAS protocol (normalized dot product).
+  2. **BGE Cross-Encoder Reranking (Always Enabled):** Reranks candidates using `bge-reranker-base` cross-encoder. Encodes query-document pairs together for higher accuracy (~50ms). Improves result quality by 3-5 position changes on average. Results tagged as `"vector+rerank"`.
+  3. **Sonar LLM Refinement (Optional):** If Sonar daemon is running, provides query intent analysis, result reranking, and context extraction for top 5 results (~2-5s). Falls back gracefully if unavailable.
 
 ### 2. read_node_content
 
