@@ -3,7 +3,13 @@ import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import pkg from "../package.json" with { type: "json" };
 import { cmdDoctor } from "./cli/commands/doctor";
+import { cmdExplore } from "./cli/commands/explore";
+import { cmdFindGaps } from "./cli/commands/find-gaps";
 import { cmdInit } from "./cli/commands/init";
+import { cmdInjectTags } from "./cli/commands/inject-tags";
+import { cmdListSources } from "./cli/commands/list-sources";
+import { cmdRead } from "./cli/commands/read";
+import { cmdSearch } from "./cli/commands/search";
 import { cmdServe, cmdServers, cmdStopAll } from "./cli/commands/server";
 import {
 	cmdDaemon,
@@ -49,6 +55,12 @@ Usage:
 Commands:
   init [--force]     Initialize database from markdown files
   serve              Start MCP server (stdio transport)
+  search <query>     Search knowledge graph [--limit N] [--json]
+  read <node-id>     Read document content [--json]
+  explore <node-id>  Show related documents [--relation type] [--json]
+  list-sources       Show configured source directories [--json]
+  find-gaps          Discover similar but unlinked documents [--limit N] [--threshold T] [--json]
+  inject-tags <path> Add metadata tags to markdown file <tag1> [tag2...] [--json]
   stats              Show database statistics
   validate           Validate database health (pre-publish gate)
   doctor             Check installation and configuration
@@ -71,6 +83,10 @@ Examples:
   amalfa init        # Initialize with pre-flight validation
   amalfa init --force # Override warnings (use with caution)
   amalfa serve       # Start MCP server for Claude Desktop
+  amalfa search "oauth patterns"  # Search knowledge graph
+  amalfa read docs/README.md      # Read document content
+  amalfa explore docs/README.md   # Show related documents
+  amalfa list-sources             # Show source directories
   amalfa stats       # Show knowledge graph statistics
   amalfa doctor      # Verify installation
   amalfa sonar start # Start Sonar AI agent for enhanced search
@@ -102,6 +118,30 @@ async function main() {
 	switch (command) {
 		case "serve":
 			await cmdServe(args);
+			break;
+
+		case "search":
+			await cmdSearch(args.slice(1));
+			break;
+
+		case "read":
+			await cmdRead(args.slice(1));
+			break;
+
+		case "explore":
+			await cmdExplore(args.slice(1));
+			break;
+
+		case "list-sources":
+			await cmdListSources(args.slice(1));
+			break;
+
+		case "find-gaps":
+			await cmdFindGaps(args.slice(1));
+			break;
+
+		case "inject-tags":
+			await cmdInjectTags(args.slice(1));
 			break;
 
 		case "stats":

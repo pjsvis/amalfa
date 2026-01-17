@@ -36,6 +36,14 @@ bun run amalfa stats             # Show database statistics
 bun run amalfa doctor            # Run health check
 bun run amalfa setup-mcp         # Generate MCP config for Claude
 
+# CLI search commands (all support --json flag)
+bun run amalfa search <query>    # Semantic search [--limit N]
+bun run amalfa read <node-id>    # Read document content
+bun run amalfa explore <node-id> # Show related documents [--relation type]
+bun run amalfa list-sources      # Show configured source directories
+bun run amalfa find-gaps         # Discover unlinked documents [--limit N] [--threshold T]
+bun run amalfa inject-tags <path> <tag1> [tag2...] # Add metadata tags
+
 # Service management
 bun run amalfa servers           # Show all service status
 bun run amalfa stop-all          # Stop all running services (alias: kill)
@@ -104,6 +112,36 @@ bunx drizzle-kit migrate
 # 5. Verify
 sqlite3 .amalfa/resonance.db ".schema nodes"
 ```
+
+## CLI vs MCP Mode
+
+**Amalfa operates in two modes:**
+
+### CLI Mode (Direct Command Line)
+Execute commands directly from terminal without running MCP server.
+
+**Use when:**
+- Testing queries without MCP overhead
+- Shell scripting and automation (CI/CD)
+- Human power users prefer terminal
+- Agents execute shell commands (not MCP protocol)
+- One-shot queries (no persistent server needed)
+
+**Available Commands:**
+- `search`, `read`, `explore`, `list-sources`, `find-gaps`, `inject-tags`
+- All support `--json` flag for machine-readable output
+- Example: `amalfa search "oauth" --json | jq '.[0].id' | xargs amalfa read`
+
+### MCP Mode (Model Context Protocol Server)
+Run as stdio server exposing 8 tools to MCP clients (e.g., Claude Desktop).
+
+**Use when:**
+- Integrated with Claude Desktop or other MCP clients
+- Multi-turn agent conversations
+- Need scratchpad caching (MCP-only feature)
+- Prefer agent-native tool calling
+
+**Start server:** `amalfa serve`
 
 ## MCP Tools (What Agents Can Do)
 
