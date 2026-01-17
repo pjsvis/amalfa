@@ -25,9 +25,7 @@ export async function cmdRead(args: string[]) {
 			console.error("  amalfa read docs/README.md");
 			console.error('  amalfa read "playbooks/oauth-patterns.md"');
 			console.error("  amalfa read docs/README.md --json");
-			console.error(
-				"\n💡 Tip: Get node IDs from 'amalfa search' results",
-			);
+			console.error("\n💡 Tip: Get node IDs from 'amalfa search' results");
 		}
 		process.exit(1);
 	}

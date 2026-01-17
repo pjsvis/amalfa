@@ -1,4 +1,3 @@
-import { GraphEngine } from "@src/core/GraphEngine";
 import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
 import { checkDatabase, getDbPath } from "../utils";
@@ -12,18 +11,18 @@ interface SearchResult {
 export async function cmdSearch(args: string[]) {
 	// Parse arguments
 	const query = args.find((arg) => !arg.startsWith("--"));
-	
+
 	// Handle both --limit=N and --limit N formats
 	let limit = 20;
 	const limitEqIdx = args.findIndex((arg) => arg.startsWith("--limit="));
-	const limitSpaceIdx = args.findIndex((arg) => arg === "--limit");
-	
+	const limitSpaceIdx = args.indexOf("--limit");
+
 	if (limitEqIdx !== -1) {
 		limit = Number.parseInt(args[limitEqIdx]?.split("=")[1] || "20", 10);
 	} else if (limitSpaceIdx !== -1 && args[limitSpaceIdx + 1]) {
 		limit = Number.parseInt(args[limitSpaceIdx + 1] || "20", 10);
 	}
-	
+
 	const jsonOutput = args.includes("--json");
 
 	// Validate

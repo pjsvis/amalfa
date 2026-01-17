@@ -9,18 +9,18 @@ interface Edge {
 export async function cmdExplore(args: string[]) {
 	// Parse arguments
 	const nodeId = args.find((arg) => !arg.startsWith("--"));
-	
+
 	// Handle both --relation=type and --relation type formats
 	let relationType: string | undefined;
 	const relationEqIdx = args.findIndex((arg) => arg.startsWith("--relation="));
-	const relationSpaceIdx = args.findIndex((arg) => arg === "--relation");
-	
+	const relationSpaceIdx = args.indexOf("--relation");
+
 	if (relationEqIdx !== -1) {
 		relationType = args[relationEqIdx]?.split("=")[1];
 	} else if (relationSpaceIdx !== -1 && args[relationSpaceIdx + 1]) {
 		relationType = args[relationSpaceIdx + 1];
 	}
-	
+
 	const jsonOutput = args.includes("--json");
 
 	// Validate
@@ -34,14 +34,14 @@ export async function cmdExplore(args: string[]) {
 			);
 		} else {
 			console.error("❌ Error: Missing node ID argument");
-			console.error("\nUsage: amalfa explore <node-id> [--relation type] [--json]");
+			console.error(
+				"\nUsage: amalfa explore <node-id> [--relation type] [--json]",
+			);
 			console.error("\nExamples:");
 			console.error("  amalfa explore docs/README.md");
 			console.error('  amalfa explore "brief-auth" --relation references');
 			console.error("  amalfa explore docs/README.md --json");
-			console.error(
-				"\n💡 Tip: Get node IDs from 'amalfa search' results",
-			);
+			console.error("\n💡 Tip: Get node IDs from 'amalfa search' results");
 		}
 		process.exit(1);
 	}
@@ -71,7 +71,7 @@ export async function cmdExplore(args: string[]) {
 			.getRawDb()
 			.query("SELECT target, type FROM edges WHERE source = ?")
 			.all(nodeId) as Edge[];
-		
+
 		if (!allEdges || allEdges.length === 0) {
 			if (jsonOutput) {
 				console.log(JSON.stringify([]));
@@ -106,9 +106,7 @@ export async function cmdExplore(args: string[]) {
 				}
 				console.log();
 			} else {
-				const title = relationType
-					? `Links (${relationType})`
-					: "All Links";
+				const title = relationType ? `Links (${relationType})` : "All Links";
 				console.log(`\n🔗 ${title} from: ${nodeId}\n`);
 
 				// Group by type

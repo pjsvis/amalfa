@@ -4,7 +4,9 @@ import { join, resolve } from "node:path";
 import pkg from "../package.json" with { type: "json" };
 import { cmdDoctor } from "./cli/commands/doctor";
 import { cmdExplore } from "./cli/commands/explore";
+import { cmdFindGaps } from "./cli/commands/find-gaps";
 import { cmdInit } from "./cli/commands/init";
+import { cmdInjectTags } from "./cli/commands/inject-tags";
 import { cmdListSources } from "./cli/commands/list-sources";
 import { cmdRead } from "./cli/commands/read";
 import { cmdSearch } from "./cli/commands/search";
@@ -57,6 +59,8 @@ Commands:
   read <node-id>     Read document content [--json]
   explore <node-id>  Show related documents [--relation type] [--json]
   list-sources       Show configured source directories [--json]
+  find-gaps          Discover similar but unlinked documents [--limit N] [--threshold T] [--json]
+  inject-tags <path> Add metadata tags to markdown file <tag1> [tag2...] [--json]
   stats              Show database statistics
   validate           Validate database health (pre-publish gate)
   doctor             Check installation and configuration
@@ -116,29 +120,37 @@ async function main() {
 			await cmdServe(args);
 			break;
 
-	case "search":
-		await cmdSearch(args.slice(1));
-		break;
+		case "search":
+			await cmdSearch(args.slice(1));
+			break;
 
-	case "read":
-		await cmdRead(args.slice(1));
-		break;
+		case "read":
+			await cmdRead(args.slice(1));
+			break;
 
-	case "explore":
-		await cmdExplore(args.slice(1));
-		break;
+		case "explore":
+			await cmdExplore(args.slice(1));
+			break;
 
-	case "list-sources":
-		await cmdListSources(args.slice(1));
-		break;
+		case "list-sources":
+			await cmdListSources(args.slice(1));
+			break;
 
-	case "stats":
-		await cmdStats(args);
-		break;
+		case "find-gaps":
+			await cmdFindGaps(args.slice(1));
+			break;
 
-	case "doctor":
-		await cmdDoctor(args);
-		break;
+		case "inject-tags":
+			await cmdInjectTags(args.slice(1));
+			break;
+
+		case "stats":
+			await cmdStats(args);
+			break;
+
+		case "doctor":
+			await cmdDoctor(args);
+			break;
 
 		case "validate":
 			await cmdValidate(args);
