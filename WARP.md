@@ -424,7 +424,6 @@ which amalfa
 
 ## Package Information
 - **Package:** amalfa
-- **Version:** 1.4.4
 - **npm:** https://www.npmjs.com/package/amalfa
 - **Repository:** https://github.com/pjsvis/amalfa
 - **License:** MIT

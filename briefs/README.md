@@ -1,41 +1,66 @@
-# Briefs Directory
+# Briefs - Work Specifications
 
-Active briefs ready for development work.
+Briefs are aspirational work specifications - like New Year's Resolutions, they represent **intent** but may not survive contact with reality. Debriefs document what **actually** happened.
 
-## Active Briefs
+## Directory Structure
 
-| Status | Priority | Brief | Description |
-| :--- | :--- | :--- | :--- |
-| 🟢 Ready | High | [Phase 7 - Dynamic Context & Substrates](./pending/brief-phase7-dynamic-discovery.md) | Dynamic tool discovery, output scratchpads, and multi-provider substrates (Ollama, GLM, MiniMax). |
-| 🟡 Draft | Low | [Meta Swarm](./brief-meta-swarm.md) | Concept for agent swarms. |
-| 🟡 Draft | Low | [Node Dependency Removal](./brief-node-dependency-removal.md) | Reduce dependency footprint. |
+### `briefs/*.md` (Root)
+**Active or recently completed work**
+- Currently being worked on
+- Just finished (before moving to archive)
+- **Signal:** This is happening NOW
 
-## Completed Briefs (Archived)
+### `briefs/pending/`
+**Approved, waiting for go-ahead**
+- Ready to start
+- Just needs final trigger/timing
+- Next in queue
+- **Signal:** Green light needed
 
-| Date | Brief | Debrief |
-| :--- | :--- | :--- |
-| 2026-01-13 | [Phase 6 - Graphology](./archive/brief-graphology-workflows.md) | [2026-01-13-phase6](./debriefs/2026-01-13-phase6-graphology-workflows.md) |
-| 2026-01-13 | [Phase 5 - Autonomous Research](./archive/brief-phase5-enhancements.md) | [2026-01-13-phase5](./debriefs/2026-01-13-phase5-autonomous-research.md) |
-| 2026-01-09 | [Ember Service](./archive/2026-01-09-ember-service.md) | - |
-| 2026-01-09 | [Phase 3 - Infrastructure](./archive/brief-phase3-infrastructure.md) | - |
-| 2026-01-09 | [Phase 4 - Testing](./archive/brief-phase4-testing.md) | - |
-| 2026-01-06 | [Phase 2 - Guardrails](./archive/brief-phase2-guardrails-naming.md) | - |
+### `briefs/holding/`
+**Paused for a reason**
+- Needs more research/design
+- Unclear requirements or feasibility
+- Waiting for dependencies
+- Scope needs reconsideration
+- **Signal:** Not ready yet
 
-## Convention
+### `briefs/future/`
+**Aspirational enhancements**
+- Nice to have features
+- Low priority but well-specified
+- Not urgent
+- **Signal:** Someday/maybe
 
-- All briefs use `brief-{slug}.md` naming
-- When a brief is completed, its debrief is written to `debriefs/YYYY-MM-DD-{slug}.md`
-- After debriefing, move the brief to `briefs/archive/`
+### `briefs/archive/`
+**Completed, superseded, or abandoned**
+- Completed work (with matching debrief)
+- Superseded by different approach
+- Abandoned as not viable
+- **Signal:** Historical record
 
-## Workflow
+## Lifecycle
 
-1. **Select Brief:** Pick a `Ready` brief from the table above.
-2. **Execute Work:** Follow the brief's checklist.
-3. **Debrief:** Write debrief to `debriefs/YYYY-MM-DD-{slug}.md`.
-4. **Archive:** Move brief to `archive/` and update this README.
+```
+holding/ → pending/ → briefs/ (active) → archive/
+                ↓
+              future/ → pending/ → briefs/ → archive/
+```
 
-## Reference
+Briefs may also skip stages or move backward if reality requires it.
 
-- **Brief Creation:** `playbooks/briefs-playbook.md`
-- **Debrief Writing:** `playbooks/debriefs-playbook.md`
-- **Task Tracking:** `_CURRENT_TASK.md`
+## Guidelines
+
+**Creating a brief:**
+- Put in root if starting immediately
+- Put in `pending/` if approved but waiting
+- Put in `holding/` if needs more work
+- Put in `future/` if someday/maybe
+
+**Moving a brief:**
+- To `archive/` when work is complete (create matching debrief first)
+- To `archive/superseded/` if approach changed during implementation
+- To `holding/` if blocked or needs rethinking
+- To `future/` if deprioritized
+
+**Remember:** Briefs are living documents. Reality trumps plans. Debriefs tell the real story.
