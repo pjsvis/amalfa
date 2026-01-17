@@ -53,6 +53,64 @@ Agent: "What did we learn about database migrations?"
 
 ---
 
+## CLI Mode: Direct Command Line Access
+
+**Amalfa doesn't require running as an MCP server.** All core search capabilities are available directly from the command line:
+
+### Search Commands
+
+```bash
+# Semantic search across knowledge graph
+amalfa search "oauth patterns" --limit 10
+
+# Read full document content
+amalfa read docs/auth-guide.md
+
+# Explore document relationships
+amalfa explore docs/auth-guide.md --relation references
+
+# List configured source directories
+amalfa list-sources
+
+# Discover similar but unlinked documents (requires Sonar)
+amalfa find-gaps --limit 5 --threshold 0.7
+
+# Add metadata tags to documents
+amalfa inject-tags docs/auth.md "authentication" "security"
+```
+
+### JSON Output for Scripting
+
+All commands support `--json` for programmatic use:
+
+```bash
+# Machine-readable output
+amalfa search "database migrations" --json | jq '.[0].id'
+
+# Chain commands
+amalfa search "auth" --json | jq '.[0].id' | xargs amalfa read
+
+# Integrate with CI/CD
+amalfa find-gaps --json | jq 'length' # Count unlinked documents
+```
+
+### When to Use CLI vs MCP
+
+**Use CLI when:**
+- Testing queries without MCP overhead
+- Scripting and automation (CI/CD, shell scripts)
+- Human power users who prefer terminal
+- Agents that execute shell commands (vs MCP protocol)
+- One-shot queries (no server needed)
+
+**Use MCP when:**
+- Integrated with Claude Desktop or other MCP clients
+- Multi-turn agent conversations
+- Need scratchpad caching (MCP-only feature)
+- Prefer agent-native tool calling
+
+---
+
 ## Prompting Your Agent to Use Amalfa
 
 **Amalfa works best when you establish a knowledge-building habit with your agent.**
@@ -391,12 +449,20 @@ bun test
 
 ```bash
 # Core commands (after global install: bun install -g amalfa)
-amalfa init              # Initialize database from markdown
-amalfa serve             # Start MCP server (stdio)
-amalfa stats             # Show database statistics
-amalfa doctor            # Health check
-amalfa setup-mcp         # Generate MCP config
-amalfa --help            # Show help
+amalfa init                      # Initialize database from markdown
+amalfa serve                     # Start MCP server (stdio)
+amalfa stats                     # Show database statistics
+amalfa doctor                    # Health check
+amalfa setup-mcp                 # Generate MCP config
+amalfa --help                    # Show help
+
+# Search commands (CLI mode)
+amalfa search <query>            # Semantic search [--limit N] [--json]
+amalfa read <node-id>            # Read document content [--json]
+amalfa explore <node-id>         # Show related documents [--relation type] [--json]
+amalfa list-sources              # Show configured source directories
+amalfa find-gaps                 # Discover unlinked documents [--limit N] [--threshold T] [--json]
+amalfa inject-tags <path> <tags> # Add metadata to markdown [--json]
 
 # Service management
 amalfa servers           # Show all service status
