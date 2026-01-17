@@ -153,10 +153,8 @@ function triggerIngestion(debounceMs: number) {
 			// Create ingestor
 			const ingestor = new AmalfaIngestor(config, db);
 
-			// Process only changed files
-			// Note: We'd need to modify AmalfaIngestor to accept file list
-			// For now, we'll re-run full ingestion (hash checking prevents duplicates)
-			await ingestor.ingest();
+			// Targeted ingestion: only process changed files
+			await ingestor.ingestFiles(batch);
 
 			// --- EMBER INTEGRATION ---
 			if (config.ember?.enabled) {

@@ -35,6 +35,101 @@ export class AmalfaIngestor {
 	) {}
 
 	/**
+	 * Ingest specific files (incremental mode)
+	 * Used by file watcher to process only changed files
+	 */
+	async ingestFiles(filePaths: string[]): Promise<IngestionResult> {
+		const startTime = performance.now();
+
+		if (filePaths.length === 0) {
+			return {
+				success: true,
+				stats: {
+					files: 0,
+					nodes: 0,
+					edges: 0,
+					vectors: 0,
+					durationSec: 0,
+				},
+			};
+		}
+
+		this.log.info(
+			`🔄 Incremental ingestion: ${filePaths.length} file${filePaths.length > 1 ? "s" : ""}`,
+		);
+
+		try {
+			// Initialize services
+			const embedder = Embedder.getInstance();
+			const tokenizer = TokenizerService.getInstance();
+
+			// Pass 1: Process changed files (no edge weaving yet)
+			this.db.beginTransaction();
+			for (const filePath of filePaths) {
+				await this.processFile(filePath, embedder, null, tokenizer);
+			}
+			this.db.commit();
+
+			// Pass 2: Rebuild edges for affected nodes
+			const lexicon = this.buildLexicon();
+			const weaver = new EdgeWeaver(this.db, lexicon, this.config);
+
+			this.db.beginTransaction();
+			for (const filePath of filePaths) {
+				try {
+					const content = await Bun.file(filePath).text();
+					const id = this.extractIdFromPath(filePath);
+					weaver.weave(id, content);
+				} catch (e) {
+					this.log.warn({ file: filePath, err: e }, "⚠️  Failed to weave edges");
+				}
+			}
+			this.db.commit();
+
+			// Force WAL checkpoint
+			this.db.getRawDb().run("PRAGMA wal_checkpoint(TRUNCATE);");
+
+			const endTime = performance.now();
+			const durationSec = (endTime - startTime) / 1000;
+
+			const stats = this.db.getStats();
+			this.log.info(
+				{
+					files: filePaths.length,
+					nodes: stats.nodes,
+					edges: stats.edges,
+					vectors: stats.vectors,
+					durationSec: durationSec.toFixed(2),
+				},
+				"✅ Incremental ingestion complete",
+			);
+
+			return {
+				success: true,
+				stats: {
+					files: filePaths.length,
+					nodes: stats.nodes,
+					edges: stats.edges,
+					vectors: stats.vectors,
+					durationSec,
+				},
+			};
+		} catch (e) {
+			this.log.error({ err: e }, "❌ Incremental ingestion failed");
+			return {
+				success: false,
+				stats: {
+					files: 0,
+					nodes: 0,
+					edges: 0,
+					vectors: 0,
+					durationSec: 0,
+				},
+			};
+		}
+	}
+
+	/**
 	 * Ingest all markdown files from source directory
 	 */
 	async ingest(): Promise<IngestionResult> {
@@ -111,11 +206,7 @@ export class AmalfaIngestor {
 			for (const filePath of files) {
 				if (!filePath) continue;
 				const content = await Bun.file(filePath).text();
-				const filename = filePath.split("/").pop() || "unknown";
-				const id = filename
-					.replace(".md", "")
-					.toLowerCase()
-					.replace(/[^a-z0-9-]/g, "-");
+				const id = this.extractIdFromPath(filePath);
 				weaver.weave(id, content);
 			}
 			this.db.commit();
@@ -221,6 +312,17 @@ export class AmalfaIngestor {
 		}
 
 		return files;
+	}
+
+	/**
+	 * Extract node ID from file path
+	 */
+	private extractIdFromPath(filePath: string): string {
+		const filename = filePath.split("/").pop() || "unknown";
+		return filename
+			.replace(/\.(md|ts|js)$/, "")
+			.toLowerCase()
+			.replace(/[^a-z0-9-]/g, "-");
 	}
 
 	/**
