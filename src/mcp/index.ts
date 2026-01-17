@@ -149,7 +149,7 @@ async function runServer() {
 				{
 					name: TOOLS.SEARCH,
 					description:
-						"Search the Knowledge Graph using Vector (semantic) search.",
+						"Search knowledge graph for past learnings & solutions. Use when user asks 'what did we learn about X' or needs context from previous work. Returns ranked results by semantic relevance.",
 					inputSchema: {
 						type: "object",
 						properties: {
@@ -161,7 +161,8 @@ async function runServer() {
 				},
 				{
 					name: TOOLS.READ,
-					description: "Read the full markdown content of a specific node.",
+					description:
+						"Read full markdown content of a document. Use after search to get complete details. Returns entire document including metadata and links.",
 					inputSchema: {
 						type: "object",
 						properties: { id: { type: "string" } },
@@ -170,7 +171,8 @@ async function runServer() {
 				},
 				{
 					name: TOOLS.EXPLORE,
-					description: "Find related nodes (Graph Traversal).",
+					description:
+						"Find related documents via graph links. Use to follow chains of thought, trace decision evolution, or find implementation from spec. Returns connected nodes.",
 					inputSchema: {
 						type: "object",
 						properties: {
@@ -182,13 +184,14 @@ async function runServer() {
 				},
 				{
 					name: TOOLS.LIST,
-					description: "List the directory structure of the document set.",
+					description:
+						"List document directory structure. Use to discover what knowledge exists or orient in the knowledge graph. Returns tree of all documents.",
 					inputSchema: { type: "object", properties: {} },
 				},
 				{
 					name: TOOLS.GAPS,
 					description:
-						"Find semantic gaps (documents that are similar but not linked) in the knowledge graph.",
+						"Find similar but unlinked documents. Use for knowledge graph cleanup, discovering missing connections, or identifying documentation gaps. Returns candidate pairs.",
 					inputSchema: {
 						type: "object",
 						properties: {
@@ -200,7 +203,7 @@ async function runServer() {
 				{
 					name: TOOLS.SCRATCHPAD_READ,
 					description:
-						"Read full content from a scratchpad cache entry. Use when a previous tool output was cached.",
+						"Read cached large output. Use when previous tool said 'Output cached' with an ID. Retrieves full content that was too large for direct return.",
 					inputSchema: {
 						type: "object",
 						properties: {
@@ -214,7 +217,8 @@ async function runServer() {
 				},
 				{
 					name: TOOLS.SCRATCHPAD_LIST,
-					description: "List all cached scratchpad entries with metadata.",
+					description:
+						"List all cached outputs with metadata. Use to see what large outputs are available or manage cache. Returns cache inventory with timestamps.",
 					inputSchema: { type: "object", properties: {} },
 				},
 			],

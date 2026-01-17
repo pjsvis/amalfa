@@ -5,6 +5,44 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.4] - 2026-01-17
+### Added
+- **Consistency Audit System**: Automated consistency checker for documentation/code alignment
+  - 6 check categories: CLI commands, file paths, service naming, config schema, cross-references, legacy commands
+  - Integrated into precommit hook with 80% threshold
+  - JSON output for dashboard integration
+  - Command: `bun run consistency-report`
+
+### Improved
+- **MCP Tool Descriptions**: Enhanced all 8 tool descriptions with strategic guidance
+  - When to use each tool (search_documents, explore_links, find_gaps, etc.)
+  - Value proposition and trigger scenarios
+  - Better agent understanding of tool purpose
+- **User Prompting Guide**: Added comprehensive section to README.md
+  - Effective prompts during and after work
+  - Building institutional memory patterns
+  - When NOT to prompt (novel problems, fresh thinking)
+- **Agent Developer Documentation**: New 113-line section in MCP-TOOLS.md
+  - Strategic tool usage patterns
+  - When to encourage debriefs and playbooks
+  - Proactive vs reactive search patterns
+  - TypeScript integration examples
+
+### Documentation
+- **Fixed Consistency Issues**: Improved from 76% to 98% consistency score
+  - Documented all CLI commands (validate, enhance, scripts, kill alias)
+  - Fixed daemon file path references in ARCHITECTURE.md
+  - Replaced legacy `rm -rf .amalfa/` with staged recovery approach
+  - Created `amalfa.config.example.json`
+  - Updated all legacy command references
+
+### Developer Experience
+- **Precommit Hook Enhancement**: Now includes 4 checks
+  - TypeScript compilation
+  - Biome lint/format
+  - **NEW:** Consistency audit (80% threshold)
+  - Changelog verification
+
 ## [1.4.3] - 2026-01-16
 ### Documentation
 - Bump to 1.4.3

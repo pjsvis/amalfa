@@ -4,9 +4,15 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Project Overview
 
-**Amalfa** is a Model Context Protocol (MCP) server that provides semantic search and knowledge graph capabilities for AI agents. It transforms markdown documents into a queryable knowledge graph with vector embeddings, enabling persistent agent memory across sessions.
+**Amalfa** gives AI agents persistent memory and semantic search across sessions via Model Context Protocol (MCP). Agents can query past work ("What did we learn about auth?") and get ranked, relevant results from structured markdown documentation (briefs, debriefs, playbooks).
 
-**Core Philosophy:** The database is a **disposable runtime artifact**. Markdown files are the source of truth. You can always regenerate the database with `rm -rf .amalfa/ && bun run scripts/cli/ingest.ts`.
+**Core Philosophy:** Markdown files are the source of truth. The database is a **disposable runtime artifact** that can be regenerated anytime with `rm -rf .amalfa/ && amalfa init`.
+
+**Key Benefits:**
+- Zero migration hell (upgrade by re-ingesting)
+- Git-native knowledge (version control markdown, not databases)
+- Sub-second searches across 1000+ documents
+- 4.6x faster than grep, 95% search precision
 
 ## Essential Commands
 
@@ -23,7 +29,7 @@ bun test
 bun run check      # Biome linting
 bun run format     # Auto-format code
 
-# Core commands (use these for local development)
+# Core commands
 bun run amalfa init              # Initialize database from markdown
 bun run amalfa serve             # Start MCP server (stdio mode)
 bun run amalfa stats             # Show database statistics
@@ -32,13 +38,19 @@ bun run amalfa setup-mcp         # Generate MCP config for Claude
 
 # Service management
 bun run amalfa servers           # Show all service status
-bun run amalfa stop-all          # Stop all running services
+bun run amalfa stop-all          # Stop all running services (alias: kill)
 
 # Individual services (start|stop|status|restart)
 bun run amalfa daemon start      # File watcher daemon
 bun run amalfa vector start      # Vector embedding daemon
 bun run amalfa reranker start    # Reranking daemon
 bun run amalfa sonar start       # Sonar AI agent
+bun run amalfa ember scan        # Ember enrichment service
+
+# Diagnostic and enhancement commands
+bun run amalfa validate [--graph]        # Database validation and integrity checks
+bun run amalfa enhance --strategy=STRAT  # Graph enhancement (adamic-adar|pagerank|communities)
+bun run amalfa scripts list              # List available maintenance scripts
 ```
 
 ### Testing
@@ -57,9 +69,13 @@ bun test --watch
 ### Database Operations
 
 ```bash
-# Regenerate database from scratch
-rm -rf .amalfa/
-bun run scripts/cli/ingest.ts
+# Regenerate database (preserves embedding model cache)
+rm .amalfa/resonance.db*
+amalfa init
+
+# Full reset (only if you need to clear 128MB model cache)
+rm -rf .amalfa/  # WARNING: Deletes embedding model cache
+amalfa init
 
 # Check database integrity
 sqlite3 .amalfa/resonance.db "PRAGMA integrity_check;"
@@ -88,6 +104,19 @@ bunx drizzle-kit migrate
 # 5. Verify
 sqlite3 .amalfa/resonance.db ".schema nodes"
 ```
+
+## MCP Tools (What Agents Can Do)
+
+Amalfa exposes 8 MCP tools:
+1. **search_documents(query, limit)** - Semantic search across knowledge graph
+2. **read_node_content(id)** - Read full markdown content
+3. **explore_links(id, relation)** - Traverse document relationships
+4. **find_gaps(limit, threshold)** - Discover similar but unlinked documents
+5. **list_directory_structure()** - Show document organization
+6. **inject_tags(path, tags)** - Add metadata to documents
+7. **scratchpad_read(id)** / **scratchpad_list()** - Cache management
+
+**Full Reference:** See `docs/MCP-TOOLS.md` for signatures, examples, and workflows.
 
 ## Architecture
 
@@ -261,7 +290,7 @@ Why Bun?
 ### Add New Service/Daemon
 1. Implement `ServiceLifecycle` interface (`src/utils/ServiceLifecycle.ts`)
 2. Register in service mesh
-3. Add status check to `src/cli/servers.ts`
+3. Add status check to `src/cli/commands/server.ts`
 
 ## Troubleshooting
 
@@ -292,9 +321,8 @@ amalfa servers start
 # Apply migrations
 bunx drizzle-kit migrate
 
-# Or regenerate from scratch
-rm -rf .amalfa/
-bun run scripts/cli/ingest.ts
+# Or regenerate from scratch (preserves 128MB model cache)
+amalfa init
 ```
 
 ### Can't uninstall amalfa
@@ -330,15 +358,18 @@ which amalfa
 
 ## References
 
-### Documentation
+### Core Documentation
+- `docs/MCP-TOOLS.md` - Complete MCP tool reference (NEW)
+- `docs/ARCHITECTURE.md` - Technical deep dive (NEW)
 - `docs/VISION-AGENT-LEARNING.md` - Core philosophy
-- `docs/AGENT-METADATA-PATTERNS.md` - Auto-augmentation design
+- `docs/USER-MANUAL.md` - Setup and maintenance
 - `src/resonance/DATABASE-PROCEDURES.md` - Database operations (critical)
 
 ### Playbooks
 - `playbooks/embeddings-and-fafcas-protocol-playbook.md` - Vector architecture
 - `playbooks/local-first-vector-db-playbook.md` - SQLite patterns
 - `playbooks/problem-solving-playbook.md` - Debugging strategies
+- `playbooks/debriefs-playbook.md` - Debrief writing guide
 
 ### External
 - MCP Specification: https://modelcontextprotocol.io

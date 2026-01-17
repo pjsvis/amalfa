@@ -1,6 +1,6 @@
 {
 	"name": "amalfa",
-	"version": "1.4.3",
+	"version": "1.4.4",
 	"description": "Local-first knowledge graph engine for AI agents. Transforms markdown into searchable memory with MCP protocol.",
 	"license": "MIT",
 	"homepage": "https://github.com/pjsvis/amalfa#readme",
@@ -61,6 +61,7 @@
 		"stats": "bun run src/cli.ts stats",
 		"doctor": "bun run src/cli.ts doctor",
 		"daemon": "bun run src/cli.ts daemon status",
+		"consistency-report": "bun run scripts/maintenance/consistency-report.ts",
 		"help": "bun run src/cli.ts --help"
 	},
 	"dependencies": {
