@@ -19,6 +19,7 @@ import {
 	cmdVector,
 } from "./cli/commands/services";
 import { cmdSetupMcp } from "./cli/commands/setup";
+import { cmdSetupPython } from "./cli/commands/setup-python";
 import { cmdStats } from "./cli/commands/stats";
 import { cmdValidate } from "./cli/commands/validate";
 
@@ -65,6 +66,7 @@ Commands:
   validate           Validate database health (pre-publish gate)
   doctor             Check installation and configuration
   setup-mcp          Generate MCP configuration JSON
+  setup-python       Initialize Python sidecar environment
   daemon <action>    Manage file watcher (start|stop|status|restart)
   vector <action>    Manage vector daemon (start|stop|status|restart)
   reranker <action>  Manage reranker daemon (start|stop|status|restart)
@@ -174,6 +176,10 @@ async function main() {
 
 		case "setup-mcp":
 			await cmdSetupMcp(args);
+			break;
+
+		case "setup-python":
+			await cmdSetupPython();
 			break;
 
 		case "servers":

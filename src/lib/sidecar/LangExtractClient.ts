@@ -1,0 +1,134 @@
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { z } from "zod";
+import { resolve, join } from "node:path";
+import { existsSync } from "node:fs";
+
+// Zod Schemas for Structural Validation
+const EntitySchema = z.object({
+	name: z.string(),
+	type: z.string(),
+	description: z.string().optional(),
+});
+
+const RelationshipSchema = z.object({
+	source: z.string(),
+	target: z.string(),
+	type: z.string(),
+	description: z.string().optional(),
+});
+
+const GraphDataSchema = z.object({
+	entities: z.array(EntitySchema),
+	relationships: z.array(RelationshipSchema),
+});
+
+export type ExtractedGraph = z.infer<typeof GraphDataSchema>;
+
+export class LangExtractClient {
+	private client: Client | null = null;
+	private transport: StdioClientTransport | null = null;
+	private sidecarPath: string;
+
+	constructor() {
+		this.sidecarPath = resolve(process.cwd(), "src/sidecars/lang-extract");
+	}
+
+	/**
+	 * Checks if the Sidecar environment is ready (uv installed, venv exists)
+	 */
+	public async isAvailable(): Promise<boolean> {
+		// 1. Check if uv is in PATH
+		const uvCheck = Bun.spawnSync(["which", "uv"]);
+		if (uvCheck.exitCode !== 0) return false;
+
+		// 2. Check if the sidecar directory exists
+		if (!existsSync(this.sidecarPath)) return false;
+
+		// 3. Check if server.py exists
+		if (!existsSync(join(this.sidecarPath, "server.py"))) return false;
+
+		// Note: We assume "uv run" handles the venv creation if missing,
+		// but ideally we'd check for a lockfile or .venv too.
+		return true;
+	}
+
+	public async connect() {
+		if (this.client) return;
+
+		this.transport = new StdioClientTransport({
+			command: "uv",
+			args: ["run", "server.py"],
+			cwd: this.sidecarPath,
+			env: {
+				...process.env,
+				// Pass specifically needed keys
+				GEMINI_API_KEY: process.env.GEMINI_API_KEY || "",
+			},
+		});
+
+		this.client = new Client(
+			{ name: "amalfa-host", version: "1.0.0" },
+			{ capabilities: {} },
+		);
+
+		await this.client.connect(this.transport);
+	}
+
+	public async extractEntities(text: string): Promise<ExtractedGraph | null> {
+		if (!this.client) {
+			await this.connect();
+		}
+
+		try {
+			const result = await this.client!.callTool({
+				name: "extract_graph",
+				arguments: { text },
+			});
+
+			// Parse the JSON string returned by the Python tool
+			// The tool returns a string that IS a JSON object, wrapped in the MCP content
+			// usually result.content[0].text
+			if (!result.content || result.content.length === 0) return null;
+
+			const contentBlock = result.content[0];
+			if (contentBlock.type !== "text") return null;
+
+			const responseText = contentBlock.text;
+			if (responseText.startsWith("Error")) {
+				console.error("Sidecar returned error:", responseText);
+				return null;
+			}
+
+			let rawJson;
+			try {
+				rawJson = JSON.parse(responseText);
+			} catch (e) {
+				// Try to strip markdown code blocks if present
+				const cleanText = responseText.replace(/```json\n?|\n?```/g, "").trim();
+				try {
+					rawJson = JSON.parse(cleanText);
+				} catch (e2) {
+					console.error("Failed to parse sidecar JSON:", responseText);
+					return null;
+				}
+			}
+
+			// Validate with Zod
+			return GraphDataSchema.parse(rawJson);
+		} catch (error) {
+			console.error("Sidecar extraction failed:", error);
+			return null;
+		}
+	}
+
+	public async close() {
+		if (this.transport) {
+			// Stdio transport doesn't have a close method exposed efficiently in all versions
+			// but closing the client usually triggers it
+			await this.transport.close();
+		}
+		this.client = null;
+		this.transport = null;
+	}
+}

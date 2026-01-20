@@ -14,6 +14,7 @@ import { getLogger } from "@src/utils/Logger";
 import { toRootRelative } from "@src/utils/projectRoot";
 import { Glob } from "bun";
 import matter from "gray-matter";
+import { LangExtractClient } from "@src/lib/sidecar/LangExtractClient";
 
 export interface IngestionResult {
 	success: boolean;
@@ -29,6 +30,7 @@ export interface IngestionResult {
 
 export class AmalfaIngestor {
 	private log = getLogger("AmalfaIngestor");
+	private sidecar = new LangExtractClient();
 
 	constructor(
 		private config: AmalfaConfig,
@@ -143,6 +145,16 @@ export class AmalfaIngestor {
 			// Initialize embedder
 			const embedder = Embedder.getInstance();
 			await embedder.embed("init"); // Warm up
+
+			// Check sidecar availability
+			const sidecarReady = await this.sidecar.isAvailable();
+			if (sidecarReady) {
+				this.log.info("🐍 LangExtract Sidecar available");
+			} else {
+				this.log.debug(
+					"🐍 LangExtract Sidecar not detected (skipping advanced extraction)",
+				);
+			}
 
 			const tokenizer = TokenizerService.getInstance();
 
