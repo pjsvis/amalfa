@@ -94,7 +94,8 @@ Refactor existing Gemini code into the new provider pattern.
 
 ---
 
-### [ ] Step: Implement Ollama Provider
+### [x] Step: Implement Ollama Provider
+<!-- chat-id: 18d5b2ab-b9c3-4c43-a926-aef5d63a1fd2 -->
 
 Create the new Ollama provider with local and remote support.
 
