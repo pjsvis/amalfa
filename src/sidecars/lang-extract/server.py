@@ -1,11 +1,8 @@
-
-import os
-import google.generativeai as genai
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, Field
 from typing import List, Optional
+from providers import create_provider
 
-# Initialize FastMCP Server
 mcp = FastMCP("LangExtract Sidecar")
 
 class Entity(BaseModel):
@@ -27,44 +24,13 @@ class GraphData(BaseModel):
 def extract_graph(text: str) -> str:
     """
     Extracts a knowledge graph (entities and relationships) from the given text
-    using Google's Gemini/Immersive extraction logic (simulated here via simple Gemini call
-    as LangExtract library requires specific setup).
+    using the configured language model provider (Gemini by default, Ollama if configured).
     """
-    
-    # Check for API Key
-    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("LANGEXTRACT_API_KEY")
-    if not api_key:
-        return "Error: GEMINI_API_KEY not set in environment."
-
-    genai.configure(api_key=api_key)
-    
-    # We use a highly structured prompt to emulate LangExtract's core value
-    # until we can import the specific library modules if they become available.
-    # For now, this acts as a "Reference Implementation" using standard Generative AI.
-    
-    model = genai.GenerativeModel('gemini-flash-latest')
-    
-    prompt = f"""
-    Analyze the following text and extract a knowledge graph.
-    Identify key entities (concepts, technologies, people, files) and relationships between them.
-    
-    Output JSON format:
-    {{
-      "entities": [
-        {{"name": "Entity Name", "type": "EntityType", "description": "Context"}}
-      ],
-      "relationships": [
-        {{"source": "Entity1", "target": "Entity2", "type": "RELATIONSHIP_TYPE", "description": "Why they are related"}}
-      ]
-    }}
-    
-    Text to analyze:
-    {text}
-    """
-    
     try:
-        response = model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
-        return response.text
+        provider = create_provider()
+        return provider.extract_graph(text)
+    except ValueError as e:
+        return f"Error: {str(e)}"
     except Exception as e:
         return f"Error during extraction: {str(e)}"
 
