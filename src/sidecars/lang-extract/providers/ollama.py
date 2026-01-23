@@ -19,7 +19,7 @@ class OllamaLanguageModelProvider(LanguageModelProvider):
         if not self.model_id:
             raise ValueError("OLLAMA_MODEL not set in environment or provided to constructor")
         
-        self.model_url = model_url or os.environ.get("OLLAMA_URL", "http://localhost:11434")
+        self.model_url = model_url or os.environ.get("OLLAMA_URL") or "http://localhost:11434"
         self.api_key = api_key or os.environ.get("OLLAMA_API_KEY") or os.environ.get("LANGEXTRACT_API_KEY")
         self.auth_header = auth_header
         self.auth_scheme = auth_scheme
@@ -60,8 +60,7 @@ Text to analyze:
         payload = {
             "model": self.model_id,
             "prompt": prompt,
-            "stream": False,
-            "format": "json"
+            "stream": False
         }
         
         try:

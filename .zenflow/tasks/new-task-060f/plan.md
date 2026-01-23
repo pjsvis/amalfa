@@ -141,6 +141,7 @@ Update server.py and dependencies to support provider selection.
 ---
 
 ### [ ] Step: Integration Testing
+<!-- chat-id: 15fe6fcd-7b6d-46cf-ae2b-157f3f4dee62 -->
 
 Test the implementation end-to-end with TypeScript client.
 

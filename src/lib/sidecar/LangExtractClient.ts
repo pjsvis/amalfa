@@ -62,8 +62,14 @@ export class LangExtractClient {
 			cwd: this.sidecarPath,
 			env: {
 				...process.env,
-				// Pass specifically needed keys
+				// Pass provider selection and configuration
+				LANGEXTRACT_PROVIDER: process.env.LANGEXTRACT_PROVIDER || "",
+				// Gemini provider config
 				GEMINI_API_KEY: process.env.GEMINI_API_KEY || "",
+				// Ollama provider config
+				OLLAMA_MODEL: process.env.OLLAMA_MODEL || "",
+				OLLAMA_URL: process.env.OLLAMA_URL || "",
+				OLLAMA_API_KEY: process.env.OLLAMA_API_KEY || "",
 			},
 		});
 
