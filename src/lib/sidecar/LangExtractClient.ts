@@ -3,6 +3,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 import { z } from "zod";
 import { resolve, join } from "node:path";
 import { existsSync } from "node:fs";
+import { loadConfig } from "@src/config/defaults";
 
 // Zod Schemas for Structural Validation
 const EntitySchema = z.object({
@@ -56,15 +57,34 @@ export class LangExtractClient {
 	public async connect() {
 		if (this.client) return;
 
+		const config = await loadConfig();
+		const langExtractConfig = config.langExtract;
+
+		const env: Record<string, string> = {
+			...process.env,
+		};
+
+		if (langExtractConfig) {
+			env.LANGEXTRACT_PROVIDER = langExtractConfig.provider;
+
+			if (langExtractConfig.provider === "ollama" && langExtractConfig.ollama) {
+				env.LANGEXTRACT_OLLAMA_HOST = langExtractConfig.ollama.host;
+				env.LANGEXTRACT_OLLAMA_MODEL = langExtractConfig.ollama.model;
+			}
+
+			if (langExtractConfig.provider === "gemini" && langExtractConfig.gemini) {
+				env.LANGEXTRACT_GEMINI_MODEL = langExtractConfig.gemini.model;
+				env.GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+			}
+		} else {
+			env.GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+		}
+
 		this.transport = new StdioClientTransport({
 			command: "uv",
 			args: ["run", "server.py"],
 			cwd: this.sidecarPath,
-			env: {
-				...process.env,
-				// Pass specifically needed keys
-				GEMINI_API_KEY: process.env.GEMINI_API_KEY || "",
-			},
+			env,
 		});
 
 		this.client = new Client(

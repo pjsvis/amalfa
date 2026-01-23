@@ -54,6 +54,18 @@ export function initAmalfaDirs(): void {
 
 import type { EmberConfig } from "@src/ember/types";
 
+export interface LangExtractConfig {
+	provider: "ollama" | "gemini";
+	ollama?: {
+		host: string;
+		model: string;
+		timeout: number;
+	};
+	gemini?: {
+		model: string;
+	};
+}
+
 export interface AmalfaConfig {
 	/** @deprecated Use sources array instead */
 	source?: string;
@@ -92,6 +104,8 @@ export interface AmalfaConfig {
 	ember: EmberConfig;
 	/** Scratchpad cache configuration */
 	scratchpad?: ScratchpadConfig;
+	/** LangExtract sidecar configuration */
+	langExtract?: LangExtractConfig;
 }
 
 export interface ScratchpadConfig {
@@ -315,6 +329,15 @@ export async function loadConfig(): Promise<AmalfaConfig> {
 						...DEFAULT_CONFIG.ember,
 						...(userConfig.ember || {}),
 					},
+					langExtract: userConfig.langExtract ? {
+						provider: userConfig.langExtract.provider,
+						ollama: userConfig.langExtract.ollama ? {
+							...userConfig.langExtract.ollama,
+						} : undefined,
+						gemini: userConfig.langExtract.gemini ? {
+							...userConfig.langExtract.gemini,
+						} : undefined,
+					} : undefined,
 				};
 
 				// Normalize: Convert legacy 'source' to 'sources' array

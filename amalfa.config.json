@@ -50,5 +50,16 @@
 			"host": "openrouter.ai/api/v1",
 			"model": "qwen/qwen-2.5-72b-instruct"
 		}
+	},
+	"langExtract": {
+		"provider": "ollama",
+		"ollama": {
+			"host": "localhost:11434",
+			"model": "qwen2.5:1.5b",
+			"timeout": 30000
+		},
+		"gemini": {
+			"model": "gemini-flash-latest"
+		}
 	}
 }
