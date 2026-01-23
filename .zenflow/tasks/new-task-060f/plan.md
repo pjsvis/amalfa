@@ -118,7 +118,8 @@ Create the new Ollama provider with local and remote support.
 
 ---
 
-### [ ] Step: Update Configuration and Dependencies
+### [x] Step: Update Configuration and Dependencies
+<!-- chat-id: b8b7007e-9a15-4e6c-875a-7a85a0f11309 -->
 
 Update server.py and dependencies to support provider selection.
 
