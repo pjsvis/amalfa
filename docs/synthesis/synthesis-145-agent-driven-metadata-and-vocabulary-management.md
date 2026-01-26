@@ -18,7 +18,9 @@ nodes:
   - debriefs-playbook
   - session-2026-01-06-metadata-patterns
 tags:
-  - o
+  - metadata
+  - vocabulary
+  - agent-driven
 ---
 
 # Agent-Driven Metadata and Vocabulary Management

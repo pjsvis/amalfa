@@ -8,13 +8,13 @@ import { DaemonManager } from "@src/utils/DaemonManager";
 import { discoverOllamaCapabilities } from "@src/utils/ollama-discovery";
 import { getDbPath } from "../utils";
 
-export async function cmdDaemon(args: string[]) {
+export async function cmdWatcher(args: string[]) {
 	const action = args[1] || "status";
 	const validActions = ["start", "stop", "status", "restart"];
 
 	if (!validActions.includes(action)) {
 		console.error(`❌ Invalid action: ${action}`);
-		console.error("\nUsage: amalfa daemon <start|stop|status|restart>");
+		console.error("\nUsage: amalfa watcher <start|stop|status|restart>");
 		process.exit(1);
 	}
 

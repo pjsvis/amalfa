@@ -1,5 +1,5 @@
-import { resolve } from "node:path";
 import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 
 export async function cmdSetupPython() {
 	console.log("\n🐍 Amalfa Python Sidecar Setup");

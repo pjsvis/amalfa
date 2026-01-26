@@ -1,5 +1,6 @@
 import { join } from "node:path";
 import type { ResonanceDB } from "@src/resonance/db";
+import { LangExtractClient } from "@src/services/LangExtractClient";
 import { getLogger } from "@src/utils/Logger";
 import { Glob } from "bun";
 import { EmberAnalyzer } from "./analyzer";
@@ -11,13 +12,15 @@ export class EmberService {
 	private analyzer: EmberAnalyzer;
 	private generator: EmberGenerator;
 	private squasher: EmberSquasher;
+	private langClient: LangExtractClient;
 	private log = getLogger("EmberService");
 
 	constructor(
 		db: ResonanceDB,
 		private config: EmberConfig,
 	) {
-		this.analyzer = new EmberAnalyzer(db);
+		this.langClient = new LangExtractClient();
+		this.analyzer = new EmberAnalyzer(db, this.langClient);
 		this.generator = new EmberGenerator();
 		this.squasher = new EmberSquasher();
 	}

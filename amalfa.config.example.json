@@ -1,5 +1,5 @@
 {
-	"sources": ["./docs", "./briefs", "./debriefs", "./playbooks"],
+	"sources": [".", "src", "scripts"],
 	"database": ".amalfa/resonance.db",
 	"embeddings": {
 		"model": "BAAI/bge-small-en-v1.5",
@@ -12,7 +12,7 @@
 	},
 	"excludePatterns": ["node_modules", ".git", ".amalfa"],
 	"sonar": {
-		"enabled": false,
+		"enabled": true,
 		"autoDiscovery": true,
 		"discoveryMethod": "cli",
 		"inferenceMethod": "http",
@@ -45,7 +45,7 @@
 			}
 		},
 		"cloud": {
-			"enabled": false,
+			"enabled": true,
 			"provider": "openrouter",
 			"host": "openrouter.ai/api/v1",
 			"model": "qwen/qwen-2.5-72b-instruct"

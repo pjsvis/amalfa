@@ -12,11 +12,11 @@ import { cmdRead } from "./cli/commands/read";
 import { cmdSearch } from "./cli/commands/search";
 import { cmdServe, cmdServers, cmdStopAll } from "./cli/commands/server";
 import {
-	cmdDaemon,
 	cmdEmber,
 	cmdReranker,
 	cmdSonar,
 	cmdVector,
+	cmdWatcher,
 } from "./cli/commands/services";
 import { cmdSetupMcp } from "./cli/commands/setup";
 import { cmdSetupPython } from "./cli/commands/setup-python";
@@ -67,7 +67,7 @@ Commands:
   doctor             Check installation and configuration
   setup-mcp          Generate MCP configuration JSON
   setup-python       Initialize Python sidecar environment
-  daemon <action>    Manage file watcher (start|stop|status|restart)
+  watcher <action>   Manage file watcher (start|stop|status|restart)
   vector <action>    Manage vector daemon (start|stop|status|restart)
   reranker <action>  Manage reranker daemon (start|stop|status|restart)
   sonar <action>     Manage Sonar AI agent (start|stop|status|restart)
@@ -92,6 +92,7 @@ Examples:
   amalfa stats       # Show knowledge graph statistics
   amalfa doctor      # Verify installation
   amalfa sonar start # Start Sonar AI agent for enhanced search
+  amalfa watcher start # Start file watcher for real-time updates
 
 Documentation: https://github.com/pjsvis/amalfa
 `);
@@ -162,8 +163,9 @@ async function main() {
 			await cmdInit(args);
 			break;
 
-		case "daemon":
-			await cmdDaemon(args);
+		case "watcher":
+			await cmdWatcher(args);
+
 			break;
 
 		case "vector":

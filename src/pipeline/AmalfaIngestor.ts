@@ -10,11 +10,11 @@ import { EdgeWeaver } from "@src/core/EdgeWeaver";
 import type { Node, ResonanceDB } from "@src/resonance/db";
 import { Embedder } from "@src/resonance/services/embedder";
 import { SimpleTokenizerService as TokenizerService } from "@src/resonance/services/simpleTokenizer";
+import { LangExtractClient } from "@src/services/LangExtractClient";
 import { getLogger } from "@src/utils/Logger";
 import { toRootRelative } from "@src/utils/projectRoot";
 import { Glob } from "bun";
 import matter from "gray-matter";
-import { LangExtractClient } from "@src/lib/sidecar/LangExtractClient";
 
 export interface IngestionResult {
 	success: boolean;

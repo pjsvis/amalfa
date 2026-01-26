@@ -43,6 +43,8 @@
 		"examples",
 		"experiments",
 		"scripts/lab",
-		"scripts/legacy"
+		"scripts/legacy",
+		"scripts/generative-ui",
+		"scripts/debug-reranker.ts"
 	]
 }

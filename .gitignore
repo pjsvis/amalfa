@@ -111,3 +111,6 @@ canary-*.db
 *.pdf
 !docs/architecture-diagrams/*.pdf
 test-docs/
+
+# Ember Sidecars (Ephemeral artifacts)
+*.ember.json

@@ -139,3 +139,32 @@
 **Ready for Commit**: Yes
 **Next Session Focus**: Merge Reranking Feature, MCP Integration, and Phase 7 (Dynamic Context)
 
+---
+
+## Session 2026-01-26: Sidecar Integration & Hardening
+
+### Task: Fix Ember Tag Parsing & Wire Up LangExtract
+**Objective**: Fix the bug generating garbage tags in Ember sidecars and fully integrate the Python-based LangExtract sidecar.
+
+**Plan**:
+1.  **Fix**: Patch `src/ember/analyzer.ts` to correctly handle `meta.tags` as arrays, preventing character-level iteration (the "r, e, f..." bug).
+2.  **Clean**: Remove all malformed `*.ember.json` files.
+3.  **Integrate**: Wire up `EmberService` to use `LangExtractClient` (Python sidecar) for entity extraction.
+4.  **Reranker**: Finish integration of BGE-M3 Reranker into MCP and CLI tools.
+
+**Status**: 🚧 In Progress
+
+### Completed Items
+- ✅ Fixed Ember tag parsing bug (patched `analyzer.ts`)
+- ✅ Cleaned up malformed `.ember.json` files
+- ✅ Wired up Python LangExtract sidecar (created `LangExtractClient.ts`, updated Ember)
+- ✅ Added `--rerank` flag to CLI search command
+- ✅ Renamed `amalfa daemon` to `amalfa watcher` (with deprecation warning)
+- ✅ Created `amalfa.config.example.json`
+
+---
+
+**Session Status**: ✅ COMPLETE
+**Ready for Commit**: Yes
+**Next Session Focus**: Phase 7 (Historian & Modular Tools)
+

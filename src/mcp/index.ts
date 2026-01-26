@@ -304,11 +304,7 @@ async function runServer() {
 					log.info("🔄 Reranking with BGE cross-encoder");
 					const reranked = await rerankDocuments(
 						query,
-						hydratedResults as Array<{
-							id: string;
-							content: string;
-							score: number;
-						}>,
+						hydratedResults as any,
 						Math.min(limit * 2, 30), // Keep top results after reranking
 					);
 
@@ -326,7 +322,7 @@ async function runServer() {
 						// Content already hydrated in step 3
 						log.info("🔄 Re-ranking with Sonar LLM");
 						const reRanked = await sonarClient.rerankResults(
-							rankedResults as Array<{
+							rankedResults as any as Array<{
 								id: string;
 								content: string;
 								score: number;
@@ -334,6 +330,7 @@ async function runServer() {
 							query,
 							queryIntent,
 						);
+
 						rankedResults = reRanked.map((rr) => ({
 							id: rr.id,
 							score: rr.relevance_score,

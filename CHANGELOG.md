@@ -5,6 +5,32 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-01-26
+
+### Added
+- **LangExtract Sidecar**: Integrated Python-based entity extraction via MCP/Stdio bridge.
+  - New robust Node.js client (`src/services/LangExtractClient.ts`) with Zod validation and Pino logging.
+  - Automatically enriches documents >200 chars during `amalfa ember scan`.
+  - Handles API rate limits (429) gracefully.
+- **Reranker Integration**: Finalized BGE-M3 cross-encoder support.
+  - Added `--rerank` flag to `amalfa search` CLI command.
+  - Integrated `ContentHydrator` for retrieving document content for reranking.
+  - Verified end-to-end quality improvement.
+- **Example Config**: Added `amalfa.config.example.json` reference file.
+
+### Changed
+- **Service Naming**: Renamed `amalfa daemon` to `amalfa watcher` to align with internal naming and reduce confusion.
+  - `amalfa daemon` is now deprecated but still works (with warning).
+  - Updated `package.json` scripts to use `watcher`.
+- **Ember Hardening**: Fixed critical bug in tag parsing logic that caused garbage tags (single characters).
+  - Implemented strict array checking for tags.
+  - Added hygiene filters to remove numeric-only and short tags.
+  - Updated `EmberAnalyzer` to use project-relative paths for portable sidecars.
+
+### Fixed
+- **Tag Corruption**: Identified and fixed corrupted metadata in documentation files (`newbie-onboarding.md`, etc.) caused by previous buggy runs.
+- **Git Hygiene**: Added `*.ember.json` to `.gitignore` to treat sidecars as ephemeral artifacts.
+
 ## [1.4.4] - 2026-01-17
 ### Added
 - **Consistency Audit System**: Automated consistency checker for documentation/code alignment

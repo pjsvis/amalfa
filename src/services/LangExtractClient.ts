@@ -1,8 +1,9 @@
+import { existsSync } from "node:fs";
+import { join, resolve } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { getLogger } from "@src/utils/Logger";
 import { z } from "zod";
-import { resolve, join } from "node:path";
-import { existsSync } from "node:fs";
 
 // Zod Schemas for Structural Validation
 const EntitySchema = z.object({
@@ -29,11 +30,11 @@ export class LangExtractClient {
 	private client: Client | null = null;
 	private transport: StdioClientTransport | null = null;
 	private sidecarPath: string;
+	private log = getLogger("LangExtractClient");
 
 	constructor() {
 		this.sidecarPath = resolve(process.cwd(), "src/sidecars/lang-extract");
 	}
-
 	/**
 	 * Checks if the Sidecar environment is ready (uv installed, venv exists)
 	 */
@@ -75,41 +76,43 @@ export class LangExtractClient {
 		await this.client.connect(this.transport);
 	}
 
-	public async extractEntities(text: string): Promise<ExtractedGraph | null> {
+	public async extract(text: string): Promise<ExtractedGraph | null> {
 		if (!this.client) {
 			await this.connect();
 		}
 
 		try {
-			const result = await this.client!.callTool({
+			const result = (await this.client?.callTool({
 				name: "extract_graph",
+
 				arguments: { text },
-			});
+			})) as any;
 
 			// Parse the JSON string returned by the Python tool
+
 			// The tool returns a string that IS a JSON object, wrapped in the MCP content
 			// usually result.content[0].text
-			if (!result.content || result.content.length === 0) return null;
+			if (!result?.content || result.content.length === 0) return null;
 
 			const contentBlock = result.content[0];
 			if (contentBlock.type !== "text") return null;
 
 			const responseText = contentBlock.text;
 			if (responseText.startsWith("Error")) {
-				console.error("Sidecar returned error:", responseText);
+				this.log.error({ responseText }, "Sidecar returned error");
 				return null;
 			}
 
-			let rawJson;
+			let rawJson: unknown;
 			try {
 				rawJson = JSON.parse(responseText);
-			} catch (e) {
+			} catch (_e) {
 				// Try to strip markdown code blocks if present
 				const cleanText = responseText.replace(/```json\n?|\n?```/g, "").trim();
 				try {
 					rawJson = JSON.parse(cleanText);
-				} catch (e2) {
-					console.error("Failed to parse sidecar JSON:", responseText);
+				} catch (_e2) {
+					this.log.error({ responseText }, "Failed to parse sidecar JSON");
 					return null;
 				}
 			}
@@ -117,11 +120,10 @@ export class LangExtractClient {
 			// Validate with Zod
 			return GraphDataSchema.parse(rawJson);
 		} catch (error) {
-			console.error("Sidecar extraction failed:", error);
+			this.log.error({ err: error }, "Sidecar extraction failed");
 			return null;
 		}
 	}
-
 	public async close() {
 		if (this.transport) {
 			// Stdio transport doesn't have a close method exposed efficiently in all versions

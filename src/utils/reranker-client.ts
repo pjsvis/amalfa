@@ -6,7 +6,7 @@
  */
 
 import { HfBgeReranker } from "@src/services/reranker-hf";
-import { log } from "./logger";
+import { log } from "./Logger";
 
 let rerankerInstance: HfBgeReranker | null = null;
 let initializationPromise: Promise<HfBgeReranker> | null = null;
