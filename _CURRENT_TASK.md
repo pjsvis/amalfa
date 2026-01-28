@@ -21,7 +21,7 @@
 ## Phase 7: Dynamic Context & Substrates (Active)
 - [x] **Protocol: Scratchpad**: Intercept large tool outputs to `.amalfa/cache/scratchpad/`.
 - [x] **Protocol: Historian**: Persist agent thought loops to `.amalfa/sessions/`.
-- [ ] **Protocol: Modular Toolbox**: Dynamic tool loading from JSON schemas.
+- [x] **Protocol: Modular Toolbox**: Dynamic tool loading from JSON schemas.
 - [ ] **Substrates**: Implement adapters for Ollama Cloud, GLM, MiniMax, ZenMux.
 - [ ] **CLI**: Add `amalfa list-capabilities` to expose dynamic landscape.
 - [ ] **Substrates**: Implement adapters for Ollama Cloud, GLM, MiniMax, ZenMux.
