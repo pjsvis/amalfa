@@ -1,5 +1,63 @@
 # AMALFA
 
+## Environment Configuration
+
+AMALFA uses environment variables for configuration. Copy `.env.example` to `.env` and fill in your API keys:
+
+```bash
+cp .env.example .env
+```
+
+### API Keys
+
+**Important:** `.env` is the single source of truth for all API key secrets. Never commit `.env` to version control.
+
+#### Required API Keys
+
+- **GEMINI_API_KEY** - Google Gemini API key for LangExtract
+  - Get from: https://makersuite.google.com/app/apikey
+
+- **OPENROUTER_API_KEY** - OpenRouter API key for alternative LLM access
+  - Get from: https://openrouter.ai/keys
+
+- **MISTRAL_API_KEY** - Mistral AI API key
+  - Get from: https://console.mistral.ai/
+
+- **OLLAMA_API_KEY** - Ollama Cloud API key (for direct cloud API access)
+  - Get from: https://ollama.com/account
+  - **Note:** This is NOT an SSH key! Get a proper API key from your Ollama account
+
+#### API Key Types
+
+**SSH Keys (NOT for LLM APIs):**
+- Format: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...`
+- Used for: Git authentication, SSH access
+- ❌ DO NOT use for LLM API calls
+
+**API Keys (for LLM APIs):**
+- Format: `sk-or-v1-...` or alphanumeric string
+- Used for: Gemini, OpenRouter, Mistral, Ollama Cloud
+- ✅ MUST use for LLM API calls
+
+**Example of WRONG usage:**
+```bash
+OLLAMA_API_KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...  # ❌ WRONG!
+```
+
+**Example of CORRECT usage:**
+```bash
+OLLAMA_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...  # ✅ CORRECT!
+```
+
+### Security Best Practices
+
+1. Never commit `.env` to version control
+2. Use strong, unique API keys for each service
+3. Rotate API keys regularly
+4. Use different keys for dev/staging/production
+5. Monitor API usage and costs
+
+
 **A Memory Layer For Agents**
 
 [![npm](https://img.shields.io/npm/v/amalfa?logo=npm)](https://www.npmjs.com/package/amalfa)
