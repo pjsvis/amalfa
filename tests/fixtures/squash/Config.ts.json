@@ -1,0 +1,10 @@
+{
+	"entities": [
+		{
+			"name": "AppConfig",
+			"type": "constant",
+			"description": "Application configuration settings."
+		}
+	],
+	"relationships": []
+}

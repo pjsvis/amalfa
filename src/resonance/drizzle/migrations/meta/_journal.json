@@ -15,6 +15,13 @@
 			"when": 1768308220948,
 			"tag": "0001_happy_serpent_society",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1769588665479,
+			"tag": "0002_curly_fat_cobra",
+			"breakpoints": true
 		}
 	]
 }

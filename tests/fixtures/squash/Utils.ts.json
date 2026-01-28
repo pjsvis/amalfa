@@ -1,0 +1,10 @@
+{
+	"entities": [
+		{
+			"name": "formatDate",
+			"type": "function",
+			"description": "Formats a date to ISO string."
+		}
+	],
+	"relationships": []
+}

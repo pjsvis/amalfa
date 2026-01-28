@@ -22,6 +22,7 @@ export const nodes = sqliteTable("nodes", {
 	// Embeddings are stored as raw BLOBs (Float32Array bytes)
 	embedding: blob("embedding"),
 	hash: text("hash"),
+	summary: text("summary"), // Extracted definition/description
 	meta: text("meta"), // JSON string
 	date: text("date"), // ISO string or YYYY-MM-DD
 });

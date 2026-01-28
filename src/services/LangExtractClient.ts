@@ -86,6 +86,7 @@ export class LangExtractClient {
 				name: "extract_graph",
 
 				arguments: { text },
+				// biome-ignore lint/suspicious/noExplicitAny: mcp sdk typing issue
 			})) as any;
 
 			// Parse the JSON string returned by the Python tool

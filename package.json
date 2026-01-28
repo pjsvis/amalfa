@@ -73,6 +73,7 @@
 		"drizzle-kit": "0.31.8",
 		"drizzle-orm": "0.45.1",
 		"fastembed": "^1.0.0",
+		"glob": "^13.0.0",
 		"graphology": "0.26.0",
 		"graphology-library": "0.8.0",
 		"gray-matter": "^4.0.3",

@@ -87,6 +87,7 @@ export async function cmdFindGaps(args: string[]) {
 				);
 
 				for (let i = 0; i < gaps.length; i++) {
+					// biome-ignore lint/suspicious/noExplicitAny: legacy typing
 					const gap = gaps[i] as any;
 					console.log(`${i + 1}. ${gap.source_id} ↔ ${gap.target_id}`);
 					console.log(`   Similarity: ${gap.similarity?.toFixed(3) || "N/A"}`);

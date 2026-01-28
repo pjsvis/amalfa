@@ -222,16 +222,35 @@ export class GraphGardener {
 	}
 
 	/**
-	 * getContent: Reads the raw markdown content for a node.
+	 * getContent: Reads content for a node.
+	 * Prioritizes the 'summary' column for symbols (precision),
+	 * falls back to file content for documents.
 	 */
 	async getContent(nodeId: string): Promise<string | null> {
-		const sourcePath = this.resolveSource(nodeId);
-		if (!sourcePath) return null;
-		try {
-			return await Bun.file(sourcePath).text();
-		} catch {
-			return null;
+		// 1. Check for direct summary (Symbol Nodes)
+		const row = this.db
+			.getRawDb()
+			.query("SELECT summary, meta FROM nodes WHERE id = ?")
+			.get(nodeId) as { summary: string | null; meta: string | null } | null;
+
+		if (row?.summary) {
+			return row.summary;
 		}
+
+		// 2. Fall back to file content
+		if (row?.meta) {
+			try {
+				const meta = JSON.parse(row.meta);
+				if (meta.source) {
+					const sourcePath = fromRootRelative(meta.source);
+					return await Bun.file(sourcePath).text();
+				}
+			} catch {
+				// invalid meta
+			}
+		}
+
+		return null;
 	}
 
 	identifyHubs(top = 5) {

@@ -13,6 +13,7 @@ export interface Node {
 	label?: string; // stored as 'title'
 	domain?: string;
 	layer?: string;
+	summary?: string; // Extracted definition/description
 	embedding?: Float32Array;
 	hash?: string;
 	meta?: Record<string, unknown>; // JSON object for flexible metadata
@@ -259,6 +260,7 @@ export class ResonanceDB {
 			label: row.title,
 			domain: row.domain,
 			layer: row.layer,
+			summary: row.summary,
 			// Only hydrate embedding if it exists (was selected)
 			embedding: row.embedding
 				? new Float32Array(
@@ -347,6 +349,19 @@ export class ResonanceDB {
 		const row = this.db.query("SELECT * FROM nodes WHERE id = ?").get(id);
 		if (!row) return null;
 		return this.mapRowToNode(row);
+	}
+
+	/**
+	 * Generates a consistent Node ID from a file path or name.
+	 * Matches the logic used in AmalfaIngestor.
+	 */
+	generateId(input: string): string {
+		// If input looks like a path, take the filename
+		const filename = input.split("/").pop() || "unknown";
+		return filename
+			.replace(/\.(md|ts|js|json)$/, "") // Strip extensions
+			.toLowerCase()
+			.replace(/[^a-z0-9-]/g, "-");
 	}
 
 	updateNodeMeta(id: string, meta: Record<string, unknown>) {

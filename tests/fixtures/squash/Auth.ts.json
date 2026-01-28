@@ -1,0 +1,10 @@
+{
+	"entities": [
+		{
+			"name": "AuthProvider",
+			"type": "class",
+			"description": "Handles authentication logic."
+		}
+	],
+	"relationships": []
+}

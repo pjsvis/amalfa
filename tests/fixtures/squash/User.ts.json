@@ -1,0 +1,10 @@
+{
+	"entities": [
+		{
+			"name": "User",
+			"type": "interface",
+			"description": "Represents a system user."
+		}
+	],
+	"relationships": []
+}

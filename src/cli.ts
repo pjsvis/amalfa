@@ -20,6 +20,7 @@ import {
 } from "./cli/commands/services";
 import { cmdSetupMcp } from "./cli/commands/setup";
 import { cmdSetupPython } from "./cli/commands/setup-python";
+import { cmdSquash } from "./cli/commands/squash";
 import { cmdStats } from "./cli/commands/stats";
 import { cmdValidate } from "./cli/commands/validate";
 
@@ -72,6 +73,7 @@ Commands:
   reranker <action>  Manage reranker daemon (start|stop|status|restart)
   sonar <action>     Manage Sonar AI agent (start|stop|status|restart)
   ember <action>     Manage Ember enrichment service (scan|squash)
+  squash             Ingest sidecar JSON files into the graph
   scripts list       List available scripts and their descriptions
   servers [--dot]    Show status of all AMALFA services (--dot for graph)
   stop-all (kill)    Stop all running AMALFA services
@@ -199,6 +201,10 @@ async function main() {
 
 		case "ember":
 			await cmdEmber(args);
+			break;
+
+		case "squash":
+			await cmdSquash(args.slice(1));
 			break;
 
 		case "scripts":
