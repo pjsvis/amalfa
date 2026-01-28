@@ -12,6 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - New robust Node.js client (`src/services/LangExtractClient.ts`) with Zod validation and Pino logging.
   - Automatically enriches documents >200 chars during `amalfa ember scan`.
   - Handles API rate limits (429) gracefully.
+- **Ollama Integration**: Full support for local and cloud Ollama providers in LangExtract.
+  - Automatic Ollama discovery and health checking via `ollama-discovery.ts` utility.
+  - Intelligent provider selection with fallback chain (local → cloud → Gemini → OpenRouter).
+  - Model priority selection based on availability (qwen2.5:1.5b → phi3:mini → tinyllama, etc.).
+  - Comprehensive Ollama setup documentation in `src/sidecars/lang-extract/README.md`.
+  - Privacy-preserving local LLM inference with automatic cloud fallback.
+- **Service Management Commands**: Added documentation for service lifecycle commands.
+  - `amalfa watcher <action>` - Manage file watcher daemon
+  - `amalfa setup-python` - Initialize Python sidecar environment
+  - `amalfa kill` - Stop all running AMALFA services
+  - `amalfa squash` - Ingest sidecar JSON files into the graph
 - **Reranker Integration**: Finalized BGE-M3 cross-encoder support.
   - Added `--rerank` flag to `amalfa search` CLI command.
   - Integrated `ContentHydrator` for retrieving document content for reranking.
@@ -22,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Service Naming**: Renamed `amalfa daemon` to `amalfa watcher` to align with internal naming and reduce confusion.
   - `amalfa daemon` is now deprecated but still works (with warning).
   - Updated `package.json` scripts to use `watcher`.
+  - Updated all documentation references (README.md, WARP.md) to use new command name.
 - **Ember Hardening**: Fixed critical bug in tag parsing logic that caused garbage tags (single characters).
   - Implemented strict array checking for tags.
   - Added hygiene filters to remove numeric-only and short tags.
@@ -30,6 +42,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **Tag Corruption**: Identified and fixed corrupted metadata in documentation files (`newbie-onboarding.md`, etc.) caused by previous buggy runs.
 - **Git Hygiene**: Added `*.ember.json` to `.gitignore` to treat sidecars as ephemeral artifacts.
+- **Import Paths**: Fixed incorrect relative import paths in `scripts/verify/e2e-historian.ts` (../src/ → ../../src/).
+- **Code Hygiene**: Removed YAML frontmatter tags from `src/services/reranker.ts`.
+- **Documentation Precision**: Updated WARP.md to use precise database reset command (`rm .amalfa/resonance.db*` instead of `rm -rf .amalfa/`).
+- **Consistency**: Achieved 100% consistency score (101/101 checks passing) across all documentation and code alignment checks.
 
 ## [1.4.4] - 2026-01-17
 ### Added

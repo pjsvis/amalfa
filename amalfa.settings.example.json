@@ -1,0 +1,23 @@
+{
+  "langExtract": {
+    "provider": "gemini",
+    "fallbackOrder": [
+      "ollama",
+      "ollama_cloud",
+      "openrouter"
+    ],
+    "gemini": {
+      "model": "gemini-flash-latest"
+    },
+    "ollama": {
+      "model": "qwen2.5:1.5b"
+    },
+    "ollama_cloud": {
+      "host": "",
+      "model": "qwen2.5:7b"
+    },
+    "openrouter": {
+      "model": "qwen/qwen-2.5-72b-instruct"
+    }
+  }
+}
