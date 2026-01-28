@@ -16,6 +16,7 @@ import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
 import { ContentHydrator } from "../utils/ContentHydrator";
 import { DaemonManager } from "../utils/DaemonManager";
+import { getHistorian } from "../utils/Historian";
 import { getLogger } from "../utils/Logger";
 import { rerankDocuments } from "../utils/reranker-client";
 import { getScratchpad } from "../utils/Scratchpad";
@@ -28,6 +29,7 @@ const log = getLogger("MCP");
 
 const sonarClient: SonarClient = await createSonarClient();
 const scratchpad = getScratchpad();
+const historian = getHistorian();
 
 // --- Service Lifecycle ---
 
@@ -231,409 +233,419 @@ async function runServer() {
 
 	server.setRequestHandler(CallToolRequestSchema, async (request) => {
 		const { name, arguments: args } = request.params;
+		const callId = historian.recordCall(name, args);
+		const start = Date.now();
+
 		try {
-			if (name === TOOLS.SEARCH) {
-				// Create fresh connection for this request
-				const { db, vectorEngine, grepEngine } = createConnection();
-				const graphEngine = new GraphEngine();
-				await graphEngine.load(db.getRawDb());
-				const gardener = new GraphGardener(db, graphEngine, vectorEngine);
-				const hydrator = new ContentHydrator(gardener);
+			const result = await (async () => {
+				if (name === TOOLS.SEARCH) {
+					// Create fresh connection for this request
+					const { db, vectorEngine, grepEngine } = createConnection();
+					const graphEngine = new GraphEngine();
+					await graphEngine.load(db.getRawDb());
+					const gardener = new GraphGardener(db, graphEngine, vectorEngine);
+					const hydrator = new ContentHydrator(gardener);
 
-				try {
-					const query = String(args?.query);
-					const limit = Number(args?.limit || 20);
-					const candidates = new Map<
-						string,
-						{
-							id: string;
-							score: number;
-							preview: string;
-							source: string;
+					try {
+						const query = String(args?.query);
+						const limit = Number(args?.limit || 20);
+						const candidates = new Map<
+							string,
+							{
+								id: string;
+								score: number;
+								preview: string;
+								source: string;
+							}
+						>();
+						const errors: string[] = [];
+
+						// Step 1: Analyze query with Sonar (if available)
+						const sonarAvailable = await sonarClient.isAvailable();
+						let queryAnalysis: Awaited<
+							ReturnType<typeof sonarClient.analyzeQuery>
+						> | null = null;
+						let queryIntent: string | undefined;
+
+						if (sonarAvailable) {
+							log.info({ query }, "🔍 Analyzing query with Sonar");
+							queryAnalysis = await sonarClient.analyzeQuery(query);
+							if (queryAnalysis) {
+								queryIntent = queryAnalysis.intent;
+								log.info(
+									{
+										intent: queryAnalysis.intent,
+										entities: queryAnalysis.entities.join(", "),
+										level: queryAnalysis.technical_level,
+									},
+									"✅ Query analysis complete",
+								);
+							}
 						}
-					>();
-					const errors: string[] = [];
 
-					// Step 1: Analyze query with Sonar (if available)
-					const sonarAvailable = await sonarClient.isAvailable();
-					let queryAnalysis: Awaited<
-						ReturnType<typeof sonarClient.analyzeQuery>
-					> | null = null;
-					let queryIntent: string | undefined;
+						// Step 2: Late-Fusion Retrieval (Vector + Grep)
+						log.info("🧠 Executing Bicameral Search (Vector + Grep)...");
 
-					if (sonarAvailable) {
-						log.info({ query }, "🔍 Analyzing query with Sonar");
-						queryAnalysis = await sonarClient.analyzeQuery(query);
-						if (queryAnalysis) {
-							queryIntent = queryAnalysis.intent;
-							log.info(
-								{
-									intent: queryAnalysis.intent,
-									entities: queryAnalysis.entities.join(", "),
-									level: queryAnalysis.technical_level,
-								},
-								"✅ Query analysis complete",
-							);
-						}
-					}
+						// Run both engines in parallel
+						const [vectorResults, grepResults] = await Promise.all([
+							vectorEngine.search(query, limit).catch((err) => {
+								log.error({ err }, "Vector Search Error");
+								errors.push(`Vector: ${err.message}`);
+								return [];
+							}),
+							grepEngine.search(query, limit).catch((err) => {
+								log.error({ err }, "Grep Search Error");
+								errors.push(`Grep: ${err.message}`);
+								return [];
+							}),
+						]);
 
-					// Step 2: Late-Fusion Retrieval (Vector + Grep)
-					log.info("🧠 Executing Bicameral Search (Vector + Grep)...");
-
-					// Run both engines in parallel
-					const [vectorResults, grepResults] = await Promise.all([
-						vectorEngine.search(query, limit).catch((err) => {
-							log.error({ err }, "Vector Search Error");
-							errors.push(`Vector: ${err.message}`);
-							return [];
-						}),
-						grepEngine.search(query, limit).catch((err) => {
-							log.error({ err }, "Grep Search Error");
-							errors.push(`Grep: ${err.message}`);
-							return [];
-						}),
-					]);
-
-					// Merge Vector results (Right Brain)
-					for (const r of vectorResults) {
-						candidates.set(r.id, {
-							id: r.id,
-							score: r.score,
-							preview: r.title || r.id,
-							source: "vector",
-						});
-					}
-
-					// Merge Grep results (Left Brain)
-					for (const r of grepResults) {
-						const existing = candidates.get(r.id);
-						if (existing) {
-							// If already found by vector, mark as hybrid and boost score slightly
-							existing.source = "hybrid";
-							// We don't overwrite the vector score because reranker will decide,
-							// but knowing it's a keyword hit is useful metadata.
-							existing.preview = `[Match: ${r.content.substring(0, 50)}...] ${existing.preview}`;
-						} else {
+						// Merge Vector results (Right Brain)
+						for (const r of vectorResults) {
 							candidates.set(r.id, {
 								id: r.id,
-								score: 0.5, // Arbitrary middle score, reranker will fix
-								preview: `[Match] ${r.content.substring(0, 60)}...`,
-								source: "grep",
+								score: r.score,
+								preview: r.title || r.id,
+								source: "vector",
 							});
 						}
-					}
 
-					log.info(
-						{
-							vectorCount: vectorResults.length,
-							grepCount: grepResults.length,
-							uniqueCandidates: candidates.size,
-						},
-						"✅ Retrieval Complete",
-					);
+						// Merge Grep results (Left Brain)
+						for (const r of grepResults) {
+							const existing = candidates.get(r.id);
+							if (existing) {
+								// If already found by vector, mark as hybrid and boost score slightly
+								existing.source = "hybrid";
+								// We don't overwrite the vector score because reranker will decide,
+								// but knowing it's a keyword hit is useful metadata.
+								existing.preview = `[Match: ${r.content.substring(0, 50)}...] ${existing.preview}`;
+							} else {
+								candidates.set(r.id, {
+									id: r.id,
+									score: 0.5, // Arbitrary middle score, reranker will fix
+									preview: `[Match] ${r.content.substring(0, 60)}...`,
+									source: "grep",
+								});
+							}
+						}
 
-					// Step 3: Cross-encoder reranking (BGE reranker)
-					let rankedResults = Array.from(candidates.values())
-						// Sort by preliminary score just to pick top candidates for reranker if we have too many
-						// Vector scores (0.7-0.8) vs Grep default (0.5).
-						.sort((a, b) => b.score - a.score)
-						.slice(0, Math.min(limit * 3, 60));
+						log.info(
+							{
+								vectorCount: vectorResults.length,
+								grepCount: grepResults.length,
+								uniqueCandidates: candidates.size,
+							},
+							"✅ Retrieval Complete",
+						);
 
-					// Hydrate content for reranking
-					log.info("💧 Hydrating content for reranking");
-					const hydratedResults = await hydrator.hydrateMany(rankedResults);
+						// Step 3: Cross-encoder reranking (BGE reranker)
+						let rankedResults = Array.from(candidates.values())
+							// Sort by preliminary score just to pick top candidates for reranker if we have too many
+							// Vector scores (0.7-0.8) vs Grep default (0.5).
+							.sort((a, b) => b.score - a.score)
+							.slice(0, Math.min(limit * 3, 60));
 
-					// Apply cross-encoder reranking
-					log.info("🔄 Reranking with BGE cross-encoder");
-					const reranked = await rerankDocuments(
-						query,
-						// biome-ignore lint/suspicious/noExplicitAny: legacy typing
-						hydratedResults as any,
-						Math.min(limit * 2, 30), // Keep top results after reranking
-					);
+						// Hydrate content for reranking
+						log.info("💧 Hydrating content for reranking");
+						const hydratedResults = await hydrator.hydrateMany(rankedResults);
 
-					// Update ranked results with reranked scores
-					rankedResults = reranked.slice(0, limit).map((rr) => {
-						const candidate = candidates.get(rr.id);
-						return {
-							id: rr.id,
-							score: rr.score,
-							preview: candidate?.preview || rr.id,
-							source: `${candidate?.source}+rerank`,
-							content: rr.content,
-						};
-					});
-
-					// Step 4: LLM reranking with Sonar (optional, for intent understanding)
-					if (sonarAvailable && queryAnalysis) {
-						// Content already hydrated in step 3
-						log.info("🔄 Re-ranking with Sonar LLM");
-						const reRanked = await sonarClient.rerankResults(
-							// biome-ignore lint/suspicious/noExplicitAny: legacy typing
-							rankedResults as any as Array<{
-								id: string;
-								content: string;
-								score: number;
-							}>,
+						// Apply cross-encoder reranking
+						log.info("🔄 Reranking with BGE cross-encoder");
+						const reranked = await rerankDocuments(
 							query,
-							queryIntent,
+							// biome-ignore lint/suspicious/noExplicitAny: legacy typing
+							hydratedResults as any,
+							Math.min(limit * 2, 30), // Keep top results after reranking
 						);
 
-						rankedResults = reRanked.map((rr) => ({
-							id: rr.id,
-							score: rr.relevance_score,
-							preview: candidates.get(rr.id)?.preview || rr.id,
-							source: "vector",
-							content: rr.content,
-						}));
-						log.info("✅ Results re-ranked");
+						// Update ranked results with reranked scores
+						rankedResults = reranked.slice(0, limit).map((rr) => {
+							const candidate = candidates.get(rr.id);
+							return {
+								id: rr.id,
+								score: rr.score,
+								preview: candidate?.preview || rr.id,
+								source: `${candidate?.source}+rerank`,
+								content: rr.content,
+							};
+						});
+
+						// Step 4: LLM reranking with Sonar (optional, for intent understanding)
+						if (sonarAvailable && queryAnalysis) {
+							// Content already hydrated in step 3
+							log.info("🔄 Re-ranking with Sonar LLM");
+							const reRanked = await sonarClient.rerankResults(
+								// biome-ignore lint/suspicious/noExplicitAny: legacy typing
+								rankedResults as any as Array<{
+									id: string;
+									content: string;
+									score: number;
+								}>,
+								query,
+								queryIntent,
+							);
+
+							rankedResults = reRanked.map((rr) => ({
+								id: rr.id,
+								score: rr.relevance_score,
+								preview: candidates.get(rr.id)?.preview || rr.id,
+								source: "vector",
+								content: rr.content,
+							}));
+							log.info("✅ Results re-ranked");
+						}
+
+						// Step 4: Extract context with Sonar for top results (if available)
+						let finalResults: Array<{
+							id: string;
+							score: number | string;
+							snippet?: string;
+							content?: string;
+							preview?: string;
+							source?: string;
+						}> = rankedResults;
+
+						if (sonarAvailable) {
+							log.info("📝 Extracting context with Sonar");
+							const contextResults = await Promise.all(
+								rankedResults.slice(0, 5).map(async (r) => {
+									const withContent =
+										"content" in r
+											? r
+											: await hydrator.hydrate(
+													r as { id: string; score: number },
+												);
+									const context = await sonarClient.extractContext(
+										withContent as { id: string; content: string },
+										query,
+									);
+									return {
+										...r,
+										score: r.score.toFixed(3),
+										snippet: context?.snippet || r.preview,
+										context: context?.context || "No additional context",
+										confidence: context?.confidence || 0.5,
+									};
+								}),
+							);
+							finalResults = [
+								...contextResults,
+								...rankedResults
+									.slice(5)
+									.map((r) => ({ ...r, score: r.score.toFixed(3) })),
+							];
+							log.info("✅ Context extraction complete");
+						} else {
+							finalResults = rankedResults.map((r) => ({
+								...r,
+								score: r.score.toFixed(3),
+							}));
+						}
+
+						if (finalResults.length === 0 && errors.length > 0) {
+							return {
+								content: [
+									{ type: "text", text: `Search Error: ${errors.join(", ")}` },
+								],
+								isError: true,
+							};
+						}
+
+						// Add Sonar metadata to response
+						const searchMetadata = {
+							query,
+							sonar_enabled: sonarAvailable,
+							intent: queryIntent,
+							analysis: queryAnalysis,
+						};
+
+						return wrapWithScratchpad(name, {
+							content: [
+								{
+									type: "text",
+									text: JSON.stringify(
+										{
+											results: finalResults,
+											metadata: searchMetadata,
+										},
+										null,
+										2,
+									),
+								},
+							],
+						});
+					} finally {
+						db.close();
 					}
+				}
 
-					// Step 4: Extract context with Sonar for top results (if available)
-					let finalResults: Array<{
-						id: string;
-						score: number | string;
-						snippet?: string;
-						content?: string;
-						preview?: string;
-						source?: string;
-					}> = rankedResults;
+				if (name === TOOLS.READ) {
+					const { db } = createConnection();
+					try {
+						const id = String(args?.id);
+						const row = db
+							.getRawDb()
+							.query("SELECT meta FROM nodes WHERE id = ?")
+							.get(id) as { meta: string | null } | null;
 
-					if (sonarAvailable) {
-						log.info("📝 Extracting context with Sonar");
-						const contextResults = await Promise.all(
-							rankedResults.slice(0, 5).map(async (r) => {
-								const withContent =
-									"content" in r
-										? r
-										: await hydrator.hydrate(
-												r as { id: string; score: number },
-											);
-								const context = await sonarClient.extractContext(
-									withContent as { id: string; content: string },
-									query,
-								);
-								return {
-									...r,
-									score: r.score.toFixed(3),
-									snippet: context?.snippet || r.preview,
-									context: context?.context || "No additional context",
-									confidence: context?.confidence || 0.5,
-								};
-							}),
-						);
-						finalResults = [
-							...contextResults,
-							...rankedResults
-								.slice(5)
-								.map((r) => ({ ...r, score: r.score.toFixed(3) })),
-						];
-						log.info("✅ Context extraction complete");
+						if (!row) {
+							return { content: [{ type: "text", text: "Node not found." }] };
+						}
+
+						const meta = row.meta ? JSON.parse(row.meta) : {};
+						const sourcePath = meta.source;
+
+						if (!sourcePath) {
+							return {
+								content: [
+									{ type: "text", text: `No source file for node: ${id}` },
+								],
+							};
+						}
+
+						try {
+							const content = await Bun.file(sourcePath).text();
+							return wrapWithScratchpad(name, {
+								content: [{ type: "text", text: content }],
+							});
+						} catch {
+							return {
+								content: [
+									{ type: "text", text: `File not found: ${sourcePath}` },
+								],
+							};
+						}
+					} finally {
+						db.close();
+					}
+				}
+
+				if (name === TOOLS.EXPLORE) {
+					// Create fresh connection for this request
+					const { db } = createConnection();
+					try {
+						const id = String(args?.id);
+						const relation = args?.relation ? String(args.relation) : undefined;
+						let sql = "SELECT target, type FROM edges WHERE source = ?";
+						const params = [id];
+						if (relation) {
+							sql += " AND type = ?";
+							params.push(relation);
+						}
+						const rows = db
+							.getRawDb()
+							.query(sql)
+							.all(...params) as Record<string, unknown>[];
+						return {
+							content: [{ type: "text", text: JSON.stringify(rows, null, 2) }],
+						};
+					} finally {
+						db.close();
+					}
+				}
+
+				if (name === TOOLS.LIST) {
+					// TODO: Make this configurable via amalfa.config.ts
+					const structure = ["docs/", "notes/"];
+					return {
+						content: [
+							{ type: "text", text: JSON.stringify(structure, null, 2) },
+						],
+					};
+				}
+
+				if (name === TOOLS.GAPS) {
+					const limit = Number(args?.limit || 10);
+					try {
+						const gaps = await sonarClient.getGaps(limit);
+						return wrapWithScratchpad(name, {
+							content: [{ type: "text", text: JSON.stringify(gaps, null, 2) }],
+						});
+					} catch (e) {
+						return {
+							content: [{ type: "text", text: `Failed to fetch gaps: ${e}` }],
+							isError: true,
+						};
+					}
+				}
+
+				if (name === TOOLS.GARDEN) {
+					const filePath = String(args?.file_path);
+					const tags = args?.tags as string[];
+					let content = await Bun.file(filePath).text();
+
+					// Check for existing tag block and merge/replace
+					const tagPattern = /<!-- tags: ([^>]+) -->\s*$/;
+					const match = content.match(tagPattern);
+
+					let operation = "injected";
+					if (match?.[1]) {
+						// Merge with existing tags
+						const existingTags = match[1]
+							.split(",")
+							.map((t) => t.trim())
+							.filter(Boolean);
+						const mergedTags = [...new Set([...existingTags, ...tags])]; // deduplicate
+						const tagBlock = `<!-- tags: ${mergedTags.join(", ")} -->`;
+						content = content.replace(tagPattern, `${tagBlock}\n`);
+						operation = "merged";
 					} else {
-						finalResults = rankedResults.map((r) => ({
-							...r,
-							score: r.score.toFixed(3),
-						}));
+						// Append new tag block
+						const tagBlock = `<!-- tags: ${tags.join(", ")} -->`;
+						content = content.endsWith("\n")
+							? `${content}\n${tagBlock}\n`
+							: `${content}\n\n${tagBlock}\n`;
 					}
 
-					if (finalResults.length === 0 && errors.length > 0) {
+					await Bun.write(filePath, content);
+					return {
+						content: [
+							{
+								type: "text",
+								text: `Successfully ${operation} ${tags.length} tags into ${filePath}`,
+							},
+						],
+					};
+				}
+
+				if (name === TOOLS.SCRATCHPAD_READ) {
+					const id = String(args?.id);
+					const entry = scratchpad.read(id);
+					if (!entry) {
 						return {
 							content: [
-								{ type: "text", text: `Search Error: ${errors.join(", ")}` },
+								{ type: "text", text: `Scratchpad entry not found: ${id}` },
 							],
 							isError: true,
 						};
 					}
-
-					// Add Sonar metadata to response
-					const searchMetadata = {
-						query,
-						sonar_enabled: sonarAvailable,
-						intent: queryIntent,
-						analysis: queryAnalysis,
+					return {
+						content: [{ type: "text", text: entry.content }],
 					};
+				}
 
-					return wrapWithScratchpad(name, {
+				if (name === TOOLS.SCRATCHPAD_LIST) {
+					const entries = scratchpad.list();
+					const stats = scratchpad.stats();
+					return {
 						content: [
 							{
 								type: "text",
-								text: JSON.stringify(
-									{
-										results: finalResults,
-										metadata: searchMetadata,
-									},
-									null,
-									2,
-								),
+								text: JSON.stringify({ entries, stats }, null, 2),
 							},
 						],
-					});
-				} finally {
-					db.close();
-				}
-			}
-
-			if (name === TOOLS.READ) {
-				const { db } = createConnection();
-				try {
-					const id = String(args?.id);
-					const row = db
-						.getRawDb()
-						.query("SELECT meta FROM nodes WHERE id = ?")
-						.get(id) as { meta: string | null } | null;
-
-					if (!row) {
-						return { content: [{ type: "text", text: "Node not found." }] };
-					}
-
-					const meta = row.meta ? JSON.parse(row.meta) : {};
-					const sourcePath = meta.source;
-
-					if (!sourcePath) {
-						return {
-							content: [
-								{ type: "text", text: `No source file for node: ${id}` },
-							],
-						};
-					}
-
-					try {
-						const content = await Bun.file(sourcePath).text();
-						return wrapWithScratchpad(name, {
-							content: [{ type: "text", text: content }],
-						});
-					} catch {
-						return {
-							content: [
-								{ type: "text", text: `File not found: ${sourcePath}` },
-							],
-						};
-					}
-				} finally {
-					db.close();
-				}
-			}
-
-			if (name === TOOLS.EXPLORE) {
-				// Create fresh connection for this request
-				const { db } = createConnection();
-				try {
-					const id = String(args?.id);
-					const relation = args?.relation ? String(args.relation) : undefined;
-					let sql = "SELECT target, type FROM edges WHERE source = ?";
-					const params = [id];
-					if (relation) {
-						sql += " AND type = ?";
-						params.push(relation);
-					}
-					const rows = db
-						.getRawDb()
-						.query(sql)
-						.all(...params) as Record<string, unknown>[];
-					return {
-						content: [{ type: "text", text: JSON.stringify(rows, null, 2) }],
-					};
-				} finally {
-					db.close();
-				}
-			}
-
-			if (name === TOOLS.LIST) {
-				// TODO: Make this configurable via amalfa.config.ts
-				const structure = ["docs/", "notes/"];
-				return {
-					content: [{ type: "text", text: JSON.stringify(structure, null, 2) }],
-				};
-			}
-
-			if (name === TOOLS.GAPS) {
-				const limit = Number(args?.limit || 10);
-				try {
-					const gaps = await sonarClient.getGaps(limit);
-					return wrapWithScratchpad(name, {
-						content: [{ type: "text", text: JSON.stringify(gaps, null, 2) }],
-					});
-				} catch (e) {
-					return {
-						content: [{ type: "text", text: `Failed to fetch gaps: ${e}` }],
-						isError: true,
 					};
 				}
-			}
 
-			if (name === TOOLS.GARDEN) {
-				const filePath = String(args?.file_path);
-				const tags = args?.tags as string[];
-				let content = await Bun.file(filePath).text();
-
-				// Check for existing tag block and merge/replace
-				const tagPattern = /<!-- tags: ([^>]+) -->\s*$/;
-				const match = content.match(tagPattern);
-
-				let operation = "injected";
-				if (match?.[1]) {
-					// Merge with existing tags
-					const existingTags = match[1]
-						.split(",")
-						.map((t) => t.trim())
-						.filter(Boolean);
-					const mergedTags = [...new Set([...existingTags, ...tags])]; // deduplicate
-					const tagBlock = `<!-- tags: ${mergedTags.join(", ")} -->`;
-					content = content.replace(tagPattern, `${tagBlock}\n`);
-					operation = "merged";
-				} else {
-					// Append new tag block
-					const tagBlock = `<!-- tags: ${tags.join(", ")} -->`;
-					content = content.endsWith("\n")
-						? `${content}\n${tagBlock}\n`
-						: `${content}\n\n${tagBlock}\n`;
-				}
-
-				await Bun.write(filePath, content);
 				return {
-					content: [
-						{
-							type: "text",
-							text: `Successfully ${operation} ${tags.length} tags into ${filePath}`,
-						},
-					],
+					content: [{ type: "text", text: `Tool ${name} not found.` }],
+					isError: true,
 				};
-			}
-
-			if (name === TOOLS.SCRATCHPAD_READ) {
-				const id = String(args?.id);
-				const entry = scratchpad.read(id);
-				if (!entry) {
-					return {
-						content: [
-							{ type: "text", text: `Scratchpad entry not found: ${id}` },
-						],
-						isError: true,
-					};
-				}
-				return {
-					content: [{ type: "text", text: entry.content }],
-				};
-			}
-
-			if (name === TOOLS.SCRATCHPAD_LIST) {
-				const entries = scratchpad.list();
-				const stats = scratchpad.stats();
-				return {
-					content: [
-						{
-							type: "text",
-							text: JSON.stringify({ entries, stats }, null, 2),
-						},
-					],
-				};
-			}
-
-			return {
-				content: [{ type: "text", text: `Tool ${name} not found.` }],
-				isError: true,
-			};
+			})();
+			historian.recordResult(callId, name, result, Date.now() - start);
+			return result;
 		} catch (error) {
+			historian.recordError(callId, name, error, Date.now() - start);
 			log.error({ err: error, tool: name }, "Tool execution failed");
 			return {
 				content: [{ type: "text", text: `Error: ${error}` }],

@@ -20,7 +20,7 @@
 
 ## Phase 7: Dynamic Context & Substrates (Active)
 - [x] **Protocol: Scratchpad**: Intercept large tool outputs to `.amalfa/cache/scratchpad/`.
-- [ ] **Protocol: Historian**: Persist agent thought loops to `.amalfa/sessions/`.
+- [x] **Protocol: Historian**: Persist agent thought loops to `.amalfa/sessions/`.
 - [ ] **Protocol: Modular Toolbox**: Dynamic tool loading from JSON schemas.
 - [ ] **Substrates**: Implement adapters for Ollama Cloud, GLM, MiniMax, ZenMux.
 - [ ] **CLI**: Add `amalfa list-capabilities` to expose dynamic landscape.
@@ -189,6 +189,8 @@
 - ✅ Optimized `GrepEngine` (ignored `node_modules`, fixed race condition).
 - ✅ Integrated Hybrid Search logic in MCP and CLI.
 - ✅ Passed E2E tests (`scripts/verify/e2e-squash.ts`) and Pre-commit checks.
+- ✅ Performed Security Audit (SidecarSquasher path traversal checks verified).
+- ✅ Performed Veracity Assessment (Verified against fixtures).
 
 **Artifacts Created**:
 1.  `src/core/SidecarSquasher.ts`
@@ -197,13 +199,9 @@
 4.  `tests/fixtures/squash/*`
 5.  Debrief: `debriefs/2026-01-28-lang-extract-squash-and-hybrid-search.md`
 
-**Next Steps**:
-1.  **Veracity Assessment**: Evaluate quality of 30 generated sidecars.
-2.  **Security Audit**: Assess CWD risk (ensure we don't point outside project root).
-
 ---
 
 **Session Status**: ✅ COMPLETE
-**Ready for Commit**: Yes
-**Next Session Focus**: Veracity Assessment & Security Audit
+**Ready for Commit**: Committed
+**Next Session Focus**: Phase 7 (Historian & Modular Tools)
 
