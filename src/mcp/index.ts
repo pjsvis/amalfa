@@ -22,6 +22,7 @@ import { rerankDocuments } from "../utils/reranker-client";
 import { getScratchpad } from "../utils/Scratchpad";
 import { ServiceLifecycle } from "../utils/ServiceLifecycle";
 import { createSonarClient, type SonarClient } from "../utils/sonar-client";
+import { toolRegistry } from "../utils/ToolRegistry";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -150,84 +151,91 @@ async function runServer() {
 
 	// 3. Register Handlers
 	server.setRequestHandler(ListToolsRequestSchema, async () => {
+		// 1. Get legacy hardcoded tools
+		const legacyTools = [
+			{
+				name: TOOLS.SEARCH,
+				description:
+					"Search knowledge graph for past learnings & solutions. Use when user asks 'what did we learn about X' or needs context from previous work. Returns ranked results by semantic relevance.",
+				inputSchema: {
+					type: "object",
+					properties: {
+						query: { type: "string" },
+						limit: { type: "number", default: 20 },
+					},
+					required: ["query"],
+				},
+			},
+			{
+				name: TOOLS.READ,
+				description:
+					"Read full markdown content of a document. Use after search to get complete details. Returns entire document including metadata and links.",
+				inputSchema: {
+					type: "object",
+					properties: { id: { type: "string" } },
+					required: ["id"],
+				},
+			},
+			{
+				name: TOOLS.EXPLORE,
+				description:
+					"Find related documents via graph links. Use to follow chains of thought, trace decision evolution, or find implementation from spec. Returns connected nodes.",
+				inputSchema: {
+					type: "object",
+					properties: {
+						id: { type: "string" },
+						relation: { type: "string" },
+					},
+					required: ["id"],
+				},
+			},
+			{
+				name: TOOLS.LIST,
+				description:
+					"List document directory structure. Use to discover what knowledge exists or orient in the knowledge graph. Returns tree of all documents.",
+				inputSchema: { type: "object", properties: {} },
+			},
+			{
+				name: TOOLS.GAPS,
+				description:
+					"Find similar but unlinked documents. Use for knowledge graph cleanup, discovering missing connections, or identifying documentation gaps. Returns candidate pairs.",
+				inputSchema: {
+					type: "object",
+					properties: {
+						limit: { type: "number", default: 10 },
+						threshold: { type: "number", default: 0.8 },
+					},
+				},
+			},
+			{
+				name: TOOLS.SCRATCHPAD_READ,
+				description:
+					"Read cached large output. Use when previous tool said 'Output cached' with an ID. Retrieves full content that was too large for direct return.",
+				inputSchema: {
+					type: "object",
+					properties: {
+						id: {
+							type: "string",
+							description: "The scratchpad entry ID (12-char hash)",
+						},
+					},
+					required: ["id"],
+				},
+			},
+			{
+				name: TOOLS.SCRATCHPAD_LIST,
+				description:
+					"List all cached outputs with metadata. Use to see what large outputs are available or manage cache. Returns cache inventory with timestamps.",
+				inputSchema: { type: "object", properties: {} },
+			},
+		];
+
+		// 2. Get dynamic tools from registry
+		// biome-ignore lint/suspicious/noExplicitAny: mcp sdk typing issue
+		const dynamicTools = toolRegistry.list() as any[];
+
 		return {
-			tools: [
-				{
-					name: TOOLS.SEARCH,
-					description:
-						"Search knowledge graph for past learnings & solutions. Use when user asks 'what did we learn about X' or needs context from previous work. Returns ranked results by semantic relevance.",
-					inputSchema: {
-						type: "object",
-						properties: {
-							query: { type: "string" },
-							limit: { type: "number", default: 20 },
-						},
-						required: ["query"],
-					},
-				},
-				{
-					name: TOOLS.READ,
-					description:
-						"Read full markdown content of a document. Use after search to get complete details. Returns entire document including metadata and links.",
-					inputSchema: {
-						type: "object",
-						properties: { id: { type: "string" } },
-						required: ["id"],
-					},
-				},
-				{
-					name: TOOLS.EXPLORE,
-					description:
-						"Find related documents via graph links. Use to follow chains of thought, trace decision evolution, or find implementation from spec. Returns connected nodes.",
-					inputSchema: {
-						type: "object",
-						properties: {
-							id: { type: "string" },
-							relation: { type: "string" },
-						},
-						required: ["id"],
-					},
-				},
-				{
-					name: TOOLS.LIST,
-					description:
-						"List document directory structure. Use to discover what knowledge exists or orient in the knowledge graph. Returns tree of all documents.",
-					inputSchema: { type: "object", properties: {} },
-				},
-				{
-					name: TOOLS.GAPS,
-					description:
-						"Find similar but unlinked documents. Use for knowledge graph cleanup, discovering missing connections, or identifying documentation gaps. Returns candidate pairs.",
-					inputSchema: {
-						type: "object",
-						properties: {
-							limit: { type: "number", default: 10 },
-							threshold: { type: "number", default: 0.8 },
-						},
-					},
-				},
-				{
-					name: TOOLS.SCRATCHPAD_READ,
-					description:
-						"Read cached large output. Use when previous tool said 'Output cached' with an ID. Retrieves full content that was too large for direct return.",
-					inputSchema: {
-						type: "object",
-						properties: {
-							id: {
-								type: "string",
-								description: "The scratchpad entry ID (12-char hash)",
-							},
-						},
-						required: ["id"],
-					},
-				},
-				{
-					name: TOOLS.SCRATCHPAD_LIST,
-					description:
-						"List all cached outputs with metadata. Use to see what large outputs are available or manage cache. Returns cache inventory with timestamps.",
-					inputSchema: { type: "object", properties: {} },
-				},
-			],
+			tools: [...legacyTools, ...dynamicTools],
 		};
 	});
 
@@ -238,6 +246,14 @@ async function runServer() {
 
 		try {
 			const result = await (async () => {
+				// 0. Check Dynamic Registry First
+				const dynamicTool = toolRegistry.get(name);
+				if (dynamicTool) {
+					const output = await dynamicTool.handler(args);
+					// Normalize output structure if needed, but registry tools return standard format
+					return output;
+				}
+
 				if (name === TOOLS.SEARCH) {
 					// Create fresh connection for this request
 					const { db, vectorEngine, grepEngine } = createConnection();
