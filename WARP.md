@@ -8,7 +8,7 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 **Amalfa** gives AI agents persistent memory and semantic search across sessions via Model Context Protocol (MCP). Agents can query past work ("What did we learn about auth?") and get ranked, relevant results from structured markdown documentation (briefs, debriefs, playbooks).
 
-**Core Philosophy:** Markdown files are the source of truth. The database is a **disposable runtime artifact** that can be regenerated anytime with `rm -rf .amalfa/ && amalfa init`.
+**Core Philosophy:** Markdown files are the source of truth. The database is a **disposable runtime artifact** that can be regenerated anytime with `rm .amalfa/resonance.db* && amalfa init`.
 
 **Key Benefits:**
 - Zero migration hell (upgrade by re-ingesting)
@@ -84,7 +84,7 @@ rm .amalfa/resonance.db*
 amalfa init
 
 # Full reset (only if you need to clear 128MB model cache)
-rm -rf .amalfa/  # WARNING: Deletes embedding model cache
+rm .amalfa/resonance.db*  # WARNING: Deletes embedding model cache
 amalfa init
 
 # Check database integrity
