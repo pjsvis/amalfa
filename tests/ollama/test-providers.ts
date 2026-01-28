@@ -190,120 +190,6 @@ async function testLocalOllama(): Promise<TestResult[]> {
 }
 
 /**
- * Test cloud Ollama with API key
- */
-async function testCloudOllama(): Promise<TestResult[]> {
-  console.log("\n🔍 Testing Cloud Ollama...");
-
-  // Try to get cloud host from config or use default
-  const cloudHost = process.env.OLLAMA_CLOUD_HOST || "https://ollama.com";
-  const apiKey = process.env.OLLAMA_API_KEY;
-
-  if (!apiKey) {
-    console.log("❌ OLLAMA_API_KEY not set in .env");
-    return [];
-  }
-
-  console.log(`🌐 Cloud host: ${cloudHost}`);
-  console.log(`🔑 Using API key: ${apiKey.substring(0, 20)}...`);
-
-  const results: TestResult[] = [];
-
-  // Test with a few cloud models
-  const cloudModels = ["qwen2.5:1.5b", "phi3:mini", "tinyllama:latest"];
-
-  for (const model of cloudModels) {
-    console.log(`\n🧪 Testing cloud model: ${model}`);
-
-    try {
-      const start = Date.now();
-
-      const response =
-        await $`curl -s ${cloudHost}/v1/chat/completions -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${apiKey}" -d '{
-        "model": "${model}",
-        "messages": [{"role": "user", "content": "${LANGEXTRACT_PROMPT} ${TEST_TEXT}"}],
-        "stream": false
-      }'`.quiet();
-
-      const latency = Date.now() - start;
-
-      if (response.exitCode !== 0) {
-        console.log(`❌ Failed: ${response.stderr.toString()}`);
-        results.push({
-          provider: "cloud",
-          model,
-          success: false,
-          latency,
-          error: response.stderr.toString(),
-        });
-        continue;
-      }
-
-      const result = JSON.parse(response.stdout.toString());
-
-      if (result.error) {
-        console.log(`❌ API Error: ${result.error}`);
-        results.push({
-          provider: "cloud",
-          model,
-          success: false,
-          latency,
-          error: result.error,
-        });
-        continue;
-      }
-
-      let content = result.choices?.[0]?.message?.content || "";
-
-      // Clean up markdown code blocks if present
-      content = content.trim();
-      if (content.startsWith("```json")) {
-        content = content.replace("```json", "").replace("```", "").trim();
-      }
-
-      // Try to parse as JSON to validate structure
-      let parsedContent;
-      try {
-        parsedContent = JSON.parse(content);
-      } catch {
-        parsedContent = null;
-      }
-
-      // Parse quality metrics
-      const entityMatches = parsedContent?.entities?.length || 0;
-      const relationshipMatches = parsedContent?.relationships?.length || 0;
-
-      console.log(`✅ Success (${latency}ms)`);
-      console.log(
-        `   Entities: ${entityMatches}, Relationships: ${relationshipMatches}`,
-      );
-
-      results.push({
-        provider: "cloud",
-        model,
-        success: true,
-        latency,
-        quality: {
-          entities: entityMatches,
-          relationships: relationshipMatches,
-        },
-      });
-    } catch (error) {
-      console.log(`❌ Error: ${error}`);
-      results.push({
-        provider: "cloud",
-        model,
-        success: false,
-        latency: 0,
-        error: String(error),
-      });
-    }
-  }
-
-  return results;
-}
-
-/**
  * Print summary
  */
 function printSummary(results: TestResult[]) {
@@ -400,10 +286,6 @@ async function main() {
   // Test local
   const localResults = await testLocalOllama();
   allResults.push(...localResults);
-
-  // Test cloud
-  const cloudResults = await testCloudOllama();
-  allResults.push(...cloudResults);
 
   // Print summary
   printSummary(allResults);
