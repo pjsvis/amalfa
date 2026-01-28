@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import type { EmberSidecar } from "@src/ember/types";
 import type { ResonanceDB } from "@src/resonance/db";
 import type { ExtractedGraph } from "@src/services/LangExtractClient";
 import { getLogger } from "@src/utils/Logger";
@@ -56,11 +57,32 @@ export class SidecarSquasher {
 	): Promise<{ nodes: number; edges: number } | null> {
 		// 1. Read and Parse
 		const content = readFileSync(sidecarPath, "utf-8");
-		let data: ExtractedGraph;
+		let data: ExtractedGraph | undefined;
+
 		try {
-			// Basic sanitization
 			const jsonStr = content.replace(/```json\n?|\n?```/g, "").trim();
-			data = JSON.parse(jsonStr);
+			const parsed = JSON.parse(jsonStr);
+
+			// Detect format: EmberSidecar vs Raw ExtractedGraph
+			if (parsed.changes || parsed.graphData) {
+				// It's an EmberSidecar
+				const sidecar = parsed as EmberSidecar;
+				if (sidecar.graphData) {
+					data = sidecar.graphData;
+				} else {
+					log.debug(
+						{ file: sidecarPath },
+						"Sidecar has no graphData, skipping graph squash",
+					);
+					return null;
+				}
+			} else if (parsed.entities) {
+				// It's a raw ExtractedGraph (legacy/test fixture)
+				data = parsed as ExtractedGraph;
+			} else {
+				log.warn({ file: sidecarPath }, "Unknown sidecar format");
+				return null;
+			}
 		} catch (_e) {
 			log.warn({ file: sidecarPath }, "Invalid JSON in sidecar, skipping");
 			return null;

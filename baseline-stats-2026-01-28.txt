@@ -1,0 +1,26 @@
+📂 Database: /Users/petersmith/Dev/GitHub/amalfa/.amalfa/resonance.db
+
+📊 LangExtract Statistics
+==============================
+Total Extracted Symbols: 7
+
+🔹 Symbols by Type:
+  - class          : 3
+  - function       : 2
+  - interface      : 1
+  - constant       : 1
+
+🔹 Definitions:
+  - Symbols with Definitions: 7
+  - Avg Definition Length:    31 chars
+
+  📝 Random Samples:
+    * [interface] User: "Represents a system user...."
+    * [constant] AppConfig: "Application configuration settings...."
+    * [function] formatDate: "Formats a date to ISO string...."
+
+🔹 Relationships (Edges): 8
+  - DEFINES        : 7
+  - CALLS          : 1
+
+🔹 Source Files Covered: 6

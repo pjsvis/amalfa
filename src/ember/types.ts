@@ -1,7 +1,10 @@
+import type { ExtractedGraph } from "@src/services/LangExtractClient";
+
 export interface EmberSidecar {
 	targetFile: string;
 	generatedAt: string;
 	confidence: number;
+	graphData?: ExtractedGraph;
 	changes: {
 		tags?: {
 			add: string[];

@@ -57,6 +57,8 @@ export class EmberAnalyzer {
 
 		const proposedTags: string[] = [];
 		const proposedLinks: string[] = [];
+		// biome-ignore lint/suspicious/noExplicitAny: generic placeholder
+		let extractedGraph: any;
 
 		// 2. Community-based Tag Suggestion
 		if (this.communities && this.communities[id] !== undefined) {
@@ -123,6 +125,7 @@ export class EmberAnalyzer {
 					: [];
 
 				const extracted = await this.langClient.extract(content);
+				extractedGraph = extracted;
 
 				// Expecting { entities: [{ name: "foo" }], ... }
 				if (extracted?.entities && Array.isArray(extracted.entities)) {
@@ -157,7 +160,11 @@ export class EmberAnalyzer {
 		}
 
 		// If no meaningful changes, return null
-		if (proposedTags.length === 0 && proposedLinks.length === 0) {
+		if (
+			proposedTags.length === 0 &&
+			proposedLinks.length === 0 &&
+			!extractedGraph
+		) {
 			return null;
 		}
 		// 4. Construct Sidecar
@@ -165,6 +172,7 @@ export class EmberAnalyzer {
 			targetFile: toRootRelative(filePath),
 			generatedAt: new Date().toISOString(),
 			confidence: 0.8,
+			graphData: extractedGraph || undefined,
 			changes: {
 				tags: proposedTags.length > 0 ? { add: proposedTags } : undefined,
 				links: proposedLinks.length > 0 ? { add: proposedLinks } : undefined,
