@@ -1,6 +1,7 @@
-import os
 import json
-from typing import List, Optional, Dict, Any
+import os
+from typing import Any, Dict, List, Optional
+
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, Field
 
@@ -39,11 +40,6 @@ def get_config() -> Dict[str, Any]:
             "host": os.environ.get("OLLAMA_HOST", "http://localhost:11434"),
             "model": os.environ.get("OLLAMA_MODEL", "qwen2.5:1.5b"),
         },
-        "ollama_cloud": {
-            "host": os.environ.get("OLLAMA_CLOUD_HOST"),
-            "api_key": os.environ.get("OLLAMA_CLOUD_API_KEY"),
-            "model": os.environ.get("OLLAMA_CLOUD_MODEL", "qwen2.5:7b"),
-        },
         "openrouter": {
             "api_key": os.environ.get("OPENROUTER_API_KEY"),
             "model": os.environ.get("OPENROUTER_MODEL", "qwen/qwen-2.5-72b-instruct"),
@@ -67,7 +63,7 @@ def call_gemini(text: str, config: Dict[str, Any]) -> str:
     prompt = f"""
     Analyze the following text and extract a knowledge graph.
     Identify key entities (concepts, technologies, people, files) and relationships between them.
-    
+
     Output JSON format:
     {{
       "entities": [
@@ -77,7 +73,7 @@ def call_gemini(text: str, config: Dict[str, Any]) -> str:
         {{"source": "Entity1", "target": "Entity2", "type": "RELATIONSHIP_TYPE", "description": "Why they are related"}}
       ]
     }}
-    
+
     Text to analyze:
     {text}
     """
@@ -91,21 +87,16 @@ def call_gemini(text: str, config: Dict[str, Any]) -> str:
         return json.dumps({"error": f"Gemini extraction failed: {str(e)}"})
 
 
-def call_ollama(text: str, config: Dict[str, Any], use_cloud: bool = False) -> str:
-    """Extract using Ollama (local or cloud)"""
+def call_ollama(text: str, config: Dict[str, Any]) -> str:
+    """Extract using Ollama (local or remote via localhost)"""
     import requests
 
-    ollama_config = config["ollama_cloud"] if use_cloud else config["ollama"]
+    ollama_config = config["ollama"]
     host = ollama_config["host"]
     model = ollama_config["model"]
-    api_key = ollama_config.get("api_key")
 
     if not host:
-        return json.dumps(
-            {
-                "error": f"{'OLLAMA_CLOUD_HOST' if use_cloud else 'OLLAMA_HOST'} not configured"
-            }
-        )
+        return json.dumps({"error": "OLLAMA_HOST not configured"})
 
     endpoint = f"{host.rstrip('/')}/api/chat"
 
@@ -128,9 +119,6 @@ Text to analyze:
     messages = [{"role": "user", "content": prompt + text}]
 
     headers = {"Content-Type": "application/json"}
-    if api_key:
-        headers["Authorization"] = f"Bearer {api_key}"
-
     body = {"model": model, "messages": messages, "stream": False, "format": "json"}
 
     try:
@@ -214,8 +202,7 @@ def extract_graph(text: str, provider: Optional[str] = None) -> str:
 
     Supports multiple providers:
     - gemini: Google Gemini API (default)
-    - ollama: Local Ollama instance
-    - ollama_cloud: Remote Ollama instance (cloud/hosted)
+    - ollama: Local Ollama instance (supports both local and remote models via localhost:11434)
     - openrouter: OpenRouter API
 
     Provider can be overridden via 'provider' parameter or LANGEXTRACT_PROVIDER env var.
@@ -227,9 +214,7 @@ def extract_graph(text: str, provider: Optional[str] = None) -> str:
     if active_provider == "gemini":
         return call_gemini(text, config)
     elif active_provider == "ollama":
-        return call_ollama(text, config, use_cloud=False)
-    elif active_provider == "ollama_cloud":
-        return call_ollama(text, config, use_cloud=True)
+        return call_ollama(text, config)
     elif active_provider == "openrouter":
         return call_openrouter(text, config)
     else:

@@ -139,16 +139,16 @@ OLLAMA_API_KEY=your-actual-api-key-here  # Not SSH key!
 
 ### Key Differences
 
-| Aspect | Remote Models | Cloud Models |
+| Aspect | Local Models | Remote Models |
 |--------|--------------|--------------|
-| **Access Point** | `localhost:11434` | `https://ollama.com/v1` |
-| **Authentication** | Ollama account (auto) | API key (manual) |
-| **API Format** | Ollama API | OpenAI-compatible |
-| **Local Ollama Required** | Yes | No |
-| **API Key Required** | No | Yes |
-| **Privacy** | Data sent to cloud | Data sent to cloud |
-| **Latency** | 1-2s | 1-2s |
-| **Setup Complexity** | Low | Medium |
+| **Access Point** | `localhost:11434` | `localhost:11434` (proxied) |
+| **Authentication** | None | Ollama account (auto) |
+| **API Format** | Ollama API | Ollama API |
+| **Local Ollama Required** | Yes | Yes |
+| **API Key Required** | No | No |
+| **Privacy** | High (local only) | Low (data sent to cloud) |
+| **Latency** | 79s (slow) | 1-2s (fast) |
+| **Setup Complexity** | Low | Low |
 
 ### Recommendation for AMALFA
 
@@ -165,42 +165,23 @@ OLLAMA_API_KEY=your-actual-api-key-here  # Not SSH key!
 **Hybrid Approach:**
 - Default to local models
 - Fallback to remote models when local unavailable
-- Never use direct cloud API (unnecessary complexity)
+- Use alternative providers (gemini, openrouter) if Ollama unavailable
 
 ---
 
-## Cloud Ollama Status
+### Cloud Ollama Status
 
-**Status:** ❌ Not Configured
+**Status:** ❌ Not Supported
 
-**Missing Configuration:**
-```bash
-# Environment variable has wrong format
-OLLAMA_API_KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILK+hgNakvQW6nFiSGLR9xvFvy7Ei39iTqm3h4RU5IU4
-# ⚠️ This is an SSH key, not an Ollama API key!
+**Decision:** Direct cloud API access has been removed from AMALFA. Remote models (accessed via localhost:11434) provide the same functionality without API key complexity.
 
-# Config file has empty host
-amalfa.config.json:
-  "ollama_cloud": {
-    "host": "",  # ⚠️ Empty
-    "model": "qwen2.5:7b"
-  }
-```
+**Rationale:**
+- Remote models work perfectly without API key configuration
+- Direct cloud API adds unnecessary complexity
+- Local Ollama automatically handles authentication for remote models
+- Simplified configuration reduces maintenance burden
 
-**Required Setup:**
-1. Obtain proper API key from Ollama cloud provider (not SSH key)
-2. Set `OLLAMA_API_KEY` environment variable with correct format
-3. Configure `ollama_cloud.host` in `amalfa.config.json` to `https://ollama.com`
-4. Test connectivity with proper authentication
-
-**Note:** Remote models (like `nemotron-3-nano:30b-cloud`) work through local Ollama without API key. Cloud models require direct API access with proper authentication.
-
-### Cloud Models to Test
-
-Once configured, test these cloud models:
-- `qwen2.5:1.5b` - Fast, good reasoning
-- `phi3:mini` - 3.8B parameters, optimized
-- `tinyllama:latest` - Lightweight option
+**Alternative:** Use remote models via local Ollama API at localhost:11434.
 
 ---
 
@@ -295,7 +276,7 @@ curl -s http://localhost:11434/api/chat \
 **Pros:** Fast (1.5s), high quality, no API key needed  
 **Cons:** Privacy concerns (data sent to cloud), requires internet
 
-**Note:** This uses "remote" models through local Ollama, not direct cloud API access. No API key required.
+**Note:** This uses "remote" models through local Ollama API at localhost:11434. No API key required.
 
 #### Option 3: Hybrid with Fallback (Recommended)
 
@@ -303,14 +284,10 @@ curl -s http://localhost:11434/api/chat \
 {
   "langExtract": {
     "provider": "ollama",
-    "fallbackOrder": ["ollama", "ollama_cloud"],
+    "fallbackOrder": ["ollama", "gemini", "openrouter"],
     "ollama": {
       "host": "http://localhost:11434",
       "model": "mistral-nemo:latest"
-    },
-    "ollama_cloud": {
-      "host": "https://api.ollama.com",
-      "model": "nemotron-3-nano:30b"
     }
   }
 }
@@ -318,6 +295,8 @@ curl -s http://localhost:11434/api/chat \
 
 **Pros:** Best of both worlds, automatic fallback  
 **Cons:** More complex setup
+
+**Note:** Fallback chain uses alternative providers (gemini, openrouter) instead of direct cloud API.
 
 ---
 
@@ -346,11 +325,11 @@ curl -s http://localhost:11434/api/chat \
 
 ### Short Term (This Week)
 
-4. **Set Up Cloud Ollama**
-   - Obtain API key from Ollama cloud provider
-   - Set `OLLAMA_CLOUD_API_KEY` environment variable
-   - Configure `ollama_cloud.host` in config
-   - Test cloud connectivity
+4. **Test Remote Models**
+   - Verify remote model access via localhost:11434
+   - Test `nemotron-3-nano:30b-cloud` for speed
+   - Monitor internet dependency for remote models
+   - Consider local models for offline capability
 
 5. **Implement Fallback Logic**
    - Update `LangExtractClient.ts` to support provider fallback
@@ -391,17 +370,20 @@ ollama rm <model-name>
 ollama pull <model-name>
 ```
 
-### Issue: Cloud Ollama Not Working
+### Issue: Remote Models Not Working
 
-**Symptom:** `OLLAMA_CLOUD_API_KEY not set`  
-**Cause:** Missing environment variable  
+**Symptom:** Remote model requests fail  
+**Cause:** No internet connection or Ollama service down  
 **Solution:**
 ```bash
-# Add to .env file
-echo "OLLAMA_CLOUD_API_KEY=your-key-here" >> .env
+# Check internet connection
+ping -c 3 ollama.com
 
-# Or set in shell
-export OLLAMA_CLOUD_API_KEY="your-key-here"
+# Check Ollama service status
+ollama list
+
+# Restart Ollama if needed
+brew services restart ollama
 ```
 
 ### Issue: Slow Local Performance

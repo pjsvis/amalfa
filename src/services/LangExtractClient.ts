@@ -108,17 +108,6 @@ export class LangExtractClient {
       };
     }
 
-    if (
-      provider === "ollama_cloud" &&
-      !this.settings.langExtract?.ollama_cloud?.host
-    ) {
-      return {
-        valid: false,
-        error: `${SubstrateError.NETWORK_ERROR}: OLLAMA_CLOUD_HOST not configured`,
-        suggestion: "Set ollama_cloud.host in amalfa.settings.json",
-      };
-    }
-
     return { valid: true };
   }
 
@@ -262,9 +251,6 @@ export class LangExtractClient {
         GEMINI_MODEL: providerSettings.model || "gemini-flash-latest",
         OLLAMA_HOST: "http://localhost:11434",
         OLLAMA_MODEL: providerSettings.model || "qwen2.5:1.5b",
-        OLLAMA_CLOUD_HOST: this.settings.langExtract?.ollama_cloud?.host || "",
-        OLLAMA_CLOUD_API_KEY: process.env.OLLAMA_CLOUD_API_KEY || "",
-        OLLAMA_CLOUD_MODEL: providerSettings.model || "qwen2.5:7b",
         OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || "",
         OPENROUTER_MODEL:
           providerSettings.model || "qwen/qwen-2.5-72b-instruct",

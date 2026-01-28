@@ -92,39 +92,6 @@ MISTRAL_API_KEY=ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
 
 ---
 
-### 4. Ollama Cloud API Key
-
-**Purpose:** Direct API access to Ollama cloud models
-
-**Get from:** https://ollama.com/account
-
-**Environment variable:** `OLLAMA_API_KEY`
-
-**⚠️ CRITICAL:** This is NOT an SSH key! Get a proper API key from your Ollama account.
-
-**Example format:**
-```bash
-OLLAMA_API_KEY=your-actual-api-key-here
-```
-
-**Current Issue:**
-```bash
-# ❌ WRONG - This is an SSH key, not an API key!
-OLLAMA_API_KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILK+hgNakvQW6nFiSGLR9xvFvy7Ei39iTqm3h4RU5IU4
-
-# ✅ CORRECT - Use proper API key format
-OLLAMA_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...
-```
-
-**Usage:**
-- Direct cloud API access (optional)
-- Remote model access via local Ollama (no key needed)
-- Fallback when local models unavailable
-
-**Note:** Remote models (accessed via `localhost:11434`) work without API key configuration. Direct cloud API access requires proper API key.
-
----
-
 ## API Key Types
 
 ### SSH Keys (NOT for LLM APIs)
@@ -157,7 +124,6 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILK+hgNakvQW6nFiSGLR9xvFvy7Ei39iTqm3h4RU5IU4
 - Gemini API
 - OpenRouter API
 - Mistral AI API
-- Ollama Cloud API
 
 **✅ MUST use for:**
 - All LLM API calls
@@ -178,7 +144,37 @@ ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
 
 ---
 
-## Remote vs Cloud Model Access
+## Ollama Model Access
+
+### Local Models
+
+**How it works:**
+- Accessed through local Ollama API at `localhost:11434`
+- Models run entirely on your machine
+- No external dependencies
+- **No API key required**
+
+**Example:**
+```bash
+# Local model
+curl http://localhost:11434/api/chat -d '{
+  "model": "mistral-nemo:latest",
+  "messages": [{"role": "user", "content": "Hello"}]
+}'
+```
+
+**Characteristics:**
+- ✅ Maximum privacy (data never leaves your machine)
+- ✅ No external dependencies
+- ✅ Works offline
+- ❌ Slow response (79s+ on loaded systems)
+- ❌ Large disk footprint (7GB+ for good models)
+
+**Available Local Models:**
+- `mistral-nemo:latest` - 7.1 GB, good quality
+- More models available via `ollama pull`
+
+---
 
 ### Remote Models (via Local Ollama)
 
@@ -186,7 +182,7 @@ ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
 - Accessed through local Ollama API at `localhost:11434`
 - Ollama automatically proxies requests to `ollama.com`
 - Uses your Ollama account for authentication
-- **No API key configuration required**
+- **No API key required**
 
 **Example:**
 ```bash
@@ -211,54 +207,18 @@ curl http://localhost:11434/api/chat -d '{
 
 ---
 
-### Cloud Models (Direct API Access)
-
-**How it works:**
-- Accessed directly via `https://ollama.com/v1/chat/completions`
-- Requires explicit API key authentication
-- OpenAI-compatible API format
-- Independent of local Ollama installation
-
-**Example:**
-```bash
-# Direct cloud API call
-curl https://ollama.com/v1/chat/completions \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "qwen2.5:1.5b",
-    "messages": [{"role": "user", "content": "Hello"}]
-  }'
-```
-
-**Characteristics:**
-- ✅ Fast response
-- ✅ High quality models
-- ✅ Can be used without local Ollama
-- ✅ OpenAI-compatible (easy integration)
-- ❌ Requires API key setup
-- ❌ Privacy concerns (data sent to cloud)
-
-**Configuration Required:**
-```bash
-# .env file
-OLLAMA_API_KEY=your-actual-api-key-here  # Not SSH key!
-```
-
----
-
 ## Key Differences
 
-| Aspect | Remote Models | Cloud Models |
+| Aspect | Local Models | Remote Models |
 |--------|--------------|--------------|
-| **Access Point** | `localhost:11434` | `https://ollama.com/v1` |
-| **Authentication** | Ollama account (auto) | API key (manual) |
-| **API Format** | Ollama API | OpenAI-compatible |
-| **Local Ollama Required** | Yes | No |
-| **API Key Required** | No | Yes |
-| **Privacy** | Data sent to cloud | Data sent to cloud |
-| **Latency** | 1-2s | 1-2s |
-| **Setup Complexity** | Low | Medium |
+| **Access Point** | `localhost:11434` | `localhost:11434` (proxied) |
+| **Authentication** | None | Ollama account (auto) |
+| **API Format** | Ollama API | Ollama API |
+| **Local Ollama Required** | Yes | Yes |
+| **API Key Required** | No | No |
+| **Privacy** | High (local only) | Low (data sent to cloud) |
+| **Latency** | 79s (slow) | 1-2s (fast) |
+| **Setup Complexity** | Low | Low |
 
 ---
 
@@ -329,24 +289,6 @@ function isSshKey(key: string): boolean {
 
 ## Troubleshooting
 
-### Issue: "unauthorized" Error
-
-**Symptom:** API calls return "unauthorized" error
-
-**Cause:** Wrong API key or SSH key used instead of API key
-
-**Solution:**
-```bash
-# Check if key is SSH key
-echo $OLLAMA_API_KEY | grep "^ssh-"
-
-# If SSH key, get proper API key from https://ollama.com/account
-# Update .env with correct format
-OLLAMA_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...
-```
-
----
-
 ### Issue: API Key Not Working
 
 **Symptom:** Valid API key format but still failing
@@ -361,25 +303,6 @@ OLLAMA_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...
 
 ---
 
-### Issue: Remote Models Work, Cloud Models Don't
-
-**Symptom:** Can use remote models via localhost but direct API fails
-
-**Cause:** Missing or incorrect `OLLAMA_API_KEY`
-
-**Solution:**
-```bash
-# Remote models work without API key
-curl http://localhost:11434/api/chat -d '{"model": "nemotron-3-nano:30b-cloud", ...}'
-
-# Cloud models require API key
-curl https://ollama.com/v1/chat/completions \
-  -H "Authorization: Bearer $OLLAMA_API_KEY" \
-  -d '{"model": "qwen2.5:1.5b", ...}'
-```
-
----
-
 ## Configuration Examples
 
 ### Development Configuration
@@ -389,7 +312,6 @@ curl https://ollama.com/v1/chat/completions \
 GEMINI_API_KEY=AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ
 OPENROUTER_API_KEY=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
 MISTRAL_API_KEY=ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
-OLLAMA_API_KEY=your-ollama-api-key-here
 
 # Use remote models for speed
 LANGEXTRACT_PROVIDER=ollama
@@ -402,7 +324,6 @@ LANGEXTRACT_PROVIDER=ollama
 GEMINI_API_KEY=prod-gemini-key-here
 OPENROUTER_API_KEY=prod-openrouter-key-here
 MISTRAL_API_KEY=prod-mistral-key-here
-OLLAMA_API_KEY=prod-ollama-key-here
 
 # Use local models for privacy
 LANGEXTRACT_PROVIDER=ollama

@@ -23,9 +23,7 @@ cp .env.example .env
 - **MISTRAL_API_KEY** - Mistral AI API key
   - Get from: https://console.mistral.ai/
 
-- **OLLAMA_API_KEY** - Ollama Cloud API key (for direct cloud API access)
-  - Get from: https://ollama.com/account
-  - **Note:** This is NOT an SSH key! Get a proper API key from your Ollama account
+
 
 #### API Key Types
 
@@ -36,17 +34,20 @@ cp .env.example .env
 
 **API Keys (for LLM APIs):**
 - Format: `sk-or-v1-...` or alphanumeric string
-- Used for: Gemini, OpenRouter, Mistral, Ollama Cloud
+- Used for: Gemini, OpenRouter, Mistral
 - ✅ MUST use for LLM API calls
 
 **Example of WRONG usage:**
 ```bash
-OLLAMA_API_KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...  # ❌ WRONG!
+# ❌ WRONG - Don't use SSH keys for LLM APIs
+SSH_KEY_FOR_GIT=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...
 ```
 
 **Example of CORRECT usage:**
 ```bash
-OLLAMA_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...  # ✅ CORRECT!
+# ✅ CORRECT - Use proper API keys
+GEMINI_API_KEY=AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ
+OPENROUTER_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...
 ```
 
 ### Security Best Practices
@@ -56,6 +57,31 @@ OLLAMA_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...  # ✅ CORRECT!
 3. Rotate API keys regularly
 4. Use different keys for dev/staging/production
 5. Monitor API usage and costs
+
+### Ollama Configuration
+
+AMALFA uses Ollama for local and remote model access via `localhost:11434`. No API key is required - Ollama uses your account automatically.
+
+**Local Models:** Run entirely on your machine (private, slow)
+- Example: `mistral-nemo:latest` (7.1 GB)
+- Pull with: `ollama pull mistral-nemo:latest`
+
+**Remote Models:** Proxied to ollama.com (fast, requires internet)
+- Example: `nemotron-3-nano:30b-cloud` (30B parameters)
+- Pull with: `ollama pull nemotron-3-nano:30b-cloud`
+
+Configure in `amalfa.config.json`:
+```json
+{
+  "langExtract": {
+    "provider": "ollama",
+    "ollama": {
+      "host": "http://localhost:11434",
+      "model": "nemotron-3-nano:30b-cloud"  // or "mistral-nemo:latest"
+    }
+  }
+}
+```
 
 
 **A Memory Layer For Agents**

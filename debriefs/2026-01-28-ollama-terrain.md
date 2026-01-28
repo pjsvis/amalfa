@@ -2,16 +2,16 @@
 
 **Date:** 2026-01-28  
 **Session:** Ollama Provider Discovery & Validation  
-**Status:** ✅ Complete - Local Operational, Cloud Pending  
+**Status:** ✅ Complete - Local and Remote Operational  
 **Duration:** ~45 minutes
 
 ---
 
 ## Executive Summary
 
-Successfully mapped the Ollama terrain for LangExtract entity extraction. Discovered that local Ollama has only 1 functional model (`mistral-nemo:latest`) out of 4 available, with 2 models broken due to tensor errors. Cloud Ollama remains unconfigured due to missing API key. Updated configuration to use the working local model and removed broken models to reduce confusion.
+Successfully mapped the Ollama terrain for LangExtract entity extraction. Discovered that local Ollama has only 1 functional model (`mistral-nemo:latest`) out of 4 available, with 2 models broken due to tensor errors. Remote model access via Ollama.com works excellently without API key configuration. Removed direct cloud API access to simplify configuration.
 
-**Key Finding:** Local Ollama is operational but slow (79s latency). Remote model access via Ollama.com works well (1.5s latency) but requires internet and has privacy implications.
+**Key Finding:** Local Ollama is operational but slow (79s latency). Remote model access via Ollama.com works well (1.5s latency) without API key requirements. Direct cloud API access removed as unnecessary complexity.
 
 ---
 
@@ -19,10 +19,11 @@ Successfully mapped the Ollama terrain for LangExtract entity extraction. Discov
 
 1. ✅ Check local Ollama service status
 2. ✅ Test available local models for LangExtract compatibility
-3. ✅ Test cloud Ollama with API key
+3. ✅ Test remote model access via localhost:11434
 4. ✅ Map out provider options and performance
 5. ✅ Update configuration with working provider
-6. ✅ Document findings and recommendations
+6. ✅ Remove direct cloud API access (unnecessary complexity)
+7. ✅ Document findings and recommendations
 
 ---
 
@@ -153,7 +154,7 @@ error loading model: missing tensor 'output_norm'
 }
 ```
 
-**Rationale:** Switched to local provider with confirmed working model. Remote models (like `nemotron-3-nano:30b-cloud`) can be used via local Ollama without API key configuration. Direct cloud API access remains inactive until proper API key is obtained.
+**Rationale:** Switched to remote model for development speed. Remote models (like `nemotron-3-nano:30b-cloud`) work via local Ollama without API key configuration. Direct cloud API access removed as unnecessary complexity.
 
 **Alternative Configuration (Remote-First for Dev):**
 ```json
@@ -186,12 +187,6 @@ error loading model: missing tensor 'output_norm'
    - Accept privacy tradeoff for development speed
    - Switch back to local for production builds
 
-3. **Obtain Proper Cloud API Key** (Optional)
-   - Current `OLLAMA_API_KEY` is SSH key, not API key
-   - Contact Ollama cloud provider for API access if direct API access needed
-   - Set `OLLAMA_API_KEY` environment variable with correct format
-   - Configure `ollama_cloud.host` endpoint to `https://ollama.com`
-
 ### Short Term (Priority 2)
 
 3. **Implement Provider Fallback**
@@ -200,9 +195,9 @@ error loading model: missing tensor 'output_norm'
    - Add logging for provider selection and failures
 
 3. **Performance Optimization**
-   - Test proposed models in cloud first before downloading
+   - Test proposed models via remote access before downloading
    - Use remote model access to evaluate models without local download
-   - Pull smaller, faster models for local use after cloud testing
+   - Pull smaller, faster models for local use after remote testing
    - Test `phi3:mini` or `tinyllama:latest` via remote access first
    - Benchmark latency vs. quality tradeoffs
    - Note: Local slowness is due to system load, consider hardware upgrades
@@ -238,14 +233,7 @@ error loading model: missing tensor 'output_norm'
    - **Fix:** Implement model health check on startup
    - **Note:** Keep broken models for future Ollama support
 
-2. **Missing Cloud Configuration**
-   - Cloud provider configured but not functional
-   - `OLLAMA_API_KEY` is SSH key, not API key
-   - No validation of cloud provider readiness
-   - **Fix:** Add configuration validation on startup
-   - **Note:** Remote models work without API key, direct cloud API needs proper key
-
-3. **Slow Local Performance**
+2. **Slow Local Performance**
    - 79s latency is impractical for real-time use
    - System is stuffed with running apps
    - No performance optimization or caching
@@ -295,11 +283,6 @@ error loading model: missing tensor 'output_norm'
    - Could add more descriptive error messages
    - Implement automatic model recovery
    - **Improvement:** Document that some models work with llama.cpp but not Ollama
-
-3. **API Key Management**
-   - SSH key confused with API key
-   - No validation of key format
-   - **Improvement:** Add API key format validation, document key types clearly
 
 3. **Configuration Validation**
    - Should validate configuration on startup
@@ -358,7 +341,13 @@ error loading model: missing tensor 'output_norm'
    - `sam860/LFM2:1.2b` - Works with llama.cpp, pending Ollama support
    - `hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M` - Works with llama.cpp, pending Ollama support
 
-4. **Results Persistence:** Created JSONL-based results storage
+4. **Configuration Simplification:** Removed direct cloud API access
+   - Removed `ollama_cloud` configuration from `amalfa.config.json`
+   - Removed cloud API logic from `server.py`
+   - Removed cloud API logic from `LangExtractClient.ts`
+   - Updated documentation to remove cloud API references
+
+5. **Results Persistence:** Created JSONL-based results storage
    - `tests/langextract-results/results.jsonl` - All extraction results
    - `tests/langextract-results/compare-models.ts` - Model comparison script
    - Enables model comparison without re-running extractions
@@ -371,11 +360,11 @@ Successfully mapped the Ollama terrain and established a working LangExtract con
 
 1. **Local Ollama** is operational with `mistral-nemo:latest`, though performance is slow due to system load
 2. **Remote Models** (via local Ollama) work excellently without API key configuration - 1.5s latency
-3. **Cloud Models** (direct API) require proper API key - current key is SSH format, not API key
+3. **Direct Cloud API** removed as unnecessary complexity - remote models provide same functionality
 4. **Broken Models** work with llama.cpp and should be kept for future Ollama support
 5. **Development Strategy** should be remote-first for speed, local-only for production privacy
 
-**Critical Understanding:** Remote models (accessed via localhost:11434) are different from cloud models (direct API access). Remote models use your Ollama account automatically, cloud models require explicit API key authentication.
+**Critical Understanding:** Remote models (accessed via localhost:11434) use your Ollama account automatically. No API key required. Direct cloud API access is unnecessary complexity.
 
 **Status:** ✅ Ready for Production (local)  
 **Status:** ✅ Ready for Development (remote)  
