@@ -14,6 +14,7 @@ import { GraphGardener } from "@src/core/GraphGardener";
 import { GrepEngine } from "@src/core/GrepEngine";
 import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
+import { registerAllTools } from "../tools";
 import { ContentHydrator } from "../utils/ContentHydrator";
 import { DaemonManager } from "../utils/DaemonManager";
 import { getHistorian } from "../utils/Historian";
@@ -131,6 +132,9 @@ async function runServer() {
 	}
 
 	log.info("🚀 AMALFA MCP Server Initializing...");
+
+	// 0. Register Dynamic Tools
+	registerAllTools();
 
 	// 1. Setup Server
 	const server = new Server(
