@@ -1,3 +1,9 @@
+---
+tags:
+  - metadata
+  - vocabulary
+  - agent-driven
+---
 # Sonar Agent Manual
 
 **Purpose:** Comprehensive guide for the Sonar AI sub-agent, handling Search Intelligence, Metadata Enhancement, and Context Extraction.

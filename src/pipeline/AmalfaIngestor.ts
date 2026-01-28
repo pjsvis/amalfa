@@ -366,19 +366,13 @@ export class AmalfaIngestor {
 		try {
 			const rawContent = await Bun.file(filePath).text();
 
-			// Parse frontmatter with gray-matter
 			const parsed = matter(rawContent);
 			const frontmatter = parsed.data || {};
 			const content = parsed.content;
 
-			// Generate ID from filename
-			const filename = filePath.split("/").pop() || "unknown";
-			const id = filename
-				.replace(/\.(md|ts|js)$/, "")
-				.toLowerCase()
-				.replace(/[^a-z0-9-]/g, "-");
+			const relativeFilePath = toRootRelative(filePath);
+			const id = this.db.generateId(relativeFilePath);
 
-			// Skip if content unchanged (hash check)
 			const hasher = new Bun.CryptoHasher("md5");
 			hasher.update(rawContent.trim());
 			const currentHash = hasher.digest("hex");
@@ -403,14 +397,17 @@ export class AmalfaIngestor {
 			const node: Node = {
 				id,
 				type: "document",
-				label: (frontmatter.title as string) || filename,
+				label:
+					(frontmatter.title as string) ||
+					relativeFilePath.split("/").pop() ||
+					id,
 				domain: "knowledge",
 				layer: "document",
 				embedding,
 				hash: currentHash,
 				meta: {
 					...frontmatter,
-					source: toRootRelative(filePath), // Store relative to project root
+					source: toRootRelative(filePath),
 					semantic_tokens: tokens,
 				},
 			};

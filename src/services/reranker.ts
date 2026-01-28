@@ -1,3 +1,8 @@
+---
+tags:
+  - extracted
+  - test
+---
 /**
  * src/services/reranker.ts
  * Implements the BAAI/bge-reranker-v2-m3 Cross-Encoder.

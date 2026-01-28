@@ -356,12 +356,18 @@ export class ResonanceDB {
 	 * Matches the logic used in AmalfaIngestor.
 	 */
 	generateId(input: string): string {
-		// If input looks like a path, take the filename
-		const filename = input.split("/").pop() || "unknown";
-		return filename
-			.replace(/\.(md|ts|js|json)$/, "") // Strip extensions
-			.toLowerCase()
-			.replace(/[^a-z0-9-]/g, "-");
+		const withoutRelativePrefix = input.replace(/^\.*\//, "");
+		const withoutExtension = withoutRelativePrefix.replace(
+			/\.(md|ts|js|json)$/,
+			"",
+		);
+		const lowercased = withoutExtension.toLowerCase();
+		const alphanumericWithSlashes = lowercased.replace(/[^a-z0-9/]/g, "-");
+		const slashesToDashes = alphanumericWithSlashes.replace(/\/+/g, "-");
+		const collapsedDashes = slashesToDashes.replace(/-+/g, "-");
+		const trimmed = collapsedDashes.replace(/^-|-$/g, "");
+
+		return trimmed;
 	}
 
 	updateNodeMeta(id: string, meta: Record<string, unknown>) {

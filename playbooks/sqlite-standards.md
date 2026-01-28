@@ -1,3 +1,9 @@
+---
+tags:
+  - metadata
+  - vocabulary
+  - agent-driven
+---
 # SQLite Configuration & Best Practices (Canon)
 
 > [!IMPORTANT]

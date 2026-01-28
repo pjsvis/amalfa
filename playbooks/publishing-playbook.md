@@ -1,3 +1,9 @@
+---
+tags:
+  - metadata
+  - vocabulary
+  - agent-driven
+---
 # Publishing Playbook
 
 ## Purpose

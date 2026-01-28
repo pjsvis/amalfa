@@ -1,3 +1,9 @@
+---
+tags:
+  - metadata
+  - vocabulary
+  - agent-driven
+---
 
 <!-- tags: [SEE_ALSO: agent-metadata-patterns] -->
 # Session Summary: Agent-First Metadata & Latent Space Tagging

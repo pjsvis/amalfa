@@ -1,0 +1,214 @@
+{
+  "targetFile": "playbooks/problem-solving-playbook.md",
+  "generatedAt": "2026-01-28T15:30:26.573Z",
+  "confidence": 1,
+  "graphData": {
+    "entities": [
+      {
+        "name": "Problem Solving Playbook",
+        "type": "Document",
+        "description": "A collection of documented strategies and mental models for debugging complex engineering problems."
+      },
+      {
+        "name": "Variable Reduction",
+        "type": "Strategy",
+        "description": "Systematically disabling surrounding features to isolate the root cause of a complex interaction bug."
+      },
+      {
+        "name": "The \"Disablement\" Pattern",
+        "type": "Pattern",
+        "description": "The tactic of aggressively turning off potential interference completely rather than tweaking it."
+      },
+      {
+        "name": "The \"Native Interception\" Pattern",
+        "type": "Strategy",
+        "description": "Intercepting native DOM events at the container level using the capture phase to bypass library handlers."
+      },
+      {
+        "name": "DOM events",
+        "type": "Technology",
+        "description": "Native browser event system often abstracted by heavy UI libraries."
+      },
+      {
+        "name": "Capture phase",
+        "type": "Concept",
+        "description": "The top-down phase of event handling that occurs before bubbling."
+      },
+      {
+        "name": "Sigma.js",
+        "type": "Technology",
+        "description": "A heavy UI library that abstracts away DOM events."
+      },
+      {
+        "name": "Mapbox",
+        "type": "Technology",
+        "description": "A heavy UI library that abstracts away DOM events."
+      },
+      {
+        "name": "Three.js",
+        "type": "Technology",
+        "description": "A heavy UI library that abstracts away DOM events."
+      },
+      {
+        "name": "Visual Feedback & \"The UI is a Liar\"",
+        "type": "Strategy",
+        "description": "Combining visual debugging tools (cursors, logs) with verification of backend data integrity."
+      },
+      {
+        "name": "SQLite CLI",
+        "type": "Tool",
+        "description": "Used for raw queries to verify the true state of the database."
+      },
+      {
+        "name": "test_roundtrip.ts",
+        "type": "File",
+        "description": "A targeted test script used to prove data existence independently of the UI."
+      },
+      {
+        "name": "The \"Strip-it-Back\" Heuristic",
+        "type": "Strategy",
+        "description": "Simplifying a misbehaving UI component by removing all non-essential or 'fancy' styles (CSS)."
+      },
+      {
+        "name": "The \"Isolation Test\" Pattern",
+        "type": "Strategy",
+        "description": "Creating a minimal, temporary environment (Clean Room) to debug a single component outside the complex application bundle."
+      },
+      {
+        "name": "Clean Room Debugging",
+        "type": "Concept",
+        "description": "Conceptual name for the Isolation Test Pattern."
+      },
+      {
+        "name": "isolation-test.html",
+        "type": "File",
+        "description": "A temporary, minimal HTML file used to verify a component in isolation."
+      },
+      {
+        "name": "Alpine.js Method Binding Issue",
+        "type": "Problem",
+        "description": "Methods losing lexical scope ('this') when imported using complex wrapping patterns like Object.fromEntries."
+      },
+      {
+        "name": "Alpine.js",
+        "type": "Technology",
+        "description": "UI framework/library associated with a specific method binding issue."
+      },
+      {
+        "name": "Object.fromEntries",
+        "type": "Concept",
+        "description": "JavaScript method that, when used for wrapping, breaks method scope connections in Alpine.js."
+      }
+    ],
+    "relationships": [
+      {
+        "source": "Problem Solving Playbook",
+        "target": "Variable Reduction",
+        "type": "DOCUMENTS_STRATEGY",
+        "description": "Variable Reduction is a core strategy documented in the Playbook."
+      },
+      {
+        "source": "Variable Reduction",
+        "target": "The \"Disablement\" Pattern",
+        "type": "IMPLEMENTED_AS",
+        "description": "The Disablement Pattern is the tactical application of Variable Reduction."
+      },
+      {
+        "source": "Problem Solving Playbook",
+        "target": "The \"Native Interception\" Pattern",
+        "type": "DOCUMENTS_STRATEGY",
+        "description": "The Native Interception Pattern is a core strategy documented in the Playbook."
+      },
+      {
+        "source": "The \"Native Interception\" Pattern",
+        "target": "DOM events",
+        "type": "INTERCEPTS",
+        "description": "The strategy targets native DOM events for control."
+      },
+      {
+        "source": "The \"Native Interception\" Pattern",
+        "target": "Capture phase",
+        "type": "UTILIZES",
+        "description": "The strategy works by enabling and utilizing the Capture phase."
+      },
+      {
+        "source": "Sigma.js",
+        "target": "DOM events",
+        "type": "ABSTRACTS",
+        "description": "Sigma.js is a library that abstracts away native DOM events."
+      },
+      {
+        "source": "Mapbox",
+        "target": "DOM events",
+        "type": "ABSTRACTS",
+        "description": "Mapbox is a library that abstracts away native DOM events."
+      },
+      {
+        "source": "Problem Solving Playbook",
+        "target": "Visual Feedback & \"The UI is a Liar\"",
+        "type": "DOCUMENTS_STRATEGY",
+        "description": "This is a documented core strategy."
+      },
+      {
+        "source": "Visual Feedback & \"The UI is a Liar\"",
+        "target": "SQLite CLI",
+        "type": "VERIFIES_STATE_WITH",
+        "description": "Strategy advocates using SQLite CLI to verify backend data."
+      },
+      {
+        "source": "Visual Feedback & \"The UI is a Liar\"",
+        "target": "test_roundtrip.ts",
+        "type": "VERIFIES_STATE_WITH",
+        "description": "Strategy advocates using targeted test scripts to verify backend data."
+      },
+      {
+        "source": "Problem Solving Playbook",
+        "target": "The \"Strip-it-Back\" Heuristic",
+        "type": "DOCUMENTS_STRATEGY",
+        "description": "This is a documented core strategy."
+      },
+      {
+        "source": "Problem Solving Playbook",
+        "target": "The \"Isolation Test\" Pattern",
+        "type": "DOCUMENTS_STRATEGY",
+        "description": "This is a documented core strategy."
+      },
+      {
+        "source": "The \"Isolation Test\" Pattern",
+        "target": "Clean Room Debugging",
+        "type": "ALSO_KNOWN_AS",
+        "description": "Clean Room Debugging is a conceptual synonym for the Isolation Test Pattern."
+      },
+      {
+        "source": "The \"Isolation Test\" Pattern",
+        "target": "isolation-test.html",
+        "type": "REQUIRES",
+        "description": "The strategy requires creating a minimal HTML file for testing."
+      },
+      {
+        "source": "Alpine.js Method Binding Issue",
+        "target": "Alpine.js",
+        "type": "RELATED_TO_TECHNOLOGY",
+        "description": "The method binding issue is specific to the Alpine.js framework."
+      },
+      {
+        "source": "Object.fromEntries",
+        "target": "Alpine.js Method Binding Issue",
+        "type": "CAUSES",
+        "description": "Using this JavaScript method for wrapping causes the binding issue."
+      },
+      {
+        "source": "The \"Strip-it-Back\" Heuristic",
+        "target": "Alpine.js Method Binding Issue",
+        "type": "RECOMMENDS_PREVENTION",
+        "description": "The heuristic is recommended as a preventive measure against complex strategies that lead to this problem."
+      }
+    ]
+  },
+  "stats": {
+    "contentChars": 5862,
+    "elapsedMs": 16252,
+    "entityCount": 19,
+    "relationshipCount": 17
+  }
+}

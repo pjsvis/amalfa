@@ -1,3 +1,9 @@
+---
+tags:
+  - metadata
+  - vocabulary
+  - agent-driven
+---
 # Sonar System Overview
 
 ## Purpose

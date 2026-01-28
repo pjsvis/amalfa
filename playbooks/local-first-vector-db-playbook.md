@@ -1,3 +1,9 @@
+---
+tags:
+  - metadata
+  - vocabulary
+  - agent-driven
+---
 **CORCS Statement** `[OH-066]`
 
   * **Status**: Active & Operational.

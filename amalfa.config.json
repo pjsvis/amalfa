@@ -50,5 +50,22 @@
 			"host": "openrouter.ai/api/v1",
 			"model": "qwen/qwen-2.5-72b-instruct"
 		}
+	},
+	"langExtract": {
+		"provider": "ollama_cloud",
+		"ollama": {
+			"host": "http://localhost:11434",
+			"model": "qwen2.5:1.5b"
+		},
+		"ollama_cloud": {
+			"host": "",
+			"model": "qwen2.5:7b"
+		},
+		"gemini": {
+			"model": "gemini-flash-latest"
+		},
+		"openrouter": {
+			"model": "qwen/qwen-2.5-72b-instruct"
+		}
 	}
 }

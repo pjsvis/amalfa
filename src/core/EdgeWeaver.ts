@@ -120,51 +120,45 @@ export class EdgeWeaver {
 	}
 
 	private processWikiLinks(sourceId: string, content: string): void {
-		// Match `[[Target]]` or `[[Target|Label]]`
 		const matches = content.matchAll(/\[\[(.*?)(?:\|.*?)?\]\]/g);
 
 		for (const match of matches) {
 			if (!match[1]) continue;
 			const rawTarget = match[1].trim();
 
-			// 1. Try Lexicon Lookup (Prioritize Concepts)
-			const conceptId = this.lexicon.get(this.slugify(rawTarget));
+			const slugified = this.slugify(rawTarget);
+			let conceptId = this.lexicon.get(slugified);
+
+			if (!conceptId) {
+				const pathAwareId = this.db.generateId(rawTarget);
+				if (this.lexicon.has(pathAwareId)) {
+					conceptId = pathAwareId;
+				}
+			}
+
 			if (conceptId) {
 				this.safeInsertEdge(sourceId, conceptId, "CITES");
-			} else {
-				// 2. Assume it's a file path or direct ID link
-				// In strict mode, if it's not in the lexicon/nodes, we might create a "Ghost Edge"
-				// or just ignore it.
-				// For now, if we can't resolve it to an ID, we ignore it to prevent Orphans.
-				// (Orphan Rescue is a separate process).
 			}
 		}
 	}
 
 	private processMarkdownLinks(sourceId: string, content: string): void {
-		// Match standard markdown links: [text](./file.md) or [text](file.md)
 		const matches = content.matchAll(/\[([^\]]+)\]\(([^)]+\.md)\)/g);
 
 		for (const match of matches) {
 			if (!match[2]) continue;
 			const linkPath = match[2].trim();
 
-			// Skip external links (http/https)
 			if (linkPath.startsWith("http://") || linkPath.startsWith("https://")) {
 				continue;
 			}
 
-			// Extract filename from path
-			const filename = linkPath.split("/").pop();
-			if (!filename) continue;
+			const normalizedPath = linkPath
+				.replace(/^\.\//, "")
+				.replace(/^\.\.\//, "");
 
-			// Convert filename to node ID (same logic as ingestion)
-			const targetId = filename
-				.replace(".md", "")
-				.toLowerCase()
-				.replace(/[^a-z0-9-]/g, "-");
+			const targetId = this.db.generateId(normalizedPath);
 
-			// Insert edge only if target node exists in lexicon
 			if (this.lexicon.has(targetId)) {
 				this.safeInsertEdge(sourceId, targetId, "LINKS_TO");
 			}

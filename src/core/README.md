@@ -1,3 +1,7 @@
+---
+tags:
+  - extracted
+---
 
 # 🧠 Core Logic
 

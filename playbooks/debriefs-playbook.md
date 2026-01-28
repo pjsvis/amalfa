@@ -1,6 +1,14 @@
 ---
-date: 2026-01-09
-tags: [playbook, documentation, process, workflow, best-practices]
+date: 2026-01-09T00:00:00.000Z
+tags:
+  - playbook
+  - documentation
+  - process
+  - workflow
+  - best-practices
+  - metadata
+  - vocabulary
+  - agent-driven
 ---
 
 # Debriefs Playbook

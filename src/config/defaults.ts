@@ -92,6 +92,8 @@ export interface AmalfaConfig {
 	ember: EmberConfig;
 	/** Scratchpad cache configuration */
 	scratchpad?: ScratchpadConfig;
+	/** LangExtract knowledge graph extraction configuration */
+	langExtract?: LangExtractConfig;
 }
 
 export interface ScratchpadConfig {
@@ -149,6 +151,30 @@ export interface SonarConfig {
 		model: string;
 		/** API key for authenticated endpoints (required for OpenRouter) */
 		apiKey?: string;
+	};
+}
+
+export interface LangExtractConfig {
+	/** Provider type: gemini, ollama, ollama_cloud, or openrouter */
+	provider: "gemini" | "ollama" | "ollama_cloud" | "openrouter";
+	/** Gemini configuration */
+	gemini?: {
+		model: string;
+	};
+	/** Local Ollama configuration */
+	ollama?: {
+		host: string;
+		model: string;
+	};
+	/** Cloud Ollama configuration */
+	ollama_cloud?: {
+		host: string;
+		model: string;
+		apiKey?: string;
+	};
+	/** OpenRouter configuration */
+	openrouter?: {
+		model: string;
 	};
 }
 

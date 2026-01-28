@@ -88,10 +88,8 @@ export class SidecarSquasher {
 			return null;
 		}
 
-		// 2. Resolve Parent Node
-		// Expecting "src/foo/Bar.ts.json" -> "src/foo/Bar.ts"
 		const relativePath = toRootRelative(sidecarPath);
-		const parentPath = relativePath.replace(/\.json$/, "");
+		const parentPath = relativePath.replace(/\.ember\.json$/, "");
 
 		const parentId = this.db.generateId(parentPath);
 

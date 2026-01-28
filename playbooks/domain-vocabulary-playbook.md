@@ -1,10 +1,18 @@
 ---
-title: "Domain Vocabulary Playbook"
-version: "1.0.0"
-last_updated: "2025-12-11"
-status: "active"
-tags: ["#protocol", "#process", "#data-governance"]
-related_documents: ["embeddings-and-fafcas-protocol-playbook", "ingestion-pipeline"]
+title: Domain Vocabulary Playbook
+version: 1.0.0
+last_updated: '2025-12-11'
+status: active
+tags:
+  - '#protocol'
+  - '#process'
+  - '#data-governance'
+  - metadata
+  - vocabulary
+  - agent-driven
+related_documents:
+  - embeddings-and-fafcas-protocol-playbook
+  - ingestion-pipeline
 ---
 
 # Domain Vocabulary Playbook

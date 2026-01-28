@@ -1,3 +1,16 @@
+---
+tags:
+  - brief
+  - cli
+  - search
+  - ux
+  - architecture
+  - mcp
+  - tools
+  - api
+  - reference
+  - agents
+---
 # CLI Search Commands Implementation Debrief
 
 **Date:** 2026-01-17  

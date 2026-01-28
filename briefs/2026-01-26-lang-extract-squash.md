@@ -1,3 +1,11 @@
+---
+tags:
+  - feature
+  - sidecar
+  - python
+  - mcp
+  - lang-extract
+---
 # Brief: LangExtract Sidecar Squash (The Symbolic Ingestion)
 
 **Date:** 2026-01-26

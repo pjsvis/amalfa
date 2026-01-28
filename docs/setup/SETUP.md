@@ -1,3 +1,9 @@
+---
+tags:
+  - metadata
+  - vocabulary
+  - agent-driven
+---
 # AMALFA Setup Guide
 
 Complete guide for setting up NPM publishing with privacy-preserving email configuration.

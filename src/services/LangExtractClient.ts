@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { loadConfig } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
 import { z } from "zod";
 
@@ -57,14 +58,52 @@ export class LangExtractClient {
 	public async connect() {
 		if (this.client) return;
 
+		const config = await loadConfig();
+		const langExtractConfig = config.langExtract || {
+			provider: "gemini" as const,
+			gemini: { model: "gemini-flash-latest" },
+			ollama: { host: "http://localhost:11434", model: "qwen2.5:1.5b" },
+			ollama_cloud: { host: "", model: "qwen2.5:7b" },
+			openrouter: { model: "qwen/qwen-2.5-72b-instruct" },
+		};
+
 		this.transport = new StdioClientTransport({
 			command: "uv",
 			args: ["run", "server.py"],
 			cwd: this.sidecarPath,
 			env: {
 				...process.env,
-				// Pass specifically needed keys
+				LANGEXTRACT_PROVIDER:
+					langExtractConfig.provider ||
+					process.env.LANGEXTRACT_PROVIDER ||
+					"gemini",
 				GEMINI_API_KEY: process.env.GEMINI_API_KEY || "",
+				GEMINI_MODEL: langExtractConfig.gemini?.model || "gemini-flash-latest",
+				OLLAMA_HOST:
+					langExtractConfig.ollama?.host ||
+					process.env.OLLAMA_HOST ||
+					"http://localhost:11434",
+				OLLAMA_MODEL:
+					langExtractConfig.ollama?.model ||
+					process.env.OLLAMA_MODEL ||
+					"qwen2.5:1.5b",
+				OLLAMA_CLOUD_HOST:
+					langExtractConfig.ollama_cloud?.host ||
+					process.env.OLLAMA_CLOUD_HOST ||
+					"",
+				OLLAMA_CLOUD_API_KEY:
+					langExtractConfig.ollama_cloud?.apiKey ||
+					process.env.OLLAMA_CLOUD_API_KEY ||
+					"",
+				OLLAMA_CLOUD_MODEL:
+					langExtractConfig.ollama_cloud?.model ||
+					process.env.OLLAMA_CLOUD_MODEL ||
+					"qwen2.5:7b",
+				OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || "",
+				OPENROUTER_MODEL:
+					langExtractConfig.openrouter?.model ||
+					process.env.OPENROUTER_MODEL ||
+					"qwen/qwen-2.5-72b-instruct",
 			},
 		});
 
