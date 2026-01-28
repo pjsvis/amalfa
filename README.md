@@ -79,6 +79,28 @@ amalfa find-gaps --limit 5 --threshold 0.7
 amalfa inject-tags docs/auth.md "authentication" "security"
 ```
 
+### Service Management Commands
+
+```bash
+# Manage file watcher daemon (start|stop|status|restart)
+amalfa watcher start
+amalfa watcher stop
+amalfa watcher status
+
+# Stop all running AMALFA services
+amalfa kill
+
+# Ingest sidecar JSON files into the graph
+amalfa squash
+```
+
+### Setup Commands
+
+```bash
+# Initialize Python sidecar environment (for LangExtract)
+amalfa setup-python
+```
+
 ### JSON Output for Scripting
 
 All commands support `--json` for programmatic use:
@@ -470,7 +492,7 @@ amalfa servers --dot     # Generate DOT diagram
 amalfa stop-all          # Stop all running services (alias: kill)
 
 # Individual services (start|stop|status|restart)
-amalfa daemon <action>   # File watcher daemon
+amalfa watcher <action>  # File watcher daemon
 amalfa vector <action>   # Vector embedding daemon
 amalfa reranker <action> # Reranking daemon
 amalfa sonar <action>    # Sonar AI agent

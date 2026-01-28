@@ -4,6 +4,11 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { loadConfig } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
+import {
+	checkOllamaHealth,
+	discoverOllamaCapabilities,
+	type OllamaCapabilities,
+} from "@src/utils/ollama-discovery";
 import { z } from "zod";
 
 // Zod Schemas for Structural Validation
@@ -32,6 +37,7 @@ export class LangExtractClient {
 	private transport: StdioClientTransport | null = null;
 	private sidecarPath: string;
 	private log = getLogger("LangExtractClient");
+	private ollamaCapabilities: OllamaCapabilities | null = null;
 
 	constructor() {
 		this.sidecarPath = resolve(process.cwd(), "src/sidecars/lang-extract");
@@ -55,10 +61,70 @@ export class LangExtractClient {
 		return true;
 	}
 
+	/**
+	 * Determine the optimal provider based on availability and configuration
+	 * Priority: Local Ollama > Cloud Ollama > Gemini > OpenRouter
+	 */
+	private async getOptimalProvider(
+		config: Awaited<ReturnType<typeof loadConfig>>,
+	): Promise<string> {
+		const configuredProvider = config.langExtract?.provider || "gemini";
+
+		// If user explicitly configured a provider, respect it
+		if (configuredProvider !== "ollama") {
+			this.log.info(`Using configured provider: ${configuredProvider}`);
+			return configuredProvider;
+		}
+
+		// For "ollama" provider, check local availability first
+		const localHealthy = await checkOllamaHealth();
+		if (localHealthy) {
+			this.log.info("✅ Local Ollama available, using local provider");
+			return "ollama";
+		}
+
+		// Fall back to cloud if configured
+		if (config.langExtract?.ollama_cloud?.host) {
+			this.log.info("⚠️  Local Ollama unavailable, using cloud provider");
+			return "ollama_cloud";
+		}
+
+		// Fall back to Gemini
+		this.log.warn("⚠️  No Ollama available, falling back to Gemini");
+		return "gemini";
+	}
+
+	/**
+	 * Discover and cache Ollama capabilities
+	 */
+	private async discoverOllama(): Promise<void> {
+		if (this.ollamaCapabilities) return; // Already cached
+
+		this.ollamaCapabilities = await discoverOllamaCapabilities();
+
+		if (this.ollamaCapabilities.available) {
+			this.log.info(
+				`📦 Ollama models: ${this.ollamaCapabilities.allModels?.map((m) => m.name).join(", ")}`,
+			);
+			if (this.ollamaCapabilities.suggestedModel) {
+				this.log.info(
+					`✅ Suggested model: ${this.ollamaCapabilities.suggestedModel}`,
+				);
+			}
+		}
+	}
+
 	public async connect() {
 		if (this.client) return;
 
 		const config = await loadConfig();
+
+		// Discover Ollama capabilities
+		await this.discoverOllama();
+
+		// Determine optimal provider
+		const optimalProvider = await this.getOptimalProvider(config);
+
 		const langExtractConfig = config.langExtract || {
 			provider: "gemini" as const,
 			gemini: { model: "gemini-flash-latest" },
@@ -74,9 +140,7 @@ export class LangExtractClient {
 			env: {
 				...process.env,
 				LANGEXTRACT_PROVIDER:
-					langExtractConfig.provider ||
-					process.env.LANGEXTRACT_PROVIDER ||
-					"gemini",
+					optimalProvider || process.env.LANGEXTRACT_PROVIDER || "gemini",
 				GEMINI_API_KEY: process.env.GEMINI_API_KEY || "",
 				GEMINI_MODEL: langExtractConfig.gemini?.model || "gemini-flash-latest",
 				OLLAMA_HOST:
@@ -84,6 +148,7 @@ export class LangExtractClient {
 					process.env.OLLAMA_HOST ||
 					"http://localhost:11434",
 				OLLAMA_MODEL:
+					this.ollamaCapabilities?.suggestedModel ||
 					langExtractConfig.ollama?.model ||
 					process.env.OLLAMA_MODEL ||
 					"qwen2.5:1.5b",

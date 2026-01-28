@@ -51,7 +51,7 @@ bun run amalfa servers           # Show all service status
 bun run amalfa stop-all          # Stop all running services (alias: kill)
 
 # Individual services (start|stop|status|restart)
-bun run amalfa daemon start      # File watcher daemon
+bun run amalfa watcher start     # File watcher daemon
 bun run amalfa vector start      # Vector embedding daemon
 bun run amalfa reranker start    # Reranking daemon
 bun run amalfa sonar start       # Sonar AI agent
