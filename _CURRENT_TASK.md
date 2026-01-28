@@ -24,6 +24,8 @@
 - [ ] **Protocol: Modular Toolbox**: Dynamic tool loading from JSON schemas.
 - [ ] **Substrates**: Implement adapters for Ollama Cloud, GLM, MiniMax, ZenMux.
 - [ ] **CLI**: Add `amalfa list-capabilities` to expose dynamic landscape.
+- [ ] **Substrates**: Implement adapters for Ollama Cloud, GLM, MiniMax, ZenMux.
+- [ ] **CLI**: Add `amalfa list-capabilities` to expose dynamic landscape.
 
 ---
 
