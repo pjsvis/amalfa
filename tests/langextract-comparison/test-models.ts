@@ -238,6 +238,27 @@ async function testModel(
       };
     }
 
+    // Check for API errors before trying to extract content
+    if (result.error) {
+      const errorMsg =
+        result.error.message || result.error.status || "Unknown API error";
+      const errorCode = result.error.code || result.error.status || "UNKNOWN";
+      console.log(`   ❌ API Error (${errorCode}): ${errorMsg}`);
+      return {
+        model,
+        provider,
+        testFile: testFile.path,
+        fileType: testFile.type,
+        timestamp: new Date().toISOString(),
+        latencyMs: latency,
+        success: false,
+        entities: 0,
+        relationships: 0,
+        validJson: false,
+        error: `API Error (${errorCode}): ${errorMsg}`,
+      };
+    }
+
     // Handle different response formats
     let contentStr = "";
     if (provider === "gemini") {
@@ -255,7 +276,22 @@ async function testModel(
     if (contentStr.length > 0) {
       console.log(`   Raw content preview: ${contentStr.substring(0, 200)}...`);
     } else {
-      console.log(`   ⚠️  Empty content string`);
+      console.log(
+        `   ⚠️  Empty content string - API may have returned an error response`,
+      );
+      return {
+        model,
+        provider,
+        testFile: testFile.path,
+        fileType: testFile.type,
+        timestamp: new Date().toISOString(),
+        latencyMs: latency,
+        success: false,
+        entities: 0,
+        relationships: 0,
+        validJson: false,
+        error: "Empty response - check API key and quota",
+      };
     }
 
     // Clean up markdown code blocks if present
@@ -274,12 +310,9 @@ async function testModel(
     } catch (parseError) {
       console.log(`   ❌ JSON parse failed: ${parseError}`);
       console.log(
-        `   Content that failed to parse: ${contentStr.substring(0, 500)}`,
+        `   Content that failed to parse (${contentStr.length} chars):`,
       );
-      parsedContent = null;
-    }
-
-    if (!parsedContent) {
+      console.log(`   ${contentStr.substring(0, 500)}`);
       return {
         model,
         provider,
@@ -291,7 +324,7 @@ async function testModel(
         entities: 0,
         relationships: 0,
         validJson: false,
-        error: "Failed to parse JSON",
+        error: `JSON parse error: ${parseError}`,
       };
     }
 
@@ -311,7 +344,7 @@ async function testModel(
         entities: 0,
         relationships: 0,
         validJson: true,
-        error: "Missing entities or relationships",
+        error: `Invalid JSON structure - missing entities or relationships. Found keys: ${Object.keys(parsedContent).join(", ")}`,
       };
     }
 
