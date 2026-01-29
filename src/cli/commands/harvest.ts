@@ -10,6 +10,8 @@ const log = getLogger("CLI:Harvest");
 const IGNORE_DIRS = ["node_modules", ".git", ".amalfa", "dist", "out"];
 const ALLOW_EXTS = [".ts", ".tsx", ".md"];
 const CONCURRENCY = 1;
+const MAX_FILE_SIZE = 25 * 1024; // 25KB Guardrail
+const CIRCUIT_BREAKER_THRESHOLD = 3; // Fail fast after N consecutive errors
 
 async function getFiles(dir: string): Promise<string[]> {
 	const files: string[] = [];
@@ -62,7 +64,10 @@ export async function cmdHarvest(args: string[]) {
 		let processed = 0;
 		let hits = 0;
 		let misses = 0;
+		let skipped = 0;
 		let errors = 0;
+		let consecutiveErrors = 0;
+		let lastErrorMessage = "";
 
 		const queue = [...allFiles];
 		const workers = Array(CONCURRENCY)
@@ -73,6 +78,25 @@ export async function cmdHarvest(args: string[]) {
 					if (!filePath) break;
 
 					try {
+						// 1. Guardrail: Check file size
+						const stats = statSync(filePath);
+						if (stats.size > MAX_FILE_SIZE) {
+							// Check if cached anyway (maybe from previous run or manual)
+							const content = readFileSync(filePath, "utf-8");
+							if (client.checkCache(content)) {
+								hits++;
+							} else {
+								skipped++;
+								log.warn(
+									{ file: filePath, size: stats.size },
+									"Skipping large file",
+								);
+								processed++;
+								continue;
+							}
+							// If cached, we fall through to extract() which will return cached result quickly
+						}
+
 						const content = readFileSync(filePath, "utf-8");
 						// We access the private cache via public extract method which handles the logic
 						// But we want to know if it was a hit or miss.
@@ -88,6 +112,10 @@ export async function cmdHarvest(args: string[]) {
 
 						await client.extract(content);
 
+						// Reset circuit breaker on success
+						consecutiveErrors = 0;
+						lastErrorMessage = "";
+
 						processed++;
 						if (processed % 10 === 0) {
 							process.stdout.write(
@@ -96,7 +124,53 @@ export async function cmdHarvest(args: string[]) {
 						}
 					} catch (e) {
 						errors++;
+						consecutiveErrors++;
+
+						const errorMsg = e instanceof Error ? e.message : String(e);
+						lastErrorMessage = errorMsg;
+
 						log.warn({ file: filePath, err: e }, "Failed to extract");
+
+						// Circuit Breaker: Fail fast on repeated errors
+						if (consecutiveErrors >= CIRCUIT_BREAKER_THRESHOLD) {
+							const errorType = errorMsg.includes("401")
+								? "Authentication/Rate Limit"
+								: errorMsg.includes("429")
+									? "Rate Limit"
+									: errorMsg.includes("timeout")
+										? "Timeout"
+										: "Unknown";
+
+							console.log("");
+							console.log("\n🚨 Circuit Breaker Triggered!");
+							console.log(`   Error Type: ${errorType}`);
+							console.log(`   Consecutive Failures: ${consecutiveErrors}`);
+							console.log(`   Last Error: ${errorMsg.substring(0, 100)}...`);
+							console.log("\n💡 Recommendation:");
+							if (
+								errorType.includes("Rate Limit") ||
+								errorType.includes("Authentication")
+							) {
+								console.log(
+									"   - Check OpenRouter dashboard for rate limits or credit balance",
+								);
+								console.log("   - Verify OPENROUTER_API_KEY is valid");
+								console.log("   - Wait a few minutes and retry");
+							} else if (errorType === "Timeout") {
+								console.log("   - Files may be too large for processing");
+								console.log("   - Consider reducing MAX_FILE_SIZE");
+							} else {
+								console.log("   - Check network connectivity");
+								console.log("   - Review error logs above");
+							}
+							console.log("\n⏸️  Harvest paused. Progress saved to cache.");
+							console.log(
+								"   Re-run 'amalfa harvest' to resume from where you left off.\n",
+							);
+
+							await client.close();
+							process.exit(1);
+						}
 					}
 				}
 			});
@@ -109,6 +183,7 @@ export async function cmdHarvest(args: string[]) {
 		console.log(`  Files Scanned: ${allFiles.length}`);
 		console.log(`  Cache Hits: ${hits}`);
 		console.log(`  Cache Misses: ${misses} (API Calls)`);
+		console.log(`  Skipped: ${skipped} (>25KB)`);
 		console.log(`  Errors: ${errors}`);
 		console.log("");
 	} catch (e) {
