@@ -203,7 +203,29 @@ This verifies:
 
 **Recommendation:** Use `google/gemini-2.5-flash-lite` for production quality, `nemotron-3-nano:30b-cloud` for speed when reliability is acceptable.
 
-### 6. JSON Parsing Issues
+### 6. Accurate Cost Tracking
+**Problem:** In a multi-agent system, it's difficult to know which component is spending money.
+
+**Solution:** Use provider-specific headers to tag requests.
+- **OpenRouter:** Add `HTTP-Referer` and `X-Title` headers.
+- **Result:** Costs appear in the OpenRouter dashboard split by "App" (e.g., "AMALFA Knowledge Graph").
+
+```typescript
+headers: {
+  "HTTP-Referer": "https://github.com/pjsvis/amalfa",
+  "X-Title": "AMALFA Knowledge Graph"
+}
+```
+
+### 7. Extreme Cost Efficiency Confirmed
+**Findings (Jan 29, 2026):**
+- **Model:** `google/gemini-2.5-flash-lite`
+- **Workload:** 7 full source files (TS/MD)
+- **Total Cost:** ~$0.007 USD
+- **Efficiency:** ~1,000 files for $1.00 USD
+- **Conclusion:** High-quality extraction is now negligible in cost. We can scale this aggressively without fear of budget blowouts.
+
+### 8. JSON Parsing Issues
 **Problem:** Some models return malformed JSON that fails to parse.
 
 **Solution:** Implement robust error handling and retry logic:

@@ -18,7 +18,7 @@ import { tmpdir } from "node:os";
 interface HealthResult {
 	provider: string;
 	model: string;
-	status: "success" | "failed";
+	status: "success" | "failed" | "skipped";
 	latencyMs: number;
 	error?: string;
 	responsePreview?: string;
@@ -42,9 +42,9 @@ async function checkGeminiDirect(): Promise<HealthResult> {
 		return {
 			provider: "gemini",
 			model: "list-models",
-			status: "failed",
+			status: "skipped",
 			latencyMs: 0,
-			error: "GEMINI_API_KEY not set in environment",
+			responsePreview: "GEMINI_API_KEY not set (Skipped)",
 		};
 	}
 
@@ -103,9 +103,9 @@ async function checkOpenRouter(): Promise<HealthResult> {
 		return {
 			provider: "openrouter",
 			model: "google/gemini-2.5-flash-lite",
-			status: "failed",
+			status: "skipped",
 			latencyMs: 0,
-			error: "OPENROUTER_API_KEY not set in environment",
+			responsePreview: "OPENROUTER_API_KEY not set (Skipped)",
 		};
 	}
 
@@ -125,7 +125,7 @@ async function checkOpenRouter(): Promise<HealthResult> {
 		let response;
 		try {
 			response =
-				await $`curl -s "https://openrouter.ai/api/v1/chat/completions" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${apiKey}" -d @${tempFile}`;
+				await $`curl -s "https://openrouter.ai/api/v1/chat/completions" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${apiKey}" -H "HTTP-Referer: https://github.com/pjsvis/amalfa" -H "X-Title: AMALFA Health Check" -d @${tempFile}`;
 		} finally {
 			unlinkSync(tempFile);
 		}
@@ -248,7 +248,10 @@ function printResults(results: HealthResult[]) {
 	let failedCount = 0;
 
 	for (const result of results) {
-		const status = result.status === "success" ? "✅" : "❌";
+		let status = "❌";
+		if (result.status === "success") status = "✅";
+		else if (result.status === "skipped") status = "⏭️";
+
 		const latency = `${result.latencyMs}ms`;
 		const model = `${result.provider}/${result.model}`;
 
@@ -261,7 +264,7 @@ function printResults(results: HealthResult[]) {
 			failedCount++;
 		} else {
 			console.log(`   Response: ${result.responsePreview}...`);
-			healthyCount++;
+			if (result.status === "success") healthyCount++;
 		}
 	}
 
