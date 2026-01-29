@@ -1,8 +1,8 @@
 # Ollama Terrain Map for LangExtract
 
 **Date:** 2026-01-28  
-**Purpose:** Map out local and cloud Ollama options for LangExtract entity extraction  
-**Status:** 🟡 Partially Operational (1/4 local models working)
+**Purpose:** Map out local and remote Ollama options for LangExtract entity extraction  
+**Status:** 🟢 Fully Operational (local + remote models working)
 
 ---
 
@@ -10,11 +10,11 @@
 
 **Current State:**
 - ✅ Local Ollama service running on `localhost:11434`
-- ⚠️ Only 1 of 4 local models is functional (`mistral-nemo:latest`)
-- ❌ Cloud Ollama not configured (missing `OLLAMA_CLOUD_API_KEY`)
-- ✅ Remote model access working via Ollama cloud (`nemotron-3-nano:30b-cloud`)
+- ✅ 1 local model functional (`mistral-nemo:latest`)
+- ✅ Remote model access working via Ollama Device Keys (`nemotron-3-nano:30b-cloud`)
+- ✅ No API key configuration needed for Ollama
 
-**Recommendation:** Use `mistral-nemo:latest` for local extraction, set up cloud API key for remote model access.
+**Recommendation:** Use `nemotron-3-nano:30b-cloud` for development (fast), use `mistral-nemo:latest` for production (private). Remote models use Ollama Device Keys automatically - sign in once with `ollama signin`.
 
 ---
 
@@ -70,6 +70,42 @@ error loading model: missing tensor 'output_norm'
 
 ---
 
+## Ollama Device Keys
+
+**What are Device Keys?**
+Device keys are SSH keys that allow the Ollama CLI and daemon to access your account's cloud models and allow you to push models to your account. These keys are automatically added to your account when you sign in to the Ollama app or run `ollama signin` in the CLI.
+
+**How they work:**
+- Automatically generated when you sign in to Ollama
+- Stored in your Ollama account, not in `.env`
+- Used by Ollama CLI/daemon for authentication
+- Enable access to remote models via `localhost:11434`
+- Allow model pushing to your Ollama account
+
+**Example Device Keys:**
+```bash
+# Device key from Ollama account
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILK+hgNakvQW6nFiSGLR9xvFvy7Ei39iTqm3h4RU5IU4
+```
+
+**Important Notes:**
+- Device keys are SSH keys, not API keys
+- They are used by Ollama CLI/daemon, not by applications directly
+- When you access remote models via `localhost:11434`, the Ollama daemon uses these device keys automatically
+- You don't need to configure device keys in `.env` - they're managed by Ollama
+- Device keys are visible in your Ollama account settings
+
+**Managing Device Keys:**
+```bash
+# Sign in to Ollama (automatically adds device key)
+ollama signin
+
+# View your device keys in Ollama app or account settings
+# https://ollama.com/account
+```
+
+---
+
 ## Remote vs Cloud: Understanding the Difference
 
 ### Remote Models (via Local Ollama)
@@ -77,8 +113,8 @@ error loading model: missing tensor 'output_norm'
 **How it works:**
 - Accessed through local Ollama API at `localhost:11434`
 - Ollama automatically proxies requests to `ollama.com`
-- Uses your Ollama account for authentication
-- No API key configuration required
+- Uses your Ollama Device Keys for authentication (automatic)
+- **No API key configuration required**
 
 **Example:**
 ```bash
@@ -92,11 +128,12 @@ curl http://localhost:11434/api/chat -d '{
 **Characteristics:**
 - ✅ Fast response (1-2s)
 - ✅ High quality models
-- ✅ No API key needed
+- ✅ No API key needed (uses Device Keys automatically)
 - ✅ Works with existing local Ollama setup
 - ❌ Requires internet connection
 - ❌ Privacy concerns (data sent to cloud)
 - ❌ Dependent on ollama.com availability
+- ❌ Requires Ollama sign-in (adds Device Key to account)
 
 **Available Remote Models:**
 - `nemotron-3-nano:30b-cloud` - 30B parameters, excellent quality
@@ -142,29 +179,35 @@ OLLAMA_API_KEY=your-actual-api-key-here  # Not SSH key!
 | Aspect | Local Models | Remote Models |
 |--------|--------------|--------------|
 | **Access Point** | `localhost:11434` | `localhost:11434` (proxied) |
-| **Authentication** | None | Ollama account (auto) |
+| **Authentication** | None | Ollama Device Keys (auto) |
 | **API Format** | Ollama API | Ollama API |
 | **Local Ollama Required** | Yes | Yes |
 | **API Key Required** | No | No |
+| **Device Key Required** | No | Yes (managed by Ollama) |
 | **Privacy** | High (local only) | Low (data sent to cloud) |
 | **Latency** | 79s (slow) | 1-2s (fast) |
 | **Setup Complexity** | Low | Low |
+| **Internet Required** | No | Yes |
 
 ### Recommendation for AMALFA
 
 **Development (Remote-First):**
 - Use remote models via local Ollama for speed and quality
-- No API key setup required
+- No API key setup required - Device Keys work automatically
+- Sign in to Ollama once: `ollama signin`
 - Easy to switch between local and remote models
 
 **Production (Local-Only):**
 - Use fully local models for privacy
 - Accept slower latency for data security
 - No external dependencies
+- No Device Keys required
 
 **Hybrid Approach:**
 - Default to local models
 - Fallback to remote models when local unavailable
+- Use alternative providers (gemini, openrouter) if Ollama unavailable
+- Never use direct cloud API (unnecessary complexity)
 - Use alternative providers (gemini, openrouter) if Ollama unavailable
 
 ---
@@ -372,18 +415,21 @@ ollama pull <model-name>
 
 ### Issue: Remote Models Not Working
 
-**Symptom:** Remote model requests fail  
-**Cause:** No internet connection or Ollama service down  
+**Symptom:** Remote model requests fail with authentication error  
+**Cause:** Not signed in to Ollama or device key issues  
 **Solution:**
 ```bash
-# Check internet connection
-ping -c 3 ollama.com
+# Sign in to Ollama (adds device key automatically)
+ollama signin
 
 # Check Ollama service status
 ollama list
 
 # Restart Ollama if needed
 brew services restart ollama
+
+# View device keys in Ollama account settings
+# https://ollama.com/account
 ```
 
 ### Issue: Slow Local Performance

@@ -9,9 +9,9 @@
 
 ## Executive Summary
 
-Successfully mapped the Ollama terrain for LangExtract entity extraction. Discovered that local Ollama has only 1 functional model (`mistral-nemo:latest`) out of 4 available, with 2 models broken due to tensor errors. Remote model access via Ollama.com works excellently without API key configuration. Removed direct cloud API access to simplify configuration.
+Successfully mapped the Ollama terrain for LangExtract entity extraction. Discovered that local Ollama has only 1 functional model (`mistral-nemo:latest`) out of 4 available, with 2 models broken due to tensor errors. Remote model access via Ollama.com works excellently using Ollama Device Keys for automatic authentication. Removed direct cloud API access to simplify configuration.
 
-**Key Finding:** Local Ollama is operational but slow (79s latency). Remote model access via Ollama.com works well (1.5s latency) without API key requirements. Direct cloud API access removed as unnecessary complexity.
+**Key Finding:** Local Ollama is operational but slow (79s latency). Remote model access via Ollama.com works well (1.5s latency) using Ollama Device Keys (SSH keys automatically managed by Ollama CLI/daemon). Direct cloud API access removed as unnecessary complexity.
 
 ---
 
@@ -284,7 +284,13 @@ error loading model: missing tensor 'output_norm'
    - Implement automatic model recovery
    - **Improvement:** Document that some models work with llama.cpp but not Ollama
 
-3. **Configuration Validation**
+3. **Device Key Understanding**
+   - Initially misunderstood SSH key as API key
+   - Device keys are SSH keys used by Ollama CLI/daemon
+   - **Improvement:** Document device key vs API key distinction clearly
+   - **Improvement:** Explain that device keys are managed by Ollama, not applications
+
+4. **Configuration Validation**
    - Should validate configuration on startup
    - Detect missing API keys or invalid hosts
    - Provide clear error messages for misconfiguration
@@ -359,12 +365,12 @@ error loading model: missing tensor 'output_norm'
 Successfully mapped the Ollama terrain and established a working LangExtract configuration. Key insights:
 
 1. **Local Ollama** is operational with `mistral-nemo:latest`, though performance is slow due to system load
-2. **Remote Models** (via local Ollama) work excellently without API key configuration - 1.5s latency
+2. **Remote Models** (via local Ollama) work excellently using Ollama Device Keys - 1.5s latency
 3. **Direct Cloud API** removed as unnecessary complexity - remote models provide same functionality
 4. **Broken Models** work with llama.cpp and should be kept for future Ollama support
 5. **Development Strategy** should be remote-first for speed, local-only for production privacy
 
-**Critical Understanding:** Remote models (accessed via localhost:11434) use your Ollama account automatically. No API key required. Direct cloud API access is unnecessary complexity.
+**Critical Understanding:** Remote models (accessed via localhost:11434) use Ollama Device Keys automatically. Device keys are SSH keys managed by Ollama CLI/daemon, not API keys. Sign in to Ollama once with `ollama signin` to enable remote model access. Direct cloud API access is unnecessary complexity.
 
 **Status:** ✅ Ready for Production (local)  
 **Status:** ✅ Ready for Development (remote)  

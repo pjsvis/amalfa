@@ -1,6 +1,6 @@
 # API Keys Documentation
 
-**Purpose:** Comprehensive guide for managing API keys in AMALFA
+**Purpose:** Comprehensive guide for managing API keys and device keys in AMALFA
 
 **Last Updated:** 2026-01-28
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-AMALFA uses multiple LLM providers for entity extraction and knowledge graph construction. All API keys are stored in the `.env` file, which is the **single source of truth** for all API key secrets.
+AMALFA uses multiple LLM providers for entity extraction and knowledge graph construction. All API keys and device keys are stored in the `.env` file, which is the **single source of truth** for all authentication credentials.
 
 **Critical Rule:** NEVER commit `.env` to version control. It contains sensitive credentials.
 
@@ -146,6 +146,42 @@ ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
 
 ## Ollama Model Access
 
+### Ollama Device Keys
+
+**What are Device Keys?**
+Device keys are SSH keys that allow the Ollama CLI and daemon to access your account's cloud models and allow you to push models to your account. These keys are automatically added to your account when you sign in to the Ollama app or run `ollama signin` in the CLI.
+
+**How they work:**
+- Automatically generated when you sign in to Ollama
+- Stored in your Ollama account, not in `.env`
+- Used by Ollama CLI/daemon for authentication
+- Enable access to remote models via `localhost:11434`
+- Allow model pushing to your Ollama account
+
+**Example Device Keys:**
+```bash
+# Device key from Ollama account
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILK+hgNakvQW6nFiSGLR9xvFvy7Ei39iTqm3h4RU5IU4
+```
+
+**Important Notes:**
+- Device keys are SSH keys, not API keys
+- They are used by Ollama CLI/daemon, not by applications directly
+- When you access remote models via `localhost:11434`, the Ollama daemon uses these device keys automatically
+- You don't need to configure device keys in `.env` - they're managed by Ollama
+- Device keys are visible in your Ollama account settings
+
+**Managing Device Keys:**
+```bash
+# Sign in to Ollama (automatically adds device key)
+ollama signin
+
+# View your device keys in Ollama app or account settings
+# https://ollama.com/account
+```
+
+---
+
 ### Local Models
 
 **How it works:**
@@ -181,7 +217,7 @@ curl http://localhost:11434/api/chat -d '{
 **How it works:**
 - Accessed through local Ollama API at `localhost:11434`
 - Ollama automatically proxies requests to `ollama.com`
-- Uses your Ollama account for authentication
+- Uses your Ollama device keys for authentication (automatic)
 - **No API key required**
 
 **Example:**
@@ -196,7 +232,7 @@ curl http://localhost:11434/api/chat -d '{
 **Characteristics:**
 - ✅ Fast response (1-2s)
 - ✅ High quality models
-- ✅ No API key needed
+- ✅ No API key needed (uses device keys automatically)
 - ✅ Works with existing local Ollama setup
 - ❌ Requires internet connection
 - ❌ Privacy concerns (data sent to cloud)
@@ -205,6 +241,12 @@ curl http://localhost:11434/api/chat -d '{
 - `nemotron-3-nano:30b-cloud` - 30B parameters, excellent quality
 - More models available at ollama.com/library
 
+**Authentication:**
+- Remote models use your Ollama device keys automatically
+- No configuration needed in `.env` or application
+- Device keys are managed by Ollama CLI/daemon
+- Sign in to Ollama once: `ollama signin`
+
 ---
 
 ## Key Differences
@@ -212,13 +254,15 @@ curl http://localhost:11434/api/chat -d '{
 | Aspect | Local Models | Remote Models |
 |--------|--------------|--------------|
 | **Access Point** | `localhost:11434` | `localhost:11434` (proxied) |
-| **Authentication** | None | Ollama account (auto) |
+| **Authentication** | None | Ollama device keys (auto) |
 | **API Format** | Ollama API | Ollama API |
 | **Local Ollama Required** | Yes | Yes |
 | **API Key Required** | No | No |
+| **Device Key Required** | No | Yes (managed by Ollama) |
 | **Privacy** | High (local only) | Low (data sent to cloud) |
 | **Latency** | 79s (slow) | 1-2s (fast) |
 | **Setup Complexity** | Low | Low |
+| **Internet Required** | No | Yes |
 
 ---
 
@@ -273,21 +317,52 @@ function validateApiKey(key: string, provider: string): boolean {
     gemini: /^AIza[A-Za-z0-9_-]{35}$/,
     openrouter: /^sk-or-v1-[A-Za-z0-9_-]{95}$/,
     mistral: /^[A-Za-z0-9_-]{32}$/,
-    ollama: /^[A-Za-z0-9_-]{32,}$/
   };
 
   return patterns[provider]?.test(key) ?? false;
 }
 
-// Check for SSH keys (invalid for LLM APIs)
+// Check for SSH keys (valid for Ollama device keys, not for LLM APIs)
 function isSshKey(key: string): boolean {
   return key.startsWith('ssh-');
 }
 ```
 
+### 7. Ollama Device Key Management
+
+- Device keys are managed by Ollama CLI/daemon, not by applications
+- Sign in to Ollama once: `ollama signin`
+- View device keys in Ollama account settings
+- Revoke old device keys if needed
+- Device keys are SSH keys, not API keys
+- Applications don't need to access device keys directly
+
 ---
 
 ## Troubleshooting
+
+### Issue: Remote Models Not Working
+
+**Symptom:** Remote model requests fail with authentication error
+
+**Cause:** Not signed in to Ollama or device key issues
+
+**Solution:**
+```bash
+# Sign in to Ollama (adds device key automatically)
+ollama signin
+
+# Check Ollama service status
+ollama list
+
+# Restart Ollama if needed
+brew services restart ollama
+
+# View device keys in Ollama account settings
+# https://ollama.com/account
+```
+
+---
 
 ### Issue: API Key Not Working
 
@@ -315,6 +390,9 @@ MISTRAL_API_KEY=ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
 
 # Use remote models for speed
 LANGEXTRACT_PROVIDER=ollama
+
+# Note: Ollama device keys are managed by Ollama CLI, not in .env
+# Sign in to Ollama once: ollama signin
 ```
 
 ### Production Configuration
@@ -327,6 +405,9 @@ MISTRAL_API_KEY=prod-mistral-key-here
 
 # Use local models for privacy
 LANGEXTRACT_PROVIDER=ollama
+
+# Note: Ollama device keys are managed by Ollama CLI, not in .env
+# Sign in to Ollama once: ollama signin
 ```
 
 ---

@@ -23,7 +23,7 @@ cp .env.example .env
 - **MISTRAL_API_KEY** - Mistral AI API key
   - Get from: https://console.mistral.ai/
 
-
+**Note:** Ollama uses Device Keys for authentication, not API keys. Device keys are SSH keys automatically managed by the Ollama CLI/daemon. Sign in to Ollama once with `ollama signin` to enable remote model access.
 
 #### API Key Types
 
@@ -37,17 +37,27 @@ cp .env.example .env
 - Used for: Gemini, OpenRouter, Mistral
 - ✅ MUST use for LLM API calls
 
+**Device Keys (for Ollama):**
+- Format: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...`
+- Used for: Ollama CLI/daemon authentication
+- ✅ Automatically managed by Ollama, not stored in `.env`
+- ✅ Enable remote model access via `localhost:11434`
+
 **Example of WRONG usage:**
 ```bash
-# ❌ WRONG - Don't use SSH keys for LLM APIs
-SSH_KEY_FOR_GIT=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...
+# ❌ WRONG - Don't use Ollama device keys for LLM APIs
+GEMINI_API_KEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...
 ```
 
 **Example of CORRECT usage:**
 ```bash
-# ✅ CORRECT - Use proper API keys
+# ✅ CORRECT - Use proper API keys for LLM providers
 GEMINI_API_KEY=AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ
 OPENROUTER_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...
+
+# ✅ CORRECT - Ollama device keys are managed by Ollama CLI
+# Sign in once: ollama signin
+# Device keys are automatically added to your Ollama account
 ```
 
 ### Security Best Practices
@@ -60,7 +70,22 @@ OPENROUTER_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d...
 
 ### Ollama Configuration
 
-AMALFA uses Ollama for local and remote model access via `localhost:11434`. No API key is required - Ollama uses your account automatically.
+AMALFA uses Ollama for local and remote model access via `localhost:11434`. No API key is required - Ollama uses device keys automatically.
+
+**Ollama Device Keys:**
+- Device keys are SSH keys that allow Ollama CLI/daemon to access cloud models
+- Automatically added when you sign in to Ollama
+- Managed by Ollama, not stored in `.env`
+- Enable remote model access without API configuration
+
+**Setup:**
+```bash
+# Sign in to Ollama (adds device key automatically)
+ollama signin
+
+# View your device keys in Ollama account settings
+# https://ollama.com/account
+```
 
 **Local Models:** Run entirely on your machine (private, slow)
 - Example: `mistral-nemo:latest` (7.1 GB)
@@ -69,6 +94,7 @@ AMALFA uses Ollama for local and remote model access via `localhost:11434`. No A
 **Remote Models:** Proxied to ollama.com (fast, requires internet)
 - Example: `nemotron-3-nano:30b-cloud` (30B parameters)
 - Pull with: `ollama pull nemotron-3-nano:30b-cloud`
+- Uses device keys for automatic authentication
 
 Configure in `amalfa.config.json`:
 ```json
