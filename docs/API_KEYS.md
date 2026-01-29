@@ -2,7 +2,7 @@
 
 **Purpose:** Comprehensive guide for managing API keys and device keys in AMALFA
 
-**Last Updated:** 2026-01-28
+**Last Updated:** 2026-01-29
 
 ---
 
@@ -25,7 +25,7 @@ The `.env` file is the authoritative source for all API key configuration. All o
 const apiKey = process.env.GEMINI_API_KEY;
 
 // ❌ WRONG - Hardcode API key
-const apiKey = "AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ";
+const apiKey = "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 ```
 
 ---
@@ -42,7 +42,7 @@ const apiKey = "AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ";
 
 **Example format:**
 ```bash
-GEMINI_API_KEY=AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ
+GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 **Usage:**
@@ -62,7 +62,7 @@ GEMINI_API_KEY=AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ
 
 **Example format:**
 ```bash
-OPENROUTER_API_KEY=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
+OPENROUTER_API_KEY=sk-or-v1-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 **Usage:**
@@ -82,7 +82,7 @@ OPENROUTER_API_KEY=sk-or-v1-ee376bfacffc67c6ed30209a46c67c3d1547fadc56b4f42957ed
 
 **Example format:**
 ```bash
-MISTRAL_API_KEY=ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
+MISTRAL_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 **Usage:**
@@ -133,13 +133,13 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILK+hgNakvQW6nFiSGLR9xvFvy7Ei39iTqm3h4RU5IU4
 **Examples:**
 ```bash
 # OpenRouter format
-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
+sk-or-v1-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Gemini format
-AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ
+AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Mistral format
-ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 ---
@@ -384,9 +384,9 @@ brew services restart ollama
 
 ```bash
 # .env for development
-GEMINI_API_KEY=AIzaSyDoR3Mtn7nfMOdcb6Jr4_9nkom4GTRlSaQ
-OPENROUTER_API_KEY=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
-MISTRAL_API_KEY=ZyhcvQclStNFVaHsOYhgbxeJH7HsFJ3V
+GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+OPENROUTER_API_KEY=sk-or-v1-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+MISTRAL_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Use remote models for speed
 LANGEXTRACT_PROVIDER=ollama
@@ -437,6 +437,7 @@ When rotating API keys:
 
 ---
 
-**Document Version:** 1.0  
+**Document Version:** 1.1  
 **Maintainer:** AMALFA Team  
-**Last Updated:** 2026-01-28
+**Last Updated:** 2026-01-29  
+**Security Note:** All API keys in examples are placeholders. Never use real keys in documentation.

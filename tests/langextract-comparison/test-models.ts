@@ -13,8 +13,15 @@
  * - JSON format validity
  */
 
-import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
+import {
+  readFileSync,
+  writeFileSync,
+  appendFileSync,
+  unlinkSync,
+  mkdtempSync,
+} from "node:fs";
 import { resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { $ } from "bun";
 
 interface TestFile {
@@ -42,6 +49,7 @@ interface ExtractionResult {
 }
 
 // Representative test files from the project
+// Reduced to 2 files for faster, cheaper testing while maintaining meaningful comparison data
 const TEST_FILES: TestFile[] = [
   {
     path: "src/tools/EmberExtractTool.ts",
@@ -51,39 +59,11 @@ const TEST_FILES: TestFile[] = [
     expectedRelationships: 6,
   },
   {
-    path: "src/core/GraphEngine.ts",
-    type: "typescript",
-    description: "Graph engine with Graphology integration",
-    expectedEntities: 10,
-    expectedRelationships: 8,
-  },
-  {
-    path: "src/core/Harvester.ts",
-    type: "typescript",
-    description: "Harvester for tag scanning and clustering",
-    expectedEntities: 6,
-    expectedRelationships: 4,
-  },
-  {
-    path: "src/core/SemanticWeaver.ts",
-    type: "typescript",
-    description: "Semantic weaver for orphan rescue",
-    expectedEntities: 7,
-    expectedRelationships: 5,
-  },
-  {
     path: "README.md",
     type: "markdown",
     description: "Project README with API key documentation",
     expectedEntities: 12,
     expectedRelationships: 8,
-  },
-  {
-    path: "docs/API_KEYS.md",
-    type: "markdown",
-    description: "API keys documentation with provider details",
-    expectedEntities: 15,
-    expectedRelationships: 10,
   },
 ];
 
@@ -100,9 +80,9 @@ const MODELS = [
     description: "30B parameters, remote model via Ollama",
   },
   {
-    name: "mistral-nemo:latest",
-    provider: "local",
-    description: "7.1 GB, local model",
+    name: "google/gemini-2.5-flash-lite",
+    provider: "openrouter",
+    description: "Low-cost Gemini Flash Lite via OpenRouter",
   },
 ];
 
@@ -118,6 +98,16 @@ function readTestFile(filePath: string): string {
     console.error(`Failed to read ${filePath}:`, error);
     return "";
   }
+}
+
+/**
+ * Create temp file and write content
+ */
+function writeTempFile(content: string): string {
+  const tempDir = mkdtempSync(tmpdir());
+  const tempFile = resolve(tempDir, "payload.json");
+  writeFileSync(tempFile, content, "utf-8");
+  return tempFile;
 }
 
 /**
@@ -160,39 +150,78 @@ async function testModel(
       if (!apiKey) {
         throw new Error("GEMINI_API_KEY not set");
       }
-      response =
-        await $`curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}" -X POST -H "Content-Type: application/json" -d ${JSON.stringify(
+
+      const payload = JSON.stringify({
+        contents: [
           {
-            contents: [
+            parts: [
               {
-                parts: [
-                  {
-                    text: prompt,
-                  },
-                ],
+                text: prompt,
               },
             ],
-            generationConfig: {
-              response_mime_type: "application/json",
-            },
           },
-        )}`;
+        ],
+        generationConfig: {
+          response_mime_type: "application/json",
+        },
+      });
+
+      const tempFile = writeTempFile(payload);
+
+      try {
+        response =
+          await $`curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}" -X POST -H "Content-Type: application/json" -d @${tempFile}`;
+      } finally {
+        unlinkSync(tempFile);
+      }
+    } else if (provider === "openrouter") {
+      // Use OpenRouter API (OpenAI-compatible)
+      const apiKey = process.env.OPENROUTER_API_KEY;
+      if (!apiKey) {
+        throw new Error("OPENROUTER_API_KEY not set");
+      }
+
+      const payload = JSON.stringify({
+        model: model,
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        response_format: { type: "json_object" },
+      });
+
+      const tempFile = writeTempFile(payload);
+
+      try {
+        response =
+          await $`curl -s "https://openrouter.ai/api/v1/chat/completions" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${apiKey}" -d @${tempFile}`;
+      } finally {
+        unlinkSync(tempFile);
+      }
     } else {
       // Use Ollama API for local and remote models
-      response =
-        await $`curl -s http://localhost:11434/api/chat -X POST -H "Content-Type: application/json" -d ${JSON.stringify(
+      const payload = JSON.stringify({
+        model: model,
+        messages: [
           {
-            model: model,
-            messages: [
-              {
-                role: "user",
-                content: prompt,
-              },
-            ],
-            stream: false,
-            format: "json",
+            role: "user",
+            content: prompt,
           },
-        )}`;
+        ],
+        stream: false,
+        format: "json",
+      });
+
+      const tempFile = writeTempFile(payload);
+
+      try {
+        response =
+          await $`curl -s http://localhost:11434/api/chat -X POST -H "Content-Type: application/json" -d @${tempFile}`;
+      } finally {
+        unlinkSync(tempFile);
+      }
     }
 
     const latency = Date.now() - start;
@@ -265,6 +294,11 @@ async function testModel(
       // Gemini format: result.candidates[0].content.parts[0].text
       if (result.candidates && result.candidates.length > 0) {
         contentStr = result.candidates[0].content?.parts?.[0]?.text || "";
+      }
+    } else if (provider === "openrouter") {
+      // OpenRouter format (OpenAI-compatible): result.choices[0].message.content
+      if (result.choices && result.choices.length > 0) {
+        contentStr = result.choices[0].message?.content || "";
       }
     } else {
       // Ollama format: result.message.content
