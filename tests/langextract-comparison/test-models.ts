@@ -90,24 +90,19 @@ const TEST_FILES: TestFile[] = [
 // Models to test
 const MODELS = [
   {
+    name: "gemini-flash-latest",
+    provider: "gemini",
+    description: "Google Gemini Flash - Reference model",
+  },
+  {
     name: "nemotron-3-nano:30b-cloud",
     provider: "remote",
     description: "30B parameters, remote model via Ollama",
   },
   {
-    name: "qwen2.5:7b",
-    provider: "remote",
-    description: "7B parameters, remote model via Ollama",
-  },
-  {
-    name: "phi3:mini",
-    provider: "remote",
-    description: "3.8B parameters, remote model via Ollama",
-  },
-  {
-    name: "llama3.1:8b",
-    provider: "remote",
-    description: "8B parameters, remote model via Ollama",
+    name: "mistral-nemo:latest",
+    provider: "local",
+    description: "7.1 GB, local model",
   },
 ];
 
@@ -158,21 +153,47 @@ async function testModel(
     // Build the prompt separately to avoid escaping issues
     const prompt = `Analyze the following ${testFile.type} code and extract a knowledge graph. Identify key entities (classes, functions, interfaces, concepts, technologies) and relationships between them. Output ONLY valid JSON in this exact format (no markdown, no code blocks): {"entities": [{"name": "Entity Name", "type": "EntityType", "description": "Context"}], "relationships": [{"source": "Entity1", "target": "Entity2", "type": "RELATIONSHIP_TYPE", "description": "Why they are related"}]}\n\nCode to analyze:\n${content.substring(0, 2000)}`;
 
-    // Use Ollama API for all models
-    const response =
-      await $`curl -s http://localhost:11434/api/chat -X POST -H "Content-Type: application/json" -d ${JSON.stringify(
-        {
-          model: model,
-          messages: [
-            {
-              role: "user",
-              content: prompt,
+    let response;
+    if (provider === "gemini") {
+      // Use Gemini API
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error("GEMINI_API_KEY not set");
+      }
+      response =
+        await $`curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}" -X POST -H "Content-Type: application/json" -d ${JSON.stringify(
+          {
+            contents: [
+              {
+                parts: [
+                  {
+                    text: prompt,
+                  },
+                ],
+              },
+            ],
+            generationConfig: {
+              response_mime_type: "application/json",
             },
-          ],
-          stream: false,
-          format: "json",
-        },
-      )}`;
+          },
+        )}`;
+    } else {
+      // Use Ollama API for local and remote models
+      response =
+        await $`curl -s http://localhost:11434/api/chat -X POST -H "Content-Type: application/json" -d ${JSON.stringify(
+          {
+            model: model,
+            messages: [
+              {
+                role: "user",
+                content: prompt,
+              },
+            ],
+            stream: false,
+            format: "json",
+          },
+        )}`;
+    }
 
     const latency = Date.now() - start;
 
@@ -217,8 +238,17 @@ async function testModel(
       };
     }
 
-    // Handle Ollama response format
-    let contentStr = result.message?.content || "";
+    // Handle different response formats
+    let contentStr = "";
+    if (provider === "gemini") {
+      // Gemini format: result.candidates[0].content.parts[0].text
+      if (result.candidates && result.candidates.length > 0) {
+        contentStr = result.candidates[0].content?.parts?.[0]?.text || "";
+      }
+    } else {
+      // Ollama format: result.message.content
+      contentStr = result.message?.content || "";
+    }
 
     // Debug: log raw content
     console.log(`   Raw content length: ${contentStr.length}`);
