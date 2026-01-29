@@ -207,3 +207,30 @@
 **Ready for Commit**: Committed
 **Next Session Focus**: Phase 7 (Historian & Modular Tools)
 
+
+## Session 2026-01-29: Harvester Caching Layer
+
+### Task: Implement Persistent LangExtract Cache
+**Objective**: Decouple extraction costs from graph construction to enable rapid iteration.
+
+**Plan**:
+1. **Infrastructure**: Implement CAS content-addressable storage.
+2. **integration**: Wire up LangExtractClient to use cache.
+3. **CLI**: Add 'amalfa harvest' command.
+
+**Status**: 🚧 In Progress
+
+### Recovery Protocol
+- **Last Step**: Initialized Phase
+- **Next Step**: Create src/core/HarvesterCache.ts
+- **State**: Clean git state, briefs updated.
+
+### Harvester Implementation
+- **Completed**: src/core/HarvesterCache.ts created.
+- **Completed**: LangExtractClient updated with caching.
+- **Completed**: 'amalfa harvest' CLI command registered.
+- **Next Step**: Verify 'harvest' command execution.
+
+### Session Complete
+- **Artifacts**: Debrief created, Harvester logic verified.
+- **Status**: ✅ Phase 7.1 Complete.

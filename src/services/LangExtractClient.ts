@@ -4,6 +4,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { loadConfig, loadSettings, SubstrateError } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
+import { HarvesterCache } from "@src/core/HarvesterCache";
 import { z } from "zod";
 
 // Zod Schemas for Structural Validation
@@ -33,10 +34,19 @@ export class LangExtractClient {
 	private sidecarPath: string;
 	private log = getLogger("LangExtractClient");
 	private settings: ReturnType<typeof loadSettings>;
+	private cache: HarvesterCache;
 
 	constructor() {
 		this.sidecarPath = resolve(process.cwd(), "src/sidecars/lang-extract");
 		this.settings = loadSettings();
+		this.cache = new HarvesterCache();
+	}
+
+	/**
+	 * Check if content is already cached
+	 */
+	public checkCache(text: string): boolean {
+		return this.cache.has(this.cache.hash(text));
 	}
 	/**
 	 * Checks if the Sidecar environment is ready (uv installed, venv exists)
@@ -270,6 +280,20 @@ export class LangExtractClient {
 			await this.connect();
 		}
 
+		// 1. Check Harvester Cache
+		const contentHash = this.cache.hash(text);
+		const cachedResult = this.cache.get(contentHash);
+
+		if (cachedResult) {
+			this.log.debug({ hash: contentHash }, "Harvester Cache Hit");
+			return cachedResult;
+		}
+
+		this.log.debug(
+			{ hash: contentHash },
+			"Harvester Cache Miss - Calling Sidecar",
+		);
+
 		try {
 			const result = (await this.client?.callTool({
 				name: "extract_graph",
@@ -325,7 +349,12 @@ export class LangExtractClient {
 			}
 
 			// Validate with Zod
-			return GraphDataSchema.parse(rawJson);
+			const parsed = GraphDataSchema.parse(rawJson);
+
+			// 2. Save to Cache on success
+			this.cache.set(contentHash, parsed);
+
+			return parsed;
 		} catch (error) {
 			this.log.error({ err: error }, "Sidecar extraction failed");
 			throw error; // Re-throw to surface clear error messages

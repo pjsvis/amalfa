@@ -21,6 +21,7 @@ import {
 import { cmdSetupMcp } from "./cli/commands/setup";
 import { cmdSetupPython } from "./cli/commands/setup-python";
 import { cmdSquash } from "./cli/commands/squash";
+import { cmdHarvest } from "./cli/commands/harvest";
 import { cmdStats } from "./cli/commands/stats";
 import { cmdValidate } from "./cli/commands/validate";
 
@@ -205,6 +206,10 @@ async function main() {
 
 		case "squash":
 			await cmdSquash(args.slice(1));
+			break;
+
+		case "harvest":
+			await cmdHarvest(args.slice(1));
 			break;
 
 		case "scripts":
