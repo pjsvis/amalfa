@@ -68,7 +68,7 @@ export class DashboardDaemon {
 				nodes: stats.nodes,
 				edges: stats.edges,
 				vectors: stats.vectors,
-				size_mb: (stats.db_size_bytes / (1024 * 1024)).toFixed(2),
+				size_mb: stats.db_size_bytes / (1024 * 1024),
 			},
 			timestamp: new Date().toISOString(),
 		};
@@ -175,8 +175,8 @@ export class DashboardDaemon {
           <div class="metric">${stats.database.edges}</div>
         </div>
         <div class="card">
-          <div class="label">Embeddings</div>
-          <div class="metric">${stats.database.embeddings}</div>
+          <div class="label">Vectors</div>
+          <div class="metric">${stats.database.vectors}</div>
         </div>
         <div class="card">
           <div class="label">DB Size</div>
