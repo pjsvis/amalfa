@@ -59,7 +59,9 @@ export class DashboardDaemon {
 
 	private async getSystemStats() {
 		const { ResonanceDB } = await import("@src/resonance/db");
-		const db = new ResonanceDB();
+		const { getDbPath } = await import("@src/cli/utils");
+		const dbPath = await getDbPath();
+		const db = new ResonanceDB(dbPath);
 		const stats = db.getStats();
 		db.close();
 
