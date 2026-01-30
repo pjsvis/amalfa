@@ -1,8 +1,8 @@
 import { getLogger } from "@src/utils/Logger";
 import { LangExtractClient } from "@src/services/LangExtractClient";
-import { readdir } from "node:fs/promises";
+import { readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { statSync, readFileSync } from "node:fs";
+import { statSync, readFileSync, existsSync } from "node:fs";
 
 const log = getLogger("CLI:Harvest");
 
@@ -70,6 +70,17 @@ export async function cmdHarvest(args: string[]) {
 		let consecutiveErrors = 0;
 		let lastErrorMessage = "";
 
+		// Track skipped files by reason
+		const skippedFiles: {
+			timeouts: string[];
+			too_large: string[];
+			errors: string[];
+		} = {
+			timeouts: [],
+			too_large: [],
+			errors: [],
+		};
+
 		const queue = [...allFiles];
 		const workers = Array(CONCURRENCY)
 			.fill(null)
@@ -88,6 +99,7 @@ export async function cmdHarvest(args: string[]) {
 								hits++;
 							} else {
 								skipped++;
+								skippedFiles.too_large.push(filePath);
 								log.warn(
 									{ file: filePath, size: stats.size },
 									"Skipping large file",
@@ -132,22 +144,39 @@ export async function cmdHarvest(args: string[]) {
 						}
 					} catch (e) {
 						errors++;
-						consecutiveErrors++;
 
 						const errorMsg = e instanceof Error ? e.message : String(e);
-						lastErrorMessage = errorMsg;
+						const isTimeout =
+							errorMsg.includes("timeout") || errorMsg.includes("timed out");
+						const isRateLimit =
+							errorMsg.includes("401") || errorMsg.includes("429");
+
+						// Timeouts are expected for complex files - skip and continue
+						if (isTimeout) {
+							skipped++;
+							skippedFiles.timeouts.push(filePath);
+							log.warn({ file: filePath, err: e }, "Timeout - skipping file");
+							processed++;
+							continue; // Don't count timeouts toward circuit breaker
+						}
+
+						// Other errors tracked for circuit breaker
+						if (isRateLimit) {
+							consecutiveErrors++;
+							lastErrorMessage = errorMsg;
+						} else {
+							skippedFiles.errors.push(filePath);
+						}
 
 						log.warn({ file: filePath, err: e }, "Failed to extract");
 
-						// Circuit Breaker: Fail fast on repeated errors
+						// Circuit Breaker: Only abort on rate limit errors (systemic failure)
 						if (consecutiveErrors >= CIRCUIT_BREAKER_THRESHOLD) {
 							const errorType = errorMsg.includes("401")
 								? "Authentication/Rate Limit"
 								: errorMsg.includes("429")
 									? "Rate Limit"
-									: errorMsg.includes("timeout")
-										? "Timeout"
-										: "Unknown";
+									: "Unknown";
 
 							console.log("");
 							console.log("\n🚨 Circuit Breaker Triggered!");
@@ -223,13 +252,41 @@ export async function cmdHarvest(args: string[]) {
 		await Promise.all(workers);
 		await client.close();
 
+		// Save skipped files manifest
+		const manifestPath = ".amalfa/harvest-skipped.json";
+		await writeFile(manifestPath, JSON.stringify(skippedFiles, null, 2));
+
+		// Send desktop notification
+		const totalSkipped =
+			skippedFiles.timeouts.length +
+			skippedFiles.too_large.length +
+			skippedFiles.errors.length;
+		const notificationTitle = "Harvest Complete";
+		const notificationMessage = `Processed: ${allFiles.length} | Cached: ${hits} | New: ${misses} | Skipped: ${totalSkipped}`;
+
+		try {
+			// macOS notification using osascript
+			Bun.spawnSync([
+				"osascript",
+				"-e",
+				`display notification "${notificationMessage}" with title "${notificationTitle}"`,
+			]);
+		} catch (err) {
+			// Notification failed, not critical
+		}
+
 		console.log("");
 		console.log("Harvest Complete:");
 		console.log(`  Files Scanned: ${allFiles.length}`);
 		console.log(`  Cache Hits: ${hits}`);
 		console.log(`  Cache Misses: ${misses} (API Calls)`);
-		console.log(`  Skipped: ${skipped} (>25KB)`);
+		console.log(
+			`  Skipped: ${skipped} (${skippedFiles.timeouts.length} timeouts, ${skippedFiles.too_large.length} too large)`,
+		);
 		console.log(`  Errors: ${errors}`);
+		if (totalSkipped > 0) {
+			console.log(`\n  Skipped files saved to: ${manifestPath}`);
+		}
 		console.log("");
 	} catch (e) {
 		log.error({ err: e }, "Harvest failed");
