@@ -234,3 +234,8 @@
 ### Session Complete
 - **Artifacts**: Debrief created, Harvester logic verified.
 - **Status**: ✅ Phase 7.1 Complete.
+
+### Guardrails Implemented
+- **Size Limit**: Files > 25KB skipped.
+- **Skipped Tracking**: Added 'Skipped' metric to CLI output.
+- **Status**: Ready for production harvest.

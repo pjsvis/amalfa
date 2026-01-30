@@ -12,6 +12,7 @@ const ALLOW_EXTS = [".ts", ".tsx", ".md"];
 const CONCURRENCY = 1;
 const MAX_FILE_SIZE = 25 * 1024; // 25KB Guardrail
 const CIRCUIT_BREAKER_THRESHOLD = 3; // Fail fast after N consecutive errors
+const RATE_LIMIT_DELAY_MS = 100; // 10 RPS (safe for $10+ balance)
 
 async function getFiles(dir: string): Promise<string[]> {
 	const files: string[] = [];
@@ -122,6 +123,13 @@ export async function cmdHarvest(args: string[]) {
 								`\rProgress: ${processed}/${allFiles.length} (Hits: ${hits}, Misses: ${misses})`,
 							);
 						}
+
+						// Rate limiting: delay between requests
+						if (!isCached) {
+							await new Promise((resolve) =>
+								setTimeout(resolve, RATE_LIMIT_DELAY_MS),
+							);
+						}
 					} catch (e) {
 						errors++;
 						consecutiveErrors++;
@@ -156,6 +164,43 @@ export async function cmdHarvest(args: string[]) {
 								);
 								console.log("   - Verify OPENROUTER_API_KEY is valid");
 								console.log("   - Wait a few minutes and retry");
+
+								// Health check: Query OpenRouter API status
+								if (process.env.OPENROUTER_API_KEY) {
+									console.log("\n🔍 Checking OpenRouter account status...");
+									try {
+										const healthCheck = Bun.spawnSync([
+											"curl",
+											"-s",
+											"-H",
+											`Authorization: Bearer ${process.env.OPENROUTER_API_KEY}`,
+											"https://openrouter.ai/api/v1/key",
+										]);
+										if (healthCheck.exitCode === 0) {
+											const response = JSON.parse(
+												healthCheck.stdout.toString(),
+											);
+											if (response.data) {
+												console.log(
+													`   Balance: $${response.data.limit?.toFixed(2) || "N/A"}`,
+												);
+												console.log(
+													`   Used Today: $${response.data.usage?.toFixed(2) || "N/A"}`,
+												);
+												console.log(
+													`   Free Tier: ${response.data.is_free_tier ? "Yes" : "No"}`,
+												);
+												if (response.data.rate_limit) {
+													console.log(
+														`   Rate Limit: ${response.data.rate_limit.requests}/${response.data.rate_limit.interval}`,
+													);
+												}
+											}
+										}
+									} catch (err) {
+										console.log("   (Could not fetch account status)");
+									}
+								}
 							} else if (errorType === "Timeout") {
 								console.log("   - Files may be too large for processing");
 								console.log("   - Consider reducing MAX_FILE_SIZE");
