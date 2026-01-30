@@ -249,6 +249,22 @@ export class LangExtractClient {
 
 		// Get provider-specific settings
 		const providerSettings = this.settings.langExtract?.[provider] || {};
+		const modelToUse =
+			providerSettings.model ||
+			(provider === "openrouter"
+				? "qwen/qwen-2.5-72b-instruct"
+				: provider === "gemini"
+					? "gemini-flash-latest"
+					: "qwen2.5:1.5b");
+
+		this.log.info(
+			{
+				provider,
+				model: modelToUse,
+				configSource: providerSettings.model ? "config" : "default",
+			},
+			"Initializing LangExtract sidecar",
+		);
 
 		this.transport = new StdioClientTransport({
 			command: "uv",
@@ -258,12 +274,13 @@ export class LangExtractClient {
 				...process.env,
 				LANGEXTRACT_PROVIDER: provider,
 				GEMINI_API_KEY: process.env.GEMINI_API_KEY || "",
-				GEMINI_MODEL: providerSettings.model || "gemini-flash-latest",
+				GEMINI_MODEL:
+					provider === "gemini" ? modelToUse : "gemini-flash-latest",
 				OLLAMA_HOST: "http://localhost:11434",
-				OLLAMA_MODEL: providerSettings.model || "qwen2.5:1.5b",
+				OLLAMA_MODEL: provider === "ollama" ? modelToUse : "qwen2.5:1.5b",
 				OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || "",
 				OPENROUTER_MODEL:
-					providerSettings.model || "qwen/qwen-2.5-72b-instruct",
+					provider === "openrouter" ? modelToUse : "qwen/qwen-2.5-72b-instruct",
 			},
 		});
 
@@ -290,9 +307,11 @@ export class LangExtractClient {
 		}
 
 		this.log.debug(
-			{ hash: contentHash },
+			{ hash: contentHash, textLength: text.length },
 			"Harvester Cache Miss - Calling Sidecar",
 		);
+
+		const startTime = Date.now();
 
 		try {
 			const result = (await this.client?.callTool({
@@ -350,6 +369,16 @@ export class LangExtractClient {
 
 			// Validate with Zod
 			const parsed = GraphDataSchema.parse(rawJson);
+
+			const duration = Date.now() - startTime;
+			this.log.info(
+				{
+					duration,
+					entities: parsed.entities.length,
+					relationships: parsed.relationships.length,
+				},
+				"Extraction successful",
+			);
 
 			// 2. Save to Cache on success
 			this.cache.set(contentHash, parsed);
