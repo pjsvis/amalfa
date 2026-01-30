@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amalfa Document Browser</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <style>
+    body { padding: 2rem; }
+    .doc-list { list-style: none; padding: 0; }
+    .doc-list li { padding: 0.5rem; border-bottom: 1px solid var(--pico-muted-border-color); }
+    .doc-list li:hover { background: var(--pico-card-background-color); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📚 Document Browser</h1>
+    <p><a href="/">← Back to Dashboard</a></p>
+  </header>
+
+  <main>
+    <article>
+      <h2>Documents</h2>
+      <ul class="doc-list" id="docs">
+        <li>Loading documents...</li>
+      </ul>
+    </article>
+  </main>
+
+  <script>
+    // Placeholder - will fetch from API
+    document.getElementById('docs').innerHTML = `
+      <li><strong>README.md</strong> <small>(Implementation pending)</small></li>
+      <li><em>Document browser will fetch and render markdown files from the database</em></li>
+    `;
+  </script>
+</body>
+</html>
