@@ -1,9 +1,11 @@
 import { getLogger } from "@src/utils/Logger";
 import { existsSync, readFileSync } from "node:fs";
 import { spawn } from "node:child_process";
+import { AMALFA_DIRS } from "@src/config/defaults";
+import { join } from "node:path";
 
 const log = getLogger("CLI:Dashboard");
-const PID_FILE = ".amalfa/pids/dashboard.pid";
+const PID_FILE = join(AMALFA_DIRS.runtime, "dashboard.pid");
 const PORT = 3013;
 
 export async function cmdDashboard(args: string[]) {

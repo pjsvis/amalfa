@@ -80,6 +80,13 @@ export async function cmdServers(args: string[]) {
 			id: "sonar",
 			cmd: "amalfa sonar start",
 		},
+		{
+			name: "Dashboard",
+			pidFile: join(AMALFA_DIRS.runtime, "dashboard.pid"),
+			port: "3013",
+			id: "dashboard",
+			cmd: "amalfa dashboard start",
+		},
 	];
 
 	async function isRunning(pid: number): Promise<boolean> {
@@ -225,6 +232,11 @@ const BACKGROUND_SERVICES = [
 		cmd: "amalfa",
 		args: ["sonar", "start"],
 	},
+	{
+		name: "Dashboard",
+		cmd: "amalfa",
+		args: ["dashboard", "start"],
+	},
 ];
 
 async function manageAllServers(action: "start" | "stop" | "restart") {
@@ -265,6 +277,7 @@ export async function cmdStopAll(_args: string[]) {
 		},
 		{ name: "File Watcher", pidFile: join(AMALFA_DIRS.runtime, "daemon.pid") },
 		{ name: "Sonar Agent", pidFile: join(AMALFA_DIRS.runtime, "sonar.pid") },
+		{ name: "Dashboard", pidFile: join(AMALFA_DIRS.runtime, "dashboard.pid") },
 		// MCP usually runs as stdio, but if we track a PID file for it:
 		{ name: "MCP Server", pidFile: join(AMALFA_DIRS.runtime, "mcp.pid") },
 	];

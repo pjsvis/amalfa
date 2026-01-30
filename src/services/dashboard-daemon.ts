@@ -2,10 +2,12 @@ import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { getLogger } from "@src/utils/Logger";
 import { existsSync, writeFileSync, readFileSync, unlinkSync } from "node:fs";
+import { AMALFA_DIRS } from "@src/config/defaults";
+import { join } from "node:path";
 
 const log = getLogger("Dashboard");
 const PORT = 3013;
-const PID_FILE = ".amalfa/pids/dashboard.pid";
+const PID_FILE = join(AMALFA_DIRS.runtime, "dashboard.pid");
 
 export class DashboardDaemon {
 	private server: ReturnType<typeof Bun.serve> | null = null;
