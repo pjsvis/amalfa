@@ -204,6 +204,11 @@ export class DashboardDaemon {
       <h2>Harvest Cache</h2>
       <div id="harvest">Loading...</div>
     </section>
+
+    <section>
+      <h2>Recent Activity</h2>
+      <div id="runs">Loading...</div>
+    </section>
   </main>
 
   <script>
@@ -244,6 +249,23 @@ export class DashboardDaemon {
             </div>
           </div>
         \`;
+      });
+
+    // Fetch recent runs
+    fetch('/api/runs')
+      .then(r => r.json())
+      .then(runs => {
+        if (runs.length === 0) {
+          document.getElementById('runs').innerHTML = '<p><em>No activity yet</em></p>';
+          return;
+        }
+        const rows = runs.map(r => {
+          const time = new Date(r.timestamp).toLocaleString();
+          const duration = r.duration_ms ? (r.duration_ms / 1000).toFixed(1) + 's' : '-';
+          const status = r.errors > 0 ? '❌ ' + r.errors + ' errors' : '✅ Success';
+          return '<tr><td><small>' + time + '</small></td><td><strong>' + r.operation + '</strong></td><td>' + (r.files_processed || '-') + '</td><td>' + duration + '</td><td>' + status + '</td></tr>';
+        }).join('');
+        document.getElementById('runs').innerHTML = '<table><thead><tr><th>Time</th><th>Operation</th><th>Files</th><th>Duration</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
       });
 
     // Auto-refresh every 5 seconds

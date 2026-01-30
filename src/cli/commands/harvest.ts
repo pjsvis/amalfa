@@ -3,6 +3,7 @@ import { LangExtractClient } from "@src/services/LangExtractClient";
 import { readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { statSync, readFileSync, existsSync } from "node:fs";
+import { StatsLogger } from "@src/utils/StatsLogger";
 
 const log = getLogger("CLI:Harvest");
 
@@ -60,6 +61,9 @@ export async function cmdHarvest(args: string[]) {
 		}
 
 		log.info({ count: allFiles.length }, "Found files to harvest");
+
+		// Track timing
+		const startTime = Date.now();
 
 		// Processing loop with concurrency
 		let processed = 0;
@@ -288,6 +292,17 @@ export async function cmdHarvest(args: string[]) {
 			console.log(`\n  Skipped files saved to: ${manifestPath}`);
 		}
 		console.log("");
+
+		// Log stats to history
+		const duration_ms = Date.now() - startTime;
+		StatsLogger.logHarvest({
+			files: allFiles.length,
+			hits,
+			misses,
+			skipped: totalSkipped,
+			errors,
+			duration_ms,
+		});
 	} catch (e) {
 		log.error({ err: e }, "Harvest failed");
 		process.exit(1);
