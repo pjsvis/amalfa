@@ -78,14 +78,20 @@ export class DashboardDaemon {
 
 	private async getServiceStatus() {
 		const services = [
-			{ name: "Vector Daemon", port: 3010, pidFile: ".amalfa/pids/vector.pid" },
+			{
+				name: "Vector Daemon",
+				port: 3010,
+				pidFile: ".amalfa/runtime/vector-daemon.pid",
+			},
 			{
 				name: "Reranker Daemon",
 				port: 3011,
-				pidFile: ".amalfa/pids/reranker.pid",
+				pidFile: ".amalfa/runtime/reranker-daemon.pid",
 			},
-			{ name: "Sonar Agent", port: 3012, pidFile: ".amalfa/pids/sonar.pid" },
+			{ name: "Sonar Agent", port: 3012, pidFile: ".amalfa/runtime/sonar.pid" },
 			{ name: "Dashboard", port: 3013, pidFile: PID_FILE },
+			{ name: "Harvester", port: 0, pidFile: ".amalfa/runtime/daemon.pid" },
+			{ name: "Squash", port: 0, pidFile: ".amalfa/runtime/squash.pid" },
 		];
 
 		return services.map((svc) => ({
@@ -300,7 +306,7 @@ export class DashboardDaemon {
       .then(r => r.json())
       .then(services => {
         const rows = services.map(s => 
-          '<tr><td>' + s.name + '</td><td>' + s.port + '</td><td class="status-' + s.status + '">' + (s.status === 'running' ? '🟢' : '⚪️') + ' ' + s.status + '</td><td>' + (s.pid || '-') + '</td></tr>'
+          '<tr><td>' + s.name + '</td><td>' + (s.port || '-') + '</td><td class="status-' + s.status + '">' + (s.status === 'running' ? '🟢' : '⚪️') + ' ' + s.status + '</td><td>' + (s.pid || '-') + '</td></tr>'
         ).join('');
         document.getElementById('services').innerHTML = '<thead><tr><th>Service</th><th>Port</th><th>Status</th><th>PID</th></tr></thead><tbody>' + rows + '</tbody>';
       });
