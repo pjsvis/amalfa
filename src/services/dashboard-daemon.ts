@@ -228,6 +228,7 @@ export class DashboardDaemon {
       margin-bottom: 1rem;
     }
     small { font-size: 0.7rem; color: var(--pico-muted-color); }
+    code { font-size: 0.75rem; background: var(--pico-muted-border-color); padding: 2px 4px; border-radius: 3px; }
   </style>
 </head>
 <body>
@@ -261,6 +262,19 @@ export class DashboardDaemon {
         <tr><th>Service</th><th>Port</th><th>Status</th><th>PID</th></tr>
       </thead>
       <tbody><tr><td colspan="4">Loading...</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="compact-section">
+    <h2>Command Reference</h2>
+    <table>
+      <thead><tr><th>Action</th><th>Command</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Manage All</strong></td><td><code>amalfa servers [start|stop|restart]</code></td></tr>
+        <tr><td><strong>Stop All</strong></td><td><code>amalfa stop-all</code></td></tr>
+        <tr><td><strong>Manage Service</strong></td><td><code>amalfa [vector|reranker|sonar] [start|stop]</code></td></tr>
+        <tr><td><strong>Harvest</strong></td><td><code>amalfa harvest [path]</code></td></tr>
+      </tbody>
     </table>
   </div>
 
