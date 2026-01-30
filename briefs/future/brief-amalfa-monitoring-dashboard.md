@@ -17,6 +17,18 @@ Amalfa ingests markdown documents into a hybrid SQLite vector graph database. Th
 
 ## Objectives
 
+### Additional Objectives (pjsvis)
+
+- the dashboard UI should be a service that runs in the background
+- we have additional assets tat we can serve alongside our dashboard
+- for example we have an HTML page for showing the graph database using graphology and sigma.js
+- we have an HTML page allowing the user to browse and read rendered markdown documents
+- we need to figure out how to serve our typescript documents, if it is appropriate to view them in the document browser
+- maybe a summary page that shows the most important metrics and links to the other pages
+- the additional HTML pages are available as static web pages and also as SSR pages
+- we have some legacy data that shows us stats from our past runs
+- we should formalise our stats persistence logic so that we can present a coherent picture of the system health over time
+
 ### Primary Goal
 Enable visual monitoring of Amalfa system health and ingestion progress using AI-generated server-side UIs.
 
