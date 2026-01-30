@@ -149,108 +149,153 @@ export class DashboardDaemon {
   <title>Amalfa Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <style>
-    body { padding: 2rem; }
-    .grid { margin-bottom: 2rem; }
-    .card { padding: 1.5rem; background: var(--pico-card-background-color); border-radius: var(--pico-border-radius); }
-    .metric { font-size: 2rem; font-weight: bold; color: var(--pico-primary); }
-    .label { font-size: 0.875rem; color: var(--pico-muted-color); text-transform: uppercase; }
-    .status-running { color: #4caf50; }
-    .status-stopped { color: #f44336; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      padding: 1rem; 
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+    h1 { 
+      font-size: 1.25rem; 
+      margin-bottom: 0.5rem;
+    }
+    h2 { 
+      font-size: 1rem; 
+      margin: 0.75rem 0 0.5rem 0;
+      border-bottom: 1px solid var(--pico-muted-border-color);
+      padding-bottom: 0.25rem;
+    }
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .stat-box {
+      padding: 0.5rem;
+      background: var(--pico-card-background-color);
+      border-radius: 4px;
+      text-align: center;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--pico-muted-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--pico-primary);
+      font-family: 'Courier New', monospace;
+    }
+    table {
+      width: 100%;
+      font-size: 0.8rem;
+      margin: 0;
+    }
+    table th {
+      padding: 0.25rem 0.5rem;
+      text-align: left;
+      font-size: 0.75rem;
+    }
+    table td {
+      padding: 0.25rem 0.5rem;
+    }
+    .status-running { color: #4caf50; font-weight: bold; }
+    .status-stopped { color: #999; }
+    .links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .links a {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      text-decoration: none;
+      border-radius: 4px;
+      background: var(--pico-primary);
+      color: white;
+    }
+    .compact-section {
+      margin-bottom: 1rem;
+    }
+    small { font-size: 0.7rem; color: var(--pico-muted-color); }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🎯 Amalfa Monitoring Dashboard</h1>
-    <p>Real-time system health and service status</p>
-  </header>
-
-  <main>
-    <section>
-      <h2>Database Statistics</h2>
-      <div class="grid">
-        <div class="card">
-          <div class="label">Nodes</div>
-          <div class="metric">${stats.database.nodes}</div>
-        </div>
-        <div class="card">
-          <div class="label">Edges</div>
-          <div class="metric">${stats.database.edges}</div>
-        </div>
-        <div class="card">
-          <div class="label">Vectors</div>
-          <div class="metric">${stats.database.vectors}</div>
-        </div>
-        <div class="card">
-          <div class="label">DB Size</div>
-          <div class="metric">${stats.database.size_mb.toFixed(2)} MB</div>
-        </div>
+  <h1>🎯 Amalfa Dashboard</h1>
+  
+  <div class="compact-section">
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-label">Nodes</div>
+        <div class="stat-value">${stats.database.nodes}</div>
       </div>
-    </section>
-
-    <section>
-      <h2>Quick Links</h2>
-      <div class="grid">
-        <a href="/graph.html" role="button">📊 Graph Visualization</a>
-        <a href="/docs.html" role="button">📚 Document Browser</a>
-        <a href="/api/stats" role="button" class="secondary">🔌 API Stats</a>
-        <a href="/api/services" role="button" class="secondary">⚙️ Service Status</a>
+      <div class="stat-box">
+        <div class="stat-label">Edges</div>
+        <div class="stat-value">${stats.database.edges}</div>
       </div>
-    </section>
+      <div class="stat-box">
+        <div class="stat-label">Vectors</div>
+        <div class="stat-value">${stats.database.vectors}</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">DB Size</div>
+        <div class="stat-value">${stats.database.size_mb.toFixed(1)}<small>MB</small></div>
+      </div>
+    </div>
+  </div>
 
-    <section>
-      <h2>Services</h2>
-      <div id="services">Loading...</div>
-    </section>
+  <div class="compact-section">
+    <h2>Services</h2>
+    <table id="services">
+      <thead>
+        <tr><th>Service</th><th>Port</th><th>Status</th><th>PID</th></tr>
+      </thead>
+      <tbody><tr><td colspan="4">Loading...</td></tr></tbody>
+    </table>
+  </div>
 
-    <section>
-      <h2>Harvest Cache</h2>
-      <div id="harvest">Loading...</div>
-    </section>
+  <div class="compact-section">
+    <h2>Harvest Cache</h2>
+    <div id="harvest">Loading...</div>
+  </div>
 
-    <section>
-      <h2>Recent Activity</h2>
-      <div id="runs">Loading...</div>
-    </section>
-  </main>
+  <div class="compact-section">
+    <h2>Recent Activity</h2>
+    <div id="runs">Loading...</div>
+  </div>
+
+  <div class="links">
+    <a href="/graph.html">📊 Graph</a>
+    <a href="/docs.html">📚 Docs</a>
+    <a href="/api/stats">🔌 API</a>
+  </div>
 
   <script>
     // Fetch service status
     fetch('/api/services')
       .then(r => r.json())
       .then(services => {
-        document.getElementById('services').innerHTML = services.map(s => 
-          \`<article>
-            <strong>\${s.name}</strong> 
-            <span class="status-\${s.status}">\${s.status}</span>
-            <small>Port: \${s.port}\${s.pid ? \` | PID: \${s.pid}\` : ''}</small>
-          </article>\`
+        const rows = services.map(s => 
+          '<tr><td>' + s.name + '</td><td>' + s.port + '</td><td class="status-' + s.status + '">' + (s.status === 'running' ? '🟢' : '⚪️') + ' ' + s.status + '</td><td>' + (s.pid || '-') + '</td></tr>'
         ).join('');
+        document.getElementById('services').innerHTML = '<thead><tr><th>Service</th><th>Port</th><th>Status</th><th>PID</th></tr></thead><tbody>' + rows + '</tbody>';
       });
 
     // Fetch harvest stats
     fetch('/api/harvest')
       .then(r => r.json())
       .then(harvest => {
-        document.getElementById('harvest').innerHTML = \`
-          <div class="grid">
-            <div class="card">
-              <div class="label">Cached Files</div>
-              <div class="metric">\${harvest.cached}</div>
-            </div>
-            <div class="card">
-              <div class="label">Timeouts</div>
-              <div class="metric">\${harvest.skipped.timeouts}</div>
-            </div>
-            <div class="card">
-              <div class="label">Too Large</div>
-              <div class="metric">\${harvest.skipped.too_large}</div>
-            </div>
-            <div class="card">
-              <div class="label">Errors</div>
-              <div class="metric">\${harvest.skipped.errors}</div>
-            </div>
-          </div>
-        \`;
+        document.getElementById('harvest').innerHTML = '<table><tr><td><strong>' + harvest.cached + '</strong> cached</td><td><strong>' + harvest.skipped.timeouts + '</strong> timeouts</td><td><strong>' + harvest.skipped.too_large + '</strong> too large</td><td><strong>' + harvest.skipped.errors + '</strong> errors</td></tr></table>';
       });
 
     // Fetch recent runs
@@ -264,10 +309,10 @@ export class DashboardDaemon {
         const rows = runs.map(r => {
           const time = new Date(r.timestamp).toLocaleString();
           const duration = r.duration_ms ? (r.duration_ms / 1000).toFixed(1) + 's' : '-';
-          const status = r.errors > 0 ? '❌ ' + r.errors + ' errors' : '✅ Success';
+          const status = r.errors > 0 ? '\u274c ' + r.errors : '\u2705';
           return '<tr><td><small>' + time + '</small></td><td><strong>' + r.operation + '</strong></td><td>' + (r.files_processed || '-') + '</td><td>' + duration + '</td><td>' + status + '</td></tr>';
         }).join('');
-        document.getElementById('runs').innerHTML = '<table><thead><tr><th>Time</th><th>Operation</th><th>Files</th><th>Duration</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
+        document.getElementById('runs').innerHTML = '<table><thead><tr><th>Time</th><th>Op</th><th>Files</th><th>Duration</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
       });
 
     // Auto-refresh every 5 seconds
