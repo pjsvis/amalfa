@@ -12,10 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Architecture Visualization**: New `/architecture` page with interactive state machine diagrams (Viz.js).
 - **Resilience**: Added PID tracking for Ingest and Enrich services. E2E tested lifecycle.
 - **PolyVis Integration Prep**: Paved the way for migrating Dashboard frontend to PolyVis assets.
+- **Lexicon Harvester:** New `amalfa harvest-lexicon` command to generate "Golden Lexicon" candidates from cached sidecars.
+- **JSONL Utilities:** `JsonlUtils.ts` for efficient streaming file I/O.
+- **Package Manager Cleanup**: Consolidated global packages to Bun, reducing npm globals to just `npm`. Removed duplicate tools and standardized on Bun-first workflow.
 
 ### Fixed
 - **PID Path Resolution**: Fixed dashboard looking in legacy `.amalfa/pids` instead of `.amalfa/runtime`.
 - **Harvest Command**: Added fallback for missing API keys (OpenRouter env var support).
+- **CLI:** Fixed duplicate `main` function implementation in `src/cli.ts`.
 
 ## [1.5.0] - 2026-01-26
 

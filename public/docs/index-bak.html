@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PolyVis Docs v3 (Fork)</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
+
+    <!-- Highlight.js (GitHub Dark Theme for IDE-like feel) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- Google Fonts: Inter & Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/app.css" />
+
+    <link rel="stylesheet" href="/css/markdown.css" />
+
+    <!-- Inline Theme Init to prevent FOUC -->
+    <script>
+        (() => {
+            const stored = localStorage.getItem('polyvis-theme');
+            if (stored) {
+                document.documentElement.setAttribute('data-theme', stored);
+            }
+        })();
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Alpine.js -->
+    <script src="/js/app.js" defer></script>
+    <!-- Theme Logic -->
+    <script type="module" src="/js/utils/theme.js"></script>
+</head>
+
+<body class="page-layout overflow-hidden h-screen" x-data="docViewer()"
+    :class="{ 'loaded': true, 'layout-debug-mode': false }"
+    @keydown.window.shift.d="document.body.classList.toggle('debug-mode')">
+
+    <div class="app-shell"
+        :style="{ 'grid-template-columns': (viewMode === 'reference' || viewMode === 'browse') ? 'var(--sidebar-width-left) minmax(0, 1fr) var(--sidebar-width-right)' : 'var(--sidebar-width-left) minmax(0, 1fr) 0px' }">
+        <header class="app-header">
+            <div x-data="navigation" x-html="view"></div>
+        </header>
+
+        <!-- Mobile Toggle Left (Moved from Header) -->
+        <button class="md:hidden fixed left-4 top-20 z-30 p-2 bg-white border rounded shadow-sm"
+            @click="leftOpen = !leftOpen; rightOpen = false">
+            <i data-lucide="menu" class="w-6 h-6 text-[var(--primary)]"></i>
+        </button>
+
+        <!-- Mobile Toggle Right (Moved from Header) -->
+        <button class="md:hidden fixed right-4 top-20 z-30 p-2 bg-white border rounded shadow-sm"
+            @click="rightOpen = !rightOpen; leftOpen = false">
+            <i data-lucide="info" class="w-6 h-6 text-[var(--primary)]"></i>
+        </button>
+
+        <!-- Mobile Backdrop -->
+        <div x-show="leftOpen || rightOpen" @click="leftOpen = false; rightOpen = false" x-transition.opacity
+            class="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm">
+        </div>
+
+        <!-- LEFT SIDEBAR: DIRECTORY & TOC -->
+        <aside class="app-sidebar-left overflow-hidden md:block p-0 md:translate-x-0 relative"
+            :class="{ 'translate-x-0': leftOpen, '-translate-x-full': !leftOpen, 'block': true, 'hidden': false }"
+            x-show="viewMode === 'browse' || viewMode === 'reference' || leftOpen">
+            <div class="container-box docs-directory h-full flex flex-col"
+                style="overflow: hidden; height: 100%; padding: 0; border: none; background-color: var(--surface-1);">
+
+                <!-- TABS -->
+                <div class="flex border-b sticky top-0 z-10 overflow-x-auto no-scrollbar"
+                    style="border-color: var(--border-base); background-color: var(--surface-2);">
+                    <button @click="navTab = 'index'"
+                        class="flex-1 min-w-[60px] py-3 text-[10px] font-bold uppercase tracking-wider text-center border-b-2 transition-colors whitespace-nowrap"
+                        :style="{
+                        borderColor: navTab === 'index' ? 'var(--primary)' : 'transparent',
+                        color: navTab === 'index' ? 'var(--primary)' : 'var(--text-2)',
+                        backgroundColor: navTab === 'index' ? 'var(--surface-1)' : 'transparent'
+                    }">
+                        Index
+                    </button>
+                    <button @click="navTab = 'debriefs'"
+                        class="flex-1 min-w-[60px] py-3 text-[10px] font-bold uppercase tracking-wider text-center border-b-2 transition-colors whitespace-nowrap"
+                        :style="{
+                        borderColor: navTab === 'debriefs' ? 'var(--primary)' : 'transparent',
+                        color: navTab === 'debriefs' ? 'var(--primary)' : 'var(--text-2)',
+                        backgroundColor: navTab === 'debriefs' ? 'var(--surface-1)' : 'transparent'
+                    }">
+                        Debriefs
+                    </button>
+                    <button @click="navTab = 'playbooks'"
+                        class="flex-1 min-w-[60px] py-3 text-[10px] font-bold uppercase tracking-wider text-center border-b-2 transition-colors whitespace-nowrap"
+                        :style="{
+                        borderColor: navTab === 'playbooks' ? 'var(--primary)' : 'transparent',
+                        color: navTab === 'playbooks' ? 'var(--primary)' : 'var(--text-2)',
+                        backgroundColor: navTab === 'playbooks' ? 'var(--surface-1)' : 'transparent'
+                    }">
+                        Playbooks
+                    </button>
+                    <!-- Outline Tab Removed -->
+                    <button class="md:hidden px-3 border-l" style="border-color: var(--border-base);"
+                        @click="leftOpen = false">
+                        <i data-lucide="x" class="w-4 h-4" style="color: var(--text-2);"></i>
+                    </button>
+                </div>
+
+                <!-- TAB CONTENT: INDEX -->
+                <nav x-show="navTab === 'index'"
+                    class="file-list-container flex flex-col gap-1 p-4 overflow-y-auto flex-1 min-h-0">
+                    <template x-for="doc in docs" :key="doc.file">
+                        <a href="#" @click.prevent="loadMain(doc.file)"
+                            class="doc-link block px-4 py-2 text-sm rounded transition-colors" :style="{
+                       backgroundColor: activeDoc === doc.file ? 'var(--surface-2)' : 'transparent',
+                       color: activeDoc === doc.file ? 'var(--primary)' : 'var(--text-1)',
+                       fontWeight: activeDoc === doc.file ? 'bold' : 'normal'
+                   }" class="hover:bg-[var(--surface-hover)]">
+                            <span x-text="doc.title || doc.file"></span>
+                        </a>
+                    </template>
+                </nav>
+
+                <!-- TAB CONTENT: OUTLINE (ToC) -->
+                <!-- Outline Content Removed -->
+
+                <!-- TAB CONTENT: PLAYBOOKS -->
+                <nav x-show="navTab === 'playbooks'"
+                    class="file-list-container flex flex-col gap-1 p-4 overflow-y-auto flex-1 min-h-0">
+                    <template x-for="book in playbooks" :key="book.path">
+                        <a href="#" @click.prevent="loadMain(book.path)"
+                            class="doc-link block px-4 py-3 text-sm rounded transition-colors mb-2" :style="{
+                       backgroundColor: activeDoc === book.path ? 'var(--surface-2)' : 'var(--surface-1)',
+                       color: activeDoc === book.path ? 'var(--primary)' : 'var(--text-1)',
+                       border: '1px solid var(--border-base)'
+                   }" class="hover:bg-[var(--surface-hover)]">
+                            <div class="font-bold mb-1" x-text="book.title"></div>
+                            <div class="text-xs opacity-60 font-mono" x-text="book.id"></div>
+                        </a>
+                    </template>
+                    <div x-show="playbooks.length === 0" class="p-4 text-sm italic text-center text-gray-500">
+                        No playbooks found.
+                    </div>
+                </nav>
+
+                <!-- TAB CONTENT: DEBRIEFS -->
+                <nav x-show="navTab === 'debriefs'"
+                    class="file-list-container flex flex-col gap-1 p-4 overflow-y-auto flex-1 min-h-0">
+                    <template x-for="debrief in debriefs" :key="debrief.path">
+                        <a href="#" @click.prevent="loadMain(debrief.path)"
+                            class="doc-link block px-4 py-3 text-sm rounded transition-colors mb-2" :style="{
+                       backgroundColor: activeDoc === debrief.path ? 'var(--surface-2)' : 'var(--surface-1)',
+                       color: activeDoc === debrief.path ? 'var(--primary)' : 'var(--text-1)',
+                       border: '1px solid var(--border-base)'
+                   }" class="hover:bg-[var(--surface-hover)]">
+                            <div class="font-bold mb-1" x-text="debrief.title"></div>
+                            <div class="flex justify-between text-xs opacity-60 font-mono">
+                                <span x-text="debrief.date || 'No Date'"></span>
+                            </div>
+                        </a>
+                    </template>
+                    <div x-show="debriefs.length === 0" class="p-4 text-sm italic text-center text-gray-500">
+                        No debriefs found.
+                    </div>
+                </nav>
+
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="app-main overflow-y-auto custom-scrollbar px-2 md:px-6 items-start place-items-start block"
+            @click="handleContentClick($event)">
+            <div class="markdown-body max-w-[60ch] mx-auto py-8" id="main-content" x-html="contentMain"
+                style="background-color: transparent;">
+                <!-- Content injected here -->
+                <div class="flex h-full flex-col items-center justify-center pt-20">
+                    <p class="animate-pulse font-mono text-gray-400">Loading Content...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- RIGHT SIDEBAR: REFERENCE PANEL -->
+        <aside class="app-sidebar-right overflow-hidden md:block p-0 md:translate-x-0 relative"
+            :class="{ 'translate-x-0': rightOpen, 'translate-x-full': !rightOpen, 'block': true, 'hidden': false }"
+            x-show="viewMode === 'reference' || viewMode === 'browse' || rightOpen"
+            style="border-left: 1px solid var(--border-base);">
+
+            <div class="container-box docs-directory-right h-full flex flex-col"
+                style="overflow: hidden; height: 100%; padding: 0; border: none; background-color: var(--surface-1);">
+
+                <!-- HEADER -->
+                <div class="flex items-center justify-between p-3 border-b sticky top-0 z-10"
+                    style="border-color: var(--border-base); background-color: var(--surface-2);">
+                    <h3 class="text-xs font-bold uppercase tracking-wider" style="color: var(--text-2);"
+                        x-text="contentRef ? 'Reference' : 'Outline'"></h3>
+                    <button x-show="contentRef" @click="goBack()"
+                        class="flex items-center gap-1 text-xs font-bold px-2 py-1 rounded hover:bg-gray-200 transition-colors"
+                        style="color: var(--primary);">
+                        <i data-lucide="arrow-left" class="w-3 h-3"></i> Back
+                    </button>
+                </div>
+
+                <!-- REFERENCE CONTENT -->
+                <div x-show="contentRef" class="p-4 overflow-y-auto flex-1 min-h-0 prose prose-sm max-w-none"
+                    x-html="contentRef">
+                </div>
+
+                <!-- OUTLINE CONTENT (Default) -->
+                <nav x-show="!contentRef" class="file-list-container flex flex-col p-4 overflow-y-auto flex-1 min-h-0"
+                    style="gap: var(--toc-gap-section);">
+
+                    <template x-for="(group, idx) in toc" :key="idx">
+                        <div class="mb-3 p-3 rounded-xl flex flex-col transition-colors hover:bg-[var(--surface-hover)]"
+                            style="background-color: var(--surface-2); gap: var(--toc-gap-item);">
+
+                            <!-- Group Header (H2) -->
+                            <template x-if="group.header">
+                                <a :href="'#' + group.header.id"
+                                    class="group flex items-baseline gap-2 text-sm font-medium transition-colors hover:text-[var(--brand)]"
+                                    style="color: var(--text-1);">
+                                    <span x-show="showTocNumbers && group.header.number" x-text="group.header.number"
+                                        class="font-mono text-[0.75em] opacity-50 shrink-0 select-none"></span>
+                                    <span x-text="group.header.text" class="leading-tight"></span>
+                                </a>
+                            </template>
+
+                            <!-- Group Children (H3+) -->
+                            <div class="flex flex-col pl-2 border-l ml-1"
+                                style="border-color: var(--border-base); gap: var(--toc-gap-item);"
+                                x-show="group.children.length > 0">
+                                <template x-for="child in group.children" :key="child.id">
+                                    <a :href="'#' + child.id"
+                                        class="group flex items-baseline gap-2 py-0.5 pl-2 text-xs transition-colors hover:text-[var(--brand)]"
+                                        style="color: var(--text-2);">
+                                        <span x-show="showTocNumbers && child.number" x-text="child.number"
+                                            class="font-mono text-[0.75em] opacity-50 shrink-0 select-none"></span>
+                                        <span x-text="child.text" class="leading-tight"></span>
+                                    </a>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <div x-show="toc.length === 0" class="p-4 text-sm italic text-center" style="color: var(--text-2);">
+                        No headers found in this document.
+                    </div>
+                </nav>
+            </div>
+        </aside>
+        <footer class="app-footer text-center font-mono text-xs text-gray-400">
+            &copy; 2025 PolyVis | Structural Information Engineering
+        </footer>
+    </div>
+
+
+</body>
+
+</html>

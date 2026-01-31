@@ -1,6 +1,4 @@
-import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
-import { join } from "node:path";
 import { loadConfig } from "@src/config/defaults";
 import { EmberService } from "@src/ember/index";
 import { ResonanceDB } from "@src/resonance/db";
@@ -78,20 +76,56 @@ export async function cmdVector(args: string[]) {
 		process.exit(1);
 	}
 
-	// Run vector daemon with the specified action
-	// Resolve relative to project root
-	const vectorPath = join(
-		process.cwd(),
-		"src/resonance/services/vector-daemon.ts",
-	);
-	const proc = spawn("bun", ["run", vectorPath, action], {
-		stdio: "inherit",
-		cwd: process.cwd(),
-	});
+	const manager = new DaemonManager();
 
-	proc.on("exit", (code) => {
-		process.exit(code ?? 0);
-	});
+	if (action === "status") {
+		const status = await manager.checkVectorDaemon();
+		if (status.running) {
+			console.log(
+				`✅ Vector Daemon: Running (PID: ${status.pid}, Port: ${status.port})`,
+			);
+		} else {
+			console.log("❌ Vector Daemon: Stopped");
+		}
+		return;
+	}
+
+	if (action === "start") {
+		console.log("🚀 Starting Vector Daemon...");
+		try {
+			await manager.startVectorDaemon();
+			console.log("✅ Vector Daemon started");
+		} catch (e) {
+			console.error("❌ Failed to start Vector Daemon:", e);
+			process.exit(1);
+		}
+		return;
+	}
+
+	if (action === "stop") {
+		console.log("🛑 Stopping Vector Daemon...");
+		try {
+			await manager.stopVectorDaemon();
+			console.log("✅ Vector Daemon stopped");
+		} catch (e) {
+			console.error("❌ Failed to stop Vector Daemon:", e);
+			process.exit(1);
+		}
+		return;
+	}
+
+	if (action === "restart") {
+		console.log("🔄 Restarting Vector Daemon...");
+		try {
+			await manager.stopVectorDaemon();
+			await manager.startVectorDaemon();
+			console.log("✅ Vector Daemon restarted");
+		} catch (e) {
+			console.error("❌ Failed to restart Vector Daemon:", e);
+			process.exit(1);
+		}
+		return;
+	}
 }
 
 export async function cmdReranker(args: string[]) {
@@ -104,19 +138,56 @@ export async function cmdReranker(args: string[]) {
 		process.exit(1);
 	}
 
-	// Run reranker daemon with the specified action
-	const daemonPath = join(
-		process.cwd(),
-		"src/resonance/services/reranker-daemon.ts",
-	);
-	const proc = spawn("bun", ["run", daemonPath, action], {
-		stdio: "inherit",
-		cwd: process.cwd(),
-	});
+	const manager = new DaemonManager();
 
-	proc.on("exit", (code) => {
-		process.exit(code ?? 0);
-	});
+	if (action === "status") {
+		const status = await manager.checkRerankerDaemon();
+		if (status.running) {
+			console.log(
+				`✅ Reranker Daemon: Running (PID: ${status.pid}, Port: ${status.port})`,
+			);
+		} else {
+			console.log("❌ Reranker Daemon: Stopped");
+		}
+		return;
+	}
+
+	if (action === "start") {
+		console.log("🚀 Starting Reranker Daemon...");
+		try {
+			await manager.startRerankerDaemon();
+			console.log("✅ Reranker Daemon started");
+		} catch (e) {
+			console.error("❌ Failed to start Reranker Daemon:", e);
+			process.exit(1);
+		}
+		return;
+	}
+
+	if (action === "stop") {
+		console.log("🛑 Stopping Reranker Daemon...");
+		try {
+			await manager.stopRerankerDaemon();
+			console.log("✅ Reranker Daemon stopped");
+		} catch (e) {
+			console.error("❌ Failed to stop Reranker Daemon:", e);
+			process.exit(1);
+		}
+		return;
+	}
+
+	if (action === "restart") {
+		console.log("🔄 Restarting Reranker Daemon...");
+		try {
+			await manager.stopRerankerDaemon();
+			await manager.startRerankerDaemon();
+			console.log("✅ Reranker Daemon restarted");
+		} catch (e) {
+			console.error("❌ Failed to restart Reranker Daemon:", e);
+			process.exit(1);
+		}
+		return;
+	}
 }
 
 export async function cmdSonar(args: string[]) {

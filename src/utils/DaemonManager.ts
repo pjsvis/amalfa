@@ -18,6 +18,7 @@ export class DaemonManager {
 	private vectorLifecycle: ServiceLifecycle;
 	private watcherLifecycle: ServiceLifecycle;
 	private sonarLifecycle: ServiceLifecycle;
+	private rerankerLifecycle: ServiceLifecycle;
 
 	constructor() {
 		this.vectorLifecycle = new ServiceLifecycle({
@@ -25,6 +26,13 @@ export class DaemonManager {
 			pidFile: join(AMALFA_DIRS.runtime, "vector-daemon.pid"),
 			logFile: join(AMALFA_DIRS.logs, "vector-daemon.log"),
 			entryPoint: "src/resonance/services/vector-daemon.ts",
+		});
+
+		this.rerankerLifecycle = new ServiceLifecycle({
+			name: "Reranker-Daemon",
+			pidFile: join(AMALFA_DIRS.runtime, "reranker-daemon.pid"),
+			logFile: join(AMALFA_DIRS.logs, "reranker-daemon.log"),
+			entryPoint: "src/resonance/services/reranker-daemon.ts",
 		});
 
 		this.watcherLifecycle = new ServiceLifecycle({
@@ -103,6 +111,41 @@ export class DaemonManager {
 	 */
 	async stopVectorDaemon(): Promise<void> {
 		await this.vectorLifecycle.stop();
+	}
+
+	/**
+	 * Check if reranker daemon is running
+	 */
+	async checkRerankerDaemon(): Promise<DaemonStatus> {
+		const pid = await this.readPid(
+			join(AMALFA_DIRS.runtime, "reranker-daemon.pid"),
+		);
+		if (!pid) {
+			return { running: false };
+		}
+
+		const running = await this.isProcessRunning(pid);
+		return {
+			running,
+			pid: running ? pid : undefined,
+			port: running ? 3011 : undefined,
+		};
+	}
+
+	/**
+	 * Start reranker daemon
+	 */
+	async startRerankerDaemon(): Promise<void> {
+		await this.rerankerLifecycle.start();
+		// Wait a moment for daemon to initialize
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+	}
+
+	/**
+	 * Stop reranker daemon
+	 */
+	async stopRerankerDaemon(): Promise<void> {
+		await this.rerankerLifecycle.stop();
 	}
 
 	/**
@@ -189,15 +232,17 @@ export class DaemonManager {
 	 */
 	async checkAll(): Promise<{
 		vector: DaemonStatus;
+		reranker: DaemonStatus;
 		watcher: DaemonStatus;
 		sonar: DaemonStatus;
 	}> {
-		const [vector, watcher, sonar] = await Promise.all([
+		const [vector, reranker, watcher, sonar] = await Promise.all([
 			this.checkVectorDaemon(),
+			this.checkRerankerDaemon(),
 			this.checkFileWatcher(),
 			this.checkSonarAgent(),
 		]);
-		return { vector, watcher, sonar };
+		return { vector, reranker, watcher, sonar };
 	}
 
 	/**
@@ -206,6 +251,7 @@ export class DaemonManager {
 	async stopAll(): Promise<void> {
 		await Promise.all([
 			this.stopVectorDaemon(),
+			this.stopRerankerDaemon(),
 			this.stopFileWatcher(),
 			this.stopSonarAgent(),
 		]);

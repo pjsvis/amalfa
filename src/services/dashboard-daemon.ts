@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { Glob } from "bun";
 import { serveStatic } from "hono/bun";
 import { getLogger } from "@src/utils/Logger";
 import { existsSync, writeFileSync, readFileSync, unlinkSync } from "node:fs";
@@ -19,23 +20,35 @@ export class DashboardDaemon {
 	}
 
 	private setupRoutes() {
-		// Static assets
-		this.app.use("/assets/*", serveStatic({ root: "./public" }));
-		this.app.use("/graph.html", serveStatic({ path: "./public/graph.html" }));
-		this.app.use("/docs.html", serveStatic({ path: "./public/docs.html" }));
+		// 1. Static Assets (PolyVis UI)
+		// Serve everything in ./public as root assets (css, js, etc)
+		this.app.use("/*", serveStatic({ root: "./public" }));
 
-		// Summary page (root)
-		this.app.get("/", async (c) => {
-			const stats = await this.getSystemStats();
-			return c.html(this.renderSummary(stats));
+		// 2. Dynamic Docs Index
+		this.app.get("/index.json", async (c) => {
+			const docs = await this.discoverDocs();
+			return c.json(docs);
 		});
 
-		// Architecture page
-		this.app.get("/architecture", (c) => {
-			return c.html(this.renderArchitecture());
+		// 3. Documentation Content Serving
+		// Map /docs/* to the project root so we can access ./docs and ./briefs
+		// The app fetches /docs/${filename}. We strip /docs prefix to map to root relative paths.
+		this.app.use(
+			"/docs/*",
+			serveStatic({
+				root: "./",
+				rewriteRequestPath: (path) => path.replace(/^\/docs/, ""),
+			}),
+		);
+
+		// 4. Serve Database for Graph Explorer
+		this.app.get("/resonance.db", (c) => {
+			return new Response(
+				Bun.file(join(process.cwd(), ".amalfa", "resonance.db")),
+			);
 		});
 
-		// API endpoints
+		// API endpoints (Stats)
 		this.app.get("/api/stats", async (c) => {
 			const stats = await this.getSystemStats();
 			return c.json(stats);
@@ -44,6 +57,42 @@ export class DashboardDaemon {
 		this.app.get("/api/services", async (c) => {
 			const services = await this.getServiceStatus();
 			return c.json(services);
+		});
+
+		// Service Management
+		this.app.post("/api/services/:name/:action", async (c) => {
+			const name = c.req.param("name");
+			const action = c.req.param("action");
+
+			const map: Record<string, string> = {
+				"Vector Daemon": "vector",
+				"Reranker Daemon": "reranker",
+				"Sonar Agent": "sonar",
+				Harvester: "watcher",
+				Dashboard: "dashboard",
+			};
+
+			const cliCmd = map[name];
+			if (!cliCmd || !["start", "stop", "restart"].includes(action)) {
+				return c.json({ error: "Invalid service or action" }, 400);
+			}
+
+			try {
+				const cmd = ["bun", "src/cli.ts", cliCmd, action];
+				const proc = Bun.spawn(cmd, {
+					stdout: "pipe",
+					stderr: "pipe",
+				});
+
+				// We don't wait for 'start' commands that might be long-running,
+				// but 'amalfa daemon start' usually daemonizes and exits.
+				const output = await new Response(proc.stdout).text();
+				await proc.exited;
+
+				return c.json({ success: true, output });
+			} catch (e) {
+				return c.json({ error: String(e) }, 500);
+			}
 		});
 
 		this.app.get("/api/harvest", async (c) => {
@@ -60,6 +109,32 @@ export class DashboardDaemon {
 		this.app.get("/health", (c) =>
 			c.json({ status: "ok", uptime: process.uptime() }),
 		);
+	}
+
+	private async discoverDocs() {
+		const files: { file: string; title: string; category: string }[] = [];
+		const glob = new Glob("**/*.md");
+
+		// Scan docs/
+		for (const file of glob.scanSync("./docs")) {
+			if (file.includes("node_modules")) continue;
+			files.push({
+				file: `docs/${file}`,
+				title: file.split("/").pop()?.replace(".md", "") || file,
+				category: "docs",
+			});
+		}
+
+		// Scan briefs/
+		for (const file of glob.scanSync("./briefs")) {
+			files.push({
+				file: `briefs/${file}`,
+				title: file.split("/").pop()?.replace(".md", "") || file,
+				category: "briefs",
+			});
+		}
+
+		return files;
 	}
 
 	private async getSystemStats() {
@@ -96,7 +171,6 @@ export class DashboardDaemon {
 			{ name: "Sonar Agent", port: 3012, pidFile: ".amalfa/runtime/sonar.pid" },
 			{ name: "Dashboard", port: 3013, pidFile: PID_FILE },
 			{ name: "Harvester", port: 0, pidFile: ".amalfa/runtime/daemon.pid" },
-			{ name: "Squash", port: 0, pidFile: ".amalfa/runtime/squash.pid" },
 		];
 
 		return services.map((svc) => ({

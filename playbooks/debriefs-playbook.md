@@ -184,4 +184,4 @@ explore_links("[debrief-id]")
 - [ ] **Frontmatter Tags Present:** Verify debrief includes `date`, `tags`, `agent`, and `environment` fields.
 - [ ] **Update Changelog:** Add a summary of changes to `CHANGELOG.md` under the `[Unreleased]` section.
 - [ ] **Update Current Task:** Update `_CURRENT_TASK.md` to reflect the completion of the current objective and readiness for the next.
-- [ ] **Ingest Debrief:** Run `bun run scripts/cli/ingest.ts` to add debrief to knowledge graph.
+- [ ] **Ingest Debrief:** Ensure `amalfa watcher` is running (to auto-ingest) or run `amalfa init` to update the knowledge graph.

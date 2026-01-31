@@ -55,30 +55,30 @@
 
 ---
 
-## Session 2026-01-30: Monitoring Dashboard
+## Session 2026-01-31: Lexicon Harvester Implementation
 
-### Task: Implement Amalfa Monitoring Dashboard
-**Objective**: Create observable, auditable system for long-running processes.
+### Task: Build the "Smelter" (Lexicon Harvester)
+**Objective**: Transform raw sidecar data into a refined "Golden Lexicon" using a Node-First, Count-Second strategy.
 
-**Plan**:
-1. **Background Service**: Dashboard runs as daemon on dedicated port
-2. **Multi-Page Architecture**: 
-   - Summary page (metrics, links)
-   - Graph visualization (Graphology + Sigma.js)
-   - Document browser (rendered markdown)
-   - Stats persistence (historical trends)
-3. **Real-Time Monitoring**: Harvest progress, cost tracking, cache stats
-4. **Static + SSR**: Serve both static HTML and server-rendered pages
+**Status**: ✅ COMPLETE
 
-**Status**: 🚧 In Progress
+### Plan & Results
+1.  **Core Logic**: Implemented `LexiconHarvester` class (Done)
+2.  **CLI Command**: Added `amalfa harvest-lexicon` command (Done)
+3.  **Triage UI**: (Future) Next step: Visualizing the 4219 candidates.
+4.  **Edge Survey**: (Pending Phase 2) Requires Golden Lexicon first.
 
-### Requirements (from brief)
-- Dashboard as background service
-- Serve existing HTML assets (graph viz, doc browser)
-- Summary page with key metrics
-- Historical stats persistence
-- TypeScript document viewing (TBD)
+### Accomplishments
+- Implemented `JsonlUtils` with Bun-native streaming.
+- Benchmarked JSON vs JSONL (0.84x small scale, scalable architecture).
+- Scanned 499 sidecars -> 4219 candidate terms.
+- Handled missing UUIDs in cache layer gracefully.
+
+### Side Tasks
+- ✅ Package Manager Cleanup (Global npm/Bun hygiene)
+- ✅ JSONL Strategy Brief (Adopt streamable formats)
+- ✅ Benchmark JSONL vs JSON (Validated 0.84x small batch / Scalability Win)
 
 ---
 
-**Current Focus**: Dashboard Implementation
+**Next Session Focus**: Monitoring Dashboard (Triage UI for Lexicon)

@@ -1,0 +1,89 @@
+/* 
+   SLAB & GRID ARCHITECTURE (The "Holy Grail" Layout)
+   Context: polyvis/experiments/slab-and-grid
+*/
+
+.layout-locked {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+}
+
+.slab-header {
+    height: 60px;
+    border-bottom: 2px solid var(--ansi-white);
+    flex-shrink: 0;
+    background: var(--bg-canvas);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.slab-stage {
+    flex-grow: 1;
+    min-height: 0; /* Critical for Flexbox recursion */
+    display: grid;
+    /* Grid columns are handled dynamically via inline style, 
+       but default fallbacks can be set here */
+    grid-template-columns: 250px 1fr 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.panel-left {
+    grid-column: 1;
+    border-right: 2px solid var(--ansi-white);
+    background: var(--bg-canvas);
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.stage-canvas {
+    grid-column: 2;
+    overflow: hidden; /* Internal scrolling if needed, or hidden for specialized canvas */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* Optional: Dot grid */
+    background-image: radial-gradient(var(--ansi-white) 1px, transparent 0);
+    background-size: 20px 20px;
+}
+
+/* For Document Reader Mode in Canvas */
+.stage-canvas.is-reader {
+    overflow-y: auto;
+    align-items: center; /* Center the prose */
+    padding: 0;
+}
+
+.panel-right {
+    grid-column: 3;
+    border-left: 2px solid var(--ansi-white);
+    background: var(--bg-canvas);
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.slab-footer {
+    height: 40px;
+    border-top: 2px solid var(--ansi-white);
+    flex-shrink: 0;
+    background: var(--bg-canvas);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        body { padding: 2rem; max-width: 800px; margin: 0 auto; }
+        .control-panel { padding: 1rem; border: 1px solid var(--pico-muted-border-color); border-radius: 8px; margin-bottom: 2rem; }
+        .log { font-family: monospace; font-size: 0.8rem; height: 200px; overflow-y: auto; background: var(--pico-card-background-color); padding: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>🗣️ Text-to-Speech Test</h1>
+    <p>Testing the Web Speech API (window.speechSynthesis) for PolyVis integration.</p>
+
+    <div class="control-panel">
+        <label for="text">Text to Speak</label>
+        <textarea id="text" rows="3">Hello! I am Amalfa. This is a test of the Web Speech API.</textarea>
+
+        <label for="voice">Voice</label>
+        <select id="voice"><option>Loading voices...</option></select>
+
+        <div class="grid">
+            <div>
+                <label for="rate">Rate</label>
+                <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1">
+            </div>
+            <div>
+                <label for="pitch">Pitch</label>
+                <input type="range" id="pitch" min="0.5" max="2" value="1" step="0.1">
+            </div>
+        </div>
+
+        <button onclick="speak()">🔊 Speak</button>
+        <button class="secondary" onclick="stop()">⏹️ Stop</button>
+    </div>
+
+    <h3>Logs</h3>
+    <div id="log" class="log"></div>
+
+    <script>
+        const synth = window.speechSynthesis;
+        const voiceSelect = document.getElementById('voice');
+        const logDiv = document.getElementById('log');
+
+        function log(msg) {
+            logDiv.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function populateVoices() {
+            const voices = synth.getVoices();
+            if (voices.length === 0) return; // Wait for async loading
+
+            voiceSelect.innerHTML = '';
+            
+            // Prefer English voices
+            voices.sort((a, b) => {
+                const aName = a.name.toLowerCase();
+                const bName = b.name.toLowerCase();
+                if (aName.includes('google') && !bName.includes('google')) return -1;
+                return a.name.localeCompare(b.name);
+            });
+
+            voices.forEach(voice => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.setAttribute('data-lang', voice.lang);
+                option.setAttribute('data-name', voice.name);
+                voiceSelect.appendChild(option);
+            });
+            log(`Loaded ${voices.length} voices.`);
+        }
+
+        populateVoices();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateVoices;
+        }
+
+        function speak() {
+            if (synth.speaking) {
+                console.error('speechSynthesis.speaking');
+                return;
+            }
+
+            const text = document.getElementById('text').value;
+            const utterThis = new SpeechSynthesisUtterance(text);
+            
+            const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+            const voices = synth.getVoices();
+            for (let i = 0; i < voices.length; i++) {
+                if (voices[i].name === selectedOption) {
+                    utterThis.voice = voices[i];
+                    break;
+                }
+            }
+            
+            utterThis.rate = document.getElementById('rate').value;
+            utterThis.pitch = document.getElementById('pitch').value;
+
+            utterThis.onstart = () => log('Speaking...');
+            utterThis.onend = () => log('Finished.');
+            utterThis.onerror = (e) => log('Error: ' + e.error);
+
+            synth.speak(utterThis);
+        }
+
+        function stop() {
+            synth.cancel();
+            log('Stopped.');
+        }
+    </script>
+</body>
+</html>
