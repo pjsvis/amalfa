@@ -3,6 +3,7 @@ tags:
   - metadata
   - vocabulary
   - agent-driven
+  - extracted
 ---
 # Sonar System Overview
 

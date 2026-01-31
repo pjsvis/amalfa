@@ -1,4 +1,5 @@
 import { unlink } from "node:fs/promises";
+import { getSubstanceHash, commitFile } from "@src/utils/ghost";
 import { getLogger } from "@src/utils/Logger";
 import matter from "gray-matter";
 import type { EmberSidecar } from "./types";
@@ -51,14 +52,35 @@ export class EmberSquasher {
 				data.summary = sidecar.changes.summary;
 			}
 
-			// 5. Reconstruct File
+			// 5. Calculate Signature (Seal)
+			// We calculate the hash of the *content only* to ensure the fine-gate works.
+			const substanceHash = getSubstanceHash(parsed.content, targetPath);
+			data.amalfa_hash = substanceHash;
+
+			// 6. Reconstruct File
 			const newContent = matter.stringify(parsed.content, data);
 
-			// 6. Write Back
+			// 7. Write Back
 			await Bun.write(targetPath, newContent);
+
+			// 8. Seal with Git (Audit Trail)
+			// This makes git diff --quiet return 0 (Clean), allowing the Coarse Gate to pass.
+			const committed = commitFile(
+				targetPath,
+				"chore(ember): squash sidecar insights",
+			);
+			if (committed) {
+				this.log.info({ targetPath }, "🔏 Sealed and commited file");
+			} else {
+				this.log.warn(
+					{ targetPath },
+					"⚠️  Failed to commit file (Ghost Signature active but not committed)",
+				);
+			}
+
 			this.log.info(`Squashed sidecar into ${targetPath}`);
 
-			// 7. Cleanup Sidecar
+			// 9. Cleanup Sidecar
 			await unlink(sidecarPath);
 		} catch (error) {
 			this.log.error(

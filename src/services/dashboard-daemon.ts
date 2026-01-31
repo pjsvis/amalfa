@@ -30,6 +30,11 @@ export class DashboardDaemon {
 			return c.html(this.renderSummary(stats));
 		});
 
+		// Architecture page
+		this.app.get("/architecture", (c) => {
+			return c.html(this.renderArchitecture());
+		});
+
 		// API endpoints
 		this.app.get("/api/stats", async (c) => {
 			const stats = await this.getSystemStats();
@@ -297,6 +302,7 @@ export class DashboardDaemon {
   <div class="links">
     <a href="/graph.html">📊 Graph</a>
     <a href="/docs.html">📚 Docs</a>
+    <a href="/architecture">🏗️ Arch</a>
     <a href="/api/stats">🔌 API</a>
   </div>
 
@@ -381,6 +387,103 @@ export class DashboardDaemon {
 		}
 
 		log.info("Dashboard stopped");
+	}
+
+	private renderArchitecture() {
+		const mdPath = "docs/architecture/state-machines.md";
+		let content = "";
+		if (existsSync(mdPath)) {
+			content = readFileSync(mdPath, "utf-8");
+		}
+
+		// Basic Markdown to HTML Parser
+		const dots: string[] = [];
+
+		// 1. Extract DOT blocks and replace with placeholders
+		content = content.replace(/```dot([\s\S]*?)```/g, (_match, dot) => {
+			dots.push(dot.trim());
+			return `<div id="viz-${dots.length - 1}" class="viz-container">Rendering Diagram...</div>`;
+		});
+
+		// 2. Headers
+		content = content
+			.replace(/^# (.*$)/gm, "<h1>$1</h1>")
+			.replace(/^## (.*$)/gm, "<h2>$1</h2>")
+			.replace(/^### (.*$)/gm, "<h3>$1</h3>");
+
+		// 3. Lists (Basic support)
+		content = content.replace(/^\* (.*$)/gm, "<li>$1</li>");
+
+		// 4. Other Code blocks
+		content = content.replace(
+			/```([\s\S]*?)```/g,
+			"<pre><code>$1</code></pre>",
+		);
+
+		// 5. Bold/Italic (Basic)
+		content = content.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+		content = content.replace(/`(.*?)`/g, "<code>$1</code>");
+
+		// 6. Handle paragraphs (lines separated by blank lines are paragraphs, but simple replacement of \n is tricky)
+		// For simplicity in this view, we'll let existing newlines be handled by white-space style or <br>
+		content = content.replace(/\n/g, "<br>");
+
+		return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>System Architecture</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.js"></script>
+  <style>
+    body { padding: 2rem; max-width: 900px; margin: 0 auto; }
+    .nav { margin-bottom: 2rem; }
+    .viz-container { 
+        text-align: center; 
+        margin: 2rem 0; 
+        padding: 1rem; 
+        border: 1px solid var(--pico-muted-border-color); 
+        border-radius: 8px;
+        background: var(--pico-card-background-color);
+    }
+    svg { max-width: 100%; height: auto; }
+    h1 { color: var(--pico-primary); border-bottom: 2px solid var(--pico-primary); padding-bottom: 0.5rem; margin-top: 0; }
+    h2 { margin-top: 3rem; border-bottom: 1px solid var(--pico-muted-border-color); padding-bottom: 0.5rem; }
+    h3 { margin-top: 1.5rem; color: var(--pico-contrast); }
+    li { margin-left: 1.5rem; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+    /* Fix <br> messing up layout slightly, but it's acceptable for MVP doc view */
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="/">⬅️ Dashboard</a>
+  </div>
+  
+  <main>
+    ${content}
+  </main>
+
+  <script>
+    const dots = ${JSON.stringify(dots)};
+    const viz = new Viz();
+
+    dots.forEach((dot, index) => {
+        const container = document.getElementById('viz-' + index);
+        viz.renderSVGElement(dot)
+          .then(element => {
+            container.innerHTML = '';
+            container.appendChild(element);
+          })
+          .catch(error => {
+            console.error(error);
+            container.innerHTML = '<p style="color:red">Error rendering graph: ' + error + '</p>';
+          });
+    });
+  </script>
+</body>
+</html>`;
 	}
 
 	public isRunning(): boolean {

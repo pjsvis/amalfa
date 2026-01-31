@@ -9,6 +9,7 @@ tags:
   - metadata
   - vocabulary
   - agent-driven
+  - extracted
 ---
 
 # Debriefs Playbook

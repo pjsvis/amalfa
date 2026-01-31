@@ -15,9 +15,11 @@ import {
 import { EmberService } from "@src/ember";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { ResonanceDB } from "@src/resonance/db";
+import { getSubstanceHash, hasGitChanges } from "@src/utils/ghost";
 import { getLogger } from "@src/utils/Logger";
 import { sendNotification } from "@src/utils/Notifications";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
+import matter from "gray-matter";
 
 const args = process.argv.slice(2);
 const command = args[0] || "serve";
@@ -166,7 +168,33 @@ function triggerIngestion(debounceMs: number) {
 				// Note: Reading again from disk is safer than passing content from ingestor for now
 				for (const file of batch) {
 					try {
+						// Gate 1: Git Check (Coarse)
+						if (!hasGitChanges(file)) {
+							log.debug(
+								{ file },
+								"👻 Ghost Gate 1: No git changes (System/Squash Write), skipping Ember",
+							);
+							continue;
+						}
+
 						const content = await Bun.file(file).text();
+
+						// Gate 2: Ghost Signature Check (Fine)
+						// This handles cases where file is dirty but only metadata changed (or not yet committed)
+						const substanceHash = getSubstanceHash(content, file);
+						let frontmatter: any = {};
+						try {
+							frontmatter = matter(content).data;
+						} catch {}
+
+						if (frontmatter.amalfa_hash === substanceHash) {
+							log.debug(
+								{ file },
+								"👻 Ghost Gate 2: Signature match (Self-Write), skipping Ember",
+							);
+							continue;
+						}
+
 						const sidecar = await ember.analyze(file, content);
 						if (sidecar) {
 							await ember.generate(sidecar);

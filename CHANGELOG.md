@@ -5,6 +5,18 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Dashboard Service Integration**: Complete monitoring for 6 system services (Vector, Reranker, Sonar, Dashboard, Ingest, Enrich).
+- **Architecture Visualization**: New `/architecture` page with interactive state machine diagrams (Viz.js).
+- **Resilience**: Added PID tracking for Ingest and Enrich services. E2E tested lifecycle.
+- **PolyVis Integration Prep**: Paved the way for migrating Dashboard frontend to PolyVis assets.
+
+### Fixed
+- **PID Path Resolution**: Fixed dashboard looking in legacy `.amalfa/pids` instead of `.amalfa/runtime`.
+- **Harvest Command**: Added fallback for missing API keys (OpenRouter env var support).
+
 ## [1.5.0] - 2026-01-26
 
 ### Added

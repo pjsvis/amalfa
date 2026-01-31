@@ -1,3 +1,11 @@
+---
+tags:
+  - feature
+  - sidecar
+  - python
+  - mcp
+  - lang-extract
+---
 # Brief: Late-Fusion Hybrid Search (The Bicameral Implementation)
 
 **Date:** 2026-01-26

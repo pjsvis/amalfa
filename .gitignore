@@ -114,3 +114,6 @@ test-docs/
 
 # Ember Sidecars (Ephemeral artifacts)
 *.ember.json
+
+# Temporary Reference Files
+_temp-files/

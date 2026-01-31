@@ -1,3 +1,7 @@
+---
+tags:
+  - stub
+---
 This brief establishes the operational parameters for integrating the `leidenalg` library into the Amalfa Bun-TypeScript environment. We follow the **Edinburgh Protocol** by prioritizing **Improvement** over theoretical complexity and enforcing a **Fail-Fast** methodology to ensure high-fidelity **Mentation**.
 
 ---
