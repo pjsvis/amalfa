@@ -38,7 +38,6 @@ export class JsonlUtils {
 		const stream = file.stream();
 
 		// Convert Web ReadableStream to Node Readable for readline
-		// @ts-expect-error
 		const nodeStream = Readable.fromWeb(stream);
 
 		const rl = createInterface({

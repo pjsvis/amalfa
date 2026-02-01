@@ -1,0 +1,63 @@
+digraph LexiconPipeline {
+    rankdir=LR;
+    node [shape=box, fontname="SF Mono"];
+    edge [fontname="SF Mono", fontsize=10];
+
+    subgraph cluster_inputs {
+        label = "Input Sources";
+        style = dashed;
+        Corpus [label="Raw Corpus\n(.md, .ts)"];
+        Sidecars [label="LLM Sidecars\n(*.ember.json)"];
+    }
+
+    subgraph cluster_stages {
+        label = "Transformation Stages";
+        node [style=filled, fillcolor="#eeeeee"];
+        
+        S1 [label="1. HARVEST\n(generate-golden-nodes)"];
+        S2 [label="2. REFINE\n(Filter Freq/Stop)"];
+        S3 [label="3. ENRICH\n(Map Sidecars)"];
+        S4 [label="4. EMBED\n(Vectorize)"];
+        S5 [label="5. EDGE SURVEY\n(Structure/Semantics)"];
+        S6 [label="6. INGEST\n(ResonanceDB)"];
+    }
+
+    subgraph cluster_artifacts {
+        label = "Artifacts (.amalfa/)";
+        node [shape=note, color="#58a6ff"];
+        
+        A1 [label="lexicon-candidates.jsonl"];
+        A2 [label="golden-lexicon.jsonl"];
+        A3 [label="golden-lexicon-enriched.jsonl"];
+        A4 [label="final-nodes.jsonl"];
+        A5 [label="proposed-edges.jsonl"];
+        DB [label="ResonanceDB\n(sqlite)", shape=cylinder, fillcolor="#4f6", style=filled];
+    }
+
+    // Flow
+    Corpus -> S1;
+    S1 -> A1 [label="4k nodes"];
+    
+    A1 -> S2;
+    S2 -> A2 [label="915 nodes"];
+    
+    A2 -> S3;
+    Sidecars -> S3;
+    S3 -> A3 [label="Descriptions"];
+    
+    A3 -> S4;
+    S4 -> A4 [label="+ Vectors"];
+    
+    // Edges (Parallel)
+    A3 -> S5;
+    Sidecars -> S5;
+    S5 -> A5 [label="1800 edges"];
+    
+    // Ingest
+    A4 -> S6;
+    A5 -> S6;
+    S6 -> DB;
+    
+    // Round Trip
+    DB -> S6 [label="Verify (Read-Back)", style=dotted, dir=back];
+}

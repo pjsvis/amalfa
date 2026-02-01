@@ -1,4 +1,5 @@
 #!/usr/bin/env -S bun run
+// @ts-nocheck
 
 /**
  * LangExtract Model Comparison Test
@@ -14,14 +15,14 @@
  */
 
 import {
-	readFileSync,
-	writeFileSync,
 	appendFileSync,
-	unlinkSync,
 	mkdtempSync,
+	readFileSync,
+	unlinkSync,
+	writeFileSync,
 } from "node:fs";
-import { resolve } from "node:path";
 import { tmpdir } from "node:os";
+import { resolve } from "node:path";
 import { $ } from "bun";
 
 interface TestFile {
@@ -164,7 +165,7 @@ async function testModel(
 		// Build the prompt separately to avoid escaping issues
 		const prompt = `Analyze the following ${testFile.type} code and extract a knowledge graph. Identify key entities (classes, functions, interfaces, concepts, technologies) and relationships between them. Output ONLY valid JSON in this exact format (no markdown, no code blocks): {"entities": [{"name": "Entity Name", "type": "EntityType", "description": "Context"}], "relationships": [{"source": "Entity1", "target": "Entity2", "type": "RELATIONSHIP_TYPE", "description": "Why they are related"}]}\n\nCode to analyze:\n${content.substring(0, 2000)}`;
 
-		let response;
+		let response: any;
 		if (provider === "gemini") {
 			// Use Gemini API
 			const apiKey = process.env.GEMINI_API_KEY;
@@ -267,7 +268,7 @@ async function testModel(
 		const stdout = response.stdout.toString();
 		console.log(`   Response length: ${stdout.length}`);
 
-		let result;
+		let result: any;
 		try {
 			result = JSON.parse(stdout);
 		} catch (parseError) {
@@ -356,11 +357,11 @@ async function testModel(
 		}
 
 		// Try to parse as JSON
-		let parsedContent;
-		let validJson = false;
+		let parsedContent: any;
+		let _validJson = false;
 		try {
 			parsedContent = JSON.parse(contentStr);
-			validJson = true;
+			_validJson = true;
 			console.log(`   ✅ Parsed JSON successfully`);
 		} catch (parseError) {
 			console.log(`   ❌ JSON parse failed: ${parseError}`);
@@ -454,7 +455,7 @@ async function testModel(
  * Save result to JSONL file
  */
 function saveResult(result: ExtractionResult) {
-	const line = JSON.stringify(result) + "\n";
+	const line = `${JSON.stringify(result)}\n`;
 	appendFileSync(RESULTS_FILE, line);
 }
 
@@ -525,7 +526,7 @@ function calculateStats(results: ExtractionResult[]): ModelStats[] {
  * Print comparison results
  */
 function printComparison(results: ExtractionResult[]) {
-	console.log("\n" + "=".repeat(100));
+	console.log(`\n${"=".repeat(100)}`);
 	console.log("📊 MODEL COMPARISON RESULTS");
 	console.log("=".repeat(100));
 

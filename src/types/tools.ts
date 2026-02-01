@@ -10,7 +10,6 @@ export interface ToolSchema {
 
 export interface ToolImplementation {
 	schema: ToolSchema;
-	// biome-ignore lint/suspicious/noExplicitAny: generic tool handler
 	handler: (args: any) => Promise<any>;
 }
 

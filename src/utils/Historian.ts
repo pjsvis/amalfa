@@ -24,7 +24,6 @@ export interface HistorianEvent {
 	timestamp: string;
 	type: HistorianEventType;
 	tool: string;
-	// biome-ignore lint/suspicious/noExplicitAny: generic payload
 	payload: any;
 	durationMs?: number;
 }
@@ -64,7 +63,6 @@ export class Historian {
 	 * Record a tool call (request)
 	 * @returns callId to be used for matching result
 	 */
-	// biome-ignore lint/suspicious/noExplicitAny: generic args
 	recordCall(tool: string, args: any): string {
 		const callId = randomUUID();
 		this.appendLog({
@@ -82,7 +80,6 @@ export class Historian {
 	recordResult(
 		callId: string,
 		tool: string,
-		// biome-ignore lint/suspicious/noExplicitAny: generic result
 		result: any,
 		durationMs: number,
 	): void {
@@ -101,7 +98,6 @@ export class Historian {
 	recordError(
 		callId: string,
 		tool: string,
-		// biome-ignore lint/suspicious/noExplicitAny: generic error
 		error: any,
 		durationMs: number,
 	): void {

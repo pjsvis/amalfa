@@ -5,6 +5,8 @@ import pkg from "../package.json" with { type: "json" };
 import { cmdDoctor } from "./cli/commands/doctor";
 import { cmdExplore } from "./cli/commands/explore";
 import { cmdFindGaps } from "./cli/commands/find-gaps";
+import { cmdHarvest } from "./cli/commands/harvest";
+import { cmdHarvestLexicon } from "./cli/commands/harvest-lexicon";
 import { cmdInit } from "./cli/commands/init";
 import { cmdInjectTags } from "./cli/commands/inject-tags";
 import { cmdListSources } from "./cli/commands/list-sources";
@@ -21,8 +23,6 @@ import {
 import { cmdSetupMcp } from "./cli/commands/setup";
 import { cmdSetupPython } from "./cli/commands/setup-python";
 import { cmdSquash } from "./cli/commands/squash";
-import { cmdHarvest } from "./cli/commands/harvest";
-import { cmdHarvestLexicon } from "./cli/commands/harvest-lexicon";
 
 // ... existing imports ...
 

@@ -22,7 +22,6 @@ export interface Node {
 
 export class ResonanceDB {
 	private db: Database;
-	// biome-ignore lint/correctness/noUnusedPrivateClassMembers: May be used for debugging/diagnostics
 	private dbPath: string;
 
 	/**
@@ -252,7 +251,6 @@ export class ResonanceDB {
 		});
 	}
 
-	// biome-ignore lint/suspicious/noExplicitAny: row is raw DB result
 	private mapRowToNode(row: any): Node {
 		return {
 			id: row.id,

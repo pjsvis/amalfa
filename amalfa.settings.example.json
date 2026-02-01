@@ -1,23 +1,55 @@
 {
-  "langExtract": {
-    "provider": "gemini",
-    "fallbackOrder": [
-      "ollama",
-      "ollama_cloud",
-      "openrouter"
-    ],
-    "gemini": {
-      "model": "gemini-flash-latest"
-    },
-    "ollama": {
-      "model": "qwen2.5:1.5b"
-    },
-    "ollama_cloud": {
-      "host": "",
-      "model": "qwen2.5:7b"
-    },
-    "openrouter": {
-      "model": "qwen/qwen-2.5-72b-instruct"
-    }
-  }
+	"sources": [".", "src", "scripts"],
+	"database": ".amalfa/resonance.db",
+	"embeddings": {
+		"model": "BAAI/bge-small-en-v1.5",
+		"dimensions": 384
+	},
+	"watch": {
+		"enabled": true,
+		"debounce": 1000,
+		"notifications": true
+	},
+	"excludePatterns": ["node_modules", ".git", ".amalfa", "tests"],
+	"sonar": {
+		"enabled": false,
+		"autoDiscovery": true,
+		"discoveryMethod": "cli",
+		"inferenceMethod": "http",
+		"model": "qwen2.5:1.5b",
+		"modelPriority": ["qwen2.5:1.5b", "tinydolphin:latest"],
+		"host": "localhost:11434",
+		"port": 3012,
+		"tasks": {
+			"search": {
+				"enabled": true,
+				"timeout": 5000,
+				"priority": "high"
+			},
+			"metadata": {
+				"enabled": true,
+				"timeout": 30000,
+				"autoEnhance": true,
+				"batchSize": 10
+			},
+			"content": {
+				"enabled": false,
+				"timeout": 300000,
+				"schedule": "daily"
+			}
+		}
+	},
+	"ember": {
+		"enabled": true,
+		"minConfidence": 0.8,
+		"autoSquash": false,
+		"backupDir": ".amalfa/backups/ember"
+	},
+	"langExtract": {
+		"provider": "ollama",
+		"ollama": {
+			"host": "http://localhost:11434",
+			"model": "qwen2.5:1.5b"
+		}
+	}
 }

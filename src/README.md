@@ -14,9 +14,13 @@ This directory contains the core source code for the Amalfa project. Amalfa is a
 - `config/` - Configuration management and loading
 - `core/` - Core application logic and services
 - `daemon/` - Background services (Vector Daemon, Sonar Agent)
+- `ember/` - Ember enrichment service
 - `mcp/` - Model Context Protocol server implementation
 - `pipeline/` - Data processing pipelines
 - `resonance/` - Knowledge graph and semantic services
+- `services/` - Service clients and standalone daemons
+- `sidecars/` - External language runtimes (Python)
+- `tools/` - MCP Tool definitions
 - `types/` - TypeScript type definitions
 - `utils/` - Utility functions and helpers
 

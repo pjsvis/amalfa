@@ -1,8 +1,8 @@
-import { getLogger } from "@src/utils/Logger";
-import { LangExtractClient } from "@src/services/LangExtractClient";
+import { readFileSync, statSync } from "node:fs";
 import { readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { statSync, readFileSync, existsSync } from "node:fs";
+import { LangExtractClient } from "@src/services/LangExtractClient";
+import { getLogger } from "@src/utils/Logger";
 import { StatsLogger } from "@src/utils/StatsLogger";
 
 const log = getLogger("CLI:Harvest");
@@ -72,7 +72,7 @@ export async function cmdHarvest(args: string[]) {
 		let skipped = 0;
 		let errors = 0;
 		let consecutiveErrors = 0;
-		let lastErrorMessage = "";
+		let _lastErrorMessage = "";
 
 		// Track skipped files by reason
 		const skippedFiles: {
@@ -131,7 +131,7 @@ export async function cmdHarvest(args: string[]) {
 
 						// Reset circuit breaker on success
 						consecutiveErrors = 0;
-						lastErrorMessage = "";
+						_lastErrorMessage = "";
 
 						processed++;
 						if (processed % 10 === 0) {
@@ -167,7 +167,7 @@ export async function cmdHarvest(args: string[]) {
 						// Other errors tracked for circuit breaker
 						if (isRateLimit) {
 							consecutiveErrors++;
-							lastErrorMessage = errorMsg;
+							_lastErrorMessage = errorMsg;
 						} else {
 							skippedFiles.errors.push(filePath);
 						}
@@ -230,11 +230,11 @@ export async function cmdHarvest(args: string[]) {
 												}
 											}
 										}
-									} catch (err) {
+									} catch (_err) {
 										console.log("   (Could not fetch account status)");
 									}
 								}
-							} else if (errorType === "Timeout") {
+							} else if ((errorType as string) === "Timeout") {
 								console.log("   - Files may be too large for processing");
 								console.log("   - Consider reducing MAX_FILE_SIZE");
 							} else {
@@ -275,7 +275,7 @@ export async function cmdHarvest(args: string[]) {
 				"-e",
 				`display notification "${notificationMessage}" with title "${notificationTitle}"`,
 			]);
-		} catch (err) {
+		} catch (_err) {
 			// Notification failed, not critical
 		}
 

@@ -1,6 +1,6 @@
 import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { loadConfig } from "@src/config/defaults";
+import { loadConfig, loadSettings } from "@src/config/defaults";
 import { getDbPath } from "../utils";
 
 export async function cmdDoctor(_args: string[]) {
@@ -28,6 +28,16 @@ export async function cmdDoctor(_args: string[]) {
 		console.log(`✓ AMALFA directory: ${amalfaDir}`);
 	} else {
 		console.log(`✗ AMALFA directory not found: ${amalfaDir}`);
+		issues++;
+	}
+
+	// Check Settings (SSOT) Compliance
+	try {
+		loadSettings(false);
+		console.log("✓ Settings (SSOT): OK");
+	} catch (e: any) {
+		console.log(`✗ Settings (SSOT) Invalid/Missing`);
+		console.log(`  Error: ${e.message || e}`);
 		issues++;
 	}
 

@@ -1,264 +1,254 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PolyVis | Structural Information Engineering</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" href="/css/app.css" />
-  <script src="/js/app.js" defer></script>
-  <!-- Inline Theme Init -->
-  <script>
-    (() => {
-      const stored = localStorage.getItem('polyvis-theme');
-      if (stored) {
-        document.documentElement.setAttribute('data-theme', stored);
-      }
-    })();
-  </script>
-  <script type="module" src="/js/utils/theme.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolyVis Mainframe</title>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        :root {
+            --bg: #050505;
+            --tile-bg: #111;
+            --tile-hover: #1a1a1a;
+            --fg: #ccc;
+            --fg-dim: #666;
+            --accent: #4f6; /* Green */
+            --danger: #f44;
+            --border: #222;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+            font-size: 11px;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-<body class="home-layout" x-data="{ loaded: false, debug: false }" x-init="setTimeout(() => loaded = true, 50)"
-  :class="{ 'loaded': loaded, 'layout-debug-mode': debug }" @keydown.window.shift.d="debug = !debug">
-  
-  <div class="app-shell">
-    <!-- Navbar (Minimal) -->
-    <header class="app-header">
-        <nav class="nav-wrapper" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; width: 100%;">
-            <div style="display: flex; align-items: center; gap: 2rem;">
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <a href="/" class="nav-brand" style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.02em; text-decoration: none;">POLYVIS</a>
-                    <span style="font-size: 10px; opacity: 0.5; font-family: var(--font-mono);">v2026.01</span>
-                </div>
-                
-                <div class="nav-links" style="display: flex; gap: 1rem; white-space: nowrap;">
-                    <a href="/" class="nav-item active">
-                       <i data-lucide="home" style="width: 14px; height: 14px;"></i> HQ
-                    </a>
-                    <a href="/docs/" class="nav-item">
-                       <i data-lucide="book-open" style="width: 14px; height: 14px;"></i> Docs
-                    </a>
-                    <a href="/sigma-explorer/" class="nav-item">
-                       <i data-lucide="layout-dashboard" style="width: 14px; height: 14px;"></i> Graph
-                    </a>
-                </div>
-            </div>
+        /* Top Bar */
+        #topbar {
+            background: #000;
+            border-bottom: 1px solid var(--border);
+            padding: 4px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 30px;
+            flex-shrink: 0;
+        }
+        .brand { color: #fff; font-weight: bold; letter-spacing: 1px; margin-right: 20px; }
+        .version { color: var(--fg-dim); font-size: 10px; }
+        .nav { display: flex; gap: 15px; }
+        .nav a { color: var(--fg-dim); text-decoration: none; text-transform: uppercase; }
+        .nav a:hover { color: #fff; }
+        .nav a.active { color: var(--accent); }
 
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <button onclick="window.speechSynthesis.cancel()" class="nav-item" title="Silence Audio" style="background: none; border: none; cursor: pointer;">
-                    <i data-lucide="volume-x" style="width: 14px; height: 14px;"></i>
-                </button>
-                <button onclick="window.toggleTheme()" class="nav-item" style="background: none; border: none; cursor: pointer;">
-                    <i data-lucide="sun" style="width: 14px; height: 14px;"></i> Theme
-                </button>
-            </div>
-        </nav>
-    </header>
+        /* Stats Strip */
+        #stats {
+            background: #0a0a0a;
+            border-bottom: 1px solid var(--border);
+            padding: 4px 8px;
+            display: flex;
+            gap: 20px;
+            color: var(--fg-dim);
+            height: 24px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        #stats b { color: #fff; }
 
-    <aside class="app-sidebar-left"></aside>
+        /* Main Workspace */
+        #workspace {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
 
-    <main class="app-main" style="overflow-y: auto; justify-content: flex-start;">
-      <div class="container-dashboard" 
-           x-data="{ 
-              stats: { nodes: 0, edges: 0 }, 
-              services: [], 
-              runs: [],
-              async load() {
-                  try {
-                      this.stats = await (await fetch('/api/stats')).json();
-                      this.services = await (await fetch('/api/services')).json();
-                      this.runs = await (await fetch('/api/runs')).json();
-                  } catch (e) { console.error('Dashboard Load Error', e); }
-              },
-              async controlService(name, action) {
-                  if(name === 'Dashboard' && (action === 'stop' || action === 'restart')) {
-                      if(!confirm('Stopping the dashboard will kill this UI. Continue?')) return;
-                  }
-                  await fetch(`/api/services/${name}/${action}`, { method: 'POST' });
-                  setTimeout(() => this.load(), 2000);
-              }
-           }" 
-           x-init="load(); setInterval(load, 5000)"
-           style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; width: 100%; max-width: 1400px; padding: 2rem; align-items: start;">
+        /* Left Panel: Services */
+        #services {
+            width: 300px;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            background: #080808;
+        }
+        .panel-head {
+            padding: 4px 8px;
+            background: #111;
+            border-bottom: 1px solid var(--border);
+            font-weight: bold;
+            color: #888;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+        .service-list { overflow-y: auto; flex-grow: 1; }
         
-        <!-- CARD 1: IDENTITY & METRICS -->
-        <div class="dashboard-card home-box" style="width: 100%; max-width: none; aspect-ratio: auto; border: 2px solid var(--ansi-white); padding: 24px; text-align: left; background-color: var(--surface-1);">
-            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 24px;">
-                <div>
-                    <h1 class="home-title" style="margin-bottom: 4px; font-size: 2rem;">POLYVIS</h1>
-                    <div class="home-subtitle" style="font-size: 0.8rem;">Structural Information Engineering</div>
-                </div>
-                <div x-data="{ status: 'ONLINE', color: 'var(--ansi-green)' }" 
-                     style="display: flex; align-items: center; gap: 6px; font-size: 10px; font-family: var(--font-mono); border: 1px solid var(--ansi-green); padding: 4px 8px; color: var(--ansi-green);">
-                    <span class="status-dot" :style="`width: 6px; height: 6px; background-color: ${color}; border-radius: 50%;`"></span>
-                    <span x-text="status" style="font-weight: bold;"></span>
-                </div>
-            </div>
+        .svc-row {
+            padding: 6px 8px;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .svc-row:hover { background: #111; }
+        .svc-name { font-weight: bold; color: #ddd; }
+        .svc-meta { font-size: 10px; color: var(--fg-dim); display: flex; align-items: center; gap: 6px; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #333; }
+        .running { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+        .stopped { background: var(--danger); }
+        
+        button.btn-xs {
+            background: transparent;
+            border: 1px solid var(--fg-dim);
+            color: var(--fg-dim);
+            padding: 1px 4px;
+            font-size: 9px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        button.btn-xs:hover { border-color: #fff; color: #fff; }
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
-                <div style="border: 1px solid var(--ansi-white); padding: 12px;">
-                    <div style="font-size: 32px; font-weight: bold; line-height: 1;" x-text="stats.nodes">0</div>
-                    <div style="font-size: 10px; opacity: 0.7; letter-spacing: 1px; margin-top: 4px;">NODES</div>
-                </div>
-                <div style="border: 1px solid var(--ansi-white); padding: 12px;">
-                    <div style="font-size: 32px; font-weight: bold; line-height: 1;" x-text="stats.edges">0</div>
-                    <div style="font-size: 10px; opacity: 0.7; letter-spacing: 1px; margin-top: 4px;">EDGES</div>
-                </div>
-            </div>
-            
-            <div style="display: flex; gap: 12px;">
-                 <a href="/sigma-explorer/" class="btn-structural" style="flex: 1; justify-content: center; padding: 12px;">
-                    <i data-lucide="layout-dashboard" style="width: 16px; height: 16px; margin-right: 8px;"></i> GRAPH
-                 </a>
-                 <a href="/docs/" class="btn-structural" style="flex: 1; justify-content: center; padding: 12px;">
-                    <i data-lucide="book-open" style="width: 16px; height: 16px; margin-right: 8px;"></i> DOCS
-                 </a>
-            </div>
-            
-            <div style="margin-top: 24px; font-size: 10px; opacity: 0.5; font-family: var(--font-mono); border-top: 1px solid var(--border-dim); padding-top: 12px;">
-                System Uptime: <span x-text="Math.floor(performance.now() / 1000) + 's'"></span>
+        /* Right Panel: Logs/Activity */
+        #activity {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--border); color: var(--fg-dim); font-weight: normal; }
+        td { padding: 4px 8px; border-bottom: 1px solid #1a1a1a; color: #aaa; }
+        tr:hover { background: #111; }
+        
+        .empty-state { padding: 20px; color: var(--fg-dim); text-align: center; }
+
+    </style>
+</head>
+<body x-data="dashboard()">
+    
+    <!-- Header -->
+    <div id="topbar">
+        <div style="display:flex; align-items:center">
+            <span class="brand">POLYVIS::MAINFRAME</span>
+            <span class="version">v2.0</span>
+        </div>
+        <div class="nav">
+            <a href="/" class="active">Systems</a>
+            <a href="/lexicon.html">Lexicon</a>
+            <a href="/sigma-explorer/">Graph</a>
+            <a href="/docs/">Docs</a>
+        </div>
+        <div style="font-size:10px; color:#555">
+            UPTIME: <span x-text="uptime">0</span>s
+        </div>
+    </div>
+
+    <!-- Global Stats -->
+    <div id="stats">
+        <span>NODES: <b x-text="stats.nodes">0</b></span>
+        <span>EDGES: <b x-text="stats.edges">0</b></span>
+        <span>STATUS: <b style="color:var(--accent)">ONLINE</b></span>
+    </div>
+
+    <div id="workspace">
+        <!-- Services Panel -->
+        <div id="services">
+            <div class="panel-head">Active Daemons</div>
+            <div class="service-list">
+                <template x-for="svc in services" :key="svc.name">
+                    <div class="svc-row">
+                        <div>
+                            <div class="svc-name" x-text="svc.name"></div>
+                            <div class="svc-meta">
+                                <span class="status-dot" :class="svc.status === 'running' ? 'running' : 'stopped'"></span>
+                                <span x-text="svc.status.toUpperCase()"></span>
+                                <span x-show="svc.pid" x-text="'PID:' + svc.pid"></span>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:4px">
+                            <button class="btn-xs" x-show="svc.status === 'running'" @click="control(svc.name, 'stop')">STOP</button>
+                            <button class="btn-xs" x-show="svc.status !== 'running'" @click="control(svc.name, 'start')">START</button>
+                            <button class="btn-xs" @click="control(svc.name, 'restart')">RST</button>
+                        </div>
+                    </div>
+                </template>
+                <div x-show="services.length === 0" class="empty-state">Scanning...</div>
             </div>
         </div>
 
-        <!-- CARD 2: SERVICE HEALTH -->
-        <div class="dashboard-card" style="border: 2px solid var(--ansi-white); padding: 24px; background-color: var(--surface-1);">
-             <div class="text-xs font-bold uppercase tracking-widest mb-6 border-b border-[var(--border-dim)] pb-2">Service Status</div>
-             
-             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;">
-                 <template x-for="service in services" :key="service.name">
-                     <div class="p-4 border border-[var(--border-dim)] bg-[var(--surface-2)] flex flex-col gap-3 transition-colors hover:border-[var(--text-1)]"
-                          style="min-height: 140px; justify-content: space-between;">
-                         
-                         <!-- Header -->
-                         <div class="flex items-start justify-between">
-                             <span class="font-mono text-xs font-bold leading-tight" x-text="service.name" style="max-width: 80%;"></span>
-                             <div class="w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] shrink-0" 
-                                  :class="service.status === 'running' ? 'bg-green-500 text-green-500' : 'bg-red-500 text-red-500'"></div>
-                         </div>
-
-                         <!-- Status Details -->
-                         <div class="text-xxs font-mono opacity-50 flex flex-col gap-1">
-                             <div x-text="service.status.toUpperCase()" :class="service.status === 'running' ? 'text-green-500' : 'text-red-500'"></div>
-                             <div x-text="service.pid ? 'PID: ' + service.pid : ''"></div>
-                         </div>
-
-                         <!-- Actions -->
-                         <div class="grid grid-cols-2 gap-2 mt-auto">
-                             <template x-if="service.status === 'running'">
-                                <button @click="controlService(service.name, 'stop')" 
-                                        class="text-xxs py-1.5 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white uppercase transition-colors text-center">STOP</button>
-                             </template>
-                             <template x-if="service.status !== 'running'">
-                                <button @click="controlService(service.name, 'start')" 
-                                        class="text-xxs py-1.5 border border-green-500 text-green-500 hover:bg-green-500 hover:text-white uppercase transition-colors text-center">START</button>
-                             </template>
-                             <button @click="controlService(service.name, 'restart')" 
-                                     class="text-xxs py-1.5 border border-[var(--text-2)] text-[var(--text-2)] hover:bg-[var(--text-2)] hover:text-black uppercase transition-colors text-center">RESET</button>
-                         </div>
-                     </div>
-                 </template>
-                 
-                 <div x-show="services.length === 0" style="grid-column: 1 / -1;" class="flex flex-col items-center justify-center p-8 opacity-50">
-                    <i data-lucide="server" class="w-8 h-8 mb-2"></i>
-                    <span class="text-xs">Scanning services...</span>
-                 </div>
-             </div>
-        </div>
-
-        <!-- CARD 3: RECENT ACTIVITY (Full Width) -->
-         <div class="dashboard-card" style="border: 2px solid var(--ansi-white); padding: 24px; grid-column: 1 / -1; background-color: var(--surface-1);">
-             <div class="flex items-center justify-between mb-4 border-b border-[var(--border-dim)] pb-2">
-                 <div class="text-xs font-bold uppercase tracking-widest">Ingestion Activity</div>
-                 <div class="text-xs font-mono opacity-50">Last 5 Runs</div>
-             </div>
-             
-             <div class="overflow-x-auto">
-                 <table class="w-full text-left border-collapse text-xs font-mono">
+        <!-- Activity Panel -->
+        <div id="activity">
+             <div class="panel-head">Ingestion Log</div>
+             <div style="overflow-y:auto">
+                 <table>
                      <thead>
-                         <tr class="text-[var(--text-2)] uppercase text-xxs tracking-wider">
-                             <th class="py-3 px-2 border-b border-[var(--border-dim)]">Status</th>
-                             <th class="py-3 px-2 border-b border-[var(--border-dim)]">Timestamp</th>
-                             <th class="py-3 px-2 border-b border-[var(--border-dim)]">Files</th>
-                             <th class="py-3 px-2 border-b border-[var(--border-dim)]">Duration</th>
-                             <th class="py-3 px-2 border-b border-[var(--border-dim)]">Changes</th>
+                         <tr>
+                             <th width="80">STATUS</th>
+                             <th width="150">TIMESTAMP</th>
+                             <th width="100">FILES</th>
+                             <th width="100">DURATION</th>
+                             <th>CONTEXT</th>
                          </tr>
                      </thead>
                      <tbody>
                          <template x-for="run in runs" :key="run.timestamp">
-                             <tr class="border-b border-[var(--border-dim)] hover:bg-[var(--surface-2)] transition-colors">
-                                 <td class="py-3 px-2">
-                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xxs font-bold bg-green-900 text-green-100">SUCCESS</span>
-                                 </td>
-                                 <td class="py-3 px-2" x-text="new Date(run.timestamp).toLocaleString()"></td>
-                                 <td class="py-3 px-2 font-bold" x-text="run.files"></td>
-                                 <td class="py-3 px-2" x-text="run.duration + 'ms'"></td>
-                                 <td class="py-3 px-2 opacity-70">Detecting...</td>
+                             <tr>
+                                 <td style="color:var(--accent)">SUCCESS</td>
+                                 <td x-text="new Date(run.timestamp).toLocaleTimeString()"></td>
+                                 <td x-text="run.files"></td>
+                                 <td x-text="run.duration + 'ms'"></td>
+                                 <td style="opacity:0.5">--</td>
                              </tr>
                          </template>
-                         <tr x-show="runs.length === 0">
-                             <td colspan="5" class="py-8 text-center opacity-50 italic">
-                                 No recent activity logged.
-                             </td>
-                         </tr>
                      </tbody>
                  </table>
+                 <div x-show="runs.length === 0" class="empty-state">No recent activity.</div>
              </div>
-         </div>
-      </div>
-    </main>
+        </div>
+    </div>
 
-    <aside class="app-sidebar-right"></aside>
-    <footer class="app-footer"></footer>
-  </div>
-  
-  <script>
-    if (window.lucide) window.lucide.createIcons();
-  </script>
+    <script>
+        function dashboard() {
+            return {
+                stats: { nodes: 0, edges: 0 },
+                services: [],
+                runs: [],
+                uptime: 0,
+                
+                init() {
+                    setInterval(() => this.uptime++, 1000);
+                    this.load();
+                    setInterval(() => this.load(), 2000);
+                },
 
-  <script>
-    // AGENT VISIBILITY HELPER
-    window.__AGENT_THEME__ = (() => {
-      const root = getComputedStyle(document.documentElement);
-      const getVar = (name) => root.getPropertyValue(name).trim();
+                async load() {
+                    try {
+                        // Parallel fetch
+                        const [s, svc, r] = await Promise.all([
+                            fetch('/api/stats').then(r=>r.json()),
+                            fetch('/api/services').then(r=>r.json()),
+                            fetch('/api/runs').then(r=>r.json())
+                        ]);
+                        this.stats = s;
+                        this.services = svc;
+                        this.runs = r;
+                    } catch(e) { console.error("Poll failed", e); }
+                },
 
-      return {
-        system: "PolyVis Terminal Brutalist",
-        palette: {
-          canvas:    getVar('--ansi-black'),       
-          text:      getVar('--ansi-white'),       
-          highlight: getVar('--ansi-bright-white'),
-          error:     getVar('--ansi-red'),         
-          success:   getVar('--ansi-green'),       
-          warning:   getVar('--ansi-yellow'),      
-          agent:     getVar('--ansi-orange'),      
-        },
-        rules: {
-          borderRadius: '0px', 
-          fontFamily: getVar('--font-mono'),
-          borders: '2px solid', 
-        },
-        interactive: {
-          button: {
-            description: "Hard inversion on hover. Instant transition.",
-            default: { 
-              bg: getVar('--ansi-black'), 
-              text: getVar('--ansi-white'), 
-              border: getVar('--ansi-white') 
-            },
-            hover: { 
-              bg: getVar('--ansi-white'), 
-              text: getVar('--ansi-black'), 
-              border: getVar('--ansi-white') 
+                async control(name, action) {
+                    if (name === 'Dashboard' && action === 'stop') {
+                        if (!confirm("This will kill the UI.")) return;
+                    }
+                    await fetch(`/api/services/${name}/${action}`, { method: 'POST' });
+                    // Optimistic update
+                    setTimeout(() => this.load(), 500);
+                }
             }
-          }
         }
-      };
-    })();
-    console.log('%c[AGENT_THEME] System Visible', 'color: #FF8C00');
-  </script>
+    </script>
 </body>
-
 </html>

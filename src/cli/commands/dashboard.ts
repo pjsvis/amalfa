@@ -1,10 +1,10 @@
-import { getLogger } from "@src/utils/Logger";
-import { existsSync, readFileSync } from "node:fs";
 import { spawn } from "node:child_process";
-import { AMALFA_DIRS } from "@src/config/defaults";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { AMALFA_DIRS } from "@src/config/defaults";
+import { getLogger } from "@src/utils/Logger";
 
-const log = getLogger("CLI:Dashboard");
+const _log = getLogger("CLI:Dashboard");
 const PID_FILE = join(AMALFA_DIRS.runtime, "dashboard.pid");
 const PORT = 3013;
 

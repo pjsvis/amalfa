@@ -1,5 +1,5 @@
 import { unlink } from "node:fs/promises";
-import { getSubstanceHash, commitFile } from "@src/utils/ghost";
+import { commitFile, getSubstanceHash } from "@src/utils/ghost";
 import { getLogger } from "@src/utils/Logger";
 import matter from "gray-matter";
 import type { EmberSidecar } from "./types";

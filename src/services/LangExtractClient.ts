@@ -2,9 +2,9 @@ import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { loadConfig, loadSettings, SubstrateError } from "@src/config/defaults";
-import { getLogger } from "@src/utils/Logger";
+import { loadSettings, SubstrateError } from "@src/config/defaults";
 import { HarvesterCache } from "@src/core/HarvesterCache";
+import { getLogger } from "@src/utils/Logger";
 import { z } from "zod";
 
 // Zod Schemas for Structural Validation
@@ -42,34 +42,22 @@ export class LangExtractClient {
 		this.cache = new HarvesterCache();
 	}
 
-	/**
-	 * Check if content is already cached
-	 */
 	public checkCache(text: string): boolean {
 		return this.cache.has(this.cache.hash(text));
 	}
-	/**
-	 * Checks if the Sidecar environment is ready (uv installed, venv exists)
-	 */
+
 	public async isAvailable(): Promise<boolean> {
-		// 1. Check if uv is in PATH
 		const uvCheck = Bun.spawnSync(["which", "uv"]);
 		if (uvCheck.exitCode !== 0) return false;
 
-		// 2. Check if the sidecar directory exists
 		if (!existsSync(this.sidecarPath)) return false;
-
-		// 3. Check if server.py exists
 		if (!existsSync(join(this.sidecarPath, "server.py"))) return false;
 
-		// Note: We assume "uv run" handles the venv creation if missing,
-		// but ideally we'd check for a lockfile or .venv too.
 		return true;
 	}
 
 	/**
-	 * Get the provider to use based on settings
-	 * Simple, predictable selection: settings > env > default
+	 * Get the provider to use based on config
 	 */
 	private getProvider(): string {
 		// 1. Environment variable takes highest priority
@@ -78,7 +66,7 @@ export class LangExtractClient {
 			return process.env.LANGEXTRACT_PROVIDER;
 		}
 
-		// 2. Settings file
+		// 2. Settings file (SSOT)
 		if (this.settings.langExtract?.provider) {
 			this.log.info(
 				`Using settings provider: ${this.settings.langExtract.provider}`,
@@ -91,17 +79,11 @@ export class LangExtractClient {
 		return "openrouter";
 	}
 
-	/**
-	 * Check if a provider has required configuration
-	 */
 	private checkProviderConfig(provider: string): {
 		valid: boolean;
 		error?: string;
 		suggestion?: string;
 	} {
-		const envKey = `${provider.toUpperCase()}_API_KEY`;
-
-		// Check API key for cloud providers
 		if (provider === "gemini" && !process.env.GEMINI_API_KEY) {
 			return {
 				valid: false,
@@ -121,9 +103,6 @@ export class LangExtractClient {
 		return { valid: true };
 	}
 
-	/**
-	 * Parse substrate error response and convert to SubstrateError
-	 */
 	private parseSubstrateError(responseText: string): {
 		error: SubstrateError;
 		message: string;
@@ -131,11 +110,8 @@ export class LangExtractClient {
 	} {
 		try {
 			const parsed = JSON.parse(responseText);
-
 			if (parsed.error) {
 				const errorStr = parsed.error.toLowerCase();
-
-				// Check for specific error patterns
 				if (
 					errorStr.includes("api key") &&
 					(errorStr.includes("not set") || errorStr.includes("not configured"))
@@ -146,7 +122,6 @@ export class LangExtractClient {
 						suggestion: "Check API key in .env file",
 					};
 				}
-
 				if (
 					errorStr.includes("api key") &&
 					(errorStr.includes("invalid") || errorStr.includes("rejected"))
@@ -157,7 +132,6 @@ export class LangExtractClient {
 						suggestion: "Verify API key is correct and active",
 					};
 				}
-
 				if (
 					errorStr.includes("credit") ||
 					errorStr.includes("quota") ||
@@ -169,7 +143,6 @@ export class LangExtractClient {
 						suggestion: "Check billing or switch to another provider",
 					};
 				}
-
 				if (
 					errorStr.includes("network") ||
 					errorStr.includes("connection") ||
@@ -181,8 +154,6 @@ export class LangExtractClient {
 						suggestion: "Check network connection and provider status",
 					};
 				}
-
-				// Generic error
 				return {
 					error: SubstrateError.UNKNOWN,
 					message: parsed.error,
@@ -190,9 +161,7 @@ export class LangExtractClient {
 				};
 			}
 		} catch {
-			// Not JSON, check for error patterns in text
 			const text = responseText.toLowerCase();
-
 			if (
 				text.includes("api key") &&
 				(text.includes("not set") || text.includes("not configured"))
@@ -203,31 +172,12 @@ export class LangExtractClient {
 					suggestion: "Check API key in .env file",
 				};
 			}
-
-			if (
-				text.includes("api key") &&
-				(text.includes("invalid") || text.includes("rejected"))
-			) {
-				return {
-					error: SubstrateError.INVALID_API_KEY,
-					message: responseText,
-					suggestion: "Verify API key is correct and active",
-				};
-			}
-
-			if (
-				text.includes("credit") ||
-				text.includes("quota") ||
-				text.includes("limit")
-			) {
-				return {
-					error: SubstrateError.OUT_OF_CREDIT,
-					message: responseText,
-					suggestion: "Check billing or switch to another provider",
-				};
-			}
+			return {
+				error: SubstrateError.UNKNOWN,
+				message: responseText,
+				suggestion: "Check provider documentation for troubleshooting",
+			};
 		}
-
 		return {
 			error: SubstrateError.UNKNOWN,
 			message: responseText,
@@ -247,10 +197,13 @@ export class LangExtractClient {
 			throw new Error(configCheck.error);
 		}
 
-		// Get provider-specific settings
-		const providerSettings = this.settings.langExtract?.[provider] || {};
+		// Get provider-specific settings from settings
+		const providerSettings =
+			this.settings.langExtract?.[
+				provider as keyof typeof this.settings.langExtract
+			] || {};
 		const modelToUse =
-			providerSettings.model ||
+			(providerSettings as any).model ||
 			(provider === "openrouter"
 				? "qwen/qwen-2.5-72b-instruct"
 				: provider === "gemini"
@@ -261,7 +214,7 @@ export class LangExtractClient {
 			{
 				provider,
 				model: modelToUse,
-				configSource: providerSettings.model ? "config" : "default",
+				configSource: (providerSettings as any).model ? "settings" : "default",
 			},
 			"Initializing LangExtract sidecar",
 		);
@@ -318,7 +271,6 @@ export class LangExtractClient {
 				name: "extract_graph",
 
 				arguments: { text },
-				// biome-ignore lint/suspicious/noExplicitAny: mcp sdk typing issue
 			})) as any;
 
 			// Parse the JSON string returned by the Python tool

@@ -1,10 +1,9 @@
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
 import { createHash } from "node:crypto";
-import { getLogger } from "@src/utils/Logger";
-
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 // Reuse the type, though we treat data as opaque JSON
 import type { ExtractedGraph } from "@src/services/LangExtractClient";
+import { getLogger } from "@src/utils/Logger";
 
 const log = getLogger("HarvesterCache");
 

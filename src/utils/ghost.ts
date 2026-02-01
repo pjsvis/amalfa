@@ -1,6 +1,6 @@
+import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import matter from "gray-matter";
-import { execSync } from "node:child_process";
 
 /**
  * Calculates a 'Substance Hash' of a file, ignoring metadata/frontmatter.
@@ -15,7 +15,7 @@ export function getSubstanceHash(content: string, filePath: string): string {
 		try {
 			const parsed = matter(content);
 			substance = parsed.content.trim();
-		} catch (e) {
+		} catch (_e) {
 			// Fallback for malformed frontmatter
 			substance = content.trim();
 		}
@@ -61,7 +61,7 @@ export function commitFile(filePath: string, message: string): boolean {
 		execSync(`git add "${filePath}"`);
 		execSync(`git commit -m "${message}"`);
 		return true;
-	} catch (e) {
+	} catch (_e) {
 		// It might be that there's nothing to commit if another process beat us to it
 		// or if proper config is missing.
 		return false;

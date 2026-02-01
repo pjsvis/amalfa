@@ -10,10 +10,10 @@
  * Use OpenRouter for Gemini models instead.
  */
 
-import { $ } from "bun";
 import { mkdtempSync, unlinkSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { tmpdir } from "node:os";
+import { resolve } from "node:path";
+import { $ } from "bun";
 
 interface HealthResult {
 	provider: string;
@@ -122,7 +122,7 @@ async function checkOpenRouter(): Promise<HealthResult> {
 
 		const tempFile = writeTempFile(payload);
 
-		let response;
+		let response: any;
 		try {
 			response =
 				await $`curl -s "https://openrouter.ai/api/v1/chat/completions" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${apiKey}" -H "HTTP-Referer: https://github.com/pjsvis/amalfa" -H "X-Title: AMALFA Health Check" -d @${tempFile}`;
@@ -189,7 +189,7 @@ async function checkOllama(): Promise<HealthResult> {
 
 		const tempFile = writeTempFile(payload);
 
-		let response;
+		let response: any;
 		try {
 			response =
 				await $`curl -s http://localhost:11434/api/chat -X POST -H "Content-Type: application/json" -d @${tempFile}`;
@@ -240,7 +240,7 @@ async function checkOllama(): Promise<HealthResult> {
 }
 
 function printResults(results: HealthResult[]) {
-	console.log("\n" + "=".repeat(80));
+	console.log(`\n${"=".repeat(80)}`);
 	console.log("🏥 LangExtract Provider Health Check");
 	console.log("=".repeat(80));
 
@@ -268,9 +268,9 @@ function printResults(results: HealthResult[]) {
 		}
 	}
 
-	console.log("\n" + "=".repeat(80));
+	console.log(`\n${"=".repeat(80)}`);
 	console.log(`Summary: ${healthyCount} healthy, ${failedCount} failed`);
-	console.log("=".repeat(80) + "\n");
+	console.log(`${"=".repeat(80)}\n`);
 
 	if (failedCount > 0) {
 		console.log(

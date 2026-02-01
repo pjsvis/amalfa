@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexicon Mosaic v3.0</title>
+    <style>
+        :root {
+            --bg: #050505;
+            --tile-bg: #0f0f0f;
+            --tile-hover: #1a1a1a;
+            --fg: #aaa;
+            --fg-term: #4f6; /* Matrix Green */
+            --fg-dim: #555;
+            --border: #222;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+            font-size: 11px;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Controls */
+        #toolbar {
+            background: #000;
+            border-bottom: 1px solid var(--border);
+            padding: 4px 8px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        h1 { margin: 0; font-size: 12px; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-right: 10px; }
+        input[type="search"] {
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
+            font-family: inherit;
+            font-size: 11px;
+            padding: 2px 6px;
+            width: 200px;
+        }
+        input:focus { outline: none; border-color: #666; }
+        .stats { margin-left: auto; color: #666; }
+
+        /* The Mosaic Grid */
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1px;
+            background: var(--border); /* Acts as border between tiles */
+            padding: 1px; /* Outer border */
+            overflow-y: scroll;
+            flex-grow: 1;
+        }
+
+        /* The Tile */
+        .tile {
+            background: var(--tile-bg);
+            padding: 6px; /* Tight padding */
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            height: 100%; /* Fill grid cell */
+            transition: background 0.1s;
+        }
+        .tile:hover {
+            background: var(--tile-hover);
+        }
+
+        /* Tile Parts */
+        .t-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 2px;
+        }
+        .t-term {
+            color: var(--fg-term);
+            font-weight: bold;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .t-meta {
+            color: var(--fg-dim);
+            font-size: 10px;
+        }
+        .t-body {
+            color: #888;
+            font-size: 10px;
+            line-height: 1.3;
+            overflow: hidden;
+            /* Clamp description to ~4 lines to keep tile dense */
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            word-break: break-word; /* Handle long tokens */
+        }
+        
+        /* Hollow State */
+        .tile.hollow .t-term { color: #884444; } /* Reddish for warning/hollow */
+        .tile.hollow .t-body { opacity: 0.3; font-style: italic; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+    </style>
+</head>
+<body>
+
+    <div id="toolbar">
+        <h1>Mosaic v3</h1>
+        <input type="search" id="search" placeholder="FILTER..." oninput="render()">
+        <div class="stats" id="statsBar">LOADING...</div>
+    </div>
+
+    <div id="grid"></div>
+
+    <script>
+        let nodes = [];
+
+        async function load() {
+            try {
+                const response = await fetch('/data/lexicon.jsonl');
+                const raw = await response.text();
+                nodes = raw.trim().split('\n').map(l => {
+                    try { return JSON.parse(l); } catch(e){ return null; }
+                }).filter(n => n);
+
+                // Default sort: Frequency DESC
+                nodes.sort((a,b) => b.meta.frequency - a.meta.frequency);
+                
+                render();
+            } catch(e) { console.error(e); }
+        }
+
+        function render() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const grid = document.getElementById('grid');
+            
+            const filtered = nodes.filter(n => n.label.toLowerCase().includes(query));
+            
+            // Limit render to ~1000 items (browser can handle simple DOM like this)
+            // Using mapped string for max speed
+            grid.innerHTML = filtered.slice(0, 1000).map(n => `
+                <div class="tile ${!n.summary ? 'hollow' : ''}" title="${n.label}\n${n.summary || ''}">
+                    <div class="t-head">
+                        <span class="t-term">${n.label}</span>
+                        <span class="t-meta">ƒ${n.meta.frequency}</span>
+                    </div>
+                    <div class="t-body">${n.summary || 'no_definition'}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('statsBar').innerText = `${filtered.length} / ${nodes.length} UNITS`;
+        }
+
+        load();
+    </script>
+</body>
+</html>

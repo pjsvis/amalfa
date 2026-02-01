@@ -1,10 +1,11 @@
-import { Hono } from "hono";
-import { Glob } from "bun";
-import { serveStatic } from "hono/bun";
-import { getLogger } from "@src/utils/Logger";
-import { existsSync, writeFileSync, readFileSync, unlinkSync } from "node:fs";
-import { AMALFA_DIRS } from "@src/config/defaults";
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { getDbPath } from "@src/cli/utils";
+import { AMALFA_DIRS } from "@src/config/defaults";
+import { getLogger } from "@src/utils/Logger";
+import { Glob } from "bun";
+import { Hono } from "hono";
+import { serveStatic } from "hono/bun";
 
 const log = getLogger("Dashboard");
 const PORT = 3013;
@@ -42,10 +43,9 @@ export class DashboardDaemon {
 		);
 
 		// 4. Serve Database for Graph Explorer
-		this.app.get("/resonance.db", (c) => {
-			return new Response(
-				Bun.file(join(process.cwd(), ".amalfa", "resonance.db")),
-			);
+		this.app.get("/resonance.db", async (_c) => {
+			const dbPath = await getDbPath();
+			return new Response(Bun.file(dbPath));
 		});
 
 		// API endpoints (Stats)
@@ -139,7 +139,7 @@ export class DashboardDaemon {
 
 	private async getSystemStats() {
 		const { ResonanceDB } = await import("@src/resonance/db");
-		const { getDbPath } = await import("@src/cli/utils");
+		// const { getDbPath } = await import("@src/cli/utils"); // Now imported top-level
 		const dbPath = await getDbPath();
 		const db = new ResonanceDB(dbPath);
 		const stats = db.getStats();
@@ -225,203 +225,6 @@ export class DashboardDaemon {
 			.map((line) => JSON.parse(line));
 	}
 
-	private renderSummary(stats: any) {
-		return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amalfa Dashboard</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      padding: 1rem; 
-      font-size: 0.875rem;
-      line-height: 1.4;
-    }
-    h1 { 
-      font-size: 1.25rem; 
-      margin-bottom: 0.5rem;
-    }
-    h2 { 
-      font-size: 1rem; 
-      margin: 0.75rem 0 0.5rem 0;
-      border-bottom: 1px solid var(--pico-muted-border-color);
-      padding-bottom: 0.25rem;
-    }
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .stat-box {
-      padding: 0.5rem;
-      background: var(--pico-card-background-color);
-      border-radius: 4px;
-      text-align: center;
-    }
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--pico-muted-color);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .stat-value {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--pico-primary);
-      font-family: 'Courier New', monospace;
-    }
-    table {
-      width: 100%;
-      font-size: 0.8rem;
-      margin: 0;
-    }
-    table th {
-      padding: 0.25rem 0.5rem;
-      text-align: left;
-      font-size: 0.75rem;
-    }
-    table td {
-      padding: 0.25rem 0.5rem;
-    }
-    .status-running { color: #4caf50; font-weight: bold; }
-    .status-stopped { color: #999; }
-    .links {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-    }
-    .links a {
-      padding: 0.25rem 0.75rem;
-      font-size: 0.75rem;
-      text-decoration: none;
-      border-radius: 4px;
-      background: var(--pico-primary);
-      color: white;
-    }
-    .compact-section {
-      margin-bottom: 1rem;
-    }
-    small { font-size: 0.7rem; color: var(--pico-muted-color); }
-    code { font-size: 0.75rem; background: var(--pico-muted-border-color); padding: 2px 4px; border-radius: 3px; }
-  </style>
-</head>
-<body>
-  <h1>🎯 Amalfa Dashboard</h1>
-  
-  <div class="compact-section">
-    <div class="stat-grid">
-      <div class="stat-box">
-        <div class="stat-label">Nodes</div>
-        <div class="stat-value">${stats.database.nodes}</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">Edges</div>
-        <div class="stat-value">${stats.database.edges}</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">Vectors</div>
-        <div class="stat-value">${stats.database.vectors}</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">DB Size</div>
-        <div class="stat-value">${stats.database.size_mb.toFixed(1)}<small>MB</small></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="compact-section">
-    <h2>Services</h2>
-    <table id="services">
-      <thead>
-        <tr><th>Service</th><th>Port</th><th>Status</th><th>PID</th></tr>
-      </thead>
-      <tbody><tr><td colspan="4">Loading...</td></tr></tbody>
-    </table>
-  </div>
-
-  <div class="compact-section">
-    <h2>Command Reference</h2>
-    <table>
-      <thead><tr><th>Action</th><th>Command</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Manage All</strong></td><td><code>amalfa servers [start|stop|restart]</code></td></tr>
-        <tr><td><strong>Stop All</strong></td><td><code>amalfa stop-all</code></td></tr>
-        <tr><td><strong>Manage Service</strong></td><td><code>amalfa [vector|reranker|sonar] [start|stop]</code></td></tr>
-        <tr><td><strong>Harvest</strong></td><td><code>amalfa harvest [path]</code></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="compact-section">
-    <h2>Harvest Cache</h2>
-    <div id="harvest">Loading...</div>
-  </div>
-
-  <div class="compact-section">
-    <h2>Recent Activity</h2>
-    <div id="runs">Loading...</div>
-  </div>
-
-  <div class="links">
-    <a href="/graph.html">📊 Graph</a>
-    <a href="/docs.html">📚 Docs</a>
-    <a href="/architecture">🏗️ Arch</a>
-    <a href="/api/stats">🔌 API</a>
-  </div>
-
-  <script>
-    // Fetch service status
-    fetch('/api/services')
-      .then(r => r.json())
-      .then(services => {
-        const rows = services.map(s => 
-          '<tr><td>' + s.name + '</td><td>' + (s.port || '-') + '</td><td class="status-' + s.status + '">' + (s.status === 'running' ? '🟢' : '⚪️') + ' ' + s.status + '</td><td>' + (s.pid || '-') + '</td></tr>'
-        ).join('');
-        document.getElementById('services').innerHTML = '<thead><tr><th>Service</th><th>Port</th><th>Status</th><th>PID</th></tr></thead><tbody>' + rows + '</tbody>';
-      });
-
-    // Fetch harvest stats
-    fetch('/api/harvest')
-      .then(r => r.json())
-      .then(harvest => {
-        document.getElementById('harvest').innerHTML = '<table><tr><td><strong>' + harvest.cached + '</strong> cached</td><td><strong>' + harvest.skipped.timeouts + '</strong> timeouts</td><td><strong>' + harvest.skipped.too_large + '</strong> too large</td><td><strong>' + harvest.skipped.errors + '</strong> errors</td></tr></table>';
-      });
-
-    // Fetch recent runs
-    fetch('/api/runs')
-      .then(r => r.json())
-      .then(runs => {
-        if (runs.length === 0) {
-          document.getElementById('runs').innerHTML = '<p><em>No activity yet</em></p>';
-          return;
-        }
-        const rows = runs.map(r => {
-          const time = new Date(r.timestamp).toLocaleString();
-          const duration = r.duration_ms ? (r.duration_ms / 1000).toFixed(1) + 's' : '-';
-          const status = r.errors > 0 ? '\u274c ' + r.errors : '\u2705';
-          return '<tr><td><small>' + time + '</small></td><td><strong>' + r.operation + '</strong></td><td>' + (r.files_processed || '-') + '</td><td>' + duration + '</td><td>' + status + '</td></tr>';
-        }).join('');
-        document.getElementById('runs').innerHTML = '<table><thead><tr><th>Time</th><th>Op</th><th>Files</th><th>Duration</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
-      });
-
-    // Auto-refresh every 5 seconds
-    setInterval(() => location.reload(), 5000);
-  </script>
-</body>
-</html>`;
-	}
-
 	public async start() {
 		if (this.server) {
 			log.warn("Dashboard already running");
@@ -461,103 +264,6 @@ export class DashboardDaemon {
 		}
 
 		log.info("Dashboard stopped");
-	}
-
-	private renderArchitecture() {
-		const mdPath = "docs/architecture/state-machines.md";
-		let content = "";
-		if (existsSync(mdPath)) {
-			content = readFileSync(mdPath, "utf-8");
-		}
-
-		// Basic Markdown to HTML Parser
-		const dots: string[] = [];
-
-		// 1. Extract DOT blocks and replace with placeholders
-		content = content.replace(/```dot([\s\S]*?)```/g, (_match, dot) => {
-			dots.push(dot.trim());
-			return `<div id="viz-${dots.length - 1}" class="viz-container">Rendering Diagram...</div>`;
-		});
-
-		// 2. Headers
-		content = content
-			.replace(/^# (.*$)/gm, "<h1>$1</h1>")
-			.replace(/^## (.*$)/gm, "<h2>$1</h2>")
-			.replace(/^### (.*$)/gm, "<h3>$1</h3>");
-
-		// 3. Lists (Basic support)
-		content = content.replace(/^\* (.*$)/gm, "<li>$1</li>");
-
-		// 4. Other Code blocks
-		content = content.replace(
-			/```([\s\S]*?)```/g,
-			"<pre><code>$1</code></pre>",
-		);
-
-		// 5. Bold/Italic (Basic)
-		content = content.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-		content = content.replace(/`(.*?)`/g, "<code>$1</code>");
-
-		// 6. Handle paragraphs (lines separated by blank lines are paragraphs, but simple replacement of \n is tricky)
-		// For simplicity in this view, we'll let existing newlines be handled by white-space style or <br>
-		content = content.replace(/\n/g, "<br>");
-
-		return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>System Architecture</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.js"></script>
-  <style>
-    body { padding: 2rem; max-width: 900px; margin: 0 auto; }
-    .nav { margin-bottom: 2rem; }
-    .viz-container { 
-        text-align: center; 
-        margin: 2rem 0; 
-        padding: 1rem; 
-        border: 1px solid var(--pico-muted-border-color); 
-        border-radius: 8px;
-        background: var(--pico-card-background-color);
-    }
-    svg { max-width: 100%; height: auto; }
-    h1 { color: var(--pico-primary); border-bottom: 2px solid var(--pico-primary); padding-bottom: 0.5rem; margin-top: 0; }
-    h2 { margin-top: 3rem; border-bottom: 1px solid var(--pico-muted-border-color); padding-bottom: 0.5rem; }
-    h3 { margin-top: 1.5rem; color: var(--pico-contrast); }
-    li { margin-left: 1.5rem; }
-    pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto; }
-    /* Fix <br> messing up layout slightly, but it's acceptable for MVP doc view */
-  </style>
-</head>
-<body>
-  <div class="nav">
-    <a href="/">⬅️ Dashboard</a>
-  </div>
-  
-  <main>
-    ${content}
-  </main>
-
-  <script>
-    const dots = ${JSON.stringify(dots)};
-    const viz = new Viz();
-
-    dots.forEach((dot, index) => {
-        const container = document.getElementById('viz-' + index);
-        viz.renderSVGElement(dot)
-          .then(element => {
-            container.innerHTML = '';
-            container.appendChild(element);
-          })
-          .catch(error => {
-            console.error(error);
-            container.innerHTML = '<p style="color:red">Error rendering graph: ' + error + '</p>';
-          });
-    });
-  </script>
-</body>
-</html>`;
 	}
 
 	public isRunning(): boolean {

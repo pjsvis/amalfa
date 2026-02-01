@@ -113,7 +113,6 @@ export class LexiconHarvester {
 	private processSidecar(data: LangExtractSidecar, filename: string) {
 		const hash = filename.replace(".json", "");
 		const sourcePath = this.manifest.get(hash);
-		// biome-ignore lint/suspicious/noExplicitAny: uuid not on interface yet
 		const sourceId = (data as any).uuid || sourcePath || hash;
 
 		const terms = [

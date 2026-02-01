@@ -1,4 +1,4 @@
-import { existsSync, appendFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, writeFileSync } from "node:fs";
 
 const RUNS_FILE = ".amalfa/runs.jsonl";
 
@@ -32,7 +32,7 @@ export class StatsLogger {
 		}
 
 		// Append as JSONL
-		appendFileSync(RUNS_FILE, JSON.stringify(stats) + "\n");
+		appendFileSync(RUNS_FILE, `${JSON.stringify(stats)}\n`);
 	}
 
 	/**
@@ -46,7 +46,7 @@ export class StatsLogger {
 		errors: number;
 		duration_ms: number;
 	}) {
-		this.logRun({
+		StatsLogger.logRun({
 			timestamp: new Date().toISOString(),
 			operation: "harvest",
 			files_processed: stats.files,
@@ -70,7 +70,7 @@ export class StatsLogger {
 		duration_ms: number;
 		errors: number;
 	}) {
-		this.logRun({
+		StatsLogger.logRun({
 			timestamp: new Date().toISOString(),
 			operation: "init",
 			files_processed: stats.files,
