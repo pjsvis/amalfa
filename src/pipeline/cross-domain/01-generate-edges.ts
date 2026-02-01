@@ -40,7 +40,7 @@ function cosineSimilarity(
 ): number {
 	let dotProduct = 0;
 	for (let i = 0; i < a.length; i++) {
-		dotProduct += a[i] * b[i];
+		dotProduct += a[i]! * b[i]!;
 	}
 	return dotProduct / (normA * normB);
 }
@@ -69,10 +69,10 @@ async function generateCrossDomainEdges() {
 			);
 			let norm = 0;
 			for (let i = 0; i < embedding.length; i++) {
-				norm += embedding[i] * embedding[i];
+				norm += embedding[i]! * embedding[i]!;
 			}
 			return {
-				id: row.id,
+				id: row.id!,
 				title: row.title,
 				embedding,
 				norm: Math.sqrt(norm),
@@ -98,10 +98,10 @@ async function generateCrossDomainEdges() {
 			);
 			let norm = 0;
 			for (let i = 0; i < embedding.length; i++) {
-				norm += embedding[i] * embedding[i];
+				norm += embedding[i]! * embedding[i]!;
 			}
 			return {
-				id: row.id,
+				id: row.id!,
 				title: row.title,
 				embedding,
 				norm: Math.sqrt(norm),
