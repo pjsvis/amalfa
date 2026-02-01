@@ -12,6 +12,73 @@ let rerankerInstance: HfBgeReranker | null = null;
 let initializationPromise: Promise<HfBgeReranker> | null = null;
 let initializationFailed = false;
 
+const RERANKER_DAEMON_URL = "http://localhost:3011";
+
+/**
+ * Try to use reranker daemon for reranking (faster, no local model loading)
+ */
+async function rerankViaDaemon(
+	query: string,
+	documents: Array<{ id: string; content: string; score: number }>,
+	topK: number,
+): Promise<Array<{
+	id: string;
+	content: string;
+	score: number;
+	rerankScore?: number;
+}> | null> {
+	try {
+		const response = await fetch(`${RERANKER_DAEMON_URL}/rerank`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				query,
+				documents: documents.map((d) => d.content),
+			}),
+			signal: AbortSignal.timeout(5000),
+		});
+
+		if (!response.ok) {
+			return null;
+		}
+
+		const daemonResult = (await response.json()) as {
+			results: Array<{ text: string; score: number; originalIndex: number }>;
+		};
+
+		// Map daemon results back to original documents
+		const rerankedDocs = daemonResult.results.slice(0, topK).map((result) => {
+			const original = documents[result.originalIndex];
+			if (!original) {
+				throw new Error(
+					`Invalid originalIndex ${result.originalIndex} in daemon rerank results`,
+				);
+			}
+			return {
+				id: original.id,
+				content: original.content,
+				score: result.score, // Use rerank score as primary
+				rerankScore: result.score,
+			};
+		});
+
+		log.info(
+			{
+				query,
+				docCount: documents.length,
+				topK,
+				method: "daemon",
+			},
+			"Daemon reranking complete",
+		);
+
+		return rerankedDocs;
+	} catch (error) {
+		log.debug({ error }, "Daemon reranker unavailable");
+		return null;
+	}
+}
+
 /**
  * Get or create the reranker instance
  */
@@ -74,6 +141,17 @@ export async function rerankDocuments(
 ): Promise<
 	Array<{ id: string; content: string; score: number; rerankScore?: number }>
 > {
+	// Try daemon first (faster, no model loading)
+	try {
+		const daemonResult = await rerankViaDaemon(query, documents, topK);
+		if (daemonResult) {
+			return daemonResult;
+		}
+	} catch (error) {
+		log.debug({ error }, "Daemon reranker failed, trying local");
+	}
+
+	// Fallback to local reranker
 	const reranker = await getReranker();
 
 	// If reranker unavailable, return original order

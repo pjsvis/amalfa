@@ -7,7 +7,7 @@
 
 import { join } from "node:path";
 import { AMALFA_DIRS } from "@src/config/defaults";
-import { BgeReranker } from "@src/services/reranker";
+import { HfBgeReranker } from "@src/services/reranker-hf";
 import { getLogger } from "@src/utils/Logger";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 import { serve } from "bun";
@@ -24,7 +24,7 @@ const lifecycle = new ServiceLifecycle({
 });
 
 // Keep reranker loaded in memory
-let reranker: BgeReranker | null = null;
+let reranker: HfBgeReranker | null = null;
 
 /**
  * Initialize reranker model (called once at startup or on first request)
@@ -32,7 +32,7 @@ let reranker: BgeReranker | null = null;
 async function initReranker() {
 	if (!reranker) {
 		log.info("🔄 Initializing BGE reranker model...");
-		reranker = await BgeReranker.getInstance();
+		reranker = await HfBgeReranker.getInstance();
 		log.info("✅ Reranker model loaded and ready");
 	}
 }

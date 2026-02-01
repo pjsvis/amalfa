@@ -8,7 +8,7 @@
 import { join } from "node:path";
 import { AMALFA_DIRS } from "@src/config/defaults";
 import { toFafcas } from "@src/resonance/db";
-import { BgeReranker } from "@src/services/reranker";
+import { HfBgeReranker } from "@src/services/reranker-hf";
 import { getLogger } from "@src/utils/Logger";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 import { serve } from "bun";
@@ -27,7 +27,7 @@ const lifecycle = new ServiceLifecycle({
 
 // Keep model loaded in memory
 let embedder: FlagEmbedding | null = null;
-let reranker: BgeReranker | null = null;
+let reranker: HfBgeReranker | null = null;
 const currentModel = EmbeddingModel.BGESmallENV15;
 
 /**
@@ -61,7 +61,7 @@ async function initEmbedder() {
 async function initReranker() {
 	if (!reranker) {
 		log.info("🔄 Initializing BGE-M3 reranker model...");
-		reranker = await BgeReranker.getInstance();
+		reranker = await HfBgeReranker.getInstance();
 		log.info("✅ Reranker model loaded and ready");
 	}
 }
