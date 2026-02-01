@@ -22,6 +22,7 @@ export interface Node {
 
 export class ResonanceDB {
 	private db: Database;
+	private dbPath: string;
 
 	/**
 	 * Factory method to load the default Resonance Graph.
