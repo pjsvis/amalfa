@@ -17,7 +17,7 @@
 		"discoveryMethod": "cli",
 		"inferenceMethod": "http",
 		"model": "qwen2.5:1.5b",
-		"modelPriority": ["qwen2.5:1.5b", "tinydolphin:latest"],
+		"modelPriority": ["qwen2.5:1.5b"],
 		"host": "localhost:11434",
 		"port": 3012,
 		"tasks": {

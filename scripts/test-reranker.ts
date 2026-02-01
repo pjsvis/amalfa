@@ -5,7 +5,7 @@
  * Standalone verification of the BGE-M3 integration.
  * Run with: bun run scripts/test-reranker.ts
  */
-import { BgeReranker } from "../src/services/reranker";
+import { HfBgeReranker } from "../src/services/reranker-hf";
 
 async function main() {
 	const query = "What is the primary function of Mentation?";
@@ -20,7 +20,7 @@ async function main() {
 	console.log(`Query: "${query}"`);
 	console.log(`Candidates: ${candidates.length}\n`);
 
-	const reranker = await BgeReranker.getInstance();
+	const reranker = await HfBgeReranker.getInstance();
 
 	// Measure latency
 	const start = performance.now();

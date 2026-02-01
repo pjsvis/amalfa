@@ -213,13 +213,7 @@ export const DEFAULT_CONFIG: AmalfaSettings = {
 		discoveryMethod: "cli",
 		inferenceMethod: "http",
 		model: "qwen2.5:1.5b",
-		modelPriority: [
-			"qwen2.5:1.5b",
-			"tinydolphin:latest",
-			"tinyllama:latest",
-			"mistral:7b-instruct-v0.3-q4_K_M",
-			"llama3.1:8b",
-		],
+		modelPriority: [],
 		host: "localhost:11434",
 		port: 3012,
 		tasks: {
