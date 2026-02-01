@@ -43,9 +43,16 @@ export class DashboardDaemon {
 		);
 
 		// 4. Serve Database for Graph Explorer
-		this.app.get("/resonance.db", async (_c) => {
+		this.app.get("/resonance.db", async (c) => {
 			const dbPath = await getDbPath();
-			return new Response(Bun.file(dbPath));
+			const fileData = readFileSync(dbPath);
+
+			return c.body(fileData, 200, {
+				"Content-Type": "application/x-sqlite3",
+				"Content-Length": fileData.length.toString(),
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "GET",
+			});
 		});
 
 		// API endpoints (Stats)
@@ -107,6 +114,11 @@ export class DashboardDaemon {
 
 		// Health check
 		this.app.get("/health", (c) =>
+			c.json({ status: "ok", uptime: process.uptime() }),
+		);
+
+		// Health check (alias for frontend compatibility)
+		this.app.get("/api/health", (c) =>
 			c.json({ status: "ok", uptime: process.uptime() }),
 		);
 	}

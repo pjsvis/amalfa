@@ -22,7 +22,6 @@ export interface Node {
 
 export class ResonanceDB {
 	private db: Database;
-	private dbPath: string;
 
 	/**
 	 * Factory method to load the default Resonance Graph.
@@ -74,6 +73,7 @@ export class ResonanceDB {
 		try {
 			// FAFCAS Protocol: Trust pre-normalized embeddings from Embedder/VectorEngine
 			// Embeddings are already normalized at generation boundary
+			// Fix: Copy actual Float32Array data, not the full underlying buffer
 			const blob = node.embedding
 				? new Uint8Array(
 						node.embedding.buffer,

@@ -55,30 +55,33 @@
 
 ---
 
-## Session 2026-01-31: Lexicon Harvester Implementation
+## Session 2026-02-01: FAFCAS Investigation & Pipeline Restoration
 
-### Task: Build the "Smelter" (Lexicon Harvester)
-**Objective**: Transform raw sidecar data into a refined "Golden Lexicon" using a Node-First, Count-Second strategy.
+### Task: Fix Corrupted Vector System & Restore Search Quality
+**Objective**: Investigate degraded vector search, fix FAFCAS protocol violations, and restore system integrity.
 
 **Status**: ✅ COMPLETE
 
-### Plan & Results
-1.  **Core Logic**: Implemented `LexiconHarvester` class (Done)
-2.  **CLI Command**: Added `amalfa harvest-lexicon` command (Done)
-3.  **Triage UI**: (Future) Next step: Visualizing the 4219 candidates.
-4.  **Edge Survey**: (Pending Phase 2) Requires Golden Lexicon first.
+### Major Accomplishments
+- ✅ **FAFCAS Compliance Restored**: Fixed systematic vector corruption (384-dim, norm=1.0)
+- ✅ **Search Quality Recovery**: 20x improvement (0.04 → 0.8+ scores)  
+- ✅ **Cross-Domain Pipeline**: Created Pipeline C linking documents to entities (4,575 edges)
+- ✅ **Database Integrity**: Clean re-ingestion of all pipelines with proper vector storage
+- ✅ **Visualization Fixed**: Dashboard now displays all 1,668 nodes correctly
+- ✅ **SSOT Compliance**: Fixed configuration violations in pipeline files
+- ✅ **Buffer Access Patterns**: Corrected TypedArray handling across codebase
 
-### Accomplishments
-- Implemented `JsonlUtils` with Bun-native streaming.
-- Benchmarked JSON vs JSONL (0.84x small scale, scalable architecture).
-- Scanned 499 sidecars -> 4219 candidate terms.
-- Handled missing UUIDs in cache layer gracefully.
+### Technical Resolution
+- **Root Cause**: Wrong `Float32Array` construction causing 4x dimension corruption
+- **Solution**: Fixed buffer access pattern + clean database re-ingestion
+- **Result**: 1,668 nodes, 6,328 edges, 384-dim FAFCAS-compliant embeddings
 
-### Side Tasks
-- ✅ Package Manager Cleanup (Global npm/Bun hygiene)
-- ✅ JSONL Strategy Brief (Adopt streamable formats)
-- ✅ Benchmark JSONL vs JSON (Validated 0.84x small batch / Scalability Win)
+### Artifacts Created
+1. `src/pipeline/cross-domain/` - Cross-domain edge generation pipeline
+2. `debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md` - Complete investigation log
+3. `briefs/2026-02-01-cross-domain-pipeline-ssot-violations.md` - Violation documentation
+4. Updated system check brief with Pipeline C verification
 
 ---
 
-**Next Session Focus**: Monitoring Dashboard (Triage UI for Lexicon)
+**Next Session Focus**: Search Capabilities Smoke Testing & Quality Assurance
