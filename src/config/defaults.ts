@@ -4,13 +4,13 @@
  *
  * NFB-01: Configuration Rationalisation
  * - DEFAULT_CONFIG has been removed (was a source of "Shadow Truths")
- * - loadSettings() now delegates all merging to Zod's .parse()
+ * - loadSettings() delegates all merging to Zod's .parse()
  * - See schema.ts for all default values
  */
 
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { AmalfaSettingsSchema } from "./schema";
+import { type AmalfaSettings, AmalfaSettingsSchema } from "./schema";
 
 /** AMALFA directory structure */
 export const AMALFA_DIRS = {
@@ -58,11 +58,10 @@ export function initAmalfaDirs(): void {
 	}
 }
 
-// Re-export types from schema for backward compatibility
+// Re-export types from schema
 export type {
+	AmalfaConfig,
 	AmalfaSettings,
-	// Backward compatibility alias
-	AmalfaSettings as AmalfaConfig,
 	EmberConfig,
 	FixturesConfig,
 	GraphConfig,
@@ -71,20 +70,18 @@ export type {
 	SonarConfig,
 } from "./schema";
 
-// Re-export SubstrateError for backward compatibility
+// Re-export SubstrateError
 export { SubstrateError, type SubstrateFailure } from "./schema";
 
 /**
  * Load AMALFA settings from amalfa.settings.json
  *
- * NFB-01: This function now delegates all default injection to Zod's .parse().
+ * NFB-01: This function delegates all default injection to Zod's .parse().
  * The schema.ts file is the Single Source of Truth for all default values.
  *
  * Precedence: User JSON > Schema Defaults
  */
-export function loadSettings(
-	exitOnError = true,
-): import("./schema").AmalfaSettings {
+export function loadSettings(exitOnError = true): AmalfaSettings {
 	const settingsPath = join(process.cwd(), "amalfa.settings.json");
 
 	// Check for SSoT existence
@@ -141,9 +138,5 @@ export function loadSettings(
 	}
 }
 
-/**
- * Legacy wrapper for backward compatibility
- */
-export async function loadConfig(): Promise<import("./schema").AmalfaSettings> {
-	return loadSettings();
-}
+// Backward compatibility alias
+export const loadConfig = loadSettings;

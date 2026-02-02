@@ -1,5 +1,6 @@
 import type { Database } from "bun:sqlite";
-import { join } from "node:path";
+import { existsSync } from "node:fs";
+import { loadSettings } from "@src/config/defaults";
 import { getLogger } from "@src/utils/Logger";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { migrate } from "drizzle-orm/bun-sqlite/migrator";
@@ -28,10 +29,10 @@ export class ResonanceDB {
 	 * @deprecated Use constructor with explicit path from config instead.
 	 * NFB-01: Default path now matches AmalfaSettingsSchema.default
 	 */
-	static init(
-		dbPath: string = join(".amalfa", "runtime", "resonance.db"),
-	): ResonanceDB {
-		return new ResonanceDB(dbPath);
+	static init(dbPath?: string): ResonanceDB {
+		const config = loadSettings();
+		const path = dbPath ?? config.database;
+		return new ResonanceDB(path);
 	}
 
 	/**
@@ -41,9 +42,26 @@ export class ResonanceDB {
 	 * WAL mode requires write access to the -shm (shared memory) file even for readers.
 	 */
 	constructor(dbPath: string) {
-		// Use DatabaseFactory to ensure compliant configuration (WAL mode + timeouts)
-		// Always read-write: WAL mode requires all connections to have write access to -shm file
-		this.db = DatabaseFactory.connect(dbPath, { readonly: false });
+		// Validate path exists before attempting connection
+		if (!existsSync(dbPath)) {
+			throw new Error(
+				`Database not found at: ${dbPath}\n` +
+					`Please ensure the database file exists or check the 'database' setting in amalfa.settings.json\n` +
+					`Canonical location: .amalfa/resonance.db`,
+			);
+		}
+
+		try {
+			// Use DatabaseFactory to ensure compliant configuration (WAL mode + timeouts)
+			// Always read-write: WAL mode requires all connections to have write access to -shm file
+			this.db = DatabaseFactory.connect(dbPath, { readonly: false });
+		} catch (error) {
+			throw new Error(
+				`Failed to open database at: ${dbPath}\n` +
+					`Error: ${error}\n` +
+					`Please check the 'database' setting in amalfa.settings.json`,
+			);
+		}
 
 		// Always check migration (it's safe now with locking)
 		this.migrate();

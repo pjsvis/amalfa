@@ -1,6 +1,7 @@
 import { SidecarSquasher } from "@src/core/SidecarSquasher";
 import { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
+import { loadSettings } from "@src/config/defaults";
 
 export async function cmdSquash(args: string[]) {
 	// Parse arguments
@@ -14,9 +15,8 @@ export async function cmdSquash(args: string[]) {
 
 	try {
 		log.info({ pattern }, "Initializing squash routine...");
-		// Use default path or derived from config in future.
-		// For now, consistent with other commands that default to .amalfa/resonance.db
-		const db = ResonanceDB.init();
+		const config = loadSettings();
+		const db = ResonanceDB.init(config.database);
 
 		const squasher = new SidecarSquasher(db);
 		const stats = await squasher.squash(pattern);

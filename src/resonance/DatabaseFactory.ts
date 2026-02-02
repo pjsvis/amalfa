@@ -1,5 +1,4 @@
 import { Database } from "bun:sqlite";
-import { join } from "node:path";
 
 /**
  * 🏭 DATABASE FACTORY (The Enforcer)
@@ -14,11 +13,10 @@ import { join } from "node:path";
 export const DatabaseFactory = {
 	/**
 	 * Connects specifically to the main Resonance Graph database.
-	 * Kept for convenience and backward compatibility.
-	 * NFB-01: Default path now matches AmalfaSettingsSchema.default
+	 * @param dbPath - Must be provided from config (amalfa.settings.json database key)
 	 */
 	connectToResonance(
-		dbPath: string = join(".amalfa", "runtime", "resonance.db"),
+		dbPath: string,
 		options: { readonly?: boolean } = {},
 	): Database {
 		return DatabaseFactory.connect(dbPath, options);

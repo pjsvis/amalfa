@@ -7,25 +7,22 @@
 		"moduleDetection": "force",
 		"jsx": "react-jsx",
 		"allowJs": true,
-
 		// Bundler mode
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
 		"noEmit": true,
-
 		// Best practices
 		"strict": true,
 		"skipLibCheck": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
-
 		// Some stricter flags (disabled by default)
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false,
-		"baseUrl": ".",
+		// Paths for alias resolution (baseUrl deprecated in TS 6.0)
 		"paths": {
 			"@src/*": ["./src/*"],
 			"@scripts/*": ["./scripts/*"],
@@ -42,9 +39,6 @@
 		"briefs",
 		"examples",
 		"experiments",
-		"scripts/lab",
-		"scripts/legacy",
-		"scripts/generative-ui",
-		"scripts/debug-reranker.ts"
+		"scripts"
 	]
 }
