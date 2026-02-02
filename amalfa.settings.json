@@ -1,61 +1,88 @@
 {
-	"sources": [".", "src", "scripts"],
-	"database": ".amalfa/resonance.db",
-	"embeddings": {
-		"model": "BAAI/bge-small-en-v1.5",
-		"dimensions": 384
-	},
-	"watch": {
-		"enabled": true,
-		"debounce": 1000,
-		"notifications": true
-	},
-	"excludePatterns": ["node_modules", ".git", ".amalfa"],
-	"sonar": {
-		"enabled": true,
-		"autoDiscovery": true,
-		"discoveryMethod": "cli",
-		"inferenceMethod": "http",
-		"model": "qwen2.5:1.5b",
-		"modelPriority": [],
-		"host": "localhost:11434",
-		"port": 3012,
-		"tasks": {
-			"search": {
-				"enabled": true,
-				"timeout": 5000,
-				"priority": "high"
-			},
-			"metadata": {
-				"enabled": true,
-				"timeout": 30000,
-				"autoEnhance": true,
-				"batchSize": 10
-			},
-			"content": {
-				"enabled": false,
-				"timeout": 300000,
-				"schedule": "daily"
-			}
-		},
-		"cloud": {
-			"enabled": true,
-			"provider": "openrouter",
-			"host": "openrouter.ai/api/v1",
-			"model": "qwen/qwen-2.5-72b-instruct"
-		}
-	},
-	"langExtract": {
-		"provider": "openrouter",
-		"ollama": {
-			"host": "http://localhost:11434",
-			"model": "auto"
-		},
-		"gemini": {
-			"model": "gemini-flash-latest"
-		},
-		"openrouter": {
-			"model": "google/gemini-2.5-flash-lite"
-		}
-	}
+  "sources": [".", "src", "scripts"],
+  "database": ".amalfa/runtime/resonance.db",
+  "embeddings": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "dimensions": 384
+  },
+  "watch": {
+    "enabled": true,
+    "debounce": 1000,
+    "notifications": true
+  },
+  "graph": {
+    "tuning": {
+      "louvain": {
+        "persona": 0.3,
+        "experience": 0.25,
+        "superNodeThreshold": 50
+      }
+    }
+  },
+  "fixtures": {
+    "lexicon": "scripts/fixtures/conceptual-lexicon-ref-v1.79.json",
+    "cda": "scripts/fixtures/cda-ref-v63.json"
+  },
+  "ember": {
+    "enabled": true,
+    "minConfidence": 0.8,
+    "autoSquash": false,
+    "backupDir": ".amalfa/backups/ember"
+  },
+  "scratchpad": {
+    "enabled": true,
+    "thresholdBytes": 4096,
+    "maxAgeMs": 86400000,
+    "maxCacheSizeBytes": 52428800,
+    "includePreview": true,
+    "previewLength": 200
+  },
+  "excludePatterns": ["node_modules", ".git", ".amalfa"],
+  "sonar": {
+    "enabled": true,
+    "autoDiscovery": true,
+    "discoveryMethod": "cli",
+    "inferenceMethod": "http",
+    "model": "qwen2.5:1.5b",
+    "modelPriority": [],
+    "host": "localhost:11434",
+    "port": 3012,
+    "tasks": {
+      "search": {
+        "enabled": true,
+        "timeout": 5000,
+        "priority": "high"
+      },
+      "metadata": {
+        "enabled": true,
+        "timeout": 30000,
+        "autoEnhance": true,
+        "batchSize": 10
+      },
+      "content": {
+        "enabled": false,
+        "timeout": 300000,
+        "schedule": "daily"
+      }
+    },
+    "cloud": {
+      "enabled": true,
+      "provider": "openrouter",
+      "host": "openrouter.ai/api/v1",
+      "model": "qwen/qwen-2.5-72b-instruct"
+    }
+  },
+  "langExtract": {
+    "provider": "openrouter",
+    "ollama": {
+      "host": "http://localhost:11434",
+      "model": "auto"
+    },
+    "gemini": {
+      "model": "gemini-flash-latest"
+    },
+    "openrouter": {
+      "model": "google/gemini-2.5-flash-lite"
+    }
+  }
 }
