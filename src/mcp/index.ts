@@ -242,8 +242,7 @@ async function runServer() {
 		];
 
 		// 2. Get dynamic tools from registry
-		// biome-ignore lint/suspicious/noExplicitAny: mcp sdk typing issue
-		const dynamicTools = toolRegistry.list() as any[];
+		const dynamicTools = toolRegistry.list() as unknown as any[];
 
 		return {
 			tools: [...legacyTools, ...dynamicTools],
@@ -382,11 +381,15 @@ async function runServer() {
 
 						// Apply cross-encoder reranking
 						log.info("🔄 Reranking with BGE cross-encoder");
+						const rerankedInput = hydratedResults.map((r) => ({
+							id: r.id,
+							content: String(r.content || r.preview || r.id),
+							score: r.score ?? 0.5,
+						}));
 						const reranked = await rerankDocuments(
 							query,
-							// biome-ignore lint/suspicious/noExplicitAny: legacy typing
-							hydratedResults as any,
-							Math.min(limit * 2, 30), // Keep top results after reranking
+							rerankedInput,
+							Math.min(limit * 2, 30),
 						);
 
 						// Update ranked results with reranked scores
@@ -406,8 +409,7 @@ async function runServer() {
 							// Content already hydrated in step 3
 							log.info("🔄 Re-ranking with Sonar LLM");
 							const reRanked = await sonarClient.rerankResults(
-								// biome-ignore lint/suspicious/noExplicitAny: legacy typing
-								rankedResults as any as Array<{
+								rankedResults as unknown as Array<{
 									id: string;
 									content: string;
 									score: number;
