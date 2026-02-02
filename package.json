@@ -1,6 +1,6 @@
 {
   "name": "amalfa",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Local-first knowledge graph engine for AI agents. Transforms markdown into searchable memory with MCP protocol.",
   "license": "MIT",
   "homepage": "https://github.com/pjsvis/amalfa#readme",

@@ -297,7 +297,7 @@ app.post("/api/run-all", async (c) => {
 	(async () => {
 		for (const step of STEPS) {
 			const s = state.get(step.id);
-			s!.status = "idle"; // Reset status logic?
+			if (s) s.status = "idle"; // Reset status logic?
 		}
 		for (const step of STEPS) {
 			await runScript(step.id);

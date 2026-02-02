@@ -40,7 +40,12 @@ function cosineSimilarity(
 ): number {
 	let dotProduct = 0;
 	for (let i = 0; i < a.length; i++) {
-		dotProduct += a[i]! * b[i]!;
+		const aVal = a[i];
+		const bVal = b[i];
+		// Float32Array elements are always defined, but TypeScript doesn't know this
+		if (aVal !== undefined && bVal !== undefined) {
+			dotProduct += aVal * bVal;
+		}
 	}
 	return dotProduct / (normA * normB);
 }
@@ -69,10 +74,13 @@ async function generateCrossDomainEdges() {
 			);
 			let norm = 0;
 			for (let i = 0; i < embedding.length; i++) {
-				norm += embedding[i]! * embedding[i]!;
+				const val = embedding[i];
+				if (val !== undefined) {
+					norm += val * val;
+				}
 			}
 			return {
-				id: row.id!,
+				id: row.id || "",
 				title: row.title,
 				embedding,
 				norm: Math.sqrt(norm),
@@ -98,10 +106,13 @@ async function generateCrossDomainEdges() {
 			);
 			let norm = 0;
 			for (let i = 0; i < embedding.length; i++) {
-				norm += embedding[i]! * embedding[i]!;
+				const val = embedding[i];
+				if (val !== undefined) {
+					norm += val * val;
+				}
 			}
 			return {
-				id: row.id!,
+				id: row.id || "",
 				title: row.title,
 				embedding,
 				norm: Math.sqrt(norm),

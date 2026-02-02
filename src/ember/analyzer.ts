@@ -1,6 +1,9 @@
 import { GraphEngine } from "@src/core/GraphEngine";
 import type { ResonanceDB } from "@src/resonance/db";
-import type { LangExtractClient } from "@src/services/LangExtractClient";
+import type {
+	ExtractedGraph,
+	LangExtractClient,
+} from "@src/services/LangExtractClient";
 import { getLogger } from "@src/utils/Logger";
 import { toRootRelative } from "@src/utils/projectRoot";
 import type { EmberSidecar } from "./types";
@@ -57,8 +60,7 @@ export class EmberAnalyzer {
 
 		const proposedTags: string[] = [];
 		const proposedLinks: string[] = [];
-		// biome-ignore lint/suspicious/noExplicitAny: generic placeholder
-		let extractedGraph: any;
+		let extractedGraph: unknown;
 
 		// 2. Community-based Tag Suggestion
 		if (this.communities && this.communities[id] !== undefined) {
@@ -172,7 +174,7 @@ export class EmberAnalyzer {
 			targetFile: toRootRelative(filePath),
 			generatedAt: new Date().toISOString(),
 			confidence: 0.8,
-			graphData: extractedGraph || undefined,
+			graphData: (extractedGraph as ExtractedGraph | undefined) || undefined,
 			changes: {
 				tags: proposedTags.length > 0 ? { add: proposedTags } : undefined,
 				links: proposedLinks.length > 0 ? { add: proposedLinks } : undefined,

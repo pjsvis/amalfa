@@ -6,9 +6,8 @@
  */
 
 import { Database } from "bun:sqlite";
+import { writeFileSync } from "node:fs";
 import { getDbPath } from "@src/cli/utils";
-import { spawnSync } from "child_process";
-import { writeFileSync } from "fs";
 
 interface RelevanceSignal {
 	entity: string;
@@ -31,14 +30,16 @@ async function classifyLexiconRelevance() {
 	// Get all lexicon entities with their cross-domain connections
 	console.log("Loading lexicon entities with connections...");
 	const entities = db
-		.query(`
+		.query(
+			`
 		SELECT n.id, n.title, COUNT(e.target) as connection_count
 		FROM nodes n
 		LEFT JOIN edges e ON n.id = e.source AND e.type = 'appears_in'
 		WHERE n.domain = 'lexicon'
 		GROUP BY n.id, n.title
 		ORDER BY connection_count DESC
-	`)
+	`,
+		)
 		.all() as any[];
 
 	console.log(`  Found ${entities.length} lexicon entities`);
@@ -64,13 +65,15 @@ async function classifyLexiconRelevance() {
 
 		// Get connected documents with confidence scores
 		const edges = db
-			.query(`
+			.query(
+				`
 			SELECT e.target, e.confidence, n.title as doc_title
 			FROM edges e
 			JOIN nodes n ON e.target = n.id
 			WHERE e.source = ? AND e.type = 'appears_in'
 			ORDER BY e.confidence DESC
-		`)
+		`,
+			)
 			.all(entity.id) as any[];
 
 		const avgConfidence =
@@ -123,8 +126,9 @@ async function classifyLexiconRelevance() {
 
 	// Save classifications
 	const outputPath = ".amalfa/lexicon-relevance-classifications.jsonl";
-	const jsonlOutput =
-		classifications.map((c) => JSON.stringify(c)).join("\n") + "\n";
+	const jsonlOutput = `${classifications
+		.map((c) => JSON.stringify(c))
+		.join("\n")}\n`;
 	writeFileSync(outputPath, jsonlOutput);
 
 	console.log(`\n✅ Classifications saved to: ${outputPath}`);
@@ -170,7 +174,7 @@ async function classifyLexiconRelevance() {
 }
 
 async function analyzeDocumentContent(
-	entityId: string,
+	_entityId: string,
 	edges: any[],
 ): Promise<{
 	deprecationScore: number;

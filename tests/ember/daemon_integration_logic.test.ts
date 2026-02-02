@@ -11,82 +11,82 @@ const TEST_FILE = join(TEST_DIR, "integration-node.md");
 
 // Default Ember config (from schema defaults)
 const DEFAULT_EMBER_CONFIG: EmberConfig = {
-  enabled: true,
-  minConfidence: 0.8,
-  autoSquash: false,
-  backupDir: ".amalfa/backups/ember",
+	enabled: true,
+	minConfidence: 0.8,
+	autoSquash: false,
+	backupDir: ".amalfa/backups/ember",
 };
 
 describe("Ember Daemon Integration Logic", () => {
-  let db: ResonanceDB;
-  let service: EmberService;
+	let db: ResonanceDB;
+	let service: EmberService;
 
-  beforeEach(async () => {
-    await mkdir(TEST_DIR, { recursive: true });
-    db = new ResonanceDB(TEST_DB);
+	beforeEach(async () => {
+		await mkdir(TEST_DIR, { recursive: true });
+		db = new ResonanceDB(TEST_DB);
 
-    // Setup simple config based on defaults
-    const config: EmberConfig = {
-      ...DEFAULT_EMBER_CONFIG,
-      enabled: true,
-      sources: [TEST_DIR],
-      minConfidence: 0.5,
-    };
+		// Setup simple config based on defaults
+		const config: EmberConfig = {
+			...DEFAULT_EMBER_CONFIG,
+			enabled: true,
+			sources: [TEST_DIR],
+			minConfidence: 0.5,
+		};
 
-    service = new EmberService(db, config);
-  });
+		service = new EmberService(db, config);
+	});
 
-  afterEach(async () => {
-    db.close();
-    try {
-      await unlink(TEST_DB);
-    } catch {}
-    try {
-      await unlink(`${TEST_DB}-shm`);
-    } catch {}
-    try {
-      await unlink(`${TEST_DB}-wal`);
-    } catch {}
-    try {
-      await unlink(TEST_FILE);
-    } catch {}
-    try {
-      await unlink(`${TEST_FILE}.ember.json`);
-    } catch {}
-    try {
-      await rmdir(TEST_DIR);
-    } catch {}
-  });
+	afterEach(async () => {
+		db.close();
+		try {
+			await unlink(TEST_DB);
+		} catch {}
+		try {
+			await unlink(`${TEST_DB}-shm`);
+		} catch {}
+		try {
+			await unlink(`${TEST_DB}-wal`);
+		} catch {}
+		try {
+			await unlink(TEST_FILE);
+		} catch {}
+		try {
+			await unlink(`${TEST_FILE}.ember.json`);
+		} catch {}
+		try {
+			await rmdir(TEST_DIR);
+		} catch {}
+	});
 
-  test("should generate sidecar for valid content", async () => {
-    // 1. Create content
-    const content = "Short stub content.";
-    await Bun.write(TEST_FILE, content);
+	test("should generate sidecar for valid content", async () => {
+		// 1. Create content
+		const content = "Short stub content.";
+		await Bun.write(TEST_FILE, content);
 
-    // 2. Insert into DB (simulating Ingestor)
-    db.insertNode({
-      id: "integration-node",
-      type: "doc",
-      meta: { tags: [], source: TEST_FILE },
-      hash: "hash",
-    });
+		// 2. Insert into DB (simulating Ingestor)
+		db.insertNode({
+			id: "integration-node",
+			type: "doc",
+			meta: { tags: [], source: TEST_FILE },
+			hash: "hash",
+		});
 
-    // 3. Analyze (simulating Daemon hook)
-    const sidecar = await service.analyze(TEST_FILE, content);
+		// 3. Analyze (simulating Daemon hook)
+		const sidecar = await service.analyze(TEST_FILE, content);
 
-    expect(sidecar).not.toBeNull();
-    expect(sidecar?.changes.tags?.add).toContain("stub");
+		expect(sidecar).not.toBeNull();
+		expect(sidecar?.changes.tags?.add).toContain("stub");
 
-    // 4. Generate Sidecar
-    if (sidecar) {
-      await service.generate(sidecar);
-    }
+		// 4. Generate Sidecar
+		if (sidecar) {
+			await service.generate(sidecar);
+		}
 
-    // 5. Verify file exists
-    const sidecarPath = `${TEST_FILE}.ember.json`;
-    expect(await Bun.file(sidecarPath).exists()).toBe(true);
+		// 5. Verify file exists
+		const sidecarPath = `${TEST_FILE}.ember.json`;
+		expect(await Bun.file(sidecarPath).exists()).toBe(true);
 
-    const generated = await Bun.file(sidecarPath).json();
-    expect(generated.changes.tags.add).toContain("stub");
-  });
+		const generated = await Bun.file(sidecarPath).json();
+		expect(generated.changes.tags.add).toContain("stub");
+	});
 });

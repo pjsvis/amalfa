@@ -23,8 +23,6 @@ export interface Node {
 
 export class ResonanceDB {
 	private db: Database;
-	private dbPath: string;
-
 	/**
 	 * Factory method to load the default Resonance Graph.
 	 * @deprecated Use constructor with explicit path from config instead.
@@ -43,7 +41,6 @@ export class ResonanceDB {
 	 * WAL mode requires write access to the -shm (shared memory) file even for readers.
 	 */
 	constructor(dbPath: string) {
-		this.dbPath = dbPath;
 		// Use DatabaseFactory to ensure compliant configuration (WAL mode + timeouts)
 		// Always read-write: WAL mode requires all connections to have write access to -shm file
 		this.db = DatabaseFactory.connect(dbPath, { readonly: false });

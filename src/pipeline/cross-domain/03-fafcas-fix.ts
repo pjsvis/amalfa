@@ -43,7 +43,10 @@ async function normalizeDatabaseVectors() {
 			// Calculate L2 norm
 			let sum = 0;
 			for (let i = 0; i < vector.length; i++) {
-				sum += vector[i]! * vector[i]!;
+				const val = vector[i];
+				if (val !== undefined) {
+					sum += val * val;
+				}
 			}
 			const magnitude = Math.sqrt(sum);
 
@@ -56,7 +59,10 @@ async function normalizeDatabaseVectors() {
 			// Normalize to unit length
 			if (magnitude > 1e-6) {
 				for (let i = 0; i < vector.length; i++) {
-					vector[i]! /= magnitude;
+					const val = vector[i];
+					if (val !== undefined) {
+						vector[i] = val / magnitude;
+					}
 				}
 			}
 
@@ -68,7 +74,7 @@ async function normalizeDatabaseVectors() {
 			);
 
 			// Update in database
-			updateStmt.run(normalizedBytes, node.id!);
+			updateStmt.run(normalizedBytes, node.id || "");
 			normalized++;
 
 			if (normalized % 100 === 0) {
@@ -101,11 +107,14 @@ async function normalizeDatabaseVectors() {
 		);
 		let norm = 0;
 		for (let i = 0; i < vec.length; i++) {
-			norm += vec[i]! * vec[i]!;
+			const val = vec[i];
+			if (val !== undefined) {
+				norm += val * val;
+			}
 		}
 		const l2norm = Math.sqrt(norm);
 		console.log(
-			`  ${sample.id!.substring(0, 30)}: ${l2norm.toFixed(6)} ${l2norm < 1.01 && l2norm > 0.99 ? "✅" : "❌"}`,
+			`  ${(sample.id || "").substring(0, 30)}: ${l2norm.toFixed(6)} ${l2norm < 1.01 && l2norm > 0.99 ? "✅" : "❌"}`,
 		);
 	}
 

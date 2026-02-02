@@ -63,12 +63,12 @@ export type {
 	AmalfaSettings,
 	// Backward compatibility alias
 	AmalfaSettings as AmalfaConfig,
-	SonarConfig,
 	EmberConfig,
+	FixturesConfig,
+	GraphConfig,
 	LangExtractConfig,
 	ScratchpadConfig,
-	GraphConfig,
-	FixturesConfig,
+	SonarConfig,
 } from "./schema";
 
 // Re-export SubstrateError for backward compatibility
