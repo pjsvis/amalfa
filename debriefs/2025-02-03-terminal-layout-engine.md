@@ -1,5 +1,5 @@
 ---
-date: 2025-02-03
+date: 2026-02-03
 tags: [terminal-ui, css-layout, character-based-design, layout-engine]
 ---
 
