@@ -136,17 +136,33 @@
             border-bottom: none;
         }
         
-        /* RHS Block: fit-content, flows L→R, scrolls if needed */
+        /* RHS Block: character-based sizing, NO TOUCHING viewport edges */
+        /* 
+           Screen map: ~46ch available vertical space (100vh - header - footer - gaps)
+           Header: 3ch, Footer: 2ch, Gaps: ~1ch
+           Standard block: 30ch max (leaves 16ch buffer from viewport edge)
+           Long content: 25ch or 20ch if multiple blocks stacked
+        */
         .rhs-block {
             background: var(--bg);
             padding: 1ch 2ch;
             width: fit-content;
             min-width: min(50ch, 100%);
             max-width: 70ch;
-            max-height: 50vh;
+            max-height: 30ch; /* Standard: 30ch leaves comfortable buffer */
             overflow-y: auto;
             overflow-x: hidden;
             border: 1px solid var(--border);
+        }
+        
+        /* Long-form content: shorter to avoid edge proximity */
+        .rhs-block.long {
+            max-height: 25ch; /* Shorter when we know content is extensive */
+        }
+        
+        /* Short content: can be taller if needed */
+        .rhs-block.short {
+            max-height: 35ch; /* Taller only when content is brief */
         }
         
         .widget-title {
@@ -469,7 +485,7 @@ External Packages:  [████████░░░░░░░░░░░�
                 </table>
             </div>
             
-            <div class="rhs-block">
+            <div class="rhs-block long">
                 <div class="widget-title">📚 Long-Form Documentation</div>
                 
                 <p class="dim">
