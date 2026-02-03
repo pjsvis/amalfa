@@ -136,12 +136,11 @@
             border-bottom: none;
         }
         
-        /* RHS Block: character-based sizing, NO TOUCHING viewport edges */
+        /* RHS Block: GAME ENGINE STYLE - collision detection and bounce */
         /* 
-           Screen map: ~46ch available vertical space (100vh - header - footer - gaps)
-           Header: 3ch, Footer: 2ch, Gaps: ~1ch
-           Standard block: 30ch max (leaves 16ch buffer from viewport edge)
-           Long content: 25ch or 20ch if multiple blocks stacked
+           Screen map: ~46ch available vertical space
+           Algorithm: IF (block.bottom > viewport.bottom - BUFFER) THEN reduce
+           Buffer zone: Never approach within 5ch of viewport edge
         */
         .rhs-block {
             background: var(--bg);
@@ -149,20 +148,29 @@
             width: fit-content;
             min-width: min(50ch, 100%);
             max-width: 70ch;
-            max-height: 30ch; /* Standard: 30ch leaves comfortable buffer */
+            /* Collision detection: max 30ch keeps us well clear of 46ch limit */
+            max-height: 30ch;
             overflow-y: auto;
             overflow-x: hidden;
             border: 1px solid var(--border);
+            contain: layout; /* Isolate this block's layout */
         }
         
-        /* Long-form content: shorter to avoid edge proximity */
+        /* Emergency collision: viewport is short, back off aggressively */
+        @media (max-height: 50ch) {
+            .rhs-block {
+                max-height: 20ch; /* Doom-style: aggressive reduction */
+            }
+        }
+        
+        /* Long-form: known to be big, keep it extra short */
         .rhs-block.long {
-            max-height: 25ch; /* Shorter when we know content is extensive */
+            max-height: 25ch; /* Extra margin for safety */
         }
         
-        /* Short content: can be taller if needed */
+        /* Short content: can relax a bit */
         .rhs-block.short {
-            max-height: 35ch; /* Taller only when content is brief */
+            max-height: 35ch; /* But still within safe zone */
         }
         
         .widget-title {
