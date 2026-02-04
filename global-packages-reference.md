@@ -1,0 +1,191 @@
+# Global Packages Reference
+
+Generated: 2/4/2026, 8:30:11 AM
+
+This document lists globally installed packages by installer and shows the update commands.
+
+## Update Commands
+
+### Homebrew (system tools)
+- Update a single package: `brew upgrade <package>`
+- Update everything: `brew upgrade`
+
+### Bun (JavaScript tooling)
+- Update a single package: `bun update -g <package>`
+- Update everything: `bun update -g`
+
+## Homebrew Formulae (system tools)
+- aichat
+- aom
+- ast-grep
+- bdui
+- block-goose-cli
+- brotli
+- btop
+- c-ares
+- ca-certificates
+- cairo
+- cmake
+- dav1d
+- docker-credential-helper
+- fd
+- ffmpeg
+- fontconfig
+- freetype
+- fribidi
+- fzf
+- gd
+- gdk-pixbuf
+- gettext
+- gh
+- giflib
+- git
+- git-filter-repo
+- glib
+- gmp
+- gnupg
+- gnutls
+- gpgme
+- gpgmepp
+- graphite
+- graphite2
+- graphviz
+- gts
+- harfbuzz
+- highway
+- icu4c@77
+- icu4c@78
+- imagemagick
+- imath
+- jasper
+- jpeg-turbo
+- jpeg-xl
+- jq
+- lame
+- libassuan
+- libavif
+- libdatrie
+- libde265
+- libdeflate
+- libevent
+- libgcrypt
+- libgpg-error
+- libheif
+- libiconv
+- libidn2
+- libksba
+- libnghttp2
+- libnghttp3
+- libngtcp2
+- libpng
+- librsvg
+- libtasn1
+- libthai
+- libtiff
+- libtool
+- libunistring
+- libusb
+- libuv
+- libvmaf
+- libvpx
+- libx11
+- libxau
+- libxcb
+- libxdmcp
+- libxext
+- libxrender
+- little-cms2
+- llama.cpp
+- lpeg
+- luajit
+- luv
+- lz4
+- lzo
+- m4
+- macmon
+- memo
+- mpdecimal
+- ncurses
+- neovim
+- netpbm
+- nettle
+- node@22
+- npth
+- nspr
+- nss
+- oniguruma
+- openexr
+- openjpeg
+- openjph
+- openssl@3
+- opus
+- p11-kit
+- pango
+- pcre2
+- pinentry
+- pipx
+- pixman
+- poppler
+- python@3.13
+- python@3.14
+- readline
+- remindctl
+- resvg
+- ripgrep
+- sdl2
+- sevenzip
+- shared-mime-info
+- simdjson
+- simdutf
+- sqld
+- sqlite
+- stakpak
+- starship
+- svt-av1
+- tmux
+- tree
+- tree-sitter@0.25
+- turso
+- unbound
+- unibilium
+- utf8proc
+- uvwasi
+- webp
+- wget
+- x264
+- x265
+- xorgproto
+- xz
+- yazi
+- zoxide
+- zstd
+
+## Homebrew Casks (apps)
+- antigravity
+- block-goose
+- bloom
+- docker-desktop
+- font-fira-code
+- font-fira-code-nerd-font
+- font-symbols-only-nerd-font
+- google-chrome
+- keyboardcleantool
+- marta
+- rectangle
+- visual-studio-code
+- visual-studio-code@insiders
+- warp
+
+## Bun Global Packages (JavaScript tooling)
+- @anthropic-ai/claude-code
+- @augmentcode/auggie
+- @github/copilot
+- @kilocode/cli
+- @mixedbread/mgrep
+- @qwen-code/qwen-code
+- agent-browser
+- amalfa
+- opencode-ai
+- typescript
+- wrangler
+

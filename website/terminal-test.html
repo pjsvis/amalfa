@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>terminal | docs</title>
+    <!-- Datastar -->
+    <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
     <style>
         :root {
             --black:   #000000;
@@ -288,9 +290,141 @@
                 max-height: 40vh;
             }
         }
+        /* Window Controls & Wrappers */
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1ch;
+        }
+        
+        .widget-controls {
+            display: flex;
+            gap: 1ch;
+        }
+
+        .control-btn {
+            color: var(--dim);
+            font-family: monospace;
+            cursor: pointer;
+            user-select: none;
+            margin-left: 1ch;
+        }
+        
+        .control-btn:hover {
+            color: var(--fg);
+        }
+        
+        /* Hide maximize button on small blocks by default logic in JS/HTML */
+
+        .rhs-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+            max-width: 70ch;
+        }
+        
+        .rhs-wrapper .rhs-block {
+            width: 100%;
+        }
+
+        .more-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: linear-gradient(transparent, var(--bg) 80%);
+            color: var(--yellow);
+            padding-top: 2ch;
+            padding-bottom: 0.5ch;
+            font-size: 11px;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
+        
+        .more-indicator span {
+            background: var(--bg);
+            padding: 0.2ch 1ch;
+            border: 1px dashed var(--dim);
+        }
+        
+        .more-indicator.visible {
+            display: block;
+        }
+
+        /* Focus Mode Logic */
+        .rhs.focus-mode {
+            display: grid !important;
+            grid-template-columns: 1fr 40ch;
+            grid-template-rows: 1fr; /* Use 1fr instead of 100% for safer grid sizing */
+            overflow: hidden;
+            gap: 1ch;
+        }
+        
+        .rhs-sidebar {
+            display: none;
+            flex-direction: column;
+            gap: 0.5ch;
+            overflow-y: auto;
+            height: 100%;
+            padding-right: 1ch; /* Scrollbar space */
+        }
+        
+        .rhs.focus-mode .rhs-sidebar {
+            display: flex;
+            grid-column: 2;
+        }
+        
+        /* When in main area of focus mode */
+        .rhs.focus-mode > .rhs-block.expanded,
+        .rhs.focus-mode > .rhs-wrapper:has(.rhs-block.expanded) {
+            grid-column: 1;
+            width: 100% !important; /* Fill grid cell explicitly */
+            height: 100% !important;
+            margin: 0 !important;
+        }
+        
+        .rhs-sidebar {
+            display: none;
+            flex-direction: column;
+            gap: 0.5ch;
+            overflow-y: auto;
+            height: 100%;
+            padding-left: 1ch; /* Spacing */
+            border-left: 1px dashed var(--dim); /* Visual separator */
+        }
+        
+        /* Items in sidebar */
+        .rhs-sidebar .rhs-block,
+        .rhs-sidebar .rhs-wrapper {
+            width: 100% !important;
+            /* Remove fixed max-height !important so .collapsed class controls it */
+            min-height: 0;
+            overflow: hidden;
+            margin: 0;
+            flex-shrink: 0;
+        }
+        
+        /* Default state in sidebar is usually collapsed, managed by JS adding .collapsed */
+        
+        .rhs-sidebar .rhs-block {
+            padding: 0.5ch 2ch;
+        }
+        
+        .rhs-sidebar .widget-header {
+            margin: 0;
+            height: 2ch;
+        }
+        
+        .rhs-sidebar .more-indicator {
+            display: none !important;
+        }
     </style>
 </head>
-<body>
+<body data-store="{ focused: '' }">
     <header>
         <span class="brand">terminal</span>
         <span> | docs</span>
@@ -360,141 +494,16 @@
         </div>
         
         <div class="rhs">
-            <div class="rhs-block">
-                <div class="widget-title">📝 Markdown Rendering Demo</div>
-                <h3>Implementation Example</h3>
-                
-                <pre><code>// Server-side markdown rendering
-const html = Bun.markdown.html(markdown);
-
-// With caching layer
-const result = getRenderedHtml(markdown, docId);
-console.log(`Cached: ${result.cached}`);
-console.log(`Render time: ${result.renderTime.toFixed(2)}ms`);</code></pre>
-                
-                <p class="dim">
-                    The terminal aesthetic works because it can't add more—the medium 
-                    won't allow it. Every element justified by function.
-                </p>
-            </div>
-            
-            <div class="rhs-block">
-                <div class="widget-title">Bundle Analysis (OH-107)</div>
-                
-                <pre>
-Input Files:        [███████████████████░░] 611
-Total Input:        [█████████████░░░░░░░░░] 13.15 MB
-Total Output:       [████░░░░░░░░░░░░░░░░░░░] 3.77 MB
-Compression:        [████████████████░░░░] 28.6%
-External Packages:  [████████░░░░░░░░░░░░░░] 100
-                </pre>
-                
-                <p>
-                    <strong>Largest dependency:</strong> tokenizers (~8 MB)<br>
-                    <strong>Bundle efficiency:</strong> 28.6%
-                </p>
-            </div>
-            
-            <div class="rhs-block">
-                <div class="widget-title">Performance Metrics</div>
-                
-                <table>
-                    <tr>
-                        <th>Metric</th>
-                        <th>Value</th>
-                    </tr>
-                    <tr>
-                        <td>Render Time</td>
-                        <td class="status">2.4ms</td>
-                    </tr>
-                    <tr>
-                        <td>Cache Hit</td>
-                        <td class="status">99.8%</td>
-                    </tr>
-                    <tr>
-                        <td>Memory</td>
-                        <td>14.2 MB</td>
-                    </tr>
-                    <tr>
-                        <td>CPU</td>
-                        <td>0.3%</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div class="rhs-block">
-                <div class="widget-title">System Architecture</div>
-                
-                <p class="dim">
-                    The design follows a strict terminal aesthetic with fixed grid layouts, 
-                    bounded widgets, and ANSI color constraints. Each panel serves a specific 
-                    function without decorative elements.
-                </p>
-                
-                <ul>
-                    <li>CSS Grid for main structure</li>
-                    <li>Flexbox for flowing blocks</li>
-                    <li>ch units for typography</li>
-                    <li>Fit-content for dynamic sizing</li>
-                </ul>
-            </div>
-            
-            <div class="rhs-block">
-                <div class="widget-title">Configuration</div>
-                
-                <pre><code>{
-  "theme": "terminal",
-  "colors": 8,
-  "layout": "grid",
-  "font": "monospace",
-  "scroll": "auto"
-}</code></pre>
-            </div>
-            
-            <div class="rhs-block">
-                <div class="widget-title">Dependencies</div>
-                
-                <p>
-                    <strong>Core:</strong> Bun v1.3.8<br>
-                    <strong>Runtime:</strong> JavaScriptCore<br>
-                    <strong>HTTP:</strong> Built-in<br>
-                    <strong>Markdown:</strong> Native API
-                </p>
-            </div>
-            
-            <div class="rhs-block">
-                <div class="widget-title">Network Status</div>
-                
-                <p class="dim">
-                    Checking connection endpoints and response times across all available nodes.
-                </p>
-                
-                <table>
-                    <tr>
-                        <th>Node</th>
-                        <th>Status</th>
-                        <th>Latency</th>
-                    </tr>
-                    <tr>
-                        <td>localhost</td>
-                        <td class="status">UP</td>
-                        <td>0ms</td>
-                    </tr>
-                    <tr>
-                        <td>api</td>
-                        <td class="status">UP</td>
-                        <td>12ms</td>
-                    </tr>
-                    <tr>
-                        <td>cdn</td>
-                        <td class="status">UP</td>
-                        <td>45ms</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div class="rhs-block long">
-                <div class="widget-title">📚 Long-Form Documentation</div>
+            <div class="rhs-block long" id="doc-long">
+                <div class="widget-header">
+                    <div class="widget-title">📚 Long-Form Documentation</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                        <span class="control-btn btn-max" 
+                              data-on:click="$focused == 'doc-long' ? $focused = '' : $focused = 'doc-long'; layout($focused)"
+                              data-text="$focused == 'doc-long' ? '[RST]' : '[MAX]'">[MAX]</span>
+                    </div>
+                </div>
                 
                 <p class="dim">
                     This block demonstrates vertical scrolling when content exceeds the maximum height.
@@ -564,6 +573,176 @@ External Packages:  [████████░░░░░░░░░░░�
                     --- more below ---
                 </p>
             </div>
+            
+            <div class="rhs-block" id="doc-md">
+                <div class="widget-header">
+                    <div class="widget-title">📝 Markdown Rendering Demo</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                    </div>
+                </div>
+                <h3>Implementation Example</h3>
+                
+                <pre><code>// Server-side markdown rendering
+const html = Bun.markdown.html(markdown);
+
+// With caching layer
+const result = getRenderedHtml(markdown, docId);
+console.log(`Cached: ${result.cached}`);
+console.log(`Render time: ${result.renderTime.toFixed(2)}ms`);</code></pre>
+                
+                <p class="dim">
+                    The terminal aesthetic works because it can't add more—the medium 
+                    won't allow it. Every element justified by function.
+                </p>
+            </div>
+            
+            <div class="rhs-block" id="doc-bundle">
+                <div class="widget-header">
+                    <div class="widget-title">Bundle Analysis (OH-107)</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                    </div>
+                </div>
+                
+                <pre>
+Input Files:        [███████████████████░░] 611
+Total Input:        [█████████████░░░░░░░░░] 13.15 MB
+Total Output:       [████░░░░░░░░░░░░░░░░░░░] 3.77 MB
+Compression:        [████████████████░░░░] 28.6%
+External Packages:  [████████░░░░░░░░░░░░░░] 100
+                </pre>
+                
+                <p>
+                    <strong>Largest dependency:</strong> tokenizers (~8 MB)<br>
+                    <strong>Bundle efficiency:</strong> 28.6%
+                </p>
+            </div>
+            
+            <div class="rhs-block" id="doc-perf">
+                <div class="widget-header">
+                    <div class="widget-title">Performance Metrics</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                    </div>
+                </div>
+                
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Render Time</td>
+                        <td class="status">2.4ms</td>
+                    </tr>
+                    <tr>
+                        <td>Cache Hit</td>
+                        <td class="status">99.8%</td>
+                    </tr>
+                    <tr>
+                        <td>Memory</td>
+                        <td>14.2 MB</td>
+                    </tr>
+                    <tr>
+                        <td>CPU</td>
+                        <td>0.3%</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="rhs-block" id="doc-arch">
+                <div class="widget-header">
+                    <div class="widget-title">System Architecture</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                    </div>
+                </div>
+                
+                <p class="dim">
+                    The design follows a strict terminal aesthetic with fixed grid layouts, 
+                    bounded widgets, and ANSI color constraints. Each panel serves a specific 
+                    function without decorative elements.
+                </p>
+                
+                <ul>
+                    <li>CSS Grid for main structure</li>
+                    <li>Flexbox for flowing blocks</li>
+                    <li>ch units for typography</li>
+                    <li>Fit-content for dynamic sizing</li>
+                </ul>
+            </div>
+            
+            <div class="rhs-block" id="doc-config">
+                <div class="widget-header">
+                    <div class="widget-title">Configuration</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                    </div>
+                </div>
+                
+                <pre><code>{
+  "theme": "terminal",
+  "colors": 8,
+  "layout": "grid",
+  "font": "monospace",
+  "scroll": "auto"
+}</code></pre>
+            </div>
+            
+            <div class="rhs-block" id="doc-deps">
+                <div class="widget-header">
+                    <div class="widget-title">Dependencies</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                    </div>
+                </div>
+                
+                <p>
+                    <strong>Core:</strong> Bun v1.3.8<br>
+                    <strong>Runtime:</strong> JavaScriptCore<br>
+                    <strong>HTTP:</strong> Built-in<br>
+                    <strong>Markdown:</strong> Native API
+                </p>
+            </div>
+            
+            <div class="rhs-block" id="doc-net">
+                <div class="widget-header">
+                    <div class="widget-title">Network Status</div>
+                    <div class="widget-controls">
+                        <span class="control-btn btn-min" onclick="toggleMinimize(this)">[-]</span>
+                    </div>
+                </div>
+                
+                <table class="float-right">
+                    <tr>
+                        <th>Node</th>
+                        <th>Status</th>
+                        <th>Latency</th>
+                    </tr>
+                    <tr>
+                        <td>localhost</td>
+                        <td class="status">UP</td>
+                        <td>0ms</td>
+                    </tr>
+                    <tr>
+                        <td>api</td>
+                        <td class="status">UP</td>
+                        <td>12ms</td>
+                    </tr>
+                    <tr>
+                        <td>cdn</td>
+                        <td class="status">UP</td>
+                        <td>45ms</td>
+                    </tr>
+                </table>
+
+                <p class="dim">
+                    Checking connection endpoints and response times across all available nodes.
+                </p>
+            </div>
+            
+            <div class="rhs-sidebar" id="rhs-sidebar"></div>
         </div>
     </main>
     
@@ -571,5 +750,118 @@ External Packages:  [████████░░░░░░░░░░░�
         <span>Design inspired by terminal.shop | Demo Project 2025</span>
         <span>System Status: ACTIVE</span>
     </footer>
+    <script>
+        // Exposed to Datastar logic
+        window.layout = function(focusedId) {
+            const container = document.querySelector('.rhs');
+            const sidebar = document.getElementById('rhs-sidebar');
+            const blocks = document.querySelectorAll('.rhs-block');
+            
+            if (focusedId) {
+                // FOCUS MODE
+                container.classList.add('focus-mode');
+                sidebar.style.display = 'flex';
+                
+                blocks.forEach(block => {
+                    const wrapper = block.closest('.rhs-wrapper') || block;
+                    
+                    if (block.id === focusedId) {
+                        // PRIMARY ITEM
+                        container.insertBefore(wrapper, sidebar);
+                        
+                        // Expand fully
+                        block.classList.add('expanded');
+                        block.classList.remove('collapsed');
+                        if (wrapper.classList) wrapper.classList.remove('collapsed');
+                        wrapper.style.maxHeight = '';
+                        
+                    } else {
+                        // SIDEBAR ITEM
+                        sidebar.appendChild(wrapper);
+                        
+                        // Collapse
+                        block.classList.add('collapsed');
+                        block.classList.remove('expanded');
+                        if (wrapper.classList) {
+                            wrapper.classList.add('collapsed');
+                            wrapper.style.maxHeight = '3ch';
+                        }
+                    }
+                });
+            } else {
+                // DASHBOARD MODE
+                container.classList.remove('focus-mode');
+                sidebar.style.display = 'none';
+                
+                // Move everything back
+                const sidebarItems = Array.from(sidebar.children);
+                sidebarItems.forEach(item => {
+                    container.insertBefore(item, sidebar);
+                });
+                
+                blocks.forEach(block => {
+                    const wrapper = block.closest('.rhs-wrapper') || block;
+                    
+                    // Reset classes
+                    block.classList.remove('expanded');
+                    if (wrapper.classList) {
+                        wrapper.classList.remove('collapsed');
+                        wrapper.style.maxHeight = '';
+                    }
+                });
+            }
+            
+            // Re-check scroll indicators
+            setTimeout(() => {
+                blocks.forEach(b => b.dispatchEvent(new Event('scroll')));
+            }, 50);
+        }
+
+        // Keep local minimize for small tweaks if needed, but Datastar handles the main layout switch
+        function toggleMinimize(btn) {
+             /* ... kept as legacy or local override ... */
+             /* I'll simplify it to just toggle class */
+             const block = btn.closest('.rhs-block');
+             block.classList.toggle('collapsed');
+             const wrapper = block.closest('.rhs-wrapper');
+             if(wrapper) {
+                 wrapper.classList.toggle('collapsed');
+                 wrapper.style.maxHeight = wrapper.classList.contains('collapsed') ? '3ch' : '';
+             }
+             btn.textContent = block.classList.contains('collapsed') ? '[+]' : '[-]';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const blocks = document.querySelectorAll('.rhs-block');
+            blocks.forEach(block => {
+                // Check if content overflows
+                if (block.scrollHeight > block.clientHeight) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'rhs-wrapper';
+                    
+                    block.parentNode.insertBefore(wrapper, block);
+                    wrapper.appendChild(block);
+                    
+                    const indicator = document.createElement('div');
+                    indicator.className = 'more-indicator visible';
+                    indicator.innerHTML = '<span>vvv MORE vvv</span>';
+                    wrapper.appendChild(indicator);
+                    
+                    const checkScroll = () => {
+                        const atBottom = block.scrollHeight - block.scrollTop <= block.clientHeight + 5;
+                        if (atBottom || block.clientHeight >= block.scrollHeight) {
+                            indicator.classList.remove('visible');
+                        } else {
+                            indicator.classList.add('visible');
+                        }
+                    };
+                    
+                    block.addEventListener('scroll', checkScroll);
+                    // Initial check
+                    checkScroll();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
