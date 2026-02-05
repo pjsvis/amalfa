@@ -1,0 +1,210 @@
+y<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PolyVis Mainframe</title>
+    <link rel="stylesheet" href="/style.css" />
+    <!-- DataStar from CDN (no build step) -->
+    <script src="https://unpkg.com/@data-stars/core@latest/dist/core.js"></script>
+  </head>
+  <body x-data="dashboard()">
+    <!-- Header - fixed height, never scrolls -->
+    <header style="height: 40px; flex-shrink: 0">
+      <div
+        style="display: flex; align-items: center; padding: 0 var(--space-md)"
+      >
+        <span class="brand">POLYVIS::MAINFRAME</span>
+        <span class="version">v2.1 (SSE)</span>
+      </div>
+      <nav style="flex: 1">
+        <a href="/index-star.html" class="active">Systems</a>
+        <a href="/lexicon.html">Lexicon</a>
+        <a href="/sigma-explorer/">Graph</a>
+        <a href="/docs/">Docs</a>
+      </nav>
+      <div
+        style="
+          font-size: 10px;
+          color: #555;
+          padding: 0 var(--space-md);
+          display: flex;
+          align-items: center;
+          gap: var(--space-sm);
+        "
+      >
+        <span class="sse-status" :class="connected ? 'connected' : ''"></span>
+        <span x-text="connected ? 'LIVE' : 'OFFLINE'"></span>
+      </div>
+    </header>
+
+    <!-- Stats bar - fixed height, never scrolls -->
+    <div
+      id="stats"
+      class="border-b"
+      style="
+        height: 28px;
+        display: flex;
+        align-items: center;
+        padding: 0 var(--space-md);
+        gap: var(--space-lg);
+        flex-shrink: 0;
+      "
+    >
+      <span>NODES: <b x-text="stats.nodes">0</b></span>
+      <span>EDGES: <b x-text="stats.edges">0</b></span>
+      <span>STATUS: <b class="text-accent">ONLINE</b></span>
+    </div>
+
+    <!-- Main workspace - flex container, never scrolls -->
+    <div
+      id="workspace"
+      style="flex: 1; display: flex; overflow: hidden; min-height: 0"
+    >
+      <!-- Services Panel - scrolls independently -->
+      <div
+        id="services"
+        class="panel"
+        style="
+          width: 300px;
+          display: flex;
+          flex-direction: column;
+          flex-shrink: 0;
+        "
+      >
+        <div class="panel-head" style="flex-shrink: 0">Active Daemons</div>
+        <div
+          class="service-list"
+          id="services-list"
+          style="overflow-y: auto; flex: 1"
+        >
+          <!-- Services rendered by DataStar -->
+          <template :each="services">
+            <div class="svc-row">
+              <div>
+                <div class="svc-name" :text="svc.name"></div>
+                <div class="svc-meta">
+                  <span
+                    class="status-dot"
+                    :class="svc.status === 'running' ? 'running' : 'stopped'"
+                  ></span>
+                  <span :text="svc.status.toUpperCase()"></span>
+                  <span :if="svc.pid" :text="'PID:' + svc.pid"></span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 4px; flex-shrink: 0">
+                <button
+                  class="btn-xs"
+                  :if="svc.status === 'running'"
+                  @click="control(svc.name, 'stop')"
+                >
+                  STOP
+                </button>
+                <button
+                  class="btn-xs"
+                  :if="svc.status !== 'running'"
+                  @click="control(svc.name, 'start')"
+                >
+                  START
+                </button>
+                <button class="btn-xs" @click="control(svc.name, 'restart')">
+                  RST
+                </button>
+              </div>
+            </div>
+          </template>
+          <div :if="services.length === 0" class="empty-state">Scanning...</div>
+        </div>
+      </div>
+
+      <!-- Activity Panel - scrolls independently -->
+      <div
+        id="activity"
+        class="panel"
+        style="flex: 1; display: flex; flex-direction: column; min-width: 0"
+      >
+        <div class="panel-head" style="flex-shrink: 0">Ingestion Log</div>
+        <div style="overflow-y: auto; flex: 1; min-height: 0">
+          <table>
+            <thead style="position: sticky; top: 0">
+              <tr>
+                <th width="80">STATUS</th>
+                <th width="150">TIMESTAMP</th>
+                <th width="100">FILES</th>
+                <th width="100">DURATION</th>
+                <th>CONTEXT</th>
+              </tr>
+            </thead>
+            <tbody id="runs-list">
+              <template :each="runs">
+                <tr>
+                  <td class="text-accent">SUCCESS</td>
+                  <td :text="new Date(run.timestamp).toLocaleTimeString()"></td>
+                  <td :text="run.files"></td>
+                  <td :text="run.duration + 'ms'"></td>
+                  <td style="opacity: 0.5">--</td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <div :if="runs.length === 0" class="empty-state">
+            No recent activity.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // DataStar Dashboard Controller
+      function dashboard() {
+        return {
+          stats: { nodes: 0, edges: 0 },
+          services: [],
+          runs: [],
+          uptime: 0,
+          connected: false,
+          eventSource: null,
+
+          init() {
+            // Start uptime counter
+            setInterval(() => this.uptime++, 1000);
+
+            // Connect to SSE
+            this.connectSSE();
+          },
+
+          connectSSE() {
+            this.eventSource = new EventSource("/api/stream");
+
+            this.eventSource.onopen = () => {
+              this.connected = true;
+              console.log("SSE connected");
+            };
+
+            this.eventSource.onmessage = (event) => {
+              const data = JSON.parse(event.data);
+              this.stats = data.stats;
+              this.services = data.services;
+              this.runs = data.runs;
+            };
+
+            this.eventSource.onerror = (err) => {
+              console.error("SSE error:", err);
+              this.connected = false;
+              // Attempt reconnect after 5 seconds
+              setTimeout(() => this.connectSSE(), 5000);
+            };
+          },
+
+          async control(name, action) {
+            if (name === "Dashboard" && action === "stop") {
+              if (!confirm("This will kill the UI.")) return;
+            }
+            await fetch(`/api/services/${name}/${action}`, { method: "POST" });
+            // SSE will pick up the changes automatically
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

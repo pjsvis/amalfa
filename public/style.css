@@ -1,0 +1,488 @@
+/**
+ * Terminal Shop-inspired stylesheet
+ * Minimal, terminal-like aesthetic with monospace typography
+ */
+
+/* CSS Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* CSS Custom Properties - Terminal Shop palette */
+:root {
+  --bg: #000000;
+  --fg: #ededed;
+  --fg-dim: #a1a1aa;
+  --accent: #f97316; /* Orange */
+  --accent-dim: #c2410c;
+  --border: #27272a;
+  --border-light: #3f3f46;
+
+  /* Gray scale (matches terminal.shop) */
+  --gray-1: #fafafa;
+  --gray-5: #f4f4f5;
+  --gray-6: #e4e4e7;
+  --gray-10: #a1a1aa;
+  --gray-11: #d4d4d8;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
+  /* Typography */
+  --font-mono:
+    "SF Mono", "Fira Code", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
+}
+
+/* Base styling */
+html {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: var(--space-md);
+}
+
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+h4 {
+  font-size: 1.125rem;
+}
+
+p {
+  margin-bottom: var(--space-md);
+}
+
+a {
+  color: var(--fg-dim);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+a.active,
+a.current {
+  color: var(--accent);
+}
+
+/* Header */
+header {
+  height: 40px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: stretch;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+}
+
+header a {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-md);
+  border-right: 1px solid var(--border);
+  color: var(--fg-dim);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+header a:hover {
+  background: var(--border);
+  color: var(--fg);
+}
+
+header a.active {
+  color: var(--accent);
+}
+
+/* Brand */
+.brand {
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: -0.5px;
+}
+
+.brand::before {
+  content: ">";
+  color: var(--accent);
+  margin-right: var(--space-sm);
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  overflow-x: auto;
+}
+
+nav a {
+  white-space: nowrap;
+}
+
+/* Panels */
+.panel {
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.panel-head {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--fg-dim);
+}
+
+/* Buttons */
+button,
+.btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+}
+
+button:hover,
+.btn:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+button.primary,
+.btn.primary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+button.primary:hover,
+.btn.primary:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Status indicators */
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-light);
+}
+
+.status-dot.running {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.status-dot.stopped {
+  background: #ef4444;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  color: var(--fg-dim);
+  font-weight: normal;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Forms */
+input,
+textarea,
+select {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* Code blocks */
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+pre {
+  background: var(--border);
+  padding: var(--space-md);
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+
+code {
+  background: var(--border);
+  padding: 2px 6px;
+}
+
+/* Utility classes */
+.text-accent {
+  color: var(--accent);
+}
+.text-dim {
+  color: var(--fg-dim);
+}
+.text-danger {
+  color: #ef4444;
+}
+.text-success {
+  color: #22c55e;
+}
+
+.bg-accent {
+  background: var(--accent);
+}
+.bg-dim {
+  background: var(--border);
+}
+
+.border {
+  border: 1px solid var(--border);
+}
+.border-b {
+  border-bottom: 1px solid var(--border);
+}
+.border-t {
+  border-top: 1px solid var(--border);
+}
+
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-sm {
+  gap: var(--space-sm);
+}
+.gap-md {
+  gap: var(--space-md);
+}
+
+.p-sm {
+  padding: var(--space-sm);
+}
+.p-md {
+  padding: var(--space-md);
+}
+.p-lg {
+  padding: var(--space-lg);
+}
+
+.mt-sm {
+  margin-top: var(--space-sm);
+}
+.mt-md {
+  margin-top: var(--space-md);
+}
+.mb-sm {
+  margin-bottom: var(--space-sm);
+}
+.mb-md {
+  margin-bottom: var(--space-md);
+}
+
+.w-full {
+  width: 100%;
+}
+.h-full {
+  height: 100%;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Focus states */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Markdown content */
+.markdown {
+  line-height: 1.7;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+.markdown h1 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-sm);
+}
+.markdown h2 {
+  font-size: 1.4rem;
+}
+.markdown h3 {
+  font-size: 1.15rem;
+}
+
+.markdown ul,
+.markdown ol {
+  padding-left: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.markdown li {
+  margin-bottom: var(--space-xs);
+}
+
+.markdown blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: var(--space-md);
+  margin: var(--space-md) 0;
+  color: var(--fg-dim);
+}
+
+.markdown img {
+  max-width: 100%;
+  border: 1px solid var(--border);
+}
+
+/* Table of contents */
+.toc {
+  font-size: 12px;
+}
+
+.toc a {
+  display: block;
+  padding: 4px 0;
+  color: var(--fg-dim);
+  border-left: 2px solid transparent;
+  padding-left: var(--space-sm);
+  margin-left: calc(var(--space-sm) * -1);
+}
+
+.toc a:hover,
+.toc a.active {
+  color: var(--fg);
+  border-left-color: var(--accent);
+}
+
+.toc ul {
+  list-style: none;
+  padding: 0;
+}
+
+.toc li {
+  margin-bottom: 0;
+}
+
+.toc ul ul {
+  padding-left: var(--space-md);
+}
