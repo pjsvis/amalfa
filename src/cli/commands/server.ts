@@ -81,11 +81,11 @@ export async function cmdServers(args: string[]) {
 			cmd: "amalfa sonar start",
 		},
 		{
-			name: "Dashboard",
-			pidFile: join(AMALFA_DIRS.runtime, "dashboard.pid"),
-			port: "3013",
-			id: "dashboard",
-			cmd: "amalfa dashboard start",
+			name: "SSR Docs",
+			pidFile: join(AMALFA_DIRS.runtime, "ssr-docs.pid"),
+			port: "3001",
+			id: "ssr-docs",
+			cmd: "bun run website/ssr-docs/server.ts",
 		},
 	];
 
@@ -214,28 +214,28 @@ export async function cmdServers(args: string[]) {
 const BACKGROUND_SERVICES = [
 	{
 		name: "Vector Daemon",
-		cmd: "amalfa",
-		args: ["vector", "start"],
+		cmd: "bun",
+		args: ["run", "src/cli.ts", "vector", "start"],
 	},
 	{
 		name: "Reranker Daemon",
-		cmd: "amalfa",
-		args: ["reranker", "start"],
+		cmd: "bun",
+		args: ["run", "src/cli.ts", "reranker", "start"],
 	},
 	{
 		name: "File Watcher",
-		cmd: "amalfa",
-		args: ["daemon", "start"],
+		cmd: "bun",
+		args: ["run", "src/cli.ts", "daemon", "start"],
 	},
 	{
 		name: "Sonar Agent",
-		cmd: "amalfa",
-		args: ["sonar", "start"],
+		cmd: "bun",
+		args: ["run", "src/cli.ts", "sonar", "start"],
 	},
 	{
-		name: "Dashboard",
-		cmd: "amalfa",
-		args: ["dashboard", "start"],
+		name: "SSR Docs",
+		cmd: "bun",
+		args: ["run", "website/ssr-docs/server.ts"],
 	},
 ];
 
@@ -277,7 +277,7 @@ export async function cmdStopAll(_args: string[]) {
 		},
 		{ name: "File Watcher", pidFile: join(AMALFA_DIRS.runtime, "daemon.pid") },
 		{ name: "Sonar Agent", pidFile: join(AMALFA_DIRS.runtime, "sonar.pid") },
-		{ name: "Dashboard", pidFile: join(AMALFA_DIRS.runtime, "dashboard.pid") },
+		{ name: "SSR Docs", pidFile: join(AMALFA_DIRS.runtime, "ssr-docs.pid") },
 		// MCP usually runs as stdio, but if we track a PID file for it:
 		{ name: "MCP Server", pidFile: join(AMALFA_DIRS.runtime, "mcp.pid") },
 	];

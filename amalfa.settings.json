@@ -1,4 +1,11 @@
 {
+	"docs": {
+		"folders": {
+			"docs": "docs",
+			"briefs": "briefs",
+			"debriefs": "debriefs"
+		}
+	},
 	"sources": [".", "src", "scripts"],
 	"database": ".amalfa/resonance.db",
 	"embeddings": {

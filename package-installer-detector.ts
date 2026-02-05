@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
-import { execSync } from "child_process";
-import { existsSync, lstatSync, readlinkSync } from "fs";
+import { execSync } from "node:child_process";
+import { existsSync, lstatSync, readlinkSync } from "node:fs";
 
 interface InstallerResult {
 	package: string;

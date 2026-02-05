@@ -497,6 +497,25 @@ These packages (`onnxruntime-node`, `protobufjs`) run native build scripts durin
 
 **Package:** Available at https://www.npmjs.com/package/amalfa
 
+### SSR Documentation Server
+
+AMALFA includes a built-in documentation viewer at `http://localhost:3001`:
+
+```bash
+# Start the SSR docs server
+bun run website/ssr-docs/server.ts
+
+# Or via the CLI (coming soon)
+amalfa docs
+```
+
+**Routes:**
+- `/` - System dashboard with health metrics
+- `/lexicon` - Entity browser for the conceptual lexicon
+- `/doc` - Documentation viewer with navigation
+
+The SSR docs are served from `website/ssr-docs/` and use the persisted document registry in `.amalfa/runtime/doc-registry.json`.
+
 ---
 
 

@@ -1,8 +1,37 @@
 # Current Task
 
-**Status**: v1.1.0-alpha (Phase 7 - Dynamic Discovery) 🚧
-**Last Session**: 2026-01-30 (Harvester Caching - Complete)
-**Next Focus**: Monitoring Dashboard (Observability & Auditability)
+**Status**: v1.1.0-alpha (Phase 8 - SSR Unified Web) 🚧
+**Next Focus**: SSR-JSX-Markdown Unified Web Architecture
+
+---
+
+## Session 2026-02-05: SSR Unified Web Architecture
+
+### Task: Consolidate AMALFA Web Properties into Single-Port SSR Server
+**Objective:** Unify dashboard (3013), docs (3001), and scattered HTML pages into single-port (3001) Bun-Hono-SSR-JSX-Markdown server with DataStar-HTML-CSS frontend.
+
+**Status**: 🚧 IN PROGRESS
+
+### Brief
+- `briefs/brief-ssr-unified-web-2026-02-05.md` - Complete architecture brief
+
+### Objectives
+1. **Single Port 3001**: All pages via SSR + DataStar
+2. **Aria Landmarks**: Enable agent-browser E2E mapping
+3. **SSOT Config**: Load from `amalfa.settings.json`
+4. **Componentized**: JSX templates for all pages
+
+### Deliverables
+- [ ] `templates/base.tsx` - Base HTML shell with aria landmarks
+- [ ] `templates/dashboard.tsx` - System monitoring dashboard
+- [ ] `templates/lexicon.tsx` - Entity browser
+- [ ] `templates/doc.tsx` - Documentation viewer
+- [ ] `templates/components/` - Reusable UI components
+- [x] Deprecate port 3013 dashboard (SSR docs now on port 3001)
+
+---
+
+## Previous Session: E2E Testing & Website Consolidation
 
 ---
 

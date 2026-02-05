@@ -1,93 +1,118 @@
-# SSR Documentation Browser
+# SSR Documentation Server (Port 3001)
 
-Server-side rendered markdown documentation browser using Bun 1.38's native markdown API.
+**Purpose:** Server-side rendered markdown documentation browser with knowledge graph integration.
 
-## Structure
+## What This Is
+
+A unified web server providing:
+- **Dashboard**: Knowledge graph metrics, semantic search, recent activity
+- **Docs Browser**: SSR markdown rendering with table of contents
+- **Config Display**: Real-time configuration from `amalfa.settings.json`
+- **API Endpoints**: Stats, search, and document parsing
+
+## Architecture
+
+- **Server**: `website/ssr-docs/server.ts` (Bun + Hono.js)
+- **Rendering**: Server-side JSX → HTML (Hono's JSX support)
+- **Client**: DataStar (SSE reactivity), vanilla JS for navigation
+- **Content**: Markdown files from `docs/` and `briefs/`
+- **Data**: SQLite knowledge graph (`.amalfa/resonance.db`)
+
+## Stack
 
 ```
-website/ssr-docs/
-├── server.ts         # SSR server using Bun.serve
-├── lib/
-│   └── markdown.ts   # Markdown parser using Bun.markdown.html()
-└── README.md
+Bun Runtime
+    ↓
+Hono.js (HTTP framework)
+    ├─ SSR Templates (JSX → HTML)
+    ├─ API Routes (JSON)
+    └─ Static Assets
+    ↓
+DataStar (Client-side reactivity via SSE)
 ```
 
-## Bun 1.38 Native Markdown API
+## Server-Side Rendering Pattern
 
-This implementation leverages Bun's native `Bun.markdown.html()` API for server-side rendering:
+The server uses Hono's JSX support for HTML generation:
 
 ```typescript
-// Bun 1.38 native markdown rendering
-const html = Bun.markdown.html(markdown);
+function renderDashboard(): string {
+  return <html>
+    <head><title>terminal | dashboard</title></head>
+    <body>
+      <header><span class="brand">terminal</span></header>
+      <main>{/* Widgets */}</main>
+    </body>
+  </html>;
+}
 ```
 
-**Benefits:**
+## Key Endpoints
 
-- No external markdown library dependencies
-- Built-in syntax highlighting support
-- Optimized for Bun runtime
-- Automatic handling of CommonMark spec
+| Endpoint | Purpose |
+|----------|---------|
+| `/` | Dashboard with stats, search, recent activity |
+| `/ssr-docs` | Documentation index |
+| `/ssr-docs/doc/:file` | SSR rendered markdown document |
+| `/ssr-docs/api/doc/:file` | JSON (HTML + TOC) for client nav |
+| `/api/config` | Safe config from `amalfa.settings.json` |
+| `/api/stats` | System metrics (nodes, edges, cache) |
+| `/api/search` | Semantic search results |
 
-## Architecture: Hybrid SSR + Client Navigation
+## Component Categories
 
-1. **Initial Load (SSR)**: Full HTML page using `Bun.markdown.html()`
-2. **Navigation (Client-side)**: Vanilla JS fetches JSON and updates content
-3. **URL Sync**: Browser back/forward buttons work correctly
+### Layout Components
+- `Header` - Brand, navigation, status
+- `Sidebar` - Document navigation tree
+- `Main` - Content area with independent scrolling
+- `Footer` - Version, status, timestamp
 
-## Features
+### Content Blocks
+- `StatWidget` - Single metric display (nodes, edges, etc.)
+- `ServiceStatus` - Daemon status indicators
+- `SearchBar` - Query input with results dropdown
+- `ActivityList` - Recent briefs/debriefs with filtering
 
-- **Bun native markdown**: `Bun.markdown.html()` for rendering
-- **TOC generation**: Custom extraction from headings
-- **Wiki-link support**: `[[Reference]]`, `BRIEF-001` patterns
-- **3-panel layout**: Navigation sidebar, content, TOC
-- **Terminal.shop styling**: ANSI color palette with monospace typography
+### Long-form Blocks
+- `DocViewer` - SSR markdown with TOC sidebar
+- `ConfigTable` - Key-value configuration display
+- `LogViewer` - Terminal-style log output
 
 ## Running
 
-### Using the CLI (Recommended)
-
 ```bash
-# Start the server
-amalfa ssr-docs start
-
-# Stop the server
-amalfa ssr-docs stop
-
-# Check server status
-amalfa ssr-docs status
-
-# Restart the server
-amalfa ssr-docs restart
+bun run website/ssr-docs/server.ts serve
+# Server at http://localhost:3001
 ```
 
-### Direct Execution
+## Configuration
+
+Reads from `amalfa.settings.json` as single source of truth:
+- Sources: document scanning paths
+- Database: SQLite location
+- Embeddings: model name, dimensions
+- Features: Watch, Ember, Sonar, Scratchpad
+
+## Testing
+
+E2E tests verify:
+- Dashboard loads with correct title
+- Stats display (nodes, edges, vectors)
+- Configuration panel shows SSOT values
+- Search returns results
+- Documentation navigation works
+- No console errors
 
 ```bash
-cd website/ssr-docs
-PORT=3001 bun run server.ts
+# Start server first
+bun run website/ssr-docs/server.ts serve
+
+# Run tests
+bun run test:e2e
 ```
 
-## Endpoints
+## Related Files
 
-| Endpoint                           | Returns   | Use          |
-| ---------------------------------- | --------- | ------------ |
-| `GET /ssr-docs`                    | Full HTML | Index page   |
-| `GET /ssr-docs/doc/:file`          | Full HTML | Direct links |
-| `GET /ssr-docs/api/docs`           | JSON      | List docs    |
-| `GET /ssr-docs/api/doc/:file`      | JSON      | Doc + TOC    |
-| `GET /ssr-docs/terminal-style.css` | CSS       | Stylesheet   |
-
-## Implementation Notes
-
-**Markdown Rendering:**
-
-- Uses `Bun.markdown.html(markdown)` for HTML generation
-- Custom TOC extraction from H2/H3 headings
-- Post-processing for wiki-links
-
-**Client Navigation:**
-
-- Vanilla JS intercepts nav clicks
-- Fetches JSON from `/ssr-docs/api/doc/:file`
-- Updates content and TOC areas
-- History API for URL sync
+- `website/ssr-docs/server.ts` - Main server
+- `website/ssr-docs/lib/markdown.ts` - Markdown parsing with TOC
+- `playbooks/e2e-web-testing-playbook.md` - Testing patterns
