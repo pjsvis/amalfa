@@ -151,6 +151,65 @@ if (items.length > 10) {
 }
 ```
 
+## Empty Array Early Return
+
+Return early when processing an empty array. This gives TypeScript exact type information and is honest about the work done.
+
+```typescript
+function getItems(): Item[] {
+  const rows = db.query("SELECT * FROM items").all();
+  if (rows.length === 0) return [];
+  return rows.map((row) => mapToItem(row));
+}
+```
+
+**Benefits:**
+- TypeScript infers exact `Item[]` from empty literal `[]`
+- No map inference chain to trace
+- Honest: "I processed your empty array, here it is"
+- Defensive: handles the edge case explicitly
+
+## No-Op Pattern
+
+When an option or callback can legitimately "do nothing," define a no-op value explicitly.
+
+```typescript
+// No-op as a function
+const noop = () => {};
+
+// No-op as a value
+const noop = {};
+
+// Usage in options
+interface HandlerOptions {
+  onSuccess?: () => void;
+  onFailure?: () => void;
+  onSkip?: () => void;
+}
+
+const handlers: HandlerOptions = {
+  onSuccess: () => console.log("done"),
+  onFailure: () => console.log("failed"),
+  onSkip: noop,  // Explicit: I chose to do nothing
+};
+
+// Clean call site - no conditionals needed
+handlers.onSkip();
+handlers.onSuccess();
+```
+
+**Benefits:**
+- **Explicit** - "I considered this case and chose no-op"
+- **Truthy** - no `if (handler) handler()` checks needed
+- **Type-safe** - always consistent return type
+- **Composable** - can be selected or overridden from options
+
+**Use cases:**
+- Logger options where logging is optional
+- Event handlers where some events do nothing
+- Callback hooks in lifecycle methods
+- Feature flags that disable behavior
+
 ## See Also
 
 - `playbooks/biome-playbook.md` - Linting rules and configuration

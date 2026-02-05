@@ -39,6 +39,31 @@ Briefs are aspirational work specifications - like New Year's Resolutions, they 
 - Abandoned as not viable
 - **Signal:** Historical record
 
+---
+
+## Active Work: Remeda Adoption
+
+The following briefs document the adoption of the Remeda toolkit for ingestion pipeline hardening.
+
+### Execution Order
+
+1. **`brief-add-to-wrapper.md`** - Add foundational `to()` wrapper to JsonlUtils
+2. **`brief-refactor-dashboard-daemon.md`** - Small, isolated refactor using new utilities
+3. **`brief-refactor-lexicon-harvester.md`** - Larger refactor with multiple Remeda patterns
+
+### Quick Links
+
+- [Master Brief](./brief-remeda-adoption-2026-02-05.md) - Overview and context
+- [Remeda Playbook](../playbooks/remeda-playbook.md) - Pattern documentation
+
+### Summary
+
+Goal: Refactor the codebase to use:
+- `to()` wrapper for explicit async error handling
+- `R.pipe()` for linear data transformations
+- Immutable operations (no mutation)
+- Empty array early returns for type narrowing
+
 ## Lifecycle
 
 ```

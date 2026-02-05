@@ -2,15 +2,24 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { getDbPath } from "@src/cli/utils";
 import { AMALFA_DIRS } from "@src/config/defaults";
+import { JsonlUtils } from "@src/utils/JsonlUtils";
 import { getLogger } from "@src/utils/Logger";
 import { Glob } from "bun";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { streamSSE } from "hono/streaming";
+import * as R from "remeda";
 
 const log = getLogger("Dashboard");
 const PORT = 3013;
 const PID_FILE = join(AMALFA_DIRS.runtime, "dashboard.pid");
+
+interface RunEntry {
+	timestamp: string;
+	command: string;
+	status: string;
+	duration?: number;
+}
 
 export class DashboardDaemon {
 	private server: ReturnType<typeof Bun.serve> | null = null;
@@ -339,16 +348,9 @@ export class DashboardDaemon {
 
 	private async getRecentRuns() {
 		const runsFile = ".amalfa/runs.jsonl";
-		if (!existsSync(runsFile)) return [];
-
-		const lines = readFileSync(runsFile, "utf-8")
-			.split("\n")
-			.filter((l) => l.trim());
-
-		return lines
-			.slice(-10)
-			.reverse()
-			.map((line) => JSON.parse(line));
+		const entries = await JsonlUtils.readAll<RunEntry>(runsFile);
+		if (R.isEmpty(entries)) return [];
+		return entries.slice(-10).reverse();
 	}
 
 	public async start() {

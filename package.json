@@ -85,6 +85,7 @@
 		"gray-matter": "^4.0.3",
 		"hono": "4.11.3",
 		"pino": "10.1.0",
+		"remeda": "^2.33.5",
 		"zod": "^4.3.5"
 	},
 	"trustedDependencies": [

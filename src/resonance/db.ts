@@ -234,6 +234,7 @@ export class ResonanceDB {
 		}
 
 		const rows = this.db.query(sql).all(...params) as Record<string, unknown>[];
+		if (rows.length === 0) return [];
 		return rows.map((row) => this.mapRowToNode(row));
 	}
 
@@ -259,6 +260,7 @@ export class ResonanceDB {
 			)
 			.all() as { id: string; title: string; meta: string; content: string }[];
 
+		if (rows.length === 0) return [];
 		return rows.map((row) => {
 			const meta = row.meta ? JSON.parse(row.meta) : {};
 			return {

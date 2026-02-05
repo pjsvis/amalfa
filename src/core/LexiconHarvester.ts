@@ -1,11 +1,12 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
+import * as R from "remeda";
 import { AMALFA_DIRS } from "../config/defaults";
 import type {
 	LangExtractSidecar,
 	SidecarManifestEntry,
 } from "../types/sidecar";
-import { JsonlUtils } from "../utils/JsonlUtils";
+import { JsonlUtils, to } from "../utils/JsonlUtils";
 
 export interface LexiconCandidate {
 	term: string;
@@ -32,22 +33,21 @@ export class LexiconHarvester {
 	 * Load stop-list from file.
 	 */
 	private async loadStopList() {
-		try {
-			const file = Bun.file(this.config.stopListPath);
-			if (await file.exists()) {
-				const content = await file.json();
-				if (Array.isArray(content)) {
-					content.forEach((t: unknown) => {
-						if (typeof t === "string") {
-							this.stopList.add(this.normalize(t));
-						}
-					});
+		const file = Bun.file(this.config.stopListPath);
+		const [err, content] = await to(file.json());
+		if (err) {
+			console.warn(
+				`⚠️  Could not load stop-list from ${this.config.stopListPath}: ${err.message}`,
+			);
+			return;
+		}
+
+		if (Array.isArray(content)) {
+			for (const t of content) {
+				if (typeof t === "string") {
+					this.stopList.add(this.normalize(t));
 				}
 			}
-		} catch (_e) {
-			console.warn(
-				`⚠️  Could not load stop-list from ${this.config.stopListPath}`,
-			);
 		}
 	}
 
@@ -115,16 +115,19 @@ export class LexiconHarvester {
 		const sourcePath = this.manifest.get(hash);
 		const sourceId = (data as any).uuid || sourcePath || hash;
 
-		const terms = [
-			...(data.entities || []).map((e) => ({
-				t: e.name || (typeof e === "string" ? e : String(e)),
-				type: "entity",
+		const terms = R.pipe(
+			data.entities ?? [],
+			R.map((e) => ({
+				t: typeof e === "string" ? e : (e.name ?? ""),
+				type: "entity" as const,
 			})),
-			...(data.concepts || []).map((c) => ({
-				t: c.name || (typeof c === "string" ? c : String(c)),
-				type: "concept",
-			})),
-		];
+			R.concat(
+				R.map(data.concepts ?? [], (c) => ({
+					t: typeof c === "string" ? c : (c.name ?? ""),
+					type: "concept" as const,
+				})),
+			),
+		);
 
 		for (const { t, type } of terms) {
 			if (!t || typeof t !== "string") continue;
@@ -143,7 +146,7 @@ export class LexiconHarvester {
 					term: normalized,
 					frequency: 1,
 					sources: [sourceId],
-					type: type as "entity" | "concept",
+					type,
 					status: "candidate",
 				});
 			}
@@ -156,8 +159,9 @@ export class LexiconHarvester {
 		// Clear output file first
 		await Bun.write(this.config.outputPath, "");
 
-		// Convert Map to Array, Sort by Frequency DESC
-		const sorted = Array.from(this.candidates.values()).sort(
+		// Convert Map to Array, Sort by Frequency DESC (immutable)
+		const sorted = R.sort(
+			Array.from(this.candidates.values()),
 			(a, b) => b.frequency - a.frequency,
 		);
 

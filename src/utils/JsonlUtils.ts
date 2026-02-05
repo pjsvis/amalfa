@@ -1,5 +1,38 @@
 import { appendFileSync, existsSync, promises as fsPromises } from "node:fs";
 
+/**
+ * The "to" Wrapper: Converts a promise into a [error, data] tuple.
+ * Eliminates try/catch nesting.
+ */
+export async function to<T, E = Error>(
+	promise: Promise<T>,
+): Promise<[E, undefined] | [null, T]> {
+	try {
+		const data = await promise;
+		return [null, data];
+	} catch (err) {
+		return [err as E, undefined];
+	}
+}
+
+/**
+ * Parse a JSONL line with error handling.
+ * Returns [error, null] on failure, [null, data] on success.
+ */
+export async function toJsonl<T>(
+	line: string,
+): Promise<[null, T] | [Error, null]> {
+	if (!line.trim()) {
+		return [new Error("Empty line"), null];
+	}
+	try {
+		const data = JSON.parse(line);
+		return [null, data as T];
+	} catch (err) {
+		return [err as Error, null];
+	}
+}
+
 export class JsonlUtils {
 	/**
 	 * Append a single record to a JSONL file.
@@ -29,8 +62,15 @@ export class JsonlUtils {
 			const trimmed = line.trim();
 			if (!trimmed) continue;
 			try {
-				yield JSON.parse(trimmed) as T;
-			} catch (_) {}
+				const [err, data] = await toJsonl<T>(trimmed);
+				if (err) {
+					console.warn(`⚠️  JSONL parse error: ${err.message}`);
+					continue;
+				}
+				yield data;
+			} catch (err) {
+				console.warn(`⚠️  JSONL parse error: ${err}`);
+			}
 		}
 	}
 
