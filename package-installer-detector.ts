@@ -1,8 +1,7 @@
 #!/usr/bin/env bun
 
 import { execSync } from "child_process";
-import { existsSync, lstatSync, readFileSync, readlinkSync } from "fs";
-import { join } from "path";
+import { existsSync, lstatSync, readlinkSync } from "fs";
 
 interface InstallerResult {
 	package: string;
@@ -177,7 +176,7 @@ class PackageInstallerDetector {
 					encoding: "utf8",
 				});
 				const npmData = JSON.parse(npmList);
-				if (npmData.dependencies && npmData.dependencies[packageName]) {
+				if (npmData.dependencies?.[packageName]) {
 					const version = npmData.dependencies[packageName].version;
 					evidence.push(`Found in npm global packages (version: ${version})`);
 					return { installer: "npm", version, evidence };
@@ -211,7 +210,7 @@ class PackageInstallerDetector {
 					encoding: "utf8",
 				});
 				const pnpmData = JSON.parse(pnpmList);
-				if (pnpmData.dependencies && pnpmData.dependencies[packageName]) {
+				if (pnpmData.dependencies?.[packageName]) {
 					const version = pnpmData.dependencies[packageName].version;
 					evidence.push(`Found in pnpm global packages (version: ${version})`);
 					return { installer: "pnpm", version, evidence };
@@ -238,7 +237,7 @@ class PackageInstallerDetector {
 
 	private async detectPythonInstaller(
 		packageName: string,
-		path: string,
+		_path: string,
 	): Promise<{ installer: string; version?: string; evidence: string[] }> {
 		const evidence: string[] = [];
 
@@ -279,7 +278,7 @@ class PackageInstallerDetector {
 
 		if (this.checkCommandExists("pip3")) {
 			try {
-				const pipShow = execSync(`pip3 show ${packageName}`, {
+				const _pipShow = execSync(`pip3 show ${packageName}`, {
 					encoding: "utf8",
 				});
 				evidence.push("Found in pip3 packages");

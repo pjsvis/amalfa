@@ -1,7 +1,7 @@
+import { loadSettings } from "@src/config/defaults";
 import { SidecarSquasher } from "@src/core/SidecarSquasher";
 import { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
-import { loadSettings } from "@src/config/defaults";
 
 export async function cmdSquash(args: string[]) {
 	// Parse arguments
