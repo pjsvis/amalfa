@@ -1,6 +1,7 @@
 /**
  * SSR Markdown Parser
- * Server-side markdown rendering with TOC generation and wiki-link support
+ * Server-side markdown rendering using Bun's native markdown API
+ * with TOC generation and wiki-link support
  */
 
 import { readFileSync, existsSync, readdirSync } from "fs";
@@ -54,20 +55,19 @@ function generateSlug(text: string): string {
 }
 
 /**
- * Parse markdown and generate TOC
+ * Parse markdown and generate TOC using Bun's native API
  */
 export function parseMarkdownWithTOC(markdown: string): {
   html: string;
   toc: TocItem[];
 } {
-  // @deno-markdown/parser or simple regex-based approach
+  // Extract headings for TOC
   const toc: TocItem[] = [];
   let currentGroup: TocItem | null = null;
   let h2Count = 0;
   let h3Count = 0;
 
-  // Simple heading regex-based parser for SSR
-  const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+  const headingRegex = /^#{1,6}\s+(.+)$/gm;
   const headings: Array<{ level: number; text: string; slug: string }> = [];
 
   let match: RegExpExecArray | null;
@@ -78,7 +78,6 @@ export function parseMarkdownWithTOC(markdown: string): {
     headings.push({ level, text, slug });
   }
 
-  // Generate TOC from headings
   for (const heading of headings) {
     const item: TocItem = {
       id: heading.slug,
@@ -100,10 +99,9 @@ export function parseMarkdownWithTOC(markdown: string): {
         item.number = `${h2Count}.${h3Count}`;
         currentGroup.children.push(item);
       } else {
-        // No parent H2, create a root group
         const rootGroup: TocItem = {
           id: "root",
-          text: "Uncategorized",
+          text: "Top Level",
           number: "",
           level: 1,
           children: [{ ...item, number: `0.${h3Count}` }],
@@ -113,46 +111,8 @@ export function parseMarkdownWithTOC(markdown: string): {
     }
   }
 
-  // Parse markdown to HTML (simplified for SSR - can be enhanced with marked)
-  let html = markdown
-    // Headers
-    .replace(
-      /^### (.+)$/gm,
-      (_, text) => `<h3 id="${generateSlug(text)}">${text}</h3>`,
-    )
-    .replace(
-      /^## (.+)$/gm,
-      (_, text) => `<h2 id="${generateSlug(text)}">${text}</h2>`,
-    )
-    .replace(
-      /^# (.+)$/gm,
-      (_, text) => `<h1 id="${generateSlug(text)}">${text}</h1>`,
-    )
-    // Code blocks
-    .replace(
-      /```(\w*)\n([\s\S]*?)```/g,
-      (_, lang, code) =>
-        `<pre><code class="language-${lang}">${code.trim()}</code></pre>`,
-    )
-    // Inline code
-    .replace(/`([^`]+)`/g, (_, code) => `<code>${code}</code>`)
-    // Bold
-    .replace(/\*\*([^*]+)\*\*/g, (_, text) => `<strong>${text}</strong>`)
-    // Italic
-    .replace(/\*([^*]+)\*/g, (_, text) => `<em>${text}</em>`)
-    // Links
-    .replace(
-      /\[([^\]]+)\]\(([^)]+)\)/g,
-      (_, text, href) => `<a href="${href}">${text}</a>`,
-    )
-    // Unordered lists
-    .replace(/^\s*-\s+(.+)$/gm, (_, item) => `<li>${item}</li>`)
-    // Ordered lists
-    .replace(/^\s*\d+\.\s+(.+)$/gm, (_, item) => `<li>${item}</li>`)
-    // Paragraphs
-    .replace(/\n\n/g, "</p><p>")
-    // Wrap in paragraph if not already wrapped
-    .replace(/^(?!<)(.+)$/gm, "<p>$1</p>");
+  // Use Bun's native markdown renderer
+  const html = (Bun as any).markdown?.html(markdown) || markdown;
 
   return { html, toc };
 }
@@ -293,14 +253,12 @@ export function categorizeDocuments(docs: DocMetadata[]): {
     }
   }
 
-  // Sort playbooks alphabetically by title
   playbooks.sort((a, b) => {
     const titleA = (a.title || a.file).toLowerCase();
     const titleB = (b.title || b.file).toLowerCase();
     return titleA.localeCompare(titleB);
   });
 
-  // Sort debriefs by date (newest first)
   debriefs.sort((a, b) => {
     const dateA = new Date(a.date || 0).getTime();
     const dateB = new Date(b.date || 0).getTime();
@@ -325,37 +283,4 @@ export function loadReferences(refsPath: string): Record<string, Reference> {
     console.warn(`Failed to load references from ${refsPath}:`, e);
     return {};
   }
-}
-
-/**
- * Group HTML content into cards/sections
- */
-export function groupIntoCards(htmlString: string): string {
-  const sections: string[] = [];
-  let currentSection = "";
-  let inIntro = true;
-
-  const lines = htmlString.split("\n");
-
-  for (const line of lines) {
-    if (line.includes("<h2")) {
-      if (inIntro && currentSection) {
-        sections.push(`<section class="doc-intro">${currentSection}</section>`);
-        currentSection = "";
-        inIntro = false;
-      } else if (currentSection) {
-        sections.push(`<section class="doc-card">${currentSection}</section>`);
-        currentSection = "";
-      }
-    }
-    currentSection += line + "\n";
-  }
-
-  if (currentSection) {
-    sections.push(
-      `<section class="${inIntro ? "doc-intro" : "doc-card"}">${currentSection}</section>`,
-    );
-  }
-
-  return sections.join("\n");
 }
