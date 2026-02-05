@@ -5,21 +5,18 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.5.1] - 2026-02-04
 
 ### Added
-- **Dashboard Service Integration**: Complete monitoring for 6 system services (Vector, Reranker, Sonar, Dashboard, Ingest, Enrich).
-- **Architecture Visualization**: New `/architecture` page with interactive state machine diagrams (Viz.js).
-- **Resilience**: Added PID tracking for Ingest and Enrich services. E2E tested lifecycle.
-- **PolyVis Integration Prep**: Paved the way for migrating Dashboard frontend to PolyVis assets.
-- **Lexicon Harvester:** New `amalfa harvest-lexicon` command to generate "Golden Lexicon" candidates from cached sidecars.
-- **JSONL Utilities:** `JsonlUtils.ts` for efficient streaming file I/O.
-- **Package Manager Cleanup**: Consolidated global packages to Bun, reducing npm globals to just `npm`. Removed duplicate tools and standardized on Bun-first workflow.
+- **Harvester Caching Layer**: Content-addressable storage (CAS) for LangExtract sidecars, decoupling extraction costs from graph construction.
+- **Cross-Domain Pipeline**: New pipeline for creating semantic connections between documents and entities (4,575+ edges generated).
+- **Package Installer Detector**: Comprehensive tool for detecting global package installers across Node.js, Python, and system ecosystems.
+- **Unified Terminal Dashboard (Draft)**: Experimental character-based layout engine with Datastar integration for high-fidelity monitoring.
 
 ### Fixed
-- **PID Path Resolution**: Fixed dashboard looking in legacy `.amalfa/pids` instead of `.amalfa/runtime`.
-- **Harvest Command**: Added fallback for missing API keys (OpenRouter env var support).
-- **CLI:** Fixed duplicate `main` function implementation in `src/cli.ts`.
+- **FAFCAS Compliance**: Fixed systematic vector corruption issues (dimension mismatch), restoring search quality (20x improvement).
+- **Database Integrity**: Clean re-ingestion protocols and Float32Array handling across the codebase.
+- **Dashboard Observability**: Enhanced logging and preliminary Datastar support for real-time telemetry.
 
 ## [1.5.0] - 2026-01-26
 

@@ -6,6 +6,7 @@ import { getLogger } from "@src/utils/Logger";
 import { Glob } from "bun";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
+import { streamSSE } from "hono/streaming";
 
 const log = getLogger("Dashboard");
 const PORT = 3013;
@@ -22,8 +23,22 @@ export class DashboardDaemon {
 
 	private setupRoutes() {
 		// 1. Static Assets (PolyVis UI)
-		// Serve everything in ./public as root assets (css, js, etc)
-		this.app.use("/*", serveStatic({ root: "./public" }));
+		this.app.use("/public/*", serveStatic({ root: "./" }));
+		// Root assets for legacy support
+		this.app.use("/css/*", serveStatic({ root: "./public" }));
+		this.app.use("/js/*", serveStatic({ root: "./public" }));
+
+		// 2. Main Dashboard (New Terminal UI)
+		this.app.get("/", (c) => {
+			const html = readFileSync("website/dashboard.html", "utf-8");
+			return c.html(html);
+		});
+
+		// 3. Legacy Dashboard
+		this.app.get("/legacy", (c) => {
+			const html = readFileSync("public/index.html", "utf-8");
+			return c.html(html);
+		});
 
 		// 2. Dynamic Docs Index
 		this.app.get("/index.json", async (c) => {
@@ -117,10 +132,109 @@ export class DashboardDaemon {
 			c.json({ status: "ok", uptime: process.uptime() }),
 		);
 
-		// Health check (alias for frontend compatibility)
-		this.app.get("/api/health", (c) =>
-			c.json({ status: "ok", uptime: process.uptime() }),
-		);
+		// 12. Datastar SSE Stream
+		this.app.get("/api/stream", async (c) => {
+			return streamSSE(c, async (stream) => {
+				log.info("SSE Stream Connected");
+
+				const pushUpdate = async () => {
+					try {
+						const stats = await this.getSystemStats();
+						const services = await this.getServiceStatus();
+						const harvestSize = await this.getHarvestStats();
+						const uptime = process.uptime().toFixed(0);
+						const timestamp = new Date().toLocaleTimeString();
+
+						// 1. Uptime & Header
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #uptime\n<span id="uptime">${uptime}s</span>`,
+						});
+
+						// 2. Services Table
+						const servicesHtml = services
+							.map(
+								(s) => `
+                        <tr>
+                            <td>${s.name}</td>
+                            <td class="${s.status === "running" ? "status-running" : "status-stopped"}">${s.status.toUpperCase()}</td>
+                            <td class="dim">${s.pid || "---"}</td>
+                            <td>
+                                <span class="btn-action" data-on-click="@post('/api/services/${s.name}/${s.status === "running" ? "stop" : "start"}')">${s.status === "running" ? "stop" : "start"}</span>
+                                <span class="btn-action" data-on-click="@post('/api/services/${s.name}/restart')">rst</span>
+                            </td>
+                        </tr>`,
+							)
+							.join("");
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #services-list\n<tbody id="services-list">${servicesHtml}</tbody>`,
+						});
+
+						// 3. Graph Stats
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #stat-nodes\n<span id="stat-nodes">${stats.database.nodes}</span>`,
+						});
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #stat-edges\n<span id="stat-edges">${stats.database.edges}</span>`,
+						});
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #stat-vectors\n<span id="stat-vectors">${stats.database.vectors}</span>`,
+						});
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #stat-size\n<span id="stat-size">${stats.database.size_mb.toFixed(2)}</span>`,
+						});
+
+						// 4. Harvest Stats
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #harvest-cached\n<span id="harvest-cached" class="status-running">${harvestSize.cached}</span>`,
+						});
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #harvest-timeouts\n<span id="harvest-timeouts" class="status-stopped">${harvestSize.skipped.timeouts}</span>`,
+						});
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #harvest-too-large\n<span id="harvest-too-large">${harvestSize.skipped.too_large}</span>`,
+						});
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #harvest-errors\n<span id="harvest-errors" class="status-stopped">${harvestSize.skipped.errors}</span>`,
+						});
+
+						// 5. Footer Timestamp
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #timestamp\n<span id="timestamp">TIMESTAMP: ${timestamp}</span>`,
+						});
+					} catch (e) {
+						log.error({ err: e }, "SSE Update Failed");
+					}
+				};
+
+				// Initial push
+				await pushUpdate();
+
+				// Heartbeat/Interval
+				const interval = setInterval(pushUpdate, 2000);
+
+				stream.onAbort(() => {
+					log.info("SSE Stream Disconnected");
+					clearInterval(interval);
+				});
+
+				// Keep-alive
+				while (true) {
+					await new Promise((resolve) => setTimeout(resolve, 30000));
+					await stream.writeSSE({ event: "ping", data: "" });
+				}
+			});
+		});
 	}
 
 	private async discoverDocs() {

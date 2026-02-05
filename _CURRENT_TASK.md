@@ -116,6 +116,57 @@
 
 ---
 
+## Session 2026-02-04: Website & Server Architecture Consolidation
+
+### Task: Unify Website/Server Architecture and Remove Python Dependency
+**Objective**: Consolidate fragmented server setup (Python on 8888 + Bun on 3001) into unified Bun server with knowledge graph dashboard.
+
+**Status**: ✅ COMPLETE
+
+### Major Accomplishments
+- ✅ **Python Server Removed**: Killed http.server on port 8888, eliminated fragmentation
+- ✅ **Unified Bun Server**: Port 3001 now serves dashboard + docs + API
+- ✅ **Dashboard Live**: Real-time stats from knowledge graph (1,714 nodes, 6,329 edges)
+- ✅ **API Endpoints**: `/api/stats` and `/api/search?q=` operational
+- ✅ **Terminal Aesthetic**: ANSI colors, `ch` units, unified styling across all pages
+- ✅ **Navigation Cross-Linking**: Dashboard ↔ Docs seamless navigation
+
+### Technical Implementation
+- **File Modified**: `website/ssr-docs/server.ts`
+- **Lines Added**: ~400 (dashboard template, API routes, database queries)
+- **Database Integration**: SQLite readonly queries for real-time metrics
+- **Datastar Reactivity**: Live search and stats updates
+- **Endpoints**: `/`, `/ssr-docs`, `/api/stats`, `/api/search`
+
+### Verified Results
+```bash
+curl http://localhost:3001/api/stats
+# {"nodes":1714,"edges":6329,"vectorDimension":384,"cacheCount":503,"status":"ACTIVE"}
+```
+
+### Lessons Learned
+1. **Bun SQLite readonly mode** - Reliable for serving real-time dashboard stats
+2. **File system scanning** - Robust method for "recent activity" without complex DB joins
+3. **Terminal aesthetic constraints** - 8-16 colors + `ch` units create distinctive, cohesive identity
+4. **API-first architecture** - Enables multiple frontend consumers (CLI, web, future mobile)
+
+### Artifacts Created
+1. `briefs/brief-website-server-consolidation.md` → `briefs/archive/` (moved)
+2. `debriefs/2026-02-04-website-server-consolidation.md` - This session retrospective
+3. Screenshots: `dashboard-initial.png`, `docs-page.png`
+
+### Known Technical Debt
+1. Datastar console errors (non-blocking, needs cleanup)
+2. Some debriefs have YAML frontmatter issues (gray-matter parsing fails)
+3. Search is text-only (needs vector integration for true semantic search)
+4. Service status indicators are static (need PID file checking)
+
+---
+
+**Next Session Focus**: Monitoring Dashboard Enhancement (live daemon status, search analytics) OR Semantic Search Implementation (vector-based using FastEmbed)
+
+---
+
 ## Session 2025-02-03: Package Installer Detector Development
 
 ### Task: Create TypeScript Script for Package Installer Detection

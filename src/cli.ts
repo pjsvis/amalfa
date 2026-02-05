@@ -23,6 +23,7 @@ import {
 import { cmdSetupMcp } from "./cli/commands/setup";
 import { cmdSetupPython } from "./cli/commands/setup-python";
 import { cmdSquash } from "./cli/commands/squash";
+import { cmdSsrDocs } from "./cli/commands/ssr-docs";
 
 // ... existing imports ...
 
@@ -83,6 +84,7 @@ Commands:
   scripts list       List available scripts and their descriptions
   servers [--dot]    Show status of all AMALFA services (--dot for graph)
   stop-all (kill)    Stop all running AMALFA services
+  ssr-docs <action>  Manage SSR documentation server (start|stop|status|restart)
 
 Options:
   --force            Override pre-flight warnings (errors still block)
@@ -234,6 +236,10 @@ async function main() {
 			await cmdEnhance(args);
 			break;
 		}
+
+		case "ssr-docs":
+			await cmdSsrDocs(args);
+			break;
 
 		case "version":
 		case "--version":
