@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>amalfa | dashboard</title>
+    <!-- Datastar -->
+    <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
+    <style>
+        :root {
+            --black:   #000000;
+            --red:     #AA0000;
+            --green:   #00AA00;
+            --yellow:  #AA5500;
+            --blue:    #0000AA;
+            --magenta: #AA00AA;
+            --cyan:    #00AAAA;
+            --white:   #AAAAAA;
+            --bright-white: #FFFFFF;
+            --bright-green: #55FF55;
+            --bright-yellow: #FFFF55;
+            
+            --bg: var(--black);
+            --fg: var(--white);
+            --accent: var(--green);
+            --border: var(--white);
+            --dim: var(--yellow);
+            --link: var(--cyan);
+            --error: var(--red);
+            
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            display: grid;
+            /* Explicit rows: header + main + footer + borders */
+            grid-template-rows: 3ch 1fr 2ch;
+            grid-template-areas:
+                "header"
+                "main"
+                "footer";
+            min-height: 0;
+        }
+        
+        header {
+            grid-area: header;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 2ch;
+            height: 3ch;
+            overflow: hidden;
+            line-height: 1;
+            contain: strict;
+        }
+        
+        .brand {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        nav {
+            display: flex;
+            gap: 2ch;
+            margin-left: auto;
+        }
+        
+        nav a {
+            color: var(--fg);
+            text-decoration: none;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        
+        /* Main layout: LHS sidebar + RHS container */
+        main {
+            grid-area: main;
+            display: grid;
+            grid-template-columns: 40ch 1fr;
+            grid-template-areas: "lhs rhs";
+            gap: 1px;
+            background: var(--border);
+            overflow: hidden;
+            min-height: 0;
+            contain: strict;
+        }
+        
+        /* LHS Panel */
+        .lhs {
+            grid-area: lhs;
+            background: var(--bg);
+            padding: 1ch;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        /* RHS Panel */
+        .rhs {
+            grid-area: rhs;
+            background: var(--bg);
+            padding: 1ch;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            align-content: flex-start;
+            gap: 1ch;
+        }
+        
+        .lhs-widget {
+            background: var(--bg);
+            padding: 1ch;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .lhs-widget:last-child {
+            border-bottom: none;
+        }
+        
+        .rhs-block {
+            background: var(--bg);
+            padding: 1ch 2ch;
+            width: fit-content;
+            min-width: min(50ch, 100%);
+            max-width: 80ch;
+            max-height: 35ch;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid var(--border);
+            contain: layout;
+        }
+        
+        .widget-title {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 1ch;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1ch;
+        }
+
+        /* Typography */
+        h1 { color: var(--accent); font-size: 1rem; margin: 1ch 0; }
+        h2 { color: var(--bright-yellow); font-size: 1rem; margin: 1ch 0; }
+        h3 { color: var(--cyan); font-size: 1rem; margin: 0.5ch 0; }
+        p { margin: 0.5ch 0; }
+        a { color: var(--link); text-decoration: none; }
+        pre {
+            background: var(--black);
+            border: 1px solid var(--border);
+            padding: 1ch;
+            margin: 1ch 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 12px;
+            color: var(--bright-green);
+            width: fit-content;
+            max-width: 100%;
+            min-width: 100%;
+        }
+        
+        table { border-collapse: collapse; width: 100%; font-size: 13px; }
+        th, td { border: 1px solid var(--border); padding: 0.5ch 1ch; text-align: left; }
+        th { color: var(--accent); background: var(--black); }
+        
+        .status-running { color: var(--bright-green); }
+        .status-stopped { color: var(--red); }
+        .dim { color: var(--yellow); }
+        
+        footer {
+            grid-area: footer;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2ch;
+            height: 2ch;
+            font-size: 12px;
+            color: var(--dim);
+            overflow: hidden;
+            line-height: 1;
+            contain: strict;
+        }
+
+        .btn-action {
+            color: var(--dim);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 11px;
+            border: 1px solid var(--dim);
+            padding: 0 0.5ch;
+            margin-left: 1ch;
+        }
+        .btn-action:hover {
+            color: var(--fg);
+            border-color: var(--fg);
+        }
+
+        /* Responsive */
+        @media (max-width: 100ch) {
+            main { grid-template-columns: 1fr; grid-template-areas: "lhs" "rhs"; }
+            .lhs { max-height: 30vh; }
+        }
+    </style>
+</head>
+<body data-on-load="@get('/api/stream')">
+    <header>
+        <span class="brand">AMALFA</span>
+        <span> | SYSTEM DASHBOARD</span>
+        <nav>
+            <a href="#" class="active">SYSTEM</a>
+            <a href="/sigma-explorer/">GRAPH</a>
+            <a href="/docs/">DOCS</a>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="lhs">
+            <div class="lhs-widget" id="system-health">
+                <div class="widget-title">SYSTEM HEALTH</div>
+                <div id="health-metrics">
+                    <p>Status: <span class="status-running">ONLINE</span></p>
+                    <p>Uptime: <span id="uptime">0s</span></p>
+                    <p>Version: <span class="dim">v1.5.1-alpha</span></p>
+                </div>
+            </div>
+            
+            <div class="lhs-widget">
+                <div class="widget-title">NAVIGATION</div>
+                <p><a href="/">Mainframe (Legacy)</a></p>
+                <p><a href="/lexicon.html">Lexicon</a></p>
+            </div>
+        </div>
+        
+        <div class="rhs">
+            <!-- Services Block -->
+            <div class="rhs-block" id="services-block">
+                <div class="widget-header">
+                    <div class="widget-title">📡 ACTIVE DAEMONS</div>
+                </div>
+                <table id="services-table">
+                    <thead>
+                        <tr>
+                            <th>SERVICE</th>
+                            <th>STATUS</th>
+                            <th>PID</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="services-list">
+                        <!-- Ported from old dashboard -->
+                        <tr><td colspan="4" class="dim">SCANNING...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Graph Stats Block -->
+            <div class="rhs-block" id="graph-stats-block">
+                <div class="widget-header">
+                    <div class="widget-title">🧠 GRAPH INTEGRITY</div>
+                </div>
+                <div id="graph-stats">
+                    <table id="stats-table">
+                        <tr><th>METRIC</th><th>VALUE</th></tr>
+                        <tr><td>Nodes</td><td><span id="stat-nodes">...</span></td></tr>
+                        <tr><td>Edges</td><td><span id="stat-edges">...</span></td></tr>
+                        <tr><td>Vectors</td><td><span id="stat-vectors">...</span></td></tr>
+                        <tr><td>DB Size</td><td><span id="stat-size">...</span> MB</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Harvest Telemetry Block -->
+            <div class="rhs-block" id="harvest-block">
+                <div class="widget-header">
+                    <div class="widget-title">🚜 HARVEST TELEMETRY</div>
+                </div>
+                <div id="harvest-stats">
+                    <p>Cached Files: <span id="harvest-cached" class="status-running">...</span></p>
+                    <p>Skipped (Timeouts): <span id="harvest-timeouts" class="status-stopped">...</span></p>
+                    <p>Skipped (Size): <span id="harvest-too-large">...</span></p>
+                    <p>Errors: <span id="harvest-errors" class="status-stopped">...</span></p>
+                </div>
+            </div>
+
+            <!-- Log Stream Block -->
+            <div class="rhs-block long" id="logs-block">
+                <div class="widget-header">
+                    <div class="widget-title">📜 SYSTEM LOGS</div>
+                </div>
+                <pre id="log-stream" style="font-size: 11px; max-height: 20ch; overflow-y: auto;">[SYS] Initializing terminal dashboard...
+[SYS] SSE stream handshake requested...</pre>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <span>DESIGN: TERMINAL-BRUTALIST | OH-107 COMPLIANT</span>
+        <span id="timestamp">TIMESTAMP: ...</span>
+    </footer>
+</body>
+</html>

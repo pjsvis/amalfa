@@ -1,0 +1,394 @@
+/**
+ * Terminal Shop-inspired stylesheet
+ * Minimal, terminal-like aesthetic with monospace typography and ANSI color palette
+ */
+
+/* CSS Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* CSS Custom Properties - Terminal Shop ANSI palette */
+:root {
+  --black: #000000;
+  --red: #aa0000;
+  --green: #00aa00;
+  --yellow: #aa5500;
+  --blue: #0000aa;
+  --magenta: #aa00aa;
+  --cyan: #00aaaa;
+  --white: #aaaaaa;
+  --bright-white: #ffffff;
+  --bright-green: #55ff55;
+  --bright-yellow: #ffff55;
+
+  --bg: var(--black);
+  --fg: var(--white);
+  --accent: var(--green);
+  --border: var(--white);
+  --dim: var(--yellow);
+  --link: var(--cyan);
+  --error: var(--red);
+
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Base styling */
+html {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  display: grid;
+  /* Explicit rows: header + main + footer + borders */
+  grid-template-rows: 3ch 1fr 2ch;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  min-height: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Header */
+header {
+  grid-area: header;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 2ch;
+  height: 3ch;
+  overflow: hidden;
+  line-height: 1;
+  contain: strict;
+}
+
+.brand {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  gap: 2ch;
+  margin-left: auto;
+}
+
+nav a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Main layout: Navigation sidebar + Content + TOC */
+#workspace {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 45ch 1fr 30ch;
+  grid-template-areas: "nav content toc";
+  gap: 1px;
+  background: var(--bg);
+  overflow: hidden;
+  min-height: 0;
+  contain: strict;
+}
+
+/* Navigation sidebar */
+#nav-sidebar {
+  grid-area: nav;
+  background: var(--bg);
+  padding: 1ch;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Document content */
+#doc-content {
+  grid-area: content;
+  background: var(--bg);
+  padding: 1ch;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Table of contents */
+#doc-toc {
+  grid-area: toc;
+  background: var(--bg);
+  padding: 1ch;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-left: 1px solid var(--border);
+}
+
+/* Navigation widget */
+.doc-categories {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  margin-bottom: 1ch;
+}
+
+.doc-categories details {
+  border-bottom: 1px solid var(--border);
+}
+
+.doc-categories details:last-child {
+  border-bottom: none;
+}
+
+.doc-categories summary {
+  color: var(--accent);
+  font-weight: bold;
+  padding: 1ch;
+  cursor: pointer;
+  user-select: none;
+}
+
+.doc-categories ul {
+  list-style: none;
+  padding: 0 1ch 1ch;
+}
+
+.doc-categories li {
+  margin: 0.5ch 0;
+}
+
+.nav-link {
+  color: var(--fg);
+  text-decoration: none;
+  display: block;
+  padding: 0.25ch 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Content styling */
+.markdown {
+  line-height: 1.5;
+  max-width: 80ch;
+}
+
+.markdown h1 {
+  color: var(--accent);
+  font-size: 1rem;
+  margin: 1ch 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5ch;
+}
+
+.markdown h2 {
+  color: var(--bright-yellow);
+  font-size: 1rem;
+  margin: 1ch 0;
+}
+
+.markdown h3 {
+  color: var(--cyan);
+  font-size: 1rem;
+  margin: 0.5ch 0;
+}
+
+.markdown p {
+  margin: 0.5ch 0;
+}
+
+.markdown a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.markdown a:hover {
+  text-decoration: underline;
+}
+
+.markdown pre {
+  background: var(--black);
+  border: 1px solid var(--border);
+  padding: 1ch;
+  margin: 1ch 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 12px;
+  color: var(--bright-green);
+  overflow-x: auto;
+}
+
+.markdown code {
+  color: var(--bright-green);
+  font-family: monospace;
+}
+
+.markdown blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1ch;
+  margin: 1ch 0;
+  color: var(--dim);
+}
+
+.markdown ul,
+.markdown ol {
+  margin: 0.5ch 0;
+  padding-left: 3ch;
+}
+
+.markdown li {
+  margin: 0.25ch 0;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  margin: 1ch 0;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid var(--border);
+  padding: 0.5ch 1ch;
+  text-align: left;
+}
+
+.markdown th {
+  color: var(--accent);
+  background: var(--black);
+}
+
+.status {
+  color: var(--accent);
+}
+
+.dim {
+  color: var(--dim);
+}
+
+.muted {
+  color: var(--dim);
+}
+
+/* Table of contents styling */
+#doc-toc details {
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+#doc-toc summary {
+  color: var(--accent);
+  font-weight: bold;
+  padding: 1ch;
+  cursor: pointer;
+  user-select: none;
+}
+
+#doc-toc ul {
+  list-style: none;
+  padding: 0 1ch 1ch;
+}
+
+#doc-toc li {
+  margin: 0.5ch 0;
+}
+
+#doc-toc a {
+  color: var(--fg);
+  text-decoration: none;
+  display: block;
+  padding: 0.25ch 0;
+  border-left: 2px solid transparent;
+  padding-left: 0.5ch;
+  margin-left: -0.5ch;
+}
+
+#doc-toc a:hover,
+#doc-toc a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+/* Footer */
+footer {
+  grid-area: footer;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2ch;
+  height: 2ch;
+  font-size: 12px;
+  color: var(--dim);
+  overflow: hidden;
+  line-height: 1;
+  contain: strict;
+}
+
+/* Responsive: stack on narrow screens */
+@media (max-width: 120ch) {
+  #workspace {
+    grid-template-columns: 1fr;
+    grid-template-areas: "nav" "content" "toc";
+  }
+
+  #nav-sidebar {
+    max-height: 30vh;
+  }
+
+  #doc-toc {
+    max-height: 30vh;
+  }
+}
+
+/* Utility classes */
+.text-accent {
+  color: var(--accent);
+}
+.text-dim {
+  color: var(--dim);
+}
+.text-error {
+  color: var(--error);
+}
+.bg-black {
+  background: var(--black);
+}
+.border {
+  border: 1px solid var(--border);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dim);
+}
