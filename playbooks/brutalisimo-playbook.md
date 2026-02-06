@@ -587,3 +587,85 @@ agent-browser find id "section-03" scrollintoview
 3. **Isolation** - CSS targeting prevents collisions
 4. **Debuggability** - Inspect an element by its ID
 5. **AI Understanding** - Consistent pattern AI can learn and use
+
+---
+
+## The Attribute Selector: Why `[id^="doc-"]` Beats `#doc-`
+
+The `[id^="doc-"]` pattern is a "stealth jet" — high precision, low weight. Here's why:
+
+### Specificity: ID vs Attribute
+
+| Selector | Type | Score |
+|----------|------|-------|
+| `#doc-01` | ID Selector | 1-0-0 (Very Heavy) |
+| `[id="doc-01"]` | Attribute Selector | 0-1-0 (Same as class) |
+| `[id^="doc-"]` | Attribute Selector | 0-1-0 (Pattern match) |
+
+### Why This Is Good
+
+**Same weight as Tailwind utilities:**
+- `[id^="doc-"]` = 0-1-0
+- `bg-blue-500` = 0-1-0
+- **Tie-breaker: Source Order** — Tailwind utilities come last, so they win
+
+This means you can override with Tailwind classes without `!important`:
+
+```html
+<div id="doc-01" class="bg-blue-500">
+  <!-- Tailwind bg-blue wins over any [id^="doc-"] bg rules -->
+</div>
+```
+
+### The Descendant Trap
+
+If you style inner elements:
+
+```css
+/* Specificity: 0-1-1 (attribute + element) */
+[id^="doc-"] p { color: gray; }
+```
+
+Then Tailwind can't override:
+
+```html
+<div id="doc-01">
+  <p class="text-red-500">Error</p>
+  <!-- Stays gray! 0-1-1 beats 0-1-0 -->
+</div>
+```
+
+### The Fix: Use `:where()`
+
+Wrap selectors in `:where()` to remove specificity:
+
+```css
+/* Specificity: 0-0-0 */
+:where([id^="doc-"]) p { color: gray; }
+
+:where([id^="doc-"]) h1 { font-size: 16px; }
+:where([id^="doc-"]) h2 { font-size: 14px; }
+```
+
+Now Tailwind utilities easily override your defaults.
+
+### Best Practice
+
+```css
+@layer components {
+  :where([id^="doc-"]) .markdown-body {
+    color: #bbb;
+  }
+
+  :where([id^="doc-"]) .markdown-body h1 {
+    color: var(--accent);
+    font-size: 16px;
+  }
+}
+```
+
+**Benefits:**
+- `:where()` makes specificity 0-0-0
+- Tailwind utilities (0-1-0) always win ties
+- AI agents don't need to fight your CSS
+- `@layer components` ensures styles inject before utilities

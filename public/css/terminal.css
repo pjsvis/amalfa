@@ -612,88 +612,92 @@ footer {
 
 /* === Markdown (Bun.Markdown.render) === */
 /* ID-based styling for long-form documents (doc-00 thru doc-99) */
-[id^="doc-"] .markdown-body {
-  color: #bbb;
-}
+/* Use :where() to allow Tailwind utilities to override */
 
-[id^="doc-"] .markdown-body h1 {
-  color: var(--accent);
-  font-size: 16px;
-  font-weight: bold;
-  margin: 1.5ch 0 0.5ch 0;
-}
+@layer components {
+  :where([id^="doc-"]) .markdown-body {
+    color: #bbb;
+  }
 
-[id^="doc-"] .markdown-body h2 {
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: bold;
-  margin: 1.5ch 0 0.5ch 0;
-}
+  :where([id^="doc-"]) .markdown-body h1 {
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: bold;
+    margin: 1.5ch 0 0.5ch 0;
+  }
 
-[id^="doc-"] .markdown-body h3 {
-  color: var(--accent);
-  font-size: 12px;
-  font-weight: bold;
-  margin: 1.5ch 0 0.5ch 0;
-}
+  :where([id^="doc-"]) .markdown-body h2 {
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: bold;
+    margin: 1.5ch 0 0.5ch 0;
+  }
 
-[id^="doc-"] .markdown-body h4 {
-  color: var(--fg);
-  font-size: 11px;
-  font-weight: bold;
-  margin: 1ch 0 0.5ch 0;
-}
+  :where([id^="doc-"]) .markdown-body h3 {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: bold;
+    margin: 1.5ch 0 0.5ch 0;
+  }
 
-[id^="doc-"] .markdown-body p {
-  margin: 0 0 1ch 0;
-  line-height: 1.5;
-  padding-bottom: 0.5ch;
-  border-bottom: 1px solid var(--dim);
-}
+  :where([id^="doc-"]) .markdown-body h4 {
+    color: var(--fg);
+    font-size: 11px;
+    font-weight: bold;
+    margin: 1ch 0 0.5ch 0;
+  }
 
-[id^="doc-"] .markdown-body code {
-  background: var(--bright-black);
-  padding: 2px 4px;
-  font-size: 11px;
-}
+  :where([id^="doc-"]) .markdown-body p {
+    margin: 0 0 1ch 0;
+    line-height: 1.5;
+    padding-bottom: 0.5ch;
+    border-bottom: 1px solid var(--dim);
+  }
 
-[id^="doc-"] .markdown-body pre {
-  background: var(--bright-black);
-  padding: 1ch;
-  overflow-x: auto;
-  margin: 0.5ch 0;
-  border: 1px solid var(--border);
-}
+  :where([id^="doc-"]) .markdown-body code {
+    background: var(--bright-black);
+    padding: 2px 4px;
+    font-size: 11px;
+  }
 
-[id^="doc-"] .markdown-body pre code {
-  background: none;
-  padding: 0;
-}
+  :where([id^="doc-"]) .markdown-body pre {
+    background: var(--bright-black);
+    padding: 1ch;
+    overflow-x: auto;
+    margin: 0.5ch 0;
+    border: 1px solid var(--border);
+  }
 
-[id^="doc-"] .markdown-body ul,
-[id^="doc-"] .markdown-body ol {
-  margin: 0.5ch 0;
-  padding-left: 2ch;
-}
+  :where([id^="doc-"]) .markdown-body pre code {
+    background: none;
+    padding: 0;
+  }
 
-[id^="doc-"] .markdown-body li {
-  margin: 0.25ch 0;
-}
+  :where([id^="doc-"]) .markdown-body ul,
+  :where([id^="doc-"]) .markdown-body ol {
+    margin: 0.5ch 0;
+    padding-left: 2ch;
+  }
 
-[id^="doc-"] .markdown-body blockquote {
-  border-left: 3px solid var(--accent);
-  padding-left: 1ch;
-  margin: 0.5ch 0;
-  color: var(--dim);
-}
+  :where([id^="doc-"]) .markdown-body li {
+    margin: 0.25ch 0;
+  }
 
-[id^="doc-"] .markdown-body a {
-  color: var(--link);
-  text-decoration: none;
-}
+  :where([id^="doc-"]) .markdown-body blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1ch;
+    margin: 0.5ch 0;
+    color: var(--dim);
+  }
 
-[id^="doc-"] .markdown-body a:hover {
-  text-decoration: underline;
+  :where([id^="doc-"]) .markdown-body a {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  :where([id^="doc-"]) .markdown-body a:hover {
+    text-decoration: underline;
+  }
 }
 
 .markdown-body hr,
