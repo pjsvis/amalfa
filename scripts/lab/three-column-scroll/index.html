@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Three-Column Independent Scroll (Brutalisimo)</title>
+  <style>
+    :root {
+      /* Brutalisimo OKLCH Palette */
+      --bg: oklch(0.18 0 0);
+      --fg: oklch(0.75 0 0);
+      --accent: oklch(0.62 0.25 145);
+      --dim: oklch(0.78 0.22 100);
+      --border: oklch(0.88 0 0);
+      
+      /* Grid Units */
+      --lh: 1.5rem;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* === VIEWPORT: NO SCROLLING === */
+    html, body {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body {
+      display: grid;
+      grid-template-rows: 3ch 1fr 2ch;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: monospace;
+    }
+
+    /* === HEADER & FOOTER: Fixed grid rows === */
+    header {
+      grid-row: 1;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 1ch;
+    }
+
+    footer {
+      grid-row: 3;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 1ch;
+    }
+
+    /* === MAIN: The 3-Column Grid === */
+    main {
+      grid-row: 2;
+      display: grid;
+      grid-template-columns: 25ch 20ch 1fr;
+      overflow: hidden;  /* Main contains scrolling, doesn't scroll itself */
+    }
+
+    /* === SCROLLABLE COLUMNS: Only these scroll === */
+    .scroll-col {
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: var(--lh);
+      border-right: 1px solid var(--border);
+    }
+
+    .scroll-col:last-child {
+      border-right: none;
+    }
+
+    h3 {
+      color: var(--accent);
+      margin-bottom: 1ch;
+    }
+
+    .item {
+      background: var(--dim);
+      padding: 0.5ch;
+      margin-bottom: 0.5ch;
+    }
+  </style>
+</head>
+<body>
+  <header>AMALFA | Header (fixed 3ch)</header>
+  
+  <main>
+    <aside class="scroll-col">
+      <h3>Sidebar 1</h3>
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+      <div class="item">Item 4</div>
+      <div class="item">Item 5</div>
+      <div class="item">Item 6</div>
+      <div class="item">Item 7</div>
+      <div class="item">Item 8</div>
+      <div class="item">Item 9</div>
+      <div class="item">Item 10</div>
+      <div class="item">Item 11</div>
+      <div class="item">Item 12</div>
+      <div class="item">Item 13</div>
+      <div class="item">Item 14</div>
+      <div class="item">Item 15</div>
+    </aside>
+    
+    <aside class="scroll-col">
+      <h3>Sidebar 2</h3>
+      <div class="item">Content A</div>
+      <div class="item">Content B</div>
+      <div class="item">Content C</div>
+      <div class="item">Content D</div>
+      <div class="item">Content E</div>
+      <div class="item">Content F</div>
+      <div class="item">Content G</div>
+      <div class="item">Content H</div>
+      <div class="item">Content I</div>
+      <div class="item">Content J</div>
+    </aside>
+    
+    <section class="scroll-col">
+      <h3>Main Content</h3>
+      <p>Each column scrolls independently.</p>
+      <p>Header and footer are fixed.</p>
+      <p>No nested scroll contexts.</p>
+      <div class="item">Scroll this column...</div>
+      <div class="item">More content...</div>
+      <div class="item">Even more content...</div>
+      <div class="item">Still going...</div>
+      <div class="item">And more...</div>
+      <div class="item">Keep scrolling...</div>
+      <div class="item">Almost there...</div>
+      <div class="item">Final item...</div>
+    </section>
+  </main>
+  
+  <footer>Footer (fixed 2ch)</footer>
+</body>
+</html>

@@ -47,28 +47,35 @@ export function Layout({
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>amalfa | ${title}</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟢</text></svg>">
   <link rel="stylesheet" href="/css/terminal.css">
+  <link rel="stylesheet" href="/css/tailwind.css">
   <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
 </head>
 <body data-on-load="${sseUrl}" role="document">
   <!-- Header -->
-  <header role="banner" aria-label="Site header">
+  <header id="header" role="banner" aria-label="Site header">
     <div class="brand">AMALFA</div>
-    <nav role="navigation" aria-label="Main navigation">
+    <nav id="nav" role="navigation" aria-label="Main navigation">
       <a href="/" ${pageId === "dashboard" ? 'class="active"' : ""} aria-label="Dashboard">DASHBOARD</a>
       <a href="/lexicon" ${pageId === "lexicon" ? 'class="active"' : ""} aria-label="Lexicon">LEXICON</a>
       <a href="/doc" ${pageId === "doc" ? 'class="active"' : ""} aria-label="Documentation">DOCS</a>
+      <span class="nav-separator" aria-hidden="true">|</span>
+      <a href="/brutalisimo" ${pageId === "brutalisimo" ? 'class="active"' : ""} aria-label="Brutalisimo Test">BRUTALISIMO</a>
+      <a href="/brutalisimo-doc" ${pageId === "brutalisimo-doc" ? 'class="active"' : ""} aria-label="Brutalisimo Doc Browser">DOC-BRUTAL</a>
     </nav>
     <div class="meta" aria-label="Version">v1.5.1</div>
   </header>
 
   <!-- Main Content -->
-  <main role="main" id="main-content" aria-label="${title}">
-    ${children || ""}
+  <main id="main" role="main" aria-label="${title}">
+    <section id="content" aria-label="Primary content">
+      ${children || ""}
+    </section>
   </main>
 
   <!-- Footer -->
-  <footer role="contentinfo" aria-label="Site footer">
+  <footer id="footer" role="contentinfo" aria-label="Site footer">
     <span class="design" aria-label="Design system">TERMINAL-BRUTALIST | FAFCAS</span>
     <span class="timestamp" aria-label="Current time" data-sse-update="timestamp"></span>
   </footer>

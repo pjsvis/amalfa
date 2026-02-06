@@ -151,8 +151,8 @@ Always designed around this frame:
 │ HEADER (fixed 3ch)                │ ← nav, branding
 ├────────────────┬────────────────────┤
 │                │ MAIN              │
-│  CONTROLS      │ (tiles flow here) │
-│  (fit-content) │                   │
+│  CONTROLS      │ (scrollable)      │
+│  (scrollable) │                   │
 │                ├────────────────────┤
 │                │ FOOTER (fixed 2ch)│ ← status, timestamp
 └────────────────┴────────────────────┘
@@ -161,6 +161,12 @@ Always designed around this frame:
 ### Implementation
 
 ```css
+/* Viewport-constrained layout */
+html, body {
+  height: 100vh;
+  overflow: hidden;
+}
+
 body {
   display: grid;
   grid-template-rows: 3ch 1fr 2ch;
@@ -168,13 +174,129 @@ body {
     "header"
     "main"
     "footer";
-  height: 100vh;
 }
 
+/* Main area contains scrolling children */
 main {
   overflow: hidden;
+  min-height: 0;
 }
 ```
+
+---
+
+## Three-Column Independent Scrolling (Brutalisimo Pattern)
+
+**VERIFIED IN LAB:** `scripts/lab/three-column-scroll/index.html`
+
+Based on `@public/docs/playbooks/css-brutalisimo-manifesto.md` - The Bouncer Philosophy:
+
+> "Apply `overflow: hidden` to the Body. Apply `overflow-y: auto` only to `.sidebar` and `.content-area`."
+
+### Visual Structure
+
+```
+┌────────────────────────────────────────┐
+│ HEADER (fixed 3ch)                     │
+├────────┬────────┬─────────────────────┤
+│ SIDEBAR│  TOC   │ CONTENT           │  ← Each scrolls independently
+│        │        │                     │
+├────────┴────────┴─────────────────────┤
+│ FOOTER (fixed 2ch)                     │
+└────────────────────────────────────────┘
+```
+
+### Verified CSS Pattern
+
+```css
+/* Viewport - NO scrolling */
+html, body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  grid-template-rows: 3ch 1fr 2ch;
+}
+
+/* Main: 3-Column Grid - NO scrolling */
+main {
+  display: grid;
+  grid-template-columns: 25ch 20ch 1fr;
+  overflow: hidden;
+}
+
+/* Columns: Only these scroll */
+.scroll-col {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+```
+
+### Critical Rules
+
+| Layer | Property | Value | Reason |
+|-------|----------|--------|--------|
+| Viewport | `overflow` | `hidden` | No global scroll |
+| Body | `grid-template-rows` | `3ch 1fr 2ch` | Fixed header/footer |
+| Main | `overflow` | `hidden` | Contains scroll cols |
+| Columns | `height` | `100%` | Inherit from main |
+| Columns | `overflow-y` | `auto` | Scroll when needed |
+
+### HTML Structure
+
+```html
+<body>
+  <header>...</header>
+  <main>
+    <aside class="scroll-col">...</aside>
+    <aside class="scroll-col">...</aside>
+    <section class="scroll-col">...</section>
+  </main>
+  <footer>...</footer>
+</body>
+```
+
+### What Breaks Scrolling
+
+```css
+/* BAD: Column missing height */
+.scroll-col {
+  overflow-y: auto;
+  /* height: 100% missing - won't scroll */
+}
+
+/* BAD: Main scrolls instead of containing */
+main {
+  overflow: auto;  /* Wrong! Global scroll */
+}
+
+/* BAD: Using % instead of ch */
+main {
+  grid-template-columns: 33% 25% 1fr;  /* Wrong! */
+}
+```
+
+### The Fix
+
+```css
+main {
+  overflow: hidden;  /* Contains, doesn't scroll */
+}
+
+.scroll-col {
+  height: 100%;       /* Inherit container height */
+  overflow-y: auto;  /* Scroll when content overflows */
+}
+```
+
+### References
+
+- **Lab Experiment:** `scripts/lab/three-column-scroll/index.html`
+- **Brutalisimo Manifesto:** `@public/docs/playbooks/css-brutalisimo-manifesto.md`
+- **CSS Playbook:** `@public/docs/playbooks/css-playbook.md` - GOTCHA #1: The Overflow Trap
 
 ---
 
@@ -306,7 +428,48 @@ Define terms precisely for consistent communication:
 ### Sizing
 - **Intrinsic**: Sizes to content (fit-content, auto)
 - **Extrinsic**: Fixed or container-driven (100%, fixed px)
-- **Responsive**: Adapts to available space
+- **Responsive**: Adapts to available space---
+
+## Debugging CSS: The contain:layout Lesson
+
+### The Problem
+
+Added `.doc-content { contain: layout; }` for "performance optimization." Result: scrolling broke on sidebar panels.
+
+### The Root Cause
+
+`contain: layout` creates a containing block that establishes a new formatting context. This:
+- Isolates the element from its parent
+- Prevents overflow from propagating correctly
+- Breaks scrolling behavior even when overflow is set on children
+
+### The Fix
+
+```css
+/* BEFORE: Breaks scrolling */
+.doc-content {
+  contain: layout;
+}
+
+/* AFTER: Explicit overflow */
+.doc-content {
+  overflow-y: auto;
+}
+```
+
+### When Debugging Scrolling Issues
+
+1. Check for `contain: layout` on the element or ancestors
+2. Check for `contain: layout` on sibling elements
+3. Use `overflow` explicitly instead of `contain` for scrollable areas
+4. Test scrolling after any layout containment changes
+
+### Lessons Learned
+
+1. **Avoid `contain: layout` on scrollable containers**
+2. **Use explicit `overflow` properties** instead of containment
+3. **Test scrolling behavior** after layout changes
+4. **Single-purpose CSS** - styling shouldn't break functionality
 
 ---
 
@@ -373,6 +536,92 @@ Define terms precisely for consistent communication:
   fit-content;
 }
 ```
+
+---
+
+## SmartBlock Component (Brutalisimo Pattern)
+
+**Location:** `website/ssr-docs/components/SmartBlock.tsx`
+
+A self-sizing content block using UnoCSS Attributify + scoped styles.
+
+### Two Variants
+
+| Variant | Use Case | max-width | max-height | Scroll |
+|---------|----------|-----------|------------|--------|
+| **Standard** (default) | Lexicon entries, tiles | `45ch` | `25lh` | Internal |
+| **Long-form** (`isLongForm: true`) | Full documents, articles | `60ch` | `none` | Grows to fit |
+
+### API
+
+```tsx
+interface SmartBlockProps {
+  id: string;           // Unique identifier
+  content: string;       // HTML content
+  isLongForm?: boolean;  // true = document view, false = tile view
+}
+```
+
+### Implementation
+
+```tsx
+export function SmartBlock({ id, content, isLongForm = false }: SmartBlockProps): string {
+  const maxWidth = isLongForm ? "60ch" : "45ch";
+  const maxHeight = isLongForm ? "none" : "25lh";
+
+  return `
+    <article
+      id="${id}"
+      w-fit
+      h-fit
+      style="max-width: ${maxWidth}; max-height: ${maxHeight};"
+      overflow-y-auto
+      p-1ch
+      border
+      mb-1ch
+    >
+      <div class="command-hint" style="font-size: 9px; color: var(--dim);">
+        agent-browse --target #${id}
+      </div>
+      <div class="markdown-body">
+        ${content}
+      </div>
+    </article>
+  `;
+}
+```
+
+### Usage Examples
+
+```tsx
+// Standard: Lexicon tile
+const block = SmartBlock({
+  id: "b-conceptual-entropy",
+  content: "<h3>Conceptual Entropy</h3><p>Measure of idea disorder...</p>",
+  isLongForm: false,
+});
+
+// Long-form: Full document
+const docBlock = SmartBlock({
+  id: "doc-css-playbook",
+  content: fullHtmlContent,
+  isLongForm: true,
+});
+```
+
+### Key Styling Decisions
+
+- **Scoped styles via ID selector** - `#${id}` ensures styles don't leak
+- **UnoCSS for layout primitives** - `w-fit`, `h-fit`, `p-1ch`, `overflow-y-auto`
+- **CSS variables for theming** - Uses `--bg`, `--fg`, `--accent`, `--border`
+- **Command hint** - Agent-friendly identifier for `agent-browse` targeting
+
+### Routes Using SmartBlock
+
+| Route | Variant | Pattern |
+|-------|---------|---------|
+| `/brutalisimo` | Standard | Grid of SmartBlocks |
+| `/brutalisimo-doc` | Long-form | Single SmartBlock per document |
 
 ---
 

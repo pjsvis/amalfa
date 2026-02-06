@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  /* Map Tailwind to our existing CSS variables */
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-dim: var(--dim);
+  --color-link: var(--link);
+  --color-error: var(--error);
+}

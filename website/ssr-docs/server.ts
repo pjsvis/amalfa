@@ -90,9 +90,61 @@ const lifecycle = new Lifecycle("SSR-Docs", join(AMALFA_DIRS.runtime, "ssr-docs.
 import { parseMarkdownWithTOC, loadDocument, type TocItem } from "./lib/markdown.ts";
 import { getDocumentRegistry, type DocMetadata } from "./lib/doc-registry.ts";
 import { renderDashboardPage, renderLexiconPage, renderDocPage, getDashboardData, getLexiconData } from "./templates/index.ts";
+import { BrutalisimoPage } from "./templates/brutalisimo.tsx";
 
 const PORT = Number(process.env.PORT || 3001);
 const DB_PATH = join(ROOT_PATH, CONFIG.database);
+
+// === Helpers ===
+
+/**
+ * Parse HTML into sections by h2/h3 boundaries.
+ * Bun's markdown doesn't add IDs, so we generate them from heading text.
+ */
+function parseSections(html: string): Array<{ id: string; heading: string; content: string; level: number }> {
+  const sections: Array<{ id: string; heading: string; content: string; level: number }> = [];
+  
+  // Match h2 and h3 tags (Bun doesn't add IDs)
+  const headingRegex = /<h([23])>(.*?)<\/h\1>/g;
+  
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let currentSection: { id: string; heading: string; level: number; startIndex: number } | null = null;
+  
+  while ((match = headingRegex.exec(html)) !== null) {
+    const level = Number.parseInt(match[1] || "2");
+    const heading = match[2]?.replace(/<[^>]*>/g, "").trim() || "Untitled";
+    const id = `section-${heading.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+    
+    // Save previous section content
+    if (currentSection) {
+      const content = html.substring(currentSection.startIndex, match.index).trim();
+      sections.push({
+        ...currentSection,
+        content,
+      });
+    }
+    
+    // Start new section
+    currentSection = {
+      id,
+      heading,
+      level,
+      startIndex: match.index + match[0].length,
+    };
+  }
+  
+  // Add final section
+  if (currentSection) {
+    const content = html.substring(currentSection.startIndex).trim();
+    sections.push({
+      ...currentSection,
+      content,
+    });
+  }
+  
+  return sections;
+}
 
 // === Server ===
 async function runServer() {
@@ -115,6 +167,13 @@ async function runServer() {
         const file = Bun.file(resolvePath("public/css/terminal.css"));
         return new Response(file, { headers: { "Content-Type": "text/css" } });
       }
+      if (path === "/css/tailwind.css") {
+        const file = Bun.file(resolvePath("public/css/tailwind.css"));
+        return new Response(file, { headers: { "Content-Type": "text/css" } });
+      }
+      if (path === "/favicon.ico") {
+        return new Response(null, { status: 204 });
+      }
       
       // Dashboard
       if (path === "/" || path === "/dashboard") {
@@ -131,6 +190,50 @@ async function runServer() {
         try {
           const data = await getLexiconData();
           return new Response(renderLexiconPage(data), { headers });
+        } catch (e) {
+          return new Response(`Error: ${e}`, { status: 500, headers });
+        }
+      }
+      
+      // Brutalisimo Test Page
+      if (path === "/brutalisimo") {
+        try {
+          const data = await getLexiconData();
+          const entities = data.entries.map((e) => ({
+            id: e.id || e.title.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+            term: e.title,
+            summary: e.description,
+          }));
+          return new Response(BrutalisimoPage({ entities }), { headers });
+        } catch (e) {
+          return new Response(`Error: ${e}`, { status: 500, headers });
+        }
+      }
+
+      // Brutalisimo Doc Browser
+      if (path === "/brutalisimo-doc") {
+        try {
+          const filename = url.searchParams.get("file") || "playbooks/css-layout-skill-playbook.md";
+          const registry = getDocumentRegistry();
+          const { loadDocument } = await import("./lib/markdown.ts");
+          const parsedDoc = loadDocument(ROOT_PATH, filename);
+
+          const brutalData = {
+            doc: {
+              title: parsedDoc.metadata.title || filename,
+              html: parsedDoc.html,
+              metadata: parsedDoc.metadata,
+            },
+            categories: {
+              index: registry.byCategory.index.map(d => ({ file: d.file, title: d.title || d.file })),
+              playbooks: registry.byCategory.playbooks.map(d => ({ file: d.file, title: d.title || d.file })),
+              debriefs: registry.byCategory.debriefs.map(d => ({ file: d.file, title: d.title || d.file })),
+              briefs: registry.byCategory.briefs.map(d => ({ file: d.file, title: d.title || d.file })),
+            },
+          };
+
+          const { BrutalisimoDocPage } = await import("./templates/brutalisimo-doc.tsx");
+          return new Response(BrutalisimoDocPage(brutalData), { headers });
         } catch (e) {
           return new Response(`Error: ${e}`, { status: 500, headers });
         }
