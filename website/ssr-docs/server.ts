@@ -90,6 +90,7 @@ const lifecycle = new Lifecycle("SSR-Docs", join(AMALFA_DIRS.runtime, "ssr-docs.
 import { parseMarkdownWithTOC, loadDocument, type TocItem } from "./lib/markdown.ts";
 import { getDocumentRegistry, type DocMetadata } from "./lib/doc-registry.ts";
 import { renderDashboardPage, renderLexiconPage, renderDocPage, getDashboardData, getLexiconData } from "./templates/index.ts";
+import { Layout } from "./templates/base.tsx";
 import { BrutalisimoPage } from "./templates/brutalisimo.tsx";
 
 const PORT = Number(process.env.PORT || 3001);
@@ -175,37 +176,26 @@ async function runServer() {
         return new Response(null, { status: 204 });
       }
       
-      // Graph Page (placeholder)
+      // Graph Page
       if (path === "/graph") {
-        const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>amalfa | graph</title>
-  <link rel="stylesheet" href="/css/terminal.css">
-</head>
-<body>
-  <header>
-    <div class="brand">AMALFA</div>
-    <nav>
-      <a href="/">HOME</a>
-      <a href="/doc">DOCS</a>
-      <a href="/lexicon">LEXICON</a>
-      <a href="/graph" class="active">GRAPH</a>
-      <a href="/about">ABOUT</a>
-    </nav>
-    <div class="meta">v1.5.1</div>
-  </header>
-  <main>
-    <div style="padding: 2ch;">
-      <h1>Knowledge Graph</h1>
-      <p>Graph visualization coming soon.</p>
-    </div>
-  </main>
-</body>
-</html>`;
-        return new Response(html, { headers });
+        try {
+          const html = Layout({
+            title: "graph",
+            pageId: "graph",
+            children: `
+              <article id="content" style="height: calc(100vh - 9ch); overflow-y: auto; padding: 2ch;">
+                <h1>Knowledge Graph</h1>
+                <p style="color: var(--dim);">Graph visualization coming soon.</p>
+                <div style="margin-top: 4ch; padding: 2ch; border: 1px dashed var(--dim);">
+                  <p style="font-family: monospace; color: var(--accent);">[WAITING_FOR_DATA]</p>
+                </div>
+              </article>
+            `,
+          });
+          return new Response(html, { headers });
+        } catch (e) {
+          return new Response(`Error: ${e}`, { status: 500, headers });
+        }
       }
 
       // About Page (from public/about/index.html)
