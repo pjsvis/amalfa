@@ -175,6 +175,72 @@ async function runServer() {
         return new Response(null, { status: 204 });
       }
       
+      // Graph Page (placeholder)
+      if (path === "/graph") {
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>amalfa | graph</title>
+  <link rel="stylesheet" href="/css/terminal.css">
+</head>
+<body>
+  <header>
+    <div class="brand">AMALFA</div>
+    <nav>
+      <a href="/">HOME</a>
+      <a href="/doc">DOCS</a>
+      <a href="/lexicon">LEXICON</a>
+      <a href="/graph" class="active">GRAPH</a>
+      <a href="/about">ABOUT</a>
+    </nav>
+    <div class="meta">v1.5.1</div>
+  </header>
+  <main>
+    <div style="padding: 2ch;">
+      <h1>Knowledge Graph</h1>
+      <p>Graph visualization coming soon.</p>
+    </div>
+  </main>
+</body>
+</html>`;
+        return new Response(html, { headers });
+      }
+
+      // About Page (placeholder)
+      if (path === "/about") {
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>amalfa | about</title>
+  <link rel="stylesheet" href="/css/terminal.css">
+</head>
+<body>
+  <header>
+    <div class="brand">AMALFA</div>
+    <nav>
+      <a href="/">HOME</a>
+      <a href="/doc">DOCS</a>
+      <a href="/lexicon">LEXICON</a>
+      <a href="/graph">GRAPH</a>
+      <a href="/about" class="active">ABOUT</a>
+    </nav>
+    <div class="meta">v1.5.1</div>
+  </header>
+  <main>
+    <div style="padding: 2ch;">
+      <h1>About AMALFA</h1>
+      <p>Local-first knowledge graph engine for AI agents.</p>
+    </div>
+  </main>
+</body>
+</html>`;
+        return new Response(html, { headers });
+      }
+
       // Dashboard
       if (path === "/" || path === "/dashboard") {
         try {

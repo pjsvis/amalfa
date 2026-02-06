@@ -57,12 +57,11 @@ export function Layout({
   <header id="header" role="banner" aria-label="Site header">
     <div class="brand">AMALFA</div>
     <nav id="nav" role="navigation" aria-label="Main navigation">
-      <a href="/" ${pageId === "dashboard" ? 'class="active"' : ""} aria-label="Dashboard">DASHBOARD</a>
-      <a href="/lexicon" ${pageId === "lexicon" ? 'class="active"' : ""} aria-label="Lexicon">LEXICON</a>
+      <a href="/" ${pageId === "dashboard" ? 'class="active"' : ""} aria-label="Dashboard">HOME</a>
       <a href="/doc" ${pageId === "doc" ? 'class="active"' : ""} aria-label="Documentation">DOCS</a>
-      <span class="nav-separator" aria-hidden="true">|</span>
-      <a href="/brutalisimo" ${pageId === "brutalisimo" ? 'class="active"' : ""} aria-label="Brutalisimo Test">BRUTALISIMO</a>
-      <a href="/brutalisimo-doc" ${pageId === "brutalisimo-doc" ? 'class="active"' : ""} aria-label="Brutalisimo Doc Browser">DOC-BRUTAL</a>
+      <a href="/lexicon" ${pageId === "lexicon" ? 'class="active"' : ""} aria-label="Lexicon">LEXICON</a>
+      <a href="/graph" aria-label="Graph">GRAPH</a>
+      <a href="/about" aria-label="About">ABOUT</a>
     </nav>
     <div class="meta" aria-label="Version">v1.5.1</div>
   </header>
