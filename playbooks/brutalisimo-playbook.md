@@ -503,5 +503,87 @@ We solved this by using **inline styles with concrete `vh` values**:
 - `website/ssr-docs/templates/brutalisimo.tsx` - Lexicon page
 - `website/ssr-docs/templates/brutalisimo-doc.tsx` - Document browser
 - `public/css/terminal.css` - Global styles and CSS variables
-- `tailwind.config.js` - Tailwind configuration
 - `public/css/input.css` - Tailwind imports
+
+---
+
+## The ID Hack: Discoverable UI for Agents
+
+Every element has a fixed address. The browser is a hardware peripheral with memory-mapped I/O.
+
+### ID Naming Convention
+
+| Prefix | Use Case | Example |
+|--------|----------|---------|
+| `doc-*` | Long-form documents | `doc-00`, `doc-01` |
+| `b-*` | SmartBlock tiles | `b-00`, `b-01` |
+| `widget-*` | Dashboard widgets | `widget-stats` |
+| `section-*` | Content sections | `section-content` |
+| `aside-*` | Sidebar panels | `aside-left`, `aside-right` |
+| `header-*` | Header components | `header-main` |
+| `nav-*` | Navigation | `nav-main` |
+
+### Static Layout IDs
+
+Layout containers get fixed IDs:
+
+```html
+<header id="header">...</header>
+<nav id="nav">...</nav>
+<main id="main">
+  <section id="content">...</section>
+</main>
+<footer id="footer">...</footer>
+```
+
+### Dynamic IDs for Content
+
+Server generates indexed IDs during SSR:
+
+```tsx
+const docList = docs.map((d, i) =>
+  `<li id="doc-${i}">${d.title}</li>`
+);
+
+const tocItems = headings.map((h, i) =>
+  `<li id="section-${i}">${h}</li>`
+);
+```
+
+### CSS Targeting: Surgical Styling
+
+Use ID selectors for isolation and specificity:
+
+```css
+/* All documents */
+[id^="doc-"] .markdown-body { ... }
+
+/* Specific document */
+[id="doc-00"] { ... }
+
+/* All SmartBlocks */
+[id^="b-"] { ... }
+
+/* Layout containers */
+[id="header"] { ... }
+[id="content"] { ... }
+```
+
+### agent-browser Discovery
+
+IDs enable direct navigation:
+
+```bash
+agent-browser find id "header" click
+agent-browser find id "aside-left" scroll down
+agent-browser find id "doc-00" click
+agent-browser find id "section-03" scrollintoview
+```
+
+### Benefits
+
+1. **Addressability** - Every element has a fixed address
+2. **Discoverability** - `agent-browser find id "..."` finds any element
+3. **Isolation** - CSS targeting prevents collisions
+4. **Debuggability** - Inspect an element by its ID
+5. **AI Understanding** - Consistent pattern AI can learn and use
