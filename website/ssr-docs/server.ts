@@ -208,37 +208,15 @@ async function runServer() {
         return new Response(html, { headers });
       }
 
-      // About Page (placeholder)
+      // About Page (from public/about/index.html)
       if (path === "/about") {
-        const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>amalfa | about</title>
-  <link rel="stylesheet" href="/css/terminal.css">
-</head>
-<body>
-  <header>
-    <div class="brand">AMALFA</div>
-    <nav>
-      <a href="/">HOME</a>
-      <a href="/doc">DOCS</a>
-      <a href="/lexicon">LEXICON</a>
-      <a href="/graph">GRAPH</a>
-      <a href="/about" class="active">ABOUT</a>
-    </nav>
-    <div class="meta">v1.5.1</div>
-  </header>
-  <main>
-    <div style="padding: 2ch;">
-      <h1>About AMALFA</h1>
-      <p>Local-first knowledge graph engine for AI agents.</p>
-    </div>
-  </main>
-</body>
-</html>`;
-        return new Response(html, { headers });
+        try {
+          const file = Bun.file(resolvePath("public/about/index.html"));
+          const html = await file.text();
+          return new Response(html, { headers: { "Content-Type": "text/html" } });
+        } catch (e) {
+          return new Response(`About page not found: ${e}`, { status: 404, headers });
+        }
       }
 
       // Dashboard
