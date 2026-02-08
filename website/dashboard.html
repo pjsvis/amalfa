@@ -50,10 +50,11 @@
             color: var(--fg);
             display: grid;
             /* Explicit rows: header + main + footer + borders */
-            grid-template-rows: 3ch 1fr 2ch;
+            grid-template-rows: 3ch 1fr 3ch 2ch;
             grid-template-areas:
                 "header"
                 "main"
+                "command"
                 "footer";
             min-height: 0;
         }
@@ -194,6 +195,39 @@
         .status-stopped { color: var(--red); }
         .dim { color: var(--yellow); }
         
+        /* CRT Effect */
+        body::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 1000;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .pulse { animation: pulse 1s infinite; }
+
+        /* Command Bar */
+        #command-bar {
+            grid-area: command;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 10ch 1fr;
+            align-items: center;
+            background: var(--bg);
+            padding: 0 2ch;
+        }
+
         footer {
             grid-area: footer;
             border-top: 1px solid var(--border);
@@ -207,6 +241,7 @@
             overflow: hidden;
             line-height: 1;
             contain: strict;
+            background: var(--bg);
         }
 
         .btn-action {
@@ -321,6 +356,12 @@
         </div>
     </main>
     
+    <div id="command-bar" data-store="{ command: '' }">
+        <label for="command-input">AMALFA>_</label>
+        <input type="text" id="command-input" data-bind="command" placeholder="Enter command (try 'status')..." 
+               data-on-keydown="if(event.key === 'Enter') { @post('/api/cli'); this.value = ''; }">
+    </div>
+
     <footer>
         <span>DESIGN: TERMINAL-BRUTALIST | OH-107 COMPLIANT</span>
         <span id="timestamp">TIMESTAMP: ...</span>

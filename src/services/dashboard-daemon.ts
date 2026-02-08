@@ -221,6 +221,12 @@ export class DashboardDaemon {
 							event: "datastar-merge-fragments",
 							data: `selector #timestamp\n<span id="timestamp">TIMESTAMP: ${timestamp}</span>`,
 						});
+						// 6. Logs
+						const recentLogs = await this.getRecentLogs();
+						await stream.writeSSE({
+							event: "datastar-merge-fragments",
+							data: `selector #log-stream\n<pre id="log-stream" style="font-size: 11px; max-height: 20ch; overflow-y: auto;">${recentLogs}</pre>`,
+						});
 					} catch (e) {
 						log.error({ err: e }, "SSE Update Failed");
 					}
@@ -243,6 +249,43 @@ export class DashboardDaemon {
 					await stream.writeSSE({ event: "ping", data: "" });
 				}
 			});
+		});
+
+		// 13. Terminal CLI Proxy
+		this.app.post("/api/cli", async (c) => {
+			try {
+				const body = await c.req.json();
+				const command = body.command?.trim();
+
+				if (!command) return c.json({ success: false, error: "Empty command" });
+
+				log.info({ command }, "Executing CLI command from dashboard");
+
+				const args = command.split(/\s+/);
+				const proc = Bun.spawn(["bun", "src/cli.ts", ...args], {
+					stdout: "pipe",
+					stderr: "pipe",
+				});
+
+				const output = await new Response(proc.stdout).text();
+				const error = await new Response(proc.stderr).text();
+				await proc.exited;
+
+				// We can return a fragment to show the result in the log stream immediately
+				// Or just rely on the log stream to pick it up if the command logs to file.
+				// Most CLI commands don't log to daemon.log, so let's push a fragment.
+
+				const resultHtml = `[CLI] > ${command}\n${output}${error ? `\n[ERR] ${error}` : ""}`;
+
+				return streamSSE(c, async (stream) => {
+					await stream.writeSSE({
+						event: "datastar-merge-fragments",
+						data: `selector #log-stream\n<pre id="log-stream" style="font-size: 11px; max-height: 20ch; overflow-y: auto;">${resultHtml}\n---</pre>`,
+					});
+				});
+			} catch (e) {
+				return c.json({ success: false, error: String(e) }, 500);
+			}
 		});
 	}
 
@@ -375,6 +418,28 @@ export class DashboardDaemon {
 
 		log.info({ port: PORT, pid: process.pid }, "Dashboard started");
 		console.log(`\n🎯 Dashboard running at http://localhost:${PORT}\n`);
+	}
+
+	private async getRecentLogs(bytes = 3000) {
+		try {
+			const logFile = join(AMALFA_DIRS.logs, "daemon.log");
+			if (!existsSync(logFile)) return "[SYS] No harvester logs found.";
+
+			const file = Bun.file(logFile);
+			const size = file.size;
+			const start = Math.max(0, size - bytes);
+			const text = await file.slice(start).text();
+			const lines = text.split("\n");
+
+			// If we sliced in the middle of a line, drop the first partial line
+			if (start > 0 && lines.length > 1) {
+				lines.shift();
+			}
+
+			return lines.join("\n").trim() || "[SYS] Log empty.";
+		} catch (e) {
+			return `[ERR] Failed to read logs: ${String(e)}`;
+		}
 	}
 
 	public async stop() {

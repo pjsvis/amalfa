@@ -10,8 +10,12 @@
 		"includes": ["src/**", "tests/**", "*.ts", "*.js", "*.json", "*.css"]
 	},
 	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab"
+	"enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "attributePosition": "multiline"
 	},
 	"linter": {
 		"enabled": true,
@@ -26,9 +30,12 @@
 		}
 	},
 	"javascript": {
-		"formatter": {
-			"quoteStyle": "double"
-		}
+	"formatter": {
+      "quoteStyle": "double",
+      "jsxQuoteStyle": "double",
+      "bracketSameLine": false,
+      "arrowParentheses": "always"
+    }
 	},
 	"css": {
 		"parser": {

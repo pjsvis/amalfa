@@ -56,7 +56,8 @@
 	},
 	"scripts": {
 		"precommit": "bun run scripts/maintenance/pre-commit.ts",
-		"check": "biome check .",
+		"check": "biome check --write ./src",
+    "lint": "biome lint ./src",
 		"format": "biome format --write .",
 		"validate-config": "bun run scripts/validate-config.ts",
 		"build": "tsc --noEmit && bun run css:build",
