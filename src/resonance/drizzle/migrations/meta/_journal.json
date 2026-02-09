@@ -1,27 +1,27 @@
 {
-	"version": "7",
-	"dialect": "sqlite",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "6",
-			"when": 1767981411501,
-			"tag": "0000_happy_thaddeus_ross",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "6",
-			"when": 1768308220948,
-			"tag": "0001_happy_serpent_society",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "6",
-			"when": 1769588665479,
-			"tag": "0002_curly_fat_cobra",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1767981411501,
+      "tag": "0000_happy_thaddeus_ross",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1768308220948,
+      "tag": "0001_happy_serpent_society",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1769588665479,
+      "tag": "0002_curly_fat_cobra",
+      "breakpoints": true
+    }
+  ]
 }

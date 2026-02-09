@@ -41,8 +41,8 @@ export type SystemStatus = "idle" | "active" | "warning" | "error";
  * Enforces vertical rhythm and centers content horizontally.
  */
 export interface PageWrapperProps {
-	children: JSX.Element | JSX.Element[];
-	title?: string;
+  children: JSX.Element | JSX.Element[];
+  title?: string;
 }
 
 /**
@@ -53,11 +53,11 @@ export interface PageWrapperProps {
  * - NEVER use CSS Grid on the children of this container.
  */
 export interface FlowContainerProps {
-	children: JSX.Element[];
-	/** * spacing between items.
-	 * 'tight' = gap-2, 'loose' = gap-6
-	 */
-	gap?: "tight" | "normal" | "loose";
+  children: JSX.Element[];
+  /** * spacing between items.
+   * 'tight' = gap-2, 'loose' = gap-6
+   */
+  gap?: "tight" | "normal" | "loose";
 }
 
 /**
@@ -65,11 +65,11 @@ export interface FlowContainerProps {
  * ALWAYS use this to wrap text content or single-column layouts.
  */
 export interface ReadingColumnProps {
-	children: JSX.Element | JSX.Element[];
-	/** Defaults to 'standard' (65ch) for documents */
-	width?: ReadingWidth;
-	/** Adds vertical padding. Defaults to true. */
-	padded?: boolean;
+  children: JSX.Element | JSX.Element[];
+  /** Defaults to 'standard' (65ch) for documents */
+  width?: ReadingWidth;
+  /** Adds vertical padding. Defaults to true. */
+  padded?: boolean;
 }
 
 // ==========================================
@@ -84,16 +84,16 @@ export interface ReadingColumnProps {
  * without bleeding into the global scope.
  */
 export interface DocViewerProps {
-	/** The pre-rendered HTML string */
-	contentHtml: string;
-	/** Unique ID suffix (e.g. "01", "readme") */
-	docId: string;
-	/** Optional metadata header (author, date, tags) */
-	meta?: {
-		title: string;
-		date: string;
-		tags?: string[];
-	};
+  /** The pre-rendered HTML string */
+  contentHtml: string;
+  /** Unique ID suffix (e.g. "01", "readme") */
+  docId: string;
+  /** Optional metadata header (author, date, tags) */
+  meta?: {
+    title: string;
+    date: string;
+    tags?: string[];
+  };
 }
 
 // ==========================================
@@ -105,14 +105,14 @@ export interface DocViewerProps {
  * Designed to be stacked inside a ReadingColumn (width="narrow").
  */
 export interface PipelineRowProps {
-	/** The human-readable name of the pipeline */
-	name: string;
-	/** The current operational state */
-	status: SystemStatus;
-	/** e.g. "5 mins ago", "Live" */
-	lastUpdated: string;
-	/** Key metric to display on the right (e.g. "500 items") */
-	metric?: string | number;
+  /** The human-readable name of the pipeline */
+  name: string;
+  /** The current operational state */
+  status: SystemStatus;
+  /** e.g. "5 mins ago", "Live" */
+  lastUpdated: string;
+  /** Key metric to display on the right (e.g. "500 items") */
+  metric?: string | number;
 }
 
 /**
@@ -122,10 +122,10 @@ export interface PipelineRowProps {
  * do not affect the outside page.
  */
 export interface GraphVizContainerProps {
-	/** The API endpoint to fetch the graph JSON data */
-	dataUrl: string;
-	/** Height of the graph viewport. Defaults to '600px' */
-	height?: string;
+  /** The API endpoint to fetch the graph JSON data */
+  dataUrl: string;
+  /** Height of the graph viewport. Defaults to '600px' */
+  height?: string;
 }
 
 /**
@@ -133,9 +133,9 @@ export interface GraphVizContainerProps {
  * Fixed width (e.g., w-64) but flexible height.
  */
 export interface StatCardProps {
-	label: string;
-	value: string | number;
-	trend?: "up" | "down" | "neutral";
+  label: string;
+  value: string | number;
+  trend?: "up" | "down" | "neutral";
 }
 
 // ==========================================
@@ -147,7 +147,7 @@ export interface StatCardProps {
  * Uses native <dialog> or standard form submission.
  */
 export interface SearchInputProps {
-	placeholder?: string;
-	actionUrl?: string;
-	autoFocus?: boolean;
+  placeholder?: string;
+  actionUrl?: string;
+  autoFocus?: boolean;
 }

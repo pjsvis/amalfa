@@ -5,75 +5,75 @@ import { streamSSE } from "hono/streaming";
 
 // State
 interface StepState {
-	id: string;
-	name: string;
-	description: string;
-	status: "idle" | "running" | "completed" | "error";
-	metrics: Record<string, string | number>;
-	logs: string[];
+  id: string;
+  name: string;
+  description: string;
+  status: "idle" | "running" | "completed" | "error";
+  metrics: Record<string, string | number>;
+  logs: string[];
 }
 
 const STEPS: StepState[] = [
-	{
-		id: "harvest",
-		name: "1. HARVEST",
-		description: "Scan corpus for candidates",
-		status: "idle",
-		metrics: {},
-		logs: [],
-	},
-	{
-		id: "refine",
-		name: "2. REFINE",
-		description: "Filter noise & stopwords",
-		status: "idle",
-		metrics: {},
-		logs: [],
-	},
-	{
-		id: "enrich",
-		name: "3. ENRICH",
-		description: "Join with LLM Sidecars",
-		status: "idle",
-		metrics: {},
-		logs: [],
-	},
-	{
-		id: "embed",
-		name: "4. EMBED",
-		description: "Generate Vectors",
-		status: "idle",
-		metrics: {},
-		logs: [],
-	},
-	{
-		id: "edges",
-		name: "5. EDGES",
-		description: "Structural Survey",
-		status: "idle",
-		metrics: {},
-		logs: [],
-	},
-	{
-		id: "ingest",
-		name: "6. INGEST",
-		description: "Load ResonanceDB",
-		status: "idle",
-		metrics: {},
-		logs: [],
-	},
+  {
+    id: "harvest",
+    name: "1. HARVEST",
+    description: "Scan corpus for candidates",
+    status: "idle",
+    metrics: {},
+    logs: [],
+  },
+  {
+    id: "refine",
+    name: "2. REFINE",
+    description: "Filter noise & stopwords",
+    status: "idle",
+    metrics: {},
+    logs: [],
+  },
+  {
+    id: "enrich",
+    name: "3. ENRICH",
+    description: "Join with LLM Sidecars",
+    status: "idle",
+    metrics: {},
+    logs: [],
+  },
+  {
+    id: "embed",
+    name: "4. EMBED",
+    description: "Generate Vectors",
+    status: "idle",
+    metrics: {},
+    logs: [],
+  },
+  {
+    id: "edges",
+    name: "5. EDGES",
+    description: "Structural Survey",
+    status: "idle",
+    metrics: {},
+    logs: [],
+  },
+  {
+    id: "ingest",
+    name: "6. INGEST",
+    description: "Load ResonanceDB",
+    status: "idle",
+    metrics: {},
+    logs: [],
+  },
 ];
 
 const state = new Map<string, StepState>();
 STEPS.forEach((s) => {
-	state.set(s.id, s);
+  state.set(s.id, s);
 });
 
 const app = new Hono();
 
 // Endpoints
 app.get("/", (c) => {
-	return c.html(html`
+  return c.html(html`
 <!DOCTYPE html>
 <html>
 <head>
@@ -198,118 +198,118 @@ app.get("/", (c) => {
 });
 
 app.get("/events", (c) => {
-	return streamSSE(c, async (stream) => {
-		while (true) {
-			const data = Array.from(state.values());
-			await stream.writeSSE({
-				data: JSON.stringify(data),
-				event: "message",
-			});
-			await stream.sleep(500);
-		}
-	});
+  return streamSSE(c, async (stream) => {
+    while (true) {
+      const data = Array.from(state.values());
+      await stream.writeSSE({
+        data: JSON.stringify(data),
+        event: "message",
+      });
+      await stream.sleep(500);
+    }
+  });
 });
 
 // Receiver API
 app.post("/api/step/:id/:action", async (c) => {
-	const id = c.req.param("id");
-	const action = c.req.param("action");
-	const body = await c.req.json();
+  const id = c.req.param("id");
+  const action = c.req.param("action");
+  const body = await c.req.json();
 
-	const s = state.get(id);
-	if (!s) return c.json({ error: "Not found" }, 404);
+  const s = state.get(id);
+  if (!s) return c.json({ error: "Not found" }, 404);
 
-	if (action === "start") {
-		s.status = "running";
-		s.logs = [];
-		s.metrics = {};
-	} else if (action === "update") {
-		if (body.metrics) s.metrics = { ...s.metrics, ...body.metrics };
-	} else if (action === "log") {
-		if (body.message) s.logs.push(body.message);
-	} else if (action === "complete") {
-		s.status = "completed";
-		if (body.metrics) s.metrics = { ...s.metrics, ...body.metrics };
-	} else if (action === "error") {
-		s.status = "error";
-		if (body.error) s.logs.push(`ERR: ${body.error}`);
-	}
+  if (action === "start") {
+    s.status = "running";
+    s.logs = [];
+    s.metrics = {};
+  } else if (action === "update") {
+    if (body.metrics) s.metrics = { ...s.metrics, ...body.metrics };
+  } else if (action === "log") {
+    if (body.message) s.logs.push(body.message);
+  } else if (action === "complete") {
+    s.status = "completed";
+    if (body.metrics) s.metrics = { ...s.metrics, ...body.metrics };
+  } else if (action === "error") {
+    s.status = "error";
+    if (body.error) s.logs.push(`ERR: ${body.error}`);
+  }
 
-	return c.json({ ok: true });
+  return c.json({ ok: true });
 });
 
 // Runner
 import { spawn } from "bun";
 
 async function runScript(id: string) {
-	const s = state.get(id);
-	if (!s || s.status === "running") return;
+  const s = state.get(id);
+  if (!s || s.status === "running") return;
 
-	let scriptPath = "";
-	if (id === "harvest") scriptPath = "src/pipeline/lexicon/01-harvest.ts";
-	if (id === "refine") scriptPath = "src/pipeline/lexicon/02-refine.ts";
-	if (id === "enrich") scriptPath = "src/pipeline/lexicon/03-enrich.ts";
-	if (id === "embed") scriptPath = "src/pipeline/lexicon/04-embed.ts";
-	if (id === "edges") scriptPath = "src/pipeline/lexicon/05-survey-edges.ts";
-	if (id === "ingest") scriptPath = "src/pipeline/lexicon/06-ingest.ts";
+  let scriptPath = "";
+  if (id === "harvest") scriptPath = "src/pipeline/lexicon/01-harvest.ts";
+  if (id === "refine") scriptPath = "src/pipeline/lexicon/02-refine.ts";
+  if (id === "enrich") scriptPath = "src/pipeline/lexicon/03-enrich.ts";
+  if (id === "embed") scriptPath = "src/pipeline/lexicon/04-embed.ts";
+  if (id === "edges") scriptPath = "src/pipeline/lexicon/05-survey-edges.ts";
+  if (id === "ingest") scriptPath = "src/pipeline/lexicon/06-ingest.ts";
 
-	if (!scriptPath) return;
+  if (!scriptPath) return;
 
-	s.status = "running";
-	s.logs.push("Spawning process...");
+  s.status = "running";
+  s.logs.push("Spawning process...");
 
-	const proc = spawn(["bun", "run", scriptPath], {
-		stdout: "inherit",
-		stderr: "inherit",
-	});
+  const proc = spawn(["bun", "run", scriptPath], {
+    stdout: "inherit",
+    stderr: "inherit",
+  });
 
-	await proc.exited;
-	if (proc.exitCode !== 0) {
-		s.status = "error";
-		s.logs.push(`Process exited with code ${proc.exitCode}`);
-	}
+  await proc.exited;
+  if (proc.exitCode !== 0) {
+    s.status = "error";
+    s.logs.push(`Process exited with code ${proc.exitCode}`);
+  }
 }
 
 app.post("/api/run/:id", async (c) => {
-	const id = c.req.param("id");
-	runScript(id);
-	return c.json({ started: true });
+  const id = c.req.param("id");
+  runScript(id);
+  return c.json({ started: true });
 });
 
 app.get("/api/history", async (c) => {
-	const file = Bun.file(join(process.cwd(), ".amalfa/pipeline-history.jsonl"));
-	if (!(await file.exists())) return c.json([]);
-	const text = await file.text();
-	// Parse JSONL
-	try {
-		const rows = text
-			.trim()
-			.split("\n")
-			.filter(Boolean)
-			.map((line) => JSON.parse(line));
-		return c.json(rows.reverse()); // Newest first
-	} catch (_e) {
-		return c.json([]);
-	}
+  const file = Bun.file(join(process.cwd(), ".amalfa/pipeline-history.jsonl"));
+  if (!(await file.exists())) return c.json([]);
+  const text = await file.text();
+  // Parse JSONL
+  try {
+    const rows = text
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+    return c.json(rows.reverse()); // Newest first
+  } catch (_e) {
+    return c.json([]);
+  }
 });
 
 app.post("/api/run-all", async (c) => {
-	(async () => {
-		for (const step of STEPS) {
-			const s = state.get(step.id);
-			if (s) s.status = "idle"; // Reset status logic?
-		}
-		for (const step of STEPS) {
-			await runScript(step.id);
-			const s = state.get(step.id);
-			if (s?.status === "error") break;
-		}
-	})();
-	return c.json({ started: true });
+  (async () => {
+    for (const step of STEPS) {
+      const s = state.get(step.id);
+      if (s) s.status = "idle"; // Reset status logic?
+    }
+    for (const step of STEPS) {
+      await runScript(step.id);
+      const s = state.get(step.id);
+      if (s?.status === "error") break;
+    }
+  })();
+  return c.json({ started: true });
 });
 
 // Start
 export default {
-	port: 3014,
-	fetch: app.fetch,
+  port: 3014,
+  fetch: app.fetch,
 };

@@ -11,64 +11,64 @@ import { Embedder } from "@src/resonance/services/embedder";
  * Reference: playbooks/embeddings-and-fafcas-protocol-playbook.md
  */
 describe("FAFCAS Protocol Compliance", () => {
-	test("Embedder returns normalized vectors (L2 norm ≈ 1.0)", async () => {
-		const embedder = Embedder.getInstance();
-		const text = "The FAFCAS protocol ensures all vectors are normalized.";
+  test("Embedder returns normalized vectors (L2 norm ≈ 1.0)", async () => {
+    const embedder = Embedder.getInstance();
+    const text = "The FAFCAS protocol ensures all vectors are normalized.";
 
-		const embedding = await embedder.embed(text);
+    const embedding = await embedder.embed(text);
 
-		// Calculate L2 norm (magnitude)
-		let sumSquares = 0;
-		for (let i = 0; i < embedding.length; i++) {
-			sumSquares += (embedding[i] ?? 0) * (embedding[i] ?? 0);
-		}
-		const magnitude = Math.sqrt(sumSquares);
+    // Calculate L2 norm (magnitude)
+    let sumSquares = 0;
+    for (let i = 0; i < embedding.length; i++) {
+      sumSquares += (embedding[i] ?? 0) * (embedding[i] ?? 0);
+    }
+    const magnitude = Math.sqrt(sumSquares);
 
-		// FAFCAS requirement: L2 norm must be 1.0 (unit vector)
-		// Allow small floating point error (1e-6)
-		expect(magnitude).toBeCloseTo(1.0, 6);
-	});
+    // FAFCAS requirement: L2 norm must be 1.0 (unit vector)
+    // Allow small floating point error (1e-6)
+    expect(magnitude).toBeCloseTo(1.0, 6);
+  });
 
-	test("Embeddings are idempotent (same text → same vector)", async () => {
-		const embedder = Embedder.getInstance();
-		const text = "Consistency is key to the FAFCAS protocol.";
+  test("Embeddings are idempotent (same text → same vector)", async () => {
+    const embedder = Embedder.getInstance();
+    const text = "Consistency is key to the FAFCAS protocol.";
 
-		const embedding1 = await embedder.embed(text);
-		const embedding2 = await embedder.embed(text);
+    const embedding1 = await embedder.embed(text);
+    const embedding2 = await embedder.embed(text);
 
-		// Verify same length
-		expect(embedding1.length).toBe(embedding2.length);
+    // Verify same length
+    expect(embedding1.length).toBe(embedding2.length);
 
-		// Verify same values (within floating point precision)
-		for (let i = 0; i < embedding1.length; i++) {
-			expect(embedding1[i]).toBeCloseTo(embedding2[i] ?? 0, 6);
-		}
-	});
+    // Verify same values (within floating point precision)
+    for (let i = 0; i < embedding1.length; i++) {
+      expect(embedding1[i]).toBeCloseTo(embedding2[i] ?? 0, 6);
+    }
+  });
 
-	test("Zero-length input produces normalized output", async () => {
-		const embedder = Embedder.getInstance();
-		const text = "a"; // Minimal valid input
+  test("Zero-length input produces normalized output", async () => {
+    const embedder = Embedder.getInstance();
+    const text = "a"; // Minimal valid input
 
-		const embedding = await embedder.embed(text);
+    const embedding = await embedder.embed(text);
 
-		// Calculate magnitude
-		let sumSquares = 0;
-		for (let i = 0; i < embedding.length; i++) {
-			sumSquares += (embedding[i] ?? 0) * (embedding[i] ?? 0);
-		}
-		const magnitude = Math.sqrt(sumSquares);
+    // Calculate magnitude
+    let sumSquares = 0;
+    for (let i = 0; i < embedding.length; i++) {
+      sumSquares += (embedding[i] ?? 0) * (embedding[i] ?? 0);
+    }
+    const magnitude = Math.sqrt(sumSquares);
 
-		// Even minimal input should produce normalized vector
-		expect(magnitude).toBeCloseTo(1.0, 6);
-	});
+    // Even minimal input should produce normalized vector
+    expect(magnitude).toBeCloseTo(1.0, 6);
+  });
 
-	test("Embedding dimensions match expected model output", async () => {
-		const embedder = Embedder.getInstance();
-		const text = "Test dimensionality.";
+  test("Embedding dimensions match expected model output", async () => {
+    const embedder = Embedder.getInstance();
+    const text = "Test dimensionality.";
 
-		const embedding = await embedder.embed(text);
+    const embedding = await embedder.embed(text);
 
-		// AllMiniLML6V2 produces 384-dimensional embeddings
-		expect(embedding.length).toBe(384);
-	});
+    // AllMiniLML6V2 produces 384-dimensional embeddings
+    expect(embedding.length).toBe(384);
+  });
 });

@@ -1,12 +1,12 @@
 {
-	"overrides": [
-		{
-			"include": ["*.md"],
-			"formatter": { "enabled": true },
-			"linter": {
-				"enabled": true,
-				"rules": { "recommended": true }
-			}
-		}
-	]
+  "overrides": [
+    {
+      "include": ["*.md"],
+      "formatter": { "enabled": true },
+      "linter": {
+        "enabled": true,
+        "rules": { "recommended": true }
+      }
+    }
+  ]
 }

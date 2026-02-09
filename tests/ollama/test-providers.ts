@@ -15,25 +15,25 @@ import { resolve } from "node:path";
 import { $ } from "bun";
 
 interface TestResult {
-	provider: string;
-	model: string;
-	success: boolean;
-	latency: number;
-	error?: string;
-	quality?: {
-		entities: number;
-		relationships: number;
-	};
-	result?: {
-		entities: Array<{ name: string; type: string; description?: string }>;
-		relationships: Array<{
-			source: string;
-			target: string;
-			type: string;
-			description?: string;
-		}>;
-	};
-	raw_output?: string;
+  provider: string;
+  model: string;
+  success: boolean;
+  latency: number;
+  error?: string;
+  quality?: {
+    entities: number;
+    relationships: number;
+  };
+  result?: {
+    entities: Array<{ name: string; type: string; description?: string }>;
+    relationships: Array<{
+      source: string;
+      target: string;
+      type: string;
+      description?: string;
+    }>;
+  };
+  raw_output?: string;
 }
 
 const TEST_TEXT = `
@@ -63,241 +63,241 @@ Text to analyze:`;
  * Save result to JSONL file
  */
 function saveResult(result: TestResult) {
-	const line = `${JSON.stringify(result)}\n`;
-	appendFileSync(RESULTS_FILE, line);
-	console.log(`💾 Saved result to: ${RESULTS_FILE}`);
+  const line = `${JSON.stringify(result)}\n`;
+  appendFileSync(RESULTS_FILE, line);
+  console.log(`💾 Saved result to: ${RESULTS_FILE}`);
 }
 
 /**
  * Test local Ollama with available models
  */
 async function testLocalOllama(): Promise<TestResult[]> {
-	console.log("\n🔍 Testing Local Ollama...");
+  console.log("\n🔍 Testing Local Ollama...");
 
-	// Get available models
-	const listResult = await $`ollama list`.quiet();
-	if (listResult.exitCode !== 0) {
-		console.log("❌ Local Ollama not available");
-		return [];
-	}
+  // Get available models
+  const listResult = await $`ollama list`.quiet();
+  if (listResult.exitCode !== 0) {
+    console.log("❌ Local Ollama not available");
+    return [];
+  }
 
-	const lines = listResult.stdout.toString().trim().split("\n");
-	const models = lines
-		.slice(1)
-		.map((line) => line.split(/\s+/)[0])
-		.filter(Boolean);
+  const lines = listResult.stdout.toString().trim().split("\n");
+  const models = lines
+    .slice(1)
+    .map((line) => line.split(/\s+/)[0])
+    .filter(Boolean);
 
-	console.log(`📦 Found ${models.length} local model(s): ${models.join(", ")}`);
+  console.log(`📦 Found ${models.length} local model(s): ${models.join(", ")}`);
 
-	// Test each model
-	const results: TestResult[] = [];
+  // Test each model
+  const results: TestResult[] = [];
 
-	for (const model of models) {
-		console.log(`\n🧪 Testing model: ${model}`);
+  for (const model of models) {
+    console.log(`\n🧪 Testing model: ${model}`);
 
-		try {
-			const start = Date.now();
+    try {
+      const start = Date.now();
 
-			const response =
-				await $`curl -s http://localhost:11434/api/chat -X POST -H "Content-Type: application/json" -d '{
+      const response =
+        await $`curl -s http://localhost:11434/api/chat -X POST -H "Content-Type: application/json" -d '{
         "model": "${model}",
         "messages": [{"role": "user", "content": "${LANGEXTRACT_PROMPT} ${TEST_TEXT}"}],
         "stream": false,
         "format": "json"
       }'`.quiet();
 
-			const latency = Date.now() - start;
+      const latency = Date.now() - start;
 
-			if (response.exitCode !== 0) {
-				console.log(`❌ Failed: ${response.stderr.toString()}`);
-				results.push({
-					provider: "local",
-					model,
-					success: false,
-					latency,
-					error: response.stderr.toString(),
-				});
-				continue;
-			}
+      if (response.exitCode !== 0) {
+        console.log(`❌ Failed: ${response.stderr.toString()}`);
+        results.push({
+          provider: "local",
+          model,
+          success: false,
+          latency,
+          error: response.stderr.toString(),
+        });
+        continue;
+      }
 
-			const result = JSON.parse(response.stdout.toString());
-			let content = result.message?.content || "";
+      const result = JSON.parse(response.stdout.toString());
+      let content = result.message?.content || "";
 
-			// Clean up markdown code blocks if present
-			content = content.trim();
-			if (content.startsWith("```json")) {
-				content = content.replace("```json", "").replace("```", "").trim();
-			}
+      // Clean up markdown code blocks if present
+      content = content.trim();
+      if (content.startsWith("```json")) {
+        content = content.replace("```json", "").replace("```", "").trim();
+      }
 
-			// Try to parse as JSON to validate structure
-			let parsedContent: any;
-			try {
-				parsedContent = JSON.parse(content);
-			} catch {
-				parsedContent = null;
-			}
+      // Try to parse as JSON to validate structure
+      let parsedContent: any;
+      try {
+        parsedContent = JSON.parse(content);
+      } catch {
+        parsedContent = null;
+      }
 
-			// Parse quality metrics
-			const entityMatches = parsedContent?.entities?.length || 0;
-			const relationshipMatches = parsedContent?.relationships?.length || 0;
+      // Parse quality metrics
+      const entityMatches = parsedContent?.entities?.length || 0;
+      const relationshipMatches = parsedContent?.relationships?.length || 0;
 
-			console.log(
-				`   Entities: ${entityMatches}, Relationships: ${relationshipMatches}`,
-			);
+      console.log(
+        `   Entities: ${entityMatches}, Relationships: ${relationshipMatches}`,
+      );
 
-			const testResult: TestResult = {
-				provider: "local",
-				model,
-				success: true,
-				latency,
-				quality: {
-					entities: entityMatches,
-					relationships: relationshipMatches,
-				},
-				result: parsedContent,
-				raw_output: content,
-			};
+      const testResult: TestResult = {
+        provider: "local",
+        model,
+        success: true,
+        latency,
+        quality: {
+          entities: entityMatches,
+          relationships: relationshipMatches,
+        },
+        result: parsedContent,
+        raw_output: content,
+      };
 
-			results.push(testResult);
+      results.push(testResult);
 
-			// Save result if flag is set
-			if (process.argv.includes("--save")) {
-				saveResult({
-					...testResult,
-					timestamp: new Date().toISOString(),
-					test_id: `local-${model}-${Date.now()}`,
-					input_text: TEST_TEXT,
-					prompt: LANGEXTRACT_PROMPT,
-					metadata: {
-						input_length: TEST_TEXT.length,
-						entity_count: entityMatches,
-						relationship_count: relationshipMatches,
-						output_length: content.length,
-					},
-				});
-			}
-		} catch (error) {
-			console.log(`❌ Error: ${error}`);
-			results.push({
-				provider: "local",
-				model,
-				success: false,
-				latency: 0,
-				error: String(error),
-			});
-		}
-	}
+      // Save result if flag is set
+      if (process.argv.includes("--save")) {
+        saveResult({
+          ...testResult,
+          timestamp: new Date().toISOString(),
+          test_id: `local-${model}-${Date.now()}`,
+          input_text: TEST_TEXT,
+          prompt: LANGEXTRACT_PROMPT,
+          metadata: {
+            input_length: TEST_TEXT.length,
+            entity_count: entityMatches,
+            relationship_count: relationshipMatches,
+            output_length: content.length,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(`❌ Error: ${error}`);
+      results.push({
+        provider: "local",
+        model,
+        success: false,
+        latency: 0,
+        error: String(error),
+      });
+    }
+  }
 
-	return results;
+  return results;
 }
 
 /**
  * Print summary
  */
 function printSummary(results: TestResult[]) {
-	console.log(`\n${"=".repeat(60)}`);
-	console.log("📊 SUMMARY");
-	console.log("=".repeat(60));
+  console.log(`\n${"=".repeat(60)}`);
+  console.log("📊 SUMMARY");
+  console.log("=".repeat(60));
 
-	const successful = results.filter((r) => r.success);
-	const failed = results.filter((r) => !r.success);
+  const successful = results.filter((r) => r.success);
+  const failed = results.filter((r) => !r.success);
 
-	console.log(`\n✅ Successful: ${successful.length}/${results.length}`);
-	console.log(`❌ Failed: ${failed.length}/${results.length}`);
+  console.log(`\n✅ Successful: ${successful.length}/${results.length}`);
+  console.log(`❌ Failed: ${failed.length}/${results.length}`);
 
-	if (successful.length > 0) {
-		console.log("\n🏆 Best Performers:");
+  if (successful.length > 0) {
+    console.log("\n🏆 Best Performers:");
 
-		// Sort by latency
-		const byLatency = [...successful].sort((a, b) => a.latency - b.latency);
-		console.log(
-			`   Fastest: ${byLatency[0].provider}/${byLatency[0].model} (${byLatency[0].latency}ms)`,
-		);
+    // Sort by latency
+    const byLatency = [...successful].sort((a, b) => a.latency - b.latency);
+    console.log(
+      `   Fastest: ${byLatency[0].provider}/${byLatency[0].model} (${byLatency[0].latency}ms)`,
+    );
 
-		// Sort by quality (entities + relationships)
-		const byQuality = [...successful].sort((a, b) => {
-			const aScore =
-				(a.quality?.entities || 0) + (a.quality?.relationships || 0);
-			const bScore =
-				(b.quality?.entities || 0) + (b.quality?.relationships || 0);
-			return bScore - aScore;
-		});
+    // Sort by quality (entities + relationships)
+    const byQuality = [...successful].sort((a, b) => {
+      const aScore =
+        (a.quality?.entities || 0) + (a.quality?.relationships || 0);
+      const bScore =
+        (b.quality?.entities || 0) + (b.quality?.relationships || 0);
+      return bScore - aScore;
+    });
 
-		if (byQuality[0].quality) {
-			console.log(
-				`   Best Quality: ${byQuality[0].provider}/${byQuality[0].model} (${byQuality[0].quality.entities} entities, ${byQuality[0].quality.relationships} relationships)`,
-			);
-		}
-	}
+    if (byQuality[0].quality) {
+      console.log(
+        `   Best Quality: ${byQuality[0].provider}/${byQuality[0].model} (${byQuality[0].quality.entities} entities, ${byQuality[0].quality.relationships} relationships)`,
+      );
+    }
+  }
 
-	if (failed.length > 0) {
-		console.log("\n❌ Failed Tests:");
-		failed.forEach((f) => {
-			console.log(`   ${f.provider}/${f.model}: ${f.error || "Unknown error"}`);
-		});
-	}
+  if (failed.length > 0) {
+    console.log("\n❌ Failed Tests:");
+    failed.forEach((f) => {
+      console.log(`   ${f.provider}/${f.model}: ${f.error || "Unknown error"}`);
+    });
+  }
 
-	// Recommendation
-	console.log("\n💡 RECOMMENDATION:");
+  // Recommendation
+  console.log("\n💡 RECOMMENDATION:");
 
-	if (successful.length === 0) {
-		console.log("   No working providers found. Check configuration.");
-	} else if (successful.some((r) => r.provider === "local")) {
-		const bestLocal = successful
-			.filter((r) => r.provider === "local")
-			.sort((a, b) => a.latency - b.latency)[0];
-		console.log(`   Use LOCAL Ollama with model: ${bestLocal.model}`);
-		console.log(`   Set in config: langExtract.provider = "ollama"`);
-		console.log(
-			`   Set in config: langExtract.ollama.model = "${bestLocal.model}"`,
-		);
-	} else if (successful.some((r) => r.provider === "cloud")) {
-		const bestCloud = successful
-			.filter((r) => r.provider === "cloud")
-			.sort((a, b) => a.latency - b.latency)[0];
-		console.log(`   Use CLOUD Ollama with model: ${bestCloud.model}`);
-		console.log(`   Set in config: langExtract.provider = "ollama_cloud"`);
-		console.log(
-			`   Set in config: langExtract.ollama_cloud.host = "YOUR_CLOUD_HOST"`,
-		);
-		console.log(
-			`   Set in config: langExtract.ollama_cloud.model = "${bestCloud.model}"`,
-		);
-	}
+  if (successful.length === 0) {
+    console.log("   No working providers found. Check configuration.");
+  } else if (successful.some((r) => r.provider === "local")) {
+    const bestLocal = successful
+      .filter((r) => r.provider === "local")
+      .sort((a, b) => a.latency - b.latency)[0];
+    console.log(`   Use LOCAL Ollama with model: ${bestLocal.model}`);
+    console.log(`   Set in config: langExtract.provider = "ollama"`);
+    console.log(
+      `   Set in config: langExtract.ollama.model = "${bestLocal.model}"`,
+    );
+  } else if (successful.some((r) => r.provider === "cloud")) {
+    const bestCloud = successful
+      .filter((r) => r.provider === "cloud")
+      .sort((a, b) => a.latency - b.latency)[0];
+    console.log(`   Use CLOUD Ollama with model: ${bestCloud.model}`);
+    console.log(`   Set in config: langExtract.provider = "ollama_cloud"`);
+    console.log(
+      `   Set in config: langExtract.ollama_cloud.host = "YOUR_CLOUD_HOST"`,
+    );
+    console.log(
+      `   Set in config: langExtract.ollama_cloud.model = "${bestCloud.model}"`,
+    );
+  }
 }
 
 /**
  * Main test runner
  */
 async function main() {
-	console.log("🧪 Ollama Provider Test Script");
-	console.log("Testing local and cloud options for LangExtract");
+  console.log("🧪 Ollama Provider Test Script");
+  console.log("Testing local and cloud options for LangExtract");
 
-	if (process.argv.includes("--save")) {
-		console.log("💾 Results will be saved to:", RESULTS_FILE);
-		// Ensure results directory exists
-		const resultsDir = resolve("tests/langextract-results");
-		if (!existsSync(resultsDir)) {
-			console.log("📁 Creating results directory:", resultsDir);
-			// Directory will be created by writeFileSync/appendFileSync
-		}
-	}
+  if (process.argv.includes("--save")) {
+    console.log("💾 Results will be saved to:", RESULTS_FILE);
+    // Ensure results directory exists
+    const resultsDir = resolve("tests/langextract-results");
+    if (!existsSync(resultsDir)) {
+      console.log("📁 Creating results directory:", resultsDir);
+      // Directory will be created by writeFileSync/appendFileSync
+    }
+  }
 
-	const allResults: TestResult[] = [];
+  const allResults: TestResult[] = [];
 
-	// Test local
-	const localResults = await testLocalOllama();
-	allResults.push(...localResults);
+  // Test local
+  const localResults = await testLocalOllama();
+  allResults.push(...localResults);
 
-	// Print summary
-	printSummary(allResults);
+  // Print summary
+  printSummary(allResults);
 
-	if (process.argv.includes("--save")) {
-		console.log(`\n✅ Results saved to: ${RESULTS_FILE}`);
-		console.log(
-			`📊 Compare results with: bun run tests/langextract-results/compare-models.ts`,
-		);
-	}
+  if (process.argv.includes("--save")) {
+    console.log(`\n✅ Results saved to: ${RESULTS_FILE}`);
+    console.log(
+      `📊 Compare results with: bun run tests/langextract-results/compare-models.ts`,
+    );
+  }
 }
 
 // Run

@@ -5,19 +5,19 @@ import { join } from "node:path";
 let DB_PATH: string | null = null;
 
 export async function getDbPath(): Promise<string> {
-	if (DB_PATH) return DB_PATH;
+  if (DB_PATH) return DB_PATH;
 
-	// Load from config
-	const { loadConfig } = await import("@src/config/defaults");
-	const config = await loadConfig();
-	DB_PATH = join(process.cwd(), config.database);
-	return DB_PATH;
+  // Load from config
+  const { loadConfig } = await import("@src/config/defaults");
+  const config = await loadConfig();
+  DB_PATH = join(process.cwd(), config.database);
+  return DB_PATH;
 }
 
 export async function checkDatabase(): Promise<boolean> {
-	const dbPath = await getDbPath();
-	if (!existsSync(dbPath)) {
-		console.error(`
+  const dbPath = await getDbPath();
+  if (!existsSync(dbPath)) {
+    console.error(`
 ❌ Database not found at: ${dbPath}
    (CWD: ${process.cwd()})
 
@@ -25,7 +25,7 @@ To initialize AMALFA:
 1. Create markdown files in ./docs/ (or your preferred location)
 2. Run: amalfa init
 `);
-		return false;
-	}
-	return true;
+    return false;
+  }
+  return true;
 }

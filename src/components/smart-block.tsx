@@ -1,16 +1,12 @@
-/** @jsx jsx */
-import { jsx } from 'hono/jsx';
-
-export const SmartBlock = ({ content, hash, size = 'std', title }: any) => {
+export const SmartBlock = ({ content, hash, size = "std" }: any) => {
   const id = `block_${hash}`;
-  const width = size === 'long' ? '60ch' : '40ch';
-  
+  const width = size === "long" ? "60ch" : "40ch";
+
   return (
-    <article 
-      id={id} 
+    <article
+      id={id}
       data-component="block"
       data-size={size}
-      role="region"
       aria-labelledby={`${id}_label`}
       class="bg-bg border border-border antialiased"
     >
@@ -32,10 +28,10 @@ export const SmartBlock = ({ content, hash, size = 'std', title }: any) => {
         <span>REF::{id}</span>
       </header>
 
-      <div 
-        role="document" 
+      <div
+        role="document"
         class="markdown-body"
-        dangerouslySetInnerHTML={{ __html: Bun.Markdown.render(content) }} 
+        dangerouslySetInnerHTML={{ __html: Bun.Markdown.render(content) }}
       />
     </article>
   );
@@ -43,12 +39,12 @@ export const SmartBlock = ({ content, hash, size = 'std', title }: any) => {
 
 export const Collapsible = ({ title, children, hash, open = false }: any) => {
   const id = `coll_${hash}`;
-  
+
   return (
-    <details 
-      id={id} 
-      open={open} 
-      data-component="collapsible" 
+    <details
+      id={id}
+      open={open}
+      data-component="collapsible"
       class="border border-border"
     >
       <style>{`
@@ -69,13 +65,11 @@ export const Collapsible = ({ title, children, hash, open = false }: any) => {
         }
       `}</style>
 
-      <summary role="button" aria-expanded={open ? "true" : "false"}>
-        <span class="opacity-50 font-mono">{open ? '[-]' : '[+]'}</span> {title}
+      <summary>
+        <span class="opacity-50 font-mono">{open ? "[-]" : "[+]"}</span> {title}
       </summary>
-      
-      <section role="region">
-        {children}
-      </section>
+
+      <section>{children}</section>
     </details>
   );
 };

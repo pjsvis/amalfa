@@ -1,5 +1,4 @@
 import "hono";
-import type * as bun from "bun";
 
 declare module "hono/jsx" {
   namespace JSX {

@@ -1,21 +1,21 @@
 {
-	"entities": [
-		{
-			"name": "LogService",
-			"type": "class",
-			"description": "Central logging service."
-		},
-		{
-			"name": "logError",
-			"type": "function",
-			"description": "Logs an error with stack trace."
-		}
-	],
-	"relationships": [
-		{
-			"source": "LogService",
-			"target": "logError",
-			"type": "CALLS"
-		}
-	]
+  "entities": [
+    {
+      "name": "LogService",
+      "type": "class",
+      "description": "Central logging service."
+    },
+    {
+      "name": "logError",
+      "type": "function",
+      "description": "Logs an error with stack trace."
+    }
+  ],
+  "relationships": [
+    {
+      "source": "LogService",
+      "target": "logError",
+      "type": "CALLS"
+    }
+  ]
 }

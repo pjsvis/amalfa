@@ -1,6 +1,3 @@
-/** @jsx jsx */
-import { jsx } from "hono/jsx";
-
 /**
  * THE REFINED SWITCH
  * Uses native <button> to satisfy Biome and inherit focus.
@@ -8,7 +5,7 @@ import { jsx } from "hono/jsx";
 export const ToggleSwitch = ({ id, label, persist = false }: any) => {
   const compId = `switch_${id}`;
   return (
-    <button 
+    <button
       type="button"
       id={compId}
       data-component="switch"
@@ -45,7 +42,12 @@ export const ToggleSwitch = ({ id, label, persist = false }: any) => {
         }
       `}</style>
       <span class="w-15ch font-bold uppercase text-xs text-left">{label}</span>
-      <div class="track" aria-hidden="true"><div class="thumb"></div></div>
+      <div
+        class="track"
+        aria-hidden="true"
+      >
+        <div class="thumb"></div>
+      </div>
     </button>
   );
 };
@@ -54,10 +56,16 @@ export const ToggleSwitch = ({ id, label, persist = false }: any) => {
  * THE REFINED DIAL
  * Buttons for steppers to ensure full keyboard/linter compliance.
  */
-export const NumericDial = ({ id, label, min=0, max=100, step=5 }: any) => {
+export const NumericDial = ({
+  id,
+  label,
+  min = 0,
+  max = 100,
+  step = 5,
+}: any) => {
   const compId = `dial_${id}`;
   return (
-    <div 
+    <div
       id={compId}
       data-component="dial"
       data-value={min}
@@ -83,7 +91,7 @@ export const NumericDial = ({ id, label, min=0, max=100, step=5 }: any) => {
         #${compId} button:focus { outline: 1px solid var(--color-p-yellow); }
       `}</style>
       <span class="w-15ch font-bold uppercase text-xs">{label}</span>
-      <button 
+      <button
         type="button"
         onclick={`
           const p = this.parentElement;
@@ -91,9 +99,16 @@ export const NumericDial = ({ id, label, min=0, max=100, step=5 }: any) => {
           p.dataset.value = v;
           p.querySelector('.val-display').innerText = v;
         `}
-      >-</button>
-      <div class="val-display" aria-live="polite">{min}</div>
-      <button 
+      >
+        -
+      </button>
+      <div
+        class="val-display"
+        aria-live="polite"
+      >
+        {min}
+      </div>
+      <button
         type="button"
         onclick={`
           const p = this.parentElement;
@@ -101,7 +116,9 @@ export const NumericDial = ({ id, label, min=0, max=100, step=5 }: any) => {
           p.dataset.value = v;
           p.querySelector('.val-display').innerText = v;
         `}
-      >+</button>
+      >
+        +
+      </button>
     </div>
   );
 };

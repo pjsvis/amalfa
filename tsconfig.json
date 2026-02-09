@@ -1,46 +1,46 @@
 {
-	"compilerOptions": {
-		// Environment setup & latest features
-		"lib": ["ESNext", "DOM"],
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleDetection": "force",
-		"jsx": "react-jsx",
-		"jsxImportSource": "hono/jsx",
-		"allowJs": true,
-		"types": ["bun"],
-		// Bundler mode
-		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": true,
-		"verbatimModuleSyntax": true,
-		"noEmit": true,
-		// Best practices
-		"strict": true,
-		"skipLibCheck": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true,
-		"noImplicitOverride": true,
-		// Some stricter flags (disabled by default)
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"noPropertyAccessFromIndexSignature": false,
-		// Paths for alias resolution (baseUrl deprecated in TS 6.0)
-		"paths": {
-			"@src/*": ["./src/*"],
-			"@scripts/*": ["./scripts/*"],
-			"@resonance/*": ["./src/resonance/*"],
-			"@/*": ["./*"]
-		}
-	},
-	"exclude": [
-		"public/docs",
-		"docs/webdocs",
-		"node_modules",
-		"dist",
-		".resonance",
-		"briefs",
-		"examples",
-		"experiments",
-		"scripts"
-	]
+  "compilerOptions": {
+    // Environment setup & latest features
+    "lib": ["ESNext", "DOM"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "allowJs": true,
+    "types": ["bun"],
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    // Best practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false,
+    // Paths for alias resolution (baseUrl deprecated in TS 6.0)
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@scripts/*": ["./scripts/*"],
+      "@resonance/*": ["./src/resonance/*"],
+      "@/*": ["./*"]
+    }
+  },
+  "exclude": [
+    "public/docs",
+    "docs/webdocs",
+    "node_modules",
+    "dist",
+    ".resonance",
+    "briefs",
+    "examples",
+    "experiments",
+    "scripts"
+  ]
 }

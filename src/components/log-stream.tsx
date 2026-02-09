@@ -1,45 +1,42 @@
-import { Suspense } from "hono/jsx";
-import { PipelineRow, StatCard } from "./data-display";
-
 // --- THE PROTOCOL ---
 // This is the JSON shape your backend script must output
 export type StreamMessage =
-	| {
-			type: "log";
-			level: "info" | "warn" | "error";
-			message: string;
-			timestamp: string;
-	  }
-	| {
-			type: "stat";
-			label: string;
-			value: string | number;
-			trend?: "up" | "down";
-	  }
-	| {
-			type: "pipeline";
-			name: string;
-			status: "idle" | "active" | "error";
-			metric: string;
-	  };
+  | {
+      type: "log";
+      level: "info" | "warn" | "error";
+      message: string;
+      timestamp: string;
+    }
+  | {
+      type: "stat";
+      label: string;
+      value: string | number;
+      trend?: "up" | "down";
+    }
+  | {
+      type: "pipeline";
+      name: string;
+      status: "idle" | "active" | "error";
+      metric: string;
+    };
 
 // --- THE COMPONENT ---
 interface LogStreamProps {
-	streamUrl: string; // The API endpoint emitting JSONL
+  streamUrl: string; // The API endpoint emitting JSONL
 }
 
 export const LogStream = ({ streamUrl }: LogStreamProps) => {
-	return (
-		<div className="font-mono text-sm space-y-2 p-4 bg-black min-h-[50vh] border border-gray-800 rounded-sm">
-			<div className="text-gray-500 mb-4 border-b border-gray-800 pb-2 flex justify-between">
-				<span> CONNECTING TO STREAM: {streamUrl}</span>
-				<span className="animate-pulse text-green-500">● LIVE</span>
-			</div>
+  return (
+    <div className="font-mono text-sm space-y-2 p-4 bg-black min-h-[50vh] border border-gray-800 rounded-sm">
+      <div className="text-gray-500 mb-4 border-b border-gray-800 pb-2 flex justify-between">
+        <span> CONNECTING TO STREAM: {streamUrl}</span>
+        <span className="animate-pulse text-green-500">● LIVE</span>
+      </div>
 
-			{/* The Magic: Client-side EventSource to consume the stream */}
-			<script
-				dangerouslySetInnerHTML={{
-					__html: `
+      {/* The Magic: Client-side EventSource to consume the stream */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
         (async () => {
           const container = document.currentScript.parentElement;
           const decoder = new TextDecoder();
@@ -103,8 +100,8 @@ export const LogStream = ({ streamUrl }: LogStreamProps) => {
           }
         })();
       `,
-				}}
-			/>
-		</div>
-	);
+        }}
+      />
+    </div>
+  );
 };

@@ -8,21 +8,21 @@ import { z } from "zod";
 
 // Zod Schemas (same as LangExtractClient)
 const EntitySchema = z.object({
-	name: z.string(),
-	type: z.string(),
-	description: z.string().optional(),
+  name: z.string(),
+  type: z.string(),
+  description: z.string().optional(),
 });
 
 const RelationshipSchema = z.object({
-	source: z.string(),
-	target: z.string(),
-	type: z.string(),
-	description: z.string().optional(),
+  source: z.string(),
+  target: z.string(),
+  type: z.string(),
+  description: z.string().optional(),
 });
 
 const GraphDataSchema = z.object({
-	entities: z.array(EntitySchema),
-	relationships: z.array(RelationshipSchema),
+  entities: z.array(EntitySchema),
+  relationships: z.array(RelationshipSchema),
 });
 
 // This is the exact JSON string returned by the substrate
@@ -139,14 +139,14 @@ console.log("");
 console.log("Step 1: Parsing JSON string...");
 let parsed: unknown;
 try {
-	parsed = JSON.parse(SUBSTRATE_RESPONSE);
-	console.log("✅ JSON parsed successfully");
-	console.log(`   Type: ${typeof parsed}`);
-	console.log(`   Keys: ${Object.keys(parsed as object).join(", ")}`);
-	console.log("");
+  parsed = JSON.parse(SUBSTRATE_RESPONSE);
+  console.log("✅ JSON parsed successfully");
+  console.log(`   Type: ${typeof parsed}`);
+  console.log(`   Keys: ${Object.keys(parsed as object).join(", ")}`);
+  console.log("");
 } catch (error) {
-	console.error("❌ JSON parsing failed:", error);
-	process.exit(1);
+  console.error("❌ JSON parsing failed:", error);
+  process.exit(1);
 }
 
 // Step 2: Check structure
@@ -158,32 +158,32 @@ console.log(`   entities type: ${typeof parsedObj.entities}`);
 console.log(`   relationships type: ${typeof parsedObj.relationships}`);
 console.log(`   entities is array: ${Array.isArray(parsedObj.entities)}`);
 console.log(
-	`   relationships is array: ${Array.isArray(parsedObj.relationships)}`,
+  `   relationships is array: ${Array.isArray(parsedObj.relationships)}`,
 );
 console.log("");
 
 // Step 3: Validate with Zod
 console.log("Step 3: Validating with Zod schema...");
 try {
-	const result = GraphDataSchema.parse(parsed);
-	console.log("✅ Zod validation passed");
-	console.log(`   Entities: ${result.entities.length}`);
-	console.log(`   Relationships: ${result.relationships.length}`);
-	console.log("");
+  const result = GraphDataSchema.parse(parsed);
+  console.log("✅ Zod validation passed");
+  console.log(`   Entities: ${result.entities.length}`);
+  console.log(`   Relationships: ${result.relationships.length}`);
+  console.log("");
 } catch (error) {
-	console.error("❌ Zod validation failed:");
-	if (error instanceof z.ZodError) {
-		console.error("   Errors:");
-		for (const issue of error.issues) {
-			console.error(`     - ${issue.path.join(".")}: ${issue.message}`);
-			console.error(
-				`       Expected: ${issue.expected}, Received: ${issue.received}`,
-			);
-		}
-	} else {
-		console.error("   ", error);
-	}
-	process.exit(1);
+  console.error("❌ Zod validation failed:");
+  if (error instanceof z.ZodError) {
+    console.error("   Errors:");
+    for (const issue of error.issues) {
+      console.error(`     - ${issue.path.join(".")}: ${issue.message}`);
+      console.error(
+        `       Expected: ${issue.expected}, Received: ${issue.received}`,
+      );
+    }
+  } else {
+    console.error("   ", error);
+  }
+  process.exit(1);
 }
 
 console.log("✅ All tests passed!");
