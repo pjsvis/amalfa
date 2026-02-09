@@ -1,9 +1,18 @@
 import "hono";
+import type * as bun from "bun";
 
 declare module "hono/jsx" {
-	namespace JSX {
-		interface IntrinsicElements {
-			[elemName: string]: any;
-		}
-	}
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any;
+    }
+  }
+}
+
+declare module "bun" {
+  export interface Markdown {
+    render(markdown: string): string;
+  }
+
+  export const Markdown: Markdown;
 }

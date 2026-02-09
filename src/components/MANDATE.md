@@ -1,7 +1,3 @@
-This `COMPLIANCE.md` is the final governor for the system. It is designed to be the first file an AI Agent reads before touching the codebase. It codifies the "Brutalisimo" philosophy into a set of non-negotiable laws that prevent the "bull in a china shop" effect by replacing creative freedom with structural necessity.
-
----
-
 # 🛡️ BRUTALISIMO COMPLIANCE: RULES OF ENGAGEMENT
 
 ## 1. THE DATA BOUNCER (LOGIC)
@@ -41,9 +37,3 @@ We do not use "Class Soup." We style based on the identity of the data.
 ### AGENT INSTRUCTION: THE "CHINA SHOP" CLAUSE
 
 > If you find yourself writing a complex JavaScript function to handle a visual toggle, you have failed. Use the native `<details>` and `<summary>` disclosure pattern instead. If you are tempted to use a percentage for width, you are in the wrong coordinate system. Revert to `ch`.
-
----
-
-### Next Step
-
-With the **Compliance Bouncer** now in place, your engine is fully guarded against regression. Would you like me to generate the **`uno.config.ts`** equivalent for **Tailwind v4** (the `tailwind.css` theme block) that enforces these OKLCH and unit variables as the global system defaults?

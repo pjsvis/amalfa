@@ -8,7 +8,7 @@ app.get("/stream/system-check", (c) => {
 	return streamText(c, async (stream) => {
 		// Helper to send JSONL
 		const send = async (data: any) => {
-			await stream.write(JSON.stringify(data) + "\n");
+			await stream.write(`${JSON.stringify(data)}\n`);
 		};
 
 		// 1. Log Start
