@@ -2,6 +2,7 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { getDbPath } from "@src/cli/utils";
 import { AMALFA_DIRS } from "@src/config/defaults";
+import { telemetry } from "@src/services/PipelineTelemetry";
 import { JsonlUtils } from "@src/utils/JsonlUtils";
 import { getLogger } from "@src/utils/Logger";
 import { Glob } from "bun";
@@ -214,6 +215,29 @@ export class DashboardDaemon {
             await stream.writeSSE({
               event: "datastar-merge-fragments",
               data: `selector #harvest-errors\n<span id="harvest-errors" class="status-stopped">${harvestSize.skipped.errors}</span>`,
+            });
+
+            // 4.5 Pipeline Telemetry
+            const pipelineStats = telemetry.getStats();
+            const pipelineHtml = Object.entries(pipelineStats)
+              .map(([name, s]) => {
+                const color =
+                  s.status === "active"
+                    ? "status-running"
+                    : s.status === "error"
+                      ? "status-stopped"
+                      : "dim";
+                return `
+                <div class="pipeline-row" style="display: flex; justify-content: space-between; margin-bottom: 0.5ch; font-size: 11px;">
+                    <span>${name.toUpperCase()}</span>
+                    <span class="${color}">${s.metric} (${s.status.toUpperCase()})</span>
+                </div>`;
+              })
+              .join("");
+
+            await stream.writeSSE({
+              event: "datastar-merge-fragments",
+              data: `selector #pipeline-stats\n<div id="pipeline-stats">${pipelineHtml}</div>`,
             });
 
             // 5. Footer Timestamp
