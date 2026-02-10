@@ -408,7 +408,7 @@ export class ResonanceDB {
   ) {
     try {
       this.db.run(
-        `INSERT INTO history (entity_type, entity_id, action, old_value, new_value) VALUES (?, ?, ?, ?, ?)`,
+        "INSERT INTO history (entity_type, entity_id, action, old_value, new_value) VALUES (?, ?, ?, ?, ?)",
         [
           type,
           id,
@@ -418,6 +418,15 @@ export class ResonanceDB {
         ],
       );
     } catch (_e) {}
+  }
+
+  /**
+   * Fetch all edges originating from a specific node
+   */
+  getEdges(nodeId: string): { source: string; target: string; type: string }[] {
+    return this.db
+      .query("SELECT source, target, type FROM edges WHERE source = ?")
+      .all(nodeId) as { source: string; target: string; type: string }[];
   }
 }
 
