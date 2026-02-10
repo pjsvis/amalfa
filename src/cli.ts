@@ -30,6 +30,7 @@ import { cmdSsrDocs } from "./cli/commands/ssr-docs";
 import { cmdDashboard } from "./cli/commands/dashboard";
 import { cmdStats } from "./cli/commands/stats";
 import { cmdValidate } from "./cli/commands/validate";
+import { cmdVerify } from "./cli/commands/verify";
 
 const VERSION = pkg.version;
 
@@ -72,6 +73,7 @@ Commands:
   inject-tags <path> Add metadata tags to markdown file <tag1> [tag2...] [--json]
   stats              Show database statistics
   validate           Validate database health (pre-publish gate)
+  verify             Run end-to-end round-trip verification
   doctor             Check installation and configuration
   setup-mcp          Generate MCP configuration JSON
   setup-python       Initialize Python sidecar environment
@@ -167,6 +169,10 @@ async function main() {
 
     case "validate":
       await cmdValidate(args);
+      break;
+
+    case "verify":
+      await cmdVerify(args);
       break;
 
     case "init":
