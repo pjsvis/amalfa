@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRUTAL_SUBSTRATE_V1</title>
+  <style>
+    :root {
+      --color-bg: oklch(0.14 0.01 250);
+      --color-fg: oklch(0.88 0.01 250);
+      --color-border: oklch(0.32 0.01 250);
+      --color-p-blue: oklch(0.85 0.06 230);
+      --color-p-yellow: oklch(0.88 0.07 95);
+      --spacing-lh: 1.5rem;
+    }
+
+    /* Base Reset */
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-fg);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      margin: 0;
+      line-height: var(--spacing-lh);
+      overflow: hidden;
+    }
+
+    /* Core Layout Substrate */
+    [data-layout="shell"] {
+      display: grid;
+      grid-template-rows: var(--spacing-lh) 1fr var(--spacing-lh);
+      height: 100vh;
+    }
+
+    [data-layout="grid-main"] {
+      display: grid;
+      grid-template-columns: 45ch 1fr 45ch;
+      overflow: hidden;
+    }
+
+    /* Component Colocation Simulation */
+    [data-component="block"] {
+      border: 1px solid var(--color-border);
+      height: fit-content;
+      min-height: 0;
+      padding: 1ch;
+      margin-bottom: var(--spacing-lh);
+      overflow-y: auto;
+    }
+
+    .w-40ch { width: 40ch; }
+    .w-60ch { width: 60ch; }
+
+    [data-component="collapsible"] {
+      border: 1px solid var(--color-border);
+      margin-bottom: var(--spacing-lh);
+    }
+
+    summary {
+      background: var(--color-border);
+      color: var(--color-bg);
+      font-weight: bold;
+      padding: 0 1ch;
+      cursor: pointer;
+      list-style: none;
+    }
+  </style>
+</head>
+<body data-layout="shell">
+
+  <header style="border-bottom: 1px solid var(--color-border); padding: 0 2ch; display: flex; justify-content: space-between;">
+    <span style="color: var(--color-p-blue); font-weight: bold;">ENGINE_V1.0</span>
+    <nav style="display: flex; gap: 2ch;">
+      <a href="#" id="nav_01" style="color: var(--color-p-yellow); text-decoration: none;">[ DASHBOARD ]</a>
+      <a href="#" id="nav_02" style="color: var(--color-p-yellow); text-decoration: none;">[ SYSTEM_LOGS ]</a>
+    </nav>
+  </header>
+
+  <main data-layout="grid-main" role="main">
+    
+    <aside style="padding: 1ch; border-right: 1px solid var(--color-border); overflow-y: auto;">
+      <details id="coll_8f21" open data-component="collapsible">
+        <summary role="button" aria-expanded="true">METRICS_CORE</summary>
+        <div style="padding: 1ch;">
+          <pre>CPU: 12%<br>MEM: 4.2GB<br>THRU: 1.2M/s</pre>
+        </div>
+      </details>
+    </aside>
+
+    <section style="padding: 2ch; overflow-y: auto; display: flex; flex-direction: column; align-items: center;">
+      <article id="block_f922" data-component="block" class="w-60ch" role="region">
+        <h2 style="color: var(--color-p-blue); border-bottom: 1px solid rgba(50,50,50,0.4); margin-top: 0;">PRIMARY_DATA_STREAM</h2>
+        <p>This block is character-locked at 60ch. It uses fit-content to ensure physical integrity. No auto-sizing slack is permitted.</p>
+      </article>
+    </section>
+
+    <aside style="padding: 1ch; border-left: 1px solid var(--color-border); overflow-y: auto;">
+      <div id="block_e110" data-component="block" class="w-40ch">
+        <h3 style="color: var(--color-p-yellow); margin-top: 0;">EVENT_MONITOR</h3>
+        <p style="font-size: 0.8rem; opacity: 0.6;">[2026-02-07] Bouncer cleared 500 records.</p>
+      </div>
+    </aside>
+
+  </main>
+
+  <footer style="border-top: 1px solid var(--color-border); padding: 0 2ch; display: flex; justify-content: space-between; font-size: 0.7rem; opacity: 0.5;">
+    <span>ARIA_STATE: OPERATIONAL</span>
+    <span>ID_PREFIX_MODE: ACTIVE</span>
+  </footer>
+
+</body>
+</html>

@@ -1,159 +1,159 @@
 {
-	"targetFile": "src/core/GraphEngine.ts",
-	"generatedAt": "2026-01-28T15:30:42.323Z",
-	"confidence": 1,
-	"graphData": {
-		"entities": [
-			{
-				"name": "GraphEngine",
-				"type": "Class",
-				"description": "The main class managing in-memory graph operations, traversal, and analysis using Graphology."
-			},
-			{
-				"name": "Graphology",
-				"type": "Library",
-				"description": "The foundational JavaScript library providing core graph data structures and metrics."
-			},
-			{
-				"name": "MultiDirectedGraph",
-				"type": "Data Structure",
-				"description": "The specific graph representation used internally by GraphEngine, allowing multiple directed edges."
-			},
-			{
-				"name": "Database",
-				"type": "Technology",
-				"description": "SQLite database interface (from bun:sqlite) used for loading persistent graph data."
-			},
-			{
-				"name": "ResonanceDB",
-				"type": "System/Source",
-				"description": "The specific SQLite database referenced for loading the graph structure (hollow nodes)."
-			},
-			{
-				"name": "GraphNode",
-				"type": "Data Structure",
-				"description": "Interface defining the structure and attributes of nodes (id, type, title, domain, layer, date)."
-			},
-			{
-				"name": "GraphEdge",
-				"type": "Data Structure",
-				"description": "Interface defining the structure of edges (source, target, type)."
-			},
-			{
-				"name": "PageRank",
-				"type": "Algorithm/Metric",
-				"description": "Centrality metric used to quantify node authority."
-			},
-			{
-				"name": "Betweenness Centrality",
-				"type": "Algorithm/Metric",
-				"description": "Centrality metric quantifying a node's control over information flow."
-			},
-			{
-				"name": "Louvain Community Detection",
-				"type": "Algorithm",
-				"description": "Algorithm used by GraphEngine to group nodes into communities."
-			},
-			{
-				"name": "Adamic-Adar Index",
-				"type": "Algorithm/Metric",
-				"description": "Link prediction metric calculated based on shared neighbors and their degrees."
-			},
-			{
-				"name": "Shortest Path",
-				"type": "Algorithm",
-				"description": "Unweighted bidirectional search used for finding the path between two nodes."
-			},
-			{
-				"name": "Pillars",
-				"type": "Concept",
-				"description": "Nodes identified as authorities, primarily based on high PageRank score."
-			},
-			{
-				"name": "bun:sqlite",
-				"type": "Library",
-				"description": "Module providing SQLite database connectivity for loading."
-			}
-		],
-		"relationships": [
-			{
-				"source": "GraphEngine",
-				"target": "MultiDirectedGraph",
-				"type": "MANAGES_INTERNAL_STATE_AS",
-				"description": "GraphEngine encapsulates and manages the internal graph data using MultiDirectedGraph."
-			},
-			{
-				"source": "GraphEngine",
-				"target": "Database",
-				"type": "LOADS_DATA_FROM",
-				"description": "GraphEngine uses the Database object to query and load graph structure (nodes/edges)."
-			},
-			{
-				"source": "ResonanceDB",
-				"target": "Database",
-				"type": "IS_SOURCE_OF",
-				"description": "ResonanceDB is the specified origin for the graph data."
-			},
-			{
-				"source": "GraphEngine",
-				"target": "Louvain Community Detection",
-				"type": "RUNS",
-				"description": "GraphEngine implements the detectCommunities method using this algorithm."
-			},
-			{
-				"source": "GraphEngine",
-				"target": "PageRank",
-				"type": "CALCULATES",
-				"description": "GraphEngine provides functionality to compute PageRank centrality."
-			},
-			{
-				"source": "GraphEngine",
-				"target": "Adamic-Adar Index",
-				"type": "USES",
-				"description": "GraphEngine calculates the Adamic-Adar index to find structural candidates for new edges."
-			},
-			{
-				"source": "PageRank",
-				"target": "Pillars",
-				"type": "IDENTIFIES",
-				"description": "Pillar nodes are derived from the results of the PageRank calculation."
-			},
-			{
-				"source": "Graphology",
-				"target": "MultiDirectedGraph",
-				"type": "PROVIDES",
-				"description": "MultiDirectedGraph is the core class provided by the Graphology library."
-			},
-			{
-				"source": "Graphology",
-				"target": "PageRank",
-				"type": "SUPPORTS",
-				"description": "Graphology metrics utilities include the PageRank algorithm."
-			},
-			{
-				"source": "Graphology",
-				"target": "Shortest Path",
-				"type": "SUPPORTS",
-				"description": "Graphology traversal utilities provide the shortest path algorithm."
-			},
-			{
-				"source": "bun:sqlite",
-				"target": "Database",
-				"type": "DEFINES_TYPE",
-				"description": "The Database type is imported from the bun:sqlite module."
-			},
-			{
-				"source": "Database",
-				"target": "GraphNode",
-				"type": "STORES_AS",
-				"description": "The Database stores node records corresponding to the GraphNode interface."
-			}
-		]
-	},
-	"stats": {
-		"contentChars": 7830,
-		"elapsedMs": 15749,
-		"entityCount": 14,
-		"relationshipCount": 12
-	}
+  "targetFile": "src/core/GraphEngine.ts",
+  "generatedAt": "2026-01-28T15:30:42.323Z",
+  "confidence": 1,
+  "graphData": {
+    "entities": [
+      {
+        "name": "GraphEngine",
+        "type": "Class",
+        "description": "The main class managing in-memory graph operations, traversal, and analysis using Graphology."
+      },
+      {
+        "name": "Graphology",
+        "type": "Library",
+        "description": "The foundational JavaScript library providing core graph data structures and metrics."
+      },
+      {
+        "name": "MultiDirectedGraph",
+        "type": "Data Structure",
+        "description": "The specific graph representation used internally by GraphEngine, allowing multiple directed edges."
+      },
+      {
+        "name": "Database",
+        "type": "Technology",
+        "description": "SQLite database interface (from bun:sqlite) used for loading persistent graph data."
+      },
+      {
+        "name": "ResonanceDB",
+        "type": "System/Source",
+        "description": "The specific SQLite database referenced for loading the graph structure (hollow nodes)."
+      },
+      {
+        "name": "GraphNode",
+        "type": "Data Structure",
+        "description": "Interface defining the structure and attributes of nodes (id, type, title, domain, layer, date)."
+      },
+      {
+        "name": "GraphEdge",
+        "type": "Data Structure",
+        "description": "Interface defining the structure of edges (source, target, type)."
+      },
+      {
+        "name": "PageRank",
+        "type": "Algorithm/Metric",
+        "description": "Centrality metric used to quantify node authority."
+      },
+      {
+        "name": "Betweenness Centrality",
+        "type": "Algorithm/Metric",
+        "description": "Centrality metric quantifying a node's control over information flow."
+      },
+      {
+        "name": "Louvain Community Detection",
+        "type": "Algorithm",
+        "description": "Algorithm used by GraphEngine to group nodes into communities."
+      },
+      {
+        "name": "Adamic-Adar Index",
+        "type": "Algorithm/Metric",
+        "description": "Link prediction metric calculated based on shared neighbors and their degrees."
+      },
+      {
+        "name": "Shortest Path",
+        "type": "Algorithm",
+        "description": "Unweighted bidirectional search used for finding the path between two nodes."
+      },
+      {
+        "name": "Pillars",
+        "type": "Concept",
+        "description": "Nodes identified as authorities, primarily based on high PageRank score."
+      },
+      {
+        "name": "bun:sqlite",
+        "type": "Library",
+        "description": "Module providing SQLite database connectivity for loading."
+      }
+    ],
+    "relationships": [
+      {
+        "source": "GraphEngine",
+        "target": "MultiDirectedGraph",
+        "type": "MANAGES_INTERNAL_STATE_AS",
+        "description": "GraphEngine encapsulates and manages the internal graph data using MultiDirectedGraph."
+      },
+      {
+        "source": "GraphEngine",
+        "target": "Database",
+        "type": "LOADS_DATA_FROM",
+        "description": "GraphEngine uses the Database object to query and load graph structure (nodes/edges)."
+      },
+      {
+        "source": "ResonanceDB",
+        "target": "Database",
+        "type": "IS_SOURCE_OF",
+        "description": "ResonanceDB is the specified origin for the graph data."
+      },
+      {
+        "source": "GraphEngine",
+        "target": "Louvain Community Detection",
+        "type": "RUNS",
+        "description": "GraphEngine implements the detectCommunities method using this algorithm."
+      },
+      {
+        "source": "GraphEngine",
+        "target": "PageRank",
+        "type": "CALCULATES",
+        "description": "GraphEngine provides functionality to compute PageRank centrality."
+      },
+      {
+        "source": "GraphEngine",
+        "target": "Adamic-Adar Index",
+        "type": "USES",
+        "description": "GraphEngine calculates the Adamic-Adar index to find structural candidates for new edges."
+      },
+      {
+        "source": "PageRank",
+        "target": "Pillars",
+        "type": "IDENTIFIES",
+        "description": "Pillar nodes are derived from the results of the PageRank calculation."
+      },
+      {
+        "source": "Graphology",
+        "target": "MultiDirectedGraph",
+        "type": "PROVIDES",
+        "description": "MultiDirectedGraph is the core class provided by the Graphology library."
+      },
+      {
+        "source": "Graphology",
+        "target": "PageRank",
+        "type": "SUPPORTS",
+        "description": "Graphology metrics utilities include the PageRank algorithm."
+      },
+      {
+        "source": "Graphology",
+        "target": "Shortest Path",
+        "type": "SUPPORTS",
+        "description": "Graphology traversal utilities provide the shortest path algorithm."
+      },
+      {
+        "source": "bun:sqlite",
+        "target": "Database",
+        "type": "DEFINES_TYPE",
+        "description": "The Database type is imported from the bun:sqlite module."
+      },
+      {
+        "source": "Database",
+        "target": "GraphNode",
+        "type": "STORES_AS",
+        "description": "The Database stores node records corresponding to the GraphNode interface."
+      }
+    ]
+  },
+  "stats": {
+    "contentChars": 7830,
+    "elapsedMs": 15749,
+    "entityCount": 14,
+    "relationshipCount": 12
+  }
 }

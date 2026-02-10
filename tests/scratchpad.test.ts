@@ -14,152 +14,152 @@ const TEST_DIR = ".amalfa/cache/scratchpad";
  * a cryptic undefined access. See: playbooks/typescript-patterns-playbook.md
  */
 function extractId(reference: string): string {
-	const match = reference.match(/Scratchpad\.read\("([^"]+)"\)/);
-	if (!match?.[1])
-		throw new Error("Could not extract scratchpad ID from reference");
-	return match[1];
+  const match = reference.match(/Scratchpad\.read\("([^"]+)"\)/);
+  if (!match?.[1])
+    throw new Error("Could not extract scratchpad ID from reference");
+  return match[1];
 }
 
 describe("Scratchpad Protocol", () => {
-	let scratchpad: Scratchpad;
+  let scratchpad: Scratchpad;
 
-	beforeEach(() => {
-		if (existsSync(TEST_DIR)) {
-			rmSync(TEST_DIR, { recursive: true });
-		}
-		mkdirSync(TEST_DIR, { recursive: true });
-		scratchpad = new Scratchpad({
-			enabled: true,
-			thresholdBytes: 100,
-			maxAgeMs: 24 * 60 * 60 * 1000,
-			maxCacheSizeBytes: 50 * 1024 * 1024,
-			includePreview: true,
-			previewLength: 200,
-		});
-	});
+  beforeEach(() => {
+    if (existsSync(TEST_DIR)) {
+      rmSync(TEST_DIR, { recursive: true });
+    }
+    mkdirSync(TEST_DIR, { recursive: true });
+    scratchpad = new Scratchpad({
+      enabled: true,
+      thresholdBytes: 100,
+      maxAgeMs: 24 * 60 * 60 * 1000,
+      maxCacheSizeBytes: 50 * 1024 * 1024,
+      includePreview: true,
+      previewLength: 200,
+    });
+  });
 
-	afterEach(() => {
-		if (existsSync(TEST_DIR)) {
-			rmSync(TEST_DIR, { recursive: true });
-		}
-	});
+  afterEach(() => {
+    if (existsSync(TEST_DIR)) {
+      rmSync(TEST_DIR, { recursive: true });
+    }
+  });
 
-	test("maybeCache returns original content below threshold", () => {
-		const smallContent = "Hello world";
-		const result = scratchpad.maybeCache("test_tool", smallContent);
-		expect(result).toBe(smallContent);
-	});
+  test("maybeCache returns original content below threshold", () => {
+    const smallContent = "Hello world";
+    const result = scratchpad.maybeCache("test_tool", smallContent);
+    expect(result).toBe(smallContent);
+  });
 
-	test("maybeCache caches content above threshold and returns reference", () => {
-		const largeContent = "x".repeat(200);
-		const result = scratchpad.maybeCache("search_documents", largeContent);
+  test("maybeCache caches content above threshold and returns reference", () => {
+    const largeContent = "x".repeat(200);
+    const result = scratchpad.maybeCache("search_documents", largeContent);
 
-		expect(result).toContain("📁 Output cached:");
-		expect(result).toContain(".amalfa/cache/scratchpad/");
-		expect(result).toContain("Scratchpad.read(");
-	});
+    expect(result).toContain("📁 Output cached:");
+    expect(result).toContain(".amalfa/cache/scratchpad/");
+    expect(result).toContain("Scratchpad.read(");
+  });
 
-	test("cached content can be retrieved by ID", () => {
-		const largeContent = JSON.stringify({ data: "x".repeat(200) });
-		const reference = scratchpad.maybeCache("test_tool", largeContent);
+  test("cached content can be retrieved by ID", () => {
+    const largeContent = JSON.stringify({ data: "x".repeat(200) });
+    const reference = scratchpad.maybeCache("test_tool", largeContent);
 
-		const id = extractId(reference);
-		const entry = scratchpad.read(id);
+    const id = extractId(reference);
+    const entry = scratchpad.read(id);
 
-		expect(entry).not.toBeNull();
-		expect(entry?.content).toBe(largeContent);
-		expect(entry?.tool).toBe("test_tool");
-		expect(entry?.contentType).toBe("json");
-	});
+    expect(entry).not.toBeNull();
+    expect(entry?.content).toBe(largeContent);
+    expect(entry?.tool).toBe("test_tool");
+    expect(entry?.contentType).toBe("json");
+  });
 
-	test("readContent returns just the content string", () => {
-		const largeContent = "Large text content ".repeat(20);
-		const reference = scratchpad.maybeCache("test_tool", largeContent);
+  test("readContent returns just the content string", () => {
+    const largeContent = "Large text content ".repeat(20);
+    const reference = scratchpad.maybeCache("test_tool", largeContent);
 
-		const id = extractId(reference);
-		const content = scratchpad.readContent(id);
-		expect(content).toBe(largeContent);
-	});
+    const id = extractId(reference);
+    const content = scratchpad.readContent(id);
+    expect(content).toBe(largeContent);
+  });
 
-	test("deduplicates identical content", () => {
-		const largeContent = "y".repeat(200);
+  test("deduplicates identical content", () => {
+    const largeContent = "y".repeat(200);
 
-		scratchpad.maybeCache("tool1", largeContent);
-		scratchpad.maybeCache("tool2", largeContent);
+    scratchpad.maybeCache("tool1", largeContent);
+    scratchpad.maybeCache("tool2", largeContent);
 
-		const entries = scratchpad.list();
-		expect(entries.length).toBe(1);
-	});
+    const entries = scratchpad.list();
+    expect(entries.length).toBe(1);
+  });
 
-	test("list returns metadata without content", () => {
-		const largeContent = "z".repeat(200);
-		scratchpad.maybeCache("test_tool", largeContent);
+  test("list returns metadata without content", () => {
+    const largeContent = "z".repeat(200);
+    scratchpad.maybeCache("test_tool", largeContent);
 
-		const entries = scratchpad.list();
-		expect(entries.length).toBe(1);
-		expect(entries[0]?.tool).toBe("test_tool");
-		expect("content" in (entries[0] ?? {})).toBe(false);
-	});
+    const entries = scratchpad.list();
+    expect(entries.length).toBe(1);
+    expect(entries[0]?.tool).toBe("test_tool");
+    expect("content" in (entries[0] ?? {})).toBe(false);
+  });
 
-	test("delete removes entry", () => {
-		const largeContent = "a".repeat(200);
-		const reference = scratchpad.maybeCache("test_tool", largeContent);
+  test("delete removes entry", () => {
+    const largeContent = "a".repeat(200);
+    const reference = scratchpad.maybeCache("test_tool", largeContent);
 
-		const id = extractId(reference);
+    const id = extractId(reference);
 
-		expect(scratchpad.read(id)).toBeTruthy();
+    expect(scratchpad.read(id)).toBeTruthy();
 
-		const deleted = scratchpad.delete(id);
-		expect(deleted).toBe(true);
-		expect(scratchpad.read(id)).toBeNull();
-	});
+    const deleted = scratchpad.delete(id);
+    expect(deleted).toBe(true);
+    expect(scratchpad.read(id)).toBeNull();
+  });
 
-	test("clear removes all entries", () => {
-		scratchpad.maybeCache("tool1", "b".repeat(200));
-		scratchpad.maybeCache("tool2", "c".repeat(200));
+  test("clear removes all entries", () => {
+    scratchpad.maybeCache("tool1", "b".repeat(200));
+    scratchpad.maybeCache("tool2", "c".repeat(200));
 
-		expect(scratchpad.list().length).toBe(2);
+    expect(scratchpad.list().length).toBe(2);
 
-		const count = scratchpad.clear();
-		expect(count).toBe(2);
-		expect(scratchpad.list().length).toBe(0);
-	});
+    const count = scratchpad.clear();
+    expect(count).toBe(2);
+    expect(scratchpad.list().length).toBe(0);
+  });
 
-	test("stats returns correct aggregates", () => {
-		scratchpad.maybeCache("tool1", "d".repeat(200));
-		scratchpad.maybeCache("tool2", "e".repeat(300));
+  test("stats returns correct aggregates", () => {
+    scratchpad.maybeCache("tool1", "d".repeat(200));
+    scratchpad.maybeCache("tool2", "e".repeat(300));
 
-		const stats = scratchpad.stats();
-		expect(stats.entries).toBe(2);
-		expect(stats.totalSizeBytes).toBeGreaterThan(400);
-		expect(stats.oldestTimestamp).toBeTruthy();
-		expect(stats.newestTimestamp).toBeTruthy();
-	});
+    const stats = scratchpad.stats();
+    expect(stats.entries).toBe(2);
+    expect(stats.totalSizeBytes).toBeGreaterThan(400);
+    expect(stats.oldestTimestamp).toBeTruthy();
+    expect(stats.newestTimestamp).toBeTruthy();
+  });
 
-	test("detects JSON content type", () => {
-		const jsonContent = JSON.stringify({ items: Array(50).fill("test") });
-		const reference = scratchpad.maybeCache("test_tool", jsonContent);
+  test("detects JSON content type", () => {
+    const jsonContent = JSON.stringify({ items: Array(50).fill("test") });
+    const reference = scratchpad.maybeCache("test_tool", jsonContent);
 
-		const id = extractId(reference);
-		const entry = scratchpad.read(id);
+    const id = extractId(reference);
+    const entry = scratchpad.read(id);
 
-		expect(entry?.contentType).toBe("json");
-	});
+    expect(entry?.contentType).toBe("json");
+  });
 
-	test("detects markdown content type", () => {
-		const mdContent = `# Heading\n\n${"Content ".repeat(50)}`;
-		const reference = scratchpad.maybeCache("test_tool", mdContent);
+  test("detects markdown content type", () => {
+    const mdContent = `# Heading\n\n${"Content ".repeat(50)}`;
+    const reference = scratchpad.maybeCache("test_tool", mdContent);
 
-		const id = extractId(reference);
-		const entry = scratchpad.read(id);
+    const id = extractId(reference);
+    const entry = scratchpad.read(id);
 
-		expect(entry?.contentType).toBe("markdown");
-	});
+    expect(entry?.contentType).toBe("markdown");
+  });
 
-	test("generates preview for JSON arrays", () => {
-		const jsonArray = JSON.stringify(Array(100).fill({ id: 1 }));
-		const reference = scratchpad.maybeCache("test_tool", jsonArray);
+  test("generates preview for JSON arrays", () => {
+    const jsonArray = JSON.stringify(Array(100).fill({ id: 1 }));
+    const reference = scratchpad.maybeCache("test_tool", jsonArray);
 
-		expect(reference).toContain("[Array with 100 items]");
-	});
+    expect(reference).toContain("[Array with 100 items]");
+  });
 });

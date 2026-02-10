@@ -13,10 +13,10 @@ import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 const ROOT_MARKERS = [
-	"amalfa.config.json",
-	"amalfa.config.ts",
-	".git",
-	"package.json", // Fallback for npm/bun projects
+  "amalfa.config.json",
+  "amalfa.config.ts",
+  ".git",
+  "package.json", // Fallback for npm/bun projects
 ];
 
 let cachedRoot: string | null = null;
@@ -29,43 +29,43 @@ let cachedRoot: string | null = null;
  * @throws Error if root cannot be found
  */
 export function detectProjectRoot(startPath: string = process.cwd()): string {
-	// Return cached result if available
-	if (cachedRoot) {
-		return cachedRoot;
-	}
+  // Return cached result if available
+  if (cachedRoot) {
+    return cachedRoot;
+  }
 
-	let currentDir = resolve(startPath);
-	const rootDir = "/"; // Stop at filesystem root
+  let currentDir = resolve(startPath);
+  const rootDir = "/"; // Stop at filesystem root
 
-	while (currentDir !== rootDir) {
-		// Check for any marker file/directory
-		for (const marker of ROOT_MARKERS) {
-			const markerPath = join(currentDir, marker);
-			if (existsSync(markerPath)) {
-				cachedRoot = currentDir;
-				return currentDir;
-			}
-		}
+  while (currentDir !== rootDir) {
+    // Check for any marker file/directory
+    for (const marker of ROOT_MARKERS) {
+      const markerPath = join(currentDir, marker);
+      if (existsSync(markerPath)) {
+        cachedRoot = currentDir;
+        return currentDir;
+      }
+    }
 
-		// Move up one directory
-		const parentDir = dirname(currentDir);
-		if (parentDir === currentDir) {
-			// Reached filesystem root without finding marker
-			break;
-		}
-		currentDir = parentDir;
-	}
+    // Move up one directory
+    const parentDir = dirname(currentDir);
+    if (parentDir === currentDir) {
+      // Reached filesystem root without finding marker
+      break;
+    }
+    currentDir = parentDir;
+  }
 
-	throw new Error(
-		`Could not detect project root. Searched upward from ${startPath} for: ${ROOT_MARKERS.join(", ")}`,
-	);
+  throw new Error(
+    `Could not detect project root. Searched upward from ${startPath} for: ${ROOT_MARKERS.join(", ")}`,
+  );
 }
 
 /**
  * Clear cached project root (useful for testing).
  */
 export function clearProjectRootCache(): void {
-	cachedRoot = null;
+  cachedRoot = null;
 }
 
 /**
@@ -76,22 +76,22 @@ export function clearProjectRootCache(): void {
  * @returns Relative path from project root
  */
 export function toRootRelative(
-	absolutePath: string,
-	projectRoot?: string,
+  absolutePath: string,
+  projectRoot?: string,
 ): string {
-	const root = projectRoot || detectProjectRoot();
-	const absPath = resolve(absolutePath);
+  const root = projectRoot || detectProjectRoot();
+  const absPath = resolve(absolutePath);
 
-	// Ensure path is within project
-	if (!absPath.startsWith(root)) {
-		throw new Error(
-			`Path ${absPath} is outside project root ${root}. Cannot create relative path.`,
-		);
-	}
+  // Ensure path is within project
+  if (!absPath.startsWith(root)) {
+    throw new Error(
+      `Path ${absPath} is outside project root ${root}. Cannot create relative path.`,
+    );
+  }
 
-	// Remove root prefix and leading slash
-	const relativePath = absPath.slice(root.length);
-	return relativePath.startsWith("/") ? relativePath.slice(1) : relativePath;
+  // Remove root prefix and leading slash
+  const relativePath = absPath.slice(root.length);
+  return relativePath.startsWith("/") ? relativePath.slice(1) : relativePath;
 }
 
 /**
@@ -102,9 +102,9 @@ export function toRootRelative(
  * @returns Absolute file path
  */
 export function fromRootRelative(
-	relativePath: string,
-	projectRoot?: string,
+  relativePath: string,
+  projectRoot?: string,
 ): string {
-	const root = projectRoot || detectProjectRoot();
-	return join(root, relativePath);
+  const root = projectRoot || detectProjectRoot();
+  return join(root, relativePath);
 }

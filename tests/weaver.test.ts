@@ -4,131 +4,131 @@ import type { ResonanceDB } from "@src/resonance/db";
 
 // Mock ResonanceDB
 interface MockEdge {
-	sourceId: string;
-	targetId: string;
-	type: string;
+  sourceId: string;
+  targetId: string;
+  type: string;
 }
 
 class MockDB {
-	public edges: MockEdge[] = [];
-	insertEdge(sourceId: string, targetId: string, type: string) {
-		this.edges.push({ sourceId, targetId, type });
-	}
-	// Mock getRawDb for LouvainGate.check compatibility
-	getRawDb() {
-		return {
-			query: (sql: string) => ({
-				get: (..._args: unknown[]) => {
-					// Mock COUNT(*) queries to return 0 (no edges = not a super node)
-					if (sql.includes("COUNT(*)")) {
-						return { c: 0 };
-					}
-					// Mock shared neighbor query to return null (no shared neighbors)
-					return null;
-				},
-			}),
-		};
-	}
+  public edges: MockEdge[] = [];
+  insertEdge(sourceId: string, targetId: string, type: string) {
+    this.edges.push({ sourceId, targetId, type });
+  }
+  // Mock getRawDb for LouvainGate.check compatibility
+  getRawDb() {
+    return {
+      query: (sql: string) => ({
+        get: (..._args: unknown[]) => {
+          // Mock COUNT(*) queries to return 0 (no edges = not a super node)
+          if (sql.includes("COUNT(*)")) {
+            return { c: 0 };
+          }
+          // Mock shared neighbor query to return null (no shared neighbors)
+          return null;
+        },
+      }),
+    };
+  }
 }
 
 describe("EdgeWeaver", () => {
-	// Mock Lexicon: "Circular Logic" -> "term-circular-logic"
-	const lexiconItems = [
-		{ id: "term-circular-logic", title: "Circular Logic", aliases: ["Loops"] },
-		{ id: "term-michelle", title: "Michelle Robertson", aliases: [] },
-	];
+  // Mock Lexicon: "Circular Logic" -> "term-circular-logic"
+  const lexiconItems = [
+    { id: "term-circular-logic", title: "Circular Logic", aliases: ["Loops"] },
+    { id: "term-michelle", title: "Michelle Robertson", aliases: [] },
+  ];
 
-	test("Weave 'tag-circular-logic' (Match by Slug)", () => {
-		const mockDb = new MockDB();
-		const weaver = new EdgeWeaver(
-			mockDb as unknown as ResonanceDB,
-			lexiconItems,
-		);
+  test("Weave 'tag-circular-logic' (Match by Slug)", () => {
+    const mockDb = new MockDB();
+    const weaver = new EdgeWeaver(
+      mockDb as unknown as ResonanceDB,
+      lexiconItems,
+    );
 
-		const content =
-			"This is a letter about tag-circular-logic and its effects.";
-		const sourceId = "file-1#section-1";
+    const content =
+      "This is a letter about tag-circular-logic and its effects.";
+    const sourceId = "file-1#section-1";
 
-		weaver.weave(sourceId, content);
+    weaver.weave(sourceId, content);
 
-		expect(mockDb.edges).toHaveLength(1);
-		expect(mockDb.edges[0]).toEqual({
-			sourceId: "file-1#section-1",
-			targetId: "term-circular-logic",
-			type: "EXEMPLIFIES",
-		});
-	});
+    expect(mockDb.edges).toHaveLength(1);
+    expect(mockDb.edges[0]).toEqual({
+      sourceId: "file-1#section-1",
+      targetId: "term-circular-logic",
+      type: "EXEMPLIFIES",
+    });
+  });
 
-	test("Weave 'tag-loops' (Match by Alias)", () => {
-		const mockDb = new MockDB();
-		const weaver = new EdgeWeaver(
-			mockDb as unknown as ResonanceDB,
-			lexiconItems,
-		);
+  test("Weave 'tag-loops' (Match by Alias)", () => {
+    const mockDb = new MockDB();
+    const weaver = new EdgeWeaver(
+      mockDb as unknown as ResonanceDB,
+      lexiconItems,
+    );
 
-		const content = "Avoid tag-loops in your thinking.";
-		const sourceId = "file-1#section-2";
+    const content = "Avoid tag-loops in your thinking.";
+    const sourceId = "file-1#section-2";
 
-		weaver.weave(sourceId, content);
+    weaver.weave(sourceId, content);
 
-		expect(mockDb.edges).toHaveLength(1);
-		expect(mockDb.edges[0]).toEqual({
-			sourceId: "file-1#section-2",
-			targetId: "term-circular-logic", // Mapped to canonical ID
-			type: "EXEMPLIFIES",
-		});
-	});
+    expect(mockDb.edges).toHaveLength(1);
+    expect(mockDb.edges[0]).toEqual({
+      sourceId: "file-1#section-2",
+      targetId: "term-circular-logic", // Mapped to canonical ID
+      type: "EXEMPLIFIES",
+    });
+  });
 
-	test("Weave '[[Circular Logic]]' (WikiLink to Concept)", () => {
-		const mockDb = new MockDB();
-		const weaver = new EdgeWeaver(
-			mockDb as unknown as ResonanceDB,
-			lexiconItems,
-		);
+  test("Weave '[[Circular Logic]]' (WikiLink to Concept)", () => {
+    const mockDb = new MockDB();
+    const weaver = new EdgeWeaver(
+      mockDb as unknown as ResonanceDB,
+      lexiconItems,
+    );
 
-		const content = "See also [[Circular Logic]].";
-		const sourceId = "file-1#section-3";
+    const content = "See also [[Circular Logic]].";
+    const sourceId = "file-1#section-3";
 
-		weaver.weave(sourceId, content);
+    weaver.weave(sourceId, content);
 
-		expect(mockDb.edges).toHaveLength(1);
-		expect(mockDb.edges[0]).toEqual({
-			sourceId: "file-1#section-3",
-			targetId: "term-circular-logic",
-			type: "CITES", // WikiLinks are Citations
-		});
-	});
+    expect(mockDb.edges).toHaveLength(1);
+    expect(mockDb.edges[0]).toEqual({
+      sourceId: "file-1#section-3",
+      targetId: "term-circular-logic",
+      type: "CITES", // WikiLinks are Citations
+    });
+  });
 
-	test("Mixed Tags and Links", () => {
-		const mockDb = new MockDB();
-		const weaver = new EdgeWeaver(
-			mockDb as unknown as ResonanceDB,
-			lexiconItems,
-		);
+  test("Mixed Tags and Links", () => {
+    const mockDb = new MockDB();
+    const weaver = new EdgeWeaver(
+      mockDb as unknown as ResonanceDB,
+      lexiconItems,
+    );
 
-		// "Michelle Robertson" -> slug "michelle-robertson"
-		const content =
-			"A tag-michelle-robertson post regarding [[Circular Logic]].";
-		const sourceId = "file-1#section-4";
+    // "Michelle Robertson" -> slug "michelle-robertson"
+    const content =
+      "A tag-michelle-robertson post regarding [[Circular Logic]].";
+    const sourceId = "file-1#section-4";
 
-		weaver.weave(sourceId, content);
+    weaver.weave(sourceId, content);
 
-		expect(mockDb.edges).toHaveLength(2);
+    expect(mockDb.edges).toHaveLength(2);
 
-		// Sort or check for containment since order may vary
-		const exemplifies = mockDb.edges.find((e) => e.type === "EXEMPLIFIES");
-		const cites = mockDb.edges.find((e) => e.type === "CITES");
+    // Sort or check for containment since order may vary
+    const exemplifies = mockDb.edges.find((e) => e.type === "EXEMPLIFIES");
+    const cites = mockDb.edges.find((e) => e.type === "CITES");
 
-		expect(exemplifies).toEqual({
-			sourceId: "file-1#section-4",
-			targetId: "term-michelle",
-			type: "EXEMPLIFIES",
-		});
+    expect(exemplifies).toEqual({
+      sourceId: "file-1#section-4",
+      targetId: "term-michelle",
+      type: "EXEMPLIFIES",
+    });
 
-		expect(cites).toEqual({
-			sourceId: "file-1#section-4",
-			targetId: "term-circular-logic",
-			type: "CITES",
-		});
-	});
+    expect(cites).toEqual({
+      sourceId: "file-1#section-4",
+      targetId: "term-circular-logic",
+      type: "CITES",
+    });
+  });
 });

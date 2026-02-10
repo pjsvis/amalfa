@@ -14,11 +14,11 @@ import { cmdRead } from "./cli/commands/read";
 import { cmdSearch } from "./cli/commands/search";
 import { cmdServe, cmdServers, cmdStopAll } from "./cli/commands/server";
 import {
-	cmdEmber,
-	cmdReranker,
-	cmdSonar,
-	cmdVector,
-	cmdWatcher,
+  cmdEmber,
+  cmdReranker,
+  cmdSonar,
+  cmdVector,
+  cmdWatcher,
 } from "./cli/commands/services";
 import { cmdSetupMcp } from "./cli/commands/setup";
 import { cmdSetupPython } from "./cli/commands/setup-python";
@@ -30,6 +30,7 @@ import { cmdSsrDocs } from "./cli/commands/ssr-docs";
 import { cmdDashboard } from "./cli/commands/dashboard";
 import { cmdStats } from "./cli/commands/stats";
 import { cmdValidate } from "./cli/commands/validate";
+import { cmdVerify } from "./cli/commands/verify";
 
 const VERSION = pkg.version;
 
@@ -39,23 +40,23 @@ const command = args[0];
 
 // FIX: If running from system root (common in some MCP clients), try to find project root
 if (process.cwd() === "/") {
-	// Try to find package.json relative to this script
-	// src/cli.ts -> .. -> project root
-	const scriptBasedRoot = resolve(import.meta.dir, "..");
-	if (existsSync(join(scriptBasedRoot, "package.json"))) {
-		try {
-			console.error(
-				`⚠️  Detected CWD as system root. Switching to: ${scriptBasedRoot}`,
-			);
-			process.chdir(scriptBasedRoot);
-		} catch (e) {
-			console.error("Failed to switch CWD:", e);
-		}
-	}
+  // Try to find package.json relative to this script
+  // src/cli.ts -> .. -> project root
+  const scriptBasedRoot = resolve(import.meta.dir, "..");
+  if (existsSync(join(scriptBasedRoot, "package.json"))) {
+    try {
+      console.error(
+        `⚠️  Detected CWD as system root. Switching to: ${scriptBasedRoot}`,
+      );
+      process.chdir(scriptBasedRoot);
+    } catch (e) {
+      console.error("Failed to switch CWD:", e);
+    }
+  }
 }
 
 function showHelp() {
-	console.log(`
+  console.log(`
 AMALFA v${VERSION} - A Memory Layer For Agents
 
 Usage:
@@ -72,6 +73,7 @@ Commands:
   inject-tags <path> Add metadata tags to markdown file <tag1> [tag2...] [--json]
   stats              Show database statistics
   validate           Validate database health (pre-publish gate)
+  verify             Run end-to-end round-trip verification
   doctor             Check installation and configuration
   setup-mcp          Generate MCP configuration JSON
   setup-python       Initialize Python sidecar environment
@@ -109,159 +111,163 @@ Documentation: https://github.com/pjsvis/amalfa
 }
 
 function showVersion() {
-	console.log(`amalfa v${VERSION}`);
+  console.log(`amalfa v${VERSION}`);
 }
 
 async function cmdScripts() {
-	const action = args[1] || "list";
+  const action = args[1] || "list";
 
-	if (action === "list") {
-		// Dynamic import to avoid loading everything at startup
-		await import("./cli/list-scripts");
-		return;
-	}
+  if (action === "list") {
+    // Dynamic import to avoid loading everything at startup
+    await import("./cli/list-scripts");
+    return;
+  }
 
-	console.error(`❌ Invalid action: ${action}`);
-	console.error("Usage: amalfa scripts list");
-	process.exit(1);
+  console.error(`❌ Invalid action: ${action}`);
+  console.error("Usage: amalfa scripts list");
+  process.exit(1);
 }
 
 // Main command dispatcher
 async function main() {
-	switch (command) {
-		case "serve":
-			await cmdServe(args);
-			break;
+  switch (command) {
+    case "serve":
+      await cmdServe(args);
+      break;
 
-		case "search":
-			await cmdSearch(args.slice(1));
-			break;
+    case "search":
+      await cmdSearch(args.slice(1));
+      break;
 
-		case "read":
-			await cmdRead(args.slice(1));
-			break;
+    case "read":
+      await cmdRead(args.slice(1));
+      break;
 
-		case "explore":
-			await cmdExplore(args.slice(1));
-			break;
+    case "explore":
+      await cmdExplore(args.slice(1));
+      break;
 
-		case "list-sources":
-			await cmdListSources(args.slice(1));
-			break;
+    case "list-sources":
+      await cmdListSources(args.slice(1));
+      break;
 
-		case "find-gaps":
-			await cmdFindGaps(args.slice(1));
-			break;
+    case "find-gaps":
+      await cmdFindGaps(args.slice(1));
+      break;
 
-		case "inject-tags":
-			await cmdInjectTags(args.slice(1));
-			break;
+    case "inject-tags":
+      await cmdInjectTags(args.slice(1));
+      break;
 
-		case "stats":
-			await cmdStats(args);
-			break;
+    case "stats":
+      await cmdStats(args);
+      break;
 
-		case "doctor":
-			await cmdDoctor(args);
-			break;
+    case "doctor":
+      await cmdDoctor(args);
+      break;
 
-		case "validate":
-			await cmdValidate(args);
-			break;
+    case "validate":
+      await cmdValidate(args);
+      break;
 
-		case "init":
-			await cmdInit(args);
-			break;
+    case "verify":
+      await cmdVerify(args);
+      break;
 
-		case "watcher":
-			await cmdWatcher(args);
+    case "init":
+      await cmdInit(args);
+      break;
 
-			break;
+    case "watcher":
+      await cmdWatcher(args);
 
-		case "vector":
-			await cmdVector(args);
-			break;
+      break;
 
-		case "reranker":
-			await cmdReranker(args);
-			break;
+    case "vector":
+      await cmdVector(args);
+      break;
 
-		case "setup-mcp":
-			await cmdSetupMcp(args);
-			break;
+    case "reranker":
+      await cmdReranker(args);
+      break;
 
-		case "setup-python":
-			await cmdSetupPython();
-			break;
+    case "setup-mcp":
+      await cmdSetupMcp(args);
+      break;
 
-		case "servers":
-			await cmdServers(args);
-			break;
+    case "setup-python":
+      await cmdSetupPython();
+      break;
 
-		case "stop-all":
-		case "kill":
-			await cmdStopAll(args);
-			break;
+    case "servers":
+      await cmdServers(args);
+      break;
 
-		case "sonar":
-			await cmdSonar(args);
-			break;
+    case "stop-all":
+    case "kill":
+      await cmdStopAll(args);
+      break;
 
-		case "ember":
-			await cmdEmber(args);
-			break;
+    case "sonar":
+      await cmdSonar(args);
+      break;
 
-		case "squash":
-			await cmdSquash(args.slice(1));
-			break;
+    case "ember":
+      await cmdEmber(args);
+      break;
 
-		case "harvest":
-			await cmdHarvest(args.slice(1));
-			break;
+    case "squash":
+      await cmdSquash(args.slice(1));
+      break;
 
-		case "harvest-lexicon":
-			await cmdHarvestLexicon(args.slice(1));
-			break;
+    case "harvest":
+      await cmdHarvest(args.slice(1));
+      break;
 
-		case "dashboard":
-			await cmdDashboard(args.slice(1));
-			break;
+    case "harvest-lexicon":
+      await cmdHarvestLexicon(args.slice(1));
+      break;
 
-		case "scripts":
-			await cmdScripts();
-			break;
+    case "dashboard":
+      await cmdDashboard(args.slice(1));
+      break;
 
-		case "enhance": {
-			const { cmdEnhance } = await import("./cli/enhance-commands");
-			await cmdEnhance(args);
-			break;
-		}
+    case "scripts":
+      await cmdScripts();
+      break;
 
-		case "ssr-docs":
-			await cmdSsrDocs(args);
-			break;
+    case "enhance": {
+      const { cmdEnhance } = await import("./cli/enhance-commands");
+      await cmdEnhance(args);
+      break;
+    }
 
-		case "version":
-		case "--version":
-		case "-v":
-			showVersion();
-			break;
+    case "ssr-docs":
+      await cmdSsrDocs(args);
+      break;
 
-		case "help":
-		case "--help":
-		case "-h":
-		case undefined:
-			showHelp();
-			break;
+    case "version":
+    case "--version":
+    case "-v":
+      showVersion();
+      break;
 
-		default:
-			console.error(`❌ Unknown command: ${command}\n`);
-			showHelp();
-			process.exit(1);
-	}
+    case "help":
+    case "--help":
+    case "-h":
+    case undefined:
+      showHelp();
+      break;
+
+    default:
+      console.error(`❌ Unknown command: ${command}\n`);
+      showHelp();
+      process.exit(1);
+  }
 }
 
 main().catch((error) => {
-	console.error("❌ Fatal error:", error);
-	process.exit(1);
+  console.error("❌ Fatal error:", error);
+  process.exit(1);
 });

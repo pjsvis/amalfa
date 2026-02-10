@@ -1,17 +1,17 @@
 {
-	"id": "ws_621d1945",
-	"name": "amalfa",
-	"slug": "amalfa",
-	"defaults": {
-		"model": "claude-sonnet-4-5-20250929",
-		"permissionMode": "safe",
-		"cyclablePermissionModes": ["safe", "ask", "allow-all"],
-		"thinkingLevel": "think",
-		"enabledSourceSlugs": []
-	},
-	"localMcpServers": {
-		"enabled": true
-	},
-	"createdAt": 1769249645833,
-	"updatedAt": 1769249645835
+  "id": "ws_621d1945",
+  "name": "amalfa",
+  "slug": "amalfa",
+  "defaults": {
+    "model": "claude-sonnet-4-5-20250929",
+    "permissionMode": "safe",
+    "cyclablePermissionModes": ["safe", "ask", "allow-all"],
+    "thinkingLevel": "think",
+    "enabledSourceSlugs": []
+  },
+  "localMcpServers": {
+    "enabled": true
+  },
+  "createdAt": 1769249645833,
+  "updatedAt": 1769249645835
 }

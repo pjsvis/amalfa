@@ -17,18 +17,18 @@ import { ResonanceDB } from "@src/resonance/db";
 import { getLogger } from "@src/utils/Logger";
 import { sendNotification } from "@src/utils/Notifications";
 import {
-	checkOllamaHealth,
-	discoverOllamaCapabilities,
+  checkOllamaHealth,
+  discoverOllamaCapabilities,
 } from "@src/utils/ollama-discovery";
 import { ServiceLifecycle } from "@src/utils/ServiceLifecycle";
 import { inferenceState } from "./sonar-inference";
 import {
-	handleBatchEnhancement,
-	handleGardenTask,
-	handleResearchTask,
-	handleSynthesisTask,
-	handleTimelineTask,
-	type SonarContext,
+  handleBatchEnhancement,
+  handleGardenTask,
+  handleResearchTask,
+  handleSynthesisTask,
+  handleTimelineTask,
+  type SonarContext,
 } from "./sonar-logic";
 import { getTaskModel } from "./sonar-strategies";
 import type { ChatSession, SonarTask } from "./sonar-types";
@@ -48,71 +48,71 @@ const chatSessions = new Map<string, ChatSession>();
 
 // Service lifecycle management
 const lifecycle = new ServiceLifecycle({
-	name: "SonarAgent",
-	pidFile: join(AMALFA_DIRS.runtime, "sonar.pid"),
-	logFile: join(AMALFA_DIRS.logs, "sonar.log"),
-	entryPoint: "src/daemon/sonar-agent.ts",
+  name: "SonarAgent",
+  pidFile: join(AMALFA_DIRS.runtime, "sonar.pid"),
+  logFile: join(AMALFA_DIRS.logs, "sonar.log"),
+  entryPoint: "src/daemon/sonar-agent.ts",
 });
 
 /**
  * Main logical loop for the Sonar Agent
  */
 async function main() {
-	const config = await loadConfig();
-	if (!config.sonar.enabled) {
-		log.info("Sonar Agent is disabled in config. Exiting.");
-		return;
-	}
+  const config = await loadConfig();
+  if (!config.sonar.enabled) {
+    log.info("Sonar Agent is disabled in config. Exiting.");
+    return;
+  }
 
-	DB_PATH = config.database;
-	db = new ResonanceDB(DB_PATH);
-	vectorEngine = new VectorEngine(db.getRawDb());
-	gardener = new GraphGardener(db, graphEngine, vectorEngine);
+  DB_PATH = config.database;
+  db = new ResonanceDB(DB_PATH);
+  vectorEngine = new VectorEngine(db.getRawDb());
+  gardener = new GraphGardener(db, graphEngine, vectorEngine);
 
-	// Ensure task directories exist
-	[
-		AMALFA_DIRS.tasks.pending,
-		AMALFA_DIRS.tasks.processing,
-		AMALFA_DIRS.tasks.completed,
-	].forEach((dir) => {
-		if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-	});
+  // Ensure task directories exist
+  [
+    AMALFA_DIRS.tasks.pending,
+    AMALFA_DIRS.tasks.processing,
+    AMALFA_DIRS.tasks.completed,
+  ].forEach((dir) => {
+    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+  });
 
-	// Initial health check
-	inferenceState.ollamaAvailable = await checkOllamaHealth();
+  // Initial health check
+  inferenceState.ollamaAvailable = await checkOllamaHealth();
 
-	if (inferenceState.ollamaAvailable) {
-		const capabilities = await discoverOllamaCapabilities();
-		const firstModel = capabilities.allModels?.[0];
-		if (capabilities.available && firstModel) {
-			inferenceState.ollamaModel = config.sonar.model || firstModel.name;
-			log.info({ model: inferenceState.ollamaModel }, "Sonar Agent ready");
-		}
-	} else if (config.sonar.cloud?.enabled) {
-		log.info("Local Ollama not found, but Cloud is enabled. Proceeding.");
-		inferenceState.ollamaAvailable = true;
-	} else {
-		log.warn("Sonar Agent limited: Ollama unreachable and Cloud disabled.");
-	}
+  if (inferenceState.ollamaAvailable) {
+    const capabilities = await discoverOllamaCapabilities();
+    const firstModel = capabilities.allModels?.[0];
+    if (capabilities.available && firstModel) {
+      inferenceState.ollamaModel = config.sonar.model || firstModel.name;
+      log.info({ model: inferenceState.ollamaModel }, "Sonar Agent ready");
+    }
+  } else if (config.sonar.cloud?.enabled) {
+    log.info("Local Ollama not found, but Cloud is enabled. Proceeding.");
+    inferenceState.ollamaAvailable = true;
+  } else {
+    log.warn("Sonar Agent limited: Ollama unreachable and Cloud disabled.");
+  }
 
-	// Initial graph load
-	await graphEngine.load(db.getRawDb());
+  // Initial graph load
+  await graphEngine.load(db.getRawDb());
 
-	// Start HTTP API if serve mode
-	if (command === "serve") {
-		startServer(config.sonar.port || 3030);
-	}
+  // Start HTTP API if serve mode
+  if (command === "serve") {
+    startServer(config.sonar.port || 3030);
+  }
 
-	// Task Watcher Loop
-	log.info(
-		"Watcher started: Listening for tasks in .amalfa/agent/tasks/pending",
-	);
-	while (true) {
-		// Reload graph to pick up new edges before processing tasks
-		await graphEngine.load(db.getRawDb());
-		await processPendingTasks();
-		await new Promise((resolve) => setTimeout(resolve, 5000));
-	}
+  // Task Watcher Loop
+  log.info(
+    "Watcher started: Listening for tasks in .amalfa/agent/tasks/pending",
+  );
+  while (true) {
+    // Reload graph to pick up new edges before processing tasks
+    await graphEngine.load(db.getRawDb());
+    await processPendingTasks();
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+  }
 }
 
 import { createSonarApp } from "./sonar-server";
@@ -121,99 +121,99 @@ import { createSonarApp } from "./sonar-server";
  * Start Bun HTTP Server via Hono
  */
 function startServer(port: number) {
-	const context: SonarContext = { db, graphEngine, gardener, chatSessions };
-	const app = createSonarApp(context);
+  const context: SonarContext = { db, graphEngine, gardener, chatSessions };
+  const app = createSonarApp(context);
 
-	Bun.serve({
-		port,
-		fetch: app.fetch,
-	});
+  Bun.serve({
+    port,
+    fetch: app.fetch,
+  });
 
-	log.info(`Server started on port ${port}`);
+  log.info(`Server started on port ${port}`);
 }
 
 /**
  * Process tasks from the pending directory
  */
 async function processPendingTasks() {
-	const pendingDir = AMALFA_DIRS.tasks.pending;
-	if (!existsSync(pendingDir)) return;
+  const pendingDir = AMALFA_DIRS.tasks.pending;
+  if (!existsSync(pendingDir)) return;
 
-	const files = (await readdir(pendingDir)).filter((f: string) =>
-		f.endsWith(".json"),
-	);
+  const files = (await readdir(pendingDir)).filter((f: string) =>
+    f.endsWith(".json"),
+  );
 
-	for (const file of files) {
-		const pendingPath = join(pendingDir, file);
-		const processingPath = join(AMALFA_DIRS.tasks.processing, file);
+  for (const file of files) {
+    const pendingPath = join(pendingDir, file);
+    const processingPath = join(AMALFA_DIRS.tasks.processing, file);
 
-		try {
-			await rename(pendingPath, processingPath);
-			const taskContent = JSON.parse(
-				await Bun.file(processingPath).text(),
-			) as SonarTask;
+    try {
+      await rename(pendingPath, processingPath);
+      const taskContent = JSON.parse(
+        await Bun.file(processingPath).text(),
+      ) as SonarTask;
 
-			const report = await executeTask(taskContent);
-			const reportName = file.replace(".json", "-report.md");
-			const reportPath = join(AMALFA_DIRS.tasks.completed, reportName);
-			await Bun.write(reportPath, report);
+      const report = await executeTask(taskContent);
+      const reportName = file.replace(".json", "-report.md");
+      const reportPath = join(AMALFA_DIRS.tasks.completed, reportName);
+      await Bun.write(reportPath, report);
 
-			await rename(processingPath, join(AMALFA_DIRS.tasks.completed, file));
-			log.info({ file }, "✅ Task completed");
+      await rename(processingPath, join(AMALFA_DIRS.tasks.completed, file));
+      log.info({ file }, "✅ Task completed");
 
-			if (taskContent.notify !== false) {
-				await sendNotification("Sonar Agent", `Task Complete: ${file}`);
-			}
-		} catch (error) {
-			log.error({ file, error }, "❌ Task failed");
-			const failedReport = join(
-				AMALFA_DIRS.tasks.completed,
-				file.replace(".json", "-FAILED.md"),
-			);
-			await Bun.write(failedReport, `# Task Failed\n\nError: ${error}`);
-			if (existsSync(processingPath)) {
-				await rename(processingPath, join(AMALFA_DIRS.tasks.completed, file));
-			}
-		}
-	}
+      if (taskContent.notify !== false) {
+        await sendNotification("Sonar Agent", `Task Complete: ${file}`);
+      }
+    } catch (error) {
+      log.error({ file, error }, "❌ Task failed");
+      const failedReport = join(
+        AMALFA_DIRS.tasks.completed,
+        file.replace(".json", "-FAILED.md"),
+      );
+      await Bun.write(failedReport, `# Task Failed\n\nError: ${error}`);
+      if (existsSync(processingPath)) {
+        await rename(processingPath, join(AMALFA_DIRS.tasks.completed, file));
+      }
+    }
+  }
 }
 
 /**
  * Execute a specific task based on its type
  */
 async function executeTask(task: SonarTask): Promise<string> {
-	log.info({ type: task.type }, "🚀 Starting executeTask");
-	const startTime = Date.now();
-	let output = `# Task Report: ${task.type}\nDate: ${new Date().toISOString()}\n\n`;
+  log.info({ type: task.type }, "🚀 Starting executeTask");
+  const startTime = Date.now();
+  let output = `# Task Report: ${task.type}\nDate: ${new Date().toISOString()}\n\n`;
 
-	const taskModel = task.model || (await getTaskModel(task.type));
-	if (taskModel)
-		output += `> **Routing:** Task assigned to model \`${taskModel}\`\n\n`;
+  const taskModel = task.model || (await getTaskModel(task.type));
+  if (taskModel)
+    output += `> **Routing:** Task assigned to model \`${taskModel}\`\n\n`;
 
-	const context: SonarContext = { db, graphEngine, gardener, chatSessions };
+  const context: SonarContext = { db, graphEngine, gardener, chatSessions };
 
-	try {
-		if (task.type === "synthesis") {
-			output += await handleSynthesisTask(task, context, taskModel);
-		} else if (task.type === "timeline") {
-			output += await handleTimelineTask(task, context, taskModel);
-		} else if (task.type === "garden") {
-			output += await handleGardenTask(task, context, taskModel);
-		} else if (task.type === "research") {
-			output += await handleResearchTask(task, context, taskModel);
-		} else if (task.type === "enhance_batch") {
-			const result = await handleBatchEnhancement(task.limit || 10, context);
-			output += `## Results\n- Successful: ${result.successful}\n- Failed: ${result.failed}\n- Total: ${result.total}\n`;
-		} else {
-			output += `⚠️ Unknown task type: ${task.type}\n`;
-		}
-	} catch (error) {
-		output += `❌ Error during task execution: ${error}\n`;
-		throw error;
-	}
+  try {
+    if (task.type === "synthesis") {
+      output += await handleSynthesisTask(task, context, taskModel);
+    } else if (task.type === "timeline") {
+      output += await handleTimelineTask(task, context, taskModel);
+    } else if (task.type === "garden") {
+      output += await handleGardenTask(task, context, taskModel);
+    } else if (task.type === "research") {
+      output += await handleResearchTask(task, context, taskModel);
+    } else if (task.type === "enhance_batch") {
+      const result = await handleBatchEnhancement(task.limit || 10, context);
+      output += `## Results\n- Successful: ${result.successful}\n- Failed: ${result.failed}\n- Total: ${result.total}\n`;
+    } else {
+      output += `⚠️ Unknown task type: ${task.type}\n`;
+    }
+  } catch (error) {
+    output += `❌ Error during task execution: ${error}\n`;
+    throw error;
+  }
 
-	output += `\n---\n**Duration:** ${((Date.now() - startTime) / 1000).toFixed(1)}s\n`;
-	return output;
+  output += `\n---\n**Duration:** ${((Date.now() - startTime) / 1000).toFixed(1)}s\n`;
+  return output;
 }
 
 // Run service lifecycle dispatcher

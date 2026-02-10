@@ -8,12 +8,13 @@
 import { existsSync, watch } from "node:fs";
 import { join } from "node:path";
 import {
-	AMALFA_DIRS,
-	type AmalfaConfig,
-	loadConfig,
+  AMALFA_DIRS,
+  type AmalfaConfig,
+  loadConfig,
 } from "@src/config/defaults";
 import { EmberService } from "@src/ember";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
+import { telemetry } from "@src/services/PipelineTelemetry";
 import { ResonanceDB } from "@src/resonance/db";
 import { getSubstanceHash, hasGitChanges } from "@src/utils/ghost";
 import { getLogger } from "@src/utils/Logger";
@@ -27,10 +28,10 @@ const log = getLogger("AmalfaDaemon");
 
 // Service lifecycle management
 const lifecycle = new ServiceLifecycle({
-	name: "AMALFA-Daemon",
-	pidFile: join(AMALFA_DIRS.runtime, "daemon.pid"),
-	logFile: join(AMALFA_DIRS.logs, "daemon.log"),
-	entryPoint: "src/daemon/index.ts",
+  name: "AMALFA-Daemon",
+  pidFile: join(AMALFA_DIRS.runtime, "daemon.pid"),
+  logFile: join(AMALFA_DIRS.logs, "daemon.log"),
+  entryPoint: "src/daemon/index.ts",
 });
 
 // Debouncing for file changes
@@ -39,8 +40,8 @@ const pendingFiles = new Set<string>();
 
 // Retry queue for failed ingestions
 const retryQueue = new Map<
-	string,
-	{ attempts: number; lastError: string; lastAttempt: number }
+  string,
+  { attempts: number; lastError: string; lastAttempt: number }
 >();
 const MAX_RETRIES = 3;
 const RETRY_BACKOFF_MS = 5000;
@@ -49,240 +50,242 @@ const RETRY_BACKOFF_MS = 5000;
  * Main daemon logic
  */
 async function main() {
-	// Load configuration
-	const config = await loadConfig();
-	const DEBOUNCE_MS = config.watch.debounce;
+  // Load configuration
+  const config = await loadConfig();
+  const DEBOUNCE_MS = config.watch.debounce;
 
-	const sources = config.sources || ["./docs"];
-	log.info(
-		{
-			sources,
-			database: config.database,
-			debounce: DEBOUNCE_MS,
-		},
-		"🚀 AMALFA Daemon starting...",
-	);
+  const sources = config.sources || ["./docs"];
+  log.info(
+    {
+      sources,
+      database: config.database,
+      debounce: DEBOUNCE_MS,
+    },
+    "🚀 AMALFA Daemon starting...",
+  );
 
-	// Verify source directories exist
-	for (const source of sources) {
-		const sourcePath = join(process.cwd(), source);
-		if (!existsSync(sourcePath)) {
-			log.warn({ path: sourcePath }, "⚠️  Source directory not found, skipping");
-		}
-	}
+  // Verify source directories exist
+  for (const source of sources) {
+    const sourcePath = join(process.cwd(), source);
+    if (!existsSync(sourcePath)) {
+      log.warn({ path: sourcePath }, "⚠️  Source directory not found, skipping");
+    }
+  }
 
-	// Start file watchers for all sources
-	for (const source of sources) {
-		startWatcher(source, DEBOUNCE_MS);
-	}
+  // Start file watchers for all sources
+  for (const source of sources) {
+    startWatcher(source, DEBOUNCE_MS);
+  }
 
-	log.info("✅ Daemon ready. Watching for changes...");
+  log.info("✅ Daemon ready. Watching for changes...");
 
-	// Keep process alive
-	process.on("SIGTERM", () => {
-		log.info("🛑 Received SIGTERM, shutting down...");
-		process.exit(0);
-	});
+  // Keep process alive
+  process.on("SIGTERM", () => {
+    log.info("🛑 Received SIGTERM, shutting down...");
+    process.exit(0);
+  });
 
-	process.on("SIGINT", () => {
-		log.info("🛑 Received SIGINT, shutting down...");
-		process.exit(0);
-	});
+  process.on("SIGINT", () => {
+    log.info("🛑 Received SIGINT, shutting down...");
+    process.exit(0);
+  });
 
-	// Keep alive
-	await new Promise(() => {});
+  // Keep alive
+  await new Promise(() => {});
 }
 
 /**
  * Start file watcher
  */
 function startWatcher(sourceDir: string, debounceMs: number) {
-	const watchPath = join(process.cwd(), sourceDir);
+  const watchPath = join(process.cwd(), sourceDir);
 
-	log.info({ path: watchPath }, "👀 Watching directory");
+  log.info({ path: watchPath }, "👀 Watching directory");
 
-	try {
-		watch(watchPath, { recursive: true }, (event, filename) => {
-			// Only process markdown files
-			if (filename?.endsWith(".md")) {
-				const fullPath = join(watchPath, filename);
+  try {
+    watch(watchPath, { recursive: true }, (event, filename) => {
+      // Only process markdown files
+      if (filename?.endsWith(".md")) {
+        const fullPath = join(watchPath, filename);
 
-				log.debug(
-					{
-						file: filename,
-						event,
-					},
-					"📝 Change detected",
-				);
+        log.debug(
+          {
+            file: filename,
+            event,
+          },
+          "📝 Change detected",
+        );
 
-				pendingFiles.add(fullPath);
-				triggerIngestion(debounceMs);
-			}
-		});
-	} catch (e) {
-		log.fatal({ err: e, path: watchPath }, "❌ Failed to watch directory");
-		process.exit(1);
-	}
+        pendingFiles.add(fullPath);
+        triggerIngestion(debounceMs);
+      }
+    });
+  } catch (e) {
+    log.fatal({ err: e, path: watchPath }, "❌ Failed to watch directory");
+    process.exit(1);
+  }
 }
 
 /**
  * Trigger debounced ingestion
  */
 function triggerIngestion(debounceMs: number) {
-	if (debounceTimer) {
-		clearTimeout(debounceTimer);
-	}
+  if (debounceTimer) {
+    clearTimeout(debounceTimer);
+  }
 
-	debounceTimer = setTimeout(async () => {
-		const batchSize = pendingFiles.size;
-		if (batchSize === 0) return;
+  debounceTimer = setTimeout(async () => {
+    const batchSize = pendingFiles.size;
+    if (batchSize === 0) return;
 
-		log.info({ batchSize }, "🔄 Processing changes...");
+    log.info({ batchSize }, "🔄 Processing changes...");
 
-		// Drain pending files
-		const batch = Array.from(pendingFiles);
-		pendingFiles.clear();
+    // Drain pending files
+    const batch = Array.from(pendingFiles);
+    pendingFiles.clear();
 
-		// Load config for each batch (allows runtime config changes)
-		let config: AmalfaConfig | undefined;
-		try {
-			config = await loadConfig();
-			const dbPath = join(process.cwd(), config.database);
+    // Load config for each batch (allows runtime config changes)
+    let config: AmalfaConfig | undefined;
+    try {
+      config = await loadConfig();
+      const dbPath = join(process.cwd(), config.database);
 
-			// Open database
-			const db = new ResonanceDB(dbPath);
+      // Open database
+      const db = new ResonanceDB(dbPath);
 
-			// Create ingestor
-			const ingestor = new AmalfaIngestor(config, db);
+      // Create ingestor
+      const ingestor = new AmalfaIngestor(config, db);
 
-			// Targeted ingestion: only process changed files
-			await ingestor.ingestFiles(batch);
+      // Targeted ingestion: only process changed files
+      await ingestor.ingestFiles(batch);
 
-			// --- EMBER INTEGRATION ---
-			if (config.ember?.enabled) {
-				log.info("🔥 Running Ember Analysis...");
-				const ember = new EmberService(db, config.ember);
-				let enrichedCount = 0;
+      // --- EMBER INTEGRATION ---
+      if (config.ember?.enabled) {
+        telemetry.update("Enrichment", "active", "Running...");
+        log.info("🔥 Running Ember Analysis...");
+        const ember = new EmberService(db, config.ember);
+        let enrichedCount = 0;
 
-				// Analyze changed files only
-				// Note: Reading again from disk is safer than passing content from ingestor for now
-				for (const file of batch) {
-					try {
-						// Gate 1: Git Check (Coarse)
-						if (!hasGitChanges(file)) {
-							log.debug(
-								{ file },
-								"👻 Ghost Gate 1: No git changes (System/Squash Write), skipping Ember",
-							);
-							continue;
-						}
+        // Analyze changed files only
+        // Note: Reading again from disk is safer than passing content from ingestor for now
+        for (const file of batch) {
+          try {
+            // Gate 1: Git Check (Coarse)
+            if (!hasGitChanges(file)) {
+              log.debug(
+                { file },
+                "👻 Ghost Gate 1: No git changes (System/Squash Write), skipping Ember",
+              );
+              continue;
+            }
 
-						const content = await Bun.file(file).text();
+            const content = await Bun.file(file).text();
 
-						// Gate 2: Ghost Signature Check (Fine)
-						// This handles cases where file is dirty but only metadata changed (or not yet committed)
-						const substanceHash = getSubstanceHash(content, file);
-						let frontmatter: any = {};
-						try {
-							frontmatter = matter(content).data;
-						} catch {}
+            // Gate 2: Ghost Signature Check (Fine)
+            // This handles cases where file is dirty but only metadata changed (or not yet committed)
+            const substanceHash = getSubstanceHash(content, file);
+            let frontmatter: any = {};
+            try {
+              frontmatter = matter(content).data;
+            } catch {}
 
-						if (frontmatter.amalfa_hash === substanceHash) {
-							log.debug(
-								{ file },
-								"👻 Ghost Gate 2: Signature match (Self-Write), skipping Ember",
-							);
-							continue;
-						}
+            if (frontmatter.amalfa_hash === substanceHash) {
+              log.debug(
+                { file },
+                "👻 Ghost Gate 2: Signature match (Self-Write), skipping Ember",
+              );
+              continue;
+            }
 
-						const sidecar = await ember.analyze(file, content);
-						if (sidecar) {
-							await ember.generate(sidecar);
-							enrichedCount++;
-						}
-					} catch (err) {
-						log.warn({ file, err }, "Failed to analyze with Ember");
-					}
-				}
-				if (enrichedCount > 0) {
-					log.info({ enrichedCount }, "🔥 Ember enriched files");
-				}
-			}
-			// -------------------------
+            const sidecar = await ember.analyze(file, content);
+            if (sidecar) {
+              await ember.generate(sidecar);
+              enrichedCount++;
+            }
+          } catch (err) {
+            log.warn({ file, err }, "Failed to analyze with Ember");
+          }
+        }
+        if (enrichedCount > 0) {
+          log.info({ enrichedCount }, "🔥 Ember enriched files");
+        }
+        telemetry.update("Enrichment", "idle", `${enrichedCount} enriched`);
+      }
+      // -------------------------
 
-			db.close();
+      db.close();
 
-			log.info({ files: batchSize }, "✅ Update complete");
+      log.info({ files: batchSize }, "✅ Update complete");
 
-			// Clear retry counts for successful files
-			for (const file of batch) {
-				retryQueue.delete(file);
-			}
+      // Clear retry counts for successful files
+      for (const file of batch) {
+        retryQueue.delete(file);
+      }
 
-			// Send notification (if enabled in config)
-			if (config.watch?.notifications !== false) {
-				await sendNotification(
-					"AMALFA",
-					`Knowledge graph updated (${batchSize} file${batchSize > 1 ? "s" : ""})`,
-				);
-			}
-		} catch (e) {
-			const errorMsg = e instanceof Error ? e.message : String(e);
-			log.error({ err: e }, "❌ Update failed");
+      // Send notification (if enabled in config)
+      if (config.watch?.notifications !== false) {
+        await sendNotification(
+          "AMALFA",
+          `Knowledge graph updated (${batchSize} file${batchSize > 1 ? "s" : ""})`,
+        );
+      }
+    } catch (e) {
+      const errorMsg = e instanceof Error ? e.message : String(e);
+      log.error({ err: e }, "❌ Update failed");
 
-			// Re-queue failed files with retry logic
-			const now = Date.now();
-			for (const file of batch) {
-				const retryInfo = retryQueue.get(file) || {
-					attempts: 0,
-					lastError: "",
-					lastAttempt: 0,
-				};
+      // Re-queue failed files with retry logic
+      const now = Date.now();
+      for (const file of batch) {
+        const retryInfo = retryQueue.get(file) || {
+          attempts: 0,
+          lastError: "",
+          lastAttempt: 0,
+        };
 
-				if (retryInfo.attempts < MAX_RETRIES) {
-					const nextAttempt = retryInfo.attempts + 1;
-					retryQueue.set(file, {
-						attempts: nextAttempt,
-						lastError: errorMsg,
-						lastAttempt: now,
-					});
+        if (retryInfo.attempts < MAX_RETRIES) {
+          const nextAttempt = retryInfo.attempts + 1;
+          retryQueue.set(file, {
+            attempts: nextAttempt,
+            lastError: errorMsg,
+            lastAttempt: now,
+          });
 
-					// Schedule retry with backoff
-					setTimeout(() => {
-						pendingFiles.add(file);
-						triggerIngestion(debounceMs);
-					}, RETRY_BACKOFF_MS * nextAttempt);
+          // Schedule retry with backoff
+          setTimeout(() => {
+            pendingFiles.add(file);
+            triggerIngestion(debounceMs);
+          }, RETRY_BACKOFF_MS * nextAttempt);
 
-					log.warn(
-						{
-							file,
-							attempt: nextAttempt,
-							max: MAX_RETRIES,
-							delayMs: RETRY_BACKOFF_MS * nextAttempt,
-						},
-						"🔄 Scheduling retry",
-					);
-				} else {
-					log.error(
-						{
-							file,
-							lastError: retryInfo.lastError,
-						},
-						"⛔ ABANDONED: Max retries exceeded",
-					);
-					retryQueue.delete(file);
-				}
-			}
+          log.warn(
+            {
+              file,
+              attempt: nextAttempt,
+              max: MAX_RETRIES,
+              delayMs: RETRY_BACKOFF_MS * nextAttempt,
+            },
+            "🔄 Scheduling retry",
+          );
+        } else {
+          log.error(
+            {
+              file,
+              lastError: retryInfo.lastError,
+            },
+            "⛔ ABANDONED: Max retries exceeded",
+          );
+          retryQueue.delete(file);
+        }
+      }
 
-			// Send error notification (if enabled in config)
-			if (config?.watch?.notifications !== false) {
-				await sendNotification(
-					"AMALFA",
-					`Update failed (${batch.length} file${batch.length > 1 ? "s" : ""} will retry)`,
-				);
-			}
-		}
-	}, debounceMs);
+      // Send error notification (if enabled in config)
+      if (config?.watch?.notifications !== false) {
+        await sendNotification(
+          "AMALFA",
+          `Update failed (${batch.length} file${batch.length > 1 ? "s" : ""} will retry)`,
+        );
+      }
+    }
+  }, debounceMs);
 }
 
 // Run service lifecycle dispatcher

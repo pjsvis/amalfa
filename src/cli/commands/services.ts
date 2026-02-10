@@ -7,291 +7,291 @@ import { discoverOllamaCapabilities } from "@src/utils/ollama-discovery";
 import { getDbPath } from "../utils";
 
 export async function cmdWatcher(args: string[]) {
-	const action = args[1] || "status";
-	const validActions = ["start", "stop", "status", "restart"];
+  const action = args[1] || "status";
+  const validActions = ["start", "stop", "status", "restart"];
 
-	if (!validActions.includes(action)) {
-		console.error(`❌ Invalid action: ${action}`);
-		console.error("\nUsage: amalfa watcher <start|stop|status|restart>");
-		process.exit(1);
-	}
+  if (!validActions.includes(action)) {
+    console.error(`❌ Invalid action: ${action}`);
+    console.error("\nUsage: amalfa watcher <start|stop|status|restart>");
+    process.exit(1);
+  }
 
-	const manager = new DaemonManager();
+  const manager = new DaemonManager();
 
-	if (action === "status") {
-		const status = await manager.checkFileWatcher();
-		if (status.running) {
-			console.log(`✅ File Watcher: Running (PID: ${status.pid})`);
-		} else {
-			console.log("❌ File Watcher: Stopped");
-		}
-		return;
-	}
+  if (action === "status") {
+    const status = await manager.checkFileWatcher();
+    if (status.running) {
+      console.log(`✅ File Watcher: Running (PID: ${status.pid})`);
+    } else {
+      console.log("❌ File Watcher: Stopped");
+    }
+    return;
+  }
 
-	if (action === "start") {
-		console.log("🚀 Starting File Watcher...");
-		try {
-			await manager.startFileWatcher();
-			console.log("✅ File Watcher started");
-		} catch (e) {
-			console.error("❌ Failed to start File Watcher:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "start") {
+    console.log("🚀 Starting File Watcher...");
+    try {
+      await manager.startFileWatcher();
+      console.log("✅ File Watcher started");
+    } catch (e) {
+      console.error("❌ Failed to start File Watcher:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "stop") {
-		console.log("🛑 Stopping File Watcher...");
-		try {
-			await manager.stopFileWatcher();
-			console.log("✅ File Watcher stopped");
-		} catch (e) {
-			console.error("❌ Failed to stop File Watcher:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "stop") {
+    console.log("🛑 Stopping File Watcher...");
+    try {
+      await manager.stopFileWatcher();
+      console.log("✅ File Watcher stopped");
+    } catch (e) {
+      console.error("❌ Failed to stop File Watcher:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "restart") {
-		console.log("🔄 Restarting File Watcher...");
-		try {
-			await manager.stopFileWatcher();
-			await manager.startFileWatcher();
-			console.log("✅ File Watcher restarted");
-		} catch (e) {
-			console.error("❌ Failed to restart File Watcher:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "restart") {
+    console.log("🔄 Restarting File Watcher...");
+    try {
+      await manager.stopFileWatcher();
+      await manager.startFileWatcher();
+      console.log("✅ File Watcher restarted");
+    } catch (e) {
+      console.error("❌ Failed to restart File Watcher:", e);
+      process.exit(1);
+    }
+    return;
+  }
 }
 
 export async function cmdVector(args: string[]) {
-	const action = args[1] || "status";
-	const validActions = ["start", "stop", "status", "restart"];
+  const action = args[1] || "status";
+  const validActions = ["start", "stop", "status", "restart"];
 
-	if (!validActions.includes(action)) {
-		console.error(`❌ Invalid action: ${action}`);
-		console.error("\nUsage: amalfa vector <start|stop|status|restart>");
-		process.exit(1);
-	}
+  if (!validActions.includes(action)) {
+    console.error(`❌ Invalid action: ${action}`);
+    console.error("\nUsage: amalfa vector <start|stop|status|restart>");
+    process.exit(1);
+  }
 
-	const manager = new DaemonManager();
+  const manager = new DaemonManager();
 
-	if (action === "status") {
-		const status = await manager.checkVectorDaemon();
-		if (status.running) {
-			console.log(
-				`✅ Vector Daemon: Running (PID: ${status.pid}, Port: ${status.port})`,
-			);
-		} else {
-			console.log("❌ Vector Daemon: Stopped");
-		}
-		return;
-	}
+  if (action === "status") {
+    const status = await manager.checkVectorDaemon();
+    if (status.running) {
+      console.log(
+        `✅ Vector Daemon: Running (PID: ${status.pid}, Port: ${status.port})`,
+      );
+    } else {
+      console.log("❌ Vector Daemon: Stopped");
+    }
+    return;
+  }
 
-	if (action === "start") {
-		console.log("🚀 Starting Vector Daemon...");
-		try {
-			await manager.startVectorDaemon();
-			console.log("✅ Vector Daemon started");
-		} catch (e) {
-			console.error("❌ Failed to start Vector Daemon:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "start") {
+    console.log("🚀 Starting Vector Daemon...");
+    try {
+      await manager.startVectorDaemon();
+      console.log("✅ Vector Daemon started");
+    } catch (e) {
+      console.error("❌ Failed to start Vector Daemon:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "stop") {
-		console.log("🛑 Stopping Vector Daemon...");
-		try {
-			await manager.stopVectorDaemon();
-			console.log("✅ Vector Daemon stopped");
-		} catch (e) {
-			console.error("❌ Failed to stop Vector Daemon:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "stop") {
+    console.log("🛑 Stopping Vector Daemon...");
+    try {
+      await manager.stopVectorDaemon();
+      console.log("✅ Vector Daemon stopped");
+    } catch (e) {
+      console.error("❌ Failed to stop Vector Daemon:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "restart") {
-		console.log("🔄 Restarting Vector Daemon...");
-		try {
-			await manager.stopVectorDaemon();
-			await manager.startVectorDaemon();
-			console.log("✅ Vector Daemon restarted");
-		} catch (e) {
-			console.error("❌ Failed to restart Vector Daemon:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "restart") {
+    console.log("🔄 Restarting Vector Daemon...");
+    try {
+      await manager.stopVectorDaemon();
+      await manager.startVectorDaemon();
+      console.log("✅ Vector Daemon restarted");
+    } catch (e) {
+      console.error("❌ Failed to restart Vector Daemon:", e);
+      process.exit(1);
+    }
+    return;
+  }
 }
 
 export async function cmdReranker(args: string[]) {
-	const action = args[1] || "status";
-	const validActions = ["start", "stop", "status", "restart"];
+  const action = args[1] || "status";
+  const validActions = ["start", "stop", "status", "restart"];
 
-	if (!validActions.includes(action)) {
-		console.error(`❌ Invalid action: ${action}`);
-		console.error("\nUsage: amalfa reranker <start|stop|status|restart>");
-		process.exit(1);
-	}
+  if (!validActions.includes(action)) {
+    console.error(`❌ Invalid action: ${action}`);
+    console.error("\nUsage: amalfa reranker <start|stop|status|restart>");
+    process.exit(1);
+  }
 
-	const manager = new DaemonManager();
+  const manager = new DaemonManager();
 
-	if (action === "status") {
-		const status = await manager.checkRerankerDaemon();
-		if (status.running) {
-			console.log(
-				`✅ Reranker Daemon: Running (PID: ${status.pid}, Port: ${status.port})`,
-			);
-		} else {
-			console.log("❌ Reranker Daemon: Stopped");
-		}
-		return;
-	}
+  if (action === "status") {
+    const status = await manager.checkRerankerDaemon();
+    if (status.running) {
+      console.log(
+        `✅ Reranker Daemon: Running (PID: ${status.pid}, Port: ${status.port})`,
+      );
+    } else {
+      console.log("❌ Reranker Daemon: Stopped");
+    }
+    return;
+  }
 
-	if (action === "start") {
-		console.log("🚀 Starting Reranker Daemon...");
-		try {
-			await manager.startRerankerDaemon();
-			console.log("✅ Reranker Daemon started");
-		} catch (e) {
-			console.error("❌ Failed to start Reranker Daemon:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "start") {
+    console.log("🚀 Starting Reranker Daemon...");
+    try {
+      await manager.startRerankerDaemon();
+      console.log("✅ Reranker Daemon started");
+    } catch (e) {
+      console.error("❌ Failed to start Reranker Daemon:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "stop") {
-		console.log("🛑 Stopping Reranker Daemon...");
-		try {
-			await manager.stopRerankerDaemon();
-			console.log("✅ Reranker Daemon stopped");
-		} catch (e) {
-			console.error("❌ Failed to stop Reranker Daemon:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "stop") {
+    console.log("🛑 Stopping Reranker Daemon...");
+    try {
+      await manager.stopRerankerDaemon();
+      console.log("✅ Reranker Daemon stopped");
+    } catch (e) {
+      console.error("❌ Failed to stop Reranker Daemon:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "restart") {
-		console.log("🔄 Restarting Reranker Daemon...");
-		try {
-			await manager.stopRerankerDaemon();
-			await manager.startRerankerDaemon();
-			console.log("✅ Reranker Daemon restarted");
-		} catch (e) {
-			console.error("❌ Failed to restart Reranker Daemon:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "restart") {
+    console.log("🔄 Restarting Reranker Daemon...");
+    try {
+      await manager.stopRerankerDaemon();
+      await manager.startRerankerDaemon();
+      console.log("✅ Reranker Daemon restarted");
+    } catch (e) {
+      console.error("❌ Failed to restart Reranker Daemon:", e);
+      process.exit(1);
+    }
+    return;
+  }
 }
 
 export async function cmdSonar(args: string[]) {
-	const action = args[1] || "status";
-	const validActions = ["start", "stop", "status", "restart", "chat"];
+  const action = args[1] || "status";
+  const validActions = ["start", "stop", "status", "restart", "chat"];
 
-	if (!validActions.includes(action)) {
-		console.error(`❌ Invalid action: ${action}`);
-		console.error("\nUsage: amalfa sonar <start|stop|status|restart|chat>");
-		process.exit(1);
-	}
+  if (!validActions.includes(action)) {
+    console.error(`❌ Invalid action: ${action}`);
+    console.error("\nUsage: amalfa sonar <start|stop|status|restart|chat>");
+    process.exit(1);
+  }
 
-	const manager = new DaemonManager();
+  const manager = new DaemonManager();
 
-	if (action === "status") {
-		console.log("🔍 Checking status...");
+  if (action === "status") {
+    console.log("🔍 Checking status...");
 
-		// Check Ollama
-		try {
-			const ollama = await discoverOllamaCapabilities();
-			if (ollama.available) {
-				console.log(
-					`✅ Ollama: Running (Model: ${ollama.model}, Size: ${ollama.size})`,
-				);
-			} else {
-				console.log("❌ Ollama: Not detected");
-			}
-		} catch {
-			console.log("❌ Ollama: Check failed");
-		}
+    // Check Ollama
+    try {
+      const ollama = await discoverOllamaCapabilities();
+      if (ollama.available) {
+        console.log(
+          `✅ Ollama: Running (Model: ${ollama.model}, Size: ${ollama.size})`,
+        );
+      } else {
+        console.log("❌ Ollama: Not detected");
+      }
+    } catch {
+      console.log("❌ Ollama: Check failed");
+    }
 
-		// Check Daemon
-		const status = await manager.checkSonarAgent();
+    // Check Daemon
+    const status = await manager.checkSonarAgent();
 
-		if (status.running) {
-			console.log(
-				`✅ Sonar Agent: Running (PID: ${status.pid}, Port: ${status.port})`,
-			);
+    if (status.running) {
+      console.log(
+        `✅ Sonar Agent: Running (PID: ${status.pid}, Port: ${status.port})`,
+      );
 
-			// Check health endpoint
-			try {
-				const res = await fetch(`http://localhost:${status.port}/health`);
-				const health = await res.json();
-				console.log(`   Health: ${JSON.stringify(health)}`);
-			} catch {
-				console.log("   Health: ⚠️  Unresponsive");
-			}
-		} else {
-			console.log("❌ Sonar Agent: Stopped");
-		}
-		return;
-	}
+      // Check health endpoint
+      try {
+        const res = await fetch(`http://localhost:${status.port}/health`);
+        const health = await res.json();
+        console.log(`   Health: ${JSON.stringify(health)}`);
+      } catch {
+        console.log("   Health: ⚠️  Unresponsive");
+      }
+    } else {
+      console.log("❌ Sonar Agent: Stopped");
+    }
+    return;
+  }
 
-	if (action === "start") {
-		console.log("🚀 Starting Sonar Agent...");
-		try {
-			await manager.startSonarAgent();
-			console.log("✅ Sonar Agent started");
-		} catch (e) {
-			console.error("❌ Failed to start Sonar Agent:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "start") {
+    console.log("🚀 Starting Sonar Agent...");
+    try {
+      await manager.startSonarAgent();
+      console.log("✅ Sonar Agent started");
+    } catch (e) {
+      console.error("❌ Failed to start Sonar Agent:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "stop") {
-		console.log("🛑 Stopping Sonar Agent...");
-		try {
-			await manager.stopSonarAgent();
-			console.log("✅ Sonar Agent stopped");
-		} catch (e) {
-			console.error("❌ Failed to stop Sonar Agent:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "stop") {
+    console.log("🛑 Stopping Sonar Agent...");
+    try {
+      await manager.stopSonarAgent();
+      console.log("✅ Sonar Agent stopped");
+    } catch (e) {
+      console.error("❌ Failed to stop Sonar Agent:", e);
+      process.exit(1);
+    }
+    return;
+  }
 
-	if (action === "chat") {
-		const { chatLoop } = await import("@src/cli/sonar-chat");
-		await chatLoop();
-		return;
-	}
+  if (action === "chat") {
+    const { chatLoop } = await import("@src/cli/sonar-chat");
+    await chatLoop();
+    return;
+  }
 
-	if (action === "restart") {
-		console.log("🔄 Restarting Sonar Agent...");
-		try {
-			await manager.stopSonarAgent();
-			await manager.startSonarAgent();
-			console.log("✅ Sonar Agent restarted");
-		} catch (e) {
-			console.error("❌ Failed to restart Sonar Agent:", e);
-			process.exit(1);
-		}
-		return;
-	}
+  if (action === "restart") {
+    console.log("🔄 Restarting Sonar Agent...");
+    try {
+      await manager.stopSonarAgent();
+      await manager.startSonarAgent();
+      console.log("✅ Sonar Agent restarted");
+    } catch (e) {
+      console.error("❌ Failed to restart Sonar Agent:", e);
+      process.exit(1);
+    }
+    return;
+  }
 }
 
 export async function cmdEmber(args: string[]) {
-	const rawAction = args[1] || "help";
-	const action =
-		rawAction === "--help" || rawAction === "-h" ? "help" : rawAction;
+  const rawAction = args[1] || "help";
+  const action =
+    rawAction === "--help" || rawAction === "-h" ? "help" : rawAction;
 
-	if (action === "help") {
-		console.log(`
+  if (action === "help") {
+    console.log(`
 EMBER - Automated Enrichment Service
 
 Usage:
@@ -299,45 +299,45 @@ Usage:
   amalfa ember squash             Merge sidecars into markdown files
   amalfa ember status             Show pending sidecars (TODO)
 `);
-		return;
-	}
+    return;
+  }
 
-	// Check DB
-	const dbPath = await getDbPath();
-	if (!existsSync(dbPath)) {
-		console.error("❌ Database not found. Run 'amalfa init' first.");
-		process.exit(1);
-	}
+  // Check DB
+  const dbPath = await getDbPath();
+  if (!existsSync(dbPath)) {
+    console.error("❌ Database not found. Run 'amalfa init' first.");
+    process.exit(1);
+  }
 
-	const db = new ResonanceDB(dbPath);
-	const appConfig = await loadConfig();
+  const db = new ResonanceDB(dbPath);
+  const appConfig = await loadConfig();
 
-	const emberConfig = {
-		enabled: true,
-		sources: appConfig.sources || ["./docs"],
-		minConfidence: 0.7,
-		backupDir: ".amalfa/backups",
-		excludePatterns: appConfig.excludePatterns || [],
-	};
+  const emberConfig = {
+    enabled: true,
+    sources: appConfig.sources || ["./docs"],
+    minConfidence: 0.7,
+    backupDir: ".amalfa/backups",
+    excludePatterns: appConfig.excludePatterns || [],
+  };
 
-	const ember = new EmberService(db, emberConfig);
+  const ember = new EmberService(db, emberConfig);
 
-	try {
-		if (action === "scan") {
-			const dryRun = args.includes("--dry-run");
-			await ember.runFullSweep(dryRun);
-		} else if (action === "squash") {
-			await ember.squashAll();
-		} else if (action === "status") {
-			console.log("Checking pending sidecars... (Not yet implemented)");
-		} else {
-			console.error(`❌ Unknown action: ${action}`);
-			process.exit(1);
-		}
-	} catch (e) {
-		console.error("❌ Ember command failed:", e);
-		process.exit(1);
-	} finally {
-		db.close();
-	}
+  try {
+    if (action === "scan") {
+      const dryRun = args.includes("--dry-run");
+      await ember.runFullSweep(dryRun);
+    } else if (action === "squash") {
+      await ember.squashAll();
+    } else if (action === "status") {
+      console.log("Checking pending sidecars... (Not yet implemented)");
+    } else {
+      console.error(`❌ Unknown action: ${action}`);
+      process.exit(1);
+    }
+  } catch (e) {
+    console.error("❌ Ember command failed:", e);
+    process.exit(1);
+  } finally {
+    db.close();
+  }
 }
