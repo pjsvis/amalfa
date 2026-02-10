@@ -11,6 +11,7 @@ import type { Node, ResonanceDB } from "@src/resonance/db";
 import { Embedder } from "@src/resonance/services/embedder";
 import { SimpleTokenizerService as TokenizerService } from "@src/resonance/services/simpleTokenizer";
 import { LangExtractClient } from "@src/services/LangExtractClient";
+import { telemetry } from "@src/services/PipelineTelemetry";
 import { getLogger } from "@src/utils/Logger";
 import { toRootRelative } from "@src/utils/projectRoot";
 import { Glob } from "bun";
@@ -159,7 +160,9 @@ export class AmalfaIngestor {
       const tokenizer = TokenizerService.getInstance();
 
       // Discover markdown files
+      telemetry.update("Discovery", "active", "Scanning...");
       const files = await this.discoverFiles();
+      telemetry.update("Discovery", "idle", `${files.length} files`);
       this.log.info(`📁 Found ${files.length} markdown files`);
 
       if (files.length === 0) {
@@ -193,6 +196,12 @@ export class AmalfaIngestor {
         // Start batch transaction
         if (i % BATCH_SIZE === 0) {
           this.db.beginTransaction();
+          telemetry.update(
+            "Sync",
+            "active",
+            `${processedCount}/${files.length}`,
+          );
+          telemetry.update("Embedding", "active", "Generating...");
         }
 
         await this.processFile(filePath, embedder, null, tokenizer); // null = skip edge weaving
@@ -211,10 +220,14 @@ export class AmalfaIngestor {
       }
 
       // PASS 2: Edges (now lexicon is populated)
+      telemetry.update("Sync", "idle", `${processedCount} nodes`);
+      telemetry.update("Embedding", "idle", "Complete");
+
       const lexicon = this.buildLexicon();
       const weaver = new EdgeWeaver(this.db, lexicon, this.config);
 
       console.log("\n🔗 Creating edges...");
+      telemetry.update("Weaving", "active", "Linking...");
       this.db.beginTransaction();
       for (const filePath of files) {
         if (!filePath) continue;
@@ -224,7 +237,10 @@ export class AmalfaIngestor {
       }
       this.db.commit();
 
+      const stats = this.db.getStats();
       const louvainStats = weaver.getStats();
+      telemetry.update("Weaving", "idle", `${stats.edges} edges`);
+
       if (louvainStats.rejected > 0) {
         this.log.info(
           louvainStats,
@@ -255,7 +271,6 @@ export class AmalfaIngestor {
       const endTime = performance.now();
       const durationSec = (endTime - startTime) / 1000;
 
-      const stats = this.db.getStats();
       this.log.info(
         {
           files: processedCount,

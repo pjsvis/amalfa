@@ -14,6 +14,7 @@ import {
 } from "@src/config/defaults";
 import { EmberService } from "@src/ember";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
+import { telemetry } from "@src/services/PipelineTelemetry";
 import { ResonanceDB } from "@src/resonance/db";
 import { getSubstanceHash, hasGitChanges } from "@src/utils/ghost";
 import { getLogger } from "@src/utils/Logger";
@@ -160,6 +161,7 @@ function triggerIngestion(debounceMs: number) {
 
       // --- EMBER INTEGRATION ---
       if (config.ember?.enabled) {
+        telemetry.update("Enrichment", "active", "Running...");
         log.info("🔥 Running Ember Analysis...");
         const ember = new EmberService(db, config.ember);
         let enrichedCount = 0;
@@ -207,6 +209,7 @@ function triggerIngestion(debounceMs: number) {
         if (enrichedCount > 0) {
           log.info({ enrichedCount }, "🔥 Ember enriched files");
         }
+        telemetry.update("Enrichment", "idle", `${enrichedCount} enriched`);
       }
       // -------------------------
 
