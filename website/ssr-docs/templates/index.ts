@@ -95,22 +95,32 @@ export async function getDashboardData(config: SafeConfig): Promise<DashboardDat
 }
 
 export async function getLexiconData(): Promise<LexiconData> {
-  const lexiconPath = resolvePath("scripts/fixtures/conceptual-lexicon-ref-v1.79.json");
+  const config = await loadConfig();
+  const dbPath = resolvePath(config.database);
   
   try {
-    const file = Bun.file(lexiconPath);
-    const content = await file.text();
-    const entries: LexiconEntry[] = JSON.parse(content);
+    const { Database } = await import("bun:sqlite");
+    const db = new Database(dbPath, { readonly: true });
+    
+    // Load from database instead of static fixture
+    const entries = db.query(`
+      SELECT id, label as title, summary as description, type, layer as category 
+      FROM nodes 
+      WHERE domain = 'lexicon'
+      ORDER BY label ASC
+    `).all() as LexiconEntry[];
     
     const categories = [...new Set(entries.map((e) => e.category || "Uncategorized"))];
     
+    db.close();
+    
     return {
-      entries: entries.slice(0, 100),
+      entries,
       totalCount: entries.length,
       categories,
     };
   } catch (e) {
-    console.warn("Failed to load lexicon:", e);
+    console.warn("Failed to load lexicon from database:", e);
     return {
       entries: [],
       totalCount: 0,
