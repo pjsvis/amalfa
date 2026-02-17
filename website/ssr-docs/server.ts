@@ -314,6 +314,23 @@ async function runServer() {
           const filename = docMatch[1];
           const registry = getDocumentRegistry();
           const doc = loadDocument(ROOT_PATH, filename);
+          
+          // Enrich with database metadata (like semantic_tokens)
+          try {
+            const { Database } = await import("bun:sqlite");
+            const db = new Database(DB_PATH, { readonly: true });
+            
+            // Try to find the node by source path
+            const node = db.query("SELECT meta FROM nodes WHERE meta LIKE ?").get(`%"source":"${filename}"%`) as { meta: string } | undefined;
+            if (node) {
+              const dbMeta = JSON.parse(node.meta);
+              doc.metadata = { ...doc.metadata, ...dbMeta };
+            }
+            db.close();
+          } catch (dbErr) {
+            console.warn("Failed to fetch DB metadata for doc:", dbErr);
+          }
+
           const html = renderDocPage({
             doc: {
               title: doc.metadata.title || doc.metadata.file || "Untitled",

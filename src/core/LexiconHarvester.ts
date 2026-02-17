@@ -113,6 +113,18 @@ export class LexiconHarvester {
   private processSidecar(data: LangExtractSidecar, filename: string) {
     const hash = filename.replace(".json", "");
     const sourcePath = this.manifest.get(hash);
+
+    // Only harvest terms from code files (.ts, .js, .tsx)
+    const isCodeFile =
+      sourcePath &&
+      (sourcePath.endsWith(".ts") ||
+        sourcePath.endsWith(".js") ||
+        sourcePath.endsWith(".tsx"));
+
+    if (!isCodeFile) {
+      return;
+    }
+
     const sourceId = (data as any).uuid || sourcePath || hash;
 
     const terms = R.pipe(

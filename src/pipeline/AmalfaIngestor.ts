@@ -183,6 +183,10 @@ export class AmalfaIngestor {
       // Pass 1: Create all nodes (without edges)
       // Pass 2: Create edges (now that all nodes exist in lexicon)
 
+      // Load existing lexicon for semantic tokenization (Pass 1 matching)
+      const initialLexicon = this.buildLexicon();
+      tokenizer.loadLexicon(initialLexicon as any);
+
       // Reduced from 50 to 10 to minimize lock duration and prevent SQLITE_BUSY errors
       // when daemons/MCP server are running concurrently
       const BATCH_SIZE = 10;
@@ -403,8 +407,19 @@ export class AmalfaIngestor {
         embedding = await embedder.embed(content);
       }
 
-      // Extract semantic tokens
-      const tokens = tokenizer.extract(content);
+      // Extract semantic tokens (code files ONLY - per user request)
+      const isCodeFile = filePath.endsWith(".ts") || filePath.endsWith(".js");
+      const tokens = isCodeFile
+        ? tokenizer.extract(content)
+        : {
+            people: [],
+            places: [],
+            organizations: [],
+            topics: [],
+            money: [],
+            protocols: [],
+            concepts: [],
+          };
 
       // Insert node
 

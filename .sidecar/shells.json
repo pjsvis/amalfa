@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "shells": [
+    {
+      "tmuxName": "sidecar-sh-amalfa-1",
+      "displayName": "Shell 1",
+      "createdAt": "2026-02-11T18:26:45.363905Z"
+    }
+  ]
+}
