@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced KG Prompt Generator</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #00d2ff;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3436;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--glass);
+            border-radius: 24px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+        }
+
+        .header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #edf2f7;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-number {
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .dynamic-list {
+            margin-top: 10px;
+        }
+
+        .dynamic-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .dynamic-item:hover {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--bg-gradient);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-top: 10px;
+        }
+
+        .btn-remove {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-remove:hover {
+            background: #fecaca;
+        }
+
+        /* Sub-items for attributes */
+        .sub-item-list {
+            margin-top: 15px;
+            padding-left: 20px;
+            border-left: 3px solid #e2e8f0;
+        }
+
+        .sub-item {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+
+        .output-section {
+            display: none;
+            margin-top: 40px;
+            padding: 40px;
+            background: #1a202c;
+            border-radius: 20px;
+        }
+
+        .output-content {
+            background: #2d3748;
+            padding: 30px;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #e2e8f0;
+            border: 1px solid #4a5568;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #38a169;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="notification" class="notification">Action Completed Successfully!</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Advanced KG Prompt Generator</h1>
+            <p>Design multi-layered Ontologies and generate high-precision Extraction Prompts</p>
+            <p><a href="https://gist.githubusercontent.com/smrati/3b6ed5d493d9d82418da7e76df8e3125/raw/9308aae8c673e3061c13cf428033290ef302b2a7/kg_prompt_generator.html">Source Ref</a></p>
+        </div>
+
+        <form id="kgForm" class="form-content">
+            <!-- 1. Domain -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">1</span>
+                    Domain & Objectives
+                </div>
+                <div class="form-group">
+                    <label>Domain Name *</label>
+                    <input type="text" id="domainName" required placeholder="e.g., Financial Audit, Medical Research">
+                </div>
+                <div class="form-group">
+                    <label>Extraction Goal *</label>
+                    <textarea id="primaryGoal" required
+                        placeholder="e.g., Build a treatment-disease mapping with clinical outcome metrics..."></textarea>
+                </div>
+            </div>
+
+            <!-- 2. Entities (The Classes) -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">2</span>
+                    Class Hierarchy (Entity Types)
+                </div>
+                <p style="font-size: 14px; color: #718096; margin-bottom: 20px;">
+                    Define your entities. Use <strong>Parent Class</strong> to create hierarchies (e.g., a "Surgeon" is
+                    a type of "Doctor").
+                </p>
+                <div id="entitiesList" class="dynamic-list"></div>
+                <button type="button" class="btn btn-outline" onclick="addEntity()">+ Add Entity Class</button>
+            </div>
+
+            <!-- 3. Relationships -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">3</span>
+                    Relationship Predicates
+                </div>
+                <div id="relationshipsList" class="dynamic-list"></div>
+                <button type="button" class="btn btn-outline" onclick="addRelationship()">+ Add Relationship
+                    Type</button>
+            </div>
+
+            <!-- 4. Global Ontology & Inference -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">4</span>
+                    Global Ontology Rules
+                </div>
+                <div class="form-group">
+                    <label>Inference Rules (One per line)</label>
+                    <textarea id="inferenceRules"
+                        placeholder="e.g., If X is BORN_IN Y, then X LIVES_IN Y (implied)&#10;If X PART_OF Y and Y PART_OF Z, then X PART_OF Z (transitive)"></textarea>
+                    <div class="help-text">Define logic that the LLM should use to infer "hidden" relationships.</div>
+                </div>
+                <div class="form-group">
+                    <label>Global Constraints</label>
+                    <textarea id="globalConstraints"
+                        placeholder="e.g., A 'Person' can have at most one 'BirthDate'&#10;A 'Company' must have at least one 'Headquarters'"></textarea>
+                </div>
+            </div>
+
+            <div style="text-align: center; padding-bottom: 40px; display: flex; justify-content: center; gap: 20px;">
+                <button type="button" class="btn btn-outline" style="padding: 18px 40px; font-size: 18px; margin: 0;"
+                    onclick="useDefaultValues()">
+                    📝 Use Default Values
+                </button>
+                <button type="button" class="btn btn-primary" style="padding: 18px 60px; font-size: 18px;"
+                    onclick="generatePrompt()">
+                    ✨ Generate Professional Prompt
+                </button>
+            </div>
+        </form>
+
+        <div id="outputSection" class="output-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="color: white; font-size: 24px;">🚀 Optimized System Prompt</h2>
+                <button class="btn btn-outline" style="border-color: white; color: white;" onclick="copyPrompt()">📋
+                    Copy to Clipboard</button>
+            </div>
+            <div id="promptOutput" class="output-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- UI Logic ---
+
+        function showNotification(message) {
+            const nav = document.getElementById('notification');
+            nav.textContent = message;
+            nav.style.display = 'block';
+            setTimeout(() => nav.style.display = 'none', 3000);
+        }
+
+        function useDefaultValues() {
+            // Clear lists
+            document.getElementById('entitiesList').innerHTML = '';
+            document.getElementById('relationshipsList').innerHTML = '';
+
+            // Set main fields
+            document.getElementById('domainName').value = "Medical Research & Clinical Trials";
+            document.getElementById('primaryGoal').value = "Track drug-disease treatment relationships, dosage efficacy, and clinical outcomes from research papers.";
+
+            // Add Entity 1
+            const e1Id = Date.now();
+            addEntity();
+            const e1Item = document.querySelector('#entitiesList .dynamic-item:last-child');
+            e1Item.querySelector('.entity-name').value = "Doctor";
+            e1Item.querySelector('.entity-parent').value = "Person";
+            e1Item.querySelector('.entity-desc').value = "Medical professionals performing the treatment or study.";
+            const p1 = e1Item.querySelector('.sub-item');
+            p1.querySelector('.prop-name').value = "specialization";
+            p1.querySelector('.prop-type').value = "string";
+            p1.querySelector('.prop-constraint').value = "required";
+
+            // Add Entity 2
+            setTimeout(() => {
+                addEntity();
+                const e2Item = document.querySelector('#entitiesList .dynamic-item:last-child');
+                e2Item.querySelector('.entity-name').value = "Drug";
+                e2Item.querySelector('.entity-parent').value = "Treatment";
+                e2Item.querySelector('.entity-desc').value = "Pharmaceutical substances administered to patients.";
+                const p2 = e2Item.querySelector('.sub-item');
+                p2.querySelector('.prop-name').value = "approval_date";
+                p2.querySelector('.prop-type').value = "date";
+                p2.querySelector('.prop-constraint').value = "optional";
+            }, 50);
+
+            // Add Relationship
+            setTimeout(() => {
+                addRelationship();
+                const rItem = document.querySelector('#relationshipsList .dynamic-item:last-child');
+                rItem.querySelector('.rel-name').value = "PRESCRIBES";
+                rItem.querySelector('.rel-source').value = "Doctor";
+                rItem.querySelector('.rel-target').value = "Drug";
+                rItem.querySelector('.rel-props').value = "dosage, frequency";
+            }, 100);
+
+            // Inference & Constraints
+            document.getElementById('inferenceRules').value = "If X PRESCRIBES Y, then X KNOWS_OF Y\nIf X WORKS_AT Y and Y PART_OF Z, then X WORKS_AT Z";
+            document.getElementById('globalConstraints').value = "A 'Patient' must have a unique 'MedicalRecordID'\nDates must follow YYYY-MM-DD format";
+
+            showNotification('✅ Form populated with default research values!');
+        }
+
+        function addEntity() {
+            const id = Date.now();
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.innerHTML = `
+                <button type="button" class="btn btn-remove" style="position: absolute; top: 15px; right: 15px" onclick="this.parentElement.remove()">Remove</button>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Class Name</label>
+                        <input type="text" class="entity-name" placeholder="e.g., Professor">
+                    </div>
+                    <div class="form-group">
+                        <label>Parent Class (Optional)</label>
+                        <input type="text" class="entity-parent" placeholder="e.g., Person">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="entity-desc" rows="2" placeholder="What does this class represent?"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Properties (Attributes)</label>
+                    <div id="props-${id}" class="sub-item-list"></div>
+                    <button type="button" class="btn btn-outline" style="font-size: 12px; padding: 6px 12px" onclick="addProperty(${id})">+ Add Property</button>
+                </div>
+            `;
+            document.getElementById('entitiesList').appendChild(div);
+            addProperty(id); // Start with one
+        }
+
+        function addProperty(entityId) {
+            const propList = document.getElementById(`props-${entityId}`);
+            const div = document.createElement('div');
+            div.className = 'sub-item';
+            div.innerHTML = `
+                <div>
+                    <input type="text" class="prop-name" placeholder="Prop Name (e.g., age)">
+                </div>
+                <div>
+                    <select class="prop-type">
+                        <option value="string">String</option>
+                        <option value="number">Number</option>
+                        <option value="date">Date</option>
+                        <option value="boolean">Boolean</option>
+                    </select>
+                </div>
+                <div>
+                    <select class="prop-constraint">
+                        <option value="optional">Optional</option>
+                        <option value="required">Required</option>
+                        <option value="unique">Unique</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-remove" style="padding: 10px" onclick="this.parentElement.remove()">×</button>
+            `;
+            propList.appendChild(div);
+        }
+
+        function addRelationship() {
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.innerHTML = `
+                <button type="button" class="btn btn-remove" style="position: absolute; top: 15px; right: 15px" onclick="this.parentElement.remove()">Remove</button>
+                <div class="form-group">
+                    <label>Predicate Name (Relationship)</label>
+                    <input type="text" class="rel-name" placeholder="e.g., GRADUATED_FROM">
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Source Class</label>
+                        <input type="text" class="rel-source" placeholder="e.g., Person">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Class</label>
+                        <input type="text" class="rel-target" placeholder="e.g., University">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Properties for this Edge</label>
+                    <input type="text" class="rel-props" placeholder="e.g., year, degree_type (comma separated)">
+                </div>
+            `;
+            document.getElementById('relationshipsList').appendChild(div);
+        }
+
+        // --- Logic ---
+
+        function generatePrompt() {
+            const data = {
+                domain: document.getElementById('domainName').value,
+                goal: document.getElementById('primaryGoal').value,
+                entities: Array.from(document.querySelectorAll('#entitiesList .dynamic-item')).map(item => {
+                    const id = item.querySelector('.btn-outline').getAttribute('onclick').match(/\d+/)[0];
+                    return {
+                        name: item.querySelector('.entity-name').value,
+                        parent: item.querySelector('.entity-parent').value,
+                        desc: item.querySelector('.entity-desc').value,
+                        properties: Array.from(item.querySelectorAll(`#props-${id} .sub-item`)).map(p => ({
+                            name: p.querySelector('.prop-name').value,
+                            type: p.querySelector('.prop-type').value,
+                            constraint: p.querySelector('.prop-constraint').value
+                        })).filter(p => p.name)
+                    };
+                }),
+                relationships: Array.from(document.querySelectorAll('#relationshipsList .dynamic-item')).map(item => ({
+                    name: item.querySelector('.rel-name').value,
+                    source: item.querySelector('.rel-source').value,
+                    target: item.querySelector('.rel-target').value,
+                    props: item.querySelector('.rel-props').value
+                })),
+                inference: document.getElementById('inferenceRules').value,
+                constraints: document.getElementById('globalConstraints').value
+            };
+
+            const prompt = constructPrompt(data);
+            document.getElementById('promptOutput').textContent = prompt;
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function constructPrompt(d) {
+            let p = `# SYSTEM PROMPT: ADVANCED KNOWLEDGE GRAPH EXTRACTION
+
+You are an expert Ontology Engineer and Information Extraction specialist for the ${d.domain} domain.
+
+## MISSION
+${d.goal}
+
+## CONCEPTUAL HIERARCHY (CLASSES)
+The following entity classes define the nodes of our graph. Pay close attention to parent-child relationships.
+${d.entities.map(e => `
+### Class: ${e.name} ${e.parent ? `(Sub-class of: ${e.parent})` : ''}
+- **Definition:** ${e.desc}
+- **Required Properties:** ${e.properties.filter(p => p.constraint === 'required').map(p => `${p.name} [${p.type}]`).join(', ') || 'None'}
+- **Optional Properties:** ${e.properties.filter(p => p.constraint === 'optional').map(p => `${p.name} [${p.type}]`).join(', ') || 'None'}`).join('\n')}
+
+## RELATIONSHIP SCHEMA (PREDICATES)
+Define these edges connecting the instances of the classes above.
+${d.relationships.map(r => `
+- **${r.name}**: (Source: ${r.source}) → (Target: ${r.target}) ${r.props ? `| Edge Properties: [${r.props}]` : ''}`).join('\n')}
+
+## LOGICAL ONTOLOGY & INFERENCE RULES
+Apply these logical rules during extraction:
+${d.inference ? d.inference : '- No specific inference rules provided.'}
+
+## STRUCTURAL CONSTRAINTS
+Strictly adhere to these graph constraints:
+${d.constraints ? d.constraints : '- Ensure all typed literals match their declared types (String, Number, Date).'}
+
+## OUTPUT REQUIREMENTS (JSON)
+Return only a valid JSON object with:
+\`\`\`json
+{
+  "nodes": [
+    { "id": "unique_id", "class": "ClassName", "properties": { "name": "val", ... }, "evidence": "verbatim text" }
+  ],
+  "edges": [
+    { "source": "node_id", "predicate": "REL_NAME", "target": "node_id", "properties": { ... }, "evidence": "verbatim text" }
+  ]
+}
+\`\`\``;
+            return p;
+        }
+
+        function copyPrompt() {
+            const text = document.getElementById('promptOutput').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const nav = document.getElementById('notification');
+                nav.style.display = 'block';
+                setTimeout(() => nav.style.display = 'none', 3000);
+            });
+        }
+
+        // Init
+        addEntity();
+        addRelationship();
+    </script>
+</body>
+
+</html>
