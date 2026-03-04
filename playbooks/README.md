@@ -64,3 +64,4 @@ This document serves as the central index of AMALFA's capabilities, linking to d
 | **[Publishing](publishing-playbook.md)** | Release engineering and safety |
 | **[Scripts](scripts-playbook.md)** | Catalog of maintenance and utility scripts |
 | **[Debriefs](debriefs-playbook.md)** | Guideline for writing reflective debriefs |
+| **[Sidecar + td → PR Workflow](sidecar-td-pr-playbook.md)** | Local-first workflow from task to PR with debriefs |

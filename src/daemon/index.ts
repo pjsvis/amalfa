@@ -14,8 +14,8 @@ import {
 } from "@src/config/defaults";
 import { EmberService } from "@src/ember";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
-import { telemetry } from "@src/services/PipelineTelemetry";
 import { ResonanceDB } from "@src/resonance/db";
+import { telemetry } from "@src/services/PipelineTelemetry";
 import { getSubstanceHash, hasGitChanges } from "@src/utils/ghost";
 import { getLogger } from "@src/utils/Logger";
 import { sendNotification } from "@src/utils/Notifications";

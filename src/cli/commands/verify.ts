@@ -1,5 +1,5 @@
-import { join } from "node:path";
 import { unlinkSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { loadConfig } from "@src/config/defaults";
 import { AmalfaIngestor } from "@src/pipeline/AmalfaIngestor";
 import { ResonanceDB } from "@src/resonance/db";
