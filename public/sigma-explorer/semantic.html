@@ -213,44 +213,6 @@
                     <!-- Layers Group -->
                     
                     <!-- Sub-Graph Composer -->
-                    <div>
-                        <div class="mb-2 flex items-center justify-between font-mono text-xxs font-bold uppercase" style="color: var(--text-2);">
-                            <span>Graph Composition</span>
-                            <div class="flex gap-1">
-                                <button @click="activeSubGraphs = []; constructGraph()"
-                                    class="btn-small"
-                                    title="Hide All">NONE</button>
-                                <button @click="activeSubGraphs = [...availableSubGraphs]; constructGraph()"
-                                    class="btn-small"
-                                    title="Show All">ALL</button>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <!-- Dynamic List of Available Sub-Graphs -->
-                            <template x-for="subGraph in availableSubGraphs" :key="subGraph">
-                                <button class="w-full max-w-[220px]"
-                                    :class="{ 'active': activeSubGraphs.includes(subGraph) }"
-                                    @click="toggleSubGraph(subGraph)"
-                                    @mouseenter="showTooltip($event, 'Toggle visibility of the ' + subGraph + ' graph layer.')"
-                                    @mouseleave="hideTooltip()">
-                                    
-                                    <!-- Label -->
-                                    <div class="flex items-center gap-2">
-                                         <i data-lucide="folder" class="h-3 w-3 text-[var(--text-2)]"></i>
-                                         <span class="capitalize" x-text="subGraph"></span>
-                                    </div>
-
-                                    <!-- LED Indicator -->
-                                    <div class="h-2 w-2 rounded-full transition-all"
-                                         :class="activeSubGraphs.includes(subGraph) ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 'bg-transparent border border-[var(--text-3)]'"></div>
-                                </button>
-                            </template>
-
-                            <div x-show="availableSubGraphs.length === 0" class="text-xs text-gray-400 px-2 italic">
-                                Exploring data...
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Layout Group -->
                     <div>
