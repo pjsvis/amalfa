@@ -5242,7 +5242,7 @@ function adaptNode(row) {
       sigmaNode[attr] = row[attr];
     }
   });
-  const rawContent = row.content || row.definition || "";
+  const rawContent = row.content || row.definition || row.summary || "";
   sigmaNode.definition = rawContent.length > 500 ? `${rawContent.substring(0, 500)}...` : rawContent;
   if (typeof row.external_refs === "string") {
     try {
