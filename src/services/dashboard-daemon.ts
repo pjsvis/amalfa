@@ -34,6 +34,13 @@ export class DashboardDaemon {
   private setupRoutes() {
     // 1. Static Assets (PolyVis UI)
     this.app.use("/public/*", serveStatic({ root: "./" }));
+    // Map /sigma-explorer to the public directory for cleaner URLs
+    this.app.use(
+      "/sigma-explorer/*",
+      serveStatic({
+        root: "./public",
+      }),
+    );
     // Root assets for legacy support
     this.app.use("/css/*", serveStatic({ root: "./public" }));
     this.app.use("/js/*", serveStatic({ root: "./public" }));
