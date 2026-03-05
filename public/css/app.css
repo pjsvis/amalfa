@@ -197,7 +197,7 @@
     --radius-component: 0px;
     --header-height: auto;
     --footer-height: 48px;
-    --width-sidebar-base: 400px;
+    --width-sidebar-base: 320px;
     --scrollthumb-color: var(--ansi-white);
     --scrollthumb-hover-color: var(--ansi-green);
     --graph-background: var(--ansi-black);
