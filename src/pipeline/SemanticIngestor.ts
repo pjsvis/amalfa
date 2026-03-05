@@ -161,7 +161,7 @@ export class SemanticIngestor {
               layer: "document",
               meta: { 
                 ...frontmatter,
-                source: relativePath 
+                source: this.ensureKnownFolder(relativePath)
               }
             });
 
@@ -172,12 +172,12 @@ export class SemanticIngestor {
                 id: resolvedId,
                 type: entity.type.toLowerCase(),
                 label: entity.label,
-                domain: "semantic",
+                domain: "knowledge",
                 layer: "knowledge",
                 summary: entity.definition,
                 meta: { 
                   confidence: entity.confidence,
-                  source: relativePath 
+                  source: this.ensureKnownFolder(`knowledge/semantic/${relativePath}`)
                 }
               });
 
@@ -296,10 +296,10 @@ export class SemanticIngestor {
           id,
           type: "concept",
           label: entry.title,
-          domain: "lexicon",
+          domain: "persona", // Maps to 'persona' subGraph in frontend
           layer: "foundation",
           summary: entry.description,
-          meta: { ...entry, source: "lexicon-fixture" }
+          meta: { ...entry, source: "lexicon/fixture" }
         });
 
         // 1. Precise extraction (Triplifier)
@@ -352,10 +352,10 @@ export class SemanticIngestor {
             id,
             type: entry.id.match(/^[A-Z]+/) ? "directive" : "concept",
             label: title,
-            domain: "lexicon",
+            domain: "persona", // Maps to 'persona' subGraph
             layer: "cda",
             summary: entry.definition,
-            meta: { ...entry, section: section.section, source: "cda-fixture" }
+            meta: { ...entry, section: section.section, source: "cda/fixture" }
           });
 
           // 1. Precise extraction (Triplifier)
@@ -411,6 +411,18 @@ export class SemanticIngestor {
         this.db.insertSemanticEdge(sourceId, targetId, "ctx:mentions", 0.6, 1.0, origin);
       }
     }
+  }
+
+  /**
+   * Frontend (app.js) expects specific folder names to cluster nodes.
+   * If the path doesn't have one, we force it into 'knowledge'.
+   */
+  private ensureKnownFolder(path: string): string {
+    const known = ["playbooks", "debriefs", "briefs", "shards", "knowledge"];
+    if (known.some((k) => path.includes(k))) {
+      return path;
+    }
+    return `knowledge/${path}`;
   }
 
   private async discoverFiles(): Promise<string[]> {

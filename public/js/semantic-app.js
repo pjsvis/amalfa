@@ -5191,7 +5191,7 @@ var methods = {
               "playbooks",
               "debriefs",
               "briefs",
-              "shards",
+              "shards", "docs", "scripts", "api",
               "knowledge"
             ];
             for (const folder of knownFolders) {
@@ -5323,7 +5323,7 @@ var methods2 = {
       if (!this.activeSubGraphs.includes(row.subGraph))
         return;
       if (!this.graph.hasNode(row.id)) {
-        const sigmaNode = adaptNode(row);
+        const sigmaNode = adaptNode(row); if (!sigmaNode) return;
         sigmaNode.originalColor = sigmaNode.color;
         sigmaNode.originalSize = sigmaNode.size;
         this.graph.addNode(sigmaNode.id, sigmaNode);
@@ -5332,7 +5332,7 @@ var methods2 = {
     this.masterData.edges.forEach((row) => {
       if (this.graph.hasNode(row.source) && this.graph.hasNode(row.target)) {
         if (!this.graph.hasEdge(row.source, row.target)) {
-          const sigmaEdge = adaptEdge(row);
+          const sigmaEdge = adaptEdge(row); if (!sigmaEdge) return;
           sigmaEdge.color = getComputedStyle(document.documentElement).getPropertyValue("--graph-edge").trim() || "#cbd5e1";
           this.graph.addEdge(sigmaEdge.source, sigmaEdge.target, sigmaEdge);
         }
