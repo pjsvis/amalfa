@@ -205,10 +205,26 @@ export class DashboardDaemon {
       }
 
       try {
-        // Try main gardener first
-        let content = await this.gardener?.getContent(id);
+        // Step 1: Check if this is a persona node with a JSONL fixture_path
+        // We need to check the DB for the metadata
+        const node = this.semanticGardener?.getRawDb().query("SELECT title, meta FROM nodes WHERE id = ?").get(id) as any;
+        if (node?.meta) {
+          const meta = JSON.parse(node.meta);
+          if (meta.fixture_path) {
+            log.info({ id, fixture: meta.fixture_path }, "🪠 Plucking content via JQ");
+            const title = node.title || "";
+            // JQ command to find the record by ID or Title and return its definition
+            const cmd = ["jq", "-r", `select(.id == "${meta.id}" or .title == "${title}" or .term == "${title}") | .definition // .description`, meta.fixture_path];
+            const proc = Bun.spawn(cmd);
+            const content = await new Response(proc.stdout).text();
+            if (content && content.trim() !== "null" && content.trim() !== "") {
+              return c.json({ id, content: content.trim() });
+            }
+          }
+        }
 
-        // Fallback to semantic gardener if not found
+        // Step 2: Fallback to GraphGardener (standard markdown docs)
+        let content = await this.gardener?.getContent(id);
         if (!content && this.semanticGardener) {
           content = await this.semanticGardener.getContent(id);
         }
@@ -219,6 +235,7 @@ export class DashboardDaemon {
 
         return c.json({ id, content });
       } catch (e) {
+        log.error({ id, err: e }, "Failed to fetch node content");
         return c.json({ error: String(e) }, 500);
       }
     });
