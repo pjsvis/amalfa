@@ -30,21 +30,30 @@ export class DashboardDaemon {
   private server: ReturnType<typeof Bun.serve> | null = null;
   private app: Hono;
   private gardener: GraphGardener | null = null;
+  private semanticGardener: GraphGardener | null = null;
 
   constructor() {
     this.app = new Hono();
-    this.initGardener();
+    this.initGardeners();
     this.setupRoutes();
   }
 
-  private async initGardener() {
+  private async initGardeners() {
     try {
       const db = ResonanceDB.init();
       const graphEngine = new GraphEngine(db);
       const vectorEngine = new VectorEngine(db);
       this.gardener = new GraphGardener(db, graphEngine, vectorEngine);
+
+      const semDbPath = await getSemanticDbPath();
+      if (existsSync(semDbPath)) {
+        const semDb = new ResonanceDB(semDbPath);
+        const semGraph = new GraphEngine(semDb);
+        const semVector = new VectorEngine(semDb);
+        this.semanticGardener = new GraphGardener(semDb, semGraph, semVector);
+      }
     } catch (e) {
-      log.error({ err: e }, "Failed to initialize GraphGardener");
+      log.error({ err: e }, "Failed to initialize GraphGardeners");
     }
   }
 
@@ -192,18 +201,25 @@ export class DashboardDaemon {
     this.app.get("/api/nodes/:id/content", async (c) => {
       const id = c.req.param("id");
       if (!this.gardener) {
-        await this.initGardener();
-      }
-
-      if (!this.gardener) {
-        return c.json({ error: "Gardener not available" }, 500);
+        await this.initGardeners();
       }
 
       try {
-        const content = await this.gardener.getContent(id);
+        // Try main gardener first
+        let content = await this.gardener?.getContent(id);
+
+        // Fallback to semantic gardener if not found
+        if (!content && this.semanticGardener) {
+          content = await this.semanticGardener.getContent(id);
+        }
+
+        if (!content) {
+          return c.json({ error: "Content not found" }, 404);
+        }
+
         return c.json({ id, content });
       } catch (e) {
-        return c.json({ error: String(e) }, 404);
+        return c.json({ error: String(e) }, 500);
       }
     });
 
