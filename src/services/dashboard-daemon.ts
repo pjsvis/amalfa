@@ -31,6 +31,7 @@ export class DashboardDaemon {
   private app: Hono;
   private gardener: GraphGardener | null = null;
   private semanticGardener: GraphGardener | null = null;
+  private semanticDb: ResonanceDB | null = null;
 
   constructor() {
     this.app = new Hono();
@@ -47,10 +48,14 @@ export class DashboardDaemon {
 
       const semDbPath = await getSemanticDbPath();
       if (existsSync(semDbPath)) {
-        const semDb = new ResonanceDB(semDbPath);
-        const semGraph = new GraphEngine(semDb);
-        const semVector = new VectorEngine(semDb);
-        this.semanticGardener = new GraphGardener(semDb, semGraph, semVector);
+        this.semanticDb = new ResonanceDB(semDbPath);
+        const semGraph = new GraphEngine(this.semanticDb);
+        const semVector = new VectorEngine(this.semanticDb);
+        this.semanticGardener = new GraphGardener(
+          this.semanticDb,
+          semGraph,
+          semVector,
+        );
       }
     } catch (e) {
       log.error({ err: e }, "Failed to initialize GraphGardeners");
@@ -207,14 +212,24 @@ export class DashboardDaemon {
       try {
         // Step 1: Check if this is a persona node with a JSONL fixture_path
         // We need to check the DB for the metadata
-        const node = this.semanticGardener?.getRawDb().query("SELECT title, meta FROM nodes WHERE id = ?").get(id) as any;
+        const node = this.semanticDb
+          ?.getRawDb()
+          .query("SELECT title, meta FROM nodes WHERE id = ?")
+          .get(id) as any;
+
         if (node?.meta) {
           const meta = JSON.parse(node.meta);
           if (meta.fixture_path) {
             log.info({ id, fixture: meta.fixture_path }, "🪠 Plucking content via JQ");
-            const title = node.title || "";
-            // JQ command to find the record by ID or Title and return its definition
-            const cmd = ["jq", "-r", `select(.id == "${meta.id}" or .title == "${title}" or .term == "${title}") | .definition // .description`, meta.fixture_path];
+            
+            // JQ command: Search by record id (if exists) or title
+            // Use single quotes for the jq filter and escape double quotes in values
+            const targetId = meta.id || "";
+            const targetTitle = (node.title || "").replace(/"/g, '\\"');
+            
+            const jqFilter = `select(.id == "${targetId}" or .title == "${targetTitle}" or .term == "${targetTitle}") | .definition // .description`;
+            
+            const cmd = ["jq", "-r", jqFilter, meta.fixture_path];
             const proc = Bun.spawn(cmd);
             const content = await new Response(proc.stdout).text();
             if (content && content.trim() !== "null" && content.trim() !== "") {
