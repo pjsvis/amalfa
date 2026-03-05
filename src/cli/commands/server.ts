@@ -81,6 +81,13 @@ export async function cmdServers(args: string[]) {
       cmd: "amalfa sonar start",
     },
     {
+      name: "Dashboard",
+      pidFile: join(AMALFA_DIRS.runtime, "dashboard.pid"),
+      port: "3013",
+      id: "dashboard",
+      cmd: "amalfa dashboard start",
+    },
+    {
       name: "SSR Docs",
       pidFile: join(AMALFA_DIRS.runtime, "ssr-docs.pid"),
       port: "3001",
@@ -145,9 +152,12 @@ export async function cmdServers(args: string[]) {
     }
 
     console.log("");
-    console.log("  // Database");
+    console.log("  // Databases");
     console.log(
       '  db [label="SQLite\\n.amalfa/resonance.db", shape=cylinder, fillcolor=lightyellow];',
+    );
+    console.log(
+      '  semdb [label="SQLite\\n.amalfa/runtime/semantic.db", shape=cylinder, fillcolor=lightblue];',
     );
     console.log("");
     console.log("  // Connections");
@@ -156,6 +166,8 @@ export async function cmdServers(args: string[]) {
     console.log('  watcher -> db [label="updates"];');
     console.log('  mcp -> vector [label="query", style=dashed];');
     console.log('  vector -> reranker [label="rerank", style=dashed];');
+    console.log('  dashboard -> db [label="visualize"];');
+    console.log('  dashboard -> semdb [label="visualize"];');
     console.log("}");
     console.log("");
     console.log("# Save to file: amalfa servers --dot > amalfa.dot");
@@ -233,6 +245,11 @@ const BACKGROUND_SERVICES = [
     args: ["run", "src/cli.ts", "sonar", "start"],
   },
   {
+    name: "Dashboard",
+    cmd: "bun",
+    args: ["run", "src/cli.ts", "dashboard", "start"],
+  },
+  {
     name: "SSR Docs",
     cmd: "bun",
     args: ["run", "website/ssr-docs/server.ts"],
@@ -277,6 +294,7 @@ export async function cmdStopAll(_args: string[]) {
     },
     { name: "File Watcher", pidFile: join(AMALFA_DIRS.runtime, "daemon.pid") },
     { name: "Sonar Agent", pidFile: join(AMALFA_DIRS.runtime, "sonar.pid") },
+    { name: "Dashboard", pidFile: join(AMALFA_DIRS.runtime, "dashboard.pid") },
     { name: "SSR Docs", pidFile: join(AMALFA_DIRS.runtime, "ssr-docs.pid") },
     // MCP usually runs as stdio, but if we track a PID file for it:
     { name: "MCP Server", pidFile: join(AMALFA_DIRS.runtime, "mcp.pid") },

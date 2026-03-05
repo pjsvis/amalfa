@@ -1,28 +1,42 @@
 // Configuration - AMALFA Services
+const RUNTIME_DIR = ".amalfa/runtime";
+
 const SERVICES = [
 	{
 		name: "MCP Server",
-		pidFile: ".mcp.pid",
+		pidFile: `${RUNTIME_DIR}/mcp.pid`,
 		port: "stdio",
-		command: "bun run start",
+		command: "amalfa serve",
 	},
 	{
 		name: "Vector Daemon",
-		pidFile: ".vector-daemon.pid",
+		pidFile: `${RUNTIME_DIR}/vector-daemon.pid`,
 		port: "3010",
-		command: "bun run src/resonance/services/vector-daemon.ts start",
+		command: "amalfa vector start",
 	},
 	{
 		name: "File Watcher",
-		pidFile: ".amalfa-daemon.pid",
+		pidFile: `${RUNTIME_DIR}/daemon.pid`,
 		port: "-",
-		command: "bun run src/daemon/index.ts start",
+		command: "amalfa daemon start",
+	},
+  {
+		name: "Sonar Agent",
+		pidFile: `${RUNTIME_DIR}/sonar.pid`,
+		port: "3012",
+		command: "amalfa sonar start",
+	},
+  {
+		name: "Dashboard",
+		pidFile: `${RUNTIME_DIR}/dashboard.pid`,
+		port: "3013",
+		command: "amalfa dashboard start",
 	},
 	{
 		name: "Dev Server",
-		pidFile: ".dev.pid",
-		port: "3000",
-		command: "bun run dev",
+		pidFile: `${RUNTIME_DIR}/ssr-docs.pid`,
+		port: "3001",
+		command: "amalfa ssr-docs start",
 	},
 ];
 
