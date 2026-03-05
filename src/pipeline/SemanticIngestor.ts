@@ -93,9 +93,15 @@ export class SemanticIngestor {
   private async scanForIds(path: string) {
     await JsonlUtils.process(path, (record: any) => {
       const title = record.title || record.term || record.id;
-      const id = this.engine.slugify(title);
+      const entryId = record.id || "";
+      const id = /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(entryId) 
+        ? entryId.toLowerCase() 
+        : this.engine.slugify(title);
+        
       this.lexicon.set(title.toLowerCase(), id);
+      this.lexicon.set(entryId.toLowerCase(), id);
       this.formalLexicon.set(title.toLowerCase(), id);
+      this.formalLexicon.set(entryId.toLowerCase(), id);
     });
   }
 
@@ -105,7 +111,13 @@ export class SemanticIngestor {
 
     await JsonlUtils.process(path, async (record: any) => {
       const title = record.title || record.term || record.id;
-      const id = this.engine.slugify(title);
+      const entryId = record.id || "";
+      
+      // Use formal ID if it looks like a directive, otherwise slugify title
+      const id = /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(entryId) 
+        ? entryId.toLowerCase() 
+        : this.engine.slugify(title);
+
       const definition = record.description || record.definition || "";
       
       const nodeType = this.detectType(id, title);
@@ -243,23 +255,47 @@ export class SemanticIngestor {
 
   private detectType(id: string, title: string): string {
     const full = `${id} ${title}`.toUpperCase();
+
+    // 1. Substrate
     if (
       full.includes("BESTIARY") ||
       id.match(/trap|gravity|bias|collapse|brittleness|smell|detachment|maxxing/i)
     ) {
-      return "tendency";
+      return "Substrate Tendency";
     }
-    // Directive IDs or Titles
+
+    // 2. Foundational Directives (The Soul)
     if (
-      /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(id) ||
-      /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(title) ||
+      /^(CIP|PHI|COG)-/i.test(id) ||
+      /^(CIP|PHI|COG)-/i.test(title) ||
       full.includes("PRINCIPLE") ||
-      full.includes("PROTOCOL") ||
       full.includes("MANDATE")
     ) {
-      return "directive";
+      return "Foundational Directive";
     }
-    return "concept";
+
+    // 3. Operational Heuristics (The Skills)
+    if (
+      /^(OH|ADV|OPM|QHD|IEP)-/i.test(id) ||
+      /^(OH|ADV|OPM|QHD|IEP)-/i.test(title) ||
+      full.includes("PROTOCOL") ||
+      full.includes("HEURISTIC")
+    ) {
+      return "Operational Heuristic";
+    }
+
+    // 4. Compressed Neologisms (The Tokens)
+    const neologisms = new Set([
+      "mentation", "mentational-humility", "fafcas", "noosphere", "lerts", 
+      "edgeweaver", "graphengine", "vectorengine", "muppet", "kirk", 
+      "outer-ken", "conceptual-entropy", "semantic-compression", "hollow-node",
+      "saliency-trust-layer", "stl", "resipiscence"
+    ]);
+    if (neologisms.has(id.toLowerCase()) || neologisms.has(this.engine.slugify(title))) {
+      return "Compressed Neologism";
+    }
+
+    return "Conceptual Term";
   }
 
   private detectLayer(id: string, context?: string): string {
