@@ -239,12 +239,12 @@ export class TriplifierEngine {
     let match;
     while ((match = heuristicPattern.exec(content)) !== null) {
       entities.push({
-        id: match[1],
-        label: match[1],
+        id: match[1]!,
+        label: match[1]!,
         type: "Heuristic",
         confidence: 1.0,
         startPosition: match.index,
-        endPosition: match.index + match[1].length,
+        endPosition: match.index + match[1]!.length,
       });
     }
 
@@ -252,12 +252,12 @@ export class TriplifierEngine {
     const directivePattern = /\b(CIP-\d+|PHI-\d+|COG-\d+|ADV-\d+)\b/g;
     while ((match = directivePattern.exec(content)) !== null) {
       entities.push({
-        id: match[1],
-        label: match[1],
+        id: match[1]!,
+        label: match[1]!,
         type: "Directive",
         confidence: 1.0,
         startPosition: match.index,
-        endPosition: match.index + match[1].length,
+        endPosition: match.index + match[1]!.length,
       });
     }
 
@@ -280,7 +280,7 @@ export class TriplifierEngine {
     // Pattern 4: WikiLinks [[Entity]]
     const wikiLinkPattern = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g;
     while ((match = wikiLinkPattern.exec(content)) !== null) {
-      const entityName = match[1].trim();
+      const entityName = match[1]!.trim();
       const id = this.slugify(entityName);
       entities.push({
         id,
@@ -295,8 +295,8 @@ export class TriplifierEngine {
     // Pattern 5: Tags [Tag: Value] or [Key: Value]
     const tagPattern = /\[(\w+):\s*([^\]]+)\]/g;
     while ((match = tagPattern.exec(content)) !== null) {
-      const key = match[1];
-      const value = match[2].trim();
+      const key = match[1]!;
+      const value = match[2]!.trim();
       entities.push({
         id: this.slugify(value),
         label: value,
@@ -338,8 +338,8 @@ export class TriplifierEngine {
     const relationPattern = /\[(\w+):\s*([^\]]+)\]/g;
     let match;
     while ((match = relationPattern.exec(content)) !== null) {
-      const predicate = match[1].toLowerCase();
-      const targetLabel = match[2].trim();
+      const predicate = match[1]!.toLowerCase();
+      const targetLabel = match[2]!.trim();
       const targetId = this.slugify(targetLabel);
 
       // Find the nearest entity before this relation
@@ -364,9 +364,9 @@ export class TriplifierEngine {
     const verbPattern =
       /\b(\w+(?:\s+\w+)?)\s+(implements|mitigates|guides|constrains|depends\s+on|relates\s+to)\s+(\w+(?:\s+\w+)?)\b/gi;
     while ((match = verbPattern.exec(content)) !== null) {
-      const sourceLabel = match[1].trim();
-      const predicate = match[2].toLowerCase().replace(/\s+/g, "_");
-      const targetLabel = match[3].trim();
+      const sourceLabel = match[1]!.trim();
+      const predicate = match[2]!.toLowerCase().replace(/\s+/g, "_");
+      const targetLabel = match[3]!.trim();
 
       const sourceId = this.slugify(sourceLabel);
       const targetId = this.slugify(targetLabel);
@@ -382,8 +382,8 @@ export class TriplifierEngine {
 
     // Pattern 3: Proximity-based relationships (entities close to each other)
     for (let i = 0; i < entities.length - 1; i++) {
-      const current = entities[i];
-      const next = entities[i + 1];
+      const current = entities[i]!;
+      const next = entities[i + 1]!;
 
       if (
         current.startPosition !== undefined &&
@@ -398,7 +398,7 @@ export class TriplifierEngine {
             targetId: next.id,
             predicate: "ctx:relatesTo",
             confidence: 0.5,
-            context: content.substring(current.startPosition, next.endPosition),
+            context: content.substring(current.startPosition, next.endPosition!),
           });
         }
       }
@@ -646,13 +646,13 @@ export class TriplifierEngine {
     const match = uri.match(
       /(?:ctx:|(?:http:\/\/ctx\.ai\/ontology\/))\w+\/(.+)$/,
     );
-    return match ? match[1] : uri;
+    return match ? match[1]! : uri;
   }
 
   private extractTypeFromUri(uri: string): string | null {
     // Extract type from ctx:Type or http://ctx.ai/ontology/Type
     const match = uri.match(/(?:ctx:|(?:http:\/\/ctx\.ai\/ontology\/))(\w+)$/);
-    return match ? match[1] : null;
+    return match ? match[1]! : null;
   }
 
   /**

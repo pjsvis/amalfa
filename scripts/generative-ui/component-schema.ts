@@ -4,11 +4,13 @@ import { ActionSchema, VariantSchema } from "./action-schema";
 
 // 2. Metrics Card (for stats)
 export const StatCardSchema = z.object({
-  type: z.literal("metric"),
-  title: z.string(),
-  value: z.string().or(z.number()),
-  trend: z.string().optional().describe("e.g. '+5%'"),
-  trendDirection: z.enum(["up", "down", "neutral"] as const).optional(),
+  type: z.literal("StatCard"),
+  props: z.object({
+    title: z.string(),
+    value: z.string().or(z.number()),
+    trend: z.string().or(z.number()).optional().describe("e.g. '+5%'"),
+    trendDirection: z.enum(["up", "down", "neutral"] as const).optional(),
+  }),
 });
 
 // 2. The Data Grid (For tabular data)
@@ -18,7 +20,7 @@ export const DataGridSchema = z.object({
     title: z.string().optional(),
     columns: z.array(z.string()).describe("Header labels"),
     rows: z
-      .array(z.record(z.string().or(z.number())))
+      .array(z.record(z.string(), z.string().or(z.number())))
       .describe("Row data matching columns"),
     actions: z
       .array(ActionSchema)

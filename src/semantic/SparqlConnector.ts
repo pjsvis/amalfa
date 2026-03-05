@@ -154,7 +154,7 @@ export class SparqlConnector {
         `Invalid SPARQL query: must start with SELECT, CONSTRUCT, ASK, or DESCRIBE. Got: "${withoutPrefixes.substring(0, 50)}..."`,
       );
     }
-    const type = typeMatch[1].toUpperCase() as ParsedQuery["type"];
+    const type = typeMatch[1]!.toUpperCase() as ParsedQuery["type"];
 
     // Extract variables for SELECT
     const variables: string[] = [];
@@ -199,10 +199,12 @@ export class SparqlConnector {
       /ORDER\s+BY\s+(DESC|ASC)?\s*\?(\w+)/i,
     );
     const orderBy = orderByMatch
-      ? {
-          variable: orderByMatch[2]!,
-          direction: (orderByMatch[1] || "ASC") as "ASC" | "DESC",
-        }
+      ? [
+          {
+            variable: orderByMatch[2]!,
+            direction: (orderByMatch[1] || "ASC") as "ASC" | "DESC",
+          },
+        ]
       : undefined;
 
     return {
@@ -315,8 +317,17 @@ export class SparqlConnector {
         match[14],
       );
 
-      if (subject && predicate && object) {
-        patterns.push({ subject, predicate, object });
+      if (
+        subject &&
+        predicate &&
+        object &&
+        predicate.type !== "literal"
+      ) {
+        patterns.push({
+          subject,
+          predicate: predicate as { type: "variable" | "uri"; value: string },
+          object,
+        });
       }
     }
   }

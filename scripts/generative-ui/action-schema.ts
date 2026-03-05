@@ -13,7 +13,7 @@ export const ActionSchema = z.object({
     .describe("The Hono route ID to hit (e.g., '/api/sort-table')"),
   method: z.enum(["GET", "POST", "PUT", "DELETE"] as const).default("POST"),
   payload: z
-    .record(z.any())
+    .record(z.string(), z.any())
     .optional()
     .describe("Static data to send with the request"),
   variant: z

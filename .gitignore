@@ -118,3 +118,10 @@ test-docs/
 # Temporary Reference Files
 _temp-files/
 .todos/
+.sidecar/
+.sidecar-agent
+.sidecar-task
+.sidecar-pr
+.sidecar-start.sh
+.sidecar-base
+.td-root

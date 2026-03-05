@@ -1,5 +1,7 @@
 import { Database } from "bun:sqlite";
 
+import { loadSettings } from "@src/config/defaults";
+
 /**
  * 🏭 DATABASE FACTORY (The Enforcer)
  *
@@ -13,13 +15,14 @@ import { Database } from "bun:sqlite";
 export const DatabaseFactory = {
   /**
    * Connects specifically to the main Resonance Graph database.
-   * @param dbPath - Must be provided from config (amalfa.settings.json database key)
+   * @param dbPath - Optional. If not provided, loads from amalfa.settings.json
    */
   connectToResonance(
-    dbPath: string,
+    dbPath?: string,
     options: { readonly?: boolean } = {},
   ): Database {
-    return DatabaseFactory.connect(dbPath, options);
+    const finalPath = dbPath || loadSettings(false).database;
+    return DatabaseFactory.connect(finalPath, options);
   },
   /**
    * Creates a fully configured, concurrent-safe SQLite connection.

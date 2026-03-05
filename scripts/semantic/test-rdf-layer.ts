@@ -183,7 +183,7 @@ async function createTripleMapperTests(db: Database) {
     test("TripleMapper exports N-Triples format", () => {
       const ntriples = mapper.exportAsNTriples();
       const lines = ntriples.split("\n").filter(l => l.trim());
-      return lines.length > 0 && lines[0]?.includes(" .");
+      return lines.length > 0 && (lines[0]?.includes(" .") ?? false);
     }),
 
     test("TripleMapper exports Turtle format", () => {
