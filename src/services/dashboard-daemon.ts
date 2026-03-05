@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { getDbPath } from "@src/cli/utils";
+import { getDbPath, getSemanticDbPath } from "@src/cli/utils";
 import { AMALFA_DIRS } from "@src/config/defaults";
 import { telemetry } from "@src/services/PipelineTelemetry";
 import { JsonlUtils } from "@src/utils/JsonlUtils";
@@ -70,6 +70,21 @@ export class DashboardDaemon {
     // 4. Serve Database for Graph Explorer
     this.app.get("/resonance.db", async (c) => {
       const dbPath = await getDbPath();
+      const fileData = readFileSync(dbPath);
+
+      return c.body(fileData, 200, {
+        "Content-Type": "application/x-sqlite3",
+        "Content-Length": fileData.length.toString(),
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
+      });
+    });
+
+    this.app.get("/semantic.db", async (c) => {
+      const dbPath = await getSemanticDbPath();
+      if (!existsSync(dbPath)) {
+        return c.json({ error: "Semantic database not found" }, 404);
+      }
       const fileData = readFileSync(dbPath);
 
       return c.body(fileData, 200, {

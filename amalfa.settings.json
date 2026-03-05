@@ -8,6 +8,7 @@
   },
   "sources": [".", "src", "scripts"],
   "database": ".amalfa/resonance.db",
+  "semanticDatabase": ".amalfa/runtime/semantic.db",
   "embeddings": {
     "model": "BAAI/bge-small-en-v1.5",
     "dimensions": 384
@@ -50,7 +51,7 @@
     "autoDiscovery": true,
     "discoveryMethod": "cli",
     "inferenceMethod": "http",
-    "model": "qwen2.5:1.5b",
+    "model": "qwen3.5:latest",
     "modelPriority": [],
     "host": "localhost:11434",
     "port": 3012,

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark">
+    <title>Amalfa | Semantic Graph</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Inline Theme Init to prevent FOUC -->
+    <script>
+        (() => {
+            const stored = localStorage.getItem('polyvis-theme');
+            if (stored) {
+                document.documentElement.setAttribute('data-theme', stored);
+            }
+        })();
+    </script>
+    <script type="module" src="/js/utils/theme.js"></script>
+    <script src="/js/semantic-app.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script src="https://unpkg.com/graphology@0.25.4/dist/graphology.umd.js"></script>
+    <script src="https://unpkg.com/sigma@2.4.0/build/sigma.min.js"></script>
+    <script src="https://unpkg.com/graphology-library@0.8.0/dist/graphology-library.min.js"></script>
+    <link rel="stylesheet" href="/css/app.css" />
+</head>
+
+<body class="h-screen w-screen overflow-hidden text-sm antialiased"
+    style="background-color: var(--surface-1); color: var(--text-1);" x-data="sigmaApp()"
+    :class="{ 'loaded': loaded, 'layout-debug-mode': debug }" @keydown.window.shift.d="debug = !debug">
+
+    <!-- Outer Flex Container (Vertical) -->
+    <div class="flex h-full w-full flex-col">
+
+        <!-- 1. Navbar (Fixed Height) -->
+    <header class="app-header">
+        <nav class="nav-wrapper" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <a href="/" class="nav-brand" style="font-weight: 900; font-size: 1.25rem; letter-spacing: -0.02em; text-decoration: none;">AMALFA <span style="color: var(--primary);">SEMANTIC</span></a>
+                    <span style="font-size: 10px; opacity: 0.5; font-family: var(--font-mono);">v2026.03</span>
+                </div>
+                
+                <div class="nav-links" style="display: flex; gap: 1rem; white-space: nowrap;">
+                    <a href="/" class="nav-item">
+                       <i data-lucide="home" style="width: 14px; height: 14px;"></i> HQ
+                    </a>
+                    <a href="/sigma-explorer/" class="nav-item">
+                       <i data-lucide="share-2" style="width: 14px; height: 14px;"></i> Resonance
+                    </a>
+                    <a href="/sigma-explorer/semantic.html" class="nav-item active">
+                       <i data-lucide="layout-dashboard" style="width: 14px; height: 14px;"></i> Semantic
+                    </a>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 10px; border: 1px solid var(--border-base);">
+                    SOURCE: semantic.db
+                </div>
+                <button onclick="window.toggleTheme()" class="nav-item" style="background: none; border: none; cursor: pointer;">
+                    <i data-lucide="sun" style="width: 14px; height: 14px;"></i> Theme
+                </button>
+            </div>
+        </nav>
+    </header>
+
+        <!-- 2. Main Content (Fills remaining height) -->
+        <div class="flex flex-row flex-nowrap flex-grow overflow-hidden relative">
+
+            <!-- 2a. Left Sidebar (Fixed Width, Collapsible) -->
+            <div x-show="leftOpen"
+                class="explorer-sidebar-left flex-shrink-0 flex flex-col border-r shadow-sm transition-all z-20"
+                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="-translate-x-full"
+                x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full">
+                <div class="flex items-center justify-between p-2 border-b"
+                    style="background-color: var(--surface-1); border-color: var(--border-base);">
+                    <span class="font-mono text-xs font-bold uppercase" style="color: var(--text-2);">Controls</span>
+                    <button @click="leftOpen = false" class="">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="flex-grow overflow-y-auto p-4 space-y-4">
+                    <!-- Analysis Group -->
+                    <div>
+                        <div class="mb-2 font-mono text-xxs font-bold uppercase" style="color: var(--text-2);">Analysis</div>
+                        <div class="space-y-2">
+                            <div class="space-y-1">
+                                <button class="w-full max-w-[220px]"
+                                    :class="{ 'active': activeColorViz === 'louvain' }"
+                                    @click="toggleColorViz('louvain')">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="users" class="h-3 w-3"></i> <span>Communities</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <button class="w-full max-w-[220px]"
+                                :class="{ 'active': activeSizeViz === 'pagerank' }"
+                                @click="toggleSizeViz('pagerank')">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="bar-chart-2" class="h-3 w-3"></i> <span>PageRank</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Layout Group -->
+                    <div>
+                        <div class="mb-2 font-mono text-xxs font-bold uppercase" style="color: var(--text-2);">Layout</div>
+                        <select x-model="layout" @change="runLayout($event.target.value)"
+                            class="w-full p-2 text-xs border rounded bg-transparent">
+                            <option value="forceatlas2">ForceAtlas2</option>
+                            <option value="circular">Circular</option>
+                            <option value="noverlap">Noverlap</option>
+                        </select>
+                    </div>
+
+                    <!-- Actions Group -->
+                    <div>
+                        <div class="mb-2 font-mono text-xxs font-bold uppercase" style="color: var(--text-2);">Actions</div>
+                        <div class="space-y-1">
+                            <button @click="toggleOrphans()" class="w-full max-w-[220px]" :class="{ 'active': showOrphans }">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="ghost" class="h-3 w-3"></i> <span x-text="showOrphans ? 'Hide Orphans' : 'Show Orphans'"></span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2b. Graph Panel -->
+            <div class="explorer-graph-panel flex-grow relative overflow-hidden">
+                <div id="sigma-container" class="absolute inset-0 z-0" x-ref="sigmaContainer"></div>
+                
+                <div x-show="showStats" class="absolute bottom-6 left-6 rounded-md border p-4 shadow-lg z-10 font-mono text-xs bg-[var(--surface-panel)]">
+                    <div class="mb-2 border-b pb-1 font-bold">Semantic Graph Stats</div>
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                        <span class="text-gray-500">Nodes:</span> <span x-text="stats.nodes"></span>
+                        <span class="text-gray-500">Edges:</span> <span x-text="stats.edges"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2c. Right Sidebar -->
+            <div x-show="rightOpen" class="explorer-sidebar-right flex-shrink-0 flex flex-col border-l shadow-sm z-20">
+                <div style="background-color: var(--surface-1); border-color: var(--border-base);" class="flex items-center justify-between p-2 border-b">
+                    <button @click="rightOpen = false"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                    <span class="font-mono text-xs font-bold uppercase">Details</span>
+                </div>
+                <div class="flex-grow overflow-y-auto p-4">
+                    <template x-if="selectedNode">
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-xxs uppercase font-bold opacity-50">ID</div>
+                                <div class="font-mono text-xs" x-text="selectedNode.id"></div>
+                            </div>
+                            <div>
+                                <div class="text-xxs uppercase font-bold opacity-50">Label</div>
+                                <div class="text-sm font-bold" x-text="selectedNode.label"></div>
+                            </div>
+                            <div>
+                                <div class="text-xxs uppercase font-bold opacity-50">Definition</div>
+                                <div class="text-xs font-mono mt-1" x-text="selectedNode.definition"></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="tooltip.visible" class="fixed p-2 text-xs font-bold rounded shadow-xl pointer-events-none bg-white text-black z-50"
+        :style="`top: ${tooltip.y}px; left: ${tooltip.x}px;`" x-text="tooltip.text">
+    </div>
+</body>
+</html>
