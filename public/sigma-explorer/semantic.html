@@ -123,10 +123,10 @@
                                 <!-- Community List (Visible only when Louvain is active) -->
                                 <!-- Community List (Visible only when Louvain is active) -->
                                 <div x-show="activeColorViz === 'louvain'" x-transition class="mt-2 pl-1">
-                                    <div class="flex w-full gap-1">
+                                    <div class="grid grid-cols-4 w-full gap-1">
                                         <!-- Show All -->
                                         <button
-                                            class="btn-square flex-1 aspect-square"
+                                            class="btn-square aspect-square"
                                             :class="{ 'active': activeLouvainGroup === null }"
                                             @click="activeLouvainGroup = null; toggleColorViz('louvain', true)">
                                             ALL
@@ -135,7 +135,7 @@
                                         <!-- Dynamic List -->
                                         <template x-for="(group, index) in getLouvainGroups()" :key="group.id">
                                             <button
-                                                class="btn-square flex-1 aspect-square"
+                                                class="btn-square aspect-square"
                                                 :class="{ 'active': activeLouvainGroup === group.id }"
                                                 :style="`background-color: ${group.color}; color: black;`"
                                                 @click="activeLouvainGroup = group.id; toggleColorViz('louvain')"
