@@ -5501,6 +5501,26 @@ var methods3 = {
       this.hoveredNode = null;
     });
   },
+  getIntensity(val, type = 'quality') {
+    const v = parseFloat(val);
+    if (isNaN(v)) return 'Unknown';
+    
+    if (type === 'saliency') {
+      if (v >= 1.0) return 'Nova';
+      if (v >= 0.8) return 'Plasma';
+      if (v >= 0.6) return 'Ember';
+      if (v >= 0.4) return 'Tepid';
+      if (v >= 0.2) return 'Frost';
+      return 'Absolute Zero';
+    }
+
+    if (v >= 1.0) return 'Inviolate';
+    if (v >= 0.8) return 'Bestest';
+    if (v >= 0.6) return 'Betterer';
+    if (v >= 0.4) return 'Gooder';
+    if (v >= 0.2) return 'Spectral';
+    return 'Void';
+  },
   selectNode(nodeId) {
     if (!nodeId || !this.graph || !this.graph.hasNode(nodeId)) {
       return;
