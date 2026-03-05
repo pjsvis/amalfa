@@ -44,6 +44,10 @@ export class DashboardDaemon {
     // Root assets for legacy support
     this.app.use("/css/*", serveStatic({ root: "./public" }));
     this.app.use("/js/*", serveStatic({ root: "./public" }));
+    
+    // Specific root files needed by the frontend
+    this.app.get("/polyvis.settings.json", serveStatic({ path: "./public/polyvis.settings.json" }));
+    this.app.get("/favicon.svg", serveStatic({ path: "./public/favicon.svg" }));
 
     // 2. Main Dashboard (New Terminal UI)
     this.app.get("/", (c) => {
@@ -161,6 +165,9 @@ export class DashboardDaemon {
 
     // Health check
     this.app.get("/health", (c) =>
+      c.json({ status: "ok", uptime: process.uptime() }),
+    );
+    this.app.get("/api/health", (c) =>
       c.json({ status: "ok", uptime: process.uptime() }),
     );
 
