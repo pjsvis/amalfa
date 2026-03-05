@@ -20,6 +20,10 @@ export interface Node {
   hash?: string;
   meta?: Record<string, unknown>; // JSON object for flexible metadata
   date?: string; // ISO-8601 or similar temporal anchor
+  // STL Fields
+  confidenceScore?: number;
+  saliencyScore?: number;
+  lastAccess?: string;
 }
 
 export class ResonanceDB {
@@ -86,8 +90,8 @@ export class ResonanceDB {
     // Schema v9: content column removed (Hollow Node enforcement)
     // Content is read from filesystem via GraphGardener.getContent()
     const stmt = this.db.prepare(`
-            INSERT OR REPLACE INTO nodes (id, type, title, domain, layer, embedding, hash, meta, date)
-            VALUES ($id, $type, $title, $domain, $layer, $embedding, $hash, $meta, $date)
+            INSERT OR REPLACE INTO nodes (id, type, title, domain, layer, embedding, hash, meta, date, summary, confidence_score, saliency_score, last_access)
+            VALUES ($id, $type, $title, $domain, $layer, $embedding, $hash, $meta, $date, $summary, $confidence, $saliency, $last_access)
         `);
 
     try {
@@ -113,6 +117,10 @@ export class ResonanceDB {
         $hash: node.hash ? String(node.hash) : null,
         $meta: node.meta ? JSON.stringify(node.meta) : null,
         $date: node.date ? String(node.date) : null,
+        $summary: node.summary || null,
+        $confidence: node.confidenceScore ?? 1.0,
+        $saliency: node.saliencyScore ?? 0.0,
+        $last_access: node.lastAccess ?? new Date().toISOString(),
       });
       this.logHistory("upsert", "node", node.id, undefined, node);
     } catch (err) {
@@ -169,17 +177,29 @@ export class ResonanceDB {
     confidence: number = 1.0,
     veracity: number = 1.0,
     contextSource?: string,
+    saliency: number = 0.0,
   ) {
     this.db.run(
       `
-            INSERT INTO edges (source, target, type, confidence, veracity, context_source)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO edges (source, target, type, confidence, veracity, context_source, saliency_score, last_access)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(source, target, type) DO UPDATE SET
                 confidence = excluded.confidence,
                 veracity = excluded.veracity,
-                context_source = excluded.context_source
+                context_source = excluded.context_source,
+                saliency_score = MAX(edges.saliency_score, excluded.saliency_score),
+                last_access = excluded.last_access
         `,
-      [source, target, type, confidence, veracity, contextSource ?? null],
+      [
+        source,
+        target,
+        type,
+        confidence,
+        veracity,
+        contextSource ?? null,
+        saliency,
+        new Date().toISOString(),
+      ],
     );
   }
 
@@ -292,6 +312,9 @@ export class ResonanceDB {
       hash: row.hash,
       meta: row.meta ? JSON.parse(row.meta) : {},
       date: row.date,
+      confidenceScore: row.confidence_score,
+      saliencyScore: row.saliency_score,
+      lastAccess: row.last_access,
     };
   }
 
@@ -388,6 +411,24 @@ export class ResonanceDB {
     const trimmed = collapsedDashes.replace(/^-|-$/g, "");
 
     return trimmed;
+  }
+
+  /**
+   * STL: Boost the saliency of a node and its outbound edges.
+   * Increments the saliency_score and updates last_access.
+   */
+  boostSaliency(nodeId: string, amount: number = 0.1) {
+    const timestamp = new Date().toISOString();
+    // Boost Node
+    this.db.run(
+      "UPDATE nodes SET saliency_score = MIN(1.0, saliency_score + ?), last_access = ? WHERE id = ?",
+      [amount, timestamp, nodeId],
+    );
+    // Boost Outbound Edges
+    this.db.run(
+      "UPDATE edges SET saliency_score = MIN(1.0, saliency_score + ?), last_access = ? WHERE source = ?",
+      [amount, timestamp, nodeId],
+    );
   }
 
   updateNodeMeta(id: string, meta: Record<string, unknown>) {
