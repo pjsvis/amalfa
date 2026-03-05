@@ -26,6 +26,12 @@ export class SemanticIngestor {
   private log = getLogger("SemanticIngestor");
   private engine: TriplifierEngine;
   private lexicon: Map<string, string> = new Map();
+  private formalLexicon: Map<string, string> = new Map(); // High-signal formal terms (IDs, Protocols)
+  private artifacts = {
+    lexiconMap: {} as Record<string, string>,
+    rawExtractions: [] as any[],
+    proposedTriples: [] as any[],
+  };
 
   constructor(
     private config: AmalfaConfig,
@@ -47,12 +53,43 @@ export class SemanticIngestor {
     // Fetch all nodes to create a label-to-id map
     const nodes = this.resonanceDb.getNodes({ excludeContent: true });
     for (const node of nodes) {
-      if (node.label) {
-        this.lexicon.set(node.label.toLowerCase(), node.id);
+      const idLower = node.id.toLowerCase();
+      const labelLower = node.label?.toLowerCase();
+
+      // 1. Add to global lexicon
+      if (labelLower) {
+        this.lexicon.set(labelLower, node.id);
+        this.artifacts.lexiconMap[labelLower] = node.id;
       }
-      this.lexicon.set(node.id.toLowerCase(), node.id);
+      this.lexicon.set(idLower, node.id);
+      this.artifacts.lexiconMap[idLower] = node.id;
+
+      // 2. Add to formal lexicon if it looks like a directive or protocol
+      if (idLower.match(/^(oh-|cip-|phi-|cog-|adv-|opm-|term-|concept-)/)) {
+        this.formalLexicon.set(idLower, node.id);
+        if (labelLower) this.formalLexicon.set(labelLower, node.id);
+      }
     }
-    this.log.info(`📖 Lexicon built with ${this.lexicon.size} entries`);
+    this.log.info(`📖 Lexicon built with ${this.lexicon.size} entries (${this.formalLexicon.size} formal)`);
+  }
+
+  private async saveArtifacts() {
+    const artifactDir = join(process.cwd(), ".amalfa/artifacts/semantic");
+    
+    await Bun.write(
+      join(artifactDir, "lexicon-map.json"),
+      JSON.stringify(this.artifacts.lexiconMap, null, 2)
+    );
+    await Bun.write(
+      join(artifactDir, "fixture-extractions.json"),
+      JSON.stringify(this.artifacts.rawExtractions, null, 2)
+    );
+    await Bun.write(
+      join(artifactDir, "proposed-triples.json"),
+      JSON.stringify(this.artifacts.proposedTriples, null, 2)
+    );
+    
+    this.log.info(`📦 Artifacts saved to ${artifactDir}`);
   }
 
   private resolveId(label: string, originalId: string): string {
@@ -65,9 +102,13 @@ export class SemanticIngestor {
    */
   async ingest(): Promise<SemanticIngestionResult> {
     const startTime = performance.now();
+
+    // 1. Ingest Fixtures (CL/CDA)
+    await this.ingestFixtures();
+
     const sources = this.config.sources || ["./docs"];
-    
     this.log.info(`🧠 Starting semantic ingestion from: ${sources.join(", ")}`);
+
 
     try {
       const files = await this.discoverFiles();
@@ -104,6 +145,7 @@ export class SemanticIngestor {
 
           // Extract using TriplifierEngine
           const result = await this.engine.processDocument(content, docId);
+          this.artifacts.rawExtractions.push({ id: docId, source: relativePath, ...result });
 
           let transactionActive = false;
           try {
@@ -140,6 +182,7 @@ export class SemanticIngestor {
               });
 
               // Link document to the entity
+              this.artifacts.proposedTriples.push({ s: docId, p: "links_to", o: resolvedId, method: "doc-to-entity" });
               this.db.insertSemanticEdge(
                 docId,
                 resolvedId,
@@ -166,6 +209,7 @@ export class SemanticIngestor {
                 ? this.resolveId(targetEntity.label, rel.targetId)
                 : rel.targetId;
 
+              this.artifacts.proposedTriples.push({ s: resolvedSource, p: rel.predicate, o: resolvedTarget, method: "triplifier" });
               this.db.insertSemanticEdge(
                 resolvedSource,
                 resolvedTarget,
@@ -197,6 +241,7 @@ export class SemanticIngestor {
 
       // Final persistence
       this.db.checkpoint();
+      await this.saveArtifacts();
 
       const endTime = performance.now();
       const durationSec = (endTime - startTime) / 1000;
@@ -217,6 +262,154 @@ export class SemanticIngestor {
         success: false,
         stats: { files: 0, entities: 0, relationships: 0, durationSec: 0 },
       };
+    }
+  }
+
+  private async ingestFixtures() {
+    const fixtures = this.config.fixtures;
+    if (!fixtures) return;
+
+    if (fixtures.lexicon) {
+      await this.ingestLexicon(fixtures.lexicon);
+    }
+    if (fixtures.cda) {
+      await this.ingestCDA(fixtures.cda);
+    }
+  }
+
+  private async ingestLexicon(path: string) {
+    this.log.info(`📖 Ingesting Conceptual Lexicon: ${path}`);
+    try {
+      const content = await Bun.file(path).json();
+      
+      // Pass 1: Build local ID map for internal resolution
+      for (const entry of content) {
+        const id = entry.title.toLowerCase().replace(/\s+/g, "-");
+        this.lexicon.set(entry.title.toLowerCase(), id);
+        this.formalLexicon.set(entry.title.toLowerCase(), id);
+      }
+
+      this.db.beginTransaction();
+      for (const entry of content) {
+        const id = entry.title.toLowerCase().replace(/\s+/g, "-");
+        this.db.insertNode({
+          id,
+          type: "concept",
+          label: entry.title,
+          domain: "lexicon",
+          layer: "foundation",
+          summary: entry.description,
+          meta: { ...entry, source: "lexicon-fixture" }
+        });
+
+        // 1. Precise extraction (Triplifier)
+        const result = await this.engine.processDocument(entry.description, id);
+        this.artifacts.rawExtractions.push({ id, source: "lexicon", ...result });
+
+        for (const rel of result.relationships) {
+          const targetEntity = result.entities.find(e => e.id === rel.targetId);
+          const resolvedTarget = targetEntity 
+            ? this.resolveId(targetEntity.label, rel.targetId)
+            : this.resolveId(rel.targetId, rel.targetId);
+          
+          this.artifacts.proposedTriples.push({ s: id, p: rel.predicate, o: resolvedTarget, method: "triplifier" });
+          this.db.insertSemanticEdge(id, resolvedTarget, rel.predicate, rel.confidence, 1.0, "lexicon-fixture");
+        }
+
+        // 2. Lexical fallback (Strict Keyword matching)
+        this.linkByKeywords(id, entry.description, "lexicon-fixture", true);
+      }
+      this.db.commit();
+    } catch (e) {
+      this.log.error({ err: e }, "❌ Failed to ingest lexicon fixture");
+      this.db.rollback();
+    }
+  }
+
+  private async ingestCDA(path: string) {
+    this.log.info(`📜 Ingesting Core Directives Array: ${path}`);
+    try {
+      const content = await Bun.file(path).json();
+
+      // Pass 1: Build local ID map
+      for (const section of content.directives) {
+        for (const entry of section.entries) {
+          const id = entry.id.toLowerCase();
+          const title = entry.title || entry.term || id;
+          this.lexicon.set(title.toLowerCase(), id);
+          this.lexicon.set(id, id);
+          this.formalLexicon.set(title.toLowerCase(), id);
+          this.formalLexicon.set(id, id);
+        }
+      }
+
+      this.db.beginTransaction();
+      for (const section of content.directives) {
+        for (const entry of section.entries) {
+          const id = entry.id.toLowerCase();
+          const title = entry.title || entry.term || id;
+          this.db.insertNode({
+            id,
+            type: entry.id.match(/^[A-Z]+/) ? "directive" : "concept",
+            label: title,
+            domain: "lexicon",
+            layer: "cda",
+            summary: entry.definition,
+            meta: { ...entry, section: section.section, source: "cda-fixture" }
+          });
+
+          // 1. Precise extraction (Triplifier)
+          const result = await this.engine.processDocument(entry.definition, id);
+          this.artifacts.rawExtractions.push({ id, source: "cda", ...result });
+
+          for (const rel of result.relationships) {
+            const targetEntity = result.entities.find(e => e.id === rel.targetId);
+            const resolvedTarget = targetEntity
+              ? this.resolveId(targetEntity.label, rel.targetId)
+              : this.resolveId(rel.targetId, rel.targetId);
+            
+            this.artifacts.proposedTriples.push({ s: id, p: rel.predicate, o: resolvedTarget, method: "triplifier" });
+            this.db.insertSemanticEdge(id, resolvedTarget, rel.predicate, rel.confidence, 1.0, "cda-fixture");
+          }
+
+          // 2. Lexical fallback (Strict)
+          this.linkByKeywords(id, entry.definition, "cda-fixture", true);
+        }
+      }
+      this.db.commit();
+    } catch (e) {
+      this.log.error({ err: e }, "❌ Failed to ingest CDA fixture");
+      this.db.rollback();
+    }
+  }
+
+  /**
+   * Scans text for lexicon terms and creates links.
+   * Minimalist 'EdgeWeaver' for semantic ingestion.
+   */
+  private linkByKeywords(sourceId: string, text: string, origin: string, strict: boolean = false) {
+    if (!text) return;
+    const lowered = text.toLowerCase();
+    
+    // Noise terms to skip (common words that happen to be in node titles/ids)
+    const noiseTerms = new Set(["text", "target", "source", "link", "process", "result", "data", "info", "model", "tools", "instance", "context", "pattern", "graph", "agents", "baseline", "content", "describe"]);
+
+    const targetLexicon = strict ? this.formalLexicon : this.lexicon;
+
+    for (const [term, targetId] of targetLexicon.entries()) {
+      // Don't link to self
+      if (targetId === sourceId) continue;
+      
+      // Quality filters
+      if (term.length < 5 && !term.match(/^[a-z]+-\d+/)) continue; // Allow short formal IDs (OH-1)
+      if (!strict && noiseTerms.has(term)) continue;
+
+      // Only link if the term is found as a whole word or significant substring
+      const pattern = new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      if (pattern.test(lowered)) {
+        this.artifacts.proposedTriples.push({ s: sourceId, p: "ctx:mentions", o: targetId, method: "lexical", mode: strict ? "strict" : "loose" });
+        this.db.insertSemanticEdge(sourceId, targetId, "ctx:mentions", 0.6, 1.0, origin);
+      }
     }
   }
 
