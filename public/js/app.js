@@ -5223,7 +5223,7 @@ var NODE_ATTR_ALLOWLIST = new Set([
   "domain",
   "layer",
   "subGraph",
-  "external_refs"
+  "external_refs", "confidenceScore", "saliencyScore", "lastAccess"
 ]);
 function adaptNode(row) {
   if (!row || !row.id)
@@ -5235,6 +5235,10 @@ function adaptNode(row) {
     size: calculateBaseSize(row.type),
     color: calculateBaseColor(row.subGraph || "misc"),
     x: stableHash(`${row.id}x`),
+  if (row.confidence_score !== undefined) row.confidenceScore = row.confidence_score;
+  if (row.saliency_score !== undefined) row.saliencyScore = row.saliency_score;
+  if (row.last_access !== undefined) row.lastAccess = row.last_access;
+
     y: stableHash(`${row.id}y`)
   };
   NODE_ATTR_ALLOWLIST.forEach((attr) => {
@@ -5610,7 +5614,20 @@ var methods3 = {
   linkify(text) {
     if (!text)
       return "";
-    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline">$1</a>');
+    if (!window.jumpToNode) {
+      window.jumpToNode = (id) => {
+        const app = document.querySelector("[x-data]").__x.$data;
+        if (app)
+          app.selectNode(id);
+      };
+    }
+    let html = text.replace(/\[\[([^\|\]]+)(?:\|([^\]]+))?\]\]/g, (m, id, label) => {
+      return `<span class="text-blue-500 cursor-pointer hover:underline font-bold" onclick="window.jumpToNode('${id.toLowerCase()}')">${label || id}</span>`;
+    });
+    html = html.replace(/\b((?:OH|OPM|PHI|COG|ADV|CIP|QHD|IEP)-\d+)\b/gi, (m, id) => {
+      return `<span class="text-blue-500 cursor-pointer hover:underline font-bold" onclick="window.jumpToNode('${id.toLowerCase()}')">${id}</span>`;
+    });
+    return html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline">$1</a>');
   },
   async findSimilar(nodeId) {
     if (!this.db) {

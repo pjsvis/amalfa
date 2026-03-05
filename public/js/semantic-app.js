@@ -5223,7 +5223,7 @@ var NODE_ATTR_ALLOWLIST = new Set([
   "domain",
   "layer",
   "subGraph",
-  "external_refs"
+  "external_refs", "confidenceScore", "saliencyScore", "lastAccess"
 ]);
 function adaptNode(row) {
   if (!row || !row.id)
@@ -5235,6 +5235,10 @@ function adaptNode(row) {
     size: calculateBaseSize(row.type),
     color: calculateBaseColor(row.subGraph || "misc"),
     x: stableHash(`${row.id}x`),
+  if (row.confidence_score !== undefined) row.confidenceScore = row.confidence_score;
+  if (row.saliency_score !== undefined) row.saliencyScore = row.saliency_score;
+  if (row.last_access !== undefined) row.lastAccess = row.last_access;
+
     y: stableHash(`${row.id}y`)
   };
   NODE_ATTR_ALLOWLIST.forEach((attr) => {
