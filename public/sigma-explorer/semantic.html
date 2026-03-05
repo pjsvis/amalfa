@@ -417,7 +417,8 @@
 
             <!-- 2c. Right Sidebar (Fixed Width, Collapsible) -->
             <div x-show="rightOpen"
-                class="explorer-sidebar-right flex-shrink-0 flex flex-col border-l shadow-sm transition-all z-20"
+                class="explorer-sidebar-right flex-shrink-0 flex flex-col border-l shadow-sm transition-all z-20 overflow-x-hidden"
+                style="width: var(--width-sidebar-base); min-width: var(--width-sidebar-base); max-width: var(--width-sidebar-base);"
                 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="translate-x-full"
                 x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200"
                 x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full">
