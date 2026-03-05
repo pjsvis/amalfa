@@ -5610,7 +5610,23 @@ var methods3 = {
   linkify(text) {
     if (!text)
       return "";
-    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline">$1</a>');
+    if (!window.jumpToNode) {
+      window.jumpToNode = (id) => {
+        const app = document.querySelector("[x-data]").__x.$data;
+        if (app)
+          app.selectNode(id.toLowerCase());
+      };
+    }
+    // 1. Internal WikiLinks [[ID|Label]]
+    let html = text.replace(/\[\[([^\|\]]+)(?:\|([^\]]+))?\]\]/g, (m, id, label) => {
+      return `<span class="text-blue-500 cursor-pointer hover:underline font-bold" onclick="event.stopPropagation(); window.jumpToNode('${id.trim()}')">${label || id}</span>`;
+    });
+    // 2. Bare IDs (OH-104, etc.) - Match only if NOT already inside an anchor tag
+    html = html.replace(/\b((?:OH|OPM|PHI|COG|ADV|CIP|QHD|IEP)-\d+)\b/gi, (m, id) => {
+      return `<span class="text-blue-500 cursor-pointer hover:underline font-bold" onclick="event.stopPropagation(); window.jumpToNode('${id.trim()}')">${id}</span>`;
+    });
+    // 3. Standard Markdown Links [Label](URL)
+    return html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline" onclick="event.stopPropagation()">$1</a>');
   },
   async findSimilar(nodeId) {
     if (!this.db) {
