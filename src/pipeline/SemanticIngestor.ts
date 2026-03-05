@@ -25,13 +25,39 @@ export interface SemanticIngestionResult {
 export class SemanticIngestor {
   private log = getLogger("SemanticIngestor");
   private engine: TriplifierEngine;
+  private lexicon: Map<string, string> = new Map();
 
   constructor(
     private config: AmalfaConfig,
     private db: SemanticDB,
+    private resonanceDb?: ResonanceDB,
   ) {
     // Initialize TriplifierEngine without a DB (we handle persistence here)
     this.engine = new TriplifierEngine();
+    
+    if (this.resonanceDb) {
+      this.buildLexicon();
+    }
+  }
+
+  private buildLexicon() {
+    if (!this.resonanceDb) return;
+    this.log.info("📖 Building lexicon for entity resolution...");
+    
+    // Fetch all nodes to create a label-to-id map
+    const nodes = this.resonanceDb.getNodes({ excludeContent: true });
+    for (const node of nodes) {
+      if (node.label) {
+        this.lexicon.set(node.label.toLowerCase(), node.id);
+      }
+      this.lexicon.set(node.id.toLowerCase(), node.id);
+    }
+    this.log.info(`📖 Lexicon built with ${this.lexicon.size} entries`);
+  }
+
+  private resolveId(label: string, originalId: string): string {
+    const lowered = label.toLowerCase();
+    return this.lexicon.get(lowered) || originalId;
   }
 
   /**
@@ -99,8 +125,9 @@ export class SemanticIngestor {
 
             // 2. Insert extracted entities as nodes
             for (const entity of result.entities) {
+              const resolvedId = this.resolveId(entity.label, entity.id);
               this.db.insertNode({
-                id: entity.id,
+                id: resolvedId,
                 type: entity.type.toLowerCase(),
                 label: entity.label,
                 domain: "semantic",
@@ -111,14 +138,37 @@ export class SemanticIngestor {
                   source: relativePath 
                 }
               });
+
+              // Link document to the entity
+              this.db.insertSemanticEdge(
+                docId,
+                resolvedId,
+                "links_to",
+                entity.confidence,
+                1.0,
+                relativePath
+              );
+
               totalEntities++;
             }
 
             // 3. Insert relationships as edges
             for (const rel of result.relationships) {
+              // Find labels to resolve IDs if possible
+              const sourceEntity = result.entities.find(e => e.id === rel.sourceId);
+              const targetEntity = result.entities.find(e => e.id === rel.targetId);
+
+              const resolvedSource = sourceEntity 
+                ? this.resolveId(sourceEntity.label, rel.sourceId)
+                : rel.sourceId;
+
+              const resolvedTarget = targetEntity
+                ? this.resolveId(targetEntity.label, rel.targetId)
+                : rel.targetId;
+
               this.db.insertSemanticEdge(
-                rel.sourceId,
-                rel.targetId,
+                resolvedSource,
+                resolvedTarget,
                 rel.predicate,
                 rel.confidence,
                 1.0, // veracity
@@ -126,7 +176,6 @@ export class SemanticIngestor {
               );
               totalRelationships++;
             }
-
             this.db.commit();
             transactionActive = false;
           } catch (dbErr) {

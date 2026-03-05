@@ -292,6 +292,25 @@ export class TriplifierEngine {
       });
     }
 
+    // Pattern 4b: Markdown Links [Label](path.md)
+    const mdLinkPattern = /\[([^\]]+)\]\(([^)]+\.md)\)/g;
+    while ((match = mdLinkPattern.exec(content)) !== null) {
+      const label = match[1]!.trim();
+      const path = match[2]!.trim();
+      // Use filename as ID for consistency with slugs
+      const filename = path.split("/").pop() || "";
+      const id = this.slugify(filename.replace(".md", ""));
+      
+      entities.push({
+        id,
+        label,
+        type: "Document",
+        confidence: 0.9,
+        startPosition: match.index,
+        endPosition: match.index + match[0].length,
+      });
+    }
+
     // Pattern 5: Tags [Tag: Value] or [Key: Value]
     const tagPattern = /\[(\w+):\s*([^\]]+)\]/g;
     while ((match = tagPattern.exec(content)) !== null) {
@@ -362,7 +381,7 @@ export class TriplifierEngine {
 
     // Pattern 2: "X implements Y" or "X mitigates Y" syntax
     const verbPattern =
-      /\b(\w+(?:\s+\w+)?)\s+(implements|mitigates|guides|constrains|depends\s+on|relates\s+to)\s+(\w+(?:\s+\w+)?)\b/gi;
+      /\b(\w+(?:\s+\w+)?)\s+(implements|mitigates|guides|constrains|depends\s+on|relates\s+to|links\s+to|cites)\s+(\w+(?:\s+\w+)?)\b/gi;
     while ((match = verbPattern.exec(content)) !== null) {
       const sourceLabel = match[1]!.trim();
       const predicate = match[2]!.toLowerCase().replace(/\s+/g, "_");
@@ -379,6 +398,11 @@ export class TriplifierEngine {
         context: match[0],
       });
     }
+
+    // Pattern 2b: Capture all extracted entities as potential relationships to the source doc
+    // This is handled by the ingestor usually, but if we want it in the triples:
+    // We'll skip adding them here to avoid duplication with the Ingestor's logic
+    // but we ensure explicit links are captured.
 
     // Pattern 3: Proximity-based relationships (entities close to each other)
     for (let i = 0; i < entities.length - 1; i++) {
