@@ -516,7 +516,7 @@
                                          ">
                                         
                                         <div x-ref="content" 
-                                             class="text-xs leading-relaxed font-mono transition-all duration-300 overflow-hidden" 
+                                             class="text-xs leading-relaxed font-mono transition-all duration-300 overflow-hidden break-words whitespace-pre-wrap" 
                                              style="color: color(from var(--surface-1) xyz round(up, min(1, max(0, 0.18 - y))) round(up, min(1, max(0, 0.18 - y))) round(up, min(1, max(0, 0.18 - y)))); display: -webkit-box; -webkit-box-orient: vertical;"
                                              :style="expanded ? 'display: block;' : '-webkit-line-clamp: 4 !important; display: -webkit-box !important;'"
                                              x-html="linkify(selectedNode.definition || 'No definition available.')"
