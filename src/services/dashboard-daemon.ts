@@ -2,6 +2,10 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { getDbPath, getSemanticDbPath } from "@src/cli/utils";
 import { AMALFA_DIRS } from "@src/config/defaults";
+import { GraphGardener } from "@src/core/GraphGardener";
+import { GraphEngine } from "@src/core/GraphEngine";
+import { VectorEngine } from "@src/core/VectorEngine";
+import { ResonanceDB } from "@src/resonance/db";
 import { telemetry } from "@src/services/PipelineTelemetry";
 import { JsonlUtils } from "@src/utils/JsonlUtils";
 import { getLogger } from "@src/utils/Logger";
@@ -25,10 +29,23 @@ interface RunEntry {
 export class DashboardDaemon {
   private server: ReturnType<typeof Bun.serve> | null = null;
   private app: Hono;
+  private gardener: GraphGardener | null = null;
 
   constructor() {
     this.app = new Hono();
+    this.initGardener();
     this.setupRoutes();
+  }
+
+  private async initGardener() {
+    try {
+      const db = ResonanceDB.init();
+      const graphEngine = new GraphEngine(db);
+      const vectorEngine = new VectorEngine(db);
+      this.gardener = new GraphGardener(db, graphEngine, vectorEngine);
+    } catch (e) {
+      log.error({ err: e }, "Failed to initialize GraphGardener");
+    }
   }
 
   private setupRoutes() {
@@ -170,6 +187,25 @@ export class DashboardDaemon {
     this.app.get("/api/health", (c) =>
       c.json({ status: "ok", uptime: process.uptime() }),
     );
+
+    // 5. Node Content
+    this.app.get("/api/nodes/:id/content", async (c) => {
+      const id = c.req.param("id");
+      if (!this.gardener) {
+        await this.initGardener();
+      }
+
+      if (!this.gardener) {
+        return c.json({ error: "Gardener not available" }, 500);
+      }
+
+      try {
+        const content = await this.gardener.getContent(id);
+        return c.json({ id, content });
+      } catch (e) {
+        return c.json({ error: String(e) }, 404);
+      }
+    });
 
     // 12. Datastar SSE Stream
     this.app.get("/api/stream", async (c) => {

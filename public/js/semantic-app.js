@@ -5520,7 +5520,7 @@ var methods3 = {
       id: nodeId,
       ...attr
     };
-    console.log("Selected Node:", this.selectedNode);
+    fetch("/api/nodes/" + encodeURIComponent(nodeId) + "/content").then(r => r.json()).then(data => { if (data.content) this.selectedNode.content = data.content; }).catch(e => console.error(e)); console.log("Selected Node:", this.selectedNode);
     this.rightOpen = true;
     if (this.renderer)
       this.renderer.refresh();
