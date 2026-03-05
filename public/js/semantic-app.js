@@ -5503,31 +5503,19 @@ var methods3 = {
   },
   selectNode(nodeId) {
     if (!nodeId) {
-      this.selectedNode = null;
-      if (this.clearGhostEdges)
-        this.clearGhostEdges();
-      if (this.renderer)
-        this.renderer.refresh();
-      return;
-    }
-    if (this.clearGhostEdges) {
-      if (!this.selectedNode || this.selectedNode.id !== nodeId) {
-        this.clearGhostEdges();
-      }
-    }
+  selectNode(nodeId) {
+    if (!this.graph || !this.graph.hasNode(nodeId)) { return; }
     const attr = this.graph.getNodeAttributes(nodeId);
-    this.selectedNode = {
-      id: nodeId,
-      ...attr
-    };
-    fetch("/api/nodes/" + encodeURIComponent(nodeId) + "/content").then(r => r.json()).then(data => { if (data.content) this.selectedNode.content = data.content; }).catch(e => console.error(e)); console.log("Selected Node:", this.selectedNode);
+    this.selectedNode = { id: nodeId, ...attr, content: null, neighbors: [] };
     this.rightOpen = true;
-    if (this.renderer)
-      this.renderer.refresh();
+    if (this.renderer) { const pos = this.renderer.getNodeDisplayData(nodeId); this.renderer.getCamera().animate(pos, { duration: 500 }); }
+    fetch("/api/nodes/" + encodeURIComponent(nodeId) + "/content").then(r => r.json()).then(data => { if (data.content && this.selectedNode.id === nodeId) this.selectedNode.content = data.content; });
+    const neighbors = [];
+    this.graph.forEachOutEdge(nodeId, (e, a, s, t) => { const ta = this.graph.getNodeAttributes(t); neighbors.push({ id: t, label: ta.label || t, relation: a.type || "relates_to", dir: "out" }); });
+    this.graph.forEachInEdge(nodeId, (e, a, s, t) => { const sa = this.graph.getNodeAttributes(s); neighbors.push({ id: s, label: sa.label || s, relation: a.type || "relates_to", dir: "in" }); });
+    this.selectedNode.neighbors = neighbors;
+    if (this.renderer) this.renderer.refresh();
   },
-  handleSearch() {
-    if (!this.searchQuery) {
-      this.searchResults = [];
       return;
     }
     const query = this.searchQuery.toLowerCase();
