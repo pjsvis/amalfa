@@ -173,7 +173,7 @@ export class SemanticIngestor {
 
   private async discoverFiles(): Promise<string[]> {
     const files: string[] = [];
-    const glob = new Glob("**/*.md");
+    const glob = new Glob("**/*.{md,ts,js}");
     const sources = this.config.sources || ["./docs"];
 
     for (const source of sources) {
