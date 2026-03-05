@@ -19,6 +19,7 @@ import {
   normalizePredicate,
   sparqlPrefixes,
   sparqlPrefixesFor,
+  EDGE_TYPE_TO_PREDICATE,
   type Triple,
   type TripleWithProvenance,
 } from "./RdfContext";
@@ -583,15 +584,15 @@ class SqlBuilder {
   addPattern(pattern: TriplePattern): void {
     const alias = `e${this.aliasCounter++}`;
 
+    // Simplify predicate for dispatch
+    const pred = this.simplifyUri(pattern.predicate.value);
+
     // Determine if this is a type pattern (rdf:type)
-    if (
-      pattern.predicate.type === "uri" &&
-      pattern.predicate.value === "rdf:type"
-    ) {
+    if (pattern.predicate.type === "uri" && (pred === "rdf:type" || pred === "type")) {
       this.addTypePattern(pattern, alias);
     } else if (
       pattern.predicate.type === "uri" &&
-      pattern.predicate.value === "rdfs:label"
+      (pred === "rdfs:label" || pred === "label" || pred === "title")
     ) {
       this.addLabelPattern(pattern, alias);
     } else {
@@ -764,34 +765,90 @@ class SqlBuilder {
   }
 
   /**
+   * Simplify a URI to its most basic form (prefixed or local name)
+   */
+  private simplifyUri(uri: string): string {
+    if (!uri) return "";
+
+    // Handle full URIs by converting to prefixed form if possible
+    if (uri.startsWith("http://ctx.ai/ontology/")) {
+      return `ctx:${uri.replace("http://ctx.ai/ontology/", "")}`;
+    }
+    if (uri.startsWith("http://www.w3.org/1999/02/22-rdf-syntax-ns#")) {
+      const local = uri.replace(
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "",
+      );
+      return local === "type" ? "rdf:type" : `rdf:${local}`;
+    }
+    if (uri.startsWith("http://www.w3.org/2000/01/rdf-schema#")) {
+      const local = uri.replace("http://www.w3.org/2000/01/rdf-schema#", "");
+      return local === "label" ? "rdfs:label" : `rdfs:${local}`;
+    }
+
+    return uri;
+  }
+
+  /**
    * Resolve a URI to a database ID
    */
   private resolveUri(uri: string): string {
-    if (uri.startsWith("ctx:")) {
-      return uri
+    const simplified = this.simplifyUri(uri);
+    if (simplified.startsWith("ctx:")) {
+      return simplified
         .replace("ctx:resource/", "")
         .replace("ctx:heuristic/", "")
         .replace("ctx:directive/", "")
         .replace("ctx:issue/", "")
-        .replace("ctx:document/", "");
+        .replace("ctx:document/", "")
+        .replace("ctx:", "");
     }
-    return uri;
+    return simplified;
   }
 
   /**
    * Resolve a predicate URI to an edge type
    */
   private resolvePredicate(predicate: string): string {
-    if (predicate === "a" || predicate === "rdf:type") {
+    const simplified = this.simplifyUri(predicate);
+    if (
+      simplified === "a" ||
+      simplified === "rdf:type" ||
+      simplified === "type"
+    ) {
       return "type";
     }
-    return normalizePredicate(predicate).replace("ctx:", "").toUpperCase();
+
+    // Special case for rdfs:label which should be treated as a node attribute
+    // but if it's used in addEdgePattern, it might be a mistake or specific edge
+    if (simplified === "rdfs:label" || simplified === "label") {
+      return "TITLE";
+    }
+
+    // If it's a ctx: predicate, try to find the original SQL type
+    if (simplified.startsWith("ctx:")) {
+      const localName = simplified.replace("ctx:", "");
+      
+      // Look for the localName in the reverse map (RDF -> SQL)
+      // Since we don't have a reverse map, we can check if it's one of the known mappings
+      for (const [sqlType, rdfPred] of Object.entries(EDGE_TYPE_TO_PREDICATE)) {
+        if (rdfPred === simplified || rdfPred.replace("ctx:", "") === localName) {
+          return sqlType;
+        }
+      }
+      
+      // If not found in mapping, assume it's the uppercase version of the local name
+      return localName.toUpperCase();
+    }
+
+    return normalizePredicate(simplified).replace("ctx:", "").toUpperCase();
   }
 
   /**
    * Resolve a class URI to a node type
    */
   private resolveClass(classUri: string): string {
+    const simplified = this.simplifyUri(classUri);
     const classMap: Record<string, string> = {
       "ctx:Heuristic": "heuristic",
       "ctx:Directive": "directive",
@@ -802,12 +859,11 @@ class SqlBuilder {
       "ctx:Resource": "resource",
     };
 
-    if (classUri.startsWith("http://ctx.ai/ontology/")) {
-      const local = classUri.replace("http://ctx.ai/ontology/", "");
-      return classMap[`ctx:${local}`] || local.toLowerCase();
-    }
-
-    return classMap[classUri] || classUri.replace("ctx:", "").toLowerCase();
+    return (
+      classMap[simplified] ||
+      classMap[`ctx:${simplified}`] ||
+      simplified.replace("ctx:", "").toLowerCase()
+    );
   }
 }
 
