@@ -25,6 +25,10 @@ export const nodes = sqliteTable("nodes", {
   summary: text("summary"), // Extracted definition/description
   meta: text("meta"), // JSON string
   date: text("date"), // ISO string or YYYY-MM-DD
+  // STL: Saliency & Trust Layer
+  confidenceScore: real("confidence_score").default(1.0),
+  saliencyScore: real("saliency_score").default(0.0),
+  lastAccess: text("last_access").default(""),
 });
 
 /**
@@ -40,6 +44,9 @@ export const edges = sqliteTable(
     confidence: real("confidence").default(1.0),
     veracity: real("veracity").default(1.0),
     contextSource: text("context_source"),
+    // STL: Saliency & Trust Layer
+    saliencyScore: real("saliency_score").default(0.0),
+    lastAccess: text("last_access").default(""),
   },
   (table) => ({
     // Composite Primary Key

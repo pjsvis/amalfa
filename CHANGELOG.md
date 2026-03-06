@@ -5,6 +5,22 @@ All notable changes to AMALFA will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-03-05
+
+### Added
+- **RDF Semantic Layer**: Implemented a formal Subject-Predicate-Object (SPO) graph layer distinct from the heuristic mesh.
+- **Isolated Semantic Database**: New `semantic.db` for storing high-fidelity governance data.
+- **Persona Factory (OH-132)**: Deterministic JSONL-based ingestion pipeline for core persona fixtures.
+- **Side-by-Side Visualization**: Dedicated Semantic Graph Explorer at `/sigma-explorer/semantic.html`.
+- **Ontological Layering**: New taxonomy distinguishing between `philosophical` core and `operational` skill layers.
+- **Artifact Transparency**: Pipeline now emits verifiable JSON artifacts for كل transformation step.
+
+### Fixed
+- **Project-Wide Type Safety**: Resolved 300+ TypeScript errors across core and scripts.
+- **ID Collision Protection**: Implemented high-fidelity title-based slugging for directives.
+- **Path Resolution**: Fixed `@src/*` alias resolution in the scripts folder.
+- **Zod v4 Compatibility**: Updated generative-ui schemas to comply with new `z.record` signatures.
+
 ## [1.5.1] - 2026-02-04
 
 ### Added

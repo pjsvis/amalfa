@@ -6,8 +6,8 @@
 
 import { join } from "node:path";
 import type { AmalfaConfig } from "@src/config/defaults";
-import { SemanticDB } from "@src/resonance/SemanticDB";
-import { ResonanceDB } from "@src/resonance/db";
+import type { ResonanceDB } from "@src/resonance/db";
+import type { SemanticDB } from "@src/resonance/SemanticDB";
 import { TriplifierEngine } from "@src/semantic/TriplifierEngine";
 import { JsonlUtils } from "@src/utils/JsonlUtils";
 import { getLogger } from "@src/utils/Logger";
@@ -17,6 +17,7 @@ export interface SemanticIngestionResult {
   stats: {
     lexiconRecords: number;
     cdaRecords: number;
+    lifecycleRecords: number;
     totalEdges: number;
     durationSec: number;
   };
@@ -36,7 +37,7 @@ export class SemanticIngestor {
     private db: SemanticDB,
     private resonanceDb?: ResonanceDB,
   ) {
-    this.engine = new TriplifierEngine();
+    this.engine = new TriplifierEngine(db.getRawDb());
     if (this.resonanceDb) {
       this.buildInitialLexicon();
     }
@@ -55,11 +56,19 @@ export class SemanticIngestor {
     const startTime = performance.now();
     const fixtures = this.config.fixtures;
 
-    if (!fixtures || !fixtures.semanticLexicon || !fixtures.semanticCda || !fixtures.semanticBestiary || !fixtures.semanticLifecycle) {
+    if (
+      !fixtures ||
+      !fixtures.semanticLexicon ||
+      !fixtures.semanticCda ||
+      !fixtures.semanticBestiary ||
+      !fixtures.semanticLifecycle
+    ) {
       throw new Error("Missing semantic JSONL fixtures in settings.");
     }
 
-    this.log.info("🧪 Starting deterministic persona factory ingestion (JSONL)");
+    this.log.info(
+      "🧪 Starting deterministic persona factory ingestion (JSONL)",
+    );
 
     // Pass 1: Build high-fidelity resolution map
     await this.scanForIds(fixtures.semanticLexicon);
@@ -68,10 +77,16 @@ export class SemanticIngestor {
     await this.scanForIds(fixtures.semanticLifecycle);
 
     // Pass 2: Ingest Records
-    const lexiconCount = await this.ingestJsonl(fixtures.semanticLexicon, "lexicon");
+    const lexiconCount = await this.ingestJsonl(
+      fixtures.semanticLexicon,
+      "lexicon",
+    );
     const cdaCount = await this.ingestJsonl(fixtures.semanticCda, "cda");
     const bestiaryCount = await this.ingestBestiary(fixtures.semanticBestiary);
-    const lifecycleCount = await this.ingestJsonl(fixtures.semanticLifecycle, "lifecycle");
+    const lifecycleCount = await this.ingestJsonl(
+      fixtures.semanticLifecycle,
+      "lifecycle",
+    );
 
     this.db.checkpoint();
     await this.postProcess();
@@ -84,6 +99,7 @@ export class SemanticIngestor {
       stats: {
         lexiconRecords: lexiconCount,
         cdaRecords: cdaCount + bestiaryCount,
+        lifecycleRecords: lifecycleCount,
         totalEdges: this.artifacts.proposedTriples.length,
         durationSec,
       },
@@ -94,10 +110,10 @@ export class SemanticIngestor {
     await JsonlUtils.process(path, (record: any) => {
       const title = record.title || record.term || record.id;
       const entryId = record.id || "";
-      const id = /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(entryId) 
-        ? entryId.toLowerCase() 
+      const id = /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(entryId)
+        ? entryId.toLowerCase()
         : this.engine.slugify(title);
-        
+
       this.lexicon.set(title.toLowerCase(), id);
       this.lexicon.set(entryId.toLowerCase(), id);
       this.formalLexicon.set(title.toLowerCase(), id);
@@ -112,32 +128,50 @@ export class SemanticIngestor {
     await JsonlUtils.process(path, async (record: any) => {
       const title = record.title || record.term || record.id;
       const entryId = record.id || "";
-      
+
       // Use formal ID if it looks like a directive, otherwise slugify title
-      const id = /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(entryId) 
-        ? entryId.toLowerCase() 
+      const id = /^(OH|CIP|PHI|COG|ADV|OPM|QHD|IEP)-/i.test(entryId)
+        ? entryId.toLowerCase()
         : this.engine.slugify(title);
 
       const definition = record.description || record.definition || "";
-      
+
       const nodeType = this.detectType(id, title);
-      const layer = this.detectLayer(id, record.section || record.category || record.layer);
+      const layer = this.detectLayer(
+        id,
+        record.section || record.category || record.layer,
+      );
 
       // 0. Implicit Governance Roots
-      const layerRoot = layer === "philosophical" ? "philosophical-core" : 
-                        layer === "substrate" ? "substrate-bestiary" : "operational-competencies";
-      
+      const layerRoot =
+        layer === "philosophical"
+          ? "philosophical-core"
+          : layer === "substrate"
+            ? "substrate-bestiary"
+            : "operational-competencies";
+
       this.db.insertNode({
         id: layerRoot,
         type: "root",
-        label: layerRoot.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+        label: layerRoot
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(" "),
         domain: "persona",
         layer: "root",
         summary: `Structural root for ${layer} persona elements.`,
         confidenceScore: 1.0,
-        saliencyScore: 1.0
+        saliencyScore: 1.0,
       });
-      this.db.insertSemanticEdge(layerRoot, id, "ctx:governs", 1.0, 1.0, "implicit-governance", 1.0);
+      this.db.insertSemanticEdge(
+        layerRoot,
+        id,
+        "ctx:governs",
+        1.0,
+        1.0,
+        "implicit-governance",
+        1.0,
+      );
 
       // 1. Insert the Node
       this.db.insertNode({
@@ -156,15 +190,14 @@ export class SemanticIngestor {
         },
       });
 
-
       // 2. Extract Relationships
       const result = await this.engine.processDocument(definition, id);
       for (const rel of result.relationships) {
-        const targetEntity = result.entities.find(e => e.id === rel.targetId);
-        const resolvedTarget = targetEntity 
+        const targetEntity = result.entities.find((e) => e.id === rel.targetId);
+        const resolvedTarget = targetEntity
           ? this.resolveId(targetEntity.label, rel.targetId)
           : this.resolveId(rel.targetId, rel.targetId);
-        
+
         this.addProposedTriple(id, rel.predicate, resolvedTarget, "triplifier");
       }
 
@@ -177,14 +210,19 @@ export class SemanticIngestor {
       if (record.triples && Array.isArray(record.triples)) {
         for (const triple of record.triples) {
           if (triple.s && triple.p && triple.o) {
-            this.addProposedTriple(triple.s, triple.p, triple.o, triple.method || "embedded");
+            this.addProposedTriple(
+              triple.s,
+              triple.p,
+              triple.o,
+              triple.method || "embedded",
+            );
           }
         }
       }
 
       // 5. Keyword Fallback (Strict)
       this.linkByKeywords(id, definition, `factory/${origin}`, true);
-      
+
       count++;
     });
 
@@ -208,7 +246,7 @@ export class SemanticIngestor {
       summary:
         "Root for known AI substrate failure modes and stochastic behaviors.",
       confidenceScore: 1.0,
-      saliencyScore: 1.0
+      saliencyScore: 1.0,
     });
 
     await JsonlUtils.process(path, async (record: any) => {
@@ -221,14 +259,13 @@ export class SemanticIngestor {
         layer: "substrate",
         summary: record.description,
         confidenceScore: 0.8, // Observations are reasonably trusted
-        saliencyScore: 0.5,   // Start as "Warm"
-        meta: { 
-          ...record, 
+        saliencyScore: 0.5, // Start as "Warm"
+        meta: {
+          ...record,
           fixture_path: path, // Real path for JQ
-          source: "factory/bestiary" 
+          source: "factory/bestiary",
         },
       });
-
 
       this.db.insertSemanticEdge(
         rootId,
@@ -237,7 +274,7 @@ export class SemanticIngestor {
         1.0,
         1.0,
         "implicit-governance",
-        1.0
+        1.0,
       );
 
       // Link Mitigations
@@ -259,7 +296,9 @@ export class SemanticIngestor {
     // 1. Substrate
     if (
       full.includes("BESTIARY") ||
-      id.match(/trap|gravity|bias|collapse|brittleness|smell|detachment|maxxing/i)
+      id.match(
+        /trap|gravity|bias|collapse|brittleness|smell|detachment|maxxing/i,
+      )
     ) {
       return "Substrate Tendency";
     }
@@ -286,12 +325,28 @@ export class SemanticIngestor {
 
     // 4. Compressed Neologisms (The Tokens)
     const neologisms = new Set([
-      "mentation", "mentational-humility", "fafcas", "noosphere", "lerts", 
-      "edgeweaver", "graphengine", "vectorengine", "muppet", "kirk", 
-      "outer-ken", "conceptual-entropy", "semantic-compression", "hollow-node",
-      "saliency-trust-layer", "stl", "resipiscence"
+      "mentation",
+      "mentational-humility",
+      "fafcas",
+      "noosphere",
+      "lerts",
+      "edgeweaver",
+      "graphengine",
+      "vectorengine",
+      "muppet",
+      "kirk",
+      "outer-ken",
+      "conceptual-entropy",
+      "semantic-compression",
+      "hollow-node",
+      "saliency-trust-layer",
+      "stl",
+      "resipiscence",
     ]);
-    if (neologisms.has(id.toLowerCase()) || neologisms.has(this.engine.slugify(title))) {
+    if (
+      neologisms.has(id.toLowerCase()) ||
+      neologisms.has(this.engine.slugify(title))
+    ) {
       return "Compressed Neologism";
     }
 
@@ -300,9 +355,15 @@ export class SemanticIngestor {
 
   private detectLayer(id: string, context?: string): string {
     const full = `${id} ${context || ""}`.toUpperCase();
-    if (full.includes("SUBSTRATE") || full.includes("BESTIARY")) return "substrate";
-    if (full.includes("PHI-") || full.includes("CIP-") || full.includes("COG-") || 
-        full.includes("PHILOSOPHY") || full.includes("INTEGRITY")) {
+    if (full.includes("SUBSTRATE") || full.includes("BESTIARY"))
+      return "substrate";
+    if (
+      full.includes("PHI-") ||
+      full.includes("CIP-") ||
+      full.includes("COG-") ||
+      full.includes("PHILOSOPHY") ||
+      full.includes("INTEGRITY")
+    ) {
       return "philosophical";
     }
     return "operational";
@@ -319,7 +380,12 @@ export class SemanticIngestor {
       for (const match of idMatches) {
         const resolvedId = this.resolveId(match, "");
         if (resolvedId && resolvedId !== "") {
-          this.addProposedTriple(resolvedId, "ctx:mitigates", tendencyId, "bestiary-id-link");
+          this.addProposedTriple(
+            resolvedId,
+            "ctx:mitigates",
+            tendencyId,
+            "bestiary-id-link",
+          );
         }
       }
     }
@@ -327,19 +393,29 @@ export class SemanticIngestor {
     // 2. Keyword fallback (match titles in mitigation text)
     for (const [term, targetId] of this.formalLexicon.entries()) {
       if (term.length < 5) continue;
-      const pattern = new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      const pattern = new RegExp(
+        `\\b${term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+        "i",
+      );
       if (pattern.test(lowered)) {
-        this.addProposedTriple(targetId, "ctx:mitigates", tendencyId, "bestiary-keyword-link");
+        this.addProposedTriple(
+          targetId,
+          "ctx:mitigates",
+          tendencyId,
+          "bestiary-keyword-link",
+        );
       }
     }
   }
 
   private resolveId(text: string, originalId: string): string {
     const lowered = text.toLowerCase().trim();
-    if (this.lexicon.has(lowered)) return this.lexicon.get(lowered)!;
+    const fromLexicon = this.lexicon.get(lowered);
+    if (fromLexicon) return fromLexicon;
 
     const slugged = this.engine.slugify(text);
-    if (this.lexicon.has(slugged)) return this.lexicon.get(slugged)!;
+    const fromSlugged = this.lexicon.get(slugged);
+    if (fromSlugged) return fromSlugged;
 
     return originalId;
   }
@@ -349,16 +425,48 @@ export class SemanticIngestor {
     this.db.insertSemanticEdge(s, o, p, 0.9, 1.0, "persona-factory", 0.5);
   }
 
-  private linkByKeywords(sourceId: string, text: string, origin: string, strict: boolean) {
+  private linkByKeywords(
+    sourceId: string,
+    text: string,
+    _origin: string,
+    _strict: boolean,
+  ) {
     if (!text) return;
     const lowered = text.toLowerCase();
-    const noise = new Set(["text", "target", "source", "link", "process", "result", "data", "info", "model", "tools", "instance", "context", "pattern", "graph", "agents", "baseline", "content", "describe"]);
+    const noise = new Set([
+      "text",
+      "target",
+      "source",
+      "link",
+      "process",
+      "result",
+      "data",
+      "info",
+      "model",
+      "tools",
+      "instance",
+      "context",
+      "pattern",
+      "graph",
+      "agents",
+      "baseline",
+      "content",
+      "describe",
+    ]);
 
     for (const [term, targetId] of this.formalLexicon.entries()) {
       if (targetId === sourceId || term.length < 5 || noise.has(term)) continue;
-      const pattern = new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      const pattern = new RegExp(
+        `\\b${term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+        "i",
+      );
       if (pattern.test(lowered)) {
-        this.addProposedTriple(sourceId, "ctx:mentions", targetId, "lexical-strict");
+        this.addProposedTriple(
+          sourceId,
+          "ctx:mentions",
+          targetId,
+          "lexical-strict",
+        );
       }
     }
   }
@@ -417,7 +525,10 @@ export class SemanticIngestor {
 
   private async saveArtifacts() {
     const artifactDir = join(process.cwd(), "docs/temp-semantic-artifacts");
-    await Bun.write(join(artifactDir, "factory-triples.jsonl"), 
-      this.artifacts.proposedTriples.map(t => JSON.stringify(t)).join("\n") + "\n");
+    await Bun.write(
+      join(artifactDir, "factory-triples.jsonl"),
+      this.artifacts.proposedTriples.map((t) => JSON.stringify(t)).join("\n") +
+        "\n",
+    );
   }
 }

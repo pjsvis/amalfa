@@ -29,7 +29,11 @@
   },
   "fixtures": {
     "lexicon": "scripts/fixtures/conceptual-lexicon-ref-v1.79.json",
-    "cda": "scripts/fixtures/cda-ref-v63.json"
+    "cda": "scripts/fixtures/cda-ref-v63.json",
+    "semanticLexicon": "scripts/fixtures/semantic-lexicon.jsonl",
+    "semanticCda": "scripts/fixtures/semantic-cda.jsonl",
+    "semanticBestiary": "scripts/fixtures/semantic-bestiary.jsonl",
+    "semanticLifecycle": "scripts/fixtures/semantic-lifecycle.jsonl"
   },
   "ember": {
     "enabled": true,

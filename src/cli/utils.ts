@@ -18,7 +18,10 @@ export async function getSemanticDbPath(): Promise<string> {
   // Load from config
   const { loadConfig } = await import("@src/config/defaults");
   const config = await loadConfig();
-  return join(process.cwd(), config.semanticDatabase || ".amalfa/runtime/semantic.db");
+  return join(
+    process.cwd(),
+    config.semanticDatabase || ".amalfa/runtime/semantic.db",
+  );
 }
 
 export async function checkDatabase(): Promise<boolean> {

@@ -14,17 +14,13 @@
 
 import type { Database } from "bun:sqlite";
 import {
-  CLASSES,
   ctxUri,
   documentUri,
   formatAsNTriples,
-  PREDICATES,
   resourceUri,
   reverseNormalizePredicate,
-  type Triple,
   type TripleWithProvenance,
 } from "./RdfContext";
-import { TripleMapper } from "./TripleMapper";
 
 // === EXTRACTION INTERFACES ===
 
@@ -173,7 +169,6 @@ export const CTX_ONTOLOGY_SCHEMA = {
 export class TriplifierEngine {
   private db: Database;
   private config: TriplifierConfig;
-  private mapper: TripleMapper;
 
   constructor(db: Database, config: TriplifierConfig = {}) {
     this.db = db;
@@ -183,7 +178,6 @@ export class TriplifierEngine {
       model: "rule-based",
       ...config,
     };
-    this.mapper = new TripleMapper(db);
   }
 
   /**
@@ -192,7 +186,7 @@ export class TriplifierEngine {
   async processDocument(
     content: string,
     sourceId: string,
-    metadata?: Record<string, unknown>,
+    _metadata?: Record<string, unknown>,
   ): Promise<ExtractionResult> {
     const startTime = performance.now();
 
@@ -231,41 +225,45 @@ export class TriplifierEngine {
    */
   private extractEntities(
     content: string,
-    sourceId: string,
+    _sourceId: string,
   ): ExtractedEntity[] {
     const entities: ExtractedEntity[] = [];
 
     // Pattern 1: Heuristic IDs (OH-XXX)
     const heuristicPattern = /\b(OH-\d{3})\b/g;
-    let match;
-    while ((match = heuristicPattern.exec(content)) !== null) {
+    let match = heuristicPattern.exec(content);
+    while (match !== null) {
       entities.push({
-        id: match[1]!,
-        label: match[1]!,
+        id: match[1] ?? "",
+        label: match[1] ?? "",
         type: "Heuristic",
         confidence: 1.0,
         startPosition: match.index,
-        endPosition: match.index + match[1]!.length,
+        endPosition: match.index + (match[1]?.length ?? 0),
       });
+      match = heuristicPattern.exec(content);
     }
 
     // Pattern 2: Directive IDs (CIP-X, PHI-X, COG-X, ADV-X)
     const directivePattern = /\b(CIP-\d+|PHI-\d+|COG-\d+|ADV-\d+)\b/g;
-    while ((match = directivePattern.exec(content)) !== null) {
+    match = directivePattern.exec(content);
+    while (match !== null) {
       entities.push({
-        id: match[1]!,
-        label: match[1]!,
+        id: match[1] ?? "",
+        label: match[1] ?? "",
         type: "Directive",
         confidence: 1.0,
         startPosition: match.index,
-        endPosition: match.index + match[1]!.length,
+        endPosition: match.index + (match[1]?.length ?? 0),
       });
+      match = directivePattern.exec(content);
     }
 
     // Pattern 3: Substrate Issues (in brackets or tagged)
     const issuePattern =
       /\[(?:Substrate_Issue|Issue):\s*([^\]]+)\]|\bBiddability\b|\bReward_Hacking\b|\bComplexity_Collapse\b/gi;
-    while ((match = issuePattern.exec(content)) !== null) {
+    match = issuePattern.exec(content);
+    while (match !== null) {
       const issueName = match[1] || match[0];
       const normalized = issueName.replace(/\s+/g, "_").trim();
       entities.push({
@@ -276,12 +274,14 @@ export class TriplifierEngine {
         startPosition: match.index,
         endPosition: match.index + match[0].length,
       });
+      match = issuePattern.exec(content);
     }
 
     // Pattern 4: WikiLinks [[Entity]]
     const wikiLinkPattern = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g;
-    while ((match = wikiLinkPattern.exec(content)) !== null) {
-      const entityName = match[1]!.trim();
+    match = wikiLinkPattern.exec(content);
+    while (match !== null) {
+      const entityName = (match[1] ?? "").trim();
       const id = this.slugify(entityName);
       entities.push({
         id,
@@ -291,17 +291,19 @@ export class TriplifierEngine {
         startPosition: match.index,
         endPosition: match.index + match[0].length,
       });
+      match = wikiLinkPattern.exec(content);
     }
 
     // Pattern 4b: Markdown Links [Label](path.md)
     const mdLinkPattern = /\[([^\]]+)\]\(([^)]+\.md)\)/g;
-    while ((match = mdLinkPattern.exec(content)) !== null) {
-      const label = match[1]!.trim();
-      const path = match[2]!.trim();
+    match = mdLinkPattern.exec(content);
+    while (match !== null) {
+      const label = (match[1] ?? "").trim();
+      const path = (match[2] ?? "").trim();
       // Use filename as ID for consistency with slugs
       const filename = path.split("/").pop() || "";
       const id = this.slugify(filename.replace(".md", ""));
-      
+
       entities.push({
         id,
         label,
@@ -310,13 +312,15 @@ export class TriplifierEngine {
         startPosition: match.index,
         endPosition: match.index + match[0].length,
       });
+      match = mdLinkPattern.exec(content);
     }
 
     // Pattern 5: Tags [Tag: Value] or [Key: Value]
     const tagPattern = /\[(\w+):\s*([^\]]+)\]/g;
-    while ((match = tagPattern.exec(content)) !== null) {
-      const key = match[1]!;
-      const value = match[2]!.trim();
+    match = tagPattern.exec(content);
+    while (match !== null) {
+      const key = match[1] ?? "";
+      const value = (match[2] ?? "").trim();
       entities.push({
         id: this.slugify(value),
         label: value,
@@ -325,6 +329,7 @@ export class TriplifierEngine {
         startPosition: match.index,
         endPosition: match.index + match[0].length,
       });
+      match = tagPattern.exec(content);
     }
 
     // Deduplicate by ID
@@ -342,7 +347,7 @@ export class TriplifierEngine {
   private extractRelationships(
     content: string,
     entities: ExtractedEntity[],
-    sourceId: string,
+    _sourceId: string,
   ): ExtractedRelationship[] {
     const relationships: ExtractedRelationship[] = [];
 
@@ -356,10 +361,10 @@ export class TriplifierEngine {
 
     // Pattern 1: Explicit relationship syntax [RELATION: Target]
     const relationPattern = /\[(\w+):\s*([^\]]+)\]/g;
-    let match;
-    while ((match = relationPattern.exec(content)) !== null) {
-      const predicate = match[1]!.toLowerCase();
-      const targetLabel = match[2]!.trim();
+    let match = relationPattern.exec(content);
+    while (match !== null) {
+      const predicate = (match[1] || "").toLowerCase();
+      const targetLabel = (match[2] || "").trim();
       const targetId = this.slugify(targetLabel);
 
       // Find the nearest entity before this relation
@@ -378,15 +383,17 @@ export class TriplifierEngine {
           context: match[0],
         });
       }
+      match = relationPattern.exec(content);
     }
 
     // Pattern 2: "X implements Y" or "X mitigates Y" syntax
     const verbPattern =
       /\b(\w+(?:\s+\w+)?)\s+(implements|mitigates|guides|constrains|depends\s+on|relates\s+to|links\s+to|cites)\s+(\w+(?:\s+\w+)?)\b/gi;
-    while ((match = verbPattern.exec(content)) !== null) {
-      const sourceLabel = match[1]!.trim();
-      const predicate = match[2]!.toLowerCase().replace(/\s+/g, "_");
-      const targetLabel = match[3]!.trim();
+    match = verbPattern.exec(content);
+    while (match !== null) {
+      const sourceLabel = (match[1] || "").trim();
+      const predicate = (match[2] || "").toLowerCase().replace(/\s+/g, "_");
+      const targetLabel = (match[3] || "").trim();
 
       const sourceId = this.slugify(sourceLabel);
       const targetId = this.slugify(targetLabel);
@@ -398,6 +405,7 @@ export class TriplifierEngine {
         confidence: 0.8,
         context: match[0],
       });
+      match = verbPattern.exec(content);
     }
 
     // Pattern 2b: Capture all extracted entities as potential relationships to the source doc
@@ -407,14 +415,18 @@ export class TriplifierEngine {
 
     // Pattern 3: Proximity-based relationships (entities close to each other)
     for (let i = 0; i < entities.length - 1; i++) {
-      const current = entities[i]!;
-      const next = entities[i + 1]!;
+      const current = entities[i];
+      const next = entities[i + 1];
 
       if (
+        current &&
+        next &&
         current.startPosition !== undefined &&
-        next.startPosition !== undefined
+        next.startPosition !== undefined &&
+        current.endPosition !== undefined &&
+        next.endPosition !== undefined
       ) {
-        const distance = next.startPosition - current.endPosition!;
+        const distance = next.startPosition - current.endPosition;
 
         // If entities are within 100 characters, suggest a relationship
         if (distance > 0 && distance < 100) {
@@ -423,7 +435,7 @@ export class TriplifierEngine {
             targetId: next.id,
             predicate: "ctx:relatesTo",
             confidence: 0.5,
-            context: content.substring(current.startPosition, next.endPosition!),
+            context: content.substring(current.startPosition, next.endPosition),
           });
         }
       }
@@ -553,10 +565,14 @@ export class TriplifierEngine {
           nodeMetadata.set(subjectId, {});
         }
 
-        const metadata = nodeMetadata.get(subjectId)!;
+        const metadata = nodeMetadata.get(subjectId);
+        if (!metadata) continue;
 
         // Infer type from rdf:type
-        if (triple.predicate === "rdf:type" || triple.predicate === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+        if (
+          triple.predicate === "rdf:type" ||
+          triple.predicate === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        ) {
           metadata.type = this.extractTypeFromUri(triple.object) || undefined;
         }
 
@@ -583,15 +599,15 @@ export class TriplifierEngine {
            ON CONFLICT(id) DO UPDATE SET
              type = COALESCE(excluded.type, nodes.type),
              title = COALESCE(excluded.title, nodes.title)`,
-          [
-            nodeId,
-            metadata?.type || "Resource",
-            metadata?.title || nodeId,
-          ],
+          [nodeId, metadata?.type || "Resource", metadata?.title || nodeId],
         );
 
         // Upsert edge for relationship triples
-        if (triple.objectType === "uri" && triple.predicate !== "rdf:type" && triple.predicate !== "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+        if (
+          triple.objectType === "uri" &&
+          triple.predicate !== "rdf:type" &&
+          triple.predicate !== "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        ) {
           const predicateName = reverseNormalizePredicate(triple.predicate);
           const targetId = this.extractIdFromUri(triple.object);
 
@@ -621,7 +637,7 @@ export class TriplifierEngine {
 
   // === HELPER METHODS ===
 
-  private slugify(text: string): string {
+  public slugify(text: string): string {
     return text
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
@@ -703,13 +719,13 @@ export class TriplifierEngine {
     const match = uri.match(
       /(?:ctx:|(?:http:\/\/ctx\.ai\/ontology\/))\w+\/(.+)$/,
     );
-    return match ? match[1]! : uri;
+    return match?.[1] ?? uri;
   }
 
   private extractTypeFromUri(uri: string): string | null {
     // Extract type from ctx:Type or http://ctx.ai/ontology/Type
     const match = uri.match(/(?:ctx:|(?:http:\/\/ctx\.ai\/ontology\/))(\w+)$/);
-    return match ? match[1]! : null;
+    return match?.[1] ?? null;
   }
 
   /**

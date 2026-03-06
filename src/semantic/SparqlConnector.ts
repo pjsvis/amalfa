@@ -15,15 +15,11 @@
 
 import type { Database } from "bun:sqlite";
 import {
-  expandPrefixedName,
-  normalizePredicate,
-  sparqlPrefixes,
-  sparqlPrefixesFor,
   EDGE_TYPE_TO_PREDICATE,
-  type Triple,
+  normalizePredicate,
   type TripleWithProvenance,
 } from "./RdfContext";
-import { type EdgeRow, type NodeRow, TripleMapper } from "./TripleMapper";
+import { TripleMapper } from "./TripleMapper";
 
 // === QUERY RESULT TYPES ===
 
@@ -155,7 +151,7 @@ export class SparqlConnector {
         `Invalid SPARQL query: must start with SELECT, CONSTRUCT, ASK, or DESCRIBE. Got: "${withoutPrefixes.substring(0, 50)}..."`,
       );
     }
-    const type = typeMatch[1]!.toUpperCase() as ParsedQuery["type"];
+    const type = (typeMatch[1] ?? "").toUpperCase() as ParsedQuery["type"];
 
     // Extract variables for SELECT
     const variables: string[] = [];
@@ -164,7 +160,7 @@ export class SparqlConnector {
         /SELECT\s+(DISTINCT\s+)?(.+?)\s+WHERE/i,
       );
       if (varMatch) {
-        const varList = varMatch[2]!;
+        const varList = varMatch[2] ?? "";
         if (varList === "*") {
           // SELECT * - will be populated during pattern matching
         } else {
@@ -184,17 +180,17 @@ export class SparqlConnector {
     const optionals: TriplePattern[][] = [];
 
     if (whereMatch) {
-      const whereClause = whereMatch[1]!;
+      const whereClause = whereMatch[1] ?? "";
       this.parseWhereClause(whereClause, patterns, filters, optionals);
     }
 
     // Extract LIMIT
     const limitMatch = normalized.match(/LIMIT\s+(\d+)/i);
-    const limit = limitMatch ? parseInt(limitMatch[1]!, 10) : undefined;
+    const limit = limitMatch?.[1] ? parseInt(limitMatch[1], 10) : undefined;
 
     // Extract OFFSET
     const offsetMatch = normalized.match(/OFFSET\s+(\d+)/i);
-    const offset = offsetMatch ? parseInt(offsetMatch[1]!, 10) : undefined;
+    const offset = offsetMatch?.[1] ? parseInt(offsetMatch[1], 10) : undefined;
 
     // Extract ORDER BY
     const orderByMatch = normalized.match(
@@ -203,7 +199,7 @@ export class SparqlConnector {
     const orderBy = orderByMatch
       ? [
           {
-            variable: orderByMatch[2]!,
+            variable: orderByMatch[2] ?? "",
             direction: (orderByMatch[1] || "ASC") as "ASC" | "DESC",
           },
         ]
@@ -232,11 +228,12 @@ export class SparqlConnector {
   ): void {
     // Handle OPTIONAL clauses
     const optionalRegex = /OPTIONAL\s*\{([^}]+)\}/gi;
-    let optionalMatch;
-    while ((optionalMatch = optionalRegex.exec(clause)) !== null) {
+    let optionalMatch = optionalRegex.exec(clause);
+    while (optionalMatch !== null) {
       const optionalPatterns: TriplePattern[] = [];
-      this.parseTriplePatterns(optionalMatch[1]!, optionalPatterns);
+      this.parseTriplePatterns(optionalMatch[1] ?? "", optionalPatterns);
       optionals.push(optionalPatterns);
+      optionalMatch = optionalRegex.exec(clause);
     }
 
     // Remove OPTIONAL clauses for main pattern parsing
@@ -244,41 +241,46 @@ export class SparqlConnector {
 
     // Handle FILTER NOT EXISTS
     const filterNotExistsRegex = /FILTER\s+NOT\s+EXISTS\s*\{([\s\S]+?)\}/gi;
-    let filterMatch;
-    while ((filterMatch = filterNotExistsRegex.exec(remaining)) !== null) {
+    let filterMatch = filterNotExistsRegex.exec(remaining);
+    while (filterMatch !== null) {
       const filterPatterns: TriplePattern[] = [];
-      this.parseTriplePatterns(filterMatch[1]!, filterPatterns);
+      this.parseTriplePatterns(filterMatch[1] ?? "", filterPatterns);
       filters.push({
         type: "existence",
         pattern: filterPatterns,
         negated: true,
       });
+      filterMatch = filterNotExistsRegex.exec(remaining);
     }
     remaining = remaining.replace(filterNotExistsRegex, "");
 
     // Handle FILTER EXISTS
     const filterExistsRegex = /FILTER\s+EXISTS\s*\{([\s\S]+?)\}/gi;
-    while ((filterMatch = filterExistsRegex.exec(remaining)) !== null) {
+    filterMatch = filterExistsRegex.exec(remaining);
+    while (filterMatch !== null) {
       const filterPatterns: TriplePattern[] = [];
-      this.parseTriplePatterns(filterMatch[1]!, filterPatterns);
+      this.parseTriplePatterns(filterMatch[1] ?? "", filterPatterns);
       filters.push({
         type: "existence",
         pattern: filterPatterns,
         negated: false,
       });
+      filterMatch = filterExistsRegex.exec(remaining);
     }
     remaining = remaining.replace(filterExistsRegex, "");
 
     // Handle comparison filters
     const comparisonRegex =
       /FILTER\s*\(\s*\?(\w+)\s*(=|!=|<|>|<=|>=)\s*(.+?)\s*\)/gi;
-    while ((filterMatch = comparisonRegex.exec(remaining)) !== null) {
+    filterMatch = comparisonRegex.exec(remaining);
+    while (filterMatch !== null) {
       filters.push({
         type: "comparison",
-        variable: filterMatch[1]!,
+        variable: filterMatch[1] ?? "",
         operator: filterMatch[2] as FilterExpression["operator"],
-        value: filterMatch[3]!.trim().replace(/["']/g, ""),
+        value: (filterMatch[3] ?? "").trim().replace(/["']/g, ""),
       });
+      filterMatch = comparisonRegex.exec(remaining);
     }
     remaining = remaining.replace(comparisonRegex, "");
 
@@ -295,8 +297,8 @@ export class SparqlConnector {
     const tripleRegex =
       /(?:(\?\w+)|<([^>]+)>|"([^"]*)"|(\w+):(\w+))\s+(?:(\?\w+)|<([^>]+)>|(\w+):(\w+)|(a))\s+(?:(\?\w+)|<([^>]+)>|"([^"]*)"|(\w+):(\w+))\s*\./g;
 
-    let match;
-    while ((match = tripleRegex.exec(input)) !== null) {
+    let match = tripleRegex.exec(input);
+    while (match !== null) {
       const subject = this.parseTerm(
         match[1],
         match[2],
@@ -304,19 +306,20 @@ export class SparqlConnector {
         match[4],
         match[5],
       );
-      
+
       // Handle 'a' specifically or parse other terms
-      const predicate = match[10] === "a" 
-        ? { type: "uri", value: "rdf:type" } as const
-        : this.parseTerm(
-            match[6],
-            match[7],
-            undefined,
-            match[8],
-            match[9],
-            true,
-          );
-          
+      const predicate =
+        match[10] === "a"
+          ? ({ type: "uri", value: "rdf:type" } as const)
+          : this.parseTerm(
+              match[6],
+              match[7],
+              undefined,
+              match[8],
+              match[9],
+              true,
+            );
+
       const object = this.parseTerm(
         match[11],
         match[12],
@@ -325,18 +328,14 @@ export class SparqlConnector {
         match[15],
       );
 
-      if (
-        subject &&
-        predicate &&
-        object &&
-        predicate.type !== "literal"
-      ) {
+      if (subject && predicate && object && predicate.type !== "literal") {
         patterns.push({
           subject,
           predicate: predicate as { type: "variable" | "uri"; value: string },
           object,
         });
       }
+      match = tripleRegex.exec(input);
     }
   }
 
@@ -349,7 +348,7 @@ export class SparqlConnector {
     literal: string | undefined,
     prefix: string | undefined,
     local: string | undefined,
-    isPredicate = false,
+    _isPredicate = false,
   ): { type: "variable" | "uri" | "literal"; value: string } | null {
     if (variable) {
       return { type: "variable", value: variable.substring(1) }; // Remove ?
@@ -416,7 +415,7 @@ export class SparqlConnector {
    */
   private async executeAsk(parsed: ParsedQuery): Promise<SparqlResult> {
     const sqlBuilder = new SqlBuilder(this.db);
-    
+
     // Add base patterns
     for (const pattern of parsed.patterns) {
       sqlBuilder.addPattern(pattern);
@@ -428,7 +427,10 @@ export class SparqlConnector {
     }
 
     const { sql, params } = sqlBuilder.buildExists();
-    const row = this.db.query(sql).get(...params) as Record<string, unknown> | null;
+    const row = this.db.query(sql).get(...params) as Record<
+      string,
+      unknown
+    > | null;
     const result = row !== null;
 
     return {
@@ -610,7 +612,9 @@ class SqlBuilder {
   /**
    * Set order by
    */
-  setOrderBy(orderBy?: { variable: string; direction: "ASC" | "DESC" }[]): void {
+  setOrderBy(
+    orderBy?: { variable: string; direction: "ASC" | "DESC" }[],
+  ): void {
     this.orderBy = orderBy;
   }
 
@@ -623,7 +627,10 @@ class SqlBuilder {
     // Simplify predicate for dispatch
     const pred = this.simplifyUri(pattern.predicate.value);
 
-    if (pattern.predicate.type === "uri" && (pred === "rdf:type" || pred === "type")) {
+    if (
+      pattern.predicate.type === "uri" &&
+      (pred === "rdf:type" || pred === "type")
+    ) {
       this.addTypePattern(pattern, alias);
     } else if (
       pattern.predicate.type === "uri" &&
@@ -638,7 +645,7 @@ class SqlBuilder {
   /**
    * Add a type pattern (queries the nodes table)
    */
-  private addTypePattern(pattern: TriplePattern, alias: string): void {
+  private addTypePattern(pattern: TriplePattern, _alias: string): void {
     const nodeAlias = `n${this.aliasCounter++}`;
     this.tables.push(`nodes AS ${nodeAlias}`);
 
@@ -665,7 +672,7 @@ class SqlBuilder {
   /**
    * Add a label pattern (queries the nodes table for title)
    */
-  private addLabelPattern(pattern: TriplePattern, alias: string): void {
+  private addLabelPattern(pattern: TriplePattern, _alias: string): void {
     const nodeAlias = `n${this.aliasCounter++}`;
     this.tables.push(`nodes AS ${nodeAlias}`);
 
@@ -743,7 +750,7 @@ class SqlBuilder {
       for (const p of filter.pattern) {
         subBuilder.addPattern(p);
       }
-      
+
       // Inherit variable mappings for correlated subquery
       for (const [v, c] of this.variableMapping.entries()) {
         subBuilder.setVariableMapping(v, c);
@@ -929,15 +936,18 @@ class SqlBuilder {
     // If it's a ctx: predicate, try to find the original SQL type
     if (simplified.startsWith("ctx:")) {
       const localName = simplified.replace("ctx:", "");
-      
+
       // Look for the localName in the reverse map (RDF -> SQL)
       // Since we don't have a reverse map, we can check if it's one of the known mappings
       for (const [sqlType, rdfPred] of Object.entries(EDGE_TYPE_TO_PREDICATE)) {
-        if (rdfPred === simplified || rdfPred.replace("ctx:", "") === localName) {
+        if (
+          rdfPred === simplified ||
+          rdfPred.replace("ctx:", "") === localName
+        ) {
           return sqlType;
         }
       }
-      
+
       // If not found in mapping, assume it's the uppercase version of the local name
       return localName.toUpperCase();
     }

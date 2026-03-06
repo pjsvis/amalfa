@@ -61,7 +61,8 @@ describe("SparqlConnector ASK queries", () => {
       }
     `;
     const result = await connector.query(query);
-    expect(result.results.bindings[0]._ask.value).toBe("true");
+    const bindings = result.results.bindings;
+    expect(bindings[0]?._ask?.value).toBe("true");
   });
 
   test("ASK with constants (no variables) - REPRODUCTION OF ISSUE", async () => {
@@ -72,7 +73,8 @@ describe("SparqlConnector ASK queries", () => {
       }
     `;
     const result = await connector.query(query);
-    expect(result.results.bindings[0]._ask.value).toBe("true");
+    const bindings = result.results.bindings;
+    expect(bindings[0]?._ask?.value).toBe("true");
   });
 
   test("ASK with constants (edge pattern) - REPRODUCTION OF ISSUE", async () => {
@@ -83,7 +85,8 @@ describe("SparqlConnector ASK queries", () => {
       }
     `;
     const result = await connector.query(query);
-    expect(result.results.bindings[0]._ask.value).toBe("true");
+    const bindings = result.results.bindings;
+    expect(bindings[0]?._ask?.value).toBe("true");
   });
 
   test("ASK with non-existent constants", async () => {
@@ -94,7 +97,8 @@ describe("SparqlConnector ASK queries", () => {
       }
     `;
     const result = await connector.query(query);
-    expect(result.results.bindings[0]._ask.value).toBe("false");
+    const bindings = result.results.bindings;
+    expect(bindings[0]?._ask?.value).toBe("false");
   });
 
   test("SELECT with FILTER EXISTS", async () => {
@@ -108,8 +112,9 @@ describe("SparqlConnector ASK queries", () => {
       }
     `;
     const result = await connector.query(query);
-    expect(result.results.bindings.length).toBe(1);
-    expect(result.results.bindings[0].s.value).toBe("Resource1");
+    const bindings = result.results.bindings;
+    expect(bindings.length).toBe(1);
+    expect(bindings[0]?.s?.value).toBe("Resource1");
   });
 
   test("SELECT with shared variables (JOIN)", async () => {
@@ -125,9 +130,10 @@ describe("SparqlConnector ASK queries", () => {
       }
     `;
     const result = await connector.query(query);
-    expect(result.results.bindings.length).toBe(1);
-    expect(result.results.bindings[0].s.value).toBe("Resource1");
-    expect(result.results.bindings[0].o1.value).toBe("Resource2");
-    expect(result.results.bindings[0].o2.value).toBe("Resource2");
+    const bindings = result.results.bindings;
+    expect(bindings.length).toBe(1);
+    expect(bindings[0]?.s?.value).toBe("Resource1");
+    expect(bindings[0]?.o1?.value).toBe("Resource2");
+    expect(bindings[0]?.o2?.value).toBe("Resource2");
   });
 });

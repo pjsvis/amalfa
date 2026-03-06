@@ -9,7 +9,6 @@
 
 import type { Database } from "bun:sqlite";
 import {
-  ctxUri,
   expandPrefixedName,
   formatAsNTriples,
   inferClassFromType,
@@ -348,8 +347,11 @@ export class TripleMapper {
         // Map semantic predicate back to edge types
         const edgeTypes = this.predicateToEdgeTypes(predicate);
         if (edgeTypes.length === 1) {
-          sql += " AND type = ?";
-          params.push(edgeTypes[0]!);
+          const type = edgeTypes[0];
+          if (type) {
+            sql += " AND type = ?";
+            params.push(type);
+          }
         } else if (edgeTypes.length > 1) {
           sql += ` AND type IN (${edgeTypes.map(() => "?").join(", ")})`;
           params.push(...edgeTypes);

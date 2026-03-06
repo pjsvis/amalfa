@@ -137,6 +137,18 @@ export const FixturesConfigSchema = z.object({
     .string()
     .default(join("scripts", "fixtures", "conceptual-lexicon-ref-v1.79.json")),
   cda: z.string().default(join("scripts", "fixtures", "cda-ref-v63.json")),
+  semanticLexicon: z
+    .string()
+    .default(join("scripts", "fixtures", "semantic-lexicon.jsonl")),
+  semanticCda: z
+    .string()
+    .default(join("scripts", "fixtures", "semantic-cda.jsonl")),
+  semanticBestiary: z
+    .string()
+    .default(join("scripts", "fixtures", "semantic-bestiary.jsonl")),
+  semanticLifecycle: z
+    .string()
+    .default(join("scripts", "fixtures", "semantic-lifecycle.jsonl")),
 });
 
 // ============================================================================
@@ -160,6 +172,9 @@ export const AmalfaSettingsSchema = z.object({
 
   // Database
   database: z.string().default(join(".amalfa", "runtime", "resonance.db")),
+  semanticDatabase: z
+    .string()
+    .default(join(".amalfa", "runtime", "semantic.db")),
 
   // Embeddings Engine
   embeddings: z.object({
@@ -186,14 +201,7 @@ export const AmalfaSettingsSchema = z.object({
   }),
 
   // Fixtures
-  fixtures: z.object({
-    lexicon: z
-      .string()
-      .default(
-        join("scripts", "fixtures", "conceptual-lexicon-ref-v1.79.json"),
-      ),
-    cda: z.string().default(join("scripts", "fixtures", "cda-ref-v63.json")),
-  }),
+  fixtures: FixturesConfigSchema,
 
   // Sonar (Local/Cloud Inference)
   sonar: z.object({

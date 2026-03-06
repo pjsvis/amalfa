@@ -2,8 +2,8 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { getDbPath, getSemanticDbPath } from "@src/cli/utils";
 import { AMALFA_DIRS } from "@src/config/defaults";
-import { GraphGardener } from "@src/core/GraphGardener";
 import { GraphEngine } from "@src/core/GraphEngine";
+import { GraphGardener } from "@src/core/GraphGardener";
 import { VectorEngine } from "@src/core/VectorEngine";
 import { ResonanceDB } from "@src/resonance/db";
 import { telemetry } from "@src/services/PipelineTelemetry";
@@ -42,15 +42,17 @@ export class DashboardDaemon {
   private async initGardeners() {
     try {
       const db = ResonanceDB.init();
-      const graphEngine = new GraphEngine(db);
-      const vectorEngine = new VectorEngine(db);
+      const graphEngine = new GraphEngine();
+      await graphEngine.load(db.getRawDb());
+      const vectorEngine = new VectorEngine(db.getRawDb());
       this.gardener = new GraphGardener(db, graphEngine, vectorEngine);
 
       const semDbPath = await getSemanticDbPath();
       if (existsSync(semDbPath)) {
         this.semanticDb = new ResonanceDB(semDbPath);
-        const semGraph = new GraphEngine(this.semanticDb);
-        const semVector = new VectorEngine(this.semanticDb);
+        const semGraph = new GraphEngine();
+        await semGraph.load(this.semanticDb.getRawDb());
+        const semVector = new VectorEngine(this.semanticDb.getRawDb());
         this.semanticGardener = new GraphGardener(
           this.semanticDb,
           semGraph,
@@ -75,9 +77,12 @@ export class DashboardDaemon {
     // Root assets for legacy support
     this.app.use("/css/*", serveStatic({ root: "./public" }));
     this.app.use("/js/*", serveStatic({ root: "./public" }));
-    
+
     // Specific root files needed by the frontend
-    this.app.get("/polyvis.settings.json", serveStatic({ path: "./public/polyvis.settings.json" }));
+    this.app.get(
+      "/polyvis.settings.json",
+      serveStatic({ path: "./public/polyvis.settings.json" }),
+    );
     this.app.get("/favicon.svg", serveStatic({ path: "./public/favicon.svg" }));
 
     // 2. Main Dashboard (New Terminal UI)
@@ -220,15 +225,18 @@ export class DashboardDaemon {
         if (node?.meta) {
           const meta = JSON.parse(node.meta);
           if (meta.fixture_path) {
-            log.info({ id, fixture: meta.fixture_path }, "🪠 Plucking content via JQ");
-            
+            log.info(
+              { id, fixture: meta.fixture_path },
+              "🪠 Plucking content via JQ",
+            );
+
             // JQ command: Search by record id (if exists) or title
             // Use single quotes for the jq filter and escape double quotes in values
             const targetId = meta.id || "";
             const targetTitle = (node.title || "").replace(/"/g, '\\"');
-            
+
             const jqFilter = `select(.id == "${targetId}" or .title == "${targetTitle}" or .term == "${targetTitle}") | .definition // .description`;
-            
+
             const cmd = ["jq", "-r", jqFilter, meta.fixture_path];
             const proc = Bun.spawn(cmd);
             const content = await new Response(proc.stdout).text();
