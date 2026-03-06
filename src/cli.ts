@@ -2,35 +2,34 @@
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import pkg from "../package.json" with { type: "json" };
-import { cmdDoctor } from "./cli/commands/doctor";
-import { cmdExplore } from "./cli/commands/explore";
-import { cmdFindGaps } from "./cli/commands/find-gaps";
-import { cmdHarvest } from "./cli/commands/harvest";
-import { cmdHarvestLexicon } from "./cli/commands/harvest-lexicon";
+import { cmdDoctor } from "./cli/commands/config/doctor";
+import { cmdInjectTags } from "./cli/commands/config/inject-tags";
+import { cmdScripts } from "./cli/commands/config/list-scripts";
+import { cmdListSources } from "./cli/commands/config/list-sources";
+import { cmdSetupMcp } from "./cli/commands/config/setup-mcp";
+import { cmdSetupPython } from "./cli/commands/config/setup-python";
+import { cmdValidate } from "./cli/commands/config/validate";
+import { cmdVerify } from "./cli/commands/config/verify";
+import { cmdHarvest } from "./cli/commands/ingest/harvest";
+import { cmdHarvestLexicon } from "./cli/commands/ingest/harvest-lexicon";
+import { cmdSquash } from "./cli/commands/ingest/squash";
 import { cmdInit } from "./cli/commands/init";
-import { cmdInjectTags } from "./cli/commands/inject-tags";
-import { cmdListSources } from "./cli/commands/list-sources";
-import { cmdRead } from "./cli/commands/read";
-import { cmdSearch } from "./cli/commands/search";
-import { cmdServe, cmdServers, cmdStopAll } from "./cli/commands/server";
-import {
-  cmdEmber,
-  cmdReranker,
-  cmdSonar,
-  cmdVector,
-  cmdWatcher,
-} from "./cli/commands/services";
-import { cmdSetupMcp } from "./cli/commands/setup";
-import { cmdSetupPython } from "./cli/commands/setup-python";
-import { cmdSquash } from "./cli/commands/squash";
-import { cmdSsrDocs } from "./cli/commands/ssr-docs";
-
-// ... existing imports ...
-
-import { cmdDashboard } from "./cli/commands/dashboard";
+import { cmdExplore } from "./cli/commands/query/explore";
+import { cmdFindGaps } from "./cli/commands/query/find-gaps";
+import { cmdRead } from "./cli/commands/query/read";
+import { cmdSearch } from "./cli/commands/query/search";
+import { cmdDashboard } from "./cli/commands/service/dashboard";
+import { cmdEmber } from "./cli/commands/service/ember";
+import { cmdEnhance } from "./cli/commands/service/enhance";
+import { cmdReranker } from "./cli/commands/service/reranker";
+import { cmdServe } from "./cli/commands/service/serve";
+import { cmdServers } from "./cli/commands/service/servers";
+import { cmdSonar } from "./cli/commands/service/sonar";
+import { cmdSsrDocs } from "./cli/commands/service/ssr-docs";
+import { cmdStopAll } from "./cli/commands/service/stop-all";
+import { cmdVector } from "./cli/commands/service/vector";
+import { cmdWatcher } from "./cli/commands/service/watcher";
 import { cmdStats } from "./cli/commands/stats";
-import { cmdValidate } from "./cli/commands/validate";
-import { cmdVerify } from "./cli/commands/verify";
 
 const VERSION = pkg.version;
 
@@ -112,20 +111,6 @@ Documentation: https://github.com/pjsvis/amalfa
 
 function showVersion() {
   console.log(`amalfa v${VERSION}`);
-}
-
-async function cmdScripts() {
-  const action = args[1] || "list";
-
-  if (action === "list") {
-    // Dynamic import to avoid loading everything at startup
-    await import("./cli/list-scripts");
-    return;
-  }
-
-  console.error(`❌ Invalid action: ${action}`);
-  console.error("Usage: amalfa scripts list");
-  process.exit(1);
 }
 
 // Main command dispatcher
@@ -237,11 +222,9 @@ async function main() {
       await cmdScripts();
       break;
 
-    case "enhance": {
-      const { cmdEnhance } = await import("./cli/enhance-commands");
+    case "enhance":
       await cmdEnhance(args);
       break;
-    }
 
     case "ssr-docs":
       await cmdSsrDocs(args);
