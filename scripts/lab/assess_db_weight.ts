@@ -3,7 +3,7 @@ import settings from "@/polyvis.settings.json";
 import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
 const dbPath = settings.paths.database.resonance;
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance();
 const stats = await stat(dbPath);
 
 console.log(`\n📊 DB Storage Analysis`);

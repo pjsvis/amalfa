@@ -16,13 +16,38 @@ export const DatabaseFactory = {
   /**
    * Connects specifically to the main Resonance Graph database.
    * @param dbPath - Optional. If not provided, loads from amalfa.settings.json
+   * @param options - Optional. Connection options.
    */
+  connectToResonance(options?: { readonly?: boolean }): Database;
   connectToResonance(
     dbPath?: string,
+    options?: { readonly?: boolean },
+  ): Database;
+  connectToResonance(
+    dbPathOrOptions?: string | { readonly?: boolean },
     options: { readonly?: boolean } = {},
   ): Database {
-    const finalPath = dbPath || loadSettings(false).database;
-    return DatabaseFactory.connect(finalPath, options);
+    let finalPath: string | undefined;
+    let finalOptions = options;
+
+    if (typeof dbPathOrOptions === "object" && dbPathOrOptions !== null) {
+      console.warn(
+        "⚠️  Legacy: Calling connectToResonance(options) is deprecated. Use connectToResonance(undefined, options) or connectToResonance(dbPath, options).",
+      );
+      finalOptions = dbPathOrOptions;
+      finalPath = undefined;
+    } else {
+      finalPath = dbPathOrOptions;
+    }
+
+    // Standard Alignment: Force ReadWrite for WAL compatibility
+    if (finalOptions.readonly) {
+      console.warn("⚠️  Standard Violation: WAL mode requires ReadWrite access even for readers. Overriding to readonly: false.");
+      finalOptions = { ...finalOptions, readonly: false };
+    }
+
+    const path = finalPath || loadSettings(false).database;
+    return DatabaseFactory.connect(path, finalOptions);
   },
   /**
    * Creates a fully configured, concurrent-safe SQLite connection.

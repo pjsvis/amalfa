@@ -20,6 +20,7 @@ import {
   formatAsNTriples,
   PREDICATES,
   resourceUri,
+  reverseNormalizePredicate,
   type Triple,
   type TripleWithProvenance,
 } from "./RdfContext";
@@ -543,31 +544,63 @@ export class TriplifierEngine {
     this.db.run("BEGIN TRANSACTION");
 
     try {
-      for (const triple of result.triples) {
-        // Insert node (if not exists)
-        const nodeId = this.extractIdFromUri(triple.subject);
-        const nodeType = this.extractTypeFromUri(triple.object);
+      // 1. First pass: Collect node metadata (type and title) from triples
+      const nodeMetadata = new Map<string, { type?: string; title?: string }>();
 
+      for (const triple of result.triples) {
+        const subjectId = this.extractIdFromUri(triple.subject);
+        if (!nodeMetadata.has(subjectId)) {
+          nodeMetadata.set(subjectId, {});
+        }
+
+        const metadata = nodeMetadata.get(subjectId)!;
+
+        // Infer type from rdf:type
+        if (triple.predicate === "rdf:type" || triple.predicate === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+          metadata.type = this.extractTypeFromUri(triple.object) || undefined;
+        }
+
+        // Infer title from rdfs:label or ctx:label
+        if (
+          triple.predicate === "rdfs:label" ||
+          triple.predicate === "http://www.w3.org/2000/01/rdf-schema#label" ||
+          triple.predicate === "ctx:label" ||
+          triple.predicate === "ctx:title"
+        ) {
+          metadata.title = triple.object;
+        }
+      }
+
+      // 2. Second pass: Upsert nodes and edges
+      for (const triple of result.triples) {
+        const nodeId = this.extractIdFromUri(triple.subject);
+        const metadata = nodeMetadata.get(nodeId);
+
+        // Upsert node
         this.db.run(
-          `INSERT OR IGNORE INTO nodes (id, type, title, domain, layer)
-           VALUES (?, ?, ?, 'semantic', 'extracted')`,
+          `INSERT INTO nodes (id, type, title, domain, layer)
+           VALUES (?, ?, ?, 'semantic', 'extracted')
+           ON CONFLICT(id) DO UPDATE SET
+             type = COALESCE(excluded.type, nodes.type),
+             title = COALESCE(excluded.title, nodes.title)`,
           [
             nodeId,
-            nodeType || "Resource",
-            triple.objectType === "literal" ? triple.object : nodeId,
+            metadata?.type || "Resource",
+            metadata?.title || nodeId,
           ],
         );
 
-        // Insert edge for relationship triples
-        if (triple.objectType === "uri" && triple.predicate !== "rdf:type") {
-          const predicateName = triple.predicate
-            .replace("ctx:", "")
-            .toUpperCase();
+        // Upsert edge for relationship triples
+        if (triple.objectType === "uri" && triple.predicate !== "rdf:type" && triple.predicate !== "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+          const predicateName = reverseNormalizePredicate(triple.predicate);
           const targetId = this.extractIdFromUri(triple.object);
 
           this.db.run(
-            `INSERT OR IGNORE INTO edges (source, target, type, confidence, context_source)
-             VALUES (?, ?, ?, ?, ?)`,
+            `INSERT INTO edges (source, target, type, confidence, context_source)
+             VALUES (?, ?, ?, ?, ?)
+             ON CONFLICT(source, target, type) DO UPDATE SET
+               confidence = MAX(excluded.confidence, edges.confidence),
+               context_source = COALESCE(excluded.context_source, edges.context_source)`,
             [
               nodeId,
               targetId,

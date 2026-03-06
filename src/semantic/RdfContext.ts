@@ -76,6 +76,13 @@ export const PREDICATES = {
   definition: "ctx:definition",
   label: "ctx:label",
   title: "ctx:title",
+
+  // Temporal / Sequential Relationships
+  precedes: "ctx:precedes",
+  follows: "ctx:follows",
+  triggers: "ctx:triggers",
+  concludes: "ctx:concludes",
+  during: "ctx:during",
 } as const;
 
 // === URI TEMPLATING FUNCTIONS ===
@@ -189,6 +196,12 @@ export const EDGE_TYPE_TO_PREDICATE: Record<string, string> = {
   // Provenance
   DERIVED_FROM: "ctx:isDerivedFrom",
   APPEARS_IN: "ctx:appearsIn",
+
+  // Sequential
+  PRECEDES: "ctx:precedes",
+  FOLLOWS: "ctx:follows",
+  TRIGGERS: "ctx:triggers",
+  CONCLUDES: "ctx:concludes",
 };
 
 /**
@@ -197,6 +210,25 @@ export const EDGE_TYPE_TO_PREDICATE: Record<string, string> = {
 export function normalizePredicate(edgeType: string): string {
   const normalized = EDGE_TYPE_TO_PREDICATE[edgeType.toUpperCase()];
   return normalized || `ctx:${edgeType.toLowerCase()}`;
+}
+
+/**
+ * Reverse map: Semantic predicate -> SQLite edge type
+ */
+export function reverseNormalizePredicate(predicate: string): string {
+  // 1. Check direct map
+  for (const [edgeType, rdfPred] of Object.entries(EDGE_TYPE_TO_PREDICATE)) {
+    if (rdfPred === predicate || rdfPred === `ctx:${predicate}`) {
+      return edgeType;
+    }
+  }
+
+  // 2. Handle ctx: prefix and camelCase to SNAKE_UPPER
+  const localName = predicate.replace("ctx:", "");
+  return localName
+    .replace(/([a-z])([A-Z])/g, "$1_$2")
+    .replace(/[-\s]+/g, "_")
+    .toUpperCase();
 }
 
 // === TYPE INFERENCE ===

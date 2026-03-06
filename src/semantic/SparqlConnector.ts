@@ -176,8 +176,9 @@ export class SparqlConnector {
       }
     }
 
-    // Extract WHERE clause
-    const whereMatch = normalized.match(/WHERE\s*\{([^}]+)\}/i);
+    // Extract WHERE clause (WHERE keyword is optional in ASK and some SELECT forms)
+    // PHI-15: Use greedy match to capture nested braces (up to the last })
+    const whereMatch = normalized.match(/(?:WHERE)?\s*\{([\s\S]+)\}/i);
     const patterns: TriplePattern[] = [];
     const filters: FilterExpression[] = [];
     const optionals: TriplePattern[][] = [];
@@ -242,7 +243,7 @@ export class SparqlConnector {
     let remaining = clause.replace(optionalRegex, "");
 
     // Handle FILTER NOT EXISTS
-    const filterNotExistsRegex = /FILTER\s+NOT\s+EXISTS\s*\{([^}]+)\}/gi;
+    const filterNotExistsRegex = /FILTER\s+NOT\s+EXISTS\s*\{([\s\S]+?)\}/gi;
     let filterMatch;
     while ((filterMatch = filterNotExistsRegex.exec(remaining)) !== null) {
       const filterPatterns: TriplePattern[] = [];
@@ -256,7 +257,7 @@ export class SparqlConnector {
     remaining = remaining.replace(filterNotExistsRegex, "");
 
     // Handle FILTER EXISTS
-    const filterExistsRegex = /FILTER\s+EXISTS\s*\{([^}]+)\}/gi;
+    const filterExistsRegex = /FILTER\s+EXISTS\s*\{([\s\S]+?)\}/gi;
     while ((filterMatch = filterExistsRegex.exec(remaining)) !== null) {
       const filterPatterns: TriplePattern[] = [];
       this.parseTriplePatterns(filterMatch[1]!, filterPatterns);
@@ -290,8 +291,9 @@ export class SparqlConnector {
    */
   private parseTriplePatterns(input: string, patterns: TriplePattern[]): void {
     // Match triple patterns: ?s ?p ?o . or <uri> ?p "literal" .
+    // Groups: 1-5: subject, 6-10: predicate (10 is 'a'), 11-15: object
     const tripleRegex =
-      /(?:(\?\w+)|<([^>]+)>|"([^"]*)"|(\w+):(\w+))\s+(?:(\?\w+)|<([^>]+)>|(\w+):(\w+)|a)\s+(?:(\?\w+)|<([^>]+)>|"([^"]*)"|(\w+):(\w+))\s*\./g;
+      /(?:(\?\w+)|<([^>]+)>|"([^"]*)"|(\w+):(\w+))\s+(?:(\?\w+)|<([^>]+)>|(\w+):(\w+)|(a))\s+(?:(\?\w+)|<([^>]+)>|"([^"]*)"|(\w+):(\w+))\s*\./g;
 
     let match;
     while ((match = tripleRegex.exec(input)) !== null) {
@@ -302,20 +304,25 @@ export class SparqlConnector {
         match[4],
         match[5],
       );
-      const predicate = this.parseTerm(
-        match[6],
-        match[7],
-        undefined,
-        match[8],
-        match[9],
-        true,
-      );
+      
+      // Handle 'a' specifically or parse other terms
+      const predicate = match[10] === "a" 
+        ? { type: "uri", value: "rdf:type" } as const
+        : this.parseTerm(
+            match[6],
+            match[7],
+            undefined,
+            match[8],
+            match[9],
+            true,
+          );
+          
       const object = this.parseTerm(
-        match[10],
         match[11],
         match[12],
         match[13],
         match[14],
+        match[15],
       );
 
       if (
@@ -354,10 +361,6 @@ export class SparqlConnector {
       return { type: "literal", value: literal };
     }
     if (prefix && local) {
-      // Handle 'a' as rdf:type
-      if (prefix === "a" && isPredicate) {
-        return { type: "uri", value: "rdf:type" };
-      }
       return { type: "uri", value: `${prefix}:${local}` };
     }
     return null;
@@ -412,8 +415,21 @@ export class SparqlConnector {
    * Execute ASK query (returns boolean)
    */
   private async executeAsk(parsed: ParsedQuery): Promise<SparqlResult> {
-    const bindings = this.translateAndExecute(parsed);
-    const result = bindings.length > 0;
+    const sqlBuilder = new SqlBuilder(this.db);
+    
+    // Add base patterns
+    for (const pattern of parsed.patterns) {
+      sqlBuilder.addPattern(pattern);
+    }
+
+    // Add filters
+    for (const filter of parsed.filters) {
+      sqlBuilder.addFilter(filter);
+    }
+
+    const { sql, params } = sqlBuilder.buildExists();
+    const row = this.db.query(sql).get(...params) as Record<string, unknown> | null;
+    const result = row !== null;
 
     return {
       head: { vars: ["_ask"] },
@@ -447,6 +463,8 @@ export class SparqlConnector {
   private translateAndExecute(parsed: ParsedQuery): Binding[] {
     // Build SQL query from patterns
     const sqlBuilder = new SqlBuilder(this.db);
+    sqlBuilder.setLimit(parsed.limit, parsed.offset);
+    sqlBuilder.setOrderBy(parsed.orderBy);
 
     // Add base patterns
     for (const pattern of parsed.patterns) {
@@ -573,9 +591,27 @@ class SqlBuilder {
   private variableMapping = new Map<string, string>();
   private aliasCounter = 0;
   private db: Database;
+  private limit?: number;
+  private offset?: number;
+  private orderBy?: { variable: string; direction: "ASC" | "DESC" }[];
 
   constructor(db: Database) {
     this.db = db;
+  }
+
+  /**
+   * Set limit and offset
+   */
+  setLimit(limit?: number, offset?: number): void {
+    this.limit = limit;
+    this.offset = offset;
+  }
+
+  /**
+   * Set order by
+   */
+  setOrderBy(orderBy?: { variable: string; direction: "ASC" | "DESC" }[]): void {
+    this.orderBy = orderBy;
   }
 
   /**
@@ -587,7 +623,6 @@ class SqlBuilder {
     // Simplify predicate for dispatch
     const pred = this.simplifyUri(pattern.predicate.value);
 
-    // Determine if this is a type pattern (rdf:type)
     if (pattern.predicate.type === "uri" && (pred === "rdf:type" || pred === "type")) {
       this.addTypePattern(pattern, alias);
     } else if (
@@ -609,8 +644,7 @@ class SqlBuilder {
 
     // Subject variable
     if (pattern.subject.type === "variable") {
-      this.variableMapping.set(pattern.subject.value, `${nodeAlias}.id`);
-      this.conditions.push(`${nodeAlias}.id IS NOT NULL`);
+      this.handleVariable(pattern.subject.value, `${nodeAlias}.id`);
     } else {
       // Subject is a specific URI
       const subjectValue = this.resolveUri(pattern.subject.value);
@@ -619,7 +653,9 @@ class SqlBuilder {
     }
 
     // Object (the type)
-    if (pattern.object.type === "uri") {
+    if (pattern.object.type === "variable") {
+      this.handleVariable(pattern.object.value, `${nodeAlias}.type`);
+    } else if (pattern.object.type === "uri") {
       const typeValue = this.resolveClass(pattern.object.value);
       this.conditions.push(`${nodeAlias}.type = ?`);
       this.params.push(typeValue);
@@ -635,9 +671,7 @@ class SqlBuilder {
 
     // Subject variable
     if (pattern.subject.type === "variable") {
-      if (!this.variableMapping.has(pattern.subject.value)) {
-        this.variableMapping.set(pattern.subject.value, `${nodeAlias}.id`);
-      }
+      this.handleVariable(pattern.subject.value, `${nodeAlias}.id`);
     } else {
       const subjectValue = this.resolveUri(pattern.subject.value);
       this.conditions.push(`${nodeAlias}.id = ?`);
@@ -646,7 +680,7 @@ class SqlBuilder {
 
     // Object (the label) - bind to title column
     if (pattern.object.type === "variable") {
-      this.variableMapping.set(pattern.object.value, `${nodeAlias}.title`);
+      this.handleVariable(pattern.object.value, `${nodeAlias}.title`);
     } else {
       this.conditions.push(`${nodeAlias}.title = ?`);
       this.params.push(pattern.object.value);
@@ -661,10 +695,7 @@ class SqlBuilder {
 
     // Subject (source)
     if (pattern.subject.type === "variable") {
-      if (!this.variableMapping.has(pattern.subject.value)) {
-        this.variableMapping.set(pattern.subject.value, `${alias}.source`);
-      }
-      this.conditions.push(`${alias}.source IS NOT NULL`);
+      this.handleVariable(pattern.subject.value, `${alias}.source`);
     } else {
       const subjectValue = this.resolveUri(pattern.subject.value);
       this.conditions.push(`${alias}.source = ?`);
@@ -673,7 +704,7 @@ class SqlBuilder {
 
     // Predicate (edge type)
     if (pattern.predicate.type === "variable") {
-      this.variableMapping.set(pattern.predicate.value, `${alias}.type`);
+      this.handleVariable(pattern.predicate.value, `${alias}.type`);
     } else {
       const predicateValue = this.resolvePredicate(pattern.predicate.value);
       this.conditions.push(`${alias}.type = ?`);
@@ -682,10 +713,7 @@ class SqlBuilder {
 
     // Object (target)
     if (pattern.object.type === "variable") {
-      if (!this.variableMapping.has(pattern.object.value)) {
-        this.variableMapping.set(pattern.object.value, `${alias}.target`);
-      }
-      this.conditions.push(`${alias}.target IS NOT NULL`);
+      this.handleVariable(pattern.object.value, `${alias}.target`);
     } else if (pattern.object.type === "uri") {
       const objectValue = this.resolveUri(pattern.object.value);
       this.conditions.push(`${alias}.target = ?`);
@@ -715,7 +743,13 @@ class SqlBuilder {
       for (const p of filter.pattern) {
         subBuilder.addPattern(p);
       }
-      const { sql: subSql, params: subParams } = subBuilder.build();
+      
+      // Inherit variable mappings for correlated subquery
+      for (const [v, c] of this.variableMapping.entries()) {
+        subBuilder.setVariableMapping(v, c);
+      }
+
+      const { sql: subSql, params: subParams } = subBuilder.buildExists();
 
       if (filter.negated) {
         this.conditions.push(`NOT EXISTS (${subSql})`);
@@ -727,16 +761,56 @@ class SqlBuilder {
   }
 
   /**
+   * Internal method to set variable mapping (used for correlated subqueries)
+   */
+  public setVariableMapping(varName: string, columnName: string): void {
+    this.variableMapping.set(varName, columnName);
+  }
+
+  /**
+   * Helper to handle variable terms consistently
+   */
+  private handleVariable(varName: string, column: string): void {
+    if (this.variableMapping.has(varName)) {
+      this.conditions.push(`${column} = ${this.variableMapping.get(varName)}`);
+    } else {
+      this.variableMapping.set(varName, column);
+    }
+    this.conditions.push(`${column} IS NOT NULL`);
+  }
+
+  /**
+   * Build an EXISTS query (SELECT 1 ...)
+   */
+  buildExists(): { sql: string; params: (string | number)[] } {
+    if (this.tables.length === 0) {
+      return { sql: "SELECT 1 WHERE 0", params: [] };
+    }
+
+    const whereClause =
+      this.conditions.length > 0 ? this.conditions.join(" AND ") : "1=1";
+
+    const sql = `
+      SELECT 1
+      FROM ${this.tables.join(", ")}
+      WHERE ${whereClause}
+      LIMIT 1
+    `;
+
+    return { sql, params: this.params };
+  }
+
+  /**
    * Build the final SQL query
    */
   build(): { sql: string; params: (string | number)[] } {
     // Build SELECT clause from variable mappings
-    const selectColumns = Array.from(this.variableMapping.entries()).map(
+    let selectColumns = Array.from(this.variableMapping.entries()).map(
       ([varName, column]) => `${column} AS "${varName}"`,
     );
 
     // Handle edge case: no tables or columns
-    if (this.tables.length === 0 || selectColumns.length === 0) {
+    if (this.tables.length === 0) {
       // Return a minimal valid query that returns nothing
       return {
         sql: "SELECT NULL AS _empty WHERE 1=0",
@@ -744,15 +818,42 @@ class SqlBuilder {
       };
     }
 
+    // If no columns are selected (e.g. constant pattern), select a constant
+    if (selectColumns.length === 0) {
+      selectColumns = ["1 AS _constant"];
+    }
+
     // Handle edge case: no conditions
     const whereClause =
       this.conditions.length > 0 ? this.conditions.join(" AND ") : "1=1";
 
-    const sql = `
+    let sql = `
       SELECT DISTINCT ${selectColumns.join(", ")}
       FROM ${this.tables.join(", ")}
       WHERE ${whereClause}
     `;
+
+    // Add ORDER BY
+    if (this.orderBy && this.orderBy.length > 0) {
+      const orderByParts = this.orderBy
+        .map((o) => {
+          const col = this.variableMapping.get(o.variable);
+          return col ? `${col} ${o.direction}` : null;
+        })
+        .filter((part) => part !== null);
+
+      if (orderByParts.length > 0) {
+        sql += ` ORDER BY ${orderByParts.join(", ")}`;
+      }
+    }
+
+    // Add LIMIT and OFFSET
+    if (this.limit !== undefined) {
+      sql += ` LIMIT ${this.limit}`;
+      if (this.offset !== undefined) {
+        sql += ` OFFSET ${this.offset}`;
+      }
+    }
 
     return { sql, params: this.params };
   }

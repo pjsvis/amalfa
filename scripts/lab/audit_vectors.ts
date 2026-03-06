@@ -1,7 +1,7 @@
 import settings from "@/polyvis.settings.json";
 import { DatabaseFactory } from "@/src/resonance/DatabaseFactory";
 
-const db = DatabaseFactory.connectToResonance({ readonly: true });
+const db = DatabaseFactory.connectToResonance();
 
 console.log("🔍 Auditing Vector Coverage...");
 
