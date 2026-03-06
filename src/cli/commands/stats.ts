@@ -7,83 +7,96 @@ import {
 import { join } from "node:path";
 import { loadConfig } from "@src/config/defaults";
 import { ResonanceDB } from "@src/resonance/db";
+import { defineCommand } from "citty";
 import { checkDatabase, getDbPath } from "../utils";
 
-export async function cmdStats(args: string[]) {
-  // Check database exists
-  if (!(await checkDatabase())) {
-    process.exit(1);
-  }
+export const statsCommand = defineCommand({
+  meta: {
+    name: "stats",
+    description: "Show database statistics and health",
+  },
+  args: {
+    orphans: {
+      type: "boolean",
+      description: "Analyze and count orphan nodes in the graph",
+      alias: "o",
+    },
+  },
+  async run({ args }) {
+    // Check database exists
+    if (!(await checkDatabase())) {
+      process.exit(1);
+    }
 
-  // Import database wrapper
-  const dbPath = await getDbPath();
+    // Import database wrapper
+    const dbPath = await getDbPath();
 
-  const db = new ResonanceDB(dbPath);
-  const config = await loadConfig();
-  const sources = config.sources || ["./docs"];
+    const db = new ResonanceDB(dbPath);
+    const config = await loadConfig();
+    const sources = config.sources || ["./docs"];
 
-  try {
-    const stats = db.getStats();
-    const dbStats = statSync(dbPath);
-    const fileSizeMB = (dbStats.size / 1024 / 1024).toFixed(2);
+    try {
+      const stats = db.getStats();
+      const dbStats = statSync(dbPath);
+      const fileSizeMB = (dbStats.size / 1024 / 1024).toFixed(2);
 
-    // Check for stale files
-    let newerFiles = 0;
-    let newestFileDate = new Date(0);
+      // Check for stale files
+      let newerFiles = 0;
+      let newestFileDate = new Date(0);
 
-    function scan(dir: string) {
-      if (!existsSync(dir)) return;
-      const entries = readdirSync(dir, { withFileTypes: true });
-      for (const entry of entries) {
-        const fullPath = join(dir, entry.name);
-        if (entry.name.startsWith(".")) continue;
+      function scan(dir: string) {
+        if (!existsSync(dir)) return;
+        const entries = readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = join(dir, entry.name);
+          if (entry.name.startsWith(".")) continue;
 
-        if (entry.isDirectory()) {
-          scan(fullPath);
-        } else if (entry.name.endsWith(".md")) {
-          const mtime = statSyncFs(fullPath).mtime;
-          if (mtime > dbStats.mtime) {
-            newerFiles++;
-          }
-          if (mtime > newestFileDate) {
-            newestFileDate = mtime;
+          if (entry.isDirectory()) {
+            scan(fullPath);
+          } else if (entry.name.endsWith(".md")) {
+            const mtime = statSyncFs(fullPath).mtime;
+            if (mtime > dbStats.mtime) {
+              newerFiles++;
+            }
+            if (mtime > newestFileDate) {
+              newestFileDate = mtime;
+            }
           }
         }
       }
-    }
 
-    for (const source of sources) {
-      scan(join(process.cwd(), source));
-    }
-
-    const isStale = newerFiles > 0;
-    const statusIcon = isStale ? "⚠️  STALE" : "✅ FRESH";
-
-    let orphanSection = "";
-    if (args.includes("--orphans")) {
-      const orphanSql = `
-                SELECT n.id, n.type
-                FROM nodes n
-                LEFT JOIN edges e1 ON n.id = e1.source
-                LEFT JOIN edges e2 ON n.id = e2.target
-                WHERE e1.source IS NULL AND e2.target IS NULL
-                  AND n.type != 'root' -- Exclude root
-                  AND n.type != 'domain' -- Exclude domain markers
-            `;
-      const orphans = db.getRawDb().query(orphanSql).all() as {
-        id: string;
-        type: string;
-      }[];
-
-      if (orphans.length > 0) {
-        const orphanRate = ((orphans.length / stats.nodes) * 100).toFixed(1);
-        orphanSection = `\nOrphans:    ${orphans.length} (${orphanRate}%) - Run 'amalfa ember scan' to fix`;
-      } else {
-        orphanSection = "\nOrphans:    0 (Graph is fully connected)";
+      for (const source of sources) {
+        scan(join(process.cwd(), source));
       }
-    }
 
-    console.log(`
+      const isStale = newerFiles > 0;
+      const statusIcon = isStale ? "⚠️  STALE" : "✅ FRESH";
+
+      let orphanSection = "";
+      if (args.orphans) {
+        const orphanSql = `
+                  SELECT n.id, n.type
+                  FROM nodes n
+                  LEFT JOIN edges e1 ON n.id = e1.source
+                  LEFT JOIN edges e2 ON n.id = e2.target
+                  WHERE e1.source IS NULL AND e2.target IS NULL
+                    AND n.type != 'root' -- Exclude root
+                    AND n.type != 'domain' -- Exclude domain markers
+              `;
+        const orphans = db.getRawDb().query(orphanSql).all() as {
+          id: string;
+          type: string;
+        }[];
+
+        if (orphans.length > 0) {
+          const orphanRate = ((orphans.length / stats.nodes) * 100).toFixed(1);
+          orphanSection = `\nOrphans:    ${orphans.length} (${orphanRate}%) - Run 'amalfa ember scan' to fix`;
+        } else {
+          orphanSection = "\nOrphans:    0 (Graph is fully connected)";
+        }
+      }
+
+      console.log(`
 📊 AMALFA Database Statistics
 
 Database: ${dbPath}
@@ -100,11 +113,25 @@ Latest File:   ${newestFileDate.toISOString()}
 Stale Files:   ${newerFiles}
 
 ${isStale ? "⚠️  ACTION REQUIRED: Run 'amalfa init' or start 'amalfa daemon' to update!" : "🔍 System is up to date."}
-`);
-  } catch (error) {
-    console.error("❌ Failed to read database statistics:", error);
-    process.exit(1);
-  } finally {
-    db.close();
+  `);
+    } catch (error) {
+      console.error("❌ Failed to read database statistics:", error);
+      process.exit(1);
+    } finally {
+      db.close();
+    }
+  },
+});
+
+// Keep legacy export for backward compatibility during migration
+export async function cmdStats(args: string[]) {
+  if (statsCommand.run) {
+    const isOrphans = args.includes("--orphans");
+    return statsCommand.run({
+      rawArgs: args,
+      args: { _: [], orphans: isOrphans, o: isOrphans },
+      cmd: statsCommand,
+      data: {},
+    });
   }
 }
