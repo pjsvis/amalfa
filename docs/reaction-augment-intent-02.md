@@ -1,4 +1,4 @@
-# reaction: augment intent 01
+# reaction: augment intent 02
 
 That 15% ratio (4,456 down to 682) is the statistical signature of **Deductive Minimalism (COG-12)** in action. It confirms that the value of a "Context Engine" is defined more by what it *excludes* than what it includes.
 

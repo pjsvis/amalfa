@@ -10,14 +10,27 @@ This integrated **`ctx-flow`** script embodies the principles of **Workflow Dura
 # Tools: gh, git, git-butler, mods, gum, td
 # ==============================================================================
 
-set -e
+set -euo pipefail
+
+# Verify tool availability
+for cmd in gh git gum mods td; do
+    command -v "$cmd" >/dev/null 2>&1 || { echo "Error: $cmd not found"; exit 1; }
+done
 
 # 1. INGEST & CONSOLIDATE (Stuff -> Thing)
 # ------------------------------------------------------------------------------
 echo "--- Initializing Ingestion ---"
-ISSUE_JSON=$(gh issue list --limit 30 --json number,title,body | gum filter --placeholder "Select target Issue...")
-ISSUE_NUM=$(echo "$ISSUE_JSON" | jq -r '.[0].number')
-ISSUE_TITLE=$(echo "$ISSUE_JSON" | jq -r '.[0].title')
+
+# Fetch and format issues for selection (gum can't parse JSON directly)
+ISSUES=$(gh issue list --limit 30 --json number,title --jq '.[] | "\(.number) - \(.title)"')
+[ -z "$ISSUES" ] && echo "No issues found." && exit 0
+
+SELECTED=$(echo "$ISSUES" | gum filter --placeholder "Select target Issue...")
+[ -z "$SELECTED" ] && echo "No issue selected." && exit 0
+
+ISSUE_NUM=$(echo "$SELECTED" | awk '{print $1}')
+ISSUE_JSON=$(gh issue view "$ISSUE_NUM" --json number,title,body)
+ISSUE_TITLE=$(echo "$ISSUE_JSON" | jq -r '.title')
 
 # Create local Brief artifact [OH-096]
 BRIEF_PATH="./briefs/issue-${ISSUE_NUM}.md"
@@ -53,14 +66,18 @@ gum spin --spinner monkey --title "Agent working on $LANE_NAME..." -- \
 # 4. DEBRIEF & CHECKSUM (The Verification)
 # ------------------------------------------------------------------------------
 echo "--- Workflow Checksum Audit ---"
-if td | grep -q "\[ \]"; then
+if td 2>/dev/null | grep -q "\[ \]"; then
     gum style --foreground 214 "⚠️ WARNING: Some tasks remain incomplete in 'td'."
     td
     gum confirm "Proceed to Debrief regardless?" || exit 1
 fi
 
+# Determine default branch dynamically
+DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+
 # Generate the Debrief [CL: Debrief]
-DIFF=$(git diff main)
+mkdir -p ./debriefs
+DIFF=$(git diff "$DEFAULT_BRANCH")
 echo "$DIFF" | mods "Compare this diff against the Brief in $BRIEF_PATH. Summarize changes and identify any 'Compulsive Narrative Syndrome'." > "./debriefs/issue-${ISSUE_NUM}-debrief.md"
 
 # 5. PR & SYNC

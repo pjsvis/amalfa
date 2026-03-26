@@ -33,23 +33,40 @@ This script now orchestrates the creation of the mission across three layers: th
 ```bash
 #!/bin/bash
 # amalfa-handoff: select brief -> create GitHub Issue -> link to td -> handoff
+set -euo pipefail
+
+# Verify tool availability
+for cmd in gum gh td find; do
+    command -v "$cmd" >/dev/null 2>&1 || { echo "Error: $cmd not found"; exit 1; }
+done
 
 # 1. Select the Brief
 BRIEF=$(find briefs -name "*.md" | gum filter --header "Select implementation brief")
 [ -z "$BRIEF" ] && exit 0
 
-# 2. Extract context for the Issue Body
-MISSION_TITLE=$(basename "$BRIEF" .md | tr '-' ' ' | sed 's/^[0-9]\{4\} [0-9]\{2\} [0-9]\{2\} //')
-BRIEF_CONTENT=$(cat "$BRIEF" | head -n 20) # Grab the start for the issue body
+# 2. Extract context for the Issue Body (from frontmatter if available)
+if grep -q "^title:" "$BRIEF" 2>/dev/null; then
+    MISSION_TITLE=$(grep -m 1 "^title:" "$BRIEF" | sed 's/^title: //')
+else
+    MISSION_TITLE=$(basename "$BRIEF" .md | tr '-' ' ' | sed 's/^[0-9]\{4\} [0-9]\{2\} [0-9]\{2\} //')
+fi
+BRIEF_CONTENT=$(cat "$BRIEF" | head -n 20)
 
 # 3. Create GitHub Issue (requires gh cli)
 echo "Creating GitHub Issue..." | gum style --foreground 212
-GH_URL=$(gh issue create --title "Mission: $MISSION_TITLE" --body "$BRIEF_CONTENT" --label "agent-task")
+if ! GH_URL=$(gh issue create --title "Mission: $MISSION_TITLE" --body "$BRIEF_CONTENT" --label "agent-task" 2>&1); then
+    gum style --foreground 196 "Error: Failed to create GitHub issue"
+    exit 1
+fi
 
 # 4. Initialize td with the GitHub context
-ISSUE_ID=$(echo "$GH_URL" | grep -oE "[0-9]+$")
-td create "Mission #$ISSUE_ID: $MISSION_TITLE" --id "$ISSUE_ID"
-td link "$ISSUE_ID" "$BRIEF"
+ISSUE_ID=$(echo "$GH_URL" | grep -oE "[0-9]+$" || echo "")
+if [ -z "$ISSUE_ID" ]; then
+    gum style --foreground 196 "Error: Could not extract issue ID from URL"
+    exit 1
+fi
+td add "Mission #$ISSUE_ID: $MISSION_TITLE" --id "$ISSUE_ID"
+td link "$ISSUE_ID" "$BRIEF" 2>/dev/null || true
 
 # 5. Dashboard Summary
 gum style --border double --margin "1 1" --padding "1 2" --foreground 120 \
