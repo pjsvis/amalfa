@@ -104,10 +104,10 @@ export async function getLexiconData(): Promise<LexiconData> {
     
     // Load from database instead of static fixture
     const entries = db.query(`
-      SELECT id, label as title, summary as description, type, layer as category 
+      SELECT id, title, summary as description, type, layer as category 
       FROM nodes 
       WHERE domain = 'lexicon'
-      ORDER BY label ASC
+      ORDER BY title ASC
     `).all() as LexiconEntry[];
     
     const categories = [...new Set(entries.map((e) => e.category || "Uncategorized"))];
