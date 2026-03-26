@@ -13,7 +13,7 @@ This integrated **`ctx-flow`** script embodies the principles of **Workflow Dura
 set -euo pipefail
 
 # Verify tool availability
-for cmd in gh git gum mods td; do
+for cmd in gh git gum mods td jq; do
     command -v "$cmd" >/dev/null 2>&1 || { echo "Error: $cmd not found"; exit 1; }
 done
 
