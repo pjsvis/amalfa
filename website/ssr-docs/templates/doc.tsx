@@ -100,6 +100,13 @@ export function DocPage(data: DocPageData): string {
             <h1 class="doc-title">${doc.title || doc.metadata.file}</h1>
             ${doc.metadata.date ? `<time class="doc-date">${doc.metadata.date}</time>` : ""}
             ${doc.metadata.tags ? `<div class="doc-tags">${doc.metadata.tags.map((t: string) => `<span class="tag">${t}</span>`).join(" ")}</div>` : ""}
+            ${
+              (doc.metadata.semantic_tokens as any)?.concepts?.length
+                ? `<div class="doc-tokens"><span class="label">KEYWORDS:</span> ${(doc.metadata.semantic_tokens as any).concepts
+                    .map((t: string) => `<span class="token">${t}</span>`)
+                    .join(" ")}</div>`
+                : ""
+            }
           </header>
           <div class="doc-body">
             ${doc.content}

@@ -61,20 +61,22 @@ export async function getDashboardData(config: SafeConfig): Promise<DashboardDat
     const { Database } = await import("bun:sqlite");
     const db = new Database(dbPath);
     
-    const nodeResult = db.query("SELECT COUNT(*) as count FROM nodes").get() as { count: number } | undefined;
-    nodes = nodeResult?.count || 0;
-    
-    const edgeResult = db.query("SELECT COUNT(*) as count FROM edges").get() as { count: number } | undefined;
-    edges = edgeResult?.count || 0;
-    
-    const vectorResult = db.query("SELECT COUNT(*) as count FROM nodes WHERE embedding IS NOT NULL").get() as { count: number } | undefined;
-    vectors = vectorResult?.count || 0;
-    
-    const pageCount = db.query("PRAGMA page_count").get() as { page_count: number } | undefined;
-    const pageSize = db.query("PRAGMA page_size").get() as { page_size: number } | undefined;
-    size_mb = ((pageCount?.page_count || 0) * (pageSize?.page_size || 4096)) / (1024 * 1024);
-    
-    db.close();
+    try {
+      const nodeResult = db.query("SELECT COUNT(*) as count FROM nodes").get() as { count: number } | undefined;
+      nodes = nodeResult?.count || 0;
+      
+      const edgeResult = db.query("SELECT COUNT(*) as count FROM edges").get() as { count: number } | undefined;
+      edges = edgeResult?.count || 0;
+      
+      const vectorResult = db.query("SELECT COUNT(*) as count FROM nodes WHERE embedding IS NOT NULL").get() as { count: number } | undefined;
+      vectors = vectorResult?.count || 0;
+      
+      const pageCount = db.query("PRAGMA page_count").get() as { page_count: number } | undefined;
+      const pageSize = db.query("PRAGMA page_size").get() as { page_size: number } | undefined;
+      size_mb = ((pageCount?.page_count || 0) * (pageSize?.page_size || 4096)) / (1024 * 1024);
+    } finally {
+      db.close();
+    }
   } catch (e) {
     console.warn("Database query failed:", e);
   }
@@ -95,22 +97,34 @@ export async function getDashboardData(config: SafeConfig): Promise<DashboardDat
 }
 
 export async function getLexiconData(): Promise<LexiconData> {
-  const lexiconPath = resolvePath("scripts/fixtures/conceptual-lexicon-ref-v1.79.json");
+  const config = await loadConfig();
+  const dbPath = resolvePath(config.database);
   
   try {
-    const file = Bun.file(lexiconPath);
-    const content = await file.text();
-    const entries: LexiconEntry[] = JSON.parse(content);
+    const { Database } = await import("bun:sqlite");
+    const db = new Database(dbPath, { readonly: true });
     
-    const categories = [...new Set(entries.map((e) => e.category || "Uncategorized"))];
-    
-    return {
-      entries: entries.slice(0, 100),
-      totalCount: entries.length,
-      categories,
-    };
+    try {
+      // Load from database instead of static fixture
+      const entries = db.query(`
+        SELECT id, title, summary as description, type, layer as category 
+        FROM nodes 
+        WHERE domain = 'lexicon'
+        ORDER BY title ASC
+      `).all() as LexiconEntry[];
+      
+      const categories = [...new Set(entries.map((e) => e.category || "Uncategorized"))];
+      
+      return {
+        entries,
+        totalCount: entries.length,
+        categories,
+      };
+    } finally {
+      db.close();
+    }
   } catch (e) {
-    console.warn("Failed to load lexicon:", e);
+    console.warn("Failed to load lexicon from database:", e);
     return {
       entries: [],
       totalCount: 0,

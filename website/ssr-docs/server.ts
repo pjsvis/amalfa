@@ -314,6 +314,33 @@ async function runServer() {
           const filename = docMatch[1];
           const registry = getDocumentRegistry();
           const doc = loadDocument(ROOT_PATH, filename);
+          
+          // Enrich with database metadata (like semantic_tokens)
+          // Uses indexed source column when available, falls back to meta LIKE scan
+          try {
+            const { Database } = await import("bun:sqlite");
+            const db = new Database(DB_PATH, { readonly: true });
+            
+            try {
+              // Try indexed source column first (fast)
+              let node = db.query("SELECT meta FROM nodes WHERE source = ?").get(filename) as { meta: string } | undefined;
+              
+              // Fallback to meta JSON scan for records without source column
+              if (!node) {
+                node = db.query("SELECT meta FROM nodes WHERE meta LIKE ?").get(`%"source":"${filename}"%`) as { meta: string } | undefined;
+              }
+              
+              if (node) {
+                const dbMeta = JSON.parse(node.meta);
+                doc.metadata = { ...doc.metadata, ...dbMeta };
+              }
+            } finally {
+              db.close();
+            }
+          } catch (dbErr) {
+            console.warn("Failed to fetch DB metadata for doc:", dbErr);
+          }
+
           const html = renderDocPage({
             doc: {
               title: doc.metadata.title || doc.metadata.file || "Untitled",

@@ -124,6 +124,12 @@ main {
   grid-area: main;
   overflow: hidden;
   min-height: 0;
+  height: 100%;
+}
+
+#content {
+  height: 100%;
+  min-height: 0;
 }
 
 /* === Layout Primitives === */
@@ -137,19 +143,75 @@ main {
 
 /* Sidebar: Controls fixed, tiles flow */
 .sidebar {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 25ch 1fr;
   gap: var(--space-sm);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .sidebar > .controls-panel {
-  width: fit-content;
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  padding-right: var(--space-sm);
 }
 
 .sidebar > .lexicon-grid {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
+  overflow-y: auto;
+  align-content: flex-start;
+  padding-bottom: 5ch;
+}
+
+/* === Lexicon Controls === */
+.compact-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.control-label {
+  font-size: 9px;
+  color: var(--dim);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.control-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.filter-btn {
+  background: var(--bg);
+  border: 1px solid var(--dim);
+  color: var(--dim);
+  font-size: 9px;
+  padding: 1px 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.filter-btn:hover,
+.filter-btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.stat-value {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: bold;
 }
 
 /* Two-sidebars: Doc list | TOC | Content */
@@ -169,11 +231,28 @@ main {
   gap: var(--space-sm);
 }
 
-/* === Lexicon Grid === */
-.lexicon-grid {
+/* Main-layout: LHS | Content */
+.main-layout {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
+  height: 100%;
+  overflow: hidden;
+}
+
+.lhs-panel, .rhs-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  min-width: 25ch;
+}
+
+.lhs-panel { border-right: 1px solid var(--border); }
+.rhs-panel { border-left: 1px solid var(--border); }
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  height: 100%;
 }
 
 /* === Entity Tile === */
@@ -222,6 +301,8 @@ main {
   gap: var(--space-xs);
   padding: var(--space-xs);
   overflow-y: auto;
+  height: 100%;
+  align-content: flex-start;
 }
 
 .dashboard-header {
@@ -468,6 +549,7 @@ footer {
   padding: var(--space-md) var(--space-lg);
   max-width: 80ch;
   overflow-y: auto;
+  height: 100%;
 }
 
 .doc-header {
@@ -553,6 +635,31 @@ footer {
   margin-right: 4px;
   font-size: 10px;
   color: var(--dim);
+}
+
+.doc-tokens {
+  margin-top: var(--space-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5ch;
+  align-items: baseline;
+}
+
+.doc-tokens .label {
+  color: var(--dim);
+  font-weight: bold;
+  font-size: 9px;
+  text-transform: uppercase;
+  margin-right: 1ch;
+}
+
+.doc-tokens .token {
+  display: inline-block;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 1px 4px;
+  font-size: 9px;
+  text-transform: lowercase;
 }
 
 /* === Search === */
@@ -710,7 +817,15 @@ article hr {
 /* === Responsive === */
 @media (max-width: 80ch) {
   .sidebar {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .sidebar > .controls-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding-right: 0;
+    padding-bottom: var(--space-sm);
   }
 
   .sidebar > :first-child {
