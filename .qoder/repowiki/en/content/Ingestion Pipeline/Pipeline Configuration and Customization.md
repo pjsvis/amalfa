@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [schema.ts](file://src/config/schema.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json)
-- [.env](file://.env)
-- [.env.example](file://.env.example)
-- [init.ts](file://src/cli/commands/init.ts)
+- [schema.ts](src/config/schema.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [amalfa.settings.json](amalfa.settings.json)
+- [amalfa.settings.example.json](amalfa.settings.example.json)
+- [.env](.env)
+- [.env.example](.env.example)
+- [init.ts](src/cli/commands/init.ts)
 </cite>
 
 ## Table of Contents
@@ -41,14 +41,14 @@ F[".env"] -. overrides optional fields .-> B
 ```
 
 **Diagram sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L75-L131)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L75-L131)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 ## Core Components
 - Configuration schema: Defines all supported keys, types, and default values.
@@ -69,10 +69,10 @@ Key configuration areas:
 - Language extraction providers
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L61-L131)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L61-L131)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
 
 ## Architecture Overview
 The configuration architecture enforces a strict precedence and validation chain. The JSON SSoT is the authoritative source; schema defaults are injected by the parser; environment variables can optionally override specific fields; and the loader performs normalization and validation.
@@ -95,10 +95,10 @@ Ingestor-->>CLI : ingestion stats
 ```
 
 **Diagram sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L75-L131)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L75-L131)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
 
 ## Detailed Component Analysis
 
@@ -126,7 +126,7 @@ Important defaults:
 - Language extraction defaults to a cloud provider with optional local fallbacks.
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 ### Configuration Loading and Inheritance
 The loader:
@@ -141,7 +141,7 @@ Inheritance and precedence:
 - The loader does not manually merge defaults; Zod’s parse injects schema defaults.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 ### PreFlightAnalyzer: Validation and Recommendations
 The analyzer scans configured sources, validates files, and produces a report with:
@@ -174,16 +174,16 @@ Report --> End(["Return report"])
 ```
 
 **Diagram sources**
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L75-L131)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L167-L268)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L297-L337)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L342-L452)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L75-L131)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L167-L268)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L297-L337)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L342-L452)
 
 **Section sources**
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L61-L131)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L167-L268)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L297-L337)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L342-L452)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L61-L131)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L167-L268)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L297-L337)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L342-L452)
 
 ### AmalfaIngestor: Using Configuration
 The ingestor:
@@ -198,9 +198,9 @@ Key behaviors:
 - Edge weaving occurs after all nodes exist, using a lexicon built from existing nodes.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L314-L343)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L440)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L314-L343)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L440)
 
 ### Environment Variables and Optional Overrides
 Environment variables can supplement configuration:
@@ -213,8 +213,8 @@ Environment variables can supplement configuration:
 These are documented in the example environment file and should be kept secret (.env is ignored by version control).
 
 **Section sources**
-- [.env.example](file://.env.example#L1-L83)
-- [.env](file://.env#L1-L3)
+- [.env.example](.env.example#L1-L83)
+- [.env](.env#L1-L3)
 
 ### Configuration Examples and Profiles
 - Minimal production profile: Disable Sonar, keep defaults for embeddings and watch, set database path, and tune graph tuning conservatively.
@@ -222,8 +222,8 @@ These are documented in the example environment file and should be kept secret (
 - Cloud-heavy profile: Enable Sonar cloud, set provider and model, and configure API keys via environment variables.
 
 Example locations:
-- Base configuration: [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- Example configuration: [amalfa.settings.example.json](file://amalfa.settings.example.json#L1-L56)
+- Base configuration: [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- Example configuration: [amalfa.settings.example.json](amalfa.settings.example.json#L1-L56)
 
 Best practices:
 - Keep sources scoped to relevant folders to reduce ingestion time.
@@ -232,8 +232,8 @@ Best practices:
 - Tune graph tuning parameters for your domain density and node distribution.
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L9-L95)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json#L2-L55)
+- [amalfa.settings.json](amalfa.settings.json#L9-L95)
+- [amalfa.settings.example.json](amalfa.settings.example.json#L2-L55)
 
 ## Dependency Analysis
 The ingestion pipeline depends on validated configuration for:
@@ -266,14 +266,14 @@ LE --> ING
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
 
 ## Performance Considerations
 - Limit per-file size: The analyzer flags files larger than 10 MB; split large files to improve embedding quality and memory usage.
@@ -300,9 +300,9 @@ Operational hooks:
 - Logs: Inspect the pre-flight log for actionable recommendations.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L94-L138)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L342-L452)
-- [init.ts](file://src/cli/commands/init.ts#L31-L63)
+- [defaults.ts](src/config/defaults.ts#L94-L138)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L342-L452)
+- [init.ts](src/cli/commands/init.ts#L31-L63)
 
 ## Conclusion
 Amalfa’s configuration system centralizes control in a Zod schema-backed JSON file, ensuring predictable defaults, strict validation, and clear precedence. The PreFlightAnalyzer acts as a guardrail, surfacing potential issues before ingestion. By tuning sources, exclusions, embeddings, and graph parameters—and by leveraging environment variables—you can optimize the pipeline for different deployment scenarios while maintaining reliability and performance.
@@ -325,7 +325,7 @@ Amalfa’s configuration system centralizes control in a Zod schema-backed JSON 
 - LangExtract: Provider selection and provider-specific settings.
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 ### Environment Variables Reference
 - Provider API keys: OPENROUTER_API_KEY, optional provider-specific keys.
@@ -335,5 +335,5 @@ Amalfa’s configuration system centralizes control in a Zod schema-backed JSON 
 - Ollama configuration: Host and model selection for local/remote models.
 
 **Section sources**
-- [.env.example](file://.env.example#L1-L83)
-- [.env](file://.env#L1-L3)
+- [.env.example](.env.example#L1-L83)
+- [.env](.env#L1-L3)

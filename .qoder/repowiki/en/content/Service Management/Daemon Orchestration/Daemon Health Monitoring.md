@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts)
+- [DaemonManager.ts](src/utils/DaemonManager.ts)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts)
+- [StatsTracker.ts](src/utils/StatsTracker.ts)
+- [StatsLogger.ts](src/utils/StatsLogger.ts)
+- [analyze_health.ts](scripts/verify/analyze_health.ts)
+- [analyze_health.ts](scripts/verify/analyze_health.ts)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts)
 </cite>
 
 ## Table of Contents
@@ -56,22 +56,22 @@ DD --> SLG
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L20-L26)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L18-L24)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L32)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L218)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L84)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L20-L26)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L18-L24)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L32)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L218)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L84)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L20-L26)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L18-L24)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L32)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L218)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L84)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L20-L26)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L18-L24)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L32)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L218)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L84)
 
 ## Core Components
 - DaemonManager: Central coordinator for vector, reranker, file watcher, and Sonar Agent daemons. Implements PID file validation, process existence checks, and targeted health checks via HTTP endpoints.
@@ -81,12 +81,12 @@ DD --> SLG
 - StatsTracker and StatsLogger: Historical metrics capture for database growth and operational runs, enabling trend-based health validation and alerting.
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L6-L11)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L212)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L361-L386)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L218)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L84)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L6-L11)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L84-L212)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L361-L386)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L218)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L84)
 
 ## Architecture Overview
 The health monitoring architecture combines:
@@ -119,11 +119,11 @@ DD-->>Client : Live SSE updates (services, stats)
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L212)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L15-L22)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L50-L62)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L146-L276)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L84-L212)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L15-L22)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L50-L62)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L146-L276)
 
 ## Detailed Component Analysis
 
@@ -149,14 +149,14 @@ BuildOK --> End
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L98)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L84-L98)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L68-L98)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L119-L133)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L154-L165)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L186-L212)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L233-L246)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L68-L98)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L119-L133)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L154-L165)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L186-L212)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L233-L246)
 
 ### DaemonStatus Interface and Reporting
 - Shape: running boolean; optional pid number; optional port number; optional activeModel string.
@@ -182,12 +182,12 @@ DaemonManager --> DaemonStatus : "returns"
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L6-L11)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L246)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L6-L11)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L84-L246)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L6-L11)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L233-L246)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L6-L11)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L233-L246)
 
 ### ServiceLifecycle: PID File Management and Lifecycle Commands
 - Start: Ensures directories, clears stale PID if needed, spawns detached process, writes PID file, truncates log.
@@ -215,11 +215,11 @@ SL-->>Caller : Stopped
 ```
 
 **Diagram sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L113-L173)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L113-L173)
 
 ### Daemon Services Health Endpoints
 - Vector Daemon: /health returns status, model, readiness, and reranker readiness.
@@ -238,14 +238,14 @@ RD-->>DM : {status, model, ready}
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L50-L62)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L197-L204)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L50-L62)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L197-L204)
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L50-L62)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L197-L204)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L50-L62)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L197-L204)
 
 ### DashboardDaemon: Monitoring Dashboard and SSE Streaming
 - Service status: getServiceStatus enumerates daemons and reads PID files to determine running/stopped.
@@ -264,14 +264,14 @@ CLICall --> Push
 ```
 
 **Diagram sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L423-L445)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L146-L276)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L361-L386)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L423-L445)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L146-L276)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L361-L386)
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L361-L386)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L146-L276)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L278-L313)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L361-L386)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L146-L276)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L278-L313)
 
 ### Statistics Tracking and Validation
 - StatsTracker: Records snapshots with nodes, edges, embeddings, sizes, and optional metadata; validates against history to detect regressions and anomalies.
@@ -290,12 +290,12 @@ Issues --> |No| OK["Healthy"]
 ```
 
 **Diagram sources**
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L72-L89)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L113-L174)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L72-L89)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L113-L174)
 
 **Section sources**
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L72-L174)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L23-L82)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L72-L174)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L23-L82)
 
 ### Health Script and Graph Analysis
 - analyze_health.ts: Performs basic graph health checks including counts, density, average degree, and connected components to detect fractures.
@@ -310,10 +310,10 @@ BFS --> Report["Print health report and alerts"]
 ```
 
 **Diagram sources**
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
 
 **Section sources**
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
 
 ## Dependency Analysis
 - DaemonManager depends on ServiceLifecycle for process lifecycle and on individual daemon services for health endpoints.
@@ -334,20 +334,20 @@ TR --> DD
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L32)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L218)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L84)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts#L1-L253)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L32)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L218)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L84)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts#L1-L253)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L32)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L218)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L84)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts#L1-L253)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L32)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L218)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L84)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts#L1-L253)
 
 ## Performance Considerations
 - Concurrency: DaemonManager uses Promise.all for parallel status checks to minimize latency.
@@ -381,9 +381,9 @@ Common issues and resolutions:
   - Use tests to validate directory watching, debounce behavior, and database updates under file system events.
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L72-L108)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L429-L445)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts#L72-L253)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L72-L108)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L429-L445)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts#L72-L253)
 
 ## Conclusion
 Amalfa’s daemon health monitoring system combines PID-based liveness checks, endpoint-based readiness, and dashboard-driven observability. DaemonManager centralizes status reporting, ServiceLifecycle ensures robust lifecycle management, and StatsTracker/StatsLogger enable trend-based validation. The DashboardDaemon aggregates and streams health data, supporting proactive issue detection and efficient troubleshooting.
@@ -406,8 +406,8 @@ Amalfa’s daemon health monitoring system combines PID-based liveness checks, e
   - /api/stream pushes periodic updates for services, stats, and logs.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L50-L62)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L6-L11)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L95-L128)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L146-L276)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L50-L62)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L6-L11)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L95-L128)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L146-L276)

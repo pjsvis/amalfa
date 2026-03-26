@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [package.json](file://package.json)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [strategies.test.ts](file://tests/strategies.test.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [verify_ingest.ts](file://scripts/verify/verify_ingest.ts)
-- [debug_node.ts](file://scripts/verify/debug_node.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [package.json](package.json)
+- [amalfa.settings.json](amalfa.settings.json)
+- [strategies.test.ts](tests/strategies.test.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [verify_ingest.ts](scripts/verify/verify_ingest.ts)
+- [debug_node.ts](scripts/verify/debug_node.ts)
 </cite>
 
 ## Table of Contents
@@ -59,20 +59,20 @@ SCRIPTS --> RDB
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L44)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L68)
-- [amalfa.settings.json](file://amalfa.settings.json#L10-L10)
-- [package.json](file://package.json#L88-L89)
-- [strategies.test.ts](file://tests/strategies.test.ts#L1-L116)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L579-L603)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L44)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L25-L68)
+- [amalfa.settings.json](amalfa.settings.json#L10-L10)
+- [package.json](package.json#L88-L89)
+- [strategies.test.ts](tests/strategies.test.ts#L1-L116)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L579-L603)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L44)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L68)
-- [amalfa.settings.json](file://amalfa.settings.json#L10-L10)
-- [package.json](file://package.json#L88-L89)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L44)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L25-L68)
+- [amalfa.settings.json](amalfa.settings.json#L10-L10)
+- [package.json](package.json#L88-L89)
 
 ## Core Components
 - GraphEngine: In-memory graph manager backed by Graphology’s MultiDirectedGraph. Provides node/edge loading, traversal, shortest path, centrality, community detection, connected components, and advanced strategies.
@@ -86,11 +86,11 @@ Key responsibilities:
 - Integration: Works with ResonanceDB for persistence and with external tools via the internal graph handle.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L44)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L303)
-- [db.ts](file://src/resonance/db.ts#L25-L68)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L44)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L303)
+- [db.ts](src/resonance/db.ts#L25-L68)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
 
 ## Architecture Overview
 The Graph Engine sits between the persistent ResonanceDB and application services. It loads a compact “hollow” representation of nodes (metadata only) and edges, enabling fast in-memory analytics and traversal without embedding overhead.
@@ -120,9 +120,9 @@ GE-->>App : load complete (stats)
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L18-L66)
-- [db.ts](file://src/resonance/db.ts#L32-L68)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L18-L66)
+- [db.ts](src/resonance/db.ts#L32-L68)
 
 ## Detailed Component Analysis
 
@@ -165,7 +165,7 @@ GraphEngine --> MultiDirectedGraph : "manages"
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L313)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L313)
 
 Key methods and behaviors:
 - Constructor: Initializes an empty MultiDirectedGraph with self-loops allowed.
@@ -187,9 +187,9 @@ Key methods and behaviors:
 - validateIntegrity(): Reports self-loop count, connected components, order, and size.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L42-L44)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L303)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L42-L44)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L303)
 
 ### Node and Edge Loading Mechanisms
 - Nodes: Selected columns include id, type, title, domain, layer, date. These are added as nodes with attributes.
@@ -213,10 +213,10 @@ ForEachEdge --> Done(["Load complete"])
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
 
 ### Hollow Nodes Concept
 - Purpose: Reduce memory footprint by excluding large BLOBs (e.g., embeddings) during in-memory graph operations.
@@ -224,8 +224,8 @@ ForEachEdge --> Done(["Load complete"])
 - Benefits: Faster loading, smaller RAM usage, and efficient traversal and analytics.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L47-L49)
-- [db.ts](file://src/resonance/db.ts#L83-L134)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L47-L49)
+- [db.ts](src/resonance/db.ts#L83-L134)
 
 ### Graph Operations
 - Neighbor Retrieval: O(k) per node where k is degree.
@@ -239,7 +239,7 @@ ForEachEdge --> Done(["Load complete"])
   - Connected Components: O(V + E).
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L303)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L303)
 
 ### Integration with Graphology Algorithms
 - PageRank: Implemented via graphology-metrics.
@@ -249,8 +249,8 @@ ForEachEdge --> Done(["Load complete"])
 - Shortest Path: Implemented via graphology-shortest-path/unweighted.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L14)
-- [package.json](file://package.json#L88-L89)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L14)
+- [package.json](package.json#L88-L89)
 
 ### Practical Examples
 
@@ -260,9 +260,9 @@ ForEachEdge --> Done(["Load complete"])
 - Verify stats and integrity.
 
 References:
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L18-L66)
-- [db.ts](file://src/resonance/db.ts#L32-L68)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L18-L66)
+- [db.ts](src/resonance/db.ts#L32-L68)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
 
 #### Example: Manipulation and Querying
 - Retrieve neighbors and attributes.
@@ -270,35 +270,35 @@ References:
 - Run BFS traversal.
 
 References:
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L126)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L293-L303)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L126)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L293-L303)
 
 #### Example: Community Detection and Metrics
 - Detect communities and compute PageRank/Betweenness.
 - Aggregate metrics and export stats.
 
 References:
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L129-L171)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L129-L171)
 
 #### Example: Adamic–Adar and Structural Candidates
 - Compute Adamic–Adar scores and propose new edges.
 
 References:
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L238)
-- [strategies.test.ts](file://tests/strategies.test.ts#L68-L85)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L238)
+- [strategies.test.ts](tests/strategies.test.ts#L68-L85)
 
 #### Example: Pillar Identification
 - Rank nodes by PageRank and degree to identify authorities.
 
 References:
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L244-L255)
-- [strategies.test.ts](file://tests/strategies.test.ts#L87-L94)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L244-L255)
+- [strategies.test.ts](tests/strategies.test.ts#L87-L94)
 
 #### Example: Daemon Integration
 - Sonar agent explores neighbors and injects leads.
 
 References:
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L587-L598)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L587-L598)
 
 ## Dependency Analysis
 External libraries and their roles:
@@ -320,12 +320,12 @@ GE --> GT["graphology-traversal"]
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L14)
-- [package.json](file://package.json#L88-L89)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L14)
+- [package.json](package.json#L88-L89)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L14)
-- [package.json](file://package.json#L88-L89)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L14)
+- [package.json](package.json#L88-L89)
 
 ## Performance Considerations
 - Memory management
@@ -342,9 +342,9 @@ GE --> GT["graphology-traversal"]
   - Cache metric results if recomputation is frequent.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L47-L49)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L293-L303)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L47-L49)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L293-L303)
 
 ## Troubleshooting Guide
 Common issues and remedies:
@@ -359,10 +359,10 @@ Common issues and remedies:
   - Validate path and permissions; ensure WAL mode and busy_timeout are active.
 
 References:
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L116)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L75-L90)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L305-L312)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L116)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L75-L90)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L305-L312)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
 
 ## Conclusion
 The Graph Engine provides a fast, memory-efficient in-memory graph for knowledge base analysis and exploration. By leveraging Graphology algorithms and ResonanceDB’s hollow nodes, it balances performance and scalability. The API supports essential operations—neighborhood queries, traversal, shortest path, and advanced strategies—making it suitable for both interactive exploration and automated discovery.
@@ -382,7 +382,7 @@ The Graph Engine provides a fast, memory-efficient in-memory graph for knowledge
 - Utilities: getStats(), getInternalGraph(), validateIntegrity()
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L312)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L312)
 
 ### Runtime Configuration
 - Database path: configured in amalfa.settings.json under database.
@@ -390,13 +390,13 @@ The Graph Engine provides a fast, memory-efficient in-memory graph for knowledge
 - Dependencies: graphology and related plugins listed in package.json.
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L10-L14)
-- [package.json](file://package.json#L88-L89)
+- [amalfa.settings.json](amalfa.settings.json#L10-L14)
+- [package.json](package.json#L88-L89)
 
 ### Verification Scripts
 - verify_ingest.ts: quick check of recent nodes and edges.
 - debug_node.ts: inspect edges for a specific node.
 
 **Section sources**
-- [verify_ingest.ts](file://scripts/verify/verify_ingest.ts#L1-L14)
-- [debug_node.ts](file://scripts/verify/debug_node.ts#L1-L42)
+- [verify_ingest.ts](scripts/verify/verify_ingest.ts#L1-L14)
+- [debug_node.ts](scripts/verify/debug_node.ts#L1-L42)

@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [stats.ts](file://src/resonance/services/stats.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [db.ts](src/resonance/db.ts)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [StatsTracker.ts](src/utils/StatsTracker.ts)
+- [StatsLogger.ts](src/utils/StatsLogger.ts)
+- [Scratchpad.ts](src/utils/Scratchpad.ts)
+- [schema.ts](src/config/schema.ts)
+- [embedder.ts](src/resonance/services/embedder.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [stats.ts](src/resonance/services/stats.ts)
 </cite>
 
 ## Table of Contents
@@ -78,19 +78,19 @@ VD --> RF
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L90)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L82)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L75)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L64)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L90)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L82)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L75)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L64)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L14-L44)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L14-L44)
 
 ## Core Components
 - DatabaseFactory: Centralized, standards-compliant SQLite connection initializer with WAL, busy_timeout, synchronous, and integrity settings.
@@ -102,14 +102,14 @@ VD --> RF
 - Embedder and Vector Daemon: Vector generation service with FAFCAS normalization and optional remote/local fallback.
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L217)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L82)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L405)
-- [stats.ts](file://src/resonance/services/stats.ts#L64-L327)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L125)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L217)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L82)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L405)
+- [stats.ts](src/resonance/services/stats.ts#L64-L327)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L125)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
 
 ## Architecture Overview
 The state management architecture enforces:
@@ -142,12 +142,12 @@ Pad-->>App : Reference or content
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [db.ts](file://src/resonance/db.ts#L32-L81)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L86)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L72-L89)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L23-L36)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [db.ts](src/resonance/db.ts#L32-L81)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L86)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L72-L89)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L23-L36)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 ## Detailed Component Analysis
 
@@ -171,10 +171,10 @@ Next3 --> Done(["Return Database"])
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
 
 ### ResonanceDB: Runtime State and Transactions
 - Initializes with DatabaseFactory, applies Drizzle migrations, and exposes typed CRUD methods.
@@ -207,11 +207,11 @@ class ResonanceDB {
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
+- [db.ts](src/resonance/db.ts#L25-L431)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L160-L194)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L160-L194)
 
 ### StatsTracker: Historical Metrics and Validation
 - Records snapshots with nodes, edges, embeddings, db size, and optional metadata.
@@ -230,17 +230,17 @@ Checks --> Return["Return {valid,warnings,errors}"]
 ```
 
 **Diagram sources**
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L72-L174)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L72-L174)
 
 **Section sources**
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L217)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L217)
 
 ### StatsLogger: Run Logs for Operations
 - Logs pipeline runs (harvest, init, squash) with timestamps, counts, durations, and estimated costs.
 - Uses JSONL for append-only persistence.
 
 **Section sources**
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L19-L82)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L19-L82)
 
 ### Scratchpad: Temporary Storage and Context Preservation
 - Intercepts large tool outputs, hashes content for deduplication, writes to disk, and returns a compact reference.
@@ -262,11 +262,11 @@ Ref --> ReturnRef["Return reference"]
 ```
 
 **Diagram sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 **Section sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L405)
-- [schema.ts](file://src/config/schema.ts#L243-L251)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L405)
+- [schema.ts](src/config/schema.ts#L243-L251)
 
 ### IngestionStats: Pipeline Observability and Baseline Verification
 - Tracks nodes, edges, vectors, and semantic tokens per domain.
@@ -274,7 +274,7 @@ Ref --> ReturnRef["Return reference"]
 - Generates summaries and markdown reports.
 
 **Section sources**
-- [stats.ts](file://src/resonance/services/stats.ts#L64-L327)
+- [stats.ts](src/resonance/services/stats.ts#L64-L327)
 
 ### Embedder and Vector Daemon: Normalized Embeddings
 - Embedder supports remote daemon (Vector Daemon) with fast fallback to local FastEmbed.
@@ -296,12 +296,12 @@ Client->>Client : toFafcas(vector) -> normalized
 ```
 
 **Diagram sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L162-L219)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L162-L219)
 
 **Section sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L125)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L125)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
 
 ## Dependency Analysis
 - DatabaseFactory depends on Bun’s SQLite driver and enforces canonical pragmas.
@@ -323,17 +323,17 @@ VD --> DB
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L1-L8)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L1-L3)
-- [StatsLogger.ts](file://src/utils/StatsLogger.ts#L1-L3)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L15-L26)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L3)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L16)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L1-L8)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L1-L3)
+- [StatsLogger.ts](src/utils/StatsLogger.ts#L1-L3)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L15-L26)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L3)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L16)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L86)
-- [schema.ts](file://src/config/schema.ts#L243-L251)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L86)
+- [schema.ts](src/config/schema.ts#L243-L251)
 
 ## Performance Considerations
 - SQLite WAL mode and busy_timeout reduce contention and lock waits during concurrent access.
@@ -353,8 +353,8 @@ VD --> DB
 - Vector daemon unreachable: Confirm daemon is running and port configuration; fallback to local embedding.
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L275)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L275)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
 
 ## Conclusion
 Amalfa’s state management architecture centers on a strict, standards-compliant SQLite runtime (DatabaseFactory and ResonanceDB), robust observability (StatsTracker, StatsLogger, IngestionStats), transient caching (Scratchpad), and efficient vector processing (Embedder/Vector Daemon). Together, these components ensure resilient, observable, and performant state handling across concurrent operations, while maintaining clear separation between in-memory context and persistent storage.

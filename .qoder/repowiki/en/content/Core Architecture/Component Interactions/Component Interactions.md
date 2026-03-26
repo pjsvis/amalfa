@@ -2,21 +2,21 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/cli.ts](file://src/cli.ts)
-- [src/daemon/index.ts](file://src/daemon/index.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/tools/index.ts](file://src/tools/index.ts)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [api/server.ts](file://api/server.ts)
-- [src/config/defaults.ts](file://src/config/defaults.ts)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts)
-- [scripts/ensure-mcp.sh](file://scripts/ensure-mcp.sh)
-- [src/components/archive/cloud-events-01.md](file://src/components/archive/cloud-events-01.md)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/cli.ts](src/cli.ts)
+- [src/daemon/index.ts](src/daemon/index.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/tools/index.ts](src/tools/index.ts)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [api/server.ts](api/server.ts)
+- [src/config/defaults.ts](src/config/defaults.ts)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts)
+- [scripts/ensure-mcp.sh](scripts/ensure-mcp.sh)
+- [src/components/archive/cloud-events-01.md](src/components/archive/cloud-events-01.md)
 </cite>
 
 ## Table of Contents
@@ -85,27 +85,27 @@ DM --> SONAR
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L1-L274)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L1-L140)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [api/server.ts](file://api/server.ts#L1-L248)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [src/cli.ts](src/cli.ts#L1-L274)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L1-L140)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [api/server.ts](api/server.ts#L1-L248)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
 
 **Section sources**
-- [src/cli.ts](file://src/cli.ts#L1-L274)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [api/server.ts](file://api/server.ts#L1-L248)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [src/cli.ts](src/cli.ts#L1-L274)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [api/server.ts](api/server.ts#L1-L248)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Core Components
 - CLI: Central command dispatcher that starts services, manages tools, and orchestrates operations.
@@ -116,12 +116,12 @@ DM --> SONAR
 - Configuration: Centralized settings loader and directory initialization.
 
 **Section sources**
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L62-L723)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L29)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [api/server.ts](file://api/server.ts#L127-L247)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/mcp/index.ts](src/mcp/index.ts#L62-L723)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L29)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [api/server.ts](api/server.ts#L127-L247)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L139)
 
 ## Architecture Overview
 Amalfa follows a layered architecture:
@@ -171,13 +171,13 @@ API --> DB
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L62-L723)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L52-L95)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L133)
-- [api/server.ts](file://api/server.ts#L127-L247)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/mcp/index.ts](src/mcp/index.ts#L62-L723)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [src/daemon/index.ts](src/daemon/index.ts#L52-L95)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L133)
+- [api/server.ts](api/server.ts#L127-L247)
 
 ## Detailed Component Analysis
 
@@ -201,14 +201,14 @@ CLI-->>User : "Started"
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L182-L184)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L170-L174)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L67)
+- [src/cli.ts](src/cli.ts#L182-L184)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L170-L174)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L67)
 
 **Section sources**
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L170-L174)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L67)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L170-L174)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L67)
 
 ### MCP Server: Tool Discovery and Invocation
 - Initializes ResonanceDB, vector and grep engines, and optional file watcher and vector daemon.
@@ -240,16 +240,16 @@ MCP-->>Client : "results (JSON)"
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L62-L723)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L29)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L94-L107)
+- [src/mcp/index.ts](src/mcp/index.ts#L62-L723)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L29)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L94-L107)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L6-L79)
-- [scripts/ensure-mcp.sh](file://scripts/ensure-mcp.sh#L1-L10)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L6-L79)
+- [scripts/ensure-mcp.sh](scripts/ensure-mcp.sh#L1-L10)
 
 ### Tool Registry System
 - Dynamic registry maintains tool schemas and handlers.
@@ -278,13 +278,13 @@ DynamicToolRegistry --> ToolImplementation : "stores"
 ```
 
 **Diagram sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L29)
-- [src/types/tools.ts](file://src/types/tools.ts#L1-L20)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L29)
+- [src/types/tools.ts](src/types/tools.ts#L1-L20)
 
 **Section sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L29)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L29)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
 
 ### Background Services: File Watcher and Vector Daemon
 - File Watcher: Recursively watches configured source directories, debounces changes, performs targeted ingestion, optionally invokes Ember enrichment, and retries transient failures.
@@ -309,12 +309,12 @@ QueueRetry --> Done
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L52-L95)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
+- [src/daemon/index.ts](src/daemon/index.ts#L52-L95)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
 
 ### API Gateway and SSE Streaming
 - Provides SSE endpoint for real-time stats, service status, and runs log.
@@ -334,11 +334,11 @@ API-->>Browser : "SSE data : updates"
 ```
 
 **Diagram sources**
-- [api/server.ts](file://api/server.ts#L131-L178)
-- [api/server.ts](file://api/server.ts#L181-L247)
+- [api/server.ts](api/server.ts#L131-L178)
+- [api/server.ts](api/server.ts#L181-L247)
 
 **Section sources**
-- [api/server.ts](file://api/server.ts#L127-L247)
+- [api/server.ts](api/server.ts#L127-L247)
 
 ### Event-Driven Architecture: File Watching and Change Propagation
 - File watcher emits events for .md files; change propagation is handled by the daemon.
@@ -357,13 +357,13 @@ Process --> Notify["Notification"]
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L106-L127)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
-- [src/components/archive/cloud-events-01.md](file://src/components/archive/cloud-events-01.md#L17-L40)
+- [src/daemon/index.ts](src/daemon/index.ts#L106-L127)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
+- [src/components/archive/cloud-events-01.md](src/components/archive/cloud-events-01.md#L17-L40)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L106-L127)
-- [src/components/archive/cloud-events-01.md](file://src/components/archive/cloud-events-01.md#L1-L45)
+- [src/daemon/index.ts](src/daemon/index.ts#L106-L127)
+- [src/components/archive/cloud-events-01.md](src/components/archive/cloud-events-01.md#L1-L45)
 
 ### Message Passing Protocols and Serialization
 - MCP uses stdio transport with JSON-like request/response messages for tool discovery and invocation.
@@ -371,9 +371,9 @@ Process --> Notify["Notification"]
 - SSE uses newline-delimited “data: ” frames for streaming updates.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L720-L721)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L79-L224)
-- [api/server.ts](file://api/server.ts#L135-L169)
+- [src/mcp/index.ts](src/mcp/index.ts#L720-L721)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L79-L224)
+- [api/server.ts](api/server.ts#L135-L169)
 
 ### Agent Integration Patterns
 - Sonar Agent runs as a separate daemon with HTTP API, processes tasks from filesystem queues, and coordinates with graph engines and vector engines.
@@ -394,12 +394,12 @@ Sonar-->>MCP : "analysis/results/context"
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L289-L429)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L133)
+- [src/mcp/index.ts](src/mcp/index.ts#L289-L429)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L133)
 
 **Section sources**
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L133)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L289-L429)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L133)
+- [src/mcp/index.ts](src/mcp/index.ts#L289-L429)
 
 ### Security, Authentication, and Access Control
 - No explicit authentication or authorization mechanisms are present in the referenced files.
@@ -436,17 +436,17 @@ Sonar --> CFG
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L182-L214)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L62-L140)
-- [api/server.ts](file://api/server.ts#L127-L178)
+- [src/cli.ts](src/cli.ts#L182-L214)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [src/mcp/index.ts](src/mcp/index.ts#L62-L140)
+- [api/server.ts](api/server.ts#L127-L178)
 
 **Section sources**
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L62-L140)
-- [api/server.ts](file://api/server.ts#L127-L178)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [src/mcp/index.ts](src/mcp/index.ts#L62-L140)
+- [api/server.ts](api/server.ts#L127-L178)
 
 ## Performance Considerations
 - Vector daemon keeps models loaded to minimize cold-start latency for embeddings and reranking.
@@ -463,10 +463,10 @@ Sonar --> CFG
 - Vector daemon health endpoint indicates readiness and model status.
 
 **Section sources**
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L6-L79)
-- [scripts/ensure-mcp.sh](file://scripts/ensure-mcp.sh#L1-L10)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L130-L173)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L6-L79)
+- [scripts/ensure-mcp.sh](scripts/ensure-mcp.sh#L1-L10)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L130-L173)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
 
 ## Conclusion
 Amalfa integrates a CLI, MCP server, and background daemons around a shared knowledge graph and configuration system. The MCP server dynamically discovers tools, coordinates engines, and optionally leverages Sonar for advanced search and context extraction. The file watcher and vector daemon provide responsive ingestion and retrieval, while the API server offers SSE-based observability. While no explicit authentication is present, operational controls and lifecycle management support secure deployment in trusted environments.
@@ -495,7 +495,7 @@ Daemon-->>Watcher : "success/error"
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
 
 #### Search Operation Workflow
 ```mermaid
@@ -516,4 +516,4 @@ MCP-->>Client : "ranked results"
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L476)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L476)

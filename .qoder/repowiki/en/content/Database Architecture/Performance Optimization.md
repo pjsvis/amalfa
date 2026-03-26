@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [src/resonance/DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts)
-- [playbooks/sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [playbooks/embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts)
-- [scripts/lab/debug-vector-recall.ts](file://scripts/lab/debug-vector-recall.ts)
-- [scripts/profile_memory.ts](file://scripts/profile_memory.ts)
-- [scripts/verify/test_queries.ts](file://scripts/verify/test_queries.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [src/resonance/DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts)
+- [playbooks/sqlite-standards.md](playbooks/sqlite-standards.md)
+- [playbooks/embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts)
+- [scripts/lab/debug-vector-recall.ts](scripts/lab/debug-vector-recall.ts)
+- [scripts/profile_memory.ts](scripts/profile_memory.ts)
+- [scripts/verify/test_queries.ts](scripts/verify/test_queries.ts)
 </cite>
 
 ## Table of Contents
@@ -62,17 +62,17 @@ DRZ --> DB
 ```
 
 **Diagram sources**
-- [src/resonance/db.ts](file://src/resonance/db.ts#L25-L81)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L9-L21)
+- [src/resonance/db.ts](src/resonance/db.ts#L25-L81)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L9-L21)
 
 **Section sources**
-- [src/resonance/db.ts](file://src/resonance/db.ts#L25-L81)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [playbooks/sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
+- [src/resonance/db.ts](src/resonance/db.ts#L25-L81)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [playbooks/sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
 
 ## Core Components
 - DatabaseFactory enforces WAL mode, busy_timeout, synchronous, mmap, and foreign keys. It ensures all connections adhere to the “Hardened” standard for concurrency and stability.
@@ -82,11 +82,11 @@ DRZ --> DB
 - Embedder integrates FAFCAS normalization at generation time and coordinates remote/local vector generation.
 
 **Section sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L83-L134)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L99-L124)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [src/resonance/db.ts](src/resonance/db.ts#L83-L134)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L99-L124)
 
 ## Architecture Overview
 The performance-critical path leverages FAFCAS to store normalized vectors as raw BLOBs and compute cosine similarity via dot products in-process. SQLite is configured for concurrency and durability, while Drizzle manages schema evolution safely.
@@ -112,9 +112,9 @@ Vec-->>App : Top-K results (metadata hydrated)
 ```
 
 **Diagram sources**
-- [src/resonance/db.ts](file://src/resonance/db.ts#L83-L134)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
+- [src/resonance/db.ts](src/resonance/db.ts#L83-L134)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
 
 ## Detailed Component Analysis
 
@@ -140,12 +140,12 @@ FK --> Done(["Ready"])
 ```
 
 **Diagram sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [playbooks/sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L25)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [playbooks/sqlite-standards.md](playbooks/sqlite-standards.md#L18-L25)
 
 **Section sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [playbooks/sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L25)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [playbooks/sqlite-standards.md](playbooks/sqlite-standards.md#L18-L25)
 
 ### Indexing Strategies for Nodes and Edges
 - Nodes table: Primary key on id; consider adding domain/type/title/hash/meta/date indexes if frequent filtering by these fields becomes a bottleneck.
@@ -177,10 +177,10 @@ NODES ||--o{ EDGES : "referenced by"
 ```
 
 **Diagram sources**
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
 
 **Section sources**
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L44-L51)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L44-L51)
 
 ### Query Optimization Techniques
 - Prepared statements: ResonanceDB uses db.prepare for inserts and typed getters, avoiding repeated parsing and enabling reuse of compiled VMs.
@@ -198,11 +198,11 @@ D --> |Failure| F["ROLLBACK"]
 ```
 
 **Diagram sources**
-- [src/resonance/db.ts](file://src/resonance/db.ts#L349-L363)
+- [src/resonance/db.ts](src/resonance/db.ts#L349-L363)
 
 **Section sources**
-- [src/resonance/db.ts](file://src/resonance/db.ts#L83-L134)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L349-L363)
+- [src/resonance/db.ts](src/resonance/db.ts#L83-L134)
+- [src/resonance/db.ts](src/resonance/db.ts#L349-L363)
 
 ### Memory Management and Garbage Collection
 - Embeddings are stored as raw BLOBs; FAFCAS normalization occurs at ingestion time to avoid repeated computation.
@@ -210,8 +210,8 @@ D --> |Failure| F["ROLLBACK"]
 - Profile memory growth during vector search to detect leaks; ensure long-lived connections are closed gracefully to checkpoint WAL.
 
 **Section sources**
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L165-L225)
-- [scripts/profile_memory.ts](file://scripts/profile_memory.ts#L71-L93)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L165-L225)
+- [scripts/profile_memory.ts](scripts/profile_memory.ts#L71-L93)
 
 ### FAFCAS Protocol Optimization for Vector Similarity
 - Vectors are normalized to unit length prior to storage, enabling cosine similarity via dot product.
@@ -235,14 +235,14 @@ META --> OUT["Results"]
 ```
 
 **Diagram sources**
-- [playbooks/embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L99-L124)
+- [playbooks/embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L99-L124)
 
 **Section sources**
-- [playbooks/embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L99-L124)
+- [playbooks/embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L99-L124)
 
 ### Performance Monitoring Using PRAGMA and Statistics
 - Use PRAGMA page_count and page_size to compute database size.
@@ -250,8 +250,8 @@ META --> OUT["Results"]
 - Periodically run ANALYZE to update query planner statistics; use integrity_check for integrity verification.
 
 **Section sources**
-- [src/resonance/db.ts](file://src/resonance/db.ts#L305-L336)
-- [src/resonance/DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L219-L230)
+- [src/resonance/db.ts](src/resonance/db.ts#L305-L336)
+- [src/resonance/DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L219-L230)
 
 ### Scalability, Partitioning, and Maintenance
 - Hollow nodes: Content is stored externally; database remains compact and fast for graph operations.
@@ -260,9 +260,9 @@ META --> OUT["Results"]
 - Migration: Use Drizzle for schema changes; maintain backups before applying migrations.
 
 **Section sources**
-- [src/resonance/DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L14-L43)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L44-L51)
-- [src/resonance/DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L219-L230)
+- [src/resonance/DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L14-L43)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L44-L51)
+- [src/resonance/DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L219-L230)
 
 ### Benchmarking and Regression Testing
 - Vector recall and latency: Use scripts to measure search performance and target document recall.
@@ -270,9 +270,9 @@ META --> OUT["Results"]
 - Query verification: Validate graph connectivity and approximate full-text search behavior using LIKE against content.
 
 **Section sources**
-- [scripts/lab/debug-vector-recall.ts](file://scripts/lab/debug-vector-recall.ts#L50-L139)
-- [scripts/profile_memory.ts](file://scripts/profile_memory.ts#L71-L93)
-- [scripts/verify/test_queries.ts](file://scripts/verify/test_queries.ts#L61-L81)
+- [scripts/lab/debug-vector-recall.ts](scripts/lab/debug-vector-recall.ts#L50-L139)
+- [scripts/profile_memory.ts](scripts/profile_memory.ts#L71-L93)
+- [scripts/verify/test_queries.ts](scripts/verify/test_queries.ts#L61-L81)
 
 ## Dependency Analysis
 The ResonanceDB class depends on DatabaseFactory for connection configuration and uses Drizzle for schema definitions. VectorEngine depends on the database connection and FastEmbed for normalization. Embedder coordinates vector generation and FAFCAS normalization.
@@ -287,18 +287,18 @@ DRZ["Drizzle Schema"] --> DB
 ```
 
 **Diagram sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L25-L81)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L9-L21)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [src/resonance/db.ts](src/resonance/db.ts#L25-L81)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L9-L21)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
 
 **Section sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L25-L81)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L9-L21)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [src/resonance/db.ts](src/resonance/db.ts#L25-L81)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L9-L21)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
 
 ## Performance Considerations
 - Prefer WAL mode with busy_timeout for concurrent workloads.
@@ -315,7 +315,7 @@ DRZ["Drizzle Schema"] --> DB
 - Slow queries: Add targeted indexes on edges (source/target) and nodes (domain/type/hash/meta/date) as needed; run ANALYZE.
 
 **Section sources**
-- [src/resonance/DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L275)
+- [src/resonance/DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L275)
 
 ## Conclusion
 Amalfa’s performance hinges on strict SQLite configuration (WAL, busy_timeout, synchronous), FAFCAS vector normalization and dot-product similarity, and careful indexing and query patterns. Adhering to the canonical standards and leveraging transactions, selective hydration, and regular maintenance yields predictable, scalable performance for large knowledge bases.
@@ -333,5 +333,5 @@ Amalfa’s performance hinges on strict SQLite configuration (WAL, busy_timeout,
 - foreign_keys=ON
 
 **Section sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [playbooks/sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L25)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [playbooks/sqlite-standards.md](playbooks/sqlite-standards.md#L18-L25)

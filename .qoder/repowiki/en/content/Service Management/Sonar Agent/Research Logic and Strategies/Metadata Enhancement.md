@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-client.ts](file://src/utils/sonar-client.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [sonar-system-overview.md](file://playbooks/sonar-system-overview.md)
-- [SONAR-ASSESSMENT-2026-01-13.md](file://docs/reports/SONAR-ASSESSMENT-2026-01-13.md)
+- [enhance-commands.ts](src/cli/enhance-commands.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-client.ts](src/utils/sonar-client.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [sonar-system-overview.md](playbooks/sonar-system-overview.md)
+- [SONAR-ASSESSMENT-2026-01-13.md](docs/reports/SONAR-ASSESSMENT-2026-01-13.md)
 </cite>
 
 ## Table of Contents
@@ -42,18 +42,18 @@ CLI -. optional .-> Agent["Daemon: sonar-agent.ts<br/>task queue (future)"]
 ```
 
 **Diagram sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L82)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L29-L65)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L26-L32)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L82)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L29-L65)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L26-L32)
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L82)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L29-L65)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L26-L32)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L82)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L29-L65)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L26-L32)
 
 ## Core Components
 - CLI command for metadata enhancement:
@@ -72,10 +72,10 @@ CLI -. optional .-> Agent["Daemon: sonar-agent.ts<br/>task queue (future)"]
   - Updates node metadata with keywords, summary, and enhancement markers
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L35-L81)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L29-L99)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L35-L81)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L29-L99)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Architecture Overview
 The metadata enhancement flow integrates CLI, HTTP API, orchestration, inference, and persistence.
@@ -102,10 +102,10 @@ CLI-->>User : "✅ Enhancement successful!"
 ```
 
 **Diagram sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L56-L76)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L29-L65)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L87-L119)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L56-L76)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L29-L65)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L87-L119)
 
 ## Detailed Component Analysis
 
@@ -129,11 +129,11 @@ Skip --> End
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L29-L65)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L29-L65)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L29-L65)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L29-L65)
 
 ### Batch Enhancement System
 - Filters all nodes to select those not yet enhanced by Sonar or other enhancers.
@@ -152,24 +152,24 @@ Aggregate --> BEnd(["Return counts"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L68-L99)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L68-L99)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L68-L99)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L68-L99)
 
 ### Filtering Logic for Unenhanced Documents
 - Excludes nodes already marked as enhanced by Sonar or other enhancers.
 - Safely handles malformed metadata by treating such nodes as unenhanced.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L75-L84)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L75-L84)
 
 ### Parallel Processing Patterns
 - Uses Promise.allSettled to process multiple documents concurrently.
 - Continues even if some enhancements fail, enabling resilient batch processing.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L89-L93)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L89-L93)
 
 ### Integration with Ollama Inference
 - callOllama supports:
@@ -192,18 +192,18 @@ Infer-->>Logic : {message}
 ```
 
 **Diagram sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ### JSON Parsing and Validation
 - The orchestration logic expects a strict JSON schema for keywords and summary.
 - A robust JSON parser is used elsewhere in the system to recover from markdown blocks and handle parsing errors gracefully.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L54-L54)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L54-L54)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
 
 ### Database Updates
 - On successful extraction, the system updates the node’s metadata with:
@@ -213,7 +213,7 @@ Infer-->>Logic : {message}
   - enhanced_at: timestamp of last enhancement
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L55-L61)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L55-L61)
 
 ### CLI and HTTP API Integration
 - CLI:
@@ -239,22 +239,22 @@ HTTP-->>CLI : {processed, errors}
 ```
 
 **Diagram sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L35-L81)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L68-L99)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L35-L81)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L68-L99)
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L82)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L68-L99)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L82)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L68-L99)
 
 ### Daemon Task Queue (Future)
 - The Sonar Agent maintains a task queue for asynchronous processing.
 - The “enhance_batch” task type is supported and executed by the agent’s task loop.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L217)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L217)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
 
 ## Dependency Analysis
 The following diagram highlights key dependencies among components involved in metadata enhancement.
@@ -272,18 +272,18 @@ I["Config: defaults.ts"] --> D
 ```
 
 **Diagram sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L82)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L29-L65)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L26-L32)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L143)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L82)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L29-L65)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L26-L32)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L143)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L25)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L13)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L25)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L13)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 ## Performance Considerations
 - Latency characteristics for Sonar operations are documented in the Sonar system overview playbook, including query analysis, re-ranking, and context extraction.
@@ -291,7 +291,7 @@ I["Config: defaults.ts"] --> D
 - For enhanced search scenarios, the total latency with Sonar is acceptable compared to basic vector search alone.
 
 **Section sources**
-- [sonar-system-overview.md](file://playbooks/sonar-system-overview.md#L141-L151)
+- [sonar-system-overview.md](playbooks/sonar-system-overview.md#L141-L151)
 
 ## Troubleshooting Guide
 Common issues and remedies for metadata enhancement failures:
@@ -325,11 +325,11 @@ Common issues and remedies for metadata enhancement failures:
   - The Sonar service assessment report documents critical gaps in embedding recall and content hydration that impact effectiveness.
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L10-L14)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L114-L118)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L35-L41)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
-- [SONAR-ASSESSMENT-2026-01-13.md](file://docs/reports/SONAR-ASSESSMENT-2026-01-13.md#L16-L35)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L10-L14)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L114-L118)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L35-L41)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
+- [SONAR-ASSESSMENT-2026-01-13.md](docs/reports/SONAR-ASSESSMENT-2026-01-13.md#L16-L35)
 
 ## Conclusion
 The Sonar Agent’s metadata enhancement system provides a streamlined pipeline for extracting keywords and summaries from knowledge graph nodes. It integrates a CLI, HTTP API, orchestration logic, inference integration, and persistence. The system emphasizes resilience through parallel processing, robust JSON parsing, and graceful handling of provider and content availability issues. While the core capability is functional, operational effectiveness depends on content hydration and provider configuration.

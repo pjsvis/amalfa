@@ -2,21 +2,21 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/daemon/index.ts](file://src/daemon/index.ts)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts)
-- [src/config/defaults.ts](file://src/config/defaults.ts)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts)
-- [src/services/PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts)
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md)
-- [docs/architecture/ARCHITECTURE-ANALYSIS.md](file://docs/architecture/ARCHITECTURE-ANALYSIS.md)
-- [debriefs/2026-01-07-amalfa-directory-reorganization.md](file://debriefs/2026-01-07-amalfa-directory-reorganization.md)
-- [briefs/archive/2026-01-07-daemon-mcp-integration.md](file://briefs/archive/2026-01-07-daemon-mcp-integration.md)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts)
+- [src/daemon/index.ts](src/daemon/index.ts)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts)
+- [src/config/defaults.ts](src/config/defaults.ts)
+- [src/utils/Logger.ts](src/utils/Logger.ts)
+- [src/services/PipelineTelemetry.ts](src/services/PipelineTelemetry.ts)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md)
+- [docs/architecture/ARCHITECTURE-ANALYSIS.md](docs/architecture/ARCHITECTURE-ANALYSIS.md)
+- [debriefs/2026-01-07-amalfa-directory-reorganization.md](debriefs/2026-01-07-amalfa-directory-reorganization.md)
+- [briefs/archive/2026-01-07-daemon-mcp-integration.md](briefs/archive/2026-01-07-daemon-mcp-integration.md)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts)
 </cite>
 
 ## Table of Contents
@@ -68,15 +68,15 @@ FS --> PIDS
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/config/defaults.ts](src/config/defaults.ts#L15-L59)
 
 **Section sources**
-- [src/config/defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L281-L383)
+- [src/config/defaults.ts](src/config/defaults.ts#L15-L59)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L281-L383)
 
 ## Core Components
 - ServiceLifecycle: a unified lifecycle manager that starts/stops daemons, writes PID files, and registers signal handlers for clean shutdown.
@@ -87,12 +87,12 @@ FS --> PIDS
 - Sonar Agent: optional HTTP server and task queue consumer for advanced reasoning and enrichment.
 
 **Section sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L260)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L62-L723)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L52-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L221)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L260)
+- [src/mcp/index.ts](src/mcp/index.ts#L62-L723)
+- [src/daemon/index.ts](src/daemon/index.ts#L52-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L221)
 
 ## Architecture Overview
 The system follows a loosely coupled, process-per-role architecture with explicit IPC channels:
@@ -122,14 +122,14 @@ Sonar->>DB : Graph operations (optional)
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L106-L289)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L77-L224)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
+- [src/daemon/index.ts](src/daemon/index.ts#L106-L289)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L77-L224)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
 
 **Section sources**
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L300-L383)
-- [docs/architecture/ARCHITECTURE-ANALYSIS.md](file://docs/architecture/ARCHITECTURE-ANALYSIS.md#L336-L386)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L300-L383)
+- [docs/architecture/ARCHITECTURE-ANALYSIS.md](docs/architecture/ARCHITECTURE-ANALYSIS.md#L336-L386)
 
 ## Detailed Component Analysis
 
@@ -159,11 +159,11 @@ Notify --> End(["Idle"])
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L106-L289)
+- [src/daemon/index.ts](src/daemon/index.ts#L106-L289)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L52-L293)
-- [src/services/PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L42)
+- [src/daemon/index.ts](src/daemon/index.ts#L52-L293)
+- [src/services/PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L42)
 
 ### Vector Daemon and Search Engine Integration
 The Vector Daemon provides low-latency embedding and reranking:
@@ -185,12 +185,12 @@ Vec-->>MCP : {results, count}
 ```
 
 **Diagram sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L77-L224)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L316-L430)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L77-L224)
+- [src/mcp/index.ts](src/mcp/index.ts#L316-L430)
 
 **Section sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L28-L67)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L28-L67)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
 
 ### Sonar Agent and Broader System
 The Sonar Agent is an optional sub-agent that:
@@ -212,14 +212,14 @@ Sonar-->>MCP : Snippet/context/confidence
 ```
 
 **Diagram sources**
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L54-L98)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L289-L476)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L54-L98)
+- [src/mcp/index.ts](src/mcp/index.ts#L289-L476)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
 
 **Section sources**
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L51-L98)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L289-L476)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L51-L98)
+- [src/mcp/index.ts](src/mcp/index.ts#L289-L476)
 
 ### Service Lifecycle and Process Signaling
 All daemons use a shared lifecycle manager:
@@ -244,13 +244,13 @@ Cleanup --> Stopped(["Daemon Stopped"])
 ```
 
 **Diagram sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 **Section sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L53-L165)
-- [debriefs/2026-01-07-amalfa-directory-reorganization.md](file://debriefs/2026-01-07-amalfa-directory-reorganization.md#L83-L114)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L53-L165)
+- [debriefs/2026-01-07-amalfa-directory-reorganization.md](debriefs/2026-01-07-amalfa-directory-reorganization.md#L83-L114)
 
 ### Health Checks and Heartbeats
 - Vector Daemon: /health endpoint returns readiness and model info.
@@ -267,13 +267,13 @@ Note over Client,Sonar : Short timeout with caching
 ```
 
 **Diagram sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L83-L98)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L83-L98)
 
 **Section sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L51-L98)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L121-L139)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L51-L98)
+- [src/mcp/index.ts](src/mcp/index.ts#L121-L139)
 
 ### Failure Propagation and Graceful Degradation
 - File Watcher: retries failed files with exponential backoff; notifies on abandon.
@@ -295,13 +295,13 @@ LogErr --> Done
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L232-L287)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L121-L139)
+- [src/daemon/index.ts](src/daemon/index.ts#L232-L287)
+- [src/mcp/index.ts](src/mcp/index.ts#L121-L139)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L232-L287)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L121-L139)
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L305-L318)
+- [src/daemon/index.ts](src/daemon/index.ts#L232-L287)
+- [src/mcp/index.ts](src/mcp/index.ts#L121-L139)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L305-L318)
 
 ### Configuration Sharing and Dynamic Reconfiguration
 - Centralized configuration: amalfa.settings.json validated by schema.
@@ -319,14 +319,14 @@ Reload --> |No| Static["Static at startup"]
 ```
 
 **Diagram sources**
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L142)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L147-L151)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L63-L74)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L142)
+- [src/daemon/index.ts](src/daemon/index.ts#L147-L151)
+- [src/mcp/index.ts](src/mcp/index.ts#L63-L74)
 
 **Section sources**
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L142)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L147-L151)
-- [briefs/archive/2026-01-07-daemon-mcp-integration.md](file://briefs/archive/2026-01-07-daemon-mcp-integration.md#L120-L169)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L142)
+- [src/daemon/index.ts](src/daemon/index.ts#L147-L151)
+- [briefs/archive/2026-01-07-daemon-mcp-integration.md](briefs/archive/2026-01-07-daemon-mcp-integration.md#L120-L169)
 
 ### Service Discovery and Tool Registration
 - MCP discovers daemons and starts them if needed.
@@ -345,12 +345,12 @@ MCP->>MCP : Register tools (static + dynamic)
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L95-L140)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L103-L114)
+- [src/mcp/index.ts](src/mcp/index.ts#L95-L140)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L103-L114)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L140)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L140)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 ### Observability and Monitoring
 - Logging: structured logs via pino to stderr; child loggers per component.
@@ -367,14 +367,14 @@ Crash["Crash handlers"] --> CrashLog[".mcp.crash.log"]
 ```
 
 **Diagram sources**
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L4-L23)
-- [src/services/PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L42)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L4-L23)
+- [src/services/PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L42)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
 
 **Section sources**
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L4-L23)
-- [src/services/PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L42)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L4-L23)
+- [src/services/PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L42)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
 
 ## Dependency Analysis
 The following diagram shows key dependencies among components and their IPC channels:
@@ -399,20 +399,20 @@ WATCH --> TELE["services/PipelineTelemetry.ts"]
 ```
 
 **Diagram sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/services/PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L1-L42)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/services/PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L1-L42)
 
 **Section sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L140)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L140)
 
 ## Performance Considerations
 - Cold start vs hot start: vector daemon reduces ingestion and query latency by keeping models loaded.
@@ -431,11 +431,11 @@ Common issues and remedies:
 - Crash logs: unhandled errors are logged and appended to a crash log for post-mortem analysis.
 
 **Section sources**
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L31-L42)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L105-L133)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L83-L98)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L139)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L31-L42)
+- [src/mcp/index.ts](src/mcp/index.ts#L105-L133)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L83-L98)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
 
 ## Conclusion
 Amalfa’s service coordination relies on explicit, process-per-role daemons with shared filesystem state, network APIs, and consistent lifecycle management. The MCP server orchestrates optional capabilities, enabling graceful degradation and robust fallbacks. Health checks, retries, and structured logging provide strong observability for cross-service debugging and performance analysis.
@@ -448,9 +448,9 @@ Amalfa’s service coordination relies on explicit, process-per-role daemons wit
 - MCP: stdio transport for tool invocation and resource access.
 
 **Section sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L77-L224)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L123-L133)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L720-L723)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L77-L224)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L123-L133)
+- [src/mcp/index.ts](src/mcp/index.ts#L720-L723)
 
 ### Synchronization Primitives
 - PID files and signals for lifecycle control.
@@ -458,8 +458,8 @@ Amalfa’s service coordination relies on explicit, process-per-role daemons wit
 - HTTP endpoints for coordination points between services.
 
 **Section sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L56-L98)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L56-L98)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
 
 ### Dynamic Reconfiguration and Service Discovery
 - Per-batch config reload in ingestion.
@@ -467,9 +467,9 @@ Amalfa’s service coordination relies on explicit, process-per-role daemons wit
 - Directory initialization ensures consistent runtime state.
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L147-L151)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L140)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L42-L59)
+- [src/daemon/index.ts](src/daemon/index.ts#L147-L151)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L140)
+- [src/config/defaults.ts](src/config/defaults.ts#L42-L59)
 
 ### Health and Heartbeat Mechanisms
 - Vector Daemon /health endpoint.
@@ -477,12 +477,12 @@ Amalfa’s service coordination relies on explicit, process-per-role daemons wit
 - MCP resource endpoints for system stats.
 
 **Section sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L83-L98)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L702-L717)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L83-L98)
+- [src/mcp/index.ts](src/mcp/index.ts#L702-L717)
 
 ### Example: MCP Handshake and Lifecycle Test
 A test verifies the MCP server lifecycle and handshake behavior.
 
 **Section sources**
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L45-L79)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L45-L79)

@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [profile_memory.ts](file://scripts/profile_memory.ts)
-- [performance_audit.md](file://docs/audits/PERFORMANCE_BASELINES.md)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md)
-- [thin-node.md](file://docs/architecture/thin-node.md)
-- [simple-forensics.ts](file://scripts/lab/simple-forensics.ts)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [profile_memory.ts](scripts/profile_memory.ts)
+- [performance_audit.md](docs/audits/PERFORMANCE_BASELINES.md)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md)
+- [thin-node.md](docs/architecture/thin-node.md)
+- [simple-forensics.ts](scripts/lab/simple-forensics.ts)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts)
+- [embedder.ts](src/resonance/services/embedder.ts)
 </cite>
 
 ## Table of Contents
@@ -58,14 +58,14 @@ VE --> SQL
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
 
 ## Core Components
 - VectorEngine: Implements FAFCAS-compliant vector search with:
@@ -77,9 +77,9 @@ VE --> SQL
 - DatabaseFactory: Enforces WAL mode, busy_timeout, synchronous, foreign_keys, and temp_store pragmas
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L155-L240)
-- [db.ts](file://src/resonance/db.ts#L194-L239)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L155-L240)
+- [db.ts](src/resonance/db.ts#L194-L239)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
 
 ## Architecture Overview
 The memory-efficient search flow minimizes JavaScript heap growth by avoiding full-node hydration until necessary.
@@ -104,8 +104,8 @@ VE-->>Client : topK results with content placeholders
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [db.ts](file://src/resonance/db.ts#L194-L239)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [db.ts](src/resonance/db.ts#L194-L239)
 
 ## Detailed Component Analysis
 
@@ -134,10 +134,10 @@ Build --> End(["Return results"])
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
 
 ### Float32Array Caching Approach
 To avoid repeated BLOB-to-JS deserialization overhead:
@@ -158,8 +158,8 @@ Guidance:
 - Thin Node Protocol: Store only lead summaries; read full content on demand to minimize DB size and memory footprint
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L194-L239)
-- [thin-node.md](file://docs/architecture/thin-node.md#L118-L122)
+- [db.ts](src/resonance/db.ts#L194-L239)
+- [thin-node.md](docs/architecture/thin-node.md#L118-L122)
 
 ### Garbage Collection Optimization and Leak Prevention
 - Avoid retaining large arrays beyond their scope; prefer streaming and early termination
@@ -186,10 +186,10 @@ E --> F["Identify bottlenecks"]
 ```
 
 **Diagram sources**
-- [profile_memory.ts](file://scripts/profile_memory.ts#L15-L94)
+- [profile_memory.ts](scripts/profile_memory.ts#L15-L94)
 
 **Section sources**
-- [profile_memory.ts](file://scripts/profile_memory.ts#L15-L94)
+- [profile_memory.ts](scripts/profile_memory.ts#L15-L94)
 
 ### Embedding Normalization and Storage (FAFCAS)
 - Embeddings are normalized to unit length and stored as raw BLOBs
@@ -209,14 +209,14 @@ Store-->>Gen : OK
 ```
 
 **Diagram sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L96-L119)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L96-L119)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L96-L119)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L96-L119)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
 
 ### SQLite Hardening and WAL Compliance
 - Enforce WAL mode, busy_timeout, synchronous, foreign_keys, and temp_store via DatabaseFactory
@@ -224,8 +224,8 @@ Store-->>Gen : OK
 - Health checks validate configuration and perform basic write/read tests
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
 
 ## Dependency Analysis
 VectorEngine depends on ResonanceDB for typed accessors and on DatabaseFactory for hardened connections. Embedder services depend on FAFCAS normalization and store vectors as BLOBs.
@@ -241,16 +241,16 @@ EMB --> |FAFCAS| EMB2["toFafcas()"]
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L65)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L65)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L65)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L65)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
 
 ## Performance Considerations
 - Memory footprint projections indicate predictable scaling with node count
@@ -258,7 +258,7 @@ EMB --> |FAFCAS| EMB2["toFafcas()"]
 - Use the profiling script to validate assumptions and detect regressions
 
 **Section sources**
-- [performance_audit.md](file://docs/audits/PERFORMANCE_BASELINES.md#L1-L46)
+- [performance_audit.md](docs/audits/PERFORMANCE_BASELINES.md#L1-L46)
 
 ## Troubleshooting Guide
 Common issues and remedies:
@@ -268,11 +268,11 @@ Common issues and remedies:
 - Health validation failures: Use DatabaseFactory.performHealthCheck to verify pragmas and write/read capability
 
 **Section sources**
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [simple-forensics.ts](file://scripts/lab/simple-forensics.ts#L45-L76)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts#L60-L120)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [simple-forensics.ts](scripts/lab/simple-forensics.ts#L45-L76)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts#L60-L120)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
 
 ## Conclusion
 Amalfa’s memory management centers on Slim Search, FAFCAS normalization, zero-copy typed arrays, and hardened SQLite configurations. These techniques collectively minimize heap growth, reduce I/O, and maintain responsiveness at scale. For large knowledge bases, combine explicit limits, metadata-only scans, and Float32Array caching to sustain performance and reliability.

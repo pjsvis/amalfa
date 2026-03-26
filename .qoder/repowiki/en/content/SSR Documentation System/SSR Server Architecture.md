@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [server.ts](file://api/server.ts)
-- [server.ts](file://website/ssr-docs/server.ts)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts)
-- [index.ts](file://website/ssr-docs/templates/index.ts)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [server.pid](file://server.pid)
-- [tsconfig.json](file://website/ssr-docs/tsconfig.json)
+- [server.ts](api/server.ts)
+- [server.ts](website/ssr-docs/server.ts)
+- [paths.ts](website/ssr-docs/lib/paths.ts)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts)
+- [index.ts](website/ssr-docs/templates/index.ts)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx)
+- [base.tsx](website/ssr-docs/templates/base.tsx)
+- [amalfa.settings.json](amalfa.settings.json)
+- [server.pid](server.pid)
+- [tsconfig.json](website/ssr-docs/tsconfig.json)
 </cite>
 
 ## Table of Contents
@@ -57,14 +57,14 @@ SSR --> FS
 ```
 
 **Diagram sources**
-- [server.ts](file://api/server.ts#L1-L248)
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
+- [server.ts](api/server.ts#L1-L248)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
 
 **Section sources**
-- [server.ts](file://api/server.ts#L1-L248)
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
+- [server.ts](api/server.ts#L1-L248)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
 
 ## Core Components
 - Bun-based HTTP server with custom routing and middleware-like handlers
@@ -76,21 +76,21 @@ SSR --> FS
 - SQLite-backed stats and graph data retrieval for dashboard
 
 Key implementation references:
-- Lifecycle management and PID handling: [server.ts](file://website/ssr-docs/server.ts#L60-L85)
-- Configuration loading: [server.ts](file://website/ssr-docs/server.ts#L46-L58), [index.ts](file://website/ssr-docs/templates/index.ts#L30-L50)
-- Markdown parsing and TOC: [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L60-L118)
-- Document registry: [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- SSR templates: [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L32-L113), [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L26-L94), [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L45-L112), [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- Lifecycle management and PID handling: [server.ts](website/ssr-docs/server.ts#L60-L85)
+- Configuration loading: [server.ts](website/ssr-docs/server.ts#L46-L58), [index.ts](website/ssr-docs/templates/index.ts#L30-L50)
+- Markdown parsing and TOC: [markdown.ts](website/ssr-docs/lib/markdown.ts#L60-L118)
+- Document registry: [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- SSR templates: [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L32-L113), [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L26-L94), [doc.tsx](website/ssr-docs/templates/doc.tsx#L45-L112), [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L60-L85)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L30-L50)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L60-L118)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L32-L113)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L26-L94)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L45-L112)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- [server.ts](website/ssr-docs/server.ts#L60-L85)
+- [index.ts](website/ssr-docs/templates/index.ts#L30-L50)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L60-L118)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L32-L113)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L26-L94)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L45-L112)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 ## Architecture Overview
 The SSR architecture consists of:
@@ -124,14 +124,14 @@ Router-->>Client : 200 OK CSS file
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L154-L341)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- [server.ts](website/ssr-docs/server.ts#L154-L341)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L154-L341)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- [server.ts](website/ssr-docs/server.ts#L154-L341)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 ## Detailed Component Analysis
 
@@ -181,10 +181,10 @@ IsDocViewer --> |No| NotFound["Return 404"]
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L154-L341)
+- [server.ts](website/ssr-docs/server.ts#L154-L341)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L154-L341)
+- [server.ts](website/ssr-docs/server.ts#L154-L341)
 
 ### Lifecycle Management and PID File Handling
 - The lifecycle manager ensures single-instance operation by checking and writing a PID file.
@@ -206,10 +206,10 @@ Stopping --> Stopped : "PID deleted"
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L60-L85)
+- [server.ts](website/ssr-docs/server.ts#L60-L85)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L60-L85)
+- [server.ts](website/ssr-docs/server.ts#L60-L85)
 
 ### Configuration Loading System
 - Configuration is loaded from project settings and merged with defaults.
@@ -256,12 +256,12 @@ Config --> Scratchpad
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L36-L56)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L20-L28)
+- [server.ts](website/ssr-docs/server.ts#L36-L56)
+- [index.ts](website/ssr-docs/templates/index.ts#L20-L28)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L36-L56)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L20-L28)
+- [server.ts](website/ssr-docs/server.ts#L36-L56)
+- [index.ts](website/ssr-docs/templates/index.ts#L20-L28)
 
 ### Markdown Parsing and Documentation Rendering
 - Markdown is parsed using Bun's native markdown API with TOC generation.
@@ -278,12 +278,12 @@ ProcessLinks --> Output["Return ParsedDoc with HTML, TOC, Metadata"]
 ```
 
 **Diagram sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L60-L118)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L60-L118)
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L60-L118)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L60-L118)
 
 ### Document Registry and Caching
 - The registry persists a categorized list of documents to a JSON file.
@@ -307,10 +307,10 @@ Registry-->>Server : DocumentSet (categorized docs)
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
 
 ### SSR Template Integration Layer
 - Templates are implemented in JSX and rendered to HTML strings.
@@ -341,12 +341,12 @@ IntegrationLayer --> Layout : "uses"
 ```
 
 **Diagram sources**
-- [index.ts](file://website/ssr-docs/templates/index.ts#L30-L142)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L261)
+- [index.ts](website/ssr-docs/templates/index.ts#L30-L142)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L261)
 
 **Section sources**
-- [index.ts](file://website/ssr-docs/templates/index.ts#L30-L142)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L261)
+- [index.ts](website/ssr-docs/templates/index.ts#L30-L142)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L261)
 
 ### API Server (SSE and Fragments)
 - Provides real-time updates via Server-Sent Events for dashboard metrics.
@@ -366,18 +366,18 @@ Note over Client,SSE : Updates every 2 seconds
 ```
 
 **Diagram sources**
-- [server.ts](file://api/server.ts#L127-L178)
+- [server.ts](api/server.ts#L127-L178)
 
 **Section sources**
-- [server.ts](file://api/server.ts#L127-L178)
+- [server.ts](api/server.ts#L127-L178)
 
 ### Static Asset Serving and CORS
 - CSS files are served directly from the public/css directory with appropriate content-type headers.
 - CORS is configured globally with Access-Control-Allow-Origin set to "*" for both OPTIONS and GET requests.
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L166-L177)
-- [server.ts](file://website/ssr-docs/server.ts#L161-L163)
+- [server.ts](website/ssr-docs/server.ts#L166-L177)
+- [server.ts](website/ssr-docs/server.ts#L161-L163)
 
 ### Startup Process and Graceful Shutdown
 - The server starts by ensuring required directories exist, loading configuration, and initializing the lifecycle manager.
@@ -385,9 +385,9 @@ Note over Client,SSE : Updates every 2 seconds
 - Graceful shutdown is handled by the lifecycle manager's stop method, which terminates the process and cleans up the PID file.
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L29-L35)
-- [server.ts](file://website/ssr-docs/server.ts#L154-L341)
-- [server.ts](file://website/ssr-docs/server.ts#L78-L84)
+- [server.ts](website/ssr-docs/server.ts#L29-L35)
+- [server.ts](website/ssr-docs/server.ts#L154-L341)
+- [server.ts](website/ssr-docs/server.ts#L78-L84)
 
 ### Extending the Routing System and Adding New Endpoints
 To extend the routing system:
@@ -400,7 +400,7 @@ To extend the routing system:
   - SSR page: render JSX template and return HTML with Content-Type: text/html
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L154-L341)
+- [server.ts](website/ssr-docs/server.ts#L154-L341)
 
 ### Customizing Server Behavior
 Customization points include:
@@ -409,9 +409,9 @@ Customization points include:
 - Path resolution utilities for robust asset and registry access
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L38)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L13-L38)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 ## Dependency Analysis
 The SSR server components depend on:
@@ -440,20 +440,20 @@ Registry --> Settings
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
 
 ## Performance Considerations
 - Use the persisted document registry to avoid scanning directories on every request.
@@ -478,9 +478,9 @@ Common issues and resolutions:
 - SSE not updating: Confirm stream endpoint and client-side event handling
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L60-L85)
-- [server.ts](file://website/ssr-docs/server.ts#L161-L177)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L184-L190)
+- [server.ts](website/ssr-docs/server.ts#L60-L85)
+- [server.ts](website/ssr-docs/server.ts#L161-L177)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L184-L190)
 
 ## Conclusion
 Amalfa's SSR server leverages Bun's high-performance runtime to deliver responsive, dynamic web experiences. The architecture balances simplicity with extensibility, enabling straightforward routing, robust configuration management, efficient document rendering, and scalable SSR templates. By following the outlined patterns and best practices, developers can extend the server with new endpoints, customize behavior, and maintain optimal performance for SSR rendering and real-time updates.

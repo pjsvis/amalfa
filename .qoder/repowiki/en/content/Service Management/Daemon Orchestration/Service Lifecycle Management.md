@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [index.ts](file://src/daemon/index.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [mcp/index.ts](file://src/mcp/index.ts)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [DaemonManager.ts](src/utils/DaemonManager.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [index.ts](src/daemon/index.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [mcp/index.ts](src/mcp/index.ts)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts)
 </cite>
 
 ## Table of Contents
@@ -60,20 +60,20 @@ DM --> SL
 ```
 
 **Diagram sources**
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L208)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L20-L26)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L18-L24)
-- [index.ts](file://src/daemon/index.ts#L29-L35)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L49-L55)
-- [mcp/index.ts](file://src/mcp/index.ts#L35-L42)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L6-L11)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L208)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L20-L26)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L18-L24)
+- [index.ts](src/daemon/index.ts#L29-L35)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L49-L55)
+- [mcp/index.ts](src/mcp/index.ts#L35-L42)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L6-L11)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L208)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L208)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 ## Core Components
 - ServiceLifecycle: Provides a standardized lifecycle for background services, including PID file management, log file handling, process spawning, signal handling, and status reporting.
@@ -89,9 +89,9 @@ Key responsibilities:
 - Signal handlers for clean exits and cleanup
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L208)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [defaults.ts](file://src/config/defaults.ts#L42-L59)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L208)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [defaults.ts](src/config/defaults.ts#L42-L59)
 
 ## Architecture Overview
 The ServiceLifecycle pattern is applied consistently across Amalfa daemons. Each daemon creates a ServiceLifecycle instance with its own configuration and delegates its main logic to the lifecycle dispatcher. DaemonManager centralizes management of multiple daemons and exposes higher-level operations.
@@ -124,12 +124,12 @@ DM-->>CLI : success
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L103-L114)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L103-L114)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L103-L114)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L103-L114)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
 
 ## Detailed Component Analysis
 
@@ -177,10 +177,10 @@ ServiceConfig <.. ServiceLifecycle : "configured by"
 ```
 
 **Diagram sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L5-L13)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L5-L13)
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L5-L208)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L5-L208)
 
 ### DaemonManager Integration
 DaemonManager composes multiple ServiceLifecycle instances for different Amalfa subsystems and provides higher-level operations for status and control.
@@ -225,10 +225,10 @@ DaemonManager --> ServiceLifecycle : "owns"
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L259)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L259)
 
 ### Practical Examples
 
@@ -282,16 +282,16 @@ CLI-->>User : stopped
 ```
 
 **Diagram sources**
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L18-L70)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L18-L70)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L20-L26)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L18-L24)
-- [index.ts](file://src/daemon/index.ts#L29-L35)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L49-L55)
-- [mcp/index.ts](file://src/mcp/index.ts#L35-L42)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L18-L70)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L20-L26)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L18-L24)
+- [index.ts](src/daemon/index.ts#L29-L35)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L49-L55)
+- [mcp/index.ts](src/mcp/index.ts#L35-L42)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L18-L70)
 
 ### Process Management and Signal Handling
 - Detached process spawning: The start() method spawns a subprocess with detached: true, redirecting stdout/stderr to the configured log file, inheriting environment variables from the parent process.
@@ -315,10 +315,10 @@ StillRunning --> |Yes| SendKill["Send SIGKILL"] --> RemovePID
 ```
 
 **Diagram sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L72-L108)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L72-L108)
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
 
 ### Relationship Between ServiceLifecycle and DaemonManager
 - Composition: DaemonManager instantiates ServiceLifecycle for each daemon type with appropriate configuration (name, pidFile, logFile, entryPoint).
@@ -326,7 +326,7 @@ StillRunning --> |Yes| SendKill["Send SIGKILL"] --> RemovePID
 - Consistency: By using the same ServiceLifecycle pattern, all daemons share identical PID file semantics, log file management, and signal handling behavior.
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 ## Dependency Analysis
 The ServiceLifecycle pattern introduces minimal coupling and maximizes cohesion around process lifecycle concerns. Each daemon depends on ServiceLifecycle for lifecycle operations, while DaemonManager depends on ServiceLifecycle to coordinate multiple daemons.
@@ -345,14 +345,14 @@ D --> DM
 ```
 
 **Diagram sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L208)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [defaults.ts](file://src/config/defaults.ts#L42-L59)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L208)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [defaults.ts](src/config/defaults.ts#L42-L59)
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L208)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [defaults.ts](file://src/config/defaults.ts#L42-L59)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L208)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [defaults.ts](src/config/defaults.ts#L42-L59)
 
 ## Performance Considerations
 - Process spawning overhead: Spawning detached processes introduces minimal overhead compared to the benefits of isolation and lifecycle management.
@@ -368,9 +368,9 @@ Common issues and resolutions:
 - Signal handling: Foreground serve mode registers signal handlers to clean up PID files on SIGINT/SIGTERM. If a service appears stuck, check for proper signal propagation.
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L32-L42)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L80-L98)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L139-L170)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L32-L42)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L80-L98)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L139-L170)
 
 ## Conclusion
 The ServiceLifecycle pattern provides a consistent, reliable foundation for managing Amalfa's background services. By standardizing PID file handling, log file management, process spawning, and signal handling, it ensures predictable lifecycle behavior across all daemons. DaemonManager leverages this pattern to offer unified control and status monitoring, enabling robust orchestration of the entire system.

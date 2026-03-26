@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/mcp/README.md](file://src/mcp/README.md)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/tools/index.ts](file://src/tools/index.ts)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts)
-- [src/types/tools.ts](file://src/types/tools.ts)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts)
-- [tests/mcp-server-settings.json](file://tests/mcp-server-settings.json)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/mcp/README.md](src/mcp/README.md)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/tools/index.ts](src/tools/index.ts)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts)
+- [src/types/tools.ts](src/types/tools.ts)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts)
+- [tests/mcp-server-settings.json](tests/mcp-server-settings.json)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md)
 </cite>
 
 ## Table of Contents
@@ -63,20 +63,20 @@ TEST_SETTINGS --> MCP_INDEX
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/mcp/README.md](file://src/mcp/README.md#L1-L15)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L1-L140)
-- [src/types/tools.ts](file://src/types/tools.ts#L1-L21)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [tests/mcp-server-settings.json](file://tests/mcp-server-settings.json#L1-L9)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/mcp/README.md](src/mcp/README.md#L1-L15)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L1-L140)
+- [src/types/tools.ts](src/types/tools.ts#L1-L21)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [tests/mcp-server-settings.json](tests/mcp-server-settings.json#L1-L9)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/mcp/README.md](file://src/mcp/README.md#L1-L15)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/mcp/README.md](src/mcp/README.md#L1-L15)
 
 ## Core Components
 - MCP Server: Implements the Model Context Protocol using the SDK server with STDIO transport, exposing tools and resources.
@@ -92,11 +92,11 @@ Key responsibilities:
 - Logging, error handling, and crash logging.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L30)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
 
 ## Architecture Overview
 The MCP server initializes services, registers tools (both built-in and dynamic), sets up STDIO transport, and handles requests according to the MCP specification. Requests are routed to either the dynamic tool registry or built-in handlers. Responses are normalized to a standard content structure.
@@ -130,9 +130,9 @@ Server-->>Client : "callTool result"
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L20-L26)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L118-L203)
+- [src/mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L20-L26)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L118-L203)
 
 ## Detailed Component Analysis
 
@@ -162,14 +162,14 @@ Normalize --> ReturnCall["Return callTool result"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L147-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L722)
+- [src/mcp/index.ts](src/mcp/index.ts#L147-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L722)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L147-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L722)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L48-L72)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L29-L45)
+- [src/mcp/index.ts](src/mcp/index.ts#L147-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L722)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L48-L72)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L29-L45)
 
 ### Tool Registry System
 - Purpose: Centralized registration and lookup of dynamic tools.
@@ -207,12 +207,12 @@ ToolImplementation --> ToolSchema
 ```
 
 **Diagram sources**
-- [src/types/tools.ts](file://src/types/tools.ts#L1-L21)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L30)
+- [src/types/tools.ts](src/types/tools.ts#L1-L21)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L30)
 
 **Section sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L30)
-- [src/types/tools.ts](file://src/types/tools.ts#L1-L21)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L30)
+- [src/types/tools.ts](src/types/tools.ts#L1-L21)
 
 ### Dynamic Tools Registration and Invocation
 - Registration: registerAllTools() registers EmberExtractTool into the registry.
@@ -233,14 +233,14 @@ Tool-->>Server : "Normalized response"
 ```
 
 **Diagram sources**
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L20-L26)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L20-L26)
 
 **Section sources**
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L20-L26)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L20-L26)
 
 ### STDIO Transport Protocol
 - Transport: StdioServerTransport connects the server to clients via STDIO.
@@ -260,14 +260,14 @@ Script->>Proc : "kill"
 ```
 
 **Diagram sources**
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L6-L45)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L9-L76)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L720-L722)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L6-L45)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L9-L76)
+- [src/mcp/index.ts](src/mcp/index.ts#L720-L722)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L720-L722)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L6-L45)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L9-L76)
+- [src/mcp/index.ts](src/mcp/index.ts#L720-L722)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L6-L45)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L9-L76)
 
 ### Standardized Tool Interfaces, Parameter Validation, and Response Normalization
 - Tool Schema: Enforces name, description, and inputSchema with properties and required fields.
@@ -283,12 +283,12 @@ Normalize --> Return["Return JSON-RPC Result"]
 ```
 
 **Diagram sources**
-- [src/types/tools.ts](file://src/types/tools.ts#L1-L21)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
+- [src/types/tools.ts](src/types/tools.ts#L1-L21)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
 
 **Section sources**
-- [src/types/tools.ts](file://src/types/tools.ts#L1-L21)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
+- [src/types/tools.ts](src/types/tools.ts#L1-L21)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
 
 ### Example Protocol Messages
 - Initialize Request: Sent by clients with protocolVersion "2024-11-05".
@@ -297,14 +297,14 @@ Normalize --> Return["Return JSON-RPC Result"]
 - Resource Listing/Reading: ListResources and ReadResource for system stats.
 
 References:
-- [Initialize handshake and STDIO behavior](file://scripts/verify/debug_mcp_protocol.ts#L29-L45)
-- [ListTools and CallTool handlers](file://src/mcp/index.ts#L164-L250)
-- [Resource handlers](file://src/mcp/index.ts#L690-L717)
+- [Initialize handshake and STDIO behavior](scripts/verify/debug_mcp_protocol.ts#L29-L45)
+- [ListTools and CallTool handlers](src/mcp/index.ts#L164-L250)
+- [Resource handlers](src/mcp/index.ts#L690-L717)
 
 **Section sources**
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L29-L45)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L717)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L29-L45)
+- [src/mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L717)
 
 ### Error Handling Strategies
 - Built-in Error Responses: Tools return content with isError flag and error text.
@@ -323,12 +323,12 @@ Log --> Return
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L680-L687)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
+- [src/mcp/index.ts](src/mcp/index.ts#L680-L687)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L680-L687)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
+- [src/mcp/index.ts](src/mcp/index.ts#L680-L687)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
 
 ### Debugging Techniques
 - Protocol Debug Script: Spawns MCP server and verifies JSON-RPC handshake on STDOUT.
@@ -336,9 +336,9 @@ Log --> Return
 - Configuration: Example mcpServers configuration for clients.
 
 **Section sources**
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L3-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L6-L79)
-- [tests/mcp-server-settings.json](file://tests/mcp-server-settings.json#L1-L9)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L3-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L6-L79)
+- [tests/mcp-server-settings.json](tests/mcp-server-settings.json#L1-L9)
 
 ## Dependency Analysis
 The MCP server depends on:
@@ -357,18 +357,18 @@ MCP --> STDIO["StdioServerTransport"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L30)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L1-L140)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L30)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L1-L140)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L30)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L1-L140)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L30)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L1-L140)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
 
 ## Performance Considerations
 - Retrieval Pipeline: Vector search (bi-encoder) followed by cross-encoder reranking; optional Sonar LLM refinement.
@@ -377,8 +377,8 @@ MCP --> STDIO["StdioServerTransport"]
 - Optional Features: Sonar availability is cached to minimize health checks.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L312-L476)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L11-L14)
+- [src/mcp/index.ts](src/mcp/index.ts#L312-L476)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L11-L14)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -388,7 +388,7 @@ Common issues and resolutions:
 - Sonar unavailability: Confirm daemon health and configuration.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L661-L688)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L661-L688)
 
 ## Conclusion
 Amalfa’s MCP implementation provides a robust, extensible framework for agent-server communication. The combination of standardized tool interfaces, dynamic tool registration, and STDIO transport enables seamless integration with external agents. Optional Sonar features enhance search quality while maintaining graceful fallbacks. The provided verification scripts and configuration examples facilitate reliable deployment and debugging.
@@ -400,11 +400,11 @@ Amalfa’s MCP implementation provides a robust, extensible framework for agent-
 - Migration Paths: New tools can be added via the dynamic registry without changing built-in handlers; schema changes should be backward-compatible or versioned in tool names/descriptions.
 
 **Section sources**
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L53-L56)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L147-L150)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L53-L56)
+- [src/mcp/index.ts](src/mcp/index.ts#L147-L150)
 
 ### Tool Catalog and Usage References
 - Comprehensive tool reference and workflows are documented in the MCP tools guide.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L1-L715)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L1-L715)

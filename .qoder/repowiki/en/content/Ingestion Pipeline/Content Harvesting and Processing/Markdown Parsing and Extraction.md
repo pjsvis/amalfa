@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [Harvester.ts](file://src/core/Harvester.ts)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md)
-- [ingest_test.md](file://tests/fixtures/ingest_test.md)
-- [ingest_test_boxed.md](file://tests/fixtures/ingest_test_boxed.md)
-- [tagged_output.md](file://tests/fixtures/tagged_output.md)
+- [Harvester.ts](src/core/Harvester.ts)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [tagged_test.md](tests/fixtures/tagged_test.md)
+- [ingest_test.md](tests/fixtures/ingest_test.md)
+- [ingest_test_boxed.md](tests/fixtures/ingest_test_boxed.md)
+- [tagged_output.md](tests/fixtures/tagged_output.md)
 </cite>
 
 ## Table of Contents
@@ -61,26 +61,26 @@ EW --> H
 ```
 
 **Diagram sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L77)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md#L1-L49)
-- [ingest_test.md](file://tests/fixtures/ingest_test.md#L1-L13)
-- [ingest_test_boxed.md](file://tests/fixtures/ingest_test_boxed.md#L1-L13)
-- [tagged_output.md](file://tests/fixtures/tagged_output.md#L1-L49)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L77)
+- [tagged_test.md](tests/fixtures/tagged_test.md#L1-L49)
+- [ingest_test.md](tests/fixtures/ingest_test.md#L1-L13)
+- [ingest_test_boxed.md](tests/fixtures/ingest_test_boxed.md#L1-L13)
+- [tagged_output.md](tests/fixtures/tagged_output.md#L1-L49)
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L77)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md#L1-L49)
-- [ingest_test.md](file://tests/fixtures/ingest_test.md#L1-L13)
-- [ingest_test_boxed.md](file://tests/fixtures/ingest_test_boxed.md#L1-L13)
-- [tagged_output.md](file://tests/fixtures/tagged_output.md#L1-L49)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L77)
+- [tagged_test.md](tests/fixtures/tagged_test.md#L1-L49)
+- [ingest_test.md](tests/fixtures/ingest_test.md#L1-L13)
+- [ingest_test_boxed.md](tests/fixtures/ingest_test_boxed.md#L1-L13)
+- [tagged_output.md](tests/fixtures/tagged_output.md#L1-L49)
 
 ## Core Components
 - Harvester: Scans directories for tag-prefixed tokens, builds a tag map, filters known tags, and sorts/clusters by frequency.
@@ -90,11 +90,11 @@ EW --> H
 - EdgeWeaver: Processes explicit tag syntax and wiki-links for strict-mode semantic weaving.
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L12-L72)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L6-L48)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L19-L174)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L67)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L77)
+- [Harvester.ts](src/core/Harvester.ts#L12-L72)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L6-L48)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L19-L174)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L67)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L77)
 
 ## Architecture Overview
 The markdown extraction pipeline integrates scanning, masking, filtering, and sorting. The following sequence diagram maps the end-to-end flow from file discovery to tag clustering.
@@ -114,7 +114,7 @@ CL-->>HV : "Ranked tag list"
 ```
 
 **Diagram sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L72)
+- [Harvester.ts](src/core/Harvester.ts#L16-L72)
 
 ## Detailed Component Analysis
 
@@ -151,10 +151,10 @@ Sort --> End(["Return ranked tag list"])
 ```
 
 **Diagram sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L72)
+- [Harvester.ts](src/core/Harvester.ts#L16-L72)
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L12-L72)
+- [Harvester.ts](src/core/Harvester.ts#L12-L72)
 
 ### Tag Extraction Algorithm Details
 - Pattern: tag- followed by word characters and hyphens
@@ -168,11 +168,11 @@ Examples of recognized patterns in fixtures:
 - Large content with fenced code blocks and inline code: see tagged_test.md and tagged_output.md
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L20-L35)
-- [ingest_test.md](file://tests/fixtures/ingest_test.md#L7-L12)
-- [ingest_test_boxed.md](file://tests/fixtures/ingest_test_boxed.md#L7-L12)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md#L22-L39)
-- [tagged_output.md](file://tests/fixtures/tagged_output.md#L22-L39)
+- [Harvester.ts](src/core/Harvester.ts#L20-L35)
+- [ingest_test.md](tests/fixtures/ingest_test.md#L7-L12)
+- [ingest_test_boxed.md](tests/fixtures/ingest_test_boxed.md#L7-L12)
+- [tagged_test.md](tests/fixtures/tagged_test.md#L22-L39)
+- [tagged_output.md](tests/fixtures/tagged_output.md#L22-L39)
 
 ### Filtering Mechanism: Removing Known Tags
 Harvester exposes a filter method that removes tags already present in the lexicon or entity index:
@@ -182,7 +182,7 @@ Harvester exposes a filter method that removes tags already present in the lexic
 This mechanism prevents redundant processing of already-known concepts and entities.
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L38-L54)
+- [Harvester.ts](src/core/Harvester.ts#L38-L54)
 
 ### Sorting and Clustering Logic
 Harvester sorts extracted tags by frequency:
@@ -193,7 +193,7 @@ Harvester sorts extracted tags by frequency:
 Note: The current implementation performs frequency-based sorting rather than semantic clustering.
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L56-L72)
+- [Harvester.ts](src/core/Harvester.ts#L56-L72)
 
 ### MarkdownMasker: Content Sanitization and Formatting
 MarkdownMasker protects “no-fly zones” (atomic constructs) during processing:
@@ -220,10 +220,10 @@ UDone --> Reset["reset() clears stash"]
 ```
 
 **Diagram sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L48)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L48)
 
 **Section sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L6-L48)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L6-L48)
 
 ### LexiconHarvester: Candidate Aggregation and Output
 LexiconHarvester complements tag extraction by aggregating sidecar outputs:
@@ -235,7 +235,7 @@ LexiconHarvester complements tag extraction by aggregating sidecar outputs:
 While distinct from Harvester’s tag scanning, it shares normalization and frequency-sorting concerns.
 
 **Section sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L32-L174)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L32-L174)
 
 ### HarvesterCache: Atomic Caching for Extraction Results
 HarvesterCache provides persistent caching for extraction results:
@@ -246,7 +246,7 @@ HarvesterCache provides persistent caching for extraction results:
 This supports performance and reproducibility in large-scale processing.
 
 **Section sources**
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L67)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L67)
 
 ### EdgeWeaver: Strict Semantic Tagging and WikiLinks
 EdgeWeaver enforces strict-mode extraction:
@@ -258,7 +258,7 @@ EdgeWeaver enforces strict-mode extraction:
 This component is complementary to Harvester’s scanning and filtering, focusing on precise semantic tagging during weaving.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L77)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L77)
 
 ## Dependency Analysis
 The following diagram shows how core components depend on each other and external inputs.
@@ -274,18 +274,18 @@ EW --> LH
 ```
 
 **Diagram sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L72)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L48)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L19-L174)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L67)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L77)
+- [Harvester.ts](src/core/Harvester.ts#L16-L72)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L48)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L19-L174)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L67)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L77)
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L72)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L48)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L19-L174)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L67)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L77)
+- [Harvester.ts](src/core/Harvester.ts#L16-L72)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L48)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L19-L174)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L67)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L77)
 
 ## Performance Considerations
 - I/O and globbing:
@@ -316,12 +316,12 @@ Common issues and remedies:
   - Confirm that tag counts reflect actual occurrences. Sorting is strictly by frequency descending.
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L38-L72)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L48)
-- [ingest_test.md](file://tests/fixtures/ingest_test.md#L7-L12)
-- [ingest_test_boxed.md](file://tests/fixtures/ingest_test_boxed.md#L7-L12)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md#L22-L39)
-- [tagged_output.md](file://tests/fixtures/tagged_output.md#L22-L39)
+- [Harvester.ts](src/core/Harvester.ts#L38-L72)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L48)
+- [ingest_test.md](tests/fixtures/ingest_test.md#L7-L12)
+- [ingest_test_boxed.md](tests/fixtures/ingest_test_boxed.md#L7-L12)
+- [tagged_test.md](tests/fixtures/tagged_test.md#L22-L39)
+- [tagged_output.md](tests/fixtures/tagged_output.md#L22-L39)
 
 ## Conclusion
 Amalfa’s markdown parsing and extraction stack combines robust scanning, sanitization, filtering, and ranking to support downstream enrichment and graph weaving. Harvester provides efficient tag discovery and frequency-based sorting, MarkdownMasker ensures atomicity of sensitive constructs, and LexiconHarvester and HarvesterCache support scalable aggregation and persistence. Together, these components enable reliable, high-performance processing of large markdown corpora while preserving content integrity.

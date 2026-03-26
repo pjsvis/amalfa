@@ -2,18 +2,18 @@
 
 <cite>
 **Referenced Files in This Document**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts)
-- [find-gaps.ts](file://src/cli/commands/find-gaps.ts)
-- [explore.ts](file://src/cli/commands/explore.ts)
-- [stats.ts](file://src/cli/commands/stats.ts)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts)
-- [analyze_orphans.ts](file://scripts/verify/analyze_orphans.ts)
-- [graph-enhancement-strategies.md](file://docs/graph-enhancement-strategies.md)
-- [phase6-graphology-workflows.md](file://debriefs/2026-01-13-phase6-graphology-workflows.md)
-- [strategies.test.ts](file://tests/strategies.test.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [run-community-detection.ts](scripts/run-community-detection.ts)
+- [find-gaps.ts](src/cli/commands/find-gaps.ts)
+- [explore.ts](src/cli/commands/explore.ts)
+- [stats.ts](src/cli/commands/stats.ts)
+- [analyze_health.ts](scripts/verify/analyze_health.ts)
+- [analyze_orphans.ts](scripts/verify/analyze_orphans.ts)
+- [graph-enhancement-strategies.md](docs/graph-enhancement-strategies.md)
+- [phase6-graphology-workflows.md](debriefs/2026-01-13-phase6-graphology-workflows.md)
+- [strategies.test.ts](tests/strategies.test.ts)
 </cite>
 
 ## Table of Contents
@@ -77,26 +77,26 @@ LG --> DB
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L313)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L269)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L67)
-- [find-gaps.ts](file://src/cli/commands/find-gaps.ts#L21-L94)
-- [explore.ts](file://src/cli/commands/explore.ts#L9-L153)
-- [stats.ts](file://src/cli/commands/stats.ts#L12-L110)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L154)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L87)
-- [analyze_orphans.ts](file://scripts/verify/analyze_orphans.ts#L1-L54)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L313)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L269)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L67)
+- [find-gaps.ts](src/cli/commands/find-gaps.ts#L21-L94)
+- [explore.ts](src/cli/commands/explore.ts#L9-L153)
+- [stats.ts](src/cli/commands/stats.ts#L12-L110)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L154)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L87)
+- [analyze_orphans.ts](scripts/verify/analyze_orphans.ts#L1-L54)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L313)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L269)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L67)
-- [find-gaps.ts](file://src/cli/commands/find-gaps.ts#L21-L94)
-- [explore.ts](file://src/cli/commands/explore.ts#L9-L153)
-- [stats.ts](file://src/cli/commands/stats.ts#L12-L110)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L154)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L87)
-- [analyze_orphans.ts](file://scripts/verify/analyze_orphans.ts#L1-L54)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L313)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L269)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L67)
+- [find-gaps.ts](src/cli/commands/find-gaps.ts#L21-L94)
+- [explore.ts](src/cli/commands/explore.ts#L9-L153)
+- [stats.ts](src/cli/commands/stats.ts#L12-L110)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L154)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L87)
+- [analyze_orphans.ts](scripts/verify/analyze_orphans.ts#L1-L54)
 
 ## Core Components
 - GraphEngine: Loads nodes and edges into an in-memory MultiDirectedGraph, exposes analytics (shortest path, neighbors, PageRank, Betweenness, communities, connected components), and supports traversal and integrity checks. It also implements Adamic-Adar scoring and structural candidate discovery.
@@ -104,9 +104,9 @@ LG --> DB
 - LouvainGate: Enforces modularity-aware edge acceptance by detecting “super nodes” and requiring triadic closure for edges targeting high-degree nodes.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L313)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L269)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L67)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L313)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L269)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L67)
 
 ## Architecture Overview
 The system integrates SQLite-backed storage with Graphology for fast analytics and traversal. GraphEngine loads a hollow representation of nodes and edges into memory, enabling efficient metric computations and traversals. GraphGardener orchestrates higher-level workflows combining vector search and graph topology. Community detection is supported both via a Python-based pipeline and via Graphology’s Louvain integration for in-memory analytics.
@@ -126,9 +126,9 @@ GG-->>CLI : BridgeSuggestion[]
 ```
 
 **Diagram sources**
-- [find-gaps.ts](file://src/cli/commands/find-gaps.ts#L21-L94)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
+- [find-gaps.ts](src/cli/commands/find-gaps.ts#L21-L94)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
 
 ## Detailed Component Analysis
 
@@ -152,11 +152,11 @@ Validate --> |Invalid| Zero["Return 0"]
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L197)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L197)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L197)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L203-L238)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L197)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L203-L238)
 
 ### Community Detection with Louvain
 - In-memory Louvain clustering via graphology-communities-louvain
@@ -174,11 +174,11 @@ Script-->>Script : Verify counts and report
 ```
 
 **Diagram sources**
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L154)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L154)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L129-L133)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L154)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L129-L133)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L154)
 
 ### Centrality Measures: PageRank and Betweenness Centrality
 - PageRank: Global authority measure indicating node influence
@@ -196,14 +196,14 @@ class GraphEngine {
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L138-L147)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L244-L255)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L260-L269)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L138-L147)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L244-L255)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L260-L269)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L138-L147)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L244-L255)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L260-L269)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L138-L147)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L244-L255)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L260-L269)
 
 ### Connected Components and Graph Traversal
 - Connected components analysis identifies disconnected subgraphs
@@ -220,13 +220,13 @@ Loop --> |No| Done["Traversal complete"]
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L293-L303)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L45-L67)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L293-L303)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L45-L67)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L150-L154)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L293-L303)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L31-L67)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L150-L154)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L293-L303)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L31-L67)
 
 ### GraphGardener: Pruning Orphaned Nodes and Maintaining Integrity
 - Identifies orphaned nodes (isolated from edges) and groups them by type for reporting
@@ -253,15 +253,15 @@ GraphGardener --> VectorEngine : "semantic search"
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L269)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L269)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L105-L115)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L133)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L205-L254)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L256-L268)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L105-L115)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L133)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L205-L254)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L256-L268)
 
 ### LouvainGate: Modularity-Aware Edge Acceptance
 - Prevents low-quality edges to “super nodes” by enforcing triadic closure
@@ -277,10 +277,10 @@ Shares --> |Yes| Allow
 ```
 
 **Diagram sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L67)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L67)
 
 ## Dependency Analysis
 - GraphEngine depends on:
@@ -312,14 +312,14 @@ SCRIPT --> PY["Python Louvain"]
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L14)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L6)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L12-L14)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L14)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L6)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L12-L14)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L14)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L6)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L12-L14)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L14)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L6)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L12-L14)
 
 ## Performance Considerations
 - In-memory analytics:
@@ -352,12 +352,12 @@ SCRIPT --> PY["Python Louvain"]
   - If edge insertion is blocked, check whether the target is a super node and whether triadic closure exists
 
 **Section sources**
-- [analyze_orphans.ts](file://scripts/verify/analyze_orphans.ts#L1-L54)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L87)
-- [explore.ts](file://src/cli/commands/explore.ts#L9-L153)
-- [stats.ts](file://src/cli/commands/stats.ts#L12-L110)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L154)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [analyze_orphans.ts](scripts/verify/analyze_orphans.ts#L1-L54)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L87)
+- [explore.ts](src/cli/commands/explore.ts#L9-L153)
+- [stats.ts](src/cli/commands/stats.ts#L12-L110)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L154)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ## Conclusion
 The project provides a robust, modular toolkit for graph analysis and community detection:
@@ -374,52 +374,52 @@ The project provides a robust, modular toolkit for graph analysis and community 
 
 - Run community detection and persist partitions:
   - Execute the community detection script with an optional resolution parameter; it invokes a Python Louvain script, loads the resulting partition, and writes community IDs into node metadata
-  - Reference: [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L154)
+  - Reference: [run-community-detection.ts](scripts/run-community-detection.ts#L24-L154)
 
 - Compute node importance metrics:
   - Use GraphEngine to retrieve PageRank and Betweenness scores; optionally derive “pillar” nodes as top PageRank nodes
   - References:
-    - [GraphEngine.ts](file://src/core/GraphEngine.ts#L138-L147)
-    - [GraphEngine.ts](file://src/core/GraphEngine.ts#L244-L255)
+    - [GraphEngine.ts](src/core/GraphEngine.ts#L138-L147)
+    - [GraphEngine.ts](src/core/GraphEngine.ts#L244-L255)
 
 - Discover structural candidates:
   - Call findStructuralCandidates on GraphEngine to identify unconnected node pairs with high Adamic-Adar scores
   - References:
-    - [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L197)
-    - [GraphEngine.ts](file://src/core/GraphEngine.ts#L203-L238)
+    - [GraphEngine.ts](src/core/GraphEngine.ts#L178-L197)
+    - [GraphEngine.ts](src/core/GraphEngine.ts#L203-L238)
 
 - Analyze gaps and clusters:
   - Use GraphGardener to find semantic gaps (vector neighbors not graph-linked) and structural gaps (Adamic-Adar), and to analyze communities and representative nodes
   - References:
-    - [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
-    - [GraphGardener.ts](file://src/core/GraphGardener.ts#L105-L115)
-    - [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L133)
-    - [GraphGardener.ts](file://src/core/GraphGardener.ts#L140-L143)
+    - [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
+    - [GraphGardener.ts](src/core/GraphGardener.ts#L105-L115)
+    - [GraphGardener.ts](src/core/GraphGardener.ts#L120-L133)
+    - [GraphGardener.ts](src/core/GraphGardener.ts#L140-L143)
 
 - Validate graph integrity:
   - Use CLI commands and verification scripts to check for dangling edges, self-loops, orphaned nodes, and component distribution
   - References:
-    - [explore.ts](file://src/cli/commands/explore.ts#L9-L153)
-    - [stats.ts](file://src/cli/commands/stats.ts#L12-L110)
-    - [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L87)
-    - [analyze_orphans.ts](file://scripts/verify/analyze_orphans.ts#L1-L54)
+    - [explore.ts](src/cli/commands/explore.ts#L9-L153)
+    - [stats.ts](src/cli/commands/stats.ts#L12-L110)
+    - [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L87)
+    - [analyze_orphans.ts](scripts/verify/analyze_orphans.ts#L1-L54)
 
 - Strategy alignment:
   - The documented strategies outline how to combine vector search, LLM verification, and graph topology for high-quality edge discovery and topic summarization
-  - Reference: [graph-enhancement-strategies.md](file://docs/graph-enhancement-strategies.md#L1-L66)
+  - Reference: [graph-enhancement-strategies.md](docs/graph-enhancement-strategies.md#L1-L66)
 
 **Section sources**
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L154)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L138-L147)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L244-L255)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L197)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L203-L238)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L105-L115)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L133)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L140-L143)
-- [explore.ts](file://src/cli/commands/explore.ts#L9-L153)
-- [stats.ts](file://src/cli/commands/stats.ts#L12-L110)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L87)
-- [analyze_orphans.ts](file://scripts/verify/analyze_orphans.ts#L1-L54)
-- [graph-enhancement-strategies.md](file://docs/graph-enhancement-strategies.md#L1-L66)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L154)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L138-L147)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L244-L255)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L197)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L203-L238)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L105-L115)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L133)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L140-L143)
+- [explore.ts](src/cli/commands/explore.ts#L9-L153)
+- [stats.ts](src/cli/commands/stats.ts#L12-L110)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L87)
+- [analyze_orphans.ts](scripts/verify/analyze_orphans.ts#L1-L54)
+- [graph-enhancement-strategies.md](docs/graph-enhancement-strategies.md#L1-L66)

@@ -2,20 +2,20 @@
 
 <cite>
 **Referenced Files in This Document**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts)
-- [Harvester.ts](file://src/core/Harvester.ts)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts)
-- [server.py](file://src/sidecars/lang-extract/server.py)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [sidecar.ts](file://src/types/sidecar.ts)
-- [bento_normalizer.test.ts](file://tests/bento_normalizer.test.ts)
-- [harvester.test.ts](file://tests/harvester.test.ts)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts)
+- [Harvester.ts](src/core/Harvester.ts)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts)
+- [server.py](src/sidecars/lang-extract/server.py)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [sidecar.ts](src/types/sidecar.ts)
+- [bento_normalizer.test.ts](tests/bento_normalizer.test.ts)
+- [harvester.test.ts](tests/harvester.test.ts)
 </cite>
 
 ## Table of Contents
@@ -80,26 +80,26 @@ LH --> HS
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L114)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L114)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L114)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L114)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
 
 ## Core Components
 - BentoNormalizer: Applies deterministic heuristics to standardize markdown headers, titles, and hierarchy.
@@ -110,12 +110,12 @@ LH --> HS
 - AmalfaIngestor: Orchestrates ingestion, embedding, and edge weaving; coordinates with sidecar extraction when available.
 
 **Section sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L114)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L114)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
 
 ## Architecture Overview
 The ingestion pipeline transforms markdown into a knowledge graph:
@@ -149,12 +149,12 @@ AI-->>FS : "Persist stats and logs"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L106)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L28)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L55-L187)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L106)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L28)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L55-L187)
 
 ## Detailed Component Analysis
 
@@ -182,14 +182,14 @@ H3 --> End(["normalized"])
 ```
 
 **Diagram sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L106)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L106)
 
 Validation and tests:
 - Unit tests confirm behavior for headless fixes, shouting demotion, and deep nesting flattening.
 
 **Section sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L114)
-- [bento_normalizer.test.ts](file://tests/bento_normalizer.test.ts#L1-L41)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L114)
+- [bento_normalizer.test.ts](tests/bento_normalizer.test.ts#L1-L41)
 
 ### MarkdownMasker
 Purpose:
@@ -211,10 +211,10 @@ class MarkdownMasker {
 ```
 
 **Diagram sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L3-L49)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L3-L49)
 
 **Section sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
 
 ### SidecarSquasher
 Purpose:
@@ -242,11 +242,11 @@ SQ-->>SQ : "Return counts"
 ```
 
 **Diagram sources**
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L18-L187)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L18-L187)
 
 **Section sources**
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [sidecar.ts](file://src/types/sidecar.ts#L24-L29)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [sidecar.ts](src/types/sidecar.ts#L24-L29)
 
 ### Harvester
 Purpose:
@@ -268,11 +268,11 @@ Sort --> Output["Tag list with counts and files"]
 ```
 
 **Diagram sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L72)
+- [Harvester.ts](src/core/Harvester.ts#L16-L72)
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
-- [harvester.test.ts](file://tests/harvester.test.ts#L1-L34)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
+- [harvester.test.ts](tests/harvester.test.ts#L1-L34)
 
 ### LangExtractClient and Sidecar Integration
 Purpose:
@@ -307,15 +307,15 @@ LEC-->>Host : "ExtractedGraph"
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L49-L343)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L30-L63)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L49-L343)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L30-L63)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 ### LexiconHarvester
 Purpose:
@@ -337,10 +337,10 @@ Aggregate --> Write["Write JSONL sorted by frequency"]
 ```
 
 **Diagram sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L83-L175)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L83-L175)
 
 **Section sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
 
 ### Content Hydrator
 Purpose:
@@ -352,7 +352,7 @@ Usage:
 - hydrateTop(results, limit) hydrates top K and leaves the rest unchanged.
 
 **Section sources**
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
 
 ## Dependency Analysis
 - AmalfaIngestor depends on:
@@ -385,20 +385,20 @@ HV["Harvester"] --> LH
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 ## Performance Considerations
 - Batch processing: AmalfaIngestor uses batch transactions to reduce database contention and WAL checkpoint overhead.
@@ -431,9 +431,9 @@ Common issues and resolutions:
   - Resolution: Ensure parent node is ingested prior to squashing.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L186)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L96-L104)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L186)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L96-L104)
 
 ## Conclusion
 Amalfa’s content processing stack combines deterministic normalization, structural preservation, and robust external integration to produce high-quality knowledge graph artifacts. BentoNormalizer and MarkdownMasker ensure consistent input; LangExtractClient and the Python sidecar deliver structured extraction with caching and validation; SidecarSquasher and AmalfaIngestor integrate results into the graph; Harvester and LexiconHarvester support discovery and lexicon enrichment. Together, these components form a resilient ingestion pipeline with strong error handling and performance-conscious design.
@@ -445,6 +445,6 @@ Amalfa’s content processing stack combines deterministic normalization, struct
 - Tests validate normalization behavior and tag filtering logic.
 
 **Section sources**
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L186)
-- [bento_normalizer.test.ts](file://tests/bento_normalizer.test.ts#L1-L41)
-- [harvester.test.ts](file://tests/harvester.test.ts#L1-L34)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L186)
+- [bento_normalizer.test.ts](tests/bento_normalizer.test.ts#L1-L41)
+- [harvester.test.ts](tests/harvester.test.ts#L1-L34)

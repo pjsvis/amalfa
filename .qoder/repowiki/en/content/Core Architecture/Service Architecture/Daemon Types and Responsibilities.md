@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/daemon/index.ts](file://src/daemon/index.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [src/daemon/sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [src/daemon/sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [src/daemon/sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [src/config/defaults.ts](file://src/config/defaults.ts)
-- [docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md](file://docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md)
-- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](file://debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md)
+- [src/daemon/index.ts](src/daemon/index.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts)
+- [src/daemon/sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [src/daemon/sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [src/daemon/sonar-types.ts](src/daemon/sonar-types.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [src/config/defaults.ts](src/config/defaults.ts)
+- [docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md](docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md)
+- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md)
 </cite>
 
 ## Table of Contents
@@ -39,13 +39,13 @@ It also documents entry points, initialization, resource requirements, communica
 
 ## Project Structure
 Daemons are implemented as standalone Bun entry points with lifecycle management and shared configuration utilities:
-- File watcher daemon: [src/daemon/index.ts](file://src/daemon/index.ts)
-- Vector daemon: [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- Reranker daemon: [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- Sonar agent: [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts) with HTTP server and task orchestration
-- Shared management: [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- Lifecycle and PID/log management: [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- Configuration SSoT and directory layout: [src/config/defaults.ts](file://src/config/defaults.ts)
+- File watcher daemon: [src/daemon/index.ts](src/daemon/index.ts)
+- Vector daemon: [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- Reranker daemon: [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- Sonar agent: [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts) with HTTP server and task orchestration
+- Shared management: [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- Lifecycle and PID/log management: [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- Configuration SSoT and directory layout: [src/config/defaults.ts](src/config/defaults.ts)
 
 ```mermaid
 graph TB
@@ -73,59 +73,59 @@ D4 --> U3
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Core Components
 - File Watcher Daemon
   - Watches configured Markdown sources recursively
   - Debounces file events and triggers ingestion pipelines
   - Integrates optional Ember enrichment and notifications
-  - PID/log path: [.amalfa/runtime/daemon.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/daemon.log](file://src/config/defaults.ts#L16-L40)
-  - Entry point: [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
+  - PID/log path: [.amalfa/runtime/daemon.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/daemon.log](src/config/defaults.ts#L16-L40)
+  - Entry point: [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
 
 - Vector Daemon
   - HTTP server on port 3010
   - Loads a FastEmbed model once at startup for low-latency embeddings
   - Provides /embed and /rerank endpoints (lazy-loads reranker on first request)
-  - PID/log path: [.amalfa/runtime/vector-daemon.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/vector-daemon.log](file://src/config/defaults.ts#L16-L40)
-  - Entry point: [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
+  - PID/log path: [.amalfa/runtime/vector-daemon.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/vector-daemon.log](src/config/defaults.ts#L16-L40)
+  - Entry point: [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
 
 - Reranker Daemon
   - HTTP server on port 3011
   - Dedicated BGE reranker service (no FastEmbed dependency)
   - Provides /health and /rerank endpoints
-  - PID/log path: [.amalfa/runtime/reranker-daemon.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/reranker-daemon.log](file://src/config/defaults.ts#L16-L40)
-  - Entry point: [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
+  - PID/log path: [.amalfa/runtime/reranker-daemon.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/reranker-daemon.log](src/config/defaults.ts#L16-L40)
+  - Entry point: [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
 
 - Sonar Agent Daemon
-  - HTTP server on port 3012 (via [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134))
+  - HTTP server on port 3012 (via [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L134))
   - Orchestrates tasks from .amalfa/agent/tasks/{pending,processing,completed}
   - Supports chat, metadata enhancement, search analysis, reranking, context extraction, and multi-phase research
-  - PID/log path: [.amalfa/runtime/sonar.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/sonar.log](file://src/config/defaults.ts#L16-L40)
-  - Entry point: [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
+  - PID/log path: [.amalfa/runtime/sonar.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/sonar.log](src/config/defaults.ts#L16-L40)
+  - Entry point: [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
 
 ## Architecture Overview
 High-level daemon orchestration and inter-service communication:
@@ -160,11 +160,11 @@ VD --> RD
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
 
 ## Detailed Component Analysis
 
@@ -177,9 +177,9 @@ Responsibilities:
 - Graceful shutdown on SIGTERM/SIGINT
 
 Entry point and lifecycle:
-- Entry: [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- Lifecycle: [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- PID/log: [.amalfa/runtime/daemon.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/daemon.log](file://src/config/defaults.ts#L16-L40)
+- Entry: [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- Lifecycle: [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- PID/log: [.amalfa/runtime/daemon.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/daemon.log](src/config/defaults.ts#L16-L40)
 
 Key behaviors:
 - Watches directories at startup; adding new sources requires restart
@@ -210,8 +210,8 @@ FW-->>OS : "Batch processed"
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L100-L289)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [src/daemon/index.ts](src/daemon/index.ts#L100-L289)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L143)
 
 Operational notes:
 - Debounce window is configurable; default is loaded from config
@@ -219,10 +219,10 @@ Operational notes:
 - Notifications can be disabled in config
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
-- [docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md](file://docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L48-L161)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
+- [docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md](docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L48-L161)
 
 ### Vector Daemon
 Responsibilities:
@@ -237,9 +237,9 @@ Endpoints:
 - POST /rerank: reranks candidate documents against a query
 
 Entry point and lifecycle:
-- Entry: [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- Lifecycle: [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- PID/log: [.amalfa/runtime/vector-daemon.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/vector-daemon.log](file://src/config/defaults.ts#L16-L40)
+- Entry: [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- Lifecycle: [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- PID/log: [.amalfa/runtime/vector-daemon.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/vector-daemon.log](src/config/defaults.ts#L16-L40)
 
 Resource requirements:
 - FastEmbed model cached under .amalfa/cache
@@ -265,12 +265,12 @@ VD-->>Client : "ranked results"
 ```
 
 **Diagram sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
 
 **Section sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
 
 ### Reranker Daemon
 Responsibilities:
@@ -283,9 +283,9 @@ Endpoints:
 - POST /rerank: reranks documents with optional topK and threshold
 
 Entry point and lifecycle:
-- Entry: [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- Lifecycle: [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- PID/log: [.amalfa/runtime/reranker-daemon.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/reranker-daemon.log](file://src/config/defaults.ts#L16-L40)
+- Entry: [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- Lifecycle: [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- PID/log: [.amalfa/runtime/reranker-daemon.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/reranker-daemon.log](src/config/defaults.ts#L16-L40)
 
 ```mermaid
 flowchart TD
@@ -298,12 +298,12 @@ Rerank --> Ok["Return ranked results"]
 ```
 
 **Diagram sources**
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
 
 **Section sources**
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
 
 ### Sonar Agent Daemon
 Responsibilities:
@@ -313,9 +313,9 @@ Responsibilities:
 - Optional integration with local Ollama or cloud providers
 
 Entry point and lifecycle:
-- Entry: [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- Lifecycle: [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- PID/log: [.amalfa/runtime/sonar.pid](file://src/config/defaults.ts#L16-L40), [.amalfa/logs/sonar.log](file://src/config/defaults.ts#L16-L40)
+- Entry: [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- Lifecycle: [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- PID/log: [.amalfa/runtime/sonar.pid](src/config/defaults.ts#L16-L40), [.amalfa/logs/sonar.log](src/config/defaults.ts#L16-L40)
 
 HTTP API surface:
 - GET /health: returns provider, model, and availability
@@ -348,17 +348,17 @@ SA-->>Client : "assistant message"
 ```
 
 **Diagram sources**
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L102-L133)
-- [src/daemon/sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L102-L133)
+- [src/daemon/sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
 
 **Section sources**
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [src/daemon/sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [src/daemon/sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [src/daemon/sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [src/daemon/sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [src/daemon/sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [src/daemon/sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
 
 ## Dependency Analysis
 Unified management and status reporting:
@@ -377,14 +377,14 @@ SL4 --> |health| S2["/health (Sonar)"]
 ```
 
 **Diagram sources**
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
 
 **Section sources**
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
 
 ## Performance Considerations
 - File Watcher
@@ -421,24 +421,24 @@ Common issues and remedies:
   - Sonar agent: GET /health on port 3012
 
 - Logging locations
-  - File Watcher: [.amalfa/logs/daemon.log](file://src/config/defaults.ts#L16-L40)
-  - Vector Daemon: [.amalfa/logs/vector-daemon.log](file://src/config/defaults.ts#L16-L40)
-  - Reranker Daemon: [.amalfa/logs/reranker-daemon.log](file://src/config/defaults.ts#L16-L40)
-  - Sonar Agent: [.amalfa/logs/sonar.log](file://src/config/defaults.ts#L16-L40)
+  - File Watcher: [.amalfa/logs/daemon.log](src/config/defaults.ts#L16-L40)
+  - Vector Daemon: [.amalfa/logs/vector-daemon.log](src/config/defaults.ts#L16-L40)
+  - Reranker Daemon: [.amalfa/logs/reranker-daemon.log](src/config/defaults.ts#L16-L40)
+  - Sonar Agent: [.amalfa/logs/sonar.log](src/config/defaults.ts#L16-L40)
 
 - PID files and lifecycle
   - Use ServiceLifecycle to start/stop/status daemons
-  - PID files stored under [.amalfa/runtime/](file://src/config/defaults.ts#L16-L40)
+  - PID files stored under [.amalfa/runtime/](src/config/defaults.ts#L16-L40)
 
 - Naming confusion
-  - The file watcher is implemented in [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293) but referred to as “File-Watcher” in management code
+  - The file watcher is implemented in [src/daemon/index.ts](src/daemon/index.ts#L1-L293) but referred to as “File-Watcher” in management code
   - CLI output shows “File Watcher: Running”
 
 **Section sources**
-- [docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md](file://docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L48-L161)
-- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](file://debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md#L1-L68)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
+- [docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md](docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L48-L161)
+- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md#L1-L68)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
 
 ## Conclusion
 Amalfa’s daemon ecosystem balances real-time ingestion, fast embeddings, dedicated reranking, and intelligent agent orchestration. Each daemon is independently managed with clear lifecycles, health endpoints, and logs. Operational best practices include restarting the file watcher after changing sources, monitoring per-service logs, and leveraging the unified DaemonManager for status and control.

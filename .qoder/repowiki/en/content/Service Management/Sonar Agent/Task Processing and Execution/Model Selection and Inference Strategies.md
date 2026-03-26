@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [schema.ts](src/config/schema.ts)
+- [amalfa.settings.json](amalfa.settings.json)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts)
 </cite>
 
 ## Table of Contents
@@ -64,24 +64,24 @@ DEF --> CFG
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
 
 ## Core Components
 - Inference state management: Tracks whether Ollama is available and stores the discovered model.
@@ -97,10 +97,10 @@ Key responsibilities:
 - Parse structured outputs and apply throttling for rate-limited models.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L80-L116)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L10-L13)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L80-L116)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L10-L13)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
 
 ## Architecture Overview
 The Sonar Agent initializes inference state, discovers local models, and routes tasks to specialized strategies. Inference is executed via a unified call that supports local Ollama and OpenRouter. Responses are parsed with safe JSON handling, and free-tier throttling is applied when indicated by the model identifier.
@@ -127,10 +127,10 @@ Logic-->>Agent : "task report"
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L80-L116)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L217)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L80-L116)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L217)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Detailed Component Analysis
 
@@ -154,14 +154,14 @@ Limited --> Ready
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L80-L96)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L161-L168)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L83-L155)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L80-L96)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L161-L168)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L83-L155)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L80-L96)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L10-L13)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L83-L155)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L80-L96)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L10-L13)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L83-L155)
 
 ### Model Availability Checking and Discovery
 - Health check uses a CLI command to verify Ollama readiness.
@@ -179,14 +179,14 @@ Models --> Rec["getRecommendedModel()"]
 ```
 
 **Diagram sources**
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L161-L168)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L34-L56)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L118-L128)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L173-L179)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L161-L168)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L34-L56)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L118-L128)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L173-L179)
 
 **Section sources**
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L83-L155)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L82-L96)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L83-L155)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L82-L96)
 
 ### Model Selection and Routing
 - Task-based model selection for cloud providers (OpenRouter).
@@ -210,12 +210,12 @@ Default --> Final["Resolved model"]
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L31-L38)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L31-L38)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L31-L38)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L31-L38)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L31-L38)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L31-L38)
 
 ### Inference Execution and Options
 - Unified call supports local Ollama and OpenRouter.
@@ -239,12 +239,12 @@ Infra-->>Caller : "{ message }"
 ```
 
 **Diagram sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 **Section sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 ### Temperature and Format Specifications
 - Task-specific temperature and format are applied per strategy:
@@ -255,21 +255,21 @@ Infra-->>Caller : "{ message }"
 - Chat and research tasks pass through model overrides without forcing format.
 
 Examples by file reference:
-- Judge relationship: [temperature and format](file://src/daemon/sonar-strategies.ts#L67-L72)
-- Community synthesis: [temperature and format](file://src/daemon/sonar-strategies.ts#L115-L120)
-- Chronos date extraction: [temperature](file://src/daemon/sonar-strategies.ts#L176)
-- Search analysis: [format](file://src/daemon/sonar-logic.ts#L202)
-- Re-ranking: [format](file://src/daemon/sonar-logic.ts#L254)
-- Chat and research: [no forced format](file://src/daemon/sonar-logic.ts#L168), (file://src/daemon/sonar-logic.ts#L528)
+- Judge relationship: [temperature and format](src/daemon/sonar-strategies.ts#L67-L72)
+- Community synthesis: [temperature and format](src/daemon/sonar-strategies.ts#L115-L120)
+- Chronos date extraction: [temperature](src/daemon/sonar-strategies.ts#L176)
+- Search analysis: [format](src/daemon/sonar-logic.ts#L202)
+- Re-ranking: [format](src/daemon/sonar-logic.ts#L254)
+- Chat and research: [no forced format](src/daemon/sonar-logic.ts#L168), (src/daemon/sonar-logic.ts#L528)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L67-L72)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L115-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L176)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L202)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L254)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L168)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L528)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L67-L72)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L115-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L176)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L202)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L254)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L168)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L528)
 
 ### Response Parsing Strategies and Safe JSON Parsing
 - Structured tasks expect JSON; parsers handle raw JSON or markdown-wrapped JSON.
@@ -292,14 +292,14 @@ Parsed --> |No| TryMD["Extract from
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L123-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L258-L271)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L123-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L258-L271)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L123-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L258-L271)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L123-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L258-L271)
 
 ### Free Tier Throttling and Premium Model Selection
 - Free tier model identifiers are detected by suffix in the model string.
@@ -315,29 +315,29 @@ Delay --> Continue
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L427-L428)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L451-L452)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L606-L607)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L427-L428)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L451-L452)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L606-L607)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L427-L428)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L451-L452)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L606-L607)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L427-L428)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L451-L452)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L606-L607)
 
 ### Examples: Model Configuration, Inference Execution, and Error Handling
-- Configuration example: [Sonar section](file://amalfa.settings.json#L48-L81)
-- Configuration schema defaults: [Sonar schema](file://src/config/schema.ts#L54-L88)
-- Inference call with provider selection: [callOllama](file://src/daemon/sonar-inference.ts#L66-L85)
-- Error handling in inference: [catch block](file://src/daemon/sonar-inference.ts#L114-L118)
-- Safe JSON parsing usage: [search analysis](file://src/daemon/sonar-logic.ts#L205-L213), [re-ranking](file://src/daemon/sonar-logic.ts#L259-L271)
+- Configuration example: [Sonar section](amalfa.settings.json#L48-L81)
+- Configuration schema defaults: [Sonar schema](src/config/schema.ts#L54-L88)
+- Inference call with provider selection: [callOllama](src/daemon/sonar-inference.ts#L66-L85)
+- Error handling in inference: [catch block](src/daemon/sonar-inference.ts#L114-L118)
+- Safe JSON parsing usage: [search analysis](src/daemon/sonar-logic.ts#L205-L213), [re-ranking](src/daemon/sonar-logic.ts#L259-L271)
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L48-L81)
-- [schema.ts](file://src/config/schema.ts#L54-L88)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L66-L85)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L114-L118)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L205-L213)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L259-L271)
+- [amalfa.settings.json](amalfa.settings.json#L48-L81)
+- [schema.ts](src/config/schema.ts#L54-L88)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L66-L85)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L114-L118)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L205-L213)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L259-L271)
 
 ## Dependency Analysis
 - Agent depends on discovery utilities to initialize inference state.
@@ -357,18 +357,18 @@ DEF --> CFG["amalfa.settings.json"]
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L20-L33)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L9-L14)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L3)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L5)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L20-L33)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L9-L14)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L3)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L5)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L20-L33)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L9-L14)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L3)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L5)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L20-L33)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L9-L14)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L3)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L5)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 ## Performance Considerations
 - Prefer local Ollama for latency-sensitive tasks when available.
@@ -390,10 +390,10 @@ Common issues and resolutions:
   - Detect free-tier model identifiers and apply delays between steps.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L91-L96)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L44-L60)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L427-L428)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L91-L96)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L44-L60)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L427-L428)
 
 ## Conclusion
 The Sonar Agent implements a robust, layered approach to model selection and inference:

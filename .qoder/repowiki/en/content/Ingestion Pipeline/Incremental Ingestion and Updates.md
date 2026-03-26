@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [index.ts](file://src/daemon/index.ts)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [incremental-ingestion.test.ts](file://tests/pipeline/incremental-ingestion.test.ts)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [defaults.ts](file://src/config/defaults.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [index.ts](src/daemon/index.ts)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts)
+- [db.ts](src/resonance/db.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [incremental-ingestion.test.ts](tests/pipeline/incremental-ingestion.test.ts)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md)
+- [amalfa.settings.json](amalfa.settings.json)
+- [defaults.ts](src/config/defaults.ts)
 </cite>
 
 ## Table of Contents
@@ -56,16 +56,16 @@ Weaver --> DB
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [index.ts](file://src/daemon/index.ts#L159-L160)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L41)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [index.ts](src/daemon/index.ts#L159-L160)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L41)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
 
 **Section sources**
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L1-L226)
-- [index.ts](file://src/daemon/index.ts#L159-L160)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L1-L226)
+- [index.ts](src/daemon/index.ts#L159-L160)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
 
 ## Core Components
 - AmalfaIngestor.ingestFiles: Processes a targeted list of files, skipping unchanged ones via MD5 hashing, and performs two-pass edge weaving.
@@ -75,11 +75,11 @@ Weaver --> DB
 - File Watcher Daemon: Detects file changes and invokes ingestFiles with the exact changed file list.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [db.ts](file://src/resonance/db.ts#L298-L336)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L41)
-- [index.ts](file://src/daemon/index.ts#L159-L160)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [db.ts](src/resonance/db.ts#L298-L336)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L41)
+- [index.ts](src/daemon/index.ts#L159-L160)
 
 ## Architecture Overview
 The ingestion pipeline follows a two-pass design:
@@ -113,9 +113,9 @@ Ingestor->>DB : PRAGMA wal_checkpoint(TRUNCATE)
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
 
 ## Detailed Component Analysis
 
@@ -146,8 +146,8 @@ Stats --> Done(["Return result"])
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [db.ts](src/resonance/db.ts#L349-L359)
 
 Key implementation highlights:
 - MD5 hashing: A per-file MD5 is computed from trimmed content and compared to the stored hash; unchanged files are skipped.
@@ -156,8 +156,8 @@ Key implementation highlights:
 - WAL checkpoint: Ensures durable persistence after updates.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [db.ts](file://src/resonance/db.ts#L298-L336)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [db.ts](src/resonance/db.ts#L298-L336)
 
 ### Hash-Based Change Tracking
 Change detection relies on MD5 hashing:
@@ -168,8 +168,8 @@ Change detection relies on MD5 hashing:
 This mechanism enables selective processing and avoids redundant work.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L391-L398)
-- [db.ts](file://src/resonance/db.ts#L298-L303)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L391-L398)
+- [db.ts](src/resonance/db.ts#L298-L303)
 
 ### Transaction Management and Batch Processing
 - Pass 1 uses per-file transactions to keep lock durations minimal and prevent SQLITE_BUSY errors when daemons or other services are active.
@@ -179,9 +179,9 @@ This mechanism enables selective processing and avoids redundant work.
 These practices balance performance and consistency.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L70-L91)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [db.ts](file://src/resonance/db.ts#L365-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L70-L91)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [db.ts](src/resonance/db.ts#L365-L367)
 
 ### Edge Weaving for Modified Files
 EdgeWeaver builds edges for the changed files using a lexicon constructed from existing nodes:
@@ -192,9 +192,9 @@ EdgeWeaver builds edges for the changed files using a lexicon constructed from e
 This ensures relationships are consistently updated for modified content.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L78-L91)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L166)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L78-L91)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L166)
 
 ### Telemetry Integration
 PipelineTelemetry tracks stage progress and metrics:
@@ -205,9 +205,9 @@ PipelineTelemetry tracks stage progress and metrics:
 This enables real-time monitoring of incremental operations.
 
 **Section sources**
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L41)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L163-L242)
-- [index.ts](file://src/daemon/index.ts#L164-L213)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L41)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L163-L242)
+- [index.ts](src/daemon/index.ts#L164-L213)
 
 ### Handling File Deletions and Renames
 - Deleted files: Not currently handled by the file watcher; deletion detection would require tracking missing files during periodic full scans.
@@ -216,8 +216,8 @@ This enables real-time monitoring of incremental operations.
 Future enhancements could include explicit deletion and rename handling for improved consistency.
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L162-L213)
-- [debriefs/2026-01-17-targeted-incremental-ingestion.md](file://briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md#L162-L172)
+- [index.ts](src/daemon/index.ts#L162-L213)
+- [debriefs/2026-01-17-targeted-incremental-ingestion.md](briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md#L162-L172)
 
 ## Dependency Analysis
 The incremental ingestion pipeline depends on:
@@ -261,16 +261,16 @@ EdgeWeaver --> ResonanceDB : "inserts edges"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L134)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L193)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L41)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L134)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L193)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L41)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L134)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L193)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L41)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L134)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L193)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L41)
 
 ## Performance Considerations
 - Hash-based skipping: Reduces processing to only changed files, minimizing IO and compute.
@@ -284,9 +284,9 @@ Practical guidance:
 - Tune debounce intervals and batch sizes according to workload and concurrent access.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L41)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L41)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -309,10 +309,10 @@ Validation references:
 - Incremental ingestion tests confirm behavior for empty lists, unchanged files, and content updates.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L121-L133)
-- [db.ts](file://src/resonance/db.ts#L255-L269)
-- [incremental-ingestion.test.ts](file://tests/pipeline/incremental-ingestion.test.ts#L7-L100)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L27-L34)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L121-L133)
+- [db.ts](src/resonance/db.ts#L255-L269)
+- [incremental-ingestion.test.ts](tests/pipeline/incremental-ingestion.test.ts#L7-L100)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L27-L34)
 
 ## Conclusion
 Amalfa’s incremental ingestion leverages MD5 hashing and targeted processing to efficiently update only changed files while maintaining consistency through two-pass edge weaving and transactional updates. The file watcher daemon feeds ingestFiles with precise file lists, eliminating unnecessary directory scans. Telemetry provides operational visibility, and performance characteristics scale well for large repositories. Future enhancements can address deletion and rename handling for even stronger consistency guarantees.
@@ -325,8 +325,8 @@ Amalfa’s incremental ingestion leverages MD5 hashing and targeted processing t
 - Graph tuning: Super-node threshold affects edge filtering during weaving.
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L9-L47)
-- [defaults.ts](file://src/config/defaults.ts#L84-L124)
+- [amalfa.settings.json](amalfa.settings.json#L9-L47)
+- [defaults.ts](src/config/defaults.ts#L84-L124)
 
 ### Handling Large-Scale Updates
 - Prefer ingestFiles for targeted updates after detecting file changes.
@@ -334,6 +334,6 @@ Amalfa’s incremental ingestion leverages MD5 hashing and targeted processing t
 - Ensure WAL checkpointing completes successfully to maintain durability.
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L159-L160)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L93-L94)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L27-L34)
+- [index.ts](src/daemon/index.ts#L159-L160)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L93-L94)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L27-L34)

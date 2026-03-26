@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [README.md](file://src/pipeline/README.md)
-- [ingestion-pipeline-playbook.md](file://playbooks/ingestion-pipeline-playbook.md)
-- [01-ingest.md](file://docs/architecture/01-ingest.md)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [README.md](src/pipeline/README.md)
+- [ingestion-pipeline-playbook.md](playbooks/ingestion-pipeline-playbook.md)
+- [01-ingest.md](docs/architecture/01-ingest.md)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [embedder.ts](src/resonance/services/embedder.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [db.ts](src/resonance/db.ts)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts)
 </cite>
 
 ## Table of Contents
@@ -77,24 +77,24 @@ DOC2 --> AI
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [ingestion-pipeline-playbook.md](file://playbooks/ingestion-pipeline-playbook.md#L1-L56)
-- [01-ingest.md](file://docs/architecture/01-ingest.md#L1-L63)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L1-L226)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L114)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [ingestion-pipeline-playbook.md](playbooks/ingestion-pipeline-playbook.md#L1-L56)
+- [01-ingest.md](docs/architecture/01-ingest.md#L1-L63)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L1-L226)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L114)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
 
 **Section sources**
-- [README.md](file://src/pipeline/README.md#L1-L8)
-- [ingestion-pipeline-playbook.md](file://playbooks/ingestion-pipeline-playbook.md#L1-L56)
-- [01-ingest.md](file://docs/architecture/01-ingest.md#L1-L63)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L1-L226)
+- [README.md](src/pipeline/README.md#L1-L8)
+- [ingestion-pipeline-playbook.md](playbooks/ingestion-pipeline-playbook.md#L1-L56)
+- [01-ingest.md](docs/architecture/01-ingest.md#L1-L63)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L1-L226)
 
 ## Core Components
 - AmalfaIngestor orchestrates discovery, two-pass processing, hashing, embedding, and edge weaving. It supports both full ingestion and incremental ingestion triggered by file changes.
@@ -107,14 +107,14 @@ DOC2 --> AI
 - LexiconHarvester aggregates sidecar-derived entities and concepts into a lexicon candidate list.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L114)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L114)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
 
 ## Architecture Overview
 The ingestion pipeline follows a deterministic, idempotent, and observable flow:
@@ -155,10 +155,10 @@ Ingestor-->>CLI : stats
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [db.ts](file://src/resonance/db.ts#L83-L159)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [db.ts](src/resonance/db.ts#L83-L159)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
 
 ## Detailed Component Analysis
 
@@ -187,10 +187,10 @@ FlattenDeep --> End(["Normalized Content"])
 ```
 
 **Diagram sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L6-L106)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L6-L106)
 
 **Section sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L114)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L114)
 
 ### Bridge Stage: ETL Operations and Delta Checking
 The Bridge stage performs:
@@ -223,16 +223,16 @@ end
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L439)
-- [db.ts](file://src/resonance/db.ts#L298-L303)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L439)
+- [db.ts](src/resonance/db.ts#L298-L303)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [db.ts](file://src/resonance/db.ts#L298-L303)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [db.ts](src/resonance/db.ts#L298-L303)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
 
 ### Brain Stage: Semantic Storage and Graph Enrichment
 The Brain stage focuses on persistent storage and enrichment:
@@ -280,18 +280,18 @@ ResonanceDB <-- LexiconHarvester : "consumes sidecars"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
 
 ### Boxing Process and Locus Tags
 While “boxing” is not explicitly named in the analyzed files, the ingestion pipeline normalizes content deterministically and assigns stable IDs via the bento ledger (ResonanceDB.generateId). The normalized content and metadata serve as the boxed unit for downstream processing. Locus tags are represented implicitly by:
@@ -302,9 +302,9 @@ While “boxing” is not explicitly named in the analyzed files, the ingestion 
 This approach ensures each chunk has a unique, path-aware identity and rich semantic anchors for relationship extraction.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L348-L354)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L166)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L348-L354)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L166)
 
 ### Two-Pass Ingestion Strategy
 The pipeline processes files in two passes:
@@ -321,10 +321,10 @@ C --> D["Finalize with Checkpoint"]
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
 
 ### Bento Ledger System: ID Minting and Tracking
 The bento ledger is implemented by ResonanceDB.generateId, which:
@@ -347,10 +347,10 @@ Trim --> End(["Stable Node ID"])
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L378-L391)
+- [db.ts](src/resonance/db.ts#L378-L391)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L378-L391)
+- [db.ts](src/resonance/db.ts#L378-L391)
 
 ### Bridge Script Role: Scanning, Hash Comparisons, Embeddings, and Relationship Weaving
 The bridge script orchestrates:
@@ -362,9 +362,9 @@ The bridge script orchestrates:
 It operates within the two-pass framework, committing nodes first and then edges, ensuring referential integrity.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
 
 ## Dependency Analysis
 The ingestion pipeline exhibits clear separation of concerns:
@@ -384,24 +384,24 @@ LH["LexiconHarvester.ts"] --> SC
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [SidecarSquasher.ts](file://src/core/SidecarSquasher.ts#L1-L189)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L1-L176)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [SidecarSquasher.ts](src/core/SidecarSquasher.ts#L1-L189)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L1-L176)
 
 ## Performance Considerations
 - Hash checking: Skips unchanged files, minimizing embedding and DB overhead
@@ -412,9 +412,9 @@ LH["LexiconHarvester.ts"] --> SC
 - Safety checks: OH-104 pinch check validates database file existence and non-zero size after checkpoint
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L270)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [db.ts](file://src/resonance/db.ts#L255-L269)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L270)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [db.ts](src/resonance/db.ts#L255-L269)
 
 ## Troubleshooting Guide
 Common issues and remedies:
@@ -430,10 +430,10 @@ Operational references:
 - Pinch check to ensure database integrity post-checkpoint
 
 **Section sources**
-- [ingestion-pipeline-playbook.md](file://playbooks/ingestion-pipeline-playbook.md#L43-L56)
-- [01-ingest.md](file://docs/architecture/01-ingest.md#L58-L63)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L255-L269)
-- [db.ts](file://src/resonance/db.ts#L72-L101)
+- [ingestion-pipeline-playbook.md](playbooks/ingestion-pipeline-playbook.md#L43-L56)
+- [01-ingest.md](docs/architecture/01-ingest.md#L58-L63)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L255-L269)
+- [db.ts](src/resonance/db.ts#L72-L101)
 
 ## Conclusion
 Amalfa’s ingestion pipeline combines deterministic normalization, robust delta checking, and a two-pass edge-weaving strategy to produce a reliable, scalable knowledge graph. The bento ledger ensures stable, path-aware IDs, while the bridge script coordinates hashing, embeddings, and semantic relationships. With transactional graph operations, FAFCAS normalization, and safety checks, the system balances performance, correctness, and observability.

@@ -2,14 +2,14 @@
 
 <cite>
 **Referenced Files in This Document**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts)
-- [FractureLogic.ts](file://src/core/FractureLogic.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [Harvester.ts](file://src/core/Harvester.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts)
+- [FractureLogic.ts](src/core/FractureLogic.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [Harvester.ts](src/core/Harvester.ts)
 </cite>
 
 ## Table of Contents
@@ -50,22 +50,22 @@ HARV["Harvester"] --> DB
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L1-L90)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L1-L97)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L1-L90)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L1-L97)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L1-L90)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L1-L97)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L1-L90)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L1-L97)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 ## Core Components
 - EdgeWeaver: Scans content for explicit semantic markers (tags, wiki links, metadata blocks, markdown links), resolves targets via a lexicon and path-aware ID generation, and inserts edges after LouvainGate approval.
@@ -78,14 +78,14 @@ HARV["Harvester"] --> DB
 - Harvester: Enumerates legacy tag tokens to seed discovery and prune known concepts.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L1-L90)
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L1-L23)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L1-L97)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L1-L90)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L1-L23)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L1-L97)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 ## Architecture Overview
 The edge weaving pipeline integrates explicit markup parsing, semantic candidate discovery, and structural safeguards:
@@ -111,9 +111,9 @@ GE->>GE : "detectCommunities(), compute metrics"
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
 
 ## Detailed Component Analysis
 
@@ -146,8 +146,8 @@ Preventing super-node collapse:
 - Approved edges are inserted directly; LouvainGate rejects edges into high-degree nodes unless triadic closure exists.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 #### Edge Creation Flow
 ```mermaid
@@ -165,8 +165,8 @@ Insert --> End
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L166)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L166)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ### SemanticMatcher: Candidate Discovery via Fuzzy Search
 SemanticMatcher invokes an external search tool to locate semantically similar content blocks. It parses structured output into candidate records with file, line, and content fields, returning up to a configured limit.
@@ -181,7 +181,7 @@ Custom matching rules:
 - Post-process parsed content to apply custom filters (e.g., exclude noisy separators).
 
 **Section sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L16-L88)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L16-L88)
 
 ### FractureLogic: Text Segmentation Primitives
 FractureLogic defines regex patterns for splitting text into meaningful segments:
@@ -193,7 +193,7 @@ FractureLogic defines regex patterns for splitting text into meaningful segments
 These patterns underpin higher-level segmentation strategies and can be combined to split content prior to discovery.
 
 **Section sources**
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L8-L22)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L8-L22)
 
 ### LouvainGate: Conflict Resolution and Super-Node Prevention
 LouvainGate enforces a structural safeguard:
@@ -205,7 +205,7 @@ Tuning:
 - The threshold is configurable and defaults to a fixed value; it can be adjusted per deployment.
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
 
 ### GraphEngine: In-Memory Graph and Metrics
 GraphEngine loads nodes and edges into memory and exposes:
@@ -221,9 +221,9 @@ Discovery guidance:
 - Pillar identification (high PageRank) helps prioritize hubs.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L238)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L244-L255)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L238)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L244-L255)
 
 ### SemanticWeaver: Rescuing Orphans with Vector Similarity
 SemanticWeaver rescues nodes with embeddings but no incident edges by connecting them to semantically similar nodes:
@@ -235,8 +235,8 @@ Threshold tuning:
 - The threshold is applied when selecting best matches; adjust based on embedding quality and domain characteristics.
 
 **Section sources**
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L10-L96)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L10-L96)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
 
 ### VectorEngine: Embedding Generation and Search
 VectorEngine:
@@ -249,8 +249,8 @@ Performance:
 - Threshold filtering reduces candidate sets.
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
 
 ### Harvester: Legacy Tag Token Enumeration
 Harvester scans directories for legacy tag tokens and:
@@ -261,7 +261,7 @@ Harvester scans directories for legacy tag tokens and:
 This primes discovery by surfacing unclassified concepts and their occurrences.
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L73)
+- [Harvester.ts](src/core/Harvester.ts#L16-L73)
 
 ## Dependency Analysis
 The following diagram shows module-level dependencies among the core components involved in edge weaving and discovery:
@@ -278,22 +278,22 @@ HARV["Harvester.ts"] --> DB
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L1-L90)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L1-L97)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L1-L90)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L1-L97)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L1-L90)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L1-L97)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L1-L90)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L1-L97)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 ## Performance Considerations
 - Prefer explicit semantic markup for deterministic, low-latency edge insertion.
@@ -308,25 +308,25 @@ Common issues and resolutions:
 - Edges being rejected:
   - Cause: Target is a super node without shared neighbors.
   - Action: Introduce a bridging node or connect the source to a neighbor of the target to establish triadic closure.
-  - Reference: [LouvainGate.ts](file://src/core/LouvainGate.ts#L24-L33)
+  - Reference: [LouvainGate.ts](src/core/LouvainGate.ts#L24-L33)
 
 - Low-confidence semantic matches:
   - Cause: Underlying tool threshold too strict or noisy output.
   - Action: Adjust external tool parameters or post-filter parsed content.
-  - Reference: [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L24-L42)
+  - Reference: [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L24-L42)
 
 - Orphan nodes not connected:
   - Cause: Insufficient similarity or embedding quality.
   - Action: Lower the similarity threshold slightly or improve embeddings.
-  - Reference: [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L77-L82)
+  - Reference: [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L77-L82)
 
 - Excessive edge density causing collapse:
   - Action: Increase the super-node threshold or apply community-aware weaving.
-  - Reference: [LouvainGate.ts](file://src/core/LouvainGate.ts#L19-L22), [GraphEngine.ts](file://src/core/GraphEngine.ts#L131-L133)
+  - Reference: [LouvainGate.ts](src/core/LouvainGate.ts#L19-L22), [GraphEngine.ts](src/core/GraphEngine.ts#L131-L133)
 
 - Legacy tag-slug warnings:
   - Action: Migrate to [tag: Concept] syntax for clarity and future-proofing.
-  - Reference: [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L83-L86)
+  - Reference: [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L83-L86)
 
 ## Conclusion
 Amalfa’s edge weaving system combines explicit semantic markup parsing, fuzzy candidate discovery, and structural safeguards to build a robust knowledge graph. EdgeWeaver ensures high-quality connections through lexicon resolution and LouvainGate enforcement. SemanticMatcher and SemanticWeaver complement explicit signals with semantic similarity. GraphEngine provides in-memory analytics to guide discovery and maintain modularity. Together, these components form a scalable, principled approach to relationship discovery.
@@ -345,8 +345,8 @@ Edge metadata:
 - No additional properties are set during weaving; metadata enrichment occurs elsewhere.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L74-L164)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L86-L87)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L74-L164)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L86-L87)
 
 ### Relationship Scoring and Confidence Thresholds
 - Explicit weaving does not apply numeric confidence thresholds; decisions rely on lexicon resolution and LouvainGate.
@@ -354,19 +354,19 @@ Edge metadata:
 - SemanticWeaver applies a similarity threshold when choosing best matches.
 
 **Section sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L53-L88)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L77-L82)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L53-L88)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L77-L82)
 
 ### Examples: Custom Matching Rules and Filtering
 - External tool invocation customization:
   - Modify the command array and flags passed to the search tool.
-  - Reference: [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L24-L30)
+  - Reference: [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L24-L30)
 - Limit adjustment:
   - Control the number of candidates returned.
-  - Reference: [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L19-L20)
+  - Reference: [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L19-L20)
 - Metadata block filtering:
   - Exclude non-structural relations in metadata blocks.
-  - Reference: [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L112-L114)
+  - Reference: [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L112-L114)
 - Community-aware weaving:
   - Use GraphEngine communities to constrain weaving to cohesive groups.
-  - Reference: [GraphEngine.ts](file://src/core/GraphEngine.ts#L260-L269)
+  - Reference: [GraphEngine.ts](src/core/GraphEngine.ts#L260-L269)

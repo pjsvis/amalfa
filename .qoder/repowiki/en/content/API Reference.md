@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [MCP-TOOLS.md](file://docs/MCP-TOOLS.md)
-- [mcp/index.ts](file://src/mcp/index.ts)
-- [tools/index.ts](file://src/tools/index.ts)
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py)
-- [api/server.ts](file://api/server.ts)
-- [openrouter-rate-limits.md](file://docs/openrouter-rate-limits.md)
-- [API_KEYS.md](file://docs/API_KEYS.md)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts)
+- [MCP-TOOLS.md](docs/MCP-TOOLS.md)
+- [mcp/index.ts](src/mcp/index.ts)
+- [tools/index.ts](src/tools/index.ts)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py)
+- [api/server.ts](api/server.ts)
+- [openrouter-rate-limits.md](docs/openrouter-rate-limits.md)
+- [API_KEYS.md](docs/API_KEYS.md)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts)
 </cite>
 
 ## Table of Contents
@@ -67,16 +67,16 @@ HTTP -. optional .-> MCP
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L147-L250)
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L43)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [api/server.ts](file://api/server.ts#L127-L247)
+- [mcp/index.ts](src/mcp/index.ts#L147-L250)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [tools/index.ts](src/tools/index.ts#L4-L6)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L43)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [api/server.ts](api/server.ts#L127-L247)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L147-L250)
-- [api/server.ts](file://api/server.ts#L127-L247)
+- [mcp/index.ts](src/mcp/index.ts#L147-L250)
+- [api/server.ts](api/server.ts#L127-L247)
 
 ## Core Components
 - MCP Server: Implements tool discovery and execution, integrates with ResonanceDB, vector engine, and optional Sonar LLM services. It supports per-request connections and wraps outputs with a scratchpad cache.
@@ -85,11 +85,11 @@ HTTP -. optional .-> MCP
 - HTTP API Server: Provides SSE endpoints and JSON/HTML fragments for monitoring and control, with simulated stats and service state.
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L147-L250)
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L43)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [api/server.ts](file://api/server.ts#L127-L247)
+- [mcp/index.ts](src/mcp/index.ts#L147-L250)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L43)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [api/server.ts](api/server.ts#L127-L247)
 
 ## Architecture Overview
 The MCP server orchestrates tool execution and integrates with external services:
@@ -121,14 +121,14 @@ MCP-->>Agent : Search results + metadata
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L24-L26)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
+- [mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L24-L26)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
 
 ## Detailed Component Analysis
 
 ### MCP Tools Reference
-Amalfa exposes eight MCP tools. Each tool has a signature, parameters, return schema, and usage guidance.
+Amalfa exposes MCP tools including core semantic search tools and dynamic registry tools. Each tool has a signature, parameters, return schema, and usage guidance.
 
 - search_documents
   - Signature: search_documents(query: string, limit?: number)
@@ -190,9 +190,9 @@ Amalfa exposes eight MCP tools. Each tool has a signature, parameters, return sc
   - Example usage: Agent checks cache usage
 
 **Section sources**
-- [MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L80-L715)
-- [mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [mcp/index.ts](file://src/mcp/index.ts#L267-L671)
+- [MCP-TOOLS.md](docs/MCP-TOOLS.md#L80-L715)
+- [mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [mcp/index.ts](src/mcp/index.ts#L267-L671)
 
 ### Tool Registry Interface and Extension
 The MCP server dynamically loads tools from the registry:
@@ -227,15 +227,15 @@ DynamicToolRegistry --> ToolImplementation : "stores"
 ```
 
 **Diagram sources**
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [tools/index.ts](src/tools/index.ts#L4-L6)
+- [tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L144-L250)
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
+- [mcp/index.ts](src/mcp/index.ts#L144-L250)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [tools/index.ts](src/tools/index.ts#L4-L6)
+- [tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
 
 ### Sidecar Communication Protocols (LangExtract)
 The LangExtract sidecar communicates via MCP stdio transport:
@@ -260,15 +260,15 @@ LEC-->>Host : ExtractedGraph
 ```
 
 **Diagram sources**
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L246)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L246)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py#L198-L222)
 
 **Section sources**
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L43)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L246)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L43)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L246)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py#L198-L222)
 
 ### REST API Endpoints (HTTP-based Services)
 The HTTP API server provides:
@@ -290,7 +290,7 @@ Endpoints:
 - Static files under public/
 
 **Section sources**
-- [api/server.ts](file://api/server.ts#L127-L247)
+- [api/server.ts](api/server.ts#L127-L247)
 
 ## Dependency Analysis
 - MCP Server depends on:
@@ -323,18 +323,18 @@ LEC --> PY
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L49-L55)
-- [mcp/index.ts](file://src/mcp/index.ts#L32-L33)
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L43)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
+- [mcp/index.ts](src/mcp/index.ts#L49-L55)
+- [mcp/index.ts](src/mcp/index.ts#L32-L33)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L43)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py#L1-L226)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L49-L55)
-- [mcp/index.ts](file://src/mcp/index.ts#L32-L33)
-- [utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L43)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
+- [mcp/index.ts](src/mcp/index.ts#L49-L55)
+- [mcp/index.ts](src/mcp/index.ts#L32-L33)
+- [utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L43)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py#L1-L226)
 
 ## Performance Considerations
 - MCP concurrent requests: Verified with concurrent queries to ensure robustness
@@ -346,11 +346,11 @@ LEC --> PY
 - Cache behavior: Scratchpad caches tool outputs; Harvester cache stores extracted graphs
 
 **Section sources**
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L100-L125)
-- [MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L135-L139)
-- [api/server.ts](file://api/server.ts#L104-L120)
-- [mcp/index.ts](file://src/mcp/index.ts#L75-L92)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L45-L47)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L100-L125)
+- [MCP-TOOLS.md](docs/MCP-TOOLS.md#L135-L139)
+- [api/server.ts](api/server.ts#L104-L120)
+- [mcp/index.ts](src/mcp/index.ts#L75-L92)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L45-L47)
 
 ## Troubleshooting Guide
 Common errors and handling:
@@ -364,12 +364,12 @@ Rate limiting and security:
 - API key management best practices: rotate keys, separate environments, validate formats, and avoid committing secrets
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L673-L687)
-- [mcp/index.ts](file://src/mcp/index.ts#L644-L657)
-- [mcp/index.ts](file://src/mcp/index.ts#L590-L602)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L186)
-- [openrouter-rate-limits.md](file://docs/openrouter-rate-limits.md#L1-L127)
-- [API_KEYS.md](file://docs/API_KEYS.md#L269-L443)
+- [mcp/index.ts](src/mcp/index.ts#L673-L687)
+- [mcp/index.ts](src/mcp/index.ts#L644-L657)
+- [mcp/index.ts](src/mcp/index.ts#L590-L602)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L186)
+- [openrouter-rate-limits.md](docs/openrouter-rate-limits.md#L1-L127)
+- [API_KEYS.md](docs/API_KEYS.md#L269-L443)
 
 ## Conclusion
 Amalfa’s public interfaces combine a robust MCP tool ecosystem with a flexible dynamic registry, reliable sidecar integrations, and optional HTTP monitoring services. The MCP server emphasizes read-only operations while enabling powerful search, graph traversal, and knowledge graph maintenance. The LangExtract sidecar provides structured extraction with validated outputs and clear error handling. The HTTP API complements the MCP server with real-time monitoring and control.
@@ -382,8 +382,8 @@ Amalfa’s public interfaces combine a robust MCP tool ecosystem with a flexible
 - Deprecation policy: Experimental tools (e.g., inject_tags) are documented as such and may evolve
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L147-L150)
-- [MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L359-L359)
+- [mcp/index.ts](src/mcp/index.ts#L147-L150)
+- [MCP-TOOLS.md](docs/MCP-TOOLS.md#L359-L359)
 
 ### Authentication Methods
 - LangExtract providers:
@@ -393,18 +393,18 @@ Amalfa’s public interfaces combine a robust MCP tool ecosystem with a flexible
 - HTTP API: No authentication enforced in the provided server; secure deployment recommended
 
 **Section sources**
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L82-L104)
-- [services/LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L246)
-- [sidecars/lang-extract/server.py](file://src/sidecars/lang-extract/server.py#L31-L47)
-- [api/server.ts](file://api/server.ts#L218-L229)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L82-L104)
+- [services/LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L246)
+- [sidecars/lang-extract/server.py](src/sidecars/lang-extract/server.py#L31-L47)
+- [api/server.ts](api/server.ts#L218-L229)
 
 ### Rate Limiting and Security Considerations
 - OpenRouter: Free tier daily quota and RPM; paid tiers scale with balance; monitor usage and implement throttling
 - Security: Validate API key formats, rotate keys regularly, and avoid committing secrets
 
 **Section sources**
-- [openrouter-rate-limits.md](file://docs/openrouter-rate-limits.md#L1-L127)
-- [API_KEYS.md](file://docs/API_KEYS.md#L269-L443)
+- [openrouter-rate-limits.md](docs/openrouter-rate-limits.md#L1-L127)
+- [API_KEYS.md](docs/API_KEYS.md#L269-L443)
 
 ### Client Implementation Examples and Integration Patterns
 - MCP clients can be built using the Model Context Protocol SDK; examples include connecting via stdio and invoking tools
@@ -414,5 +414,5 @@ Amalfa’s public interfaces combine a robust MCP tool ecosystem with a flexible
   - Session end pattern suggesting debriefs
 
 **Section sources**
-- [MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L609-L647)
-- [MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L509-L546)
+- [MCP-TOOLS.md](docs/MCP-TOOLS.md#L609-L647)
+- [MCP-TOOLS.md](docs/MCP-TOOLS.md#L509-L546)

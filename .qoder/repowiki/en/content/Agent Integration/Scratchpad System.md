@@ -2,14 +2,14 @@
 
 <cite>
 **Referenced Files in This Document**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [index.ts](file://src/mcp/index.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [SCRATCHPAD-INNOVATION.md](file://docs/SCRATCHPAD-INNOVATION.md)
-- [scratchpad.test.ts](file://tests/scratchpad.test.ts)
+- [Scratchpad.ts](src/utils/Scratchpad.ts)
+- [schema.ts](src/config/schema.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [index.ts](src/mcp/index.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [SCRATCHPAD-INNOVATION.md](docs/SCRATCHPAD-INNOVATION.md)
+- [scratchpad.test.ts](tests/scratchpad.test.ts)
 </cite>
 
 ## Table of Contents
@@ -56,18 +56,18 @@ SA --> MCP
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L110-L117)
-- [defaults.ts](file://src/config/defaults.ts#L16-L40)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L75)
-- [index.ts](file://src/mcp/index.ts#L68-L92)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47)
+- [schema.ts](src/config/schema.ts#L110-L117)
+- [defaults.ts](src/config/defaults.ts#L16-L40)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L75)
+- [index.ts](src/mcp/index.ts#L68-L92)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L110-L117)
-- [defaults.ts](file://src/config/defaults.ts#L16-L40)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L75)
-- [index.ts](file://src/mcp/index.ts#L68-L92)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47)
+- [schema.ts](src/config/schema.ts#L110-L117)
+- [defaults.ts](src/config/defaults.ts#L16-L40)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L75)
+- [index.ts](src/mcp/index.ts#L68-L92)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47)
 
 ## Core Components
 - Scratchpad class: Provides caching, content-type detection, preview generation, deduplication, and lifecycle operations (read, list, delete, prune, clear, stats).
@@ -82,10 +82,10 @@ Key responsibilities:
 - Support multi-session workflows with persistent storage.
 
 **Section sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L405)
-- [schema.ts](file://src/config/schema.ts#L243-L251)
-- [index.ts](file://src/mcp/index.ts#L644-L671)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L405)
+- [schema.ts](src/config/schema.ts#L243-L251)
+- [index.ts](src/mcp/index.ts#L644-L671)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47)
 
 ## Architecture Overview
 The scratchpad operates as a middleware layer between tool execution and the MCP response. When a tool produces a large output, the MCP server serializes the response, checks its size against the configured threshold, and either returns the content inline or caches it and returns a reference with a preview. The agent can then request the full content by ID.
@@ -113,11 +113,11 @@ MCP-->>Client : Full content
 ```
 
 **Diagram sources**
-- [index.ts](file://src/mcp/index.ts#L76-L92)
-- [index.ts](file://src/mcp/index.ts#L495-L509)
-- [index.ts](file://src/mcp/index.ts#L644-L657)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L195-L210)
+- [index.ts](src/mcp/index.ts#L76-L92)
+- [index.ts](src/mcp/index.ts#L495-L509)
+- [index.ts](src/mcp/index.ts#L644-L657)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L195-L210)
 
 ## Detailed Component Analysis
 
@@ -163,11 +163,11 @@ Scratchpad --> ScratchpadEntry : "creates/reads"
 ```
 
 **Diagram sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L30-L46)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L405)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L30-L46)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L405)
 
 **Section sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L405)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L59-L405)
 
 ### Configuration and Initialization
 - The scratchpad configuration is part of AmalfaSettingsSchema and injected via Zod parsing. Defaults are enforced at the schema level.
@@ -186,14 +186,14 @@ Create --> Ready
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L243-L251)
-- [defaults.ts](file://src/config/defaults.ts#L43-L59)
-- [index.ts](file://src/mcp/index.ts#L68-L73)
+- [schema.ts](src/config/schema.ts#L243-L251)
+- [defaults.ts](src/config/defaults.ts#L43-L59)
+- [index.ts](src/mcp/index.ts#L68-L73)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L243-L251)
-- [defaults.ts](file://src/config/defaults.ts#L43-L59)
-- [index.ts](file://src/mcp/index.ts#L68-L73)
+- [schema.ts](src/config/schema.ts#L243-L251)
+- [defaults.ts](src/config/defaults.ts#L43-L59)
+- [index.ts](src/mcp/index.ts#L68-L73)
 
 ### MCP Integration
 - wrapWithScratchpad: Serializes tool responses, checks size, and returns either the inline text or a reference generated by maybeCache.
@@ -218,14 +218,14 @@ Wrap-->>MCP : Modified ToolResponse
 ```
 
 **Diagram sources**
-- [index.ts](file://src/mcp/index.ts#L76-L92)
-- [index.ts](file://src/mcp/index.ts#L495-L509)
-- [index.ts](file://src/mcp/index.ts#L644-L671)
+- [index.ts](src/mcp/index.ts#L76-L92)
+- [index.ts](src/mcp/index.ts#L495-L509)
+- [index.ts](src/mcp/index.ts#L644-L671)
 
 **Section sources**
-- [index.ts](file://src/mcp/index.ts#L76-L92)
-- [index.ts](file://src/mcp/index.ts#L495-L509)
-- [index.ts](file://src/mcp/index.ts#L644-L671)
+- [index.ts](src/mcp/index.ts#L76-L92)
+- [index.ts](src/mcp/index.ts#L495-L509)
+- [index.ts](src/mcp/index.ts#L644-L671)
 
 ### Agent Ecosystem Integration
 - The Sonar agent maintains a Map of chat sessions, enabling multi-turn conversations. The scratchpad complements this by allowing agents to cache and revisit large outputs across turns without re-executing heavy tools.
@@ -239,12 +239,12 @@ SA --> SP
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
 
 ### Storage Mechanism and Lifecycle
 - Storage: Disk files named by a 12-character hash prefix of the SHA256 digest of the content, stored under .amalfa/cache/scratchpad.
@@ -270,12 +270,12 @@ I --> J["If still over size limit, sort by oldest and delete until under limit"]
 ```
 
 **Diagram sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L156-L190)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L272-L349)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L156-L190)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L272-L349)
 
 **Section sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L156-L190)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L272-L349)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L156-L190)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L272-L349)
 
 ### Retrieval Patterns and Conversational Context
 - Tiered retrieval: Agents receive a compact reference with a preview, then selectively call scratchpad_read to retrieve specific entries.
@@ -283,9 +283,9 @@ I --> J["If still over size limit, sort by oldest and delete until under limit"]
 - Content-type awareness: JSON arrays and objects are summarized differently to aid decision-making.
 
 **Section sources**
-- [SCRATCHPAD-INNOVATION.md](file://docs/SCRATCHPAD-INNOVATION.md#L109-L122)
-- [index.ts](file://src/mcp/index.ts#L644-L657)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L87-L129)
+- [SCRATCHPAD-INNOVATION.md](docs/SCRATCHPAD-INNOVATION.md#L109-L122)
+- [index.ts](src/mcp/index.ts#L644-L657)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L87-L129)
 
 ## Dependency Analysis
 - Configuration dependency: Scratchpad depends on AmalfaSettingsSchema for its configuration, ensuring centralized defaults and validation.
@@ -302,18 +302,18 @@ MCP --> Agent["sonar-agent.ts"]
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L110-L117)
-- [defaults.ts](file://src/config/defaults.ts#L16-L40)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L63-L75)
-- [index.ts](file://src/mcp/index.ts#L68-L73)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47)
+- [schema.ts](src/config/schema.ts#L110-L117)
+- [defaults.ts](src/config/defaults.ts#L16-L40)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L63-L75)
+- [index.ts](src/mcp/index.ts#L68-L73)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L110-L117)
-- [defaults.ts](file://src/config/defaults.ts#L16-L40)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L63-L75)
-- [index.ts](file://src/mcp/index.ts#L68-L73)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47)
+- [schema.ts](src/config/schema.ts#L110-L117)
+- [defaults.ts](src/config/defaults.ts#L16-L40)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L63-L75)
+- [index.ts](src/mcp/index.ts#L68-L73)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47)
 
 ## Performance Considerations
 - Context reduction: The scratchpad reduces context usage by orders of magnitude for large outputs, enabling broader searches and multi-hop exploration.
@@ -350,12 +350,12 @@ Validation and behavior are covered by tests:
 - stats aggregates counts and sizes.
 
 **Section sources**
-- [scratchpad.test.ts](file://tests/scratchpad.test.ts#L47-L165)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L195-L210)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L223-L247)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L252-L267)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L354-L373)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L378-L404)
+- [scratchpad.test.ts](tests/scratchpad.test.ts#L47-L165)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L195-L210)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L223-L247)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L252-L267)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L354-L373)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L378-L404)
 
 ## Conclusion
 The scratchpad system is a pragmatic, content-addressable solution that preserves full data fidelity while dramatically reducing context usage in MCP environments. It integrates seamlessly with Amalfa’s configuration, MCP tooling, and the Sonar agent ecosystem, enabling comprehensive search and multi-hop exploration without context anxiety. With pruning, deduplication, and human-readable cache entries, it balances performance, reliability, and transparency.
@@ -374,7 +374,7 @@ The scratchpad system is a pragmatic, content-addressable solution that preserve
   - Trigger prune or clear when thresholds are exceeded.
 
 **Section sources**
-- [index.ts](file://src/mcp/index.ts#L76-L92)
-- [index.ts](file://src/mcp/index.ts#L660-L671)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L223-L247)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L378-L404)
+- [index.ts](src/mcp/index.ts#L76-L92)
+- [index.ts](src/mcp/index.ts#L660-L671)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L223-L247)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L378-L404)

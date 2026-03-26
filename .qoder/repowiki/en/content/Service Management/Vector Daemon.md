@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [index.ts](file://src/daemon/index.ts)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts)
-- [local-first-vector-db-playbook.md](file://playbooks/local-first-vector-db-playbook.md)
-- [vector-daemon-server.md](file://briefs/archive/2026-01-07-vector-daemon-server.md)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [embedder.ts](src/resonance/services/embedder.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [schema.ts](src/config/schema.ts)
+- [DaemonManager.ts](src/utils/DaemonManager.ts)
+- [index.ts](src/daemon/index.ts)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts)
+- [local-first-vector-db-playbook.md](playbooks/local-first-vector-db-playbook.md)
+- [vector-daemon-server.md](briefs/archive/2026-01-07-vector-daemon-server.md)
 </cite>
 
 ## Table of Contents
@@ -76,14 +76,14 @@ J --> L
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [db.ts](file://src/resonance/db.ts#L25-L134)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [db.ts](src/resonance/db.ts#L25-L134)
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [db.ts](src/resonance/db.ts#L1-L488)
 
 ## Core Components
 The Vector Daemon consists of four primary components working in concert:
@@ -104,10 +104,10 @@ Seamless integration with Resonance database through typed accessors and FAFCAS 
 Centralized configuration management with schema validation and unified daemon lifecycle control through ServiceLifecycle pattern.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L126)
-- [db.ts](file://src/resonance/db.ts#L25-L134)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L126)
+- [db.ts](src/resonance/db.ts#L25-L134)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ## Architecture Overview
 The Vector Daemon follows a layered architecture with clear separation of concerns:
@@ -134,8 +134,8 @@ Daemon-->>Client : {"results" : [...], "count" : N}
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L162-L219)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L162-L219)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
 
 The architecture emphasizes:
 - **Persistence**: Model remains loaded in memory for sub-100ms response times
@@ -169,7 +169,7 @@ RerankCheck --> |No| NotFound["Return 404 Not Found"]
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L79-L222)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L79-L222)
 
 Key features include:
 - **Model Persistence**: Single FastEmbed instance maintained across requests
@@ -178,7 +178,7 @@ Key features include:
 - **Health Monitoring**: Real-time status reporting for operational visibility
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
 
 ### Embedding Service and Model Management
 The Embedder service provides dual-mode operation with intelligent fallback:
@@ -211,8 +211,8 @@ VectorDaemon --> FlagEmbedding : "manages"
 ```
 
 **Diagram sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L126)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L28-L75)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L126)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L28-L75)
 
 The service implements:
 - **Dual-Mode Operation**: Remote daemon calls with 200ms timeout, fallback to local model
@@ -221,7 +221,7 @@ The service implements:
 - **Protocol Compliance**: FAFCAS normalization at generation boundary
 
 **Section sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L19-L126)
+- [embedder.ts](src/resonance/services/embedder.ts#L19-L126)
 
 ### Database Integration and Vector Operations
 The Resonance database integration provides comprehensive vector storage and retrieval:
@@ -259,7 +259,7 @@ NODES ||--o{ HISTORY : "logged_in"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L12-L431)
+- [db.ts](src/resonance/db.ts#L12-L431)
 
 Key database features include:
 - **Typed Accessors**: Safe node and edge retrieval with optional content exclusion
@@ -268,7 +268,7 @@ Key database features include:
 - **Statistics**: Built-in database statistics and health monitoring
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L83-L431)
+- [db.ts](src/resonance/db.ts#L83-L431)
 
 ### Configuration and Environment Management
 Centralized configuration through Zod schema validation:
@@ -282,8 +282,8 @@ Centralized configuration through Zod schema validation:
 | Watcher | `watch.notifications` | `true` | Desktop notification enablement |
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L164-L176)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [schema.ts](src/config/schema.ts#L164-L176)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ## Dependency Analysis
 The Vector Daemon exhibits strong internal cohesion with clear external dependencies:
@@ -310,9 +310,9 @@ B --> I
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L8-L15)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L3)
-- [db.ts](file://src/resonance/db.ts#L1-L7)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L8-L15)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L3)
+- [db.ts](src/resonance/db.ts#L1-L7)
 
 The dependency structure ensures:
 - **Minimal External Coupling**: Only essential libraries (Bun, FastEmbed, SQLite)
@@ -320,9 +320,9 @@ The dependency structure ensures:
 - **Service Isolation**: Clear boundaries between HTTP service, embedding logic, and database operations
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L293)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L293)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [db.ts](src/resonance/db.ts#L1-L488)
 
 ## Performance Considerations
 The Vector Daemon implements several performance optimization strategies:
@@ -349,8 +349,8 @@ The Vector Daemon implements several performance optimization strategies:
 - **Dimension Matching**: Configurable embedding dimensions for optimal performance
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L40-L56)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L40-L56)
 
 ## Troubleshooting Guide
 
@@ -429,8 +429,8 @@ The daemon provides comprehensive logging through the ServiceLifecycle pattern:
 - **Error Tracking**: Structured error logging with stack traces
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L17-L26)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L98)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L17-L26)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L84-L98)
 
 ## Conclusion
 The Vector Daemon represents a sophisticated, production-ready solution for embedding generation and vector database operations. Its architecture balances performance, reliability, and maintainability through persistent model loading, FAFCAS protocol compliance, and seamless database integration. The service provides essential infrastructure for real-time vector operations while maintaining strict operational standards through comprehensive error handling, monitoring, and configuration management.

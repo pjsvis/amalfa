@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [Scratchpad.ts](src/utils/Scratchpad.ts)
 </cite>
 
 ## Table of Contents
@@ -64,20 +64,20 @@ SS --> SL
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
 
 ## Core Components
 - Sonar Agent entrypoint and lifecycle controller
@@ -89,14 +89,14 @@ SS --> SL
 - Scratchpad utility for managing large tool outputs
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
 
 ## Architecture Overview
 The Sonar Agent runs a continuous watcher loop that loads the graph, processes tasks from a filesystem queue, and executes them via modular logic handlers. An HTTP API exposes chat, search, and metadata enhancement endpoints. Inference requests route through a unified provider abstraction supporting local and cloud models.
@@ -141,12 +141,12 @@ Agent->>FS : Write report, move to completed
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L106-L179)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L218)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L106-L179)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L218)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
 
 ## Detailed Component Analysis
 
@@ -177,10 +177,10 @@ Audit --> End(["End"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
 
 ### Synthesis Workflows and Community Analysis
 Synthesis identifies cohesive clusters and summarizes them using LLMs. The process:
@@ -208,14 +208,14 @@ Logic-->>Caller : Report
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
 
 ### Timeline Analysis and Anchoring
 Timeline anchoring extracts temporal anchors and weaves temporal edges:
@@ -241,14 +241,14 @@ Done --> End(["End"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L391)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L194)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L391)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L194)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L391)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L194)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L391)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L194)
 
 ### Graph Gardening and Link Prediction
 Gardening discovers missing links using:
@@ -277,16 +277,16 @@ Gardener-->>Logic : temporal suggestions
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L203-L238)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L203-L238)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L203-L238)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L203-L238)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
 
 ### Strategy Selection and Model Routing
 - Task model selection prefers cloud provider models for specific tasks when configured
@@ -307,12 +307,12 @@ Route --> End(["Done"])
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ### Context Preservation and Chat Session Management
 - Chat maintains persistent sessions keyed by sessionId
@@ -340,14 +340,14 @@ Server-->>Client : JSON response
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
 
 ### Evidence Gathering and Conclusion Formation
 Evidence gathering:
@@ -378,10 +378,10 @@ Final --> End(["End"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L496-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L496-L664)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L496-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L496-L664)
 
 ### External Tools and MCP Protocol Integration
 - HTTP API endpoints expose chat, search, and metadata enhancement
@@ -391,8 +391,8 @@ Final --> End(["End"])
 Note: The MCP protocol is referenced in project documentation and setup materials; the current implementation focuses on HTTP endpoints and local/cloud inference routing.
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L66-L85)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L66-L85)
 
 ## Dependency Analysis
 The Sonar Agent composes several subsystems with clear boundaries:
@@ -418,19 +418,19 @@ SI --> TY["sonar-types.ts"]
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
 
 ## Performance Considerations
 - Concurrency and batching:
@@ -447,11 +447,11 @@ SI --> TY["sonar-types.ts"]
   - Cloud fallback when local Ollama is unavailable
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L70-L99)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L106-L115)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L31-L38)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L70-L99)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L106-L115)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L31-L38)
 
 ## Troubleshooting Guide
 Common issues and diagnostics:
@@ -474,11 +474,11 @@ Operational checks:
 - Logging captures detailed errors and timings
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L86-L88)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L167-L178)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L87-L119)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L86-L88)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L167-L178)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L87-L119)
 
 ## Conclusion
 The Sonar Agent integrates graph analytics, vector search, and LLM-based reasoning to enable autonomous research, synthesis, timeline anchoring, and graph gardening. Its modular design, robust inference routing, and context-preserving mechanisms support scalable and reliable knowledge discovery. The documented workflows, strategies, and operational patterns provide a blueprint for extending and maintaining the system.

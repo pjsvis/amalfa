@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts)
-- [reranker-client.ts](file://src/utils/reranker-client.ts)
-- [reranking.ts](file://src/types/reranking.ts)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts)
-- [test-reranker.ts](file://scripts/test-reranker.ts)
-- [debug-reranker.ts](file://scripts/debug-reranker.ts)
-- [debug-reranker-raw.ts](file://scripts/debug-reranker-raw.ts)
-- [defaults.ts](file://src/config/defaults.ts)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [reranker-hf.ts](src/services/reranker-hf.ts)
+- [reranker-client.ts](src/utils/reranker-client.ts)
+- [reranking.ts](src/types/reranking.ts)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts)
+- [test-reranker.ts](scripts/test-reranker.ts)
+- [debug-reranker.ts](scripts/debug-reranker.ts)
+- [debug-reranker-raw.ts](scripts/debug-reranker-raw.ts)
+- [defaults.ts](src/config/defaults.ts)
 </cite>
 
 ## Table of Contents
@@ -70,26 +70,26 @@ DR --> HF
 ```
 
 **Diagram sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [test-reranker.ts](file://scripts/test-reranker.ts#L1-L37)
-- [debug-reranker.ts](file://scripts/debug-reranker.ts#L1-L48)
-- [debug-reranker-raw.ts](file://scripts/debug-reranker-raw.ts#L1-L57)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [test-reranker.ts](scripts/test-reranker.ts#L1-L37)
+- [debug-reranker.ts](scripts/debug-reranker.ts#L1-L48)
+- [debug-reranker-raw.ts](scripts/debug-reranker-raw.ts#L1-L57)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [test-reranker.ts](file://scripts/test-reranker.ts#L1-L37)
-- [debug-reranker.ts](file://scripts/debug-reranker.ts#L1-L48)
-- [debug-reranker-raw.ts](file://scripts/debug-reranker-raw.ts#L1-L57)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [test-reranker.ts](scripts/test-reranker.ts#L1-L37)
+- [debug-reranker.ts](scripts/debug-reranker.ts#L1-L48)
+- [debug-reranker-raw.ts](scripts/debug-reranker-raw.ts#L1-L57)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Core Components
 - Reranker Daemon: An HTTP server exposing health and rerank endpoints, with lazy model initialization and lifecycle management.
@@ -99,10 +99,10 @@ DR --> HF
 - Benchmarks and Debug Scripts: Tools to validate performance, correctness, and model behavior.
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
 
 ## Architecture Overview
 The system follows a layered architecture:
@@ -129,12 +129,12 @@ Note over Daemon,Logger : Health endpoint returns model readiness
 ```
 
 **Diagram sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
 
 ## Detailed Component Analysis
 
@@ -168,11 +168,11 @@ Health --> End
 ```
 
 **Diagram sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ### HfBgeReranker (BGE Cross-Encoder)
 Responsibilities:
@@ -204,10 +204,10 @@ HfBgeReranker --> RerankResult : "produces"
 ```
 
 **Diagram sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L128)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L128)
 
 **Section sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
 
 ### Reranker Client Utility
 Responsibilities:
@@ -240,12 +240,12 @@ end
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L20-L208)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L64-L127)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
+- [reranker-client.ts](src/utils/reranker-client.ts#L20-L208)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L64-L127)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
 
 ### Configuration and Types
 Reranking configuration supports:
@@ -260,7 +260,7 @@ Default configuration:
 - sonar.topK: 5
 
 **Section sources**
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
 
 ### Benchmarks and Validation
 Benchmark script:
@@ -274,10 +274,10 @@ Test and debug scripts:
 - Raw logits exploration for score interpretation
 
 **Section sources**
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [test-reranker.ts](file://scripts/test-reranker.ts#L1-L37)
-- [debug-reranker.ts](file://scripts/debug-reranker.ts#L1-L48)
-- [debug-reranker-raw.ts](file://scripts/debug-reranker-raw.ts#L1-L57)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [test-reranker.ts](scripts/test-reranker.ts#L1-L37)
+- [debug-reranker.ts](scripts/debug-reranker.ts#L1-L48)
+- [debug-reranker-raw.ts](scripts/debug-reranker-raw.ts#L1-L57)
 
 ## Dependency Analysis
 Key dependencies and relationships:
@@ -299,22 +299,22 @@ DR["Debug Scripts"] --> HF
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [test-reranker.ts](file://scripts/test-reranker.ts#L1-L37)
-- [debug-reranker.ts](file://scripts/debug-reranker.ts#L1-L48)
-- [debug-reranker-raw.ts](file://scripts/debug-reranker-raw.ts#L1-L57)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [test-reranker.ts](scripts/test-reranker.ts#L1-L37)
+- [debug-reranker.ts](scripts/debug-reranker.ts#L1-L48)
+- [debug-reranker-raw.ts](scripts/debug-reranker-raw.ts#L1-L57)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ## Performance Considerations
 - Model loading: First-time initialization downloads and caches the model (~120MB); subsequent loads are near-instant.
@@ -344,9 +344,9 @@ Common issues and resolutions:
   - The client falls back to local reranking if the daemon is unavailable; ensure local model initialization succeeds
 
 **Section sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L46-L65)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L115-L126)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L76-L118)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L46-L65)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L115-L126)
+- [reranker-client.ts](src/utils/reranker-client.ts#L76-L118)
 
 ## Conclusion
 The Reranker Daemon delivers a robust, cross-platform reranking service powered by the BGE cross-encoder. Its architecture emphasizes reliability through lazy initialization, graceful fallback, and structured configuration. The included client utility enables seamless integration into search pipelines, while benchmarks and debug scripts support validation and optimization. By leveraging ONNX quantization and singleton model caching, the system achieves balanced performance and resource usage suitable for production deployment.

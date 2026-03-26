@@ -2,12 +2,12 @@
 
 <cite>
 **Referenced Files in This Document**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts)
-- [2026-01-08-graph-gardening-phase2-3.md](file://debriefs/2026-01-08-graph-gardening-phase2-3.md)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts)
+- [2026-01-08-graph-gardening-phase2-3.md](debriefs/2026-01-08-graph-gardening-phase2-3.md)
 </cite>
 
 ## Table of Contents
@@ -51,18 +51,18 @@ VT --> TW
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L61)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L26)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L61)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L26)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L61)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L26)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L61)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L26)
 
 ## Core Components
 - extractDate: Deterministic regex extraction of YYYY-MM-DD followed by optional LLM fallback when configured and available.
@@ -71,10 +71,10 @@ VT --> TW
 - GraphGardener.weaveTimeline: Proposes temporal edges (FOLLOWS/PRECEDES) within communities based on sorted dates.
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L61)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L61)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 ## Architecture Overview
 The timeline workflow integrates extraction, validation, and graph weaving:
@@ -102,9 +102,9 @@ Agent-->>User : "Report updates and suggestions"
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 ## Detailed Component Analysis
 
@@ -133,10 +133,10 @@ Validate --> |Yes| ReturnDate["Return date"]
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 ### Automatic Timestamp Assignment
 - The timeline task iterates nodes up to a configurable limit.
@@ -161,11 +161,11 @@ TL-->>Caller : "Summary of updates"
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
 
 ### Timeline Coherence Analysis
 - Within communities, GraphGardener sorts nodes by date and proposes temporal edges (FOLLOWS/PRECEDES) between consecutive items.
@@ -183,10 +183,10 @@ E --> |No| G["Done"]
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 ### Batch Processing Capabilities
 - The timeline task supports a configurable limit to constrain processing volume.
@@ -194,7 +194,7 @@ E --> |No| G["Done"]
 - It streams content per node and applies updates incrementally when autoApply is enabled.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
 
 ### Date Validation Strategies
 - Deterministic extraction uses anchored regex patterns for common date formats.
@@ -204,8 +204,8 @@ E --> |No| G["Done"]
   - Core TimelineWeaver also derives dates from filenames when node metadata lacks a date.
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L17-L37)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L17-L37)
 
 ### Practical Examples
 
@@ -226,10 +226,10 @@ E --> |No| G["Done"]
   - This provides a quick audit of chronological chaining across debrief nodes.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L26)
-- [2026-01-08-graph-gardening-phase2-3.md](file://debriefs/2026-01-08-graph-gardening-phase2-3.md#L19-L23)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L26)
+- [2026-01-08-graph-gardening-phase2-3.md](debriefs/2026-01-08-graph-gardening-phase2-3.md#L19-L23)
 
 ### Integration with Temporal Graph Analysis
 - The timeline task populates node date metadata.
@@ -237,8 +237,8 @@ E --> |No| G["Done"]
 - The broader temporal schema includes a dedicated date column for nodes, enabling robust chronological analysis.
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [2026-01-08-graph-gardening-phase2-3.md](file://debriefs/2026-01-08-graph-gardening-phase2-3.md#L19-L23)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [2026-01-08-graph-gardening-phase2-3.md](debriefs/2026-01-08-graph-gardening-phase2-3.md#L19-L23)
 
 ## Dependency Analysis
 - extractDate depends on inference availability and uses a structured prompt to constrain output.
@@ -257,18 +257,18 @@ VT["verify_timeline"] --> TW
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L61)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L26)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L61)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L26)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L61)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L26)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L61)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L26)
 
 ## Performance Considerations
 - Batch limits reduce memory pressure and IO overhead during content retrieval and date extraction.
@@ -289,9 +289,9 @@ VT["verify_timeline"] --> TW
   - Run the verification script to count SUCCEEDS edges produced by the core TimelineWeaver.
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L26)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L26)
 
 ## Conclusion
 The timeline tasks in the Sonar agent combine deterministic regex extraction with LLM-backed validation to anchor nodes to precise dates. The handleTimelineTask orchestrates batch processing and optional persistence, while GraphGardener proposes temporal edges within communities. The core TimelineWeaver provides a complementary mechanism for chronological chaining among specific node types. Together, these components support robust temporal graph analysis, with straightforward verification and integration points for broader graph enhancement workflows.

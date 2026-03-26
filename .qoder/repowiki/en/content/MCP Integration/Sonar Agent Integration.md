@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [sonar-client.ts](file://src/utils/sonar-client.ts)
-- [mcp/index.ts](file://src/mcp/index.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [sonar-system-overview.md](file://playbooks/sonar-system-overview.md)
-- [sonar-manual.md](file://playbooks/sonar-manual.md)
-- [2026-01-08-sonar-agent-refactor.md](file://debriefs/2026-01-08-sonar-agent-refactor.md)
-- [2026-01-08-sonar-modularization.md](file://debriefs/2026-01-08-sonar-modularization.md)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [sonar-client.ts](src/utils/sonar-client.ts)
+- [mcp/index.ts](src/mcp/index.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [sonar-system-overview.md](playbooks/sonar-system-overview.md)
+- [sonar-manual.md](playbooks/sonar-manual.md)
+- [2026-01-08-sonar-agent-refactor.md](debriefs/2026-01-08-sonar-agent-refactor.md)
+- [2026-01-08-sonar-modularization.md](debriefs/2026-01-08-sonar-modularization.md)
 </cite>
 
 ## Table of Contents
@@ -73,25 +73,25 @@ MCP --> Defaults
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L252-L513)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L118-L133)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [mcp/index.ts](src/mcp/index.ts#L252-L513)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L118-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [mcp/index.ts](file://src/mcp/index.ts#L252-L513)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [mcp/index.ts](src/mcp/index.ts#L252-L513)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
 
 ## Core Components
 - Sonar Daemon: Orchestrates HTTP routes, task queue processing, and lifecycle management. It loads the graph, initializes engines, and starts the HTTP server.
@@ -103,13 +103,13 @@ MCP --> Defaults
 - Configuration: Centralized settings and directory scaffolding for tasks and runtime artifacts.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L133)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L319)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [mcp/index.ts](file://src/mcp/index.ts#L289-L476)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L319)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [mcp/index.ts](src/mcp/index.ts#L289-L476)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
 
 ## Architecture Overview
 The Sonar agent participates in a bicameral search architecture:
@@ -153,9 +153,9 @@ MCP-->>User : "final results with snippets"
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L289-L476)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L118-L255)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L93-L130)
+- [mcp/index.ts](src/mcp/index.ts#L289-L476)
+- [sonar-client.ts](src/utils/sonar-client.ts#L118-L255)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L93-L130)
 
 ## Detailed Component Analysis
 
@@ -187,10 +187,10 @@ ProcessTasks --> Sleep["Sleep 5s"] --> WatchLoop
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L221)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L221)
 
 ### HTTP API and Endpoints
 Endpoints:
@@ -219,11 +219,11 @@ API-->>Client : "{id, snippet}"
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L130)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L319)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L40-L130)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L319)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
 
 ### Search Intelligence Handlers
 - Query Analysis: Parses user intent, entities, and suggested queries from LLM responses with JSON mode enforcement.
@@ -240,10 +240,10 @@ CTX --> OUT["Final Results"]
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L319)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L319)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L319)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L319)
 
 ### Inference Abstraction (Local and Cloud)
 - Provider selection: Local Ollama or OpenRouter based on configuration.
@@ -268,10 +268,10 @@ Parse --> Return["Return Message"]
 ```
 
 **Diagram sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
 
 ### MCP Integration and Bicameral Search
 - Bicameral retrieval: Runs vector and grep engines concurrently.
@@ -302,10 +302,10 @@ SonarC-->>MCP : "snippets"
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L312-L476)
+- [mcp/index.ts](src/mcp/index.ts#L312-L476)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L267-L513)
+- [mcp/index.ts](src/mcp/index.ts#L267-L513)
 
 ### Client Wrapper and Fallback Strategies
 - Availability caching: 30s cache window to avoid frequent health checks.
@@ -327,10 +327,10 @@ Ok --> |No| SetFalse["Cache false"] --> ReturnFalse["Return false"]
 ```
 
 **Diagram sources**
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L72-L113)
+- [sonar-client.ts](src/utils/sonar-client.ts#L72-L113)
 
 **Section sources**
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L309)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L309)
 
 ### Strategies and Task Routing
 - Task model selection: When cloud is enabled, assigns free tier models per task category.
@@ -353,11 +353,11 @@ SonarStrategies --> Inference : "uses"
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
 
 ### Configuration Options
 - Master enable/disable for Sonar.
@@ -366,8 +366,8 @@ SonarStrategies --> Inference : "uses"
 - Directory scaffolding for tasks and runtime artifacts.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [sonar-system-overview.md](file://playbooks/sonar-system-overview.md#L122-L139)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [sonar-system-overview.md](playbooks/sonar-system-overview.md#L122-L139)
 
 ## Dependency Analysis
 - Sonar Daemon depends on configuration, ResonanceDB, GraphEngine, and VectorEngine.
@@ -388,24 +388,24 @@ MCP --> CFG
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L252-L513)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L118-L133)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [mcp/index.ts](src/mcp/index.ts#L252-L513)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L118-L133)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L252-L513)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L118-L133)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [mcp/index.ts](src/mcp/index.ts#L252-L513)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L118-L133)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
 
 ## Performance Considerations
 - Startup: 1–2s for model loading; subsequent operations are fast.
@@ -428,9 +428,9 @@ Operational tips:
 - Leverage JSON mode to enforce reliable output parsing.
 
 **Section sources**
-- [sonar-manual.md](file://playbooks/sonar-manual.md#L77-L94)
-- [2026-01-08-sonar-agent-refactor.md](file://debriefs/2026-01-08-sonar-agent-refactor.md#L19-L31)
-- [2026-01-08-sonar-modularization.md](file://debriefs/2026-01-08-sonar-modularization.md#L21-L32)
+- [sonar-manual.md](playbooks/sonar-manual.md#L77-L94)
+- [2026-01-08-sonar-agent-refactor.md](debriefs/2026-01-08-sonar-agent-refactor.md#L19-L31)
+- [2026-01-08-sonar-modularization.md](debriefs/2026-01-08-sonar-modularization.md#L21-L32)
 
 ## Conclusion
 The Sonar agent integrates tightly with Amalfa’s MCP framework to deliver a bicameral search pipeline enriched by semantic understanding and context extraction. Its modular design, robust fallbacks, and unified inference abstraction make it resilient and adaptable across local and cloud environments. By leveraging query intent detection, cross-encoder reranking, and LLM-based context extraction, Sonar significantly improves search quality and developer productivity.
@@ -446,8 +446,8 @@ The Sonar agent integrates tightly with Amalfa’s MCP framework to deliver a bi
 - Batch Enhancement: Run background tasks to enrich metadata and content.
 
 **Section sources**
-- [sonar-system-overview.md](file://playbooks/sonar-system-overview.md#L92-L120)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L319)
+- [sonar-system-overview.md](playbooks/sonar-system-overview.md#L92-L120)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L319)
 
 ### Configuration Reference
 - Master enable flag, port, model, and cloud settings.
@@ -455,5 +455,5 @@ The Sonar agent integrates tightly with Amalfa’s MCP framework to deliver a bi
 - Directory structure for tasks and runtime artifacts.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [sonar-system-overview.md](file://playbooks/sonar-system-overview.md#L122-L139)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [sonar-system-overview.md](playbooks/sonar-system-overview.md#L122-L139)

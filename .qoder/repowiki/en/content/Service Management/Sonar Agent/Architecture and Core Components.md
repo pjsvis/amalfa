@@ -2,22 +2,22 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [Logger.ts](file://src/utils/Logger.ts)
-- [Notifications.ts](file://src/utils/Notifications.ts)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [Logger.ts](src/utils/Logger.ts)
+- [Notifications.ts](src/utils/Notifications.ts)
+- [DaemonManager.ts](src/utils/DaemonManager.ts)
+- [db.ts](src/resonance/db.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts)
 </cite>
 
 ## Table of Contents
@@ -85,28 +85,28 @@ GG --> VE
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L66)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L66)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Core Components
 - Sonar Agent entry point: Initializes configuration, database, engines, HTTP server, and the task watcher loop.
@@ -122,19 +122,19 @@ GG --> VE
 - Lifecycle and infrastructure: PID file management, signals, logging, notifications, and Ollama discovery.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L40-L133)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L19-L685)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L10-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L187)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L270)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L66)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L83-L180)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L40-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L19-L685)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L10-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L187)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L270)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L66)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L83-L180)
 
 ## Architecture Overview
 The Sonar Agent composes ResonanceDB, GraphEngine, and VectorEngine to power semantic and structural graph operations. It exposes an HTTP API for interactive use and a task queue for asynchronous workloads. ServiceLifecycle manages process lifecycle and PID files. Logging and notifications provide operational insight.
@@ -156,18 +156,18 @@ Agent --> Ollama["Ollama Discovery<br/>ollama-discovery.ts"]
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L102-L133)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L120)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L270)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L66)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L161-L180)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L102-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L120)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L270)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L66)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L161-L180)
 
 ## Detailed Component Analysis
 
@@ -202,13 +202,13 @@ end
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
-- [defaults.ts](file://src/config/defaults.ts#L42-L59)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
+- [defaults.ts](src/config/defaults.ts#L42-L59)
 
 ### HTTP Server Initialization and Routes
 - Creates a Hono app with CORS middleware.
@@ -243,14 +243,14 @@ Hono-->>Client : JSON response
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L130)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L120)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L241)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L40-L130)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L120)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L241)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
 
 ### Global State Management
 - Database connection: ResonanceDB instance initialized with validated path and migrations applied.
@@ -295,14 +295,14 @@ VectorEngine <.. GraphGardener : "uses"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L270)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L270)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L40-L70)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L19-L24)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L40-L70)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L19-L24)
 
 ### Task Processing Pipeline
 - Pending tasks are polled from a filesystem queue and moved to processing.
@@ -324,12 +324,12 @@ Done --> Notify["Optional Desktop Notification"] --> Sleep
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
 
 ### Service Lifecycle Patterns and PID File Management
 - Background start: Spawns a detached subprocess, writes PID file, and truncates log file.
@@ -356,11 +356,11 @@ SL->>FS : cleanup PID file
 ```
 
 **Diagram sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L173)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L173)
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 ### Logging Infrastructure
 - Pino-based logger with ISO timestamps and component-scoped child loggers.
@@ -368,8 +368,8 @@ SL->>FS : cleanup PID file
 - Components log structured events with severity and contextual fields.
 
 **Section sources**
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L38-L38)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L38-L38)
 
 ### Integration with ResonanceDB, GraphEngine, and VectorEngine
 - ResonanceDB: Typed accessors, transactions, WAL-backed, migration via drizzle.
@@ -377,9 +377,9 @@ SL->>FS : cleanup PID file
 - VectorEngine: FAFCAS-compliant embedding generation and search using normalized vectors and dot products.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L241)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L241)
 
 ### Health Checking Mechanisms for Ollama Availability and Model Discovery
 - Health check: Executes a CLI command to list models; success indicates readiness.
@@ -399,14 +399,14 @@ Sel --> Inference["callOllama() with model"]
 ```
 
 **Diagram sources**
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L161-L180)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L81-L96)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L120)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L161-L180)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L81-L96)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L120)
 
 **Section sources**
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L83-L180)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L81-L96)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L120)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L83-L180)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L81-L96)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L120)
 
 ### Examples: Service Startup, Shutdown, and Error Handling
 - Startup:
@@ -420,10 +420,10 @@ Sel --> Inference["callOllama() with model"]
   - Notifications sent on task completion or ingestion updates.
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L167-L178)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L114-L119)
-- [Notifications.ts](file://src/utils/Notifications.ts#L8-L30)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L167-L178)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L114-L119)
+- [Notifications.ts](src/utils/Notifications.ts#L8-L30)
 
 ## Dependency Analysis
 The Sonar Agent composes several subsystems with clear boundaries:
@@ -452,22 +452,22 @@ GG --> VE
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L12-L34)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L20)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L10)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L9)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L7)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L9)
-- [db.ts](file://src/resonance/db.ts#L1-L9)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L14)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L5)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L7)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L12-L34)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L20)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L10)
+- [Logger.ts](src/utils/Logger.ts#L1-L9)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L7)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L9)
+- [db.ts](src/resonance/db.ts#L1-L9)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L14)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L5)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L7)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L12-L34)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L20)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L12-L34)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L20)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
 
 ## Performance Considerations
 - Graph loading: GraphEngine loads nodes and edges into memory; reloads occur periodically to reflect DB changes.
@@ -490,11 +490,11 @@ GG --> VE
   - Check logs in the configured log directory; adjust LOG_LEVEL as needed.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L81-L96)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L167-L178)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L113-L124)
-- [Logger.ts](file://src/utils/Logger.ts#L5-L13)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L161-L180)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L81-L96)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L167-L178)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L113-L124)
+- [Logger.ts](src/utils/Logger.ts#L5-L13)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L161-L180)
 
 ## Conclusion
 The Sonar Agent integrates ResonanceDB, GraphEngine, and VectorEngine to deliver a robust, modular system for knowledge graph operations. Its HTTP API and task queue enable both interactive and automated workflows. ServiceLifecycle, logging, and notifications provide reliable operation and observability. Health checks and inference strategies ensure adaptability across local and cloud environments.

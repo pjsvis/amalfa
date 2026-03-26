@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/mcp/README.md](file://src/mcp/README.md)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md)
-- [docs/setup/MCP_SETUP.md](file://docs/setup/MCP_SETUP.md)
-- [docs/setup/QUICK_START_MCP.md](file://docs/setup/QUICK_START_MCP.md)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/tools/index.ts](file://src/tools/index.ts)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/mcp/README.md](src/mcp/README.md)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md)
+- [docs/setup/MCP_SETUP.md](docs/setup/MCP_SETUP.md)
+- [docs/setup/QUICK_START_MCP.md](docs/setup/QUICK_START_MCP.md)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/tools/index.ts](src/tools/index.ts)
 </cite>
 
 ## Table of Contents
@@ -56,17 +56,17 @@ SAGENT --> SSERV
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
 
 **Section sources**
-- [src/mcp/README.md](file://src/mcp/README.md#L1-L15)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
+- [src/mcp/README.md](src/mcp/README.md#L1-L15)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
 
 ## Core Components
 - MCP stdio server: Implements the MCP protocol, registers tools, handles requests, and manages per-request database connections.
@@ -86,12 +86,12 @@ Key MCP tools exposed:
 - scratchpad_list
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
 
 ## Architecture Overview
 The MCP server uses stdio transport and supports dynamic tool registration. Requests are routed to either built-in handlers or dynamic tools registered in the tool registry. Optional Sonar enhancements are invoked when the Sonar daemon is available.
@@ -127,12 +127,12 @@ Server-->>Client : results + metadata
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L118-L268)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L118-L268)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
 
 ## Detailed Component Analysis
 
@@ -153,10 +153,10 @@ ConnectTransport --> Ready(["Ready"])
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L62-L141)
+- [src/mcp/index.ts](src/mcp/index.ts#L62-L141)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L28-L141)
+- [src/mcp/index.ts](src/mcp/index.ts#L28-L141)
 
 ### Tool Registration and Dynamic Tools
 - Built-in tools are declared in ListTools handler with input schemas.
@@ -187,13 +187,13 @@ DynamicToolRegistry <|-- ToolRegistryImpl
 ```
 
 **Diagram sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
+- [src/mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
 
 ### Tool Handlers Overview
 - search_documents: Executes vector and grep search, merges candidates, reranks with cross-encoder, optionally re-ranks with Sonar LLM, and extracts context for top results.
@@ -218,11 +218,11 @@ H --> I["Wrap with Scratchpad"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L688)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L80-L444)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L688)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L80-L444)
 
 ### Sonar AI Agent Enhancements
 - Availability: SonarClient caches health checks to avoid repeated overhead.
@@ -251,14 +251,14 @@ SServer-->>SClient : {snippet, context, confidence}
 ```
 
 **Diagram sources**
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L72-L268)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L130)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L102-L133)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L72-L268)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L40-L130)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L102-L133)
 
 **Section sources**
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
 
 ### Scratchpad Protocol
 - Purpose: Cache large tool outputs and return compact references.
@@ -278,11 +278,11 @@ Ref --> ReturnRef["Return reference"]
 ```
 
 **Diagram sources**
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 **Section sources**
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L76-L92)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [src/mcp/index.ts](src/mcp/index.ts#L76-L92)
 
 ### Tool Parameter Validation and Response Formatting
 - Built-in tools define input schemas in ListTools handler; parameters are validated implicitly by the MCP SDK.
@@ -298,9 +298,9 @@ Examples of validation and formatting:
 - scratchpad_read/list return structured JSON content.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L688)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L80-L444)
+- [src/mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L688)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L80-L444)
 
 ### Practical Agent Workflows
 Common workflows supported by the MCP tools:
@@ -311,7 +311,7 @@ Common workflows supported by the MCP tools:
 These workflows are documented with recommended prompts and patterns in the MCP tools reference.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L558-L606)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L558-L606)
 
 ## Dependency Analysis
 - MCP server depends on:
@@ -340,14 +340,14 @@ SA --> SS["@src/daemon/sonar-server"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L27)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L70)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L35)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L20)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L27)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L70)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L35)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts#L1-L20)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L27)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L70)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L27)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L70)
 
 ## Performance Considerations
 - Two-stage retrieval: Vector search plus cross-encoder reranking for precision balance.
@@ -361,9 +361,9 @@ SA --> SS["@src/daemon/sonar-server"]
   - Monitor cache usage with scratchpad_list.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L14-L69)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L315-L476)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L14-L69)
+- [src/mcp/index.ts](src/mcp/index.ts#L315-L476)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -381,8 +381,8 @@ Common issues and resolutions:
   - Run diagnostics to rebuild or reinitialize the database.
 
 **Section sources**
-- [docs/setup/MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L206-L257)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L661-L698)
+- [docs/setup/MCP_SETUP.md](docs/setup/MCP_SETUP.md#L206-L257)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L661-L698)
 
 ## Conclusion
 Amalfa’s MCP integration provides a robust, stdio-based transport for AI agents to search, traverse, and enhance knowledge graph content. The combination of vector and keyword search, cross-encoder reranking, and optional Sonar LLM enhancements yields precise and contextual results. The scratchpad protocol enables efficient handling of large outputs, while the dynamic tool registry supports extensibility. With clear workflows, validation, and troubleshooting guidance, Amalfa offers a production-ready foundation for agent-driven research and discovery.
@@ -394,8 +394,8 @@ Amalfa’s MCP integration provides a robust, stdio-based transport for AI agent
 - Quick start steps to generate configuration and test the server.
 
 **Section sources**
-- [docs/setup/MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [docs/setup/QUICK_START_MCP.md](file://docs/setup/QUICK_START_MCP.md#L1-L169)
+- [docs/setup/MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [docs/setup/QUICK_START_MCP.md](docs/setup/QUICK_START_MCP.md#L1-L169)
 
 ### Security and Authentication
 - Transport: stdio-based transport with no built-in authentication.
@@ -406,5 +406,5 @@ Amalfa’s MCP integration provides a robust, stdio-based transport for AI agent
   - Monitor logs and consider process isolation.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L720-L722)
-- [src/mcp/README.md](file://src/mcp/README.md#L8-L14)
+- [src/mcp/index.ts](src/mcp/index.ts#L720-L722)
+- [src/mcp/README.md](src/mcp/README.md#L8-L14)

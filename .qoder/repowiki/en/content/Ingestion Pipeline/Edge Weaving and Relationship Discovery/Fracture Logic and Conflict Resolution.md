@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [FractureLogic.ts](file://src/core/FractureLogic.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [validate.ts](file://public/cli/commands/validate.ts)
-- [verify_graph_integrity.ts](file://scripts/verify/verify_graph_integrity.ts)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts)
-- [strategies.test.ts](file://tests/strategies.test.ts)
+- [FractureLogic.ts](src/core/FractureLogic.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [schema.ts](src/config/schema.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [validate.ts](public/cli/commands/validate.ts)
+- [verify_graph_integrity.ts](scripts/verify/verify_graph_integrity.ts)
+- [louvain_config.test.ts](tests/louvain_config.test.ts)
+- [strategies.test.ts](tests/strategies.test.ts)
 </cite>
 
 ## Table of Contents
@@ -68,22 +68,22 @@ DEF --> SCH
 ```
 
 **Diagram sources**
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L1-L23)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/config/schema.ts#L119-L133)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L1-L23)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/config/schema.ts#L119-L133)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 **Section sources**
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L1-L23)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/config/schema.ts#L119-L133)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L1-L23)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/config/schema.ts#L119-L133)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 ## Core Components
 - Fracture Logic: Defines regex-based segmentation rules for splitting text into coherent chunks. These rules help prevent fragmented graph nodes by ensuring sentence boundaries and structural cues are respected during content ingestion.
@@ -94,12 +94,12 @@ DEF --> SCH
 - Configuration: Central schema defines Louvain tuning parameters (including super node threshold) and defaults.
 
 **Section sources**
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L6-L22)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L129-L171)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
-- [schema.ts](file://src/config/schema.ts#L119-L133)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L6-L22)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L129-L171)
+- [db.ts](src/resonance/db.ts#L140-L159)
+- [schema.ts](src/config/schema.ts#L119-L133)
 
 ## Architecture Overview
 The edge creation pipeline integrates Fracture Logic and LouvainGate to maintain structural coherence:
@@ -123,10 +123,10 @@ end
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L140-L159)
 
 ## Detailed Component Analysis
 
@@ -140,7 +140,7 @@ Fracture Logic provides regex-based segmentation rules to maintain textual coher
 These primitives reduce the risk of creating fragmented nodes and edges by keeping semantically cohesive units together.
 
 **Section sources**
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L6-L22)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L6-L22)
 
 ### Conflict Detection and Resolution: LouvainGate
 LouvainGate enforces a modularity-preserving constraint:
@@ -161,10 +161,10 @@ Reject --> End
 ```
 
 **Diagram sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
 
 ### Edge Creation Workflow and Statistics
 EdgeWeaver orchestrates edge creation from content:
@@ -188,13 +188,13 @@ end
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L140-L159)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
 
 ### Relationship Between Louvain Clustering and Graph Stability
 GraphEngine detects communities using Louvain and exposes metrics that inform stability:
@@ -227,15 +227,15 @@ class GraphEngine {
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L129-L171)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L174-L238)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L244-L255)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L260-L269)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L274-L281)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L293-L312)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L129-L171)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L174-L238)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L244-L255)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L260-L269)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L274-L281)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L293-L312)
 
 ### Configuration Options for Conflict Tolerance
 The configuration schema defines tunable parameters:
@@ -255,14 +255,14 @@ Experience --> GE
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L119-L133)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L7-L21)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L129-L133)
+- [schema.ts](src/config/schema.ts#L119-L133)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L7-L21)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L129-L133)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L119-L133)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L7-L21)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L129-L133)
+- [schema.ts](src/config/schema.ts#L119-L133)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L7-L21)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L129-L133)
 
 ## Dependency Analysis
 Key dependencies and interactions:
@@ -283,20 +283,20 @@ DEF["defaults.ts"] --> SCH
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [schema.ts](file://src/config/schema.ts#L119-L133)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [schema.ts](src/config/schema.ts#L119-L133)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/config/schema.ts#L119-L133)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/config/schema.ts#L119-L133)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 ## Performance Considerations
 - In-memory graph analysis: GraphEngine loads nodes and edges into memory for fast traversal and metrics computation, minimizing database overhead during analysis.
@@ -318,8 +318,8 @@ Diagnostic utilities:
 - Integrity verification script: Confirms super-node containment and warns on anomalies.
 
 **Section sources**
-- [validate.ts](file://public/cli/commands/validate.ts#L42-L87)
-- [verify_graph_integrity.ts](file://scripts/verify/verify_graph_integrity.ts#L80-L101)
+- [validate.ts](public/cli/commands/validate.ts#L42-L87)
+- [verify_graph_integrity.ts](scripts/verify/verify_graph_integrity.ts#L80-L101)
 
 ## Conclusion
 Amalfa’s Fracture Logic and LouvainGate work together to prevent graph fragmentation and maintain structural coherence during edge creation. Fracture Logic ensures textual coherence, while LouvainGate enforces modularity-preserving constraints. EdgeWeaver coordinates validation and persistence, and GraphEngine provides stability metrics. Configuration parameters allow tuning conflict tolerance to suit diverse knowledge graph structures.

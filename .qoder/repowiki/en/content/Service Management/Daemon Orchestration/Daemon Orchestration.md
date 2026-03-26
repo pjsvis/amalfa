@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [index.ts (daemon)](file://src/daemon/index.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [services.ts (CLI)](file://src/cli/commands/services.ts)
-- [cli.ts](file://src/cli.ts)
-- [Logger.ts](file://src/utils/Logger.ts)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts)
+- [DaemonManager.ts](src/utils/DaemonManager.ts)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [index.ts (daemon)](src/daemon/index.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [schema.ts](src/config/schema.ts)
+- [services.ts (CLI)](src/cli/commands/services.ts)
+- [cli.ts](src/cli.ts)
+- [Logger.ts](src/utils/Logger.ts)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts)
 </cite>
 
 ## Table of Contents
@@ -75,28 +75,28 @@ CFG --> SA
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L18-L26)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L16-L24)
-- [index.ts (daemon)](file://src/daemon/index.ts#L25-L35)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L49-L55)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L15-L16)
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L9-L344)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L200)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L18-L26)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L16-L24)
+- [index.ts (daemon)](src/daemon/index.ts#L25-L35)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L49-L55)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L15-L16)
+- [services.ts (CLI)](src/cli/commands/services.ts#L9-L344)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
+- [schema.ts](src/config/schema.ts#L146-L200)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L18-L26)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L16-L24)
-- [index.ts (daemon)](file://src/daemon/index.ts#L25-L35)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L49-L55)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L15-L16)
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L9-L344)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L200)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L18-L26)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L16-L24)
+- [index.ts (daemon)](src/daemon/index.ts#L25-L35)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L49-L55)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L15-L16)
+- [services.ts (CLI)](src/cli/commands/services.ts#L9-L344)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
+- [schema.ts](src/config/schema.ts#L146-L200)
 
 ## Core Components
 - DaemonManager: Central coordinator for four daemons. Provides per-daemon status checks, start/stop, and bulk operations. Uses ServiceLifecycle instances internally.
@@ -111,10 +111,10 @@ Key responsibilities:
 - Status reporting: Running vs. stopped, PID, port, and model info where applicable.
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L260)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L9-L344)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L260)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [services.ts (CLI)](src/cli/commands/services.ts#L9-L344)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ## Architecture Overview
 The system follows a “service-per-process” model with lifecycle orchestration:
@@ -140,14 +140,14 @@ CLI-->>User : "Success"
 ```
 
 **Diagram sources**
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L69-L129)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L103-L107)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L67)
+- [services.ts (CLI)](src/cli/commands/services.ts#L69-L129)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L103-L107)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L67)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L103-L107)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L67)
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L69-L129)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L103-L107)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L67)
+- [services.ts (CLI)](src/cli/commands/services.ts#L69-L129)
 
 ## Detailed Component Analysis
 
@@ -169,7 +169,7 @@ Bulk operations:
 - Parallel status checks and stop operations for efficiency.
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L260)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L260)
 
 ### ServiceLifecycle
 Lifecycle primitives:
@@ -186,7 +186,7 @@ Environment:
 - Inherits process.env to propagate .env variables to spawned daemons.
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
 
 ### Vector Daemon (Port 3010)
 Features:
@@ -200,8 +200,8 @@ Ports and PID:
 - PID/log files under .amalfa/runtime and .amalfa/logs.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L18-L26)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L18-L26)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
 
 ### Reranker Daemon (Port 3011)
 Features:
@@ -213,8 +213,8 @@ Ports and PID:
 - Port configurable via RERANKER_PORT env var; default 3011.
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L16-L24)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L16-L24)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
 
 ### File Watcher Daemon
 Purpose:
@@ -230,9 +230,9 @@ PID/Logs:
 - PID/log files under .amalfa/runtime and .amalfa/logs.
 
 **Section sources**
-- [index.ts (daemon)](file://src/daemon/index.ts#L52-L95)
-- [index.ts (daemon)](file://src/daemon/index.ts#L132-L289)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [index.ts (daemon)](src/daemon/index.ts#L52-L95)
+- [index.ts (daemon)](src/daemon/index.ts#L132-L289)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ### Sonar Agent (Port 3012)
 Purpose:
@@ -248,9 +248,9 @@ PID/Logs:
 - PID/log files under .amalfa/runtime and .amalfa/logs.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L220)
-- [schema.ts](file://src/config/schema.ts#L54-L88)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L220)
+- [schema.ts](src/config/schema.ts#L54-L88)
 
 ### Dashboard Daemon (Port 3013)
 Purpose:
@@ -262,7 +262,7 @@ Features:
 - CLI proxy to execute commands via dashboard.
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L489)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L489)
 
 ### CLI Orchestration
 Commands:
@@ -274,8 +274,8 @@ Commands:
 Each command constructs a DaemonManager and invokes the appropriate method.
 
 **Section sources**
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L9-L344)
-- [cli.ts](file://src/cli.ts#L182-L234)
+- [services.ts (CLI)](src/cli/commands/services.ts#L9-L344)
+- [cli.ts](src/cli.ts#L182-L234)
 
 ## Architecture Overview
 
@@ -332,12 +332,12 @@ DaemonManager --> SonarAgent : "manages"
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L260)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
-- [index.ts (daemon)](file://src/daemon/index.ts#L52-L289)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L220)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L260)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
+- [index.ts (daemon)](src/daemon/index.ts#L52-L289)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L220)
 
 ## Detailed Component Analysis
 
@@ -366,10 +366,10 @@ Force --> |No| Clean
 ```
 
 **Diagram sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
 
 ### Daemon Status Checking and Health Monitoring
 - Vector/Reranker: status includes running, pid, port; health endpoints return readiness and model info.
@@ -380,10 +380,10 @@ Automatic recovery:
 - File Watcher implements retry queue with bounded attempts and backoff for transient failures.
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L212)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L50-L62)
-- [index.ts (daemon)](file://src/daemon/index.ts#L232-L278)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L84-L212)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L50-L62)
+- [index.ts (daemon)](src/daemon/index.ts#L232-L278)
 
 ### Startup Ordering and Interdependencies
 - CLI commands provide ordered control: watcher, vector, reranker, sonar.
@@ -395,8 +395,8 @@ Practical example:
 - Start File Watcher first to populate the graph, then start Vector/Reranker for search and reranking, then Sonar Agent for advanced tasks.
 
 **Section sources**
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L9-L344)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L81-L96)
+- [services.ts (CLI)](src/cli/commands/services.ts#L9-L344)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L81-L96)
 
 ### Inter-Service Communication Patterns
 - Vector Daemon: /embed and /rerank endpoints for embedding and reranking.
@@ -404,10 +404,10 @@ Practical example:
 - Dashboard Daemon: Proxies CLI commands and serves live stats via SSE.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L162-L223)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L64-L131)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L123-L133)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L278-L313)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L162-L223)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L64-L131)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L123-L133)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L278-L313)
 
 ### Configuration Options
 - Sources and database path.
@@ -420,9 +420,9 @@ Practical example:
 Defaults are enforced by schema; runtime values override defaults.
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L146-L200)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json#L1-L56)
-- [defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [schema.ts](src/config/schema.ts#L146-L200)
+- [amalfa.settings.example.json](amalfa.settings.example.json#L1-L56)
+- [defaults.ts](src/config/defaults.ts#L84-L143)
 
 ### Logging Strategies
 - Structured logging via Pino; component-scoped loggers.
@@ -430,9 +430,9 @@ Defaults are enforced by schema; runtime values override defaults.
 - DaemonManager and ServiceLifecycle write logs to files; CLI prints human-readable status.
 
 **Section sources**
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L44-L45)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts#L82-L88)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L44-L45)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts#L82-L88)
 
 ## Dependency Analysis
 ```mermaid
@@ -453,22 +453,22 @@ SA --> DB
 ```
 
 **Diagram sources**
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L9-L344)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L18-L26)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L16-L24)
-- [index.ts (daemon)](file://src/daemon/index.ts#L14-L22)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L42-L54)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L200)
+- [services.ts (CLI)](src/cli/commands/services.ts#L9-L344)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L18-L26)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L16-L24)
+- [index.ts (daemon)](src/daemon/index.ts#L14-L22)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L42-L54)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
+- [schema.ts](src/config/schema.ts#L146-L200)
 
 **Section sources**
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L9-L344)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L200)
+- [services.ts (CLI)](src/cli/commands/services.ts#L9-L344)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
+- [schema.ts](src/config/schema.ts#L146-L200)
 
 ## Performance Considerations
 - Detached processes reduce overhead and improve responsiveness.
@@ -491,9 +491,9 @@ Diagnostic steps:
 - For Sonar Agent, query /health endpoint for model readiness.
 
 **Section sources**
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L32-L42)
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L81-L129)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts#L82-L92)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L32-L42)
+- [services.ts (CLI)](src/cli/commands/services.ts#L81-L129)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts#L82-L92)
 
 ## Conclusion
 Amalfa’s daemon orchestration system provides a robust, lifecycle-driven foundation for managing background services. ServiceLifecycle offers consistent PID/log handling and graceful shutdown; DaemonManager unifies control across daemons; CLI commands deliver user-friendly operations. The four core daemons—Vector, Reranker, File Watcher, and Sonar Agent—each expose health endpoints and integrate with configuration and logging systems. With structured logging, status checks, and automatic recovery, the system supports reliable operation in development and production environments.
@@ -524,10 +524,10 @@ Amalfa’s daemon orchestration system provides a robust, lifecycle-driven found
   - Logs under .amalfa/logs; component-scoped loggers via Logger.ts
 
 **Section sources**
-- [services.ts (CLI)](file://src/cli/commands/services.ts#L69-L286)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L123-L133)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L140-L276)
-- [schema.ts](file://src/config/schema.ts#L146-L200)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
+- [services.ts (CLI)](src/cli/commands/services.ts#L69-L286)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L123-L133)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L140-L276)
+- [schema.ts](src/config/schema.ts#L146-L200)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)

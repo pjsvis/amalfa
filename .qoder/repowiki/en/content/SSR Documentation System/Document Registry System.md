@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts)
-- [doc-registry.test.ts](file://website/ssr-docs/lib/doc-registry.test.ts)
-- [paths.test.ts](file://website/ssr-docs/lib/paths.test.ts)
-- [playbooks-playbook.md](file://playbooks/playbooks-playbook.md)
-- [debriefs-playbook.md](file://playbooks/debriefs-playbook.md)
-- [2026-01-06-readme.md](file://debriefs/2026-01-06-readme.md)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [artifact.ts](file://src/types/artifact.ts)
-- [enriched-cda.ts](file://src/resonance/types/enriched-cda.ts)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts)
+- [paths.ts](website/ssr-docs/lib/paths.ts)
+- [doc-registry.test.ts](website/ssr-docs/lib/doc-registry.test.ts)
+- [paths.test.ts](website/ssr-docs/lib/paths.test.ts)
+- [playbooks-playbook.md](playbooks/playbooks-playbook.md)
+- [debriefs-playbook.md](playbooks/debriefs-playbook.md)
+- [2026-01-06-readme.md](debriefs/2026-01-06-readme.md)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [artifact.ts](src/types/artifact.ts)
+- [enriched-cda.ts](src/resonance/types/enriched-cda.ts)
 </cite>
 
 ## Table of Contents
@@ -65,14 +65,14 @@ PS --> DR
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L44-L78)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L11-L38)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L183-L226)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L44-L78)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L11-L38)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L183-L226)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
 
 ## Core Components
 - Document registry loader and scanner: Discovers markdown files, parses frontmatter, and builds a categorized index.
@@ -83,12 +83,12 @@ PS --> DR
 - Markdown parser integration: Provides SSR rendering helpers and reference processing for wiki-links.
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L80-L121)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L100-L106)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L38)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L183-L226)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L80-L121)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L100-L106)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L13-L38)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L183-L226)
 
 ## Architecture Overview
 The registry orchestrates discovery, parsing, classification, and persistence. It reads configuration, scans folders, builds an in-memory registry, persists it, and exposes categorized collections for downstream consumers.
@@ -121,9 +121,9 @@ end
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L108-L121)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L80-L98)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L108-L121)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L80-L98)
 
 ## Detailed Component Analysis
 
@@ -139,11 +139,11 @@ Key behaviors:
 - Gray-matter parsing supports YAML frontmatter extraction.
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L62-L78)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L135)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L137-L182)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L108-L121)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L80-L98)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L62-L78)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L135)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L137-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L108-L121)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L80-L98)
 
 ### Metadata Extraction and Classification
 - Metadata extraction: Reads YAML frontmatter and maps fields (title, date, type, tags) into a normalized DocMetadata structure.
@@ -170,13 +170,13 @@ Next --> End(["Done"])
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L100-L106)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L158-L168)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L100-L106)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L158-L168)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L80-L98)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L100-L106)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L158-L168)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L80-L98)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L100-L106)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L158-L168)
 
 ### Path Resolution Logic
 - Uses project markers (package.json, amalfa.settings.json) to locate the repository root.
@@ -184,7 +184,7 @@ Next --> End(["Done"])
 - Provides a utility to resolve arbitrary segments relative to the project root.
 
 **Section sources**
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L38)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L13-L38)
 
 ### Caching Strategies and Refresh Mechanisms
 - Persistent cache: A versioned JSON file stores the built registry to avoid repeated scans.
@@ -204,13 +204,13 @@ Persisted --> Cached : "saveRegistry()"
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L123-L135)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L184-L190)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L123-L135)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L184-L190)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L62-L78)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L123-L135)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L184-L190)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L62-L78)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L123-L135)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L184-L190)
 
 ### Integration with Markdown Parsing System
 - SSR rendering: Provides helpers to parse markdown with TOC generation and wiki-link processing.
@@ -218,9 +218,9 @@ Persisted --> Cached : "saveRegistry()"
 - Directory scanning: Utility to enumerate documents from a given path, supporting SSR rendering pipelines.
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L57-L118)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L120-L150)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L183-L226)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L57-L118)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L120-L150)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L183-L226)
 
 ### Relationship with Knowledge Graph for Content Enrichment
 - Ingestion pipeline: Processes markdown files, extracts semantic tokens, generates embeddings, and inserts nodes into the knowledge graph.
@@ -248,14 +248,14 @@ AmalfaIngestor --> HarvesterCache : "stores extraction results"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L409)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L166)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L409)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L166)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L356-L409)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L166)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L356-L409)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L166)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 ### Extending the Registry for Additional Content Sources
 - Add new folders: Configure additional document roots via settings; the registry scans all configured folders.
@@ -268,16 +268,16 @@ Operational guidance:
 - Integrate alternative parsers by wrapping content loading and metadata extraction.
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L137-L148)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L100-L106)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L108-L121)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L137-L148)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L100-L106)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L108-L121)
 
 ### Customizing Categorization Rules
 - Current logic: Filename-based heuristics determine category membership.
 - Customization: Override categorize() to incorporate domain-specific rules, tags, or frontmatter fields.
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L100-L106)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L100-L106)
 
 ### Adding New Document Types
 - Define a new category: Extend categorize() and ensure downstream consumers handle the new key.
@@ -285,7 +285,7 @@ Operational guidance:
 - Example types: Reports, specs, guidelines, or artifacts (see artifact type).
 
 **Section sources**
-- [artifact.ts](file://src/types/artifact.ts#L1-L12)
+- [artifact.ts](src/types/artifact.ts#L1-L12)
 
 ## Dependency Analysis
 The registry depends on:
@@ -307,14 +307,14 @@ PS["paths.ts"] --> FS
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L8-L10)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L7-L9)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L8-L9)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L8-L10)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L7-L9)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L8-L9)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L8-L10)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L7-L9)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L8-L9)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L8-L10)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L7-L9)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L8-L9)
 
 ## Performance Considerations
 - Prefer scanning only necessary folders to reduce IO overhead.
@@ -333,8 +333,8 @@ Validation utilities:
 - Use unit tests to assert registry shape and presence of persisted cache.
 
 **Section sources**
-- [doc-registry.test.ts](file://website/ssr-docs/lib/doc-registry.test.ts#L9-L34)
-- [paths.test.ts](file://website/ssr-docs/lib/paths.test.ts#L8-L35)
+- [doc-registry.test.ts](website/ssr-docs/lib/doc-registry.test.ts#L9-L34)
+- [paths.test.ts](website/ssr-docs/lib/paths.test.ts#L8-L35)
 
 ## Conclusion
 Amalfa’s document registry system provides a robust, configurable, and efficient way to discover, parse, categorize, and serve documentation content. By leveraging frontmatter parsing, heuristic classification, persistent caching, and SSR-ready markdown utilities, it integrates seamlessly with the knowledge graph ingestion and enrichment pipeline. Extensibility is achieved through configuration, categorization customization, and optional format support.
@@ -348,13 +348,13 @@ Amalfa’s document registry system provides a robust, configurable, and efficie
 - Briefs: Documents with “brief” in filename; see briefs directory overview.
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L100-L106)
-- [playbooks-playbook.md](file://playbooks/playbooks-playbook.md#L57-L70)
-- [debriefs-playbook.md](file://playbooks/debriefs-playbook.md#L28-L42)
-- [2026-01-06-readme.md](file://debriefs/2026-01-06-readme.md#L1-L32)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L100-L106)
+- [playbooks-playbook.md](playbooks/playbooks-playbook.md#L57-L70)
+- [debriefs-playbook.md](playbooks/debriefs-playbook.md#L28-L42)
+- [2026-01-06-readme.md](debriefs/2026-01-06-readme.md#L1-L32)
 
 ### Appendix B: Knowledge Graph Enrichment Types
 - Enriched CDA and lexicon concepts define structured forms for enriched content, enabling downstream enrichment and linking.
 
 **Section sources**
-- [enriched-cda.ts](file://src/resonance/types/enriched-cda.ts#L62-L112)
+- [enriched-cda.ts](src/resonance/types/enriched-cda.ts#L62-L112)

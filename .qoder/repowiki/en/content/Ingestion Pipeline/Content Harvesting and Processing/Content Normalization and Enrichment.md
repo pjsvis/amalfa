@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts)
-- [TagInjector.ts](file://src/utils/TagInjector.ts)
-- [validator.ts](file://src/utils/validator.ts)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [bento_normalizer.test.ts](file://tests/bento_normalizer.test.ts)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md)
-- [safety_test.md](file://tests/fixtures/safety_test.md)
-- [remeda-jsonl-streamer.md](file://playbooks/remeda-jsonl-streamer.md)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts)
+- [TagInjector.ts](src/utils/TagInjector.ts)
+- [validator.ts](src/utils/validator.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [bento_normalizer.test.ts](tests/bento_normalizer.test.ts)
+- [tagged_test.md](tests/fixtures/tagged_test.md)
+- [safety_test.md](tests/fixtures/safety_test.md)
+- [remeda-jsonl-streamer.md](playbooks/remeda-jsonl-streamer.md)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md)
 </cite>
 
 ## Table of Contents
@@ -64,20 +64,20 @@ AI --> VAL
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L3-L49)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L114)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [validator.ts](file://src/utils/validator.ts#L32-L265)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L3-L49)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L114)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L85)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [validator.ts](src/utils/validator.ts#L32-L265)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L3-L49)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L114)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [validator.ts](file://src/utils/validator.ts#L32-L265)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L3-L49)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L114)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L85)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [validator.ts](src/utils/validator.ts#L32-L265)
 
 ## Core Components
 - MarkdownMasker: Masks fenced code blocks, inline code, and basic GFM tables to preserve atomicity during downstream processing. Uses a token stash to restore content deterministically.
@@ -89,10 +89,10 @@ AI --> VAL
 - PipelineValidator: Validates database state against baselines and expectations, reporting errors/warnings for orphaned edges, duplicates, and vector coverage.
 
 **Section sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L3-L49)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L6-L114)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85)
-- [validator.ts](file://src/utils/validator.ts#L32-L265)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L3-L49)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L6-L114)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L85)
+- [validator.ts](src/utils/validator.ts#L32-L265)
 
 ## Architecture Overview
 The ingestion pipeline integrates normalization and enrichment:
@@ -116,11 +116,11 @@ AI->>DB : "Commit transactions"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L186-L253)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L28)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L106)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L186-L253)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L28)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L106)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L85)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
 
 ## Detailed Component Analysis
 
@@ -146,10 +146,10 @@ class MarkdownMasker {
 ```
 
 **Diagram sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L3-L49)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L3-L49)
 
 **Section sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L3-L49)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L3-L49)
 
 ### BentoNormalizer
 Purpose:
@@ -169,11 +169,11 @@ DeepNest --> End(["normalized"])
 ```
 
 **Diagram sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L114)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L114)
 
 **Section sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L6-L114)
-- [bento_normalizer.test.ts](file://tests/bento_normalizer.test.ts#L4-L40)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L6-L114)
+- [bento_normalizer.test.ts](tests/bento_normalizer.test.ts#L4-L40)
 
 ### TagInjector
 Purpose:
@@ -203,10 +203,10 @@ Write --> Done["Return true"]
 ```
 
 **Diagram sources**
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L85)
 
 **Section sources**
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L85)
 
 ### EdgeWeaver (Graph Enrichment)
 Purpose:
@@ -238,10 +238,10 @@ EW->>DB : "insertEdge(source, target, LINKS_TO)"
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L166)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L166)
 
 ### PipelineValidator (Quality Assurance)
 Purpose:
@@ -272,10 +272,10 @@ Report --> End(["ValidationReport"])
 ```
 
 **Diagram sources**
-- [validator.ts](file://src/utils/validator.ts#L91-L203)
+- [validator.ts](src/utils/validator.ts#L91-L203)
 
 **Section sources**
-- [validator.ts](file://src/utils/validator.ts#L32-L265)
+- [validator.ts](src/utils/validator.ts#L32-L265)
 
 ## Dependency Analysis
 - AmalfaIngestor orchestrates normalization and enrichment, invoking MarkdownMasker, BentoNormalizer, TagInjector, and EdgeWeaver.
@@ -293,12 +293,12 @@ AI --> VAL["PipelineValidator"]
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L441)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L441)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
 
 ## Performance Considerations
 - Batch processing and transaction hygiene:
@@ -316,10 +316,10 @@ Practical tips:
 - Reset masker stashes per file and close database connections promptly.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L186-L253)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L43-L48)
-- [remeda-jsonl-streamer.md](file://playbooks/remeda-jsonl-streamer.md#L15-L63)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L75-L138)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L186-L253)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L43-L48)
+- [remeda-jsonl-streamer.md](playbooks/remeda-jsonl-streamer.md#L15-L63)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L75-L138)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -335,9 +335,9 @@ Common issues and resolutions:
   - Confirm unmask is called after transformations and stash is intact; reset stash after processing.
 
 **Section sources**
-- [validator.ts](file://src/utils/validator.ts#L159-L189)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L16-L19)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L33-L41)
+- [validator.ts](src/utils/validator.ts#L159-L189)
+- [TagInjector.ts](src/utils/TagInjector.ts#L16-L19)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L33-L41)
 
 ## Conclusion
 Amalfa’s normalization and enrichment pipeline combines robust sanitization, structural normalization, semantic tagging, and strict graph enrichment with comprehensive validation. The design emphasizes safety (transaction hygiene, duplicate and orphan checks), scalability (small batches, streaming), and clarity (explicit tag syntax, deterministic masking). Together, these components produce high-quality, graph-ready content with strong quality assurance.
@@ -348,22 +348,22 @@ Amalfa’s normalization and enrichment pipeline combines robust sanitization, s
 
 - MarkdownMasker + BentoNormalizer + TagInjector + EdgeWeaver
   - Read markdown, mask No-Fly Zones, normalize headings, inject tags, append WikiLinks, then weave edges and persist nodes/edges.
-  - See [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L186-L253), [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L41), [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L114), [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85), [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L166).
+  - See [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L186-L253), [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L41), [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L114), [TagInjector.ts](src/utils/TagInjector.ts#L11-L85), [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L166).
 
 - Validation workflow
   - Capture baseline, process content, then validate against expectations and report discrepancies.
-  - See [validator.ts](file://src/utils/validator.ts#L41-L203).
+  - See [validator.ts](src/utils/validator.ts#L41-L203).
 
 - Edge-case handling
   - Markdown fixtures demonstrate masked code blocks and tag blocks for testing.
-  - See [tagged_test.md](file://tests/fixtures/tagged_test.md#L1-L49), [safety_test.md](file://tests/fixtures/safety_test.md#L1-L46).
+  - See [tagged_test.md](tests/fixtures/tagged_test.md#L1-L49), [safety_test.md](tests/fixtures/safety_test.md#L1-L46).
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L186-L253)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L41)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L100-L114)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L85)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L166)
-- [validator.ts](file://src/utils/validator.ts#L41-L203)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md#L1-L49)
-- [safety_test.md](file://tests/fixtures/safety_test.md#L1-L46)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L186-L253)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L41)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L100-L114)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L85)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L166)
+- [validator.ts](src/utils/validator.ts#L41-L203)
+- [tagged_test.md](tests/fixtures/tagged_test.md#L1-L49)
+- [safety_test.md](tests/fixtures/safety_test.md#L1-L46)

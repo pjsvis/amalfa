@@ -2,20 +2,20 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [src/daemon/index.ts](file://src/daemon/index.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/tools/index.ts](file://src/tools/index.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/components/archive/cloud-events-01.md](file://src/components/archive/cloud-events-01.md)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts)
-- [WARP.md](file://WARP.md)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [src/daemon/index.ts](src/daemon/index.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/tools/index.ts](src/tools/index.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/components/archive/cloud-events-01.md](src/components/archive/cloud-events-01.md)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts)
+- [WARP.md](WARP.md)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md)
 </cite>
 
 ## Table of Contents
@@ -79,19 +79,19 @@ CloudEvents --> MCP
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L1-L488)
-- [src/components/archive/cloud-events-01.md](file://src/components/archive/cloud-events-01.md#L1-L97)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [src/resonance/db.ts](src/resonance/db.ts#L1-L488)
+- [src/components/archive/cloud-events-01.md](src/components/archive/cloud-events-01.md#L1-L97)
 
 **Section sources**
-- [WARP.md](file://WARP.md#L218-L252)
+- [WARP.md](WARP.md#L218-L252)
 
 ## Core Components
 - MCP Server: Implements Model Context Protocol (MCP) stdio transport, registers tools dynamically, orchestrates search, read, explore, and other knowledge graph operations, and coordinates background daemons.
@@ -104,15 +104,15 @@ CloudEvents --> MCP
 - Tool Registry: Dynamic registration and invocation of tools (e.g., EmberExtractTool).
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L1-L488)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [src/resonance/db.ts](src/resonance/db.ts#L1-L488)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
 
 ## Architecture Overview
 Amalfa employs an event-driven, agent-centric architecture:
@@ -139,11 +139,11 @@ MCP-->>Caller : "Structured JSON results"
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L100-L289)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L241)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L16-L37)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L305-L336)
+- [src/daemon/index.ts](src/daemon/index.ts#L100-L289)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L227-L241)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L16-L37)
+- [src/resonance/db.ts](src/resonance/db.ts#L305-L336)
 
 ## Detailed Component Analysis
 
@@ -169,10 +169,10 @@ Notify --> End(["Idle"])
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L100-L289)
+- [src/daemon/index.ts](src/daemon/index.ts#L100-L289)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
 
 ### Service Lifecycle Management
 - ServiceLifecycle encapsulates process spawning, PID/log management, and signal handling for graceful shutdown.
@@ -195,13 +195,13 @@ SL->>PID : "remove PID"
 ```
 
 **Diagram sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L27-L108)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L174)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L27-L108)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L84-L174)
 
 **Section sources**
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L45)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L45)
 
 ### API Gateway: MCP Server and Tooling
 - MCP server initializes ResonanceDB, scratchpad, and daemons, then exposes tools via stdio transport.
@@ -230,17 +230,17 @@ MCP-->>Agent : "Structured JSON results"
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L163-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L16-L37)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L115-L269)
+- [src/mcp/index.ts](src/mcp/index.ts#L163-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L16-L37)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L115-L269)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L490-L554)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L490-L554)
 
 ### Agent Integration Patterns
 - Dynamic tool registration enables agents to call tools like ember_extract with standardized schemas.
@@ -271,13 +271,13 @@ ToolRegistry <|-- DynamicToolRegistry
 ```
 
 **Diagram sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L19-L39)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L19-L39)
 
 **Section sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
 
 ### Message Passing Protocols and Serialization
 - MCP uses stdio transport with JSON-RPC-like requests and responses.
@@ -295,14 +295,14 @@ Serialize --> Resp["Tool Response"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L57-L92)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/components/archive/cloud-events-01.md](file://src/components/archive/cloud-events-01.md#L1-L45)
+- [src/mcp/index.ts](src/mcp/index.ts#L57-L92)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/components/archive/cloud-events-01.md](src/components/archive/cloud-events-01.md#L1-L45)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L57-L92)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/components/archive/cloud-events-01.md](file://src/components/archive/cloud-events-01.md#L1-L97)
+- [src/mcp/index.ts](src/mcp/index.ts#L57-L92)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/components/archive/cloud-events-01.md](src/components/archive/cloud-events-01.md#L1-L97)
 
 ### Inter-Component Communication Channels
 - File watcher communicates with ingestion pipeline and optional Ember enrichment.
@@ -323,16 +323,16 @@ DaemonMgr --> SonarAgent["Sonar Agent"]
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L157-L217)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L139)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
+- [src/daemon/index.ts](src/daemon/index.ts#L157-L217)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L139)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L139)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L139)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
 
 ### Typical Workflows
 
@@ -342,7 +342,7 @@ DaemonMgr --> SonarAgent["Sonar Agent"]
 - Update telemetry and send notifications.
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L100-L289)
+- [src/daemon/index.ts](src/daemon/index.ts#L100-L289)
 
 #### Search Operations
 - Parallel vector and grep retrieval with candidate merging.
@@ -350,17 +350,17 @@ DaemonMgr --> SonarAgent["Sonar Agent"]
 - Return structured JSON with metadata and confidence scores.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L16-L37)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L115-L269)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L16-L37)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L115-L269)
 
 #### Background Service Coordination
 - MCP starts file watcher and vector daemon based on configuration.
 - DaemonManager checks health and manages lifecycle of all daemons concurrently.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L139)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L233-L246)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L139)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L233-L246)
 
 ### Error Propagation, Fallbacks, and Graceful Degradation
 - Unhandled exceptions and rejections are logged and persisted to crash logs.
@@ -369,10 +369,10 @@ DaemonMgr --> SonarAgent["Sonar Agent"]
 - Health-checked daemons enable graceful degradation when optional services are unavailable.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L72-L113)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L163-L203)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L232-L287)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L72-L113)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L163-L203)
+- [src/daemon/index.ts](src/daemon/index.ts#L232-L287)
 
 ## Dependency Analysis
 ```mermaid
@@ -391,17 +391,17 @@ Hydrator --> DB
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L1-L488)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [src/resonance/db.ts](src/resonance/db.ts#L1-L488)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
 
 ## Performance Considerations
 - VectorEngine leverages FAFCAS normalization and dot products for unit vectors, minimizing overhead and enabling high-throughput similarity search.
@@ -419,11 +419,11 @@ Hydrator --> DB
 - Use MCP logging for tool execution errors and structured error responses.
 
 **Section sources**
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L45)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L113-L124)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L84-L174)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts#L72-L113)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L45)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L113-L124)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L84-L174)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts#L72-L113)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
 
 ## Conclusion
 Amalfa integrates event-driven file watching, robust service lifecycle management, and an MCP-based API gateway to orchestrate search, ingestion, and enrichment workflows. The system emphasizes resilience through retry queues, health-checked daemons, and graceful degradation when optional services are unavailable. Standardized protocols (MCP, CloudEvents) and dynamic tooling enable extensible agent interactions, while FAFCAS-compliant vector processing ensures high-performance semantic search.

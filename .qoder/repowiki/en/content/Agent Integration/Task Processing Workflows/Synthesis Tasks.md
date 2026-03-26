@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [synthesis-142-amalfa-configuration-and-mcp-setup.md](file://docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md)
-- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](file://docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md)
-- [synthesis-155-configuration-and-script-management.md](file://docs/synthesis/synthesis-155-configuration-and-script-management.md)
-- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](file://docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [synthesis-142-amalfa-configuration-and-mcp-setup.md](docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md)
+- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md)
+- [synthesis-155-configuration-and-script-management.md](docs/synthesis/synthesis-155-configuration-and-script-management.md)
+- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md)
 </cite>
 
 ## Table of Contents
@@ -65,26 +65,26 @@ SL --> MD5
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [synthesis-142-amalfa-configuration-and-mcp-setup.md](file://docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
-- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](file://docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
-- [synthesis-155-configuration-and-script-management.md](file://docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
-- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](file://docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [synthesis-142-amalfa-configuration-and-mcp-setup.md](docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
+- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
+- [synthesis-155-configuration-and-script-management.md](docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
+- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [synthesis-142-amalfa-configuration-and-mcp-setup.md](file://docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
-- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](file://docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
-- [synthesis-155-configuration-and-script-management.md](file://docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
-- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](file://docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [synthesis-142-amalfa-configuration-and-mcp-setup.md](docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
+- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
+- [synthesis-155-configuration-and-script-management.md](docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
+- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
 
 ## Core Components
 - summarizeCommunity: Generates a canonical label and concise synthesis for a set of related nodes using an LLM, returning structured JSON.
@@ -98,11 +98,11 @@ Key synthesis configuration fields:
 - model/taskModel: Optional model override for synthesis.
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Architecture Overview
 The synthesis workflow integrates community detection, representative selection, and LLM summarization, with optional file system output.
@@ -137,10 +137,10 @@ end
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Detailed Component Analysis
 
@@ -161,12 +161,12 @@ Next --> Done(["Done"])
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L329-L332)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L329-L332)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L329-L332)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L329-L332)
 
 ### Summarization Strategy and Integration
 - Prompting: The summarizeCommunity function sends a system prompt and a concatenated set of node excerpts to the LLM.
@@ -185,12 +185,12 @@ Parse --> |No| Warn["Log warning and throw"]
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ### Automatic Synthesis Node Creation
 - When autoApply is true, the synthesis task writes a markdown file under docs/synthesis with frontmatter including title, type, and nodes.
@@ -208,10 +208,10 @@ Logic-->>Caller : "Markdown summary + action note"
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L342-L360)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L342-L360)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L342-L360)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L342-L360)
 
 ### Practical Examples and Configuration
 - Minimal synthesis task: Configure type=synthesis with minSize=5 and autoApply=true to generate markdown nodes for clusters meeting the size threshold.
@@ -219,20 +219,20 @@ Logic-->>Caller : "Markdown summary + action note"
 - Example outputs: The docs/synthesis directory contains real synthesis markdown files demonstrating frontmatter and member listings.
 
 Examples of synthesis outputs:
-- [synthesis-142-amalfa-configuration-and-mcp-setup.md](file://docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
-- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](file://docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
-- [synthesis-155-configuration-and-script-management.md](file://docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
-- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](file://docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
+- [synthesis-142-amalfa-configuration-and-mcp-setup.md](docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
+- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
+- [synthesis-155-configuration-and-script-management.md](docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
+- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
-- [synthesis-142-amalfa-configuration-and-mcp-setup.md](file://docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
-- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](file://docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
-- [synthesis-155-configuration-and-script-management.md](file://docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
-- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](file://docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
+- [synthesis-142-amalfa-configuration-and-mcp-setup.md](docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
+- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
+- [synthesis-155-configuration-and-script-management.md](docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
+- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
 
 ### Synthesis Strategies Across Content Types
 - Configuration and setup: Focus on operational and procedural topics; synthesis labels emphasize canonical topics and summaries.
@@ -241,11 +241,11 @@ Examples of synthesis outputs:
 - Discovery and autonomy: Treats synthesis as part of a broader research engine; synthesis supports narrative and topological exploration.
 
 **Section sources**
-- [synthesis-142-amalfa-configuration-and-mcp-setup.md](file://docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
-- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](file://docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
-- [synthesis-155-configuration-and-script-management.md](file://docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
-- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](file://docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
+- [synthesis-142-amalfa-configuration-and-mcp-setup.md](docs/synthesis/synthesis-142-amalfa-configuration-and-mcp-setup.md#L1-L18)
+- [synthesis-145-agent-driven-metadata-and-vocabulary-management.md](docs/synthesis/synthesis-145-agent-driven-metadata-and-vocabulary-management.md#L1-L46)
+- [synthesis-155-configuration-and-script-management.md](docs/synthesis/synthesis-155-configuration-and-script-management.md#L1-L20)
+- [synthesis-43-node-js-dependency-removal-for-bun-compatibility.md](docs/synthesis/synthesis-43-node-js-dependency-removal-for-bun-compatibility.md#L1-L23)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
 
 ## Dependency Analysis
 - handleSynthesisTask depends on GraphGardener for community insight and representative selection, and on summarizeCommunity for LLM-based summarization.
@@ -261,17 +261,17 @@ SS --> SI["sonar-inference.ts<br/>callOllama"]
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Performance Considerations
 - Community size threshold: Use minSize to avoid summarizing tiny or noisy clusters, reducing unnecessary LLM calls.
@@ -289,10 +289,10 @@ Common issues and resolutions:
 - Auto-apply permissions: Ensure the working directory allows writing to docs/synthesis; create the directory if missing.
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L94-L95)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L123-L134)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L229-L254)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L353-L358)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L94-L95)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L123-L134)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L229-L254)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L353-L358)
 
 ## Conclusion
 The Sonar agent’s synthesis workflow combines community detection, representative selection, and LLM-powered summarization to produce concise, labeled syntheses of related knowledge. With configurable thresholds and optional auto-apply behavior, it supports scalable documentation generation and cross-document theme surfacing. The included example synthesis outputs illustrate frontmatter patterns and member listings, enabling traceability and integration into broader documentation systems.
@@ -309,5 +309,5 @@ The Sonar agent’s synthesis workflow combines community detection, representat
 - limit: number (ignored by synthesis; reserved for other tasks)
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)

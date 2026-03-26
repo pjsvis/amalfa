@@ -2,21 +2,21 @@
 
 <cite>
 **Referenced Files in This Document**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts)
-- [reranker-client.ts](file://src/utils/reranker-client.ts)
-- [search.ts](file://src/cli/commands/search.ts)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts)
-- [simple-forensics.ts](file://scripts/lab/simple-forensics.ts)
-- [test-small-reingestion.ts](file://scripts/lab/test-small-reingestion.ts)
-- [verify_daemon_client.ts](file://scripts/verify/verify_daemon_client.ts)
-- [2026-01-26-late-fusion-hybrid-search.md](file://briefs/archive/2026-01-26-late-fusion-hybrid-search.md)
-- [local-first-vector-db-playbook.md](file://playbooks/local-first-vector-db-playbook.md)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md)
-- [profile_memory.ts](file://scripts/profile_memory.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [embedder.ts](src/resonance/services/embedder.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [reranker-hf.ts](src/services/reranker-hf.ts)
+- [reranker-client.ts](src/utils/reranker-client.ts)
+- [search.ts](src/cli/commands/search.ts)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts)
+- [simple-forensics.ts](scripts/lab/simple-forensics.ts)
+- [test-small-reingestion.ts](scripts/lab/test-small-reingestion.ts)
+- [verify_daemon_client.ts](scripts/verify/verify_daemon_client.ts)
+- [2026-01-26-late-fusion-hybrid-search.md](briefs/archive/2026-01-26-late-fusion-hybrid-search.md)
+- [local-first-vector-db-playbook.md](playbooks/local-first-vector-db-playbook.md)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md)
+- [profile_memory.ts](scripts/profile_memory.ts)
 </cite>
 
 ## Table of Contents
@@ -70,20 +70,20 @@ RDAEM --> RER
 ```
 
 **Diagram sources**
-- [search.ts](file://src/cli/commands/search.ts#L1-L195)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
+- [search.ts](src/cli/commands/search.ts#L1-L195)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [search.ts](file://src/cli/commands/search.ts#L1-L195)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [search.ts](src/cli/commands/search.ts#L1-L195)
 
 ## Core Components
 - FAFCAS Protocol: Normalization to unit vectors stored as raw Float32 byte blobs for fast dot-product similarity.
@@ -93,11 +93,11 @@ RDAEM --> RER
 - CLI Search: Orchestrates late-fusion hybrid search combining vector and grep results, optionally reranking.
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L137-L209)
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [reranker-client.ts](src/utils/reranker-client.ts#L137-L209)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
 
 ## Architecture Overview
 The system uses a local-first, in-memory-first approach:
@@ -143,12 +143,12 @@ CLI-->>User : "formatted results"
 ```
 
 **Diagram sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L240)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L162-L219)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L137-L209)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L240)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L162-L219)
+- [reranker-client.ts](src/utils/reranker-client.ts#L137-L209)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
 
 ## Detailed Component Analysis
 
@@ -171,14 +171,14 @@ Store --> End(["Ready for FAFCAS search"])
 ```
 
 **Diagram sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L14-L30)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L14-L30)
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L14-L30)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L14-L30)
 
 ### VectorEngine: Query Processing, Embedding Generation, and Ranking
 Responsibilities:
@@ -210,10 +210,10 @@ VectorEngine --> EmbeddingModel : "uses"
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
 
 ### Embedder Service: Daemon and Local Fallback
 Capabilities:
@@ -237,12 +237,12 @@ end
 ```
 
 **Diagram sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L162-L219)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L162-L219)
 
 **Section sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [verify_daemon_client.ts](file://scripts/verify/verify_daemon_client.ts#L1-L27)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [verify_daemon_client.ts](scripts/verify/verify_daemon_client.ts#L1-L27)
 
 ### Reranker Daemon and Client: Cross-Encoder Precision
 Tiered reranking:
@@ -270,14 +270,14 @@ RC-->>CLI : "ranked results"
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L137-L209)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L97-L160)
+- [reranker-client.ts](src/utils/reranker-client.ts#L137-L209)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L97-L160)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
 
 ### Hybrid Retrieval: Late Fusion of Vector + Grep + Graph
 The CLI orchestrates a late-fusion pipeline:
@@ -299,12 +299,12 @@ CR --> Final
 ```
 
 **Diagram sources**
-- [2026-01-26-late-fusion-hybrid-search.md](file://briefs/archive/2026-01-26-late-fusion-hybrid-search.md#L32-L49)
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
+- [2026-01-26-late-fusion-hybrid-search.md](briefs/archive/2026-01-26-late-fusion-hybrid-search.md#L32-L49)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
 
 **Section sources**
-- [2026-01-26-late-fusion-hybrid-search.md](file://briefs/archive/2026-01-26-late-fusion-hybrid-search.md#L32-L108)
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
+- [2026-01-26-late-fusion-hybrid-search.md](briefs/archive/2026-01-26-late-fusion-hybrid-search.md#L32-L108)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
 
 ## Dependency Analysis
 Key dependencies and relationships:
@@ -326,19 +326,19 @@ CLI --> RC
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L2)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L2-L3)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L14-L15)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L8-L9)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L9-L14)
-- [search.ts](file://src/cli/commands/search.ts#L1-L7)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L2)
+- [embedder.ts](src/resonance/services/embedder.ts#L2-L3)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L14-L15)
+- [reranker-client.ts](src/utils/reranker-client.ts#L8-L9)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L9-L14)
+- [search.ts](src/cli/commands/search.ts#L1-L7)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L2)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L3)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L9)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L14)
-- [search.ts](file://src/cli/commands/search.ts#L1-L7)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L2)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L3)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L9)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L14)
+- [search.ts](src/cli/commands/search.ts#L1-L7)
 
 ## Performance Considerations
 - FAFCAS removes sqrt and division from the hot loop, enabling dot-product-only similarity.
@@ -354,10 +354,10 @@ Practical tips:
 - Monitor SQLite pragmas and memory-mapped IO for large datasets.
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L225)
-- [verify_daemon_client.ts](file://scripts/verify/verify_daemon_client.ts#L1-L27)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L71-L93)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L225)
+- [verify_daemon_client.ts](scripts/verify/verify_daemon_client.ts#L1-L27)
+- [profile_memory.ts](scripts/profile_memory.ts#L71-L93)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -373,10 +373,10 @@ Diagnostic aids:
 - Small reingestion tests verify round-trip fidelity of BLOB storage and retrieval.
 
 **Section sources**
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L1-L74)
-- [simple-forensics.ts](file://scripts/lab/simple-forensics.ts#L45-L76)
-- [test-small-reingestion.ts](file://scripts/lab/test-small-reingestion.ts#L91-L123)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L1-L74)
+- [simple-forensics.ts](scripts/lab/simple-forensics.ts#L45-L76)
+- [test-small-reingestion.ts](scripts/lab/test-small-reingestion.ts#L91-L123)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
 
 ## Conclusion
 Amalfa’s vector search engine leverages FAFCAS normalization and in-memory brute-force search to achieve sub-100ms latency for semantic similarity. The tiered inference strategy—combining fast bi-encoder retrieval with cross-encoder reranking—significantly improves precision. The embedder and reranker services integrate seamlessly via daemons, providing fast, scalable, and resilient search. Hybrid retrieval further strengthens results by incorporating exact-symbol and structural signals. Together, these components deliver a local-first, high-performance vector search system.
@@ -389,14 +389,14 @@ Amalfa’s vector search engine leverages FAFCAS normalization and in-memory bru
 - Tests and scripts validate dimensionality and normalization.
 
 **Section sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L27-L57)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L221-L225)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L65-L73)
+- [embedder.ts](src/resonance/services/embedder.ts#L27-L57)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L221-L225)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L65-L73)
 
 ### SQLite and BLOB Storage Notes
 - Vectors are stored as raw BLOBs; retrieval uses zero-copy typed arrays.
 - Playbooks demonstrate dot-product UDFs and dimension checks for correctness.
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L165-L178)
-- [local-first-vector-db-playbook.md](file://playbooks/local-first-vector-db-playbook.md#L165-L186)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L165-L178)
+- [local-first-vector-db-playbook.md](playbooks/local-first-vector-db-playbook.md#L165-L186)

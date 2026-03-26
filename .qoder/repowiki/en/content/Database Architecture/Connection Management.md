@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md)
-- [DatabaseFactory.test.ts](file://tests/DatabaseFactory.test.ts)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts)
-- [simple_search_test.ts](file://scripts/verify/simple_search_test.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [db.ts](src/resonance/db.ts)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md)
+- [DatabaseFactory.test.ts](tests/DatabaseFactory.test.ts)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts)
+- [simple_search_test.ts](scripts/verify/simple_search_test.ts)
 </cite>
 
 ## Table of Contents
@@ -56,22 +56,22 @@ HYGIENE --> RD
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L1-L78)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L229)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L16)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L1-L278)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L1-L78)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L229)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L16)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L1-L278)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L1-L78)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L229)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L16)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L1-L278)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L1-L78)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L229)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L16)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L1-L278)
 
 ## Core Components
 - DatabaseFactory: Ensures every connection is compliant with WAL mode, busy timeouts, and integrity settings. It also performs health checks and enforces that readers operate with read-write access to support SHM coordination.
@@ -86,10 +86,10 @@ Key responsibilities:
 - Offer checkpointing and connection lifecycle guidance
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
 
 ## Architecture Overview
 The connection architecture centers on a factory that standardizes configuration and a wrapper class that coordinates migrations and transactions.
@@ -115,9 +115,9 @@ ResonanceDB-->>Caller : Ready to use
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L44-L68)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L24)
+- [db.ts](src/resonance/db.ts#L44-L68)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L18-L24)
 
 ## Detailed Component Analysis
 
@@ -150,12 +150,12 @@ FK --> Return(["return Database"])
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L24)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L3-L16)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L18-L24)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L3-L16)
 
 ### ResonanceDB: Migration, Transactions, and Access Patterns
 Responsibilities:
@@ -202,12 +202,12 @@ ResonanceDB --> DatabaseFactory : "uses for compliant connection"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
 
 ### WAL Mode, Read-Write Requirement, and SHM Implications
 - WAL mode requires all connections to be able to write to the -shm file, even readers. Using readonly: true leads to disk I/O errors and corruption.
@@ -220,9 +220,9 @@ Operational implications:
 - Directory permissions must allow creation/deletion of temporary files
 
 **Section sources**
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L229)
-- [db.ts](file://src/resonance/db.ts#L38-L43)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L7-L16)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L229)
+- [db.ts](src/resonance/db.ts#L38-L43)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L7-L16)
 
 ### Migration Checking During Initialization
 - ResonanceDB constructor triggers migration application immediately after opening the connection.
@@ -242,12 +242,12 @@ RD-->>RD : ready
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
 
 ### Connection Validation, Health Checks, and Automatic Recovery
 - Health checks verify journal_mode, mmap_size, and busy_timeout, and perform a simple write/read test against a transient health table.
@@ -266,12 +266,12 @@ Result --> |No| Fail["throw error"]
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
-- [DatabaseFactory.test.ts](file://tests/DatabaseFactory.test.ts#L9-L36)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
+- [DatabaseFactory.test.ts](tests/DatabaseFactory.test.ts#L9-L36)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
-- [DatabaseFactory.test.ts](file://tests/DatabaseFactory.test.ts#L1-L53)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
+- [DatabaseFactory.test.ts](tests/DatabaseFactory.test.ts#L1-L53)
 
 ### Transaction Management and Integration with ResonanceDB
 - ResonanceDB exposes beginTransaction(), commit(), and rollback() to wrap operations atomically.
@@ -290,12 +290,12 @@ RD->>RD : run("COMMIT") or run("ROLLBACK")
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L64-L72)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L64-L72)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L64-L72)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L64-L72)
 
 ### Concurrent Access Patterns, Deadlock Prevention, and Performance Optimization
 - Use per-request connections for servers; avoid singleton persistent connections to prevent blocking writers.
@@ -314,15 +314,15 @@ Perf --> Vacuum["Vacuum and ANALYZE as needed"]
 ```
 
 **Diagram sources**
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L51-L73)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L249-L258)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L64-L72)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts#L1-L7)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L51-L73)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L249-L258)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L64-L72)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts#L1-L7)
 
 **Section sources**
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L1-L278)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L74-L78)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts#L1-L7)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L1-L278)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L74-L78)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts#L1-L7)
 
 ## Dependency Analysis
 The ResonanceDB class depends on DatabaseFactory for compliant connections and on Drizzle for migrations. The factory depends on the SQLite engine and enforces standards. Tests and scripts validate configuration and demonstrate usage.
@@ -342,26 +342,26 @@ Hyg["database-connection-hygiene.md"] --> RD
 ```
 
 **Diagram sources**
-- [DatabaseFactory.test.ts](file://tests/DatabaseFactory.test.ts#L1-L53)
-- [simple_search_test.ts](file://scripts/verify/simple_search_test.ts#L1-L30)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L1-L78)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L229)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L16)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L1-L278)
+- [DatabaseFactory.test.ts](tests/DatabaseFactory.test.ts#L1-L53)
+- [simple_search_test.ts](scripts/verify/simple_search_test.ts#L1-L30)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L1-L78)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L229)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L16)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L1-L278)
 
 **Section sources**
-- [DatabaseFactory.test.ts](file://tests/DatabaseFactory.test.ts#L1-L53)
-- [simple_search_test.ts](file://scripts/verify/simple_search_test.ts#L1-L30)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L1-L78)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L229)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L16)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L1-L278)
+- [DatabaseFactory.test.ts](tests/DatabaseFactory.test.ts#L1-L53)
+- [simple_search_test.ts](scripts/verify/simple_search_test.ts#L1-L30)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L1-L78)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L229)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L16)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L1-L278)
 
 ## Performance Considerations
 - Bulk operations: Group inserts/updates in a single transaction to achieve significant throughput improvements.
@@ -381,9 +381,9 @@ Common issues and resolutions:
 - Connection leaks: Ensure every connection is closed in a finally block.
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L278)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L163-L181)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L271-L278)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L278)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L163-L181)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L271-L278)
 
 ## Conclusion
 Amalfa’s connection management relies on a hardened, standardized configuration enforced by DatabaseFactory and orchestrated by ResonanceDB. WAL mode, busy_timeout, and read-write access are mandatory for concurrency and stability. Migrations are applied automatically via Drizzle, and health checks ensure compliance. Following the hygiene and performance guidelines helps prevent deadlocks, optimize throughput, and maintain reliability in concurrent environments.

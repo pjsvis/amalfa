@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [Historian.ts](file://src/utils/Historian.ts)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md)
-- [brief-phase7-dynamic-discovery.md](file://briefs/pending/brief-phase7-dynamic-discovery.md)
-- [debriefs/2026-01-09-autonomous-research-and-discovery.md](file://debriefs/2026-01-09-autonomous-research-and-discovery.md)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [Historian.ts](src/utils/Historian.ts)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md)
+- [brief-phase7-dynamic-discovery.md](briefs/pending/brief-phase7-dynamic-discovery.md)
+- [debriefs/2026-01-09-autonomous-research-and-discovery.md](debriefs/2026-01-09-autonomous-research-and-discovery.md)
 </cite>
 
 ## Table of Contents
@@ -32,13 +32,13 @@ This document explains the Sonar agent’s research tasks with a focus on the re
 
 ## Project Structure
 The research task pipeline is implemented as part of the Sonar agent daemon. Key modules include:
-- Orchestrator and task watcher: [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- Task handlers and research loop: [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- Provider abstraction and inference routing: [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- Task model selection and strategies: [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- Graph analytics and hub identification: [GraphEngine.ts](file://src/core/GraphEngine.ts), [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- Session persistence and audit trail: [Historian.ts](file://src/utils/Historian.ts)
-- Supporting documentation: [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md), [brief-phase7-dynamic-discovery.md](file://briefs/pending/brief-phase7-dynamic-discovery.md), [debriefs/2026-01-09-autonomous-research-and-discovery.md](file://debriefs/2026-01-09-autonomous-research-and-discovery.md)
+- Orchestrator and task watcher: [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- Task handlers and research loop: [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- Provider abstraction and inference routing: [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- Task model selection and strategies: [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- Graph analytics and hub identification: [GraphEngine.ts](src/core/GraphEngine.ts), [GraphGardener.ts](src/core/GraphGardener.ts)
+- Session persistence and audit trail: [Historian.ts](src/utils/Historian.ts)
+- Supporting documentation: [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md), [brief-phase7-dynamic-discovery.md](briefs/pending/brief-phase7-dynamic-discovery.md), [debriefs/2026-01-09-autonomous-research-and-discovery.md](debriefs/2026-01-09-autonomous-research-and-discovery.md)
 
 ```mermaid
 graph TB
@@ -63,22 +63,22 @@ SL --> HT
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L470-L664)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L32)
-- [Historian.ts](file://src/utils/Historian.ts#L31-L60)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L470-L664)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L32)
+- [Historian.ts](src/utils/Historian.ts#L31-L60)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L470-L664)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L200)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L470-L664)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L200)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
 
 ## Core Components
 - Research task handler: orchestrates multi-step reasoning, action selection, and verification.
@@ -88,10 +88,10 @@ SL --> HT
 - Automated orchestration: task watcher, model routing, throttling, and notifications.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L470-L664)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L256-L268)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L470-L664)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L256-L268)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
 
 ## Architecture Overview
 The research task follows a recursive loop:
@@ -135,12 +135,12 @@ Agent-->>User : "Task report"
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L496-L612)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L148-L150)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [Historian.ts](file://src/utils/Historian.ts#L66-L96)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L496-L612)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L148-L150)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [Historian.ts](src/utils/Historian.ts#L66-L96)
 
 ## Detailed Component Analysis
 
@@ -179,12 +179,12 @@ Report --> End(["End"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L470-L664)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L148-L150)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L470-L664)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L148-L150)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L470-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L470-L664)
 
 ### Action Decision Making: SEARCH, READ, EXPLORE, FINISH
 - SEARCH: constructs a vector search query and retrieves top-k results with optional dates.
@@ -198,7 +198,7 @@ Practical tips:
 - Use FINISH when the query can be comprehensively answered from gathered findings.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L550-L603)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L550-L603)
 
 ### Hub Identification System
 - Hubs are computed as the sum of PageRank and Betweenness Centrality scores.
@@ -227,19 +227,19 @@ GraphGardener --> Hub : "produces"
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L256-L268)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L138-L147)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L256-L268)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L138-L147)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L256-L268)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L138-L147)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L256-L268)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L138-L147)
 
 ### Narrative vs Factual Investigation Modes
 - Mode detection: if the query contains “timeline”, “history”, or “how did”, the agent switches to narrative mode.
 - Narrative mode prioritizes dates and chronological sequences in decision-making and synthesis.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L483-L504)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L483-L504)
 
 ### Automated Research Orchestration
 - Task watcher: monitors a pending directory, moves tasks to processing, executes, writes a report, and notifies.
@@ -267,14 +267,14 @@ Agent-->>FS : "Notify completion"
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
 
 ### Chain Verification and Auditor Role
 - Post-loop, the agent constructs a verification prompt summarizing findings and asks an auditor to:
@@ -296,11 +296,11 @@ Logic->>Logic : "Append audit result"
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L621-L661)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L621-L661)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L614-L661)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L614-L661)
 
 ### Practical Examples and Patterns
 - Setup a research task:
@@ -316,9 +316,9 @@ Logic->>Logic : "Append audit result"
   - Finish when the answer is coherent and verifiable.
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L496-L523)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L32-L41)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L496-L523)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L32-L41)
 
 ### Visited Node Tracking and Cycle Prevention
 - READ actions track visited node IDs.
@@ -326,15 +326,15 @@ Logic->>Logic : "Append audit result"
 - This prevents infinite loops and redundant work.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L564-L603)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L564-L603)
 
 ### Session Persistence and Debugging
 - The Historian protocol persists tool calls, results, and errors to JSONL files for recall and debugging.
 - This supports the “Historian” protocol for durable, auditable reasoning.
 
 **Section sources**
-- [Historian.ts](file://src/utils/Historian.ts#L31-L126)
-- [brief-phase7-dynamic-discovery.md](file://briefs/pending/brief-phase7-dynamic-discovery.md#L59-L76)
+- [Historian.ts](src/utils/Historian.ts#L31-L126)
+- [brief-phase7-dynamic-discovery.md](briefs/pending/brief-phase7-dynamic-discovery.md#L59-L76)
 
 ## Dependency Analysis
 - sonar-agent.ts depends on:
@@ -360,15 +360,15 @@ SL --> HT["Historian.ts"]
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L25-L34)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L7)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L14)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L16)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L25-L34)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L7)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L14)
+- [Historian.ts](src/utils/Historian.ts#L1-L16)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L25-L34)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L25-L34)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
 
 ## Performance Considerations
 - Throttling: free-tier providers are throttled to respect quotas without sacrificing responsiveness.
@@ -376,9 +376,9 @@ SL --> HT["Historian.ts"]
 - Lightweight nodes: content remains external to the database, keeping the system fast and FAFCAS.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L605-L607)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L17-L25)
-- [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L27-L30)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L605-L607)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L17-L25)
+- [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L27-L30)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -394,15 +394,15 @@ Common issues and resolutions:
   - Re-run with clearer queries and more targeted READ/EXPLORE steps.
 
 **Section sources**
-- [debriefs/2026-01-09-autonomous-research-and-discovery.md](file://debriefs/2026-01-09-autonomous-research-and-discovery.md#L17-L28)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L605-L607)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L614-L661)
+- [debriefs/2026-01-09-autonomous-research-and-discovery.md](debriefs/2026-01-09-autonomous-research-and-discovery.md#L17-L28)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L605-L607)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L614-L661)
 
 ## Conclusion
 The Sonar agent’s research tasks implement a robust, FAFCAS-style recursive discovery engine. By combining topological intelligence, narrative-aware reasoning, and strict chain verification, it delivers accurate, auditable results. The modular architecture, provider abstraction, and session persistence enable scalable, maintainable research workflows.
 
 ## Appendices
 - Related milestones and playbooks:
-  - Autonomous discovery milestone: [synthesis-500-autonomous-discovery-engine.md](file://docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
-  - Dynamic discovery brief: [brief-phase7-dynamic-discovery.md](file://briefs/pending/brief-phase7-dynamic-discovery.md#L1-L135)
-  - Research debrief: [debriefs/2026-01-09-autonomous-research-and-discovery.md](file://debriefs/2026-01-09-autonomous-research-and-discovery.md#L1-L29)
+  - Autonomous discovery milestone: [synthesis-500-autonomous-discovery-engine.md](docs/synthesis/synthesis-500-autonomous-discovery-engine.md#L1-L48)
+  - Dynamic discovery brief: [brief-phase7-dynamic-discovery.md](briefs/pending/brief-phase7-dynamic-discovery.md#L1-L135)
+  - Research debrief: [debriefs/2026-01-09-autonomous-research-and-discovery.md](debriefs/2026-01-09-autonomous-research-and-discovery.md#L1-L29)

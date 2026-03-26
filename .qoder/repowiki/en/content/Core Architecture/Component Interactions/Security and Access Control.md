@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/mcp/README.md](file://src/mcp/README.md)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/tools/index.ts](file://src/tools/index.ts)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts)
-- [src/config/defaults.ts](file://src/config/defaults.ts)
-- [src/config/schema.ts](file://src/config/schema.ts)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md)
-- [public/docs/debriefs/2025-11-29-browser-capabilities.md](file://public/docs/debriefs/2025-11-29-browser-capabilities.md)
-- [playbooks/harden-and-flense-protocol.md](file://playbooks/harden-and-flense-protocol.md)
-- [docs/architecture/ARCHITECTURE-ANALYSIS.md](file://docs/architecture/ARCHITECTURE-ANALYSIS.md)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/mcp/README.md](src/mcp/README.md)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/tools/index.ts](src/tools/index.ts)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/Logger.ts](src/utils/Logger.ts)
+- [src/config/defaults.ts](src/config/defaults.ts)
+- [src/config/schema.ts](src/config/schema.ts)
+- [docs/API_KEYS.md](docs/API_KEYS.md)
+- [public/docs/debriefs/2025-11-29-browser-capabilities.md](public/docs/debriefs/2025-11-29-browser-capabilities.md)
+- [playbooks/harden-and-flense-protocol.md](playbooks/harden-and-flense-protocol.md)
+- [docs/architecture/ARCHITECTURE-ANALYSIS.md](docs/architecture/ARCHITECTURE-ANALYSIS.md)
 </cite>
 
 ## Table of Contents
@@ -66,18 +66,18 @@ CDefaults --> CSchema
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L1-L140)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [src/config/schema.ts](file://src/config/schema.ts#L1-L298)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L1-L140)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/utils/Historian.ts](src/utils/Historian.ts#L1-L136)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
+- [src/config/schema.ts](src/config/schema.ts#L1-L298)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/mcp/README.md](file://src/mcp/README.md#L1-L15)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/mcp/README.md](src/mcp/README.md#L1-L15)
 
 ## Core Components
 - MCP Server: Exposes read-only tools and resources via stdio transport, with per-request database connections and dynamic tool registry.
@@ -88,13 +88,13 @@ CDefaults --> CSchema
 - Credentials: Stored in .env and referenced via environment variables; MCP does not implement authentication.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts#L31-L126)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [src/config/schema.ts](file://src/config/schema.ts#L146-L266)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L74)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/utils/Historian.ts](src/utils/Historian.ts#L31-L126)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L139)
+- [src/config/schema.ts](src/config/schema.ts#L146-L266)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L74)
 
 ## Architecture Overview
 The MCP server initializes services, registers tools, and handles requests. Tools are either legacy static handlers or dynamically registered via the ToolRegistry. Observability is achieved through structured logging and session-based history persisted to .amalfa/sessions.
@@ -123,10 +123,10 @@ MCP->>Log : info/warn/error as needed
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L20-L26)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts#L66-L117)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L20-L22)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L20-L26)
+- [src/utils/Historian.ts](src/utils/Historian.ts#L66-L117)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L20-L22)
 
 ## Detailed Component Analysis
 
@@ -141,9 +141,9 @@ Recommendations:
 - Restrict dynamic tool registration to trusted modules only.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/mcp/README.md](file://src/mcp/README.md#L1-L15)
-- [docs/architecture/ARCHITECTURE-ANALYSIS.md](file://docs/architecture/ARCHITECTURE-ANALYSIS.md#L158-L219)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/mcp/README.md](src/mcp/README.md#L1-L15)
+- [docs/architecture/ARCHITECTURE-ANALYSIS.md](docs/architecture/ARCHITECTURE-ANALYSIS.md#L158-L219)
 
 ### Credential Management and Permission Scopes
 - Credentials are stored in .env and referenced via environment variables.
@@ -156,9 +156,9 @@ Best practices:
 - Avoid embedding secrets in tool schemas or responses.
 
 **Section sources**
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L74)
-- [src/config/schema.ts](file://src/config/schema.ts#L46-L88)
-- [src/config/schema.ts](file://src/config/schema.ts#L198-L233)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L74)
+- [src/config/schema.ts](src/config/schema.ts#L46-L88)
+- [src/config/schema.ts](src/config/schema.ts#L198-L233)
 
 ### Logging and Audit Trail
 - Logger: Pino configured to write to stderr, with component-scoped child loggers.
@@ -171,9 +171,9 @@ Operational guidance:
 - Ensure logs do not contain sensitive data; sanitize outputs accordingly.
 
 **Section sources**
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts#L31-L136)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/utils/Historian.ts](src/utils/Historian.ts#L31-L136)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
 
 ### Security Boundaries Between Internal Components and External Agents
 - Transport: MCP uses stdio transport; ensure the parent process enforces transport-level isolation.
@@ -186,8 +186,8 @@ Recommendations:
 - Limit tool capabilities to read-only operations unless explicit authorization is introduced.
 
 **Section sources**
-- [public/docs/debriefs/2025-11-29-browser-capabilities.md](file://public/docs/debriefs/2025-11-29-browser-capabilities.md#L1-L30)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L580-L588)
+- [public/docs/debriefs/2025-11-29-browser-capabilities.md](public/docs/debriefs/2025-11-29-browser-capabilities.md#L1-L30)
+- [src/mcp/index.ts](src/mcp/index.ts#L580-L588)
 
 ### Sandbox and Resource Isolation Strategies
 - MCP tools are executed within the application process; isolation relies on configuration and tool design.
@@ -195,8 +195,8 @@ Recommendations:
 - The “Harden and Flense” protocol emphasizes removing console noise, reducing inner loop work, and enforcing error boundaries—implying safer defaults and stricter validation.
 
 **Section sources**
-- [playbooks/harden-and-flense-protocol.md](file://playbooks/harden-and-flense-protocol.md#L1-L35)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L34-L138)
+- [playbooks/harden-and-flense-protocol.md](playbooks/harden-and-flense-protocol.md#L1-L35)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L34-L138)
 
 ### Error Handling and Information Disclosure Prevention
 - MCP wraps tool execution in try/catch and records errors with durations; returns standardized error responses.
@@ -209,9 +209,9 @@ Guidelines:
 - Ensure stdout remains machine-readable for MCP/CLI pipelines.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L680-L687)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L11-L13)
+- [src/mcp/index.ts](src/mcp/index.ts#L680-L687)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L11-L13)
 
 ### Tool Development Security Best Practices
 - Input validation: Validate and sanitize all inputs, especially from stdin or external files.
@@ -220,16 +220,16 @@ Guidelines:
 - Idempotency and retries: Design tools to be resilient and safe under failure conditions.
 
 **Section sources**
-- [playbooks/harden-and-flense-protocol.md](file://playbooks/harden-and-flense-protocol.md#L21-L35)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L34-L138)
+- [playbooks/harden-and-flense-protocol.md](playbooks/harden-and-flense-protocol.md#L21-L35)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L34-L138)
 
 ### Threat Modeling for Component Interactions
 - Threats: Unauthenticated access, noisy stdout contamination, insufficient sandboxing, accidental data exposure, and unsafe tool behaviors.
 - Mitigations: Introduce transport-level auth, enforce strict logging to stderr, adopt capability-based authorization, and apply the “Verify, Don’t Assume” principle for sandboxing.
 
 **Section sources**
-- [public/docs/debriefs/2025-11-29-browser-capabilities.md](file://public/docs/debriefs/2025-11-29-browser-capabilities.md#L13-L16)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
+- [public/docs/debriefs/2025-11-29-browser-capabilities.md](public/docs/debriefs/2025-11-29-browser-capabilities.md#L13-L16)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
 
 ### Secure Communication Channels
 - Current transport: stdio; ensure the parent process enforces channel integrity.
@@ -244,8 +244,8 @@ Guidelines:
 - Limit resource usage (timeouts, memory) to prevent abuse.
 
 **Section sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L20-L26)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L20-L26)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
 
 ### Secure Configuration Management and Environment Variable Handling
 - Single Source of Truth: Zod schema defines defaults and validation; loadSettings exits on missing or invalid configuration.
@@ -253,9 +253,9 @@ Guidelines:
 - Directory initialization: Ensures .amalfa directories exist for logs, runtime, cache, and sessions.
 
 **Section sources**
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [src/config/schema.ts](file://src/config/schema.ts#L146-L266)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L17-L29)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L139)
+- [src/config/schema.ts](src/config/schema.ts#L146-L266)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L17-L29)
 
 ## Dependency Analysis
 ```mermaid
@@ -269,24 +269,24 @@ ToolsIdx["src/tools/index.ts"] --> EmberTool["src/tools/EmberExtractTool.ts"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [src/config/schema.ts](file://src/config/schema.ts#L1-L298)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L1-L140)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/utils/Historian.ts](src/utils/Historian.ts#L1-L136)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
+- [src/config/schema.ts](src/config/schema.ts#L1-L298)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L1-L140)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L1-L30)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [src/config/schema.ts](file://src/config/schema.ts#L1-L298)
-- [src/tools/index.ts](file://src/tools/index.ts#L1-L7)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L1-L140)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L1-L30)
+- [src/utils/Historian.ts](src/utils/Historian.ts#L1-L136)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
+- [src/config/schema.ts](src/config/schema.ts#L1-L298)
+- [src/tools/index.ts](src/tools/index.ts#L1-L7)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L1-L140)
 
 ## Performance Considerations
 - MCP tools should minimize IO and computation; leverage caching and streaming where appropriate.
@@ -301,9 +301,9 @@ ToolsIdx["src/tools/index.ts"] --> EmberTool["src/tools/EmberExtractTool.ts"]
 - Configuration issues: loadSettings will exit on missing or invalid configuration; validate schema compliance.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts#L66-L117)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
+- [src/utils/Historian.ts](src/utils/Historian.ts#L66-L117)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L139)
 
 ## Conclusion
 Amalfa’s MCP server is intentionally read-only and relies on centralized configuration and observability for security. To strengthen access control, introduce transport-level authentication and capability-based authorization. Adopt strict input validation, output sanitization, and sandboxing practices. Continue to treat the environment as “leaky until proven sealed,” and maintain secure configuration and credential handling. These measures will preserve the system’s integrity while enabling safe, auditable interactions between internal components and external agents.
@@ -315,5 +315,5 @@ Amalfa’s MCP server is intentionally read-only and relies on centralized confi
 - Recommended: Enforce transport auth, policy-based authorization, and least-privilege tool execution.
 
 **Section sources**
-- [src/mcp/README.md](file://src/mcp/README.md#L1-L15)
-- [docs/architecture/ARCHITECTURE-ANALYSIS.md](file://docs/architecture/ARCHITECTURE-ANALYSIS.md#L158-L219)
+- [src/mcp/README.md](src/mcp/README.md#L1-L15)
+- [docs/architecture/ARCHITECTURE-ANALYSIS.md](docs/architecture/ARCHITECTURE-ANALYSIS.md#L158-L219)

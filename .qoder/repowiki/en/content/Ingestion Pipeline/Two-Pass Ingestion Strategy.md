@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md)
-- [2026-01-15-database-connection-hygiene.md](file://debriefs/2026-01-15-database-connection-hygiene.md)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts)
-- [Logger.ts](file://src/utils/Logger.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [db.ts](src/resonance/db.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md)
+- [2026-01-15-database-connection-hygiene.md](debriefs/2026-01-15-database-connection-hygiene.md)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts)
+- [Logger.ts](src/utils/Logger.ts)
 </cite>
 
 ## Table of Contents
@@ -48,14 +48,14 @@ A --> C --> E --> F --> D
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [db.ts](src/resonance/db.ts#L349-L359)
 
 ## Core Components
 - AmalfaIngestor: Orchestrates discovery, batched node insertion (Pass 1), lexicon building, and edge weaving (Pass 2). It manages transactions, progress reporting, and WAL checkpointing.
@@ -64,10 +64,10 @@ A --> C --> E --> F --> D
 - LouvainGate: Applies a modularity-based gate to reject edges that would create low-quality clusters around super-nodes.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ## Architecture Overview
 The ingestion pipeline enforces a strict order: nodes first, then edges. This guarantees that all candidate targets exist in the lexicon before weaving relationships, preventing dangling references and inconsistent edge sets.
@@ -105,10 +105,10 @@ Ingestor-->>CLI : stats + success
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L365-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L365-L367)
 
 ## Detailed Component Analysis
 
@@ -134,10 +134,10 @@ Checkpoint --> End(["Return stats"])
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
 
 ### Transaction Management and Batch Sizing
 - Batch size: 10 files per transaction to keep lock durations under 2.5s for a 5s busy_timeout, preventing SQLITE_BUSY during concurrent operations.
@@ -158,11 +158,11 @@ F --> G
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
 
 **Section sources**
-- [2026-01-15-database-connection-hygiene.md](file://debriefs/2026-01-15-database-connection-hygiene.md#L175-L186)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
+- [2026-01-15-database-connection-hygiene.md](debriefs/2026-01-15-database-connection-hygiene.md#L175-L186)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
 
 ### Edge Weaving and LouvainGate Integration
 - EdgeWeaver constructs relationships from explicit tags, wiki-links, metadata tags, and markdown links using a lexicon built from nodes.
@@ -189,12 +189,12 @@ EdgeWeaver --> LouvainGate : "checks edges"
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
 
 ### WAL Persistence and Durability
 - After edge weaving, the system performs a WAL checkpoint to move frames from WAL to the main database file.
@@ -210,12 +210,12 @@ Ingestor-->>Ingestor : Log final size
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L251-L269)
-- [db.ts](file://src/resonance/db.ts#L365-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L251-L269)
+- [db.ts](src/resonance/db.ts#L365-L367)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L251-L269)
-- [db.ts](file://src/resonance/db.ts#L365-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L251-L269)
+- [db.ts](src/resonance/db.ts#L365-L367)
 
 ### Error Handling During Each Pass
 - Pass 1: Individual file processing errors are logged and skipped to maintain pipeline continuity. The ingestor continues to the next file.
@@ -223,9 +223,9 @@ Ingestor-->>Ingestor : Log final size
 - Top-level ingestion errors are captured and reported with zeroed stats to indicate failure.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L87-L89)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L121-L133)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L87-L89)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L121-L133)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
 
 ## Dependency Analysis
 The ingestion pipeline depends on a coherent stack: the orchestrator coordinates with the database layer, which enforces safe SQLite/WAL behavior. Edge weaving relies on the lexicon built from nodes, and LouvainGate filters edges to preserve graph quality.
@@ -239,18 +239,18 @@ DB --> Factory["DatabaseFactory"]
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ## Performance Considerations
 - Batch size 10 balances safety and throughput under concurrent access. Larger batches risk exceeding busy_timeout and causing SQLITE_BUSY.
@@ -270,9 +270,9 @@ DB --> Factory["DatabaseFactory"]
   - Use the post-checkpoint verification to confirm file existence and non-zero size.
 
 **Section sources**
-- [2026-01-15-database-connection-hygiene.md](file://debriefs/2026-01-15-database-connection-hygiene.md#L154-L222)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L229)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L255-L269)
+- [2026-01-15-database-connection-hygiene.md](debriefs/2026-01-15-database-connection-hygiene.md#L154-L222)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L229)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L255-L269)
 
 ## Conclusion
 Amalfa’s two-pass ingestion strategy eliminates edge weaving conflicts by ensuring a fully populated lexicon before building relationships. The combination of short transactions, WAL mode, and the LouvainGate produces a robust, consistent graph. The WAL checkpoint and post-checkpoint verification guarantee durability, while batch sizing and connection hygiene mitigate SQLITE_BUSY under concurrent operations.

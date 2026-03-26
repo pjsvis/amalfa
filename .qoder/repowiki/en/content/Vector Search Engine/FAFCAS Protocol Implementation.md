@@ -2,14 +2,14 @@
 
 <cite>
 **Referenced Files in This Document**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [db.ts](file://src/resonance/db.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts)
-- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](file://debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [db.ts](src/resonance/db.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts)
+- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md)
 </cite>
 
 ## Table of Contents
@@ -74,24 +74,24 @@ D1 --> FIX
 ```
 
 **Diagram sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
-- [db.ts](file://src/resonance/db.ts#L443-L487)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts#L1-L126)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L1-L75)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts#L1-L208)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
-- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](file://debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L1-L84)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [db.ts](src/resonance/db.ts#L443-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts#L1-L126)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L1-L75)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts#L1-L208)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
+- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L1-L84)
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
-- [db.ts](file://src/resonance/db.ts#L443-L487)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts#L1-L126)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L1-L75)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts#L1-L208)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
-- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](file://debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L1-L84)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [db.ts](src/resonance/db.ts#L443-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts#L1-L126)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L1-L75)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts#L1-L208)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
+- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L1-L84)
 
 ## Core Components
 - FAFCAS Normalizer: Computes L2 norm, normalizes to unit length, and returns raw bytes for storage.
@@ -101,11 +101,11 @@ D1 --> FIX
 - Compliance and Forensics: Validates unit-length vectors, detects corruption, and restores historical datasets.
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L94-L142)
-- [db.ts](file://src/resonance/db.ts#L443-L487)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L74)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L1-L75)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts#L1-L208)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L94-L142)
+- [db.ts](src/resonance/db.ts#L443-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L74)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L1-L75)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts#L1-L208)
 
 ## Architecture Overview
 FAFCAS enables sub-100ms vector search by:
@@ -132,8 +132,8 @@ VE-->>Client : "top-K results with metadata"
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L242)
-- [db.ts](file://src/resonance/db.ts#L443-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L242)
+- [db.ts](src/resonance/db.ts#L443-L487)
 
 ## Detailed Component Analysis
 
@@ -155,13 +155,13 @@ Serialize --> End(["Return Uint8Array"])
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L467-L487)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
+- [db.ts](src/resonance/db.ts#L467-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L467-L487)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L99-L119)
+- [db.ts](src/resonance/db.ts#L467-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L99-L119)
 
 ### Dot Product and Zero-Vector Detection
 Cosine similarity for unit vectors equals dot product. The implementation:
@@ -182,13 +182,13 @@ Loop --> ReturnSum["Return sum"]
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L448-L464)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
+- [db.ts](src/resonance/db.ts#L448-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L448-L464)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L33-L35)
+- [db.ts](src/resonance/db.ts#L448-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L33-L35)
 
 ### VectorEngine Integration
 VectorEngine integrates FAFCAS into the search pipeline:
@@ -214,12 +214,12 @@ VectorEngine --> Utils : "uses"
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L443-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L443-L487)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L443-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L443-L487)
 
 ### Database Storage and Hydration
 - Embeddings are stored as raw Float32 bytes (BLOB) in the nodes.embedding column
@@ -227,8 +227,8 @@ VectorEngine --> Utils : "uses"
 - The database layer trusts FAFCAS-compliant vectors and avoids unnecessary hydration of large content
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L83-L134)
-- [db.ts](file://src/resonance/db.ts#L284-L296)
+- [db.ts](src/resonance/db.ts#L83-L134)
+- [db.ts](src/resonance/db.ts#L284-L296)
 
 ### Historical Non-Compliance Fix
 The cross-domain FAFCAS fix script:
@@ -254,10 +254,10 @@ Verify --> End(["Done"])
 ```
 
 **Diagram sources**
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts#L11-L93)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts#L11-L93)
 
 **Section sources**
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts#L1-L126)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts#L1-L126)
 
 ### Compliance and Forensics
 - Compliance tests verify unit-length vectors, idempotence, minimal input handling, and correct dimensionality
@@ -265,9 +265,9 @@ Verify --> End(["Done"])
 - Debriefs document a major restoration effort that improved search scores from ~0.04 to 0.8+ by fixing buffer access patterns and restoring FAFCAS compliance
 
 **Section sources**
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L1-L75)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts#L1-L208)
-- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](file://debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L1-L84)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L1-L75)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts#L1-L208)
+- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L1-L84)
 
 ## Dependency Analysis
 FAFCAS relies on:
@@ -287,14 +287,14 @@ DP --> VE
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L106-L139)
-- [db.ts](file://src/resonance/db.ts#L467-L487)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L106-L139)
+- [db.ts](src/resonance/db.ts#L467-L487)
+- [db.ts](src/resonance/db.ts#L448-L464)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L106-L139)
-- [db.ts](file://src/resonance/db.ts#L467-L487)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L106-L139)
+- [db.ts](src/resonance/db.ts#L467-L487)
+- [db.ts](src/resonance/db.ts#L448-L464)
 
 ## Performance Considerations
 - Hot loop optimization: dot product is computed without normalization overhead
@@ -305,8 +305,8 @@ DP --> VE
 Benchmarks demonstrate sub-100ms end-to-end search and highlight FAFCAS’s role in achieving fast, in-memory similarity.
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L51-L58)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L51-L58)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
 
 ## Troubleshooting Guide
 Common issues and remedies:
@@ -318,9 +318,9 @@ Common issues and remedies:
 Forensic scripts and compliance tests help identify and resolve these issues systematically.
 
 **Section sources**
-- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](file://debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L43-L56)
-- [forensic-investigation.ts](file://scripts/lab/forensic-investigation.ts#L1-L208)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts#L1-L75)
+- [debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md](debriefs/2026-02-01-fafcas-investigation-pipeline-restoration.md#L43-L56)
+- [forensic-investigation.ts](scripts/lab/forensic-investigation.ts#L1-L208)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts#L1-L75)
 
 ## Conclusion
 FAFCAS transforms vector similarity into a high-throughput, low-latency operation by enforcing unit vectors and computing dot products directly. The Amalfa implementation integrates normalization, storage, and search seamlessly, validated by compliance tests, forensic investigations, and performance benchmarks. Adhering to strict buffer access patterns and dimensionality ensures robustness and maintains the “Fast As F*ck, Cool As Sh*t” philosophy.

@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [README.md](file://website/ssr-docs/README.md)
-- [TEMPLATES.md](file://website/ssr-docs/TEMPLATES.md)
-- [server.ts](file://website/ssr-docs/server.ts)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx)
-- [brutalisimo.tsx](file://website/ssr-docs/templates/brutalisimo.tsx)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx)
-- [index.ts](file://website/ssr-docs/templates/index.ts)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts)
+- [README.md](website/ssr-docs/README.md)
+- [TEMPLATES.md](website/ssr-docs/TEMPLATES.md)
+- [server.ts](website/ssr-docs/server.ts)
+- [base.tsx](website/ssr-docs/templates/base.tsx)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx)
+- [brutalisimo.tsx](website/ssr-docs/templates/brutalisimo.tsx)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx)
+- [index.ts](website/ssr-docs/templates/index.ts)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts)
+- [paths.ts](website/ssr-docs/lib/paths.ts)
 </cite>
 
 ## Table of Contents
@@ -67,21 +67,21 @@ S --> PATHS
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L150-L341)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L1-L261)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L1-L116)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L1-L97)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L1-L115)
-- [brutalisimo.tsx](file://website/ssr-docs/templates/brutalisimo.tsx#L1-L60)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
+- [server.ts](website/ssr-docs/server.ts#L150-L341)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L1-L261)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L1-L116)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L1-L97)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L1-L115)
+- [brutalisimo.tsx](website/ssr-docs/templates/brutalisimo.tsx#L1-L60)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
 
 **Section sources**
-- [README.md](file://website/ssr-docs/README.md#L1-L119)
-- [TEMPLATES.md](file://website/ssr-docs/TEMPLATES.md#L1-L107)
+- [README.md](website/ssr-docs/README.md#L1-L119)
+- [TEMPLATES.md](website/ssr-docs/TEMPLATES.md#L1-L107)
 
 ## Core Components
 - Base layout and shared components: Provide reusable HTML scaffolding, panels, widgets, and accessibility landmarks.
@@ -97,13 +97,13 @@ Key responsibilities:
 - Brutalisimo variants: Demonstrate layout and content composition patterns.
 
 **Section sources**
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L11-L261)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L10-L116)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L10-L97)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L13-L115)
-- [brutalisimo.tsx](file://website/ssr-docs/templates/brutalisimo.tsx#L10-L60)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L10-L112)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L20-L142)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L11-L261)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L10-L116)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L10-L97)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L13-L115)
+- [brutalisimo.tsx](website/ssr-docs/templates/brutalisimo.tsx#L10-L60)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L10-L112)
+- [index.ts](website/ssr-docs/templates/index.ts#L20-L142)
 
 ## Architecture Overview
 The SSR pipeline uses Bun + Hono’s JSX support to render HTML server-side. The server orchestrates routes, loads data via dedicated loaders, and passes typed props to templates. Templates compose shared components from base.tsx and render final HTML strings.
@@ -127,11 +127,11 @@ Server-->>Client : 200 OK HTML
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L212-L220)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L32-L113)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L60-L118)
+- [server.ts](website/ssr-docs/server.ts#L212-L220)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L32-L113)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L60-L118)
 
 ## Detailed Component Analysis
 
@@ -200,10 +200,10 @@ StatRow --> LayoutProps
 ```
 
 **Diagram sources**
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L11-L261)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L11-L261)
 
 **Section sources**
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L11-L261)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L11-L261)
 
 ### Dashboard Template
 The dashboard template renders system metrics, service status, and logs. It composes ServiceRow and StatRow components from base.tsx and wraps everything in Layout.
@@ -225,15 +225,15 @@ Dash-->>Server : HTML
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L212-L220)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L32-L113)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L159-L261)
+- [server.ts](website/ssr-docs/server.ts#L212-L220)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L32-L113)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L159-L261)
 
 **Section sources**
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L10-L116)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L159-L261)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L10-L116)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L159-L261)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
 
 ### Lexicon Template
 The lexicon template renders a grid of entity tiles with search and category filters. It uses Layout and constructs controls and entries from provided data.
@@ -247,10 +247,10 @@ Compose --> End(["HTML"])
 ```
 
 **Diagram sources**
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L26-L94)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L26-L94)
 
 **Section sources**
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L10-L97)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L10-L97)
 
 ### Doc Template
 The Doc template renders a three-pane layout: document list, TOC, and content. It uses markdown.ts to generate TOC and composes navigation lists from doc-registry.ts categories.
@@ -270,15 +270,15 @@ DocT-->>Server : HTML
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L300-L330)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L45-L112)
+- [server.ts](website/ssr-docs/server.ts#L300-L330)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L45-L112)
 
 **Section sources**
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L13-L115)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L11-L181)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L13-L115)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L11-L181)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
 
 ### Brutalisimo Design System Integration
 Two Brutalisimo templates demonstrate layout and content patterns:
@@ -296,13 +296,13 @@ BRUTDOC --> SB
 ```
 
 **Diagram sources**
-- [brutalisimo.tsx](file://website/ssr-docs/templates/brutalisimo.tsx#L18-L57)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L28-L109)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- [brutalisimo.tsx](website/ssr-docs/templates/brutalisimo.tsx#L18-L57)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L28-L109)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 **Section sources**
-- [brutalisimo.tsx](file://website/ssr-docs/templates/brutalisimo.tsx#L1-L60)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
+- [brutalisimo.tsx](website/ssr-docs/templates/brutalisimo.tsx#L1-L60)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
 
 ### Template Composition Patterns and Prop Interfaces
 - Composition: Templates import Layout and smaller components from base.tsx to build pages.
@@ -315,10 +315,10 @@ Examples of prop interfaces:
 - DocPageData: doc (title, content, toc, metadata), categories
 
 **Section sources**
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L10-L30)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L20-L24)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L20-L28)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L11-L34)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L10-L30)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L20-L24)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L20-L28)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L11-L34)
 
 ### Rendering Pipeline: From Data to HTML
 The pipeline follows a predictable flow:
@@ -341,12 +341,12 @@ G --> H["HTML Response"]
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L212-L330)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L141)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L31-L38)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- [server.ts](website/ssr-docs/server.ts#L212-L330)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L141)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L31-L38)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 ## Dependency Analysis
 - Server depends on:
@@ -373,18 +373,18 @@ Server --> BrutDoc["templates/brutalisimo-doc.tsx"]
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L90-L98)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L8-L12)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L1-L261)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L8-L30)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L8-L24)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L10-L28)
-- [brutalisimo.tsx](file://website/ssr-docs/templates/brutalisimo.tsx#L7-L16)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L7-L26)
+- [server.ts](website/ssr-docs/server.ts#L90-L98)
+- [index.ts](website/ssr-docs/templates/index.ts#L8-L12)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L1-L261)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L8-L30)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L8-L24)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L10-L28)
+- [brutalisimo.tsx](website/ssr-docs/templates/brutalisimo.tsx#L7-L16)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L7-L26)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L90-L98)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L8-L12)
+- [server.ts](website/ssr-docs/server.ts#L90-L98)
+- [index.ts](website/ssr-docs/templates/index.ts#L8-L12)
 
 ## Performance Considerations
 - Minimize synchronous filesystem reads in hot paths; leverage cached registries and precomputed data where possible.
@@ -405,10 +405,10 @@ Common issues and remedies:
 - ARIA and accessibility: Ensure roles and labels are present per base.tsx components.
 
 **Section sources**
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L38)
-- [server.ts](file://website/ssr-docs/server.ts#L300-L330)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L55-L87)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L13-L38)
+- [server.ts](website/ssr-docs/server.ts#L300-L330)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L55-L87)
 
 ## Conclusion
 Amalfa’s SSR template system combines a robust base layout with specialized templates to deliver fast, accessible, and maintainable documentation and dashboard experiences. By centralizing data loading, enforcing typed props, and leveraging shared components, the system supports easy customization and extension. Integrating Brutalisimo design patterns and DataStar enables dynamic, reactive UIs while keeping server-side rendering efficient.
@@ -426,9 +426,9 @@ Steps:
 5. Optionally add a DataStar SSE URL for client-side reactivity.
 
 **Section sources**
-- [TEMPLATES.md](file://website/ssr-docs/TEMPLATES.md#L38-L56)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
-- [server.ts](file://website/ssr-docs/server.ts#L212-L220)
+- [TEMPLATES.md](website/ssr-docs/TEMPLATES.md#L38-L56)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
+- [server.ts](website/ssr-docs/server.ts#L212-L220)
 
 ### Extending Existing Templates
 - Add new props to the template’s data interface.
@@ -437,9 +437,9 @@ Steps:
 - Update server routes to pass the new data fields.
 
 **Section sources**
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L11-L34)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L32-L113)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L26-L94)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L11-L34)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L32-L113)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L26-L94)
 
 ### Integrating New UI Components
 - Place reusable components in base.tsx or create dedicated component modules.
@@ -448,5 +448,5 @@ Steps:
 - Style with terminal-brutalist aesthetics or Tailwind utilities as appropriate.
 
 **Section sources**
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L94-L261)
-- [TEMPLATES.md](file://website/ssr-docs/TEMPLATES.md#L57-L71)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L94-L261)
+- [TEMPLATES.md](website/ssr-docs/TEMPLATES.md#L57-L71)

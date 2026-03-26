@@ -2,21 +2,21 @@
 
 <cite>
 **Referenced Files in This Document**
-- [drizzle.config.ts](file://drizzle.config.ts)
-- [schema.ts](file://src/resonance/drizzle/schema.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [add_fts.ts](file://scripts/migrations/add_fts.ts)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md)
-- [2026-01-13-disposable-database-philosophy.md](file://debriefs/2026-01-13-disposable-database-philosophy.md)
-- [2026-01-15-database-connection-hygiene.md](file://debriefs/2026-01-15-database-connection-hygiene.md)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql)
+- [drizzle.config.ts](drizzle.config.ts)
+- [schema.ts](src/resonance/drizzle/schema.ts)
+- [db.ts](src/resonance/db.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [add_fts.ts](scripts/migrations/add_fts.ts)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md)
+- [2026-01-13-disposable-database-philosophy.md](debriefs/2026-01-13-disposable-database-philosophy.md)
+- [2026-01-15-database-connection-hygiene.md](debriefs/2026-01-15-database-connection-hygiene.md)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql)
 </cite>
 
 ## Table of Contents
@@ -32,10 +32,10 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document provides comprehensive guidance for database migration strategies in Amalfa. It covers Drizzle ORM integration for schema migrations, the migration folder structure with timestamp-based filenames, automatic migration checking during database initialization, safe application of migrations with SQLite’s WAL and busy_timeout protections, rollback procedures, and version management. It also explains the schema evolution toward the “hollow nodes” pattern, impact on existing databases, testing and backup strategies, conflict resolution, propagation across environments, and performance considerations for zero-downtime deployments.
+This document provides comprehensive guidance for database migration strategies in Amalfa. It covers Drizzle ORM integration for schema migrations, the migration folder structure with timestamp-based filenames, automatic migration checking during database initialization, migration application with SQLite's WAL mode and busy_timeout settings, rollback procedures, and version management. It also explains the schema evolution toward the "hollow nodes" pattern, impact on existing databases, testing and backup strategies, conflict resolution, propagation across environments, and performance considerations for zero-downtime deployments.
 
 ## Project Structure
-Amalfa’s migration system centers around Drizzle Kit and a dedicated migrations folder. The configuration defines schema location, output directory, dialect, and database URL. Drizzle-generated SQL migrations are stored under the migrations directory and are automatically applied during database initialization.
+Amalfa's migration system centers around Drizzle Kit and a dedicated migrations folder. The configuration defines schema location, output directory, dialect, and database URL. Drizzle-generated SQL migrations are stored under the migrations directory and are automatically applied during database initialization.
 
 ```mermaid
 graph TB
@@ -67,19 +67,19 @@ FACTORY --> DBINIT
 ```
 
 **Diagram sources**
-- [drizzle.config.ts](file://drizzle.config.ts#L1-L11)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [drizzle.config.ts](drizzle.config.ts#L1-L11)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 **Section sources**
-- [drizzle.config.ts](file://drizzle.config.ts#L1-L11)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
+- [drizzle.config.ts](drizzle.config.ts#L1-L11)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
 
 ## Core Components
 - Drizzle configuration: Defines schema path, migrations output, dialect, and database URL.
@@ -89,10 +89,10 @@ FACTORY --> DBINIT
 - DatabaseFactory: Ensures WAL mode, busy_timeout, and integrity settings for safe concurrent access.
 
 **Section sources**
-- [drizzle.config.ts](file://drizzle.config.ts#L1-L11)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
+- [drizzle.config.ts](drizzle.config.ts#L1-L11)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
 
 ## Architecture Overview
 Amalfa uses SQLite as a high-performance runtime storage engine with FAFCAS-aligned constraints. Drizzle is used exclusively for schema definition and migration generation/execution. Runtime queries use raw SQL via bun:sqlite for performance. The database is configured with WAL mode and busy_timeout to minimize contention and improve concurrency.
@@ -114,16 +114,16 @@ SQLITE --> BUSY
 ```
 
 **Diagram sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L14-L43)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L14-L43)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [db.ts](src/resonance/db.ts#L70-L81)
 
 ## Detailed Component Analysis
 
 ### Drizzle ORM Integration and Migration Workflow
 - Schema definition resides in a single source of truth and is consumed by Drizzle Kit to generate SQL migrations.
 - Generated migrations are stored under migrations with deterministic filenames and snapshot metadata.
-- During ResonanceDB initialization, migrations are applied automatically via Drizzle’s migrator.
+- During ResonanceDB initialization, migrations are applied automatically via Drizzle's migrator.
 
 ```mermaid
 sequenceDiagram
@@ -142,14 +142,14 @@ DB-->>App : ready (migrations applied)
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L44-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [drizzle.config.ts](file://drizzle.config.ts#L3-L10)
+- [db.ts](src/resonance/db.ts#L44-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [drizzle.config.ts](drizzle.config.ts#L3-L10)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L86)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [drizzle.config.ts](file://drizzle.config.ts#L1-L11)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L86)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [drizzle.config.ts](drizzle.config.ts#L1-L11)
 
 ### Migration Folder Structure and Filenames
 - Migrations are stored under migrations with deterministic filenames and snapshot metadata.
@@ -173,16 +173,16 @@ OUT --> SQL2
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L86)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L86)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 ### Automatic Migration Checking During Initialization
 - ResonanceDB constructor ensures a compliant connection and then invokes migrate(), which applies pending migrations.
@@ -197,11 +197,11 @@ Apply --> Done(["Ready"])
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L44-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
+- [db.ts](src/resonance/db.ts#L44-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L44-L81)
+- [db.ts](src/resonance/db.ts#L44-L81)
 
 ### Safe Application with WAL and Busy Timeout
 - WAL mode allows concurrent readers and writers, reducing contention.
@@ -222,16 +222,16 @@ PRAGMA5 --> Ready(["Ready"])
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L17-L63)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L17-L63)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L17-L63)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L17-L63)
 
 ### Migration Rollback Procedures and Version Management
 - Emergency rollback involves restoring from a pre-migration backup, dropping Drizzle state, and re-applying migrations from scratch.
-- Version management is handled by Drizzle’s migration tracking; for existing databases, migrations can be marked as applied without re-execution.
+- Version management is handled by Drizzle's migration tracking; for existing databases, migrations can be marked as applied without re-execution.
 
 ```mermaid
 flowchart TD
@@ -242,15 +242,15 @@ D --> E["Verify schema and tests"]
 ```
 
 **Diagram sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L88-L99)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L88-L99)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L88-L99)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L88-L99)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
 
 ### Schema Evolution: From Content Storage to Hollow Nodes
-- The schema evolved to remove the content column from nodes, enforcing a “hollow nodes” pattern where content is stored on the filesystem and metadata in the database.
+- The schema evolved to remove the content column from nodes, enforcing a "hollow nodes" pattern where content is stored on the filesystem and metadata in the database.
 - This change was implemented in a dedicated migration and reflected across the codebase, including updates to the MCP layer and content hydration utilities.
 
 ```mermaid
@@ -261,12 +261,12 @@ New --> Hydrate["GraphGardener.getContent() for hydration"]
 ```
 
 **Diagram sources**
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L11-L16)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L11-L16)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 **Section sources**
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L11-L16)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L11-L16)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 ### Migration Testing Procedures
 - After generating migrations, review the generated SQL, apply to a development database, verify schema, run tests, and commit both schema.ts and the migration.
@@ -287,12 +287,12 @@ Dev->>Dev : commit schema.ts + migration
 ```
 
 **Diagram sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L62-L86)
-- [add_fts.ts](file://scripts/migrations/add_fts.ts#L12-L98)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L62-L86)
+- [add_fts.ts](scripts/migrations/add_fts.ts#L12-L98)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L62-L86)
-- [add_fts.ts](file://scripts/migrations/add_fts.ts#L12-L98)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L62-L86)
+- [add_fts.ts](scripts/migrations/add_fts.ts#L12-L98)
 
 ### Backup Strategies and Rollback Recovery
 - Pre-migration backups are recommended and can be automated.
@@ -308,12 +308,12 @@ Recover --> Done
 ```
 
 **Diagram sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L207-L230)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L88-L99)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L207-L230)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L88-L99)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L207-L230)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L88-L99)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L207-L230)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L88-L99)
 
 ### Migration Conflict Resolution and Environment Propagation
 - To avoid conflicts, always edit schema.ts, generate, review, and apply via Drizzle.
@@ -329,17 +329,17 @@ Apply --> Init["ResonanceDB init applies migrations"]
 ```
 
 **Diagram sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L86)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L86)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L86)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L86)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L282-L305)
 
 ## Dependency Analysis
-The migration system depends on Drizzle for schema definition and migration generation, and on SQLite’s WAL and busy_timeout for safe concurrent access. The ResonanceDB runtime depends on DatabaseFactory for connection configuration and applies migrations automatically.
+The migration system depends on Drizzle for schema definition and migration generation, and on SQLite's WAL and busy_timeout for safe concurrent access. The ResonanceDB runtime depends on DatabaseFactory for connection configuration and applies migrations automatically.
 
 ```mermaid
 graph TB
@@ -355,16 +355,16 @@ DBT --> FACT
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [drizzle.config.ts](file://drizzle.config.ts#L1-L11)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [drizzle.config.ts](drizzle.config.ts#L1-L11)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [drizzle.config.ts](file://drizzle.config.ts#L1-L11)
-- [db.ts](file://src/resonance/db.ts#L70-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [drizzle.config.ts](drizzle.config.ts#L1-L11)
+- [db.ts](src/resonance/db.ts#L70-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
 
 ## Performance Considerations
 - WAL mode and busy_timeout reduce contention and improve throughput for concurrent readers/writers.
@@ -382,20 +382,20 @@ Timeout --> |No| FurtherReduce["Further reduce"]
 ```
 
 **Diagram sources**
-- [2026-01-15-database-connection-hygiene.md](file://debriefs/2026-01-15-database-connection-hygiene.md#L120-L125)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts#L1-L7)
+- [2026-01-15-database-connection-hygiene.md](debriefs/2026-01-15-database-connection-hygiene.md#L120-L125)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts#L1-L7)
 
 **Section sources**
-- [2026-01-15-database-connection-hygiene.md](file://debriefs/2026-01-15-database-connection-hygiene.md#L120-L125)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts#L1-L7)
+- [2026-01-15-database-connection-hygiene.md](debriefs/2026-01-15-database-connection-hygiene.md#L120-L125)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts#L1-L7)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
-- “Database is locked”: Check for rogue processes, stop daemons, and restart.
-- “Table does not exist”: Apply migrations using Drizzle.
-- “Schema mismatch”: Regenerate migration from current schema, review, and apply if correct; otherwise restore from backup.
+- "Database is locked": Check for rogue processes, stop daemons, and restart.
+- "Table does not exist": Apply migrations using Drizzle.
+- "Schema mismatch": Regenerate migration from current schema, review, and apply if correct; otherwise restore from backup.
 
 ```mermaid
 flowchart TD
@@ -407,15 +407,15 @@ Match --> |No| Other["Other diagnostics"]
 ```
 
 **Diagram sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L274)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L271-L278)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L274)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L271-L278)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L274)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L271-L278)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L274)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L271-L278)
 
 ## Conclusion
-Amalfa’s migration strategy centers on a single, canonical schema definition, deterministic migrations, and automatic application at startup. WAL and busy_timeout ensure safe concurrency, while clear procedures govern testing, backups, rollbacks, and environment propagation. The “hollow nodes” evolution exemplifies disciplined schema evolution aligned with the overall architecture.
+Amalfa's migration strategy centers on a single, canonical schema definition, deterministic migrations, and automatic application at startup. WAL and busy_timeout ensure safe concurrency, while clear procedures govern testing, backups, rollbacks, and environment propagation. The "hollow nodes" evolution exemplifies disciplined schema evolution aligned with the overall architecture.
 
 ## Appendices
 
@@ -428,11 +428,11 @@ Amalfa’s migration strategy centers on a single, canonical schema definition, 
 - Commit schema.ts and migration.
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L62-L86)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L62-L86)
 
 ### Disposable Database Philosophy
 - Treat the database as a cache; regenerate quickly from immutable documents.
 - Avoid theatrical migration complexity; favor simplicity aligned with architecture.
 
 **Section sources**
-- [2026-01-13-disposable-database-philosophy.md](file://debriefs/2026-01-13-disposable-database-philosophy.md#L106-L112)
+- [2026-01-13-disposable-database-philosophy.md](debriefs/2026-01-13-disposable-database-philosophy.md#L106-L112)

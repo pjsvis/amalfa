@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [Historian.ts](file://src/utils/Historian.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-chat.ts](src/cli/sonar-chat.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [Historian.ts](src/utils/Historian.ts)
 </cite>
 
 ## Table of Contents
@@ -64,26 +64,26 @@ SA --> HI
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L1-L116)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L96)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L1-L116)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [Historian.ts](src/utils/Historian.ts#L1-L96)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L1-L116)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L96)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L1-L116)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [Historian.ts](src/utils/Historian.ts#L1-L96)
 
 ## Core Components
 - ChatSession and Message types define the session structure and message roles.
@@ -96,14 +96,14 @@ SA --> HI
 - CLI chat client demonstrates session initialization and message processing.
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L5-L14)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L19-L24)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L5-L116)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L5-L14)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L19-L24)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L5-L116)
 
 ## Architecture Overview
 The chat flow begins at the CLI or HTTP endpoint, routes through the server, and executes in the logic module. The handler augments the user message with retrieved context from the vector engine and graph engine, then calls the inference provider.
@@ -131,11 +131,11 @@ Server-->>Client : JSON response
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L240)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L240)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Detailed Component Analysis
 
@@ -159,12 +159,12 @@ Append --> Return(["Return {message, sessionId}"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L114-L172)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L114-L172)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L114-L172)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L114-L172)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
 
 ### Context Preservation and Message History
 - Message history is maintained per session as an ordered array of Message objects.
@@ -186,12 +186,12 @@ ChatSession "1" --> "*" Message : "contains"
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L5-L14)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L5-L14)
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L5-L14)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L116-L127)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L171-L172)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L5-L14)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L116-L127)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L171-L172)
 
 ### VectorEngine Integration for Context Retrieval
 - VectorEngine embeds queries and performs dot-product similarity against stored unit vectors.
@@ -208,13 +208,13 @@ Hydrate --> Context["Build context block"]
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L132-L161)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L132-L161)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L132-L161)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L132-L161)
 
 ### GraphEngine Integration for Neighbor Discovery
 - For each direct hit, the handler queries neighbors to surface related context.
@@ -229,12 +229,12 @@ Dedup --> Context["Append neighbor context"]
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L136-L143)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L136-L143)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L136-L161)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L105-L108)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L136-L161)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L105-L108)
 
 ### Chat System Prompts and Model Overrides
 - System prompt: Defines the assistant role and includes the current date.
@@ -253,14 +253,14 @@ Handler-->>Caller : {message, sessionId}
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L118-L127)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L163-L169)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L118-L127)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L163-L169)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L118-L127)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L163-L169)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L32-L38)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L118-L127)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L163-L169)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L32-L38)
 
 ### HTTP API and CLI Integration
 - HTTP endpoint: POST /chat expects { sessionId, message, model? } and returns { message, sessionId }.
@@ -281,23 +281,23 @@ CLI->>CLI : Store sessionId if absent
 ```
 
 **Diagram sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L5-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L123-L133)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L5-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L123-L133)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L5-L116)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L123-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L5-L116)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L123-L133)
 
 ### Session Initialization Examples
 - First request without sessionId: The handler creates a new session with a system message and returns the new sessionId.
 - Subsequent requests with sessionId: The handler retrieves the existing session and continues the conversation.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L114-L128)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L92-L94)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L114-L128)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L92-L94)
 
 ### Message Processing Workflows
 - Retrieve or create session
@@ -308,7 +308,7 @@ CLI->>CLI : Store sessionId if absent
 - Return response
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
 
 ### Error Handling for Chat Operations
 - Availability checks: If inference is unavailable, the handler throws an error.
@@ -317,11 +317,11 @@ CLI->>CLI : Store sessionId if absent
 - CLI errors: Network issues and API errors are caught and printed.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L110-L112)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L135-L138)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L94-L97)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L114-L118)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L101-L108)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L110-L112)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L135-L138)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L94-L97)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L114-L118)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L101-L108)
 
 ## Dependency Analysis
 - sonar-agent.ts orchestrates the daemon, initializes engines, and exposes the HTTP server with a shared Map of sessions.
@@ -340,19 +340,19 @@ SC["sonar-chat.ts"] --> SA
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L123-L133)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L100)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L5-L116)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L123-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L100)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L5-L116)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L123-L133)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L123-L133)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Performance Considerations
 - VectorEngine search loads only IDs and embeddings initially, computes scores in-memory, sorts, and hydrates metadata for top-k results to minimize IO.
@@ -370,9 +370,9 @@ Common issues and resolutions:
 - CLI connectivity: Confirm the daemon is running and listening on the configured port; the CLI starts the daemon if needed.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L110-L112)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L26-L54)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L9-L22)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L110-L112)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L26-L54)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L9-L22)
 
 ## Conclusion
 The Sonar Agent’s chat system provides a robust, stateful conversational interface integrated with vector search and graph exploration. Sessions are preserved in memory, context is augmented from both semantic similarity and structural relationships, and model selection is flexible. The modular design enables straightforward extension and maintenance.

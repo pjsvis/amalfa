@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [index.ts](file://src/daemon/index.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [ghost.ts](file://src/utils/ghost.ts)
-- [Logger.ts](file://src/utils/Logger.ts)
-- [Notifications.ts](file://src/utils/Notifications.ts)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts)
+- [index.ts](src/daemon/index.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [schema.ts](src/config/schema.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [ghost.ts](src/utils/ghost.ts)
+- [Logger.ts](src/utils/Logger.ts)
+- [Notifications.ts](src/utils/Notifications.ts)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts)
 </cite>
 
 ## Table of Contents
@@ -68,20 +68,20 @@ D1 -. optional .-> SA
 ```
 
 **Diagram sources**
-- [index.ts](file://src/daemon/index.ts#L1-L293)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [ghost.ts](file://src/utils/ghost.ts#L1-L70)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L66)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
+- [index.ts](src/daemon/index.ts#L1-L293)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [ghost.ts](src/utils/ghost.ts#L1-L70)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L66)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L1-L293)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
+- [index.ts](src/daemon/index.ts#L1-L293)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
 
 ## Core Components
 - File Watcher Orchestrator: Starts watchers for configured directories, filters Markdown files, and triggers debounced ingestion.
@@ -93,12 +93,12 @@ D1 -. optional .-> SA
 - Optional Sonar Agent Integration: Automated research tasks triggered by the system.
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L52-L95)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [ghost.ts](file://src/utils/ghost.ts#L45-L70)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [Notifications.ts](file://src/utils/Notifications.ts#L8-L30)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
+- [index.ts](src/daemon/index.ts#L52-L95)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [ghost.ts](src/utils/ghost.ts#L45-L70)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [Notifications.ts](src/utils/Notifications.ts#L8-L30)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
 
 ## Architecture Overview
 The daemon architecture follows a reactive pattern:
@@ -129,10 +129,10 @@ NA-->>DW : "OK"
 ```
 
 **Diagram sources**
-- [index.ts](file://src/daemon/index.ts#L100-L289)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [ghost.ts](file://src/utils/ghost.ts#L45-L70)
-- [Notifications.ts](file://src/utils/Notifications.ts#L8-L30)
+- [index.ts](src/daemon/index.ts#L100-L289)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [ghost.ts](src/utils/ghost.ts#L45-L70)
+- [Notifications.ts](src/utils/Notifications.ts#L8-L30)
 
 ## Detailed Component Analysis
 
@@ -173,15 +173,15 @@ Backoff --> Debounce
 ```
 
 **Diagram sources**
-- [index.ts](file://src/daemon/index.ts#L52-L95)
-- [index.ts](file://src/daemon/index.ts#L100-L127)
-- [index.ts](file://src/daemon/index.ts#L132-L289)
-- [ghost.ts](file://src/utils/ghost.ts#L45-L70)
+- [index.ts](src/daemon/index.ts#L52-L95)
+- [index.ts](src/daemon/index.ts#L100-L127)
+- [index.ts](src/daemon/index.ts#L132-L289)
+- [ghost.ts](src/utils/ghost.ts#L45-L70)
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L52-L95)
-- [index.ts](file://src/daemon/index.ts#L100-L127)
-- [index.ts](file://src/daemon/index.ts#L132-L289)
+- [index.ts](src/daemon/index.ts#L52-L95)
+- [index.ts](src/daemon/index.ts#L100-L127)
+- [index.ts](src/daemon/index.ts#L132-L289)
 
 ### Ingestion Pipeline (Incremental)
 Responsibilities:
@@ -218,12 +218,12 @@ Stats --> Done(["Return result"])
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L440)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L440)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L440)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L440)
 
 ### Change Detection Logic
 Two-stage gating ensures only meaningful changes are processed:
@@ -245,14 +245,14 @@ Skip --> Done
 ```
 
 **Diagram sources**
-- [index.ts](file://src/daemon/index.ts#L171-L208)
-- [ghost.ts](file://src/utils/ghost.ts#L9-L38)
-- [ghost.ts](file://src/utils/ghost.ts#L45-L70)
+- [index.ts](src/daemon/index.ts#L171-L208)
+- [ghost.ts](src/utils/ghost.ts#L9-L38)
+- [ghost.ts](src/utils/ghost.ts#L45-L70)
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L171-L208)
-- [ghost.ts](file://src/utils/ghost.ts#L9-L38)
-- [ghost.ts](file://src/utils/ghost.ts#L45-L70)
+- [index.ts](src/daemon/index.ts#L171-L208)
+- [ghost.ts](src/utils/ghost.ts#L9-L38)
+- [ghost.ts](src/utils/ghost.ts#L45-L70)
 
 ### Configuration Options
 The daemon reads configuration from a single source of truth and supports:
@@ -270,8 +270,8 @@ The daemon reads configuration from a single source of truth and supports:
 Defaults and validation are enforced by a Zod schema.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L142)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L142)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 ### Integration with Sonar Agent
 The Sonar Agent runs independently and periodically processes tasks placed in dedicated directories. While not directly triggered by file changes, it can benefit from the daemon’s incremental updates by reloading the graph engine and responding to new edges/nodes.
@@ -290,11 +290,11 @@ SA-->>FS : "Write report + move task"
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L106-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L106-L179)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
 
 ## Dependency Analysis
 High-level dependencies:
@@ -316,19 +316,19 @@ IDX -. optional .-> SONAR["src/daemon/sonar-agent.ts"]
 ```
 
 **Diagram sources**
-- [index.ts](file://src/daemon/index.ts#L8-L23)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [ghost.ts](file://src/utils/ghost.ts#L1-L70)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L66)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
+- [index.ts](src/daemon/index.ts#L8-L23)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [ghost.ts](src/utils/ghost.ts#L1-L70)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L66)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L8-L23)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [index.ts](src/daemon/index.ts#L8-L23)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
 
 ## Performance Considerations
 - Debounce tuning: Adjust the debounce interval to balance responsiveness and throughput. Higher intervals reduce CPU but increase latency.
@@ -360,11 +360,11 @@ Common issues and resolutions:
   - Tests demonstrate expected behavior for new files, modifications, and multi-source configs.
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L67-L73)
-- [index.ts](file://src/daemon/index.ts#L123-L126)
-- [index.ts](file://src/daemon/index.ts#L232-L287)
-- [Notifications.ts](file://src/utils/Notifications.ts#L14-L30)
-- [daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts#L72-L218)
+- [index.ts](src/daemon/index.ts#L67-L73)
+- [index.ts](src/daemon/index.ts#L123-L126)
+- [index.ts](src/daemon/index.ts#L232-L287)
+- [Notifications.ts](src/utils/Notifications.ts#L14-L30)
+- [daemon-realtime.test.ts](tests/daemon-realtime.test.ts#L72-L218)
 
 ## Conclusion
 The File Watcher Daemon provides a robust, configurable mechanism for incremental ingestion of Markdown content into the knowledge graph. Its event-driven design, batching, and retry logic ensure reliable operation under varied conditions. Optional integrations with Ember and Sonar extend the system’s capabilities for enrichment and automated research. Proper configuration, attention to performance tuning, and adherence to troubleshooting steps will maintain a smooth and efficient pipeline.

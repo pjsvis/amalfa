@@ -2,22 +2,22 @@
 
 <cite>
 **Referenced Files in This Document**
-- [Harvester.ts](file://src/core/Harvester.ts)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts)
-- [server.py](file://src/sidecars/lang-extract/server.py)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [schema.ts](file://src/resonance/drizzle/schema.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts)
-- [TagInjector.ts](file://src/utils/TagInjector.ts)
-- [markdown-hygiene-playbook.md](file://playbooks/markdown-hygiene-playbook.md)
-- [ingest_test.md](file://tests/fixtures/ingest_test.md)
-- [tagged_test.md](file://tests/fixtures/tagged_test.md)
+- [Harvester.ts](src/core/Harvester.ts)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts)
+- [server.py](src/sidecars/lang-extract/server.py)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [db.ts](src/resonance/db.ts)
+- [schema.ts](src/resonance/drizzle/schema.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts)
+- [TagInjector.ts](src/utils/TagInjector.ts)
+- [markdown-hygiene-playbook.md](playbooks/markdown-hygiene-playbook.md)
+- [ingest_test.md](tests/fixtures/ingest_test.md)
+- [tagged_test.md](tests/fixtures/tagged_test.md)
 </cite>
 
 ## Table of Contents
@@ -83,27 +83,27 @@ BN --> AI
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L51)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L2132)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L85)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L2132)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L85)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L85)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L51)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L85)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
 
 ## Core Components
 - Harvester: Scans directories for tag- tokens, filters known tags, and sorts by frequency for prioritization.
@@ -117,17 +117,17 @@ BN --> AI
 - TagInjector: Adds semantic tags to markdown files for downstream harvesting.
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L51)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L2132)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts#L1-L54)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L85)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L1-L44)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L2132)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts#L1-L54)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L85)
+- [TagInjector.ts](src/utils/TagInjector.ts#L1-L44)
 
 ## Architecture Overview
 The ingestion pipeline transforms markdown into a knowledge graph:
@@ -166,12 +166,12 @@ AI->>DB : "Persist augmented metadata"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L2132)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L2132)
 
 ## Detailed Component Analysis
 
@@ -203,10 +203,10 @@ SortDesc --> ReturnSorted["Return sorted list"]
 ```
 
 **Diagram sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L72)
+- [Harvester.ts](src/core/Harvester.ts#L16-L72)
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L1-L74)
+- [Harvester.ts](src/core/Harvester.ts#L1-L74)
 
 ### MarkdownMasker
 MarkdownMasker temporarily replaces “No-Fly Zones” (code blocks, inline code, tables) with inert tokens, stashing originals for restoration. It ensures atomicity of sensitive content during processing and supports reset to free memory.
@@ -224,10 +224,10 @@ Reset(["reset()"]) --> ClearStash["Clear stash"]
 ```
 
 **Diagram sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L16-L48)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L16-L48)
 
 **Section sources**
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
 
 ### LangExtractClient and Sidecar
 LangExtractClient manages connectivity to a Python MCP sidecar that performs knowledge graph extraction. It:
@@ -264,14 +264,14 @@ end
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L343)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L67)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L343)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L67)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
 
 ### AmalfaIngestor: Two-Pass Ingestion Pipeline
 AmalfaIngestor orchestrates the ingestion pipeline:
@@ -296,16 +296,16 @@ Persist --> Stats["Compute stats and return"]
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L51)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L51)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
 
 ### Semantic Tokenization and Metadata Enrichment
 - gray-matter separates frontmatter from content for structured metadata extraction.
@@ -325,12 +325,12 @@ Embed --> Node["Node with embedding and meta"]
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L439)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts#L36-L54)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L439)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts#L36-L54)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L439)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts#L1-L54)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L439)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts#L1-L54)
 
 ### Edge Weaving and Graph Integrity
 - EdgeWeaver constructs edges between nodes using a lexicon built from existing nodes.
@@ -356,15 +356,15 @@ EdgeWeaver --> ResonanceDB : "inserts edges"
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L2132)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L2132)
+- [db.ts](src/resonance/db.ts#L105-L188)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L2132)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L2132)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L51)
 
 ### Content Sanitization and Formatting
 - BentoNormalizer applies heuristics to enforce consistent markdown structure:
@@ -388,12 +388,12 @@ ReplaceH4H5H6 --> ReturnFlat["Return flattened content"]
 ```
 
 **Diagram sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L6-L85)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L44)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L6-L85)
+- [TagInjector.ts](src/utils/TagInjector.ts#L11-L44)
 
 **Section sources**
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L85)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L1-L44)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L85)
+- [TagInjector.ts](src/utils/TagInjector.ts#L1-L44)
 
 ## Dependency Analysis
 Key dependencies and relationships:
@@ -417,26 +417,26 @@ BN["BentoNormalizer"] --> AI
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L2132)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L85)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L2132)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L85)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L1-L69)
-- [server.py](file://src/sidecars/lang-extract/server.py#L1-L226)
-- [db.ts](file://src/resonance/db.ts#L105-L188)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L162-L193)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L2132)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L1-L50)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L1-L85)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L1-L69)
+- [server.py](src/sidecars/lang-extract/server.py#L1-L226)
+- [db.ts](src/resonance/db.ts#L105-L188)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L162-L193)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L2132)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L1-L50)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L1-L85)
 
 ## Performance Considerations
 - Batch transactions: AmalfaIngestor uses a reduced batch size to minimize lock contention and prevent SQLITE_BUSY errors when daemons or MCP server are active.
@@ -453,53 +453,53 @@ Common issues and resolutions:
   - Symptoms: Missing or malformed frontmatter causing parsing errors.
   - Resolution: Ensure YAML frontmatter is properly delimited and valid; BentoNormalizer can help enforce structure.
   - Section sources
-    - [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L384-L386)
-    - [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L6-L55)
+    - [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L384-L386)
+    - [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L6-L55)
 
 - LangExtractClient provider misconfiguration
   - Symptoms: Missing API keys or invalid provider selection.
   - Resolution: Set environment variables (e.g., OPENROUTER_API_KEY, GEMINI_API_KEY) or configure provider in settings; LangExtractClient validates provider config and surfaces actionable errors.
   - Section sources
-    - [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L82-L104)
-    - [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L246)
+    - [LangExtractClient.ts](src/services/LangExtractClient.ts#L82-L104)
+    - [LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L246)
 
 - Sidecar connectivity issues
   - Symptoms: Sidecar not detected or extraction fails.
   - Resolution: Verify uv installation, sidecar path, and server.py presence; ensure provider environment variables are passed correctly.
   - Section sources
-    - [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L49-L57)
-    - [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L222-L238)
+    - [LangExtractClient.ts](src/services/LangExtractClient.ts#L49-L57)
+    - [LangExtractClient.ts](src/services/LangExtractClient.ts#L222-L238)
 
 - MarkdownMasker masking artifacts
   - Symptoms: Unexpected token retention or restoration issues.
   - Resolution: Ensure reset() is called after processing each file to free memory; confirm stash is cleared.
   - Section sources
-    - [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L46-L48)
+    - [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L46-L48)
 
 - Edge weaving rejects edges
   - Symptoms: Fewer edges than expected.
   - Resolution: Review LouvainGate statistics and thresholds; adjust if necessary to balance graph density and stability.
   - Section sources
-    - [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
+    - [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
 
 - Database integrity checks
   - Symptoms: Missing or empty database file after checkpoint.
   - Resolution: The pipeline performs a pinch check to verify file existence and non-zero size after checkpoint.
   - Section sources
-    - [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L255-L269)
+    - [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L255-L269)
 
 - Markdown hygiene and sanitization
   - Use the markdown hygiene playbook to enforce consistent formatting and emergency recovery procedures.
   - Section sources
-    - [markdown-hygiene-playbook.md](file://playbooks/markdown-hygiene-playbook.md#L1-L26)
+    - [markdown-hygiene-playbook.md](playbooks/markdown-hygiene-playbook.md#L1-L26)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L255-L269)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L49-L57)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L246)
-- [MarkdownMasker.ts](file://src/core/MarkdownMasker.ts#L46-L48)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [markdown-hygiene-playbook.md](file://playbooks/markdown-hygiene-playbook.md#L1-L26)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L255-L269)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L49-L57)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L246)
+- [MarkdownMasker.ts](src/core/MarkdownMasker.ts#L46-L48)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [markdown-hygiene-playbook.md](playbooks/markdown-hygiene-playbook.md#L1-L26)
 
 ## Conclusion
 Amalfa’s content harvesting and processing pipeline integrates robust parsing, sanitization, enrichment, and graph construction. By combining gray-matter frontmatter parsing, lightweight semantic tokenization, optional advanced extraction via a MCP sidecar, and careful edge weaving with integrity checks, the system reliably transforms markdown into a structured knowledge graph suitable for downstream analytics and retrieval.
@@ -511,17 +511,17 @@ Amalfa’s content harvesting and processing pipeline integrates robust parsing,
 ### Example: Custom Extraction Rules and Formats
 - Tag-based harvesting: Use tag- tokens to identify candidate documents for further processing.
   - Section sources
-    - [Harvester.ts](file://src/core/Harvester.ts#L16-L36)
-    - [ingest_test.md](file://tests/fixtures/ingest_test.md#L7-L12)
+    - [Harvester.ts](src/core/Harvester.ts#L16-L36)
+    - [ingest_test.md](tests/fixtures/ingest_test.md#L7-L12)
 
 - Markdown hygiene: Apply BentoNormalizer heuristics to enforce consistent structure and prevent parsing ambiguity.
   - Section sources
-    - [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts#L6-L85)
+    - [BentoNormalizer.ts](src/core/BentoNormalizer.ts#L6-L85)
 
 - Tag injection: Add semantic tags to markdown files for downstream harvesting.
   - Section sources
-    - [TagInjector.ts](file://src/utils/TagInjector.ts#L11-L44)
+    - [TagInjector.ts](src/utils/TagInjector.ts#L11-L44)
 
 - Sanitization testing: Validate masking behavior with tagged_test.md to ensure code blocks and tables remain atomic.
   - Section sources
-    - [tagged_test.md](file://tests/fixtures/tagged_test.md#L20-L39)
+    - [tagged_test.md](tests/fixtures/tagged_test.md#L20-L39)

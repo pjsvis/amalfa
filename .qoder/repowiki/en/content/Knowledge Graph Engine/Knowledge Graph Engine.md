@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [README.md](file://README.md)
-- [00-system.md](file://docs/architecture/00-system.md)
-- [01-ingest.md](file://docs/architecture/01-ingest.md)
-- [graph-enhancement-strategies.md](file://docs/graph-enhancement-strategies.md)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [README.md](README.md)
+- [00-system.md](docs/architecture/00-system.md)
+- [01-ingest.md](docs/architecture/01-ingest.md)
+- [graph-enhancement-strategies.md](docs/graph-enhancement-strategies.md)
 </cite>
 
 ## Table of Contents
@@ -66,18 +66,18 @@ TW --> DB
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L32)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L36)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L61)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L32)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L36)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L61)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
 
 **Section sources**
-- [README.md](file://README.md#L357-L379)
-- [00-system.md](file://docs/architecture/00-system.md#L18-L63)
-- [01-ingest.md](file://docs/architecture/01-ingest.md#L18-L63)
+- [README.md](README.md#L357-L379)
+- [00-system.md](docs/architecture/00-system.md#L18-L63)
+- [01-ingest.md](docs/architecture/01-ingest.md#L18-L63)
 
 ## Core Components
 - GraphEngine: Loads nodes and edges from SQLite into an in-memory MultiDirectedGraph, exposes traversal, centrality, and community detection, and provides structural gap discovery via Adamic-Adar.
@@ -88,12 +88,12 @@ TW --> DB
 - VectorEngine: Generates FAFCAS-normalized embeddings and performs fast dot-product similarity search over stored vectors.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L270)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L270)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
 
 ## Architecture Overview
 The system follows a local-first, disposable database model: Markdown is the source of truth, SQLite is a fast, ephemeral cache, and Graphology powers in-memory analytics. The ingestion pipeline uses a two-pass strategy to ensure all nodes exist before weaving edges. The graph engine and enhancement utilities operate on the in-memory representation for speed, while persistence occurs in SQLite.
@@ -119,11 +119,11 @@ VE-->>GE : "topK results"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L70-L91)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L242)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L70-L91)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L242)
 
 ## Detailed Component Analysis
 
@@ -158,12 +158,12 @@ class GraphEngine {
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L173-L238)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L305-L312)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L173-L238)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L305-L312)
 
 ### EdgeWeaver: Relationship Discovery and Construction
 - Builds a lexicon from existing nodes (ID, title, aliases) for fast resolution.
@@ -188,13 +188,13 @@ Reject --> End
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L166)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L166)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L166)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ### GraphGardener: Gap Discovery, Communities, and Timeline
 - Semantic gap analysis: Compares vector neighbors with graph neighbors to surface candidates where semantic similarity exists without structural linkage.
@@ -223,13 +223,13 @@ GG-->>DB : "insert FOLLOWS edges"
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L195)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L128-L154)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L242)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L195)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L128-L154)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L242)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L117-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L117-L195)
 
 ### LouvainGate: Super-Node Stabilization
 - Determines whether a target node is a “super-node” by counting total incident edges.
@@ -246,10 +246,10 @@ C --> |No| Reject["allowed = false<br/>reason logged"]
 ```
 
 **Diagram sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
 
 ### TimelineWeaver: Temporal Relationship Mapping
 - Identifies nodes of a specific type with date metadata (e.g., debriefs).
@@ -269,10 +269,10 @@ Loop --> Done["Log count and return"]
 ```
 
 **Diagram sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L4-L61)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L4-L61)
 
 **Section sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L4-L61)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L4-L61)
 
 ### VectorEngine: FAFCAS Normalization and Fast Search
 - Embeds text using a fast embedding model and normalizes vectors to unit length (FAFCAS).
@@ -290,11 +290,11 @@ class VectorEngine {
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L242)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L242)
 
 ### Two-Pass Ingestion Strategy
 - Pass 1: Create nodes (and optionally compute embeddings) without inserting edges.
@@ -312,12 +312,12 @@ Stats --> End(["Complete"])
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L359-L370)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L359-L370)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L70-L91)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L222-L239)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L70-L91)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L222-L239)
 
 ## Dependency Analysis
 - GraphEngine depends on Graphology for graph operations and metrics.
@@ -338,18 +338,18 @@ VE --> DB
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L3-L12)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L3)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L6)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L2)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L2)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L3-L12)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L3)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L6)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L2)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L2)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L3-L12)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L3)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L6)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L2)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L2)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L3-L12)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L3)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L6)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L2)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L2)
 
 ## Performance Considerations
 - In-memory graph: GraphEngine loads nodes and edges into a MultiDirectedGraph for fast traversal and analytics; keep the graph compact and prune or rebuild periodically.
@@ -370,10 +370,10 @@ VE --> DB
 - Slow ingestion: Reduce batch sizes under high concurrency, ensure embeddings are generated only when content is substantial, and monitor telemetry.
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L20-L36)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L305-L312)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L255-L270)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L20-L36)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L305-L312)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L255-L270)
 
 ## Conclusion
 Amalfa’s knowledge graph engine combines a robust two-pass ingestion pipeline, precise edge construction guided by semantic signals and structural heuristics, and powerful in-memory analytics to maintain a healthy, navigable knowledge graph. The integration of vector search and graph algorithms enables both semantic and topological discovery, while safeguards like LouvainGate protect against destabilizing link additions. Together, these components support scalable knowledge management and agent-driven exploration.
@@ -384,18 +384,18 @@ Amalfa’s knowledge graph engine combines a robust two-pass ingestion pipeline,
 
 ### Practical Examples
 - Load the in-memory graph from SQLite and compute PageRank and communities.
-  - See [GraphEngine.load](file://src/core/GraphEngine.ts#L50-L100) and [GraphEngine.getMetrics](file://src/core/GraphEngine.ts#L159-L171).
+  - See [GraphEngine.load](src/core/GraphEngine.ts#L50-L100) and [GraphEngine.getMetrics](src/core/GraphEngine.ts#L159-L171).
 - Construct edges from wiki-links and tags in a document.
-  - See [EdgeWeaver.weave](file://src/core/EdgeWeaver.ts#L54-L59) and [EdgeWeaver.processWikiLinks](file://src/core/EdgeWeaver.ts#L122-L143).
+  - See [EdgeWeaver.weave](src/core/EdgeWeaver.ts#L54-L59) and [EdgeWeaver.processWikiLinks](src/core/EdgeWeaver.ts#L122-L143).
 - Find semantic gaps between nodes lacking structural linkage.
-  - See [GraphGardener.findGaps](file://src/core/GraphGardener.ts#L38-L99).
+  - See [GraphGardener.findGaps](src/core/GraphGardener.ts#L38-L99).
 - Detect communities and summarize clusters.
-  - See [GraphGardener.analyzeCommunities](file://src/core/GraphGardener.ts#L120-L133) and [Graphology Louvain](file://src/core/GraphEngine.ts#L131-L133).
+  - See [GraphGardener.analyzeCommunities](src/core/GraphGardener.ts#L120-L133) and [Graphology Louvain](src/core/GraphEngine.ts#L131-L133).
 - Propose temporal edges among dated nodes.
-  - See [TimelineWeaver.weave](file://src/core/TimelineWeaver.ts#L4-L61).
+  - See [TimelineWeaver.weave](src/core/TimelineWeaver.ts#L4-L61).
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L143)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L133)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L4-L61)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L143)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L133)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L4-L61)

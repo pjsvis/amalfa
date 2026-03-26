@@ -2,20 +2,20 @@
 
 <cite>
 **Referenced Files in This Document**
-- [db.ts](file://src/resonance/db.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [schema.ts](file://src/resonance/drizzle/schema.ts)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [check_oh125.ts](file://scripts/verify/check_oh125.ts)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md)
+- [db.ts](src/resonance/db.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [schema.ts](src/resonance/drizzle/schema.ts)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [embedder.ts](src/resonance/services/embedder.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [check_oh125.ts](scripts/verify/check_oh125.ts)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md)
 </cite>
 
 ## Table of Contents
@@ -76,24 +76,24 @@ SS --> DF
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L38)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L1-L78)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L168)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L38)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L1-L78)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L168)
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
 
 ## Core Components
 - Nodes table: stores node identity, classification, hierarchy, summaries, embeddings, hashes, flexible metadata, and temporal anchors. Content is intentionally omitted to maintain the hollow node pattern.
@@ -104,11 +104,11 @@ SS --> DF
 - Vector services: embedder and vector daemon produce normalized embeddings compatible with FAFCAS storage and search.
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L12-L77)
-- [db.ts](file://src/resonance/db.ts#L11-L134)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
+- [schema.ts](src/resonance/drizzle/schema.ts#L12-L77)
+- [db.ts](src/resonance/db.ts#L11-L134)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
 
 ## Architecture Overview
 The database architecture separates concerns cleanly:
@@ -135,10 +135,10 @@ DB-->>Producer : "Node metadata + vector ready"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L83-L134)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L162-L223)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L180-L193)
+- [db.ts](src/resonance/db.ts#L83-L134)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L162-L223)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L180-L193)
 
 ## Detailed Component Analysis
 
@@ -162,9 +162,9 @@ DB-->>Producer : "Node metadata + vector ready"
   - content is not present in schema; content hydration occurs from filesystem
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L28)
-- [db.ts](file://src/resonance/db.ts#L88-L116)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L18-L30)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L28)
+- [db.ts](src/resonance/db.ts#L88-L116)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L18-L30)
 
 ### Edges Table
 - Purpose: Define relationships between nodes with optional semantic metadata.
@@ -208,11 +208,11 @@ NODES ||--o{ EDGES : "target"
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L34-L51)
+- [schema.ts](src/resonance/drizzle/schema.ts#L34-L51)
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L34-L51)
-- [db.ts](file://src/resonance/db.ts#L140-L184)
+- [schema.ts](src/resonance/drizzle/schema.ts#L34-L51)
+- [db.ts](src/resonance/db.ts#L140-L184)
 
 ### History Table
 - Purpose: Audit trail for graph mutations.
@@ -227,8 +227,8 @@ NODES ||--o{ EDGES : "target"
 - Usage: ResonanceDB logs mutations to this table for traceability.
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L68-L76)
-- [db.ts](file://src/resonance/db.ts#L402-L421)
+- [schema.ts](src/resonance/drizzle/schema.ts#L68-L76)
+- [db.ts](src/resonance/db.ts#L402-L421)
 
 ### DatabaseFactory and Connection Hardening
 - Enforces WAL mode, busy_timeout, foreign keys, synchronous, mmap, and temp_store settings.
@@ -236,8 +236,8 @@ NODES ||--o{ EDGES : "target"
 - Health checks validate configuration and perform basic read/write verification.
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L26)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L26)
 
 ### ResonanceDB: High-Performance Access
 - Migration management: Drizzle migrations applied automatically on initialization.
@@ -283,12 +283,12 @@ ResonanceDB --> DatabaseFactory : "uses for connections"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L160-L193)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L160-L193)
 
 ### FAFCAS Protocol Integration
 - Embeddings are normalized to unit length before storage and stored as raw Float32 bytes.
@@ -307,16 +307,16 @@ Rank --> End(["Return Top-K"])
 ```
 
 **Diagram sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L97-L124)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L191-L206)
-- [db.ts](file://src/resonance/db.ts#L94-L103)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
+- [embedder.ts](src/resonance/services/embedder.ts#L97-L124)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L191-L206)
+- [db.ts](src/resonance/db.ts#L94-L103)
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L168)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [db.ts](file://src/resonance/db.ts#L94-L103)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L168)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [db.ts](src/resonance/db.ts#L94-L103)
 
 ### Schema Evolution Through Migrations
 - Single source of truth: schema.ts
@@ -342,12 +342,12 @@ DB-->>Dev : "Schema updated"
 ```
 
 **Diagram sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L86)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L18-L30)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L86)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L18-L30)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L1-L168)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L1-L168)
 
 ### Disposable Database Pattern and Content Hydration
 - The database is designed to be regenerated from markdown sources without losing information.
@@ -355,9 +355,9 @@ DB-->>Dev : "Schema updated"
 - ContentHydrator provides utilities to hydrate search results with content on demand.
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L180-L193)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L38)
-- [check_oh125.ts](file://scripts/verify/check_oh125.ts#L1-L21)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L180-L193)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L38)
+- [check_oh125.ts](scripts/verify/check_oh125.ts#L1-L21)
 
 ### Relationship Between Nodes and Edges, Constraints, and Indexing
 - Primary keys:
@@ -370,8 +370,8 @@ DB-->>Dev : "Schema updated"
 - These indices support efficient traversal and filtering.
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L44-L51)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [schema.ts](src/resonance/drizzle/schema.ts#L44-L51)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
 
 ### JSON Metadata Field Usage
 - nodes.meta is stored as JSON text and parsed when hydrating node data.
@@ -379,8 +379,8 @@ DB-->>Dev : "Schema updated"
 - ResonanceDB.updateNodeMeta persists updated metadata and logs changes to history.
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L26-L27)
-- [db.ts](file://src/resonance/db.ts#L393-L400)
+- [schema.ts](src/resonance/drizzle/schema.ts#L26-L27)
+- [db.ts](src/resonance/db.ts#L393-L400)
 
 ### Schema Validation Rules and Data Integrity
 - WAL mode and busy_timeout ensure concurrency safety.
@@ -389,9 +389,9 @@ DB-->>Dev : "Schema updated"
 - Drizzle enforces schema changes; direct SQL edits are prohibited.
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L25)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L31-L43)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L18-L25)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L31-L43)
 
 ### Transition from Content Storage to Filesystem-Based Content Management
 - The content column was removed from nodes (schema v9 equivalent) to enforce the hollow node pattern.
@@ -399,9 +399,9 @@ DB-->>Dev : "Schema updated"
 - Migration workflow standardized to Drizzle to prevent schema drift.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L86-L87)
-- [2026-01-13-drizzle-migration-completion.md](file://debriefs/2026-01-13-drizzle-migration-completion.md#L11-L16)
-- [check_oh125.ts](file://scripts/verify/check_oh125.ts#L13-L18)
+- [db.ts](src/resonance/db.ts#L86-L87)
+- [2026-01-13-drizzle-migration-completion.md](debriefs/2026-01-13-drizzle-migration-completion.md#L11-L16)
+- [check_oh125.ts](scripts/verify/check_oh125.ts#L13-L18)
 
 ## Dependency Analysis
 The following diagram shows module-level dependencies among core database components:
@@ -418,20 +418,20 @@ SS["sqlite-standards.md"] --> DF
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L38)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L1-L78)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L168)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L38)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L1-L78)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L168)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
 
 ## Performance Considerations
 - WAL mode and busy_timeout enable concurrency without locking errors.
@@ -450,8 +450,8 @@ Common issues and resolutions:
 - Content appears as "[object Object]": indicates legacy content field usage; switch to explicit hydration via GraphGardener.getContent().
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L277)
-- [check_oh125.ts](file://scripts/verify/check_oh125.ts#L13-L18)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L277)
+- [check_oh125.ts](scripts/verify/check_oh125.ts#L13-L18)
 
 ## Conclusion
 Amalfa’s database design embraces a hollow nodes architecture with metadata-only persistence and filesystem-backed content. Drizzle governs schema evolution, while DatabaseFactory hardens SQLite for concurrency and reliability. FAFCAS protocol optimizes vector storage and search performance. The disposable database philosophy enables regeneration from markdown sources, and the history table preserves auditability. Together, these patterns deliver a robust, portable, and high-performance knowledge graph engine.
@@ -466,6 +466,6 @@ Amalfa’s database design embraces a hollow nodes architecture with metadata-on
 - Summary field (0002): lead summary for nodes
 
 **Section sources**
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)

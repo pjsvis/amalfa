@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/cli.ts](file://src/cli.ts)
-- [src/cli/README.md](file://src/cli/README.md)
-- [src/cli/commands/search.ts](file://src/cli/commands/search.ts)
-- [src/cli/commands/read.ts](file://src/cli/commands/read.ts)
-- [src/cli/commands/explore.ts](file://src/cli/commands/explore.ts)
-- [src/cli/commands/list-sources.ts](file://src/cli/commands/list-sources.ts)
-- [src/cli/commands/find-gaps.ts](file://src/cli/commands/find-gaps.ts)
-- [src/cli/commands/inject-tags.ts](file://src/cli/commands/inject-tags.ts)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts)
-- [src/cli/commands/services.ts](file://src/cli/commands/services.ts)
-- [src/cli/enhance-commands.ts](file://src/cli/enhance-commands.ts)
-- [src/cli/list-scripts.ts](file://src/cli/list-scripts.ts)
-- [src/cli/utils.ts](file://src/cli/utils.ts)
+- [src/cli.ts](src/cli.ts)
+- [src/cli/README.md](src/cli/README.md)
+- [src/cli/commands/search.ts](src/cli/commands/search.ts)
+- [src/cli/commands/read.ts](src/cli/commands/read.ts)
+- [src/cli/commands/explore.ts](src/cli/commands/explore.ts)
+- [src/cli/commands/list-sources.ts](src/cli/commands/list-sources.ts)
+- [src/cli/commands/find-gaps.ts](src/cli/commands/find-gaps.ts)
+- [src/cli/commands/inject-tags.ts](src/cli/commands/inject-tags.ts)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts)
+- [src/cli/commands/services.ts](src/cli/commands/services.ts)
+- [src/cli/enhance-commands.ts](src/cli/enhance-commands.ts)
+- [src/cli/list-scripts.ts](src/cli/list-scripts.ts)
+- [src/cli/utils.ts](src/cli/utils.ts)
 </cite>
 
 ## Table of Contents
@@ -54,22 +54,22 @@ UTILS --> CMD_FIND_GAPS
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/cli/commands/search.ts](file://src/cli/commands/search.ts#L19-L219)
-- [src/cli/commands/read.ts](file://src/cli/commands/read.ts#L7-L116)
-- [src/cli/commands/explore.ts](file://src/cli/commands/explore.ts#L9-L153)
-- [src/cli/commands/list-sources.ts](file://src/cli/commands/list-sources.ts#L3-L36)
-- [src/cli/commands/find-gaps.ts](file://src/cli/commands/find-gaps.ts#L85-L94)
-- [src/cli/commands/inject-tags.ts](file://src/cli/commands/inject-tags.ts#L5-L133)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L7-L27)
-- [src/cli/commands/services.ts](file://src/cli/commands/services.ts#L9-L343)
-- [src/cli/enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
-- [src/cli/list-scripts.ts](file://src/cli/list-scripts.ts#L26-L67)
-- [src/cli/utils.ts](file://src/cli/utils.ts#L7-L31)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/cli/commands/search.ts](src/cli/commands/search.ts#L19-L219)
+- [src/cli/commands/read.ts](src/cli/commands/read.ts#L7-L116)
+- [src/cli/commands/explore.ts](src/cli/commands/explore.ts#L9-L153)
+- [src/cli/commands/list-sources.ts](src/cli/commands/list-sources.ts#L3-L36)
+- [src/cli/commands/find-gaps.ts](src/cli/commands/find-gaps.ts#L85-L94)
+- [src/cli/commands/inject-tags.ts](src/cli/commands/inject-tags.ts#L5-L133)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L7-L27)
+- [src/cli/commands/services.ts](src/cli/commands/services.ts#L9-L343)
+- [src/cli/enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
+- [src/cli/list-scripts.ts](src/cli/list-scripts.ts#L26-L67)
+- [src/cli/utils.ts](src/cli/utils.ts#L7-L31)
 
 **Section sources**
-- [src/cli/README.md](file://src/cli/README.md#L1-L29)
-- [src/cli.ts](file://src/cli.ts#L58-L111)
+- [src/cli/README.md](src/cli/README.md#L1-L29)
+- [src/cli.ts](src/cli.ts#L58-L111)
 
 ## Core Components
 - CLI entry and dispatcher: Parses argv, handles help/version, routes to command handlers, and manages dynamic imports for optional features.
@@ -79,8 +79,8 @@ UTILS --> CMD_FIND_GAPS
 - Utilities: Centralized database path resolution and validation shared across commands.
 
 **Section sources**
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/cli/utils.ts](file://src/cli/utils.ts#L7-L31)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/cli/utils.ts](src/cli/utils.ts#L7-L31)
 
 ## Architecture Overview
 The CLI follows a command-router pattern. The entry point determines the command and delegates to a dedicated handler. Handlers may use shared utilities for database access and validation. Service commands orchestrate external daemons and the MCP server, while the enhance-commands feature integrates with the Sonar agent’s metadata enhancement endpoints.
@@ -103,11 +103,11 @@ CLI-->>User : Exit code and output
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/cli/utils.ts](file://src/cli/utils.ts#L7-L31)
-- [src/cli/commands/search.ts](file://src/cli/commands/search.ts#L75-L84)
-- [src/cli/commands/read.ts](file://src/cli/commands/read.ts#L48-L56)
-- [src/cli/commands/explore.ts](file://src/cli/commands/explore.ts#L64-L66)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/cli/utils.ts](src/cli/utils.ts#L7-L31)
+- [src/cli/commands/search.ts](src/cli/commands/search.ts#L75-L84)
+- [src/cli/commands/read.ts](src/cli/commands/read.ts#L48-L56)
+- [src/cli/commands/explore.ts](src/cli/commands/explore.ts#L64-L66)
 
 ## Detailed Component Analysis
 
@@ -119,9 +119,9 @@ CLI-->>User : Exit code and output
 - Special-case handling for system root CWD to locate project root.
 
 **Section sources**
-- [src/cli.ts](file://src/cli.ts#L37-L56)
-- [src/cli.ts](file://src/cli.ts#L58-L111)
-- [src/cli.ts](file://src/cli.ts#L132-L268)
+- [src/cli.ts](src/cli.ts#L37-L56)
+- [src/cli.ts](src/cli.ts#L58-L111)
+- [src/cli.ts](src/cli.ts#L132-L268)
 
 ### Search Command
 - Arguments: query string (required), optional flags:
@@ -161,10 +161,10 @@ Err2 --> End
 ```
 
 **Diagram sources**
-- [src/cli/commands/search.ts](file://src/cli/commands/search.ts#L19-L219)
+- [src/cli/commands/search.ts](src/cli/commands/search.ts#L19-L219)
 
 **Section sources**
-- [src/cli/commands/search.ts](file://src/cli/commands/search.ts#L19-L219)
+- [src/cli/commands/search.ts](src/cli/commands/search.ts#L19-L219)
 
 ### Read Command
 - Arguments: node-id (required), optional --json.
@@ -176,7 +176,7 @@ Err2 --> End
   - JSON with id and content.
 
 **Section sources**
-- [src/cli/commands/read.ts](file://src/cli/commands/read.ts#L7-L116)
+- [src/cli/commands/read.ts](src/cli/commands/read.ts#L7-L116)
 
 ### Explore Command
 - Arguments: node-id (required), optional:
@@ -190,7 +190,7 @@ Err2 --> End
   - Human-readable grouped by relation type with tips.
 
 **Section sources**
-- [src/cli/commands/explore.ts](file://src/cli/commands/explore.ts#L9-L153)
+- [src/cli/commands/explore.ts](src/cli/commands/explore.ts#L9-L153)
 
 ### List Sources Command
 - Arguments: optional --json.
@@ -201,7 +201,7 @@ Err2 --> End
   - Human-readable list with explanatory note.
 
 **Section sources**
-- [src/cli/commands/list-sources.ts](file://src/cli/commands/list-sources.ts#L3-L36)
+- [src/cli/commands/list-sources.ts](src/cli/commands/list-sources.ts#L3-L36)
 
 ### Find Gaps Command
 - Arguments: optional:
@@ -215,7 +215,7 @@ Err2 --> End
   - JSON export path printed.
 
 **Section sources**
-- [src/cli/commands/find-gaps.ts](file://src/cli/commands/find-gaps.ts#L85-L94)
+- [src/cli/commands/find-gaps.ts](src/cli/commands/find-gaps.ts#L85-L94)
 
 ### Inject Tags Command
 - Arguments: file-path (required), one or more tags, optional --json.
@@ -227,7 +227,7 @@ Err2 --> End
   - Human-readable success message and tag list.
 
 **Section sources**
-- [src/cli/commands/inject-tags.ts](file://src/cli/commands/inject-tags.ts#L5-L133)
+- [src/cli/commands/inject-tags.ts](src/cli/commands/inject-tags.ts#L5-L133)
 
 ### Service Management Commands
 - MCP Server:
@@ -268,16 +268,16 @@ S-->>CLI : Cleaned up
 ```
 
 **Diagram sources**
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L7-L27)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L29-L211)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L266-L320)
-- [src/cli/commands/services.ts](file://src/cli/commands/services.ts#L9-L343)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L7-L27)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L29-L211)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L266-L320)
+- [src/cli/commands/services.ts](src/cli/commands/services.ts#L9-L343)
 
 **Section sources**
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L7-L27)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L29-L211)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L266-L320)
-- [src/cli/commands/services.ts](file://src/cli/commands/services.ts#L9-L343)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L7-L27)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L29-L211)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L266-L320)
+- [src/cli/commands/services.ts](src/cli/commands/services.ts#L9-L343)
 
 ### Enhance-Commands Functionality
 - Requires Sonar Agent to be running.
@@ -312,10 +312,10 @@ Enhance-->>User : Pretty-printed JSON
 ```
 
 **Diagram sources**
-- [src/cli/enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
+- [src/cli/enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
 
 **Section sources**
-- [src/cli/enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
+- [src/cli/enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
 
 ### Script Management System
 - Listing scripts:
@@ -326,7 +326,7 @@ Enhance-->>User : Pretty-printed JSON
   - Human-readable categorized list with command and description.
 
 **Section sources**
-- [src/cli/list-scripts.ts](file://src/cli/list-scripts.ts#L18-L67)
+- [src/cli/list-scripts.ts](src/cli/list-scripts.ts#L18-L67)
 
 ## Dependency Analysis
 - The CLI entry depends on individual command modules and dynamically imports optional features.
@@ -354,12 +354,12 @@ C5 --> U
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L1-L35)
-- [src/cli/utils.ts](file://src/cli/utils.ts#L1-L32)
+- [src/cli.ts](src/cli.ts#L1-L35)
+- [src/cli/utils.ts](src/cli/utils.ts#L1-L32)
 
 **Section sources**
-- [src/cli.ts](file://src/cli.ts#L1-L35)
-- [src/cli/utils.ts](file://src/cli/utils.ts#L1-L32)
+- [src/cli.ts](src/cli.ts#L1-L35)
+- [src/cli/utils.ts](src/cli/utils.ts#L1-L32)
 
 ## Performance Considerations
 - Hybrid search uses parallel execution for vector and grep engines; consider increasing --limit cautiously when using --rerank to balance quality and latency.
@@ -386,9 +386,9 @@ C5 --> U
   - For enhance-commands, confirm Sonar Agent is running and reachable on the reported port.
 
 **Section sources**
-- [src/cli/utils.ts](file://src/cli/utils.ts#L17-L31)
-- [src/cli.ts](file://src/cli.ts#L256-L267)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L29-L211)
+- [src/cli/utils.ts](src/cli/utils.ts#L17-L31)
+- [src/cli.ts](src/cli.ts#L256-L267)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L29-L211)
 
 ## Conclusion
 Amalfa’s CLI provides a cohesive, extensible interface for knowledge graph operations, service management, and automation. Commands consistently support JSON output for scripting, while service commands enable robust MCP server and daemon orchestration. The enhance-commands feature integrates with the Sonar agent for scalable metadata enrichment. By leveraging the script registry and standardized argument patterns, teams can build reliable workflows and CI/CD integrations around Amalfa.
@@ -437,17 +437,17 @@ Amalfa’s CLI provides a cohesive, extensible interface for knowledge graph ope
   - Output: summary or JSON result
 
 **Section sources**
-- [src/cli.ts](file://src/cli.ts#L58-L111)
-- [src/cli/commands/search.ts](file://src/cli/commands/search.ts#L34-L58)
-- [src/cli/commands/read.ts](file://src/cli/commands/read.ts#L13-L31)
-- [src/cli/commands/explore.ts](file://src/cli/commands/explore.ts#L27-L47)
-- [src/cli/commands/list-sources.ts](file://src/cli/commands/list-sources.ts#L4-L21)
-- [src/cli/commands/find-gaps.ts](file://src/cli/commands/find-gaps.ts#L86-L93)
-- [src/cli/commands/inject-tags.ts](file://src/cli/commands/inject-tags.ts#L12-L48)
-- [src/cli/commands/server.ts](file://src/cli/commands/server.ts#L29-L211)
-- [src/cli/commands/services.ts](file://src/cli/commands/services.ts#L9-L343)
-- [src/cli/enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
-- [src/cli/list-scripts.ts](file://src/cli/list-scripts.ts#L26-L67)
+- [src/cli.ts](src/cli.ts#L58-L111)
+- [src/cli/commands/search.ts](src/cli/commands/search.ts#L34-L58)
+- [src/cli/commands/read.ts](src/cli/commands/read.ts#L13-L31)
+- [src/cli/commands/explore.ts](src/cli/commands/explore.ts#L27-L47)
+- [src/cli/commands/list-sources.ts](src/cli/commands/list-sources.ts#L4-L21)
+- [src/cli/commands/find-gaps.ts](src/cli/commands/find-gaps.ts#L86-L93)
+- [src/cli/commands/inject-tags.ts](src/cli/commands/inject-tags.ts#L12-L48)
+- [src/cli/commands/server.ts](src/cli/commands/server.ts#L29-L211)
+- [src/cli/commands/services.ts](src/cli/commands/services.ts#L9-L343)
+- [src/cli/enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
+- [src/cli/list-scripts.ts](src/cli/list-scripts.ts#L26-L67)
 
 ### Practical Workflows and Examples
 - Standalone usage:

@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts)
-- [2026-01-08-graph-gardening-phase2-3.md](file://debriefs/2026-01-08-graph-gardening-phase2-3.md)
-- [2026-01-08-graph-gardening-phase1.md](file://debriefs/2026-01-08-graph-gardening-phase1.md)
-- [graphology-playbook.md](file://public/docs/playbooks/graphology-playbook.md)
-- [gap-analysis.ts](file://scripts/lab/gap-analysis.ts)
-- [2026-01-07-code-audit-hardening-wrap-up.md](file://debriefs/2026-01-07-code-audit-hardening-wrap-up.md)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts)
+- [run-community-detection.ts](scripts/run-community-detection.ts)
+- [2026-01-08-graph-gardening-phase2-3.md](debriefs/2026-01-08-graph-gardening-phase2-3.md)
+- [2026-01-08-graph-gardening-phase1.md](debriefs/2026-01-08-graph-gardening-phase1.md)
+- [graphology-playbook.md](public/docs/playbooks/graphology-playbook.md)
+- [gap-analysis.ts](scripts/lab/gap-analysis.ts)
+- [2026-01-07-code-audit-hardening-wrap-up.md](debriefs/2026-01-07-code-audit-hardening-wrap-up.md)
 </cite>
 
 ## Table of Contents
@@ -75,21 +75,21 @@ GA --> GG
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L270)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L200)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L155)
-- [gap-analysis.ts](file://scripts/lab/gap-analysis.ts#L196-L257)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L270)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L200)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L155)
+- [gap-analysis.ts](scripts/lab/gap-analysis.ts#L196-L257)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L270)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L200)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L155)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L270)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L200)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L155)
 
 ## Core Components
 - GraphGardener: Central coordinator for semantic, structural, and temporal gap analysis; integrates with vector and graph engines; resolves content and sources for validation and injection.
@@ -99,12 +99,12 @@ GA --> GG
 - TimelineWeaver: Creates temporal edges from content timestamps; SemanticWeaver rescues orphan nodes using vector similarity.
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L270)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L200)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L270)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L200)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
 
 ## Architecture Overview
 The garden task workflow combines three gap-finding strategies and validates relationships with a judge before applying deterministic injections.
@@ -143,9 +143,9 @@ Daemon-->>User : Summary report
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L195)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L200)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L195)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L200)
 
 ## Detailed Component Analysis
 
@@ -173,11 +173,11 @@ Sort --> End(["Return suggestions"])
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L404-L430)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L404-L430)
 
 ### Structural Gap Analysis (Adamic-Adar)
 - Purpose: Predict missing ties using shared-context topology without embeddings.
@@ -195,12 +195,12 @@ Map --> SAEnd(["Return suggestions"])
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L105-L115)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L197)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L105-L115)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L197)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L105-L115)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L197)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L105-L115)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L197)
 
 ### Temporal Sequence Weaving
 - Purpose: Anchor nodes with dates into a temporal order and propose FOLLOWS edges within communities.
@@ -220,11 +220,11 @@ Link --> TSEnd(["Return temporal suggestions"])
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
-- [2026-01-08-graph-gardening-phase2-3.md](file://debriefs/2026-01-08-graph-gardening-phase2-3.md#L19-L23)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
+- [2026-01-08-graph-gardening-phase2-3.md](debriefs/2026-01-08-graph-gardening-phase2-3.md#L19-L23)
 
 ### Relationship Judgment and Automatic Tag Injection
 - Judgment: For each suggestion, fetch content for both sides and run the LLM judge to determine relatedness and type.
@@ -252,12 +252,12 @@ end
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L404-L464)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L205-L254)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L404-L464)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L205-L254)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L404-L464)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L205-L254)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L404-L464)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L205-L254)
 
 ### Automatic Graph Enhancement Strategies
 - Strict Edge Injection:
@@ -291,14 +291,14 @@ SemanticWeaver --> EdgeWeaver : "no direct dependency"
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L4-L96)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L4-L96)
 
 ### Integration with GraphGardener and Community Detection
 - GraphGardener coordinates gap analysis and temporal weaving; it relies on GraphEngine for structural analytics and on community detection to constrain temporal linking.
@@ -317,13 +317,13 @@ GG->>GG : weaveTimeline() uses community membership
 ```
 
 **Diagram sources**
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L80-L151)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L166-L194)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L80-L151)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L166-L194)
 
 **Section sources**
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L155)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L166-L194)
-- [graphology-playbook.md](file://public/docs/playbooks/graphology-playbook.md#L199-L231)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L155)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L166-L194)
+- [graphology-playbook.md](public/docs/playbooks/graphology-playbook.md#L199-L231)
 
 ### Practical Examples
 
@@ -341,10 +341,10 @@ GG->>GG : weaveTimeline() uses community membership
   - Use EdgeWeaver to enforce strict tag and link creation while respecting modularity constraints.
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L404-L464)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L404-L464)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ## Dependency Analysis
 - Coupling:
@@ -368,14 +368,14 @@ SW["SemanticWeaver"] --> DB
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L28-L32)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L12-L22)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L28-L32)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L12-L22)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L28-L32)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L12-L22)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L28-L32)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L12-L22)
 
 ## Performance Considerations
 - Vector similarity queries: Limit candidate sampling and neighbor counts to balance recall and latency.
@@ -399,9 +399,9 @@ SW["SemanticWeaver"] --> DB
   - The inject_tags tool merges new tags into existing blocks; verify idempotency post-injection.
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L205-L254)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [2026-01-07-code-audit-hardening-wrap-up.md](file://debriefs/2026-01-07-code-audit-hardening-wrap-up.md#L16-L18)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L205-L254)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [2026-01-07-code-audit-hardening-wrap-up.md](debriefs/2026-01-07-code-audit-hardening-wrap-up.md#L16-L18)
 
 ## Conclusion
 The garden tasks implement a robust, multi-modal approach to graph maintenance: semantic gap detection leverages vector similarity; structural gaps are predicted via Adamic-Adar; temporal sequences are woven using date metadata and community membership. The LLM judge ensures high-quality relationship validation, while strict injection and modularity gates preserve graph stability. Together, these strategies enable long-term graph health and continuous enhancement.
@@ -414,4 +414,4 @@ The garden tasks implement a robust, multi-modal approach to graph maintenance: 
 - Use the lab script to generate structured gap reports across processes and integration domains, guiding targeted remediation efforts.
 
 **Section sources**
-- [gap-analysis.ts](file://scripts/lab/gap-analysis.ts#L196-L257)
+- [gap-analysis.ts](scripts/lab/gap-analysis.ts#L196-L257)

@@ -2,21 +2,21 @@
 
 <cite>
 **Referenced Files in This Document**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [reranker-client.ts](file://src/utils/reranker-client.ts)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts)
-- [search.ts](file://src/cli/commands/search.ts)
-- [thin-node.md](file://docs/architecture/thin-node.md)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [RERANKING-VALIDATION.md](file://docs/RERANKING-VALIDATION.md)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts)
-- [compare-reranking-results.ts](file://scripts/benchmarks/compare-reranking-results.ts)
-- [test-reranking-quality.ts](file://scripts/test-reranking-quality.ts)
-- [2026-02-01-reranking-cleanup-search-verification.md](file://debriefs/2026-02-01-reranking-cleanup-search-verification.md)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [services.ts](file://src/cli/commands/services.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [reranker-client.ts](src/utils/reranker-client.ts)
+- [reranker-hf.ts](src/services/reranker-hf.ts)
+- [search.ts](src/cli/commands/search.ts)
+- [thin-node.md](docs/architecture/thin-node.md)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [RERANKING-VALIDATION.md](docs/RERANKING-VALIDATION.md)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts)
+- [compare-reranking-results.ts](scripts/benchmarks/compare-reranking-results.ts)
+- [test-reranking-quality.ts](scripts/test-reranking-quality.ts)
+- [2026-02-01-reranking-cleanup-search-verification.md](debriefs/2026-02-01-reranking-cleanup-search-verification.md)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [services.ts](src/cli/commands/services.ts)
 </cite>
 
 ## Table of Contents
@@ -74,20 +74,20 @@ CH --> VE
 ```
 
 **Diagram sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L39)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L155)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L130)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L134)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L39)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L155)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L130)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L134)
 
 **Section sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L39)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L155)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L130)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L134)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L39)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L155)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L130)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L134)
 
 ## Core Components
 - FAFCAS Protocol: Normalized float32 vectors stored as raw blobs, enabling pure dot-product similarity without sqrt or division in the hot loop.
@@ -100,15 +100,15 @@ CH --> VE
 - Benchmarks: Baseline and reranking comparison scripts for latency and quality analysis.
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L143)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L242)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L39)
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L155)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L130)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L134)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
-- [compare-reranking-results.ts](file://scripts/benchmarks/compare-reranking-results.ts#L1-L83)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L143)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L242)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L39)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L155)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L130)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L134)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
+- [compare-reranking-results.ts](scripts/benchmarks/compare-reranking-results.ts#L1-L83)
 
 ## Architecture Overview
 The search architecture balances speed and accuracy:
@@ -146,12 +146,12 @@ CLI-->>User : "display results"
 ```
 
 **Diagram sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L242)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L24-L37)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L137-L155)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L107-L116)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L242)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L24-L37)
+- [reranker-client.ts](src/utils/reranker-client.ts#L137-L155)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L107-L116)
 
 ## Detailed Component Analysis
 
@@ -179,12 +179,12 @@ Meta --> Return(["Return results"])
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L225)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L225)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L242)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L143)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L242)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L143)
 
 ### Hybrid Search Optimization (Late Fusion)
 The CLI search command merges vector and grep results:
@@ -210,12 +210,12 @@ CLI-->>CLI : "return merged results"
 ```
 
 **Diagram sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L24-L37)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L24-L37)
 
 **Section sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L39)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L39)
 
 ### Reranker Daemon and Cross-Encoder Reranking
 Reranking improves precision by modeling query-document interaction:
@@ -240,15 +240,15 @@ end
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L20-L80)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L107-L116)
+- [reranker-client.ts](src/utils/reranker-client.ts#L20-L80)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L107-L116)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L155)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L130)
-- [RERANKING-VALIDATION.md](file://docs/RERANKING-VALIDATION.md#L1-L42)
-- [2026-02-01-reranking-cleanup-search-verification.md](file://debriefs/2026-02-01-reranking-cleanup-search-verification.md#L53-L70)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L155)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L130)
+- [RERANKING-VALIDATION.md](docs/RERANKING-VALIDATION.md#L1-L42)
+- [2026-02-01-reranking-cleanup-search-verification.md](debriefs/2026-02-01-reranking-cleanup-search-verification.md#L53-L70)
 
 ### Content Hydration and Inner Loop Optimization
 Inner loop optimization ensures minimal I/O:
@@ -271,12 +271,12 @@ I --> J["Return results (placeholder content)"]
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L225)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L24-L37)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L225)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L24-L37)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L225)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L39)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L225)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L39)
 
 ### Caching Strategies for Frequently Searched Terms
 - HarvesterCache persists extracted graph results keyed by content hash, enabling reuse across runs
@@ -284,7 +284,7 @@ I --> J["Return results (placeholder content)"]
 - This reduces redundant processing for repeated inputs
 
 **Section sources**
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L10-L69)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L10-L69)
 
 ### Real-Time Agent Integration
 - Sonar Daemon exposes health, chat, metadata enhancement, and search endpoints
@@ -292,8 +292,8 @@ I --> J["Return results (placeholder content)"]
 - Agents can analyze queries, rerank results, and extract context for improved precision
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L134)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L134)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
 
 ## Dependency Analysis
 The search pipeline exhibits low coupling and clear separation of concerns:
@@ -314,19 +314,19 @@ RH --> HF["@huggingface/transformers"]
 ```
 
 **Diagram sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L26)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L155)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L9-L14)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L134)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L26)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L155)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L9-L14)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L134)
 
 **Section sources**
-- [search.ts](file://src/cli/commands/search.ts#L82-L127)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L155)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L9-L14)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L134)
+- [search.ts](src/cli/commands/search.ts#L82-L127)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L155)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L9-L14)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L134)
 
 ## Performance Considerations
 - FAFCAS hot loop: Pure dot product eliminates sqrt/div operations; normalized vectors simplify similarity to A · B
@@ -347,9 +347,9 @@ RH --> HF["@huggingface/transformers"]
 - Query analysis and reranking: Sonar endpoints support search analysis and reranking for agent workflows
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L155)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L155)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
 
 ## Conclusion
 Amalfa’s search performance optimization centers on FAFCAS for fast in-memory similarity, late fusion of vector and lexical signals, and targeted cross-encoder reranking. The system minimizes I/O and memory pressure by deferring content hydration and leveraging a daemonized reranking service. Benchmarks and debriefs validate both latency improvements and quality gains, supporting scalable, real-time agent interactions.
@@ -364,8 +364,8 @@ Amalfa’s search performance optimization centers on FAFCAS for fast in-memory 
 - Quality validation demonstrates position shifts and improved precision
 
 **Section sources**
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
-- [compare-reranking-results.ts](file://scripts/benchmarks/compare-reranking-results.ts#L1-L83)
-- [RERANKING-VALIDATION.md](file://docs/RERANKING-VALIDATION.md#L1-L42)
-- [test-reranking-quality.ts](file://scripts/test-reranking-quality.ts#L36-L77)
-- [2026-02-01-reranking-cleanup-search-verification.md](file://debriefs/2026-02-01-reranking-cleanup-search-verification.md#L53-L70)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
+- [compare-reranking-results.ts](scripts/benchmarks/compare-reranking-results.ts#L1-L83)
+- [RERANKING-VALIDATION.md](docs/RERANKING-VALIDATION.md#L1-L42)
+- [test-reranking-quality.ts](scripts/test-reranking-quality.ts#L36-L77)
+- [2026-02-01-reranking-cleanup-search-verification.md](debriefs/2026-02-01-reranking-cleanup-search-verification.md#L53-L70)

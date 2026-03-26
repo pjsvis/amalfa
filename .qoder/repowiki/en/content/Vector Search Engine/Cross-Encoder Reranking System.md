@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts)
-- [reranker-client.ts](file://src/utils/reranker-client.ts)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [reranking.ts](file://src/types/reranking.ts)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts)
-- [compare-reranking-results.ts](file://scripts/benchmarks/compare-reranking-results.ts)
-- [test-reranking-quality.ts](file://scripts/test-reranking-quality.ts)
-- [index.ts](file://src/mcp/index.ts)
-- [amalfa.settings.json](file://amalfa.settings.json)
+- [reranker-hf.ts](src/services/reranker-hf.ts)
+- [reranker-client.ts](src/utils/reranker-client.ts)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [reranking.ts](src/types/reranking.ts)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts)
+- [compare-reranking-results.ts](scripts/benchmarks/compare-reranking-results.ts)
+- [test-reranking-quality.ts](scripts/test-reranking-quality.ts)
+- [index.ts](src/mcp/index.ts)
+- [amalfa.settings.json](amalfa.settings.json)
 </cite>
 
 ## Table of Contents
@@ -69,26 +69,26 @@ Quality --> VE
 ```
 
 **Diagram sources**
-- [index.ts](file://src/mcp/index.ts#L267-L430)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L137-L209)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L129)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L241)
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
-- [compare-reranking-results.ts](file://scripts/benchmarks/compare-reranking-results.ts#L19-L82)
-- [test-reranking-quality.ts](file://scripts/test-reranking-quality.ts#L17-L124)
+- [index.ts](src/mcp/index.ts#L267-L430)
+- [reranker-client.ts](src/utils/reranker-client.ts#L137-L209)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L129)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L241)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
+- [compare-reranking-results.ts](scripts/benchmarks/compare-reranking-results.ts#L19-L82)
+- [test-reranking-quality.ts](scripts/test-reranking-quality.ts#L17-L124)
 
 **Section sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [compare-reranking-results.ts](file://scripts/benchmarks/compare-reranking-results.ts#L1-L83)
-- [test-reranking-quality.ts](file://scripts/test-reranking-quality.ts#L1-L125)
-- [index.ts](file://src/mcp/index.ts#L267-L430)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [compare-reranking-results.ts](scripts/benchmarks/compare-reranking-results.ts#L1-L83)
+- [test-reranking-quality.ts](scripts/test-reranking-quality.ts#L1-L125)
+- [index.ts](src/mcp/index.ts#L267-L430)
 
 ## Core Components
 - BGE Cross-Encoder Service: Implements a singleton reranker using Hugging Face Transformers.js with ONNX quantized model for CPU inference. It tokenizes query-document pairs and produces normalized relevance scores.
@@ -99,11 +99,11 @@ Quality --> VE
 - Benchmarking Suite: Includes scripts to compare reranking modes, analyze latency, and validate quality improvements.
 
 **Section sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L129)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L137-L209)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L26-L141)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L241)
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L129)
+- [reranker-client.ts](src/utils/reranker-client.ts#L137-L209)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L26-L141)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L241)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
 
 ## Architecture Overview
 The reranking architecture follows a hybrid retrieval pattern:
@@ -141,11 +141,11 @@ MCP-->>Client : "final ranked results"
 ```
 
 **Diagram sources**
-- [index.ts](file://src/mcp/index.ts#L371-L405)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L144-L209)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L64-L114)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L241)
+- [index.ts](src/mcp/index.ts#L371-L405)
+- [reranker-client.ts](src/utils/reranker-client.ts#L144-L209)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L64-L114)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L241)
 
 ## Detailed Component Analysis
 
@@ -176,10 +176,10 @@ HfBgeReranker --> RerankResult : "produces"
 ```
 
 **Diagram sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L129)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L129)
 
 **Section sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L129)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L129)
 
 ### Reranker Client
 The client provides:
@@ -205,10 +205,10 @@ ReturnReranked --> End
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L144-L209)
+- [reranker-client.ts](src/utils/reranker-client.ts#L144-L209)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
 
 ### Reranker Daemon
 The daemon offers:
@@ -242,10 +242,10 @@ end
 ```
 
 **Diagram sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L18-L141)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L18-L141)
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
 
 ### VectorEngine Integration
 VectorEngine supplies:
@@ -264,12 +264,12 @@ Rerank --> Ranked["Final Results"]
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L241)
-- [index.ts](file://src/mcp/index.ts#L371-L405)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L241)
+- [index.ts](src/mcp/index.ts#L371-L405)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L241)
-- [index.ts](file://src/mcp/index.ts#L371-L405)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L241)
+- [index.ts](src/mcp/index.ts#L371-L405)
 
 ### Configuration and Modes
 Reranking modes define pipeline behavior:
@@ -293,12 +293,12 @@ D --> H
 ```
 
 **Diagram sources**
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
 
 **Section sources**
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
 
 ## Dependency Analysis
 Key dependencies and relationships:
@@ -319,20 +319,20 @@ Config["reranking.ts"] --> MCP
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L8-L13)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L9-L12)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L9-L14)
-- [index.ts](file://src/mcp/index.ts#L22-L25)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L14-L21)
-- [reranking.ts](file://src/types/reranking.ts#L7-L17)
+- [reranker-client.ts](src/utils/reranker-client.ts#L8-L13)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L9-L12)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L9-L14)
+- [index.ts](src/mcp/index.ts#L22-L25)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L14-L21)
+- [reranking.ts](src/types/reranking.ts#L7-L17)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [index.ts](file://src/mcp/index.ts#L1-L748)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [index.ts](src/mcp/index.ts#L1-L748)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
 
 ## Performance Considerations
 - Latency characteristics:
@@ -367,9 +367,9 @@ Common issues and resolutions:
   - Use comparison tools to analyze latency breakdowns and result shifts
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L50-L62)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L150-L208)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L63-L90)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L50-L62)
+- [reranker-client.ts](src/utils/reranker-client.ts#L150-L208)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L63-L90)
 
 ## Conclusion
 The cross-encoder reranking system leverages the BGE model to substantially improve search precision by capturing query-document interactions through contextual scoring. Its daemon-based architecture ensures efficient, scalable inference with graceful fallback, while integration with VectorEngine enables hybrid retrieval workflows. The benchmarking suite validates performance trade-offs and quality gains, providing actionable insights for tuning thresholds and result limits.
@@ -391,9 +391,9 @@ The cross-encoder reranking system leverages the BGE model to substantially impr
   - Analyze comparison metrics to quantify improvement and latency impact
 
 **Section sources**
-- [reranking.ts](file://src/types/reranking.ts#L19-L29)
-- [test-reranking-quality.ts](file://scripts/test-reranking-quality.ts#L17-L124)
-- [compare-reranking-results.ts](file://scripts/benchmarks/compare-reranking-results.ts#L19-L82)
+- [reranking.ts](src/types/reranking.ts#L19-L29)
+- [test-reranking-quality.ts](scripts/test-reranking-quality.ts#L17-L124)
+- [compare-reranking-results.ts](scripts/benchmarks/compare-reranking-results.ts#L19-L82)
 
 ### Client Configuration and Integration
 - Enabling reranking:
@@ -404,5 +404,5 @@ The cross-encoder reranking system leverages the BGE model to substantially impr
   - Results are merged with reranked scores and optional Sonar refinement
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L48-L81)
-- [index.ts](file://src/mcp/index.ts#L371-L430)
+- [amalfa.settings.json](amalfa.settings.json#L48-L81)
+- [index.ts](src/mcp/index.ts#L371-L430)

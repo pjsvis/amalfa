@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts)
-- [model-strategy.md](file://docs/guides/model-strategy.md)
-- [tiered-inference-strategy.md](file://docs/architecture/tiered-inference-strategy.md)
-- [defaults.ts](file://src/config/defaults.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts)
+- [model-strategy.md](docs/guides/model-strategy.md)
+- [tiered-inference-strategy.md](docs/architecture/tiered-inference-strategy.md)
+- [defaults.ts](src/config/defaults.ts)
 </cite>
 
 ## Table of Contents
@@ -67,26 +67,26 @@ DOC2 -. architecture .-> A
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [model-strategy.md](file://docs/guides/model-strategy.md#L1-L198)
-- [tiered-inference-strategy.md](file://docs/architecture/tiered-inference-strategy.md#L1-L319)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [model-strategy.md](docs/guides/model-strategy.md#L1-L198)
+- [tiered-inference-strategy.md](docs/architecture/tiered-inference-strategy.md#L1-L319)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [model-strategy.md](file://docs/guides/model-strategy.md#L1-L198)
-- [tiered-inference-strategy.md](file://docs/architecture/tiered-inference-strategy.md#L1-L319)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [model-strategy.md](docs/guides/model-strategy.md#L1-L198)
+- [tiered-inference-strategy.md](docs/architecture/tiered-inference-strategy.md#L1-L319)
 
 ## Core Components
 - Strategy selection and task-specific strategies:
@@ -106,13 +106,13 @@ DOC2 -. architecture .-> A
   - Centralized settings loading and precedence rules
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Architecture Overview
 The Sonar agent implements a tiered inference strategy:
@@ -143,10 +143,10 @@ Agent-->>Client : "Report"
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L464)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L464)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 ## Detailed Component Analysis
 
@@ -172,12 +172,12 @@ ReturnUndef --> End
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L31-L38)
-- [model-strategy.md](file://docs/guides/model-strategy.md#L101-L132)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L31-L38)
+- [model-strategy.md](docs/guides/model-strategy.md#L101-L132)
 
 ### Model Routing and Provider Integration
 - Unified inference call:
@@ -210,11 +210,11 @@ Infra-->>Logic : "message"
 ```
 
 **Diagram sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [tiered-inference-strategy.md](file://docs/architecture/tiered-inference-strategy.md#L88-L117)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [tiered-inference-strategy.md](docs/architecture/tiered-inference-strategy.md#L88-L117)
 
 ### Task-Specific Approach Patterns
 - Garden (relationship verification):
@@ -248,14 +248,14 @@ EB --> Out
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L464)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L142)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L464)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L142)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L464)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L142)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L184-L217)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L464)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L142)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L184-L217)
 
 ### Capability Discovery Mechanisms
 - Ollama CLI-based discovery:
@@ -281,12 +281,12 @@ Warn --> Done
 ```
 
 **Diagram sources**
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L83-L155)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L82-L96)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L83-L155)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L82-L96)
 
 **Section sources**
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L83-L155)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L82-L96)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L83-L155)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L82-L96)
 
 ### API Surface and Task Execution
 - HTTP endpoints:
@@ -314,14 +314,14 @@ Agent-->>Client : "Completed task report"
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
 
 ## Dependency Analysis
 - Module coupling:
@@ -349,22 +349,22 @@ Server --> Logic
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [ollama-discovery.ts](file://src/utils/ollama-discovery.ts#L1-L180)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [ollama-discovery.ts](src/utils/ollama-discovery.ts#L1-L180)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Performance Considerations
 - Model selection:
@@ -397,10 +397,10 @@ Server --> Logic
   - Use the health check to confirm provider and model selection
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L82-L96)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L44-L54)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L82-L96)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L44-L54)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
 
 ## Conclusion
 The Sonar agent’s research strategies combine a clear model routing policy with task-specific approaches and robust fallbacks. By leveraging local-first operation augmented by cloud providers, the system balances performance, privacy, and cost. The modular design enables easy extension of strategies, providers, and configuration, while documentation and discovery utilities support reliable operation across diverse environments.
@@ -419,9 +419,9 @@ The Sonar agent’s research strategies combine a clear model routing policy wit
   - Disable cloud and rely on discovered local models for all tasks
 
 **Section sources**
-- [model-strategy.md](file://docs/guides/model-strategy.md#L32-L48)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L189-L191)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L31-L38)
+- [model-strategy.md](docs/guides/model-strategy.md#L32-L48)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L189-L191)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L31-L38)
 
 ### Strategy Configuration Checklist
 - Enable/disable cloud and select provider
@@ -431,6 +431,6 @@ The Sonar agent’s research strategies combine a clear model routing policy wit
 - Validate capability discovery and inference state
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L23-L54)
-- [model-strategy.md](file://docs/guides/model-strategy.md#L174-L194)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L23-L54)
+- [model-strategy.md](docs/guides/model-strategy.md#L174-L194)

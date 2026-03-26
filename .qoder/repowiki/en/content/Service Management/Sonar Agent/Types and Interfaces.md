@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [artifact.ts](file://src/types/artifact.ts)
-- [reranking.ts](file://src/types/reranking.ts)
-- [sidecar.ts](file://src/types/sidecar.ts)
-- [tools.ts](file://src/types/tools.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [validator.ts](file://src/utils/validator.ts)
-- [sonar-client.ts](file://src/utils/sonar-client.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [artifact.ts](src/types/artifact.ts)
+- [reranking.ts](src/types/reranking.ts)
+- [sidecar.ts](src/types/sidecar.ts)
+- [tools.ts](src/types/tools.ts)
+- [schema.ts](src/config/schema.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [validator.ts](src/utils/validator.ts)
+- [sonar-client.ts](src/utils/sonar-client.ts)
 </cite>
 
 ## Table of Contents
@@ -64,26 +64,26 @@ VAL --> SCH
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [artifact.ts](file://src/types/artifact.ts#L1-L13)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
-- [tools.ts](file://src/types/tools.ts#L1-L21)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [validator.ts](file://src/utils/validator.ts#L1-L265)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L51-L98)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [artifact.ts](src/types/artifact.ts#L1-L13)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
+- [tools.ts](src/types/tools.ts#L1-L21)
+- [schema.ts](src/config/schema.ts#L1-L298)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [validator.ts](src/utils/validator.ts#L1-L265)
+- [sonar-client.ts](src/utils/sonar-client.ts#L51-L98)
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [artifact.ts](file://src/types/artifact.ts#L1-L13)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
-- [tools.ts](file://src/types/tools.ts#L1-L21)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [validator.ts](file://src/utils/validator.ts#L1-L265)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L51-L98)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [artifact.ts](src/types/artifact.ts#L1-L13)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
+- [tools.ts](src/types/tools.ts#L1-L21)
+- [schema.ts](src/config/schema.ts#L1-L298)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [validator.ts](src/utils/validator.ts#L1-L265)
+- [sonar-client.ts](src/utils/sonar-client.ts#L51-L98)
 
 ## Core Components
 This section introduces the primary type categories used by the Sonar Agent and related systems.
@@ -101,14 +101,14 @@ This section introduces the primary type categories used by the Sonar Agent and 
 - Error Types and Status Enums: SubstrateError enumeration and failure structure for provider errors.
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L5-L68)
-- [artifact.ts](file://src/types/artifact.ts#L1-L13)
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
-- [tools.ts](file://src/types/tools.ts#L1-L21)
-- [schema.ts](file://src/config/schema.ts#L16-L297)
-- [validator.ts](file://src/utils/validator.ts#L3-L30)
-- [schema.ts](file://src/config/schema.ts#L274-L289)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L5-L68)
+- [artifact.ts](src/types/artifact.ts#L1-L13)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
+- [tools.ts](src/types/tools.ts#L1-L21)
+- [schema.ts](src/config/schema.ts#L16-L297)
+- [validator.ts](src/utils/validator.ts#L3-L30)
+- [schema.ts](src/config/schema.ts#L274-L289)
 
 ## Architecture Overview
 The type system supports a layered architecture:
@@ -135,15 +135,15 @@ CFG --> VL
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L98)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L68)
-- [artifact.ts](file://src/types/artifact.ts#L1-L13)
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
-- [tools.ts](file://src/types/tools.ts#L1-L21)
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L98)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L68)
+- [artifact.ts](src/types/artifact.ts#L1-L13)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
+- [tools.ts](src/types/tools.ts#L1-L21)
+- [validator.ts](src/utils/validator.ts#L32-L203)
 
 ## Detailed Component Analysis
 
@@ -175,10 +175,10 @@ class SonarTask {
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L5-L32)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L5-L32)
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L5-L32)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L5-L32)
 
 ### API Request Types
 The API request types define the contract for interacting with the Sonar Agent backend.
@@ -213,10 +213,10 @@ class ResultItem {
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L45-L68)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L45-L68)
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L45-L68)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L45-L68)
 
 ### RequestOptions and Inference Parameters
 Options controlling model invocation, including temperature, generation limits, streaming, and format.
@@ -233,10 +233,10 @@ class RequestOptions {
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L34-L40)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L34-L40)
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L34-L40)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L34-L40)
 
 ### Configuration Types and Model Specifications
 The configuration schema defines canonical settings for Sonar and related subsystems, including provider enums, task configurations, and cloud settings. Defaults are loaded via a dedicated loader.
@@ -295,11 +295,11 @@ SonarConfigSchema --> SonarCloudSchema
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L16-L88)
+- [schema.ts](src/config/schema.ts#L16-L88)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L16-L88)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [schema.ts](src/config/schema.ts#L16-L88)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 ### Reranking Types and Defaults
 Reranking modes and configuration, including top-K and thresholds for different strategies.
@@ -331,10 +331,10 @@ RerankingConfig --> SonarConfig
 ```
 
 **Diagram sources**
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
 
 **Section sources**
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
 
 ### Sidecar Types and Manifest Entries
 Sidecar manifest entries and extracted entities/relations for language extraction outputs.
@@ -368,10 +368,10 @@ LangExtractSidecar --> ExtractedRelation
 ```
 
 **Diagram sources**
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
 
 **Section sources**
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
 
 ### Tools Types and Registry
 Tool schema, implementation, and registry interfaces enabling dynamic tool registration and invocation.
@@ -402,10 +402,10 @@ ToolRegistry --> ToolImplementation
 ```
 
 **Diagram sources**
-- [tools.ts](file://src/types/tools.ts#L1-L21)
+- [tools.ts](src/types/tools.ts#L1-L21)
 
 **Section sources**
-- [tools.ts](file://src/types/tools.ts#L1-L21)
+- [tools.ts](src/types/tools.ts#L1-L21)
 
 ### Validation Types and Report Structures
 Validation report and error structures used to assess pipeline health and compliance.
@@ -455,12 +455,12 @@ PipelineValidator --> ValidationError
 ```
 
 **Diagram sources**
-- [validator.ts](file://src/utils/validator.ts#L3-L30)
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
+- [validator.ts](src/utils/validator.ts#L3-L30)
+- [validator.ts](src/utils/validator.ts#L32-L203)
 
 **Section sources**
-- [validator.ts](file://src/utils/validator.ts#L3-L30)
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
+- [validator.ts](src/utils/validator.ts#L3-L30)
+- [validator.ts](src/utils/validator.ts#L32-L203)
 
 ### Error Types and Status Enums
 SubstrateError enumeration and failure structure for provider-related errors.
@@ -485,10 +485,10 @@ class SubstrateFailure {
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L274-L289)
+- [schema.ts](src/config/schema.ts#L274-L289)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L274-L289)
+- [schema.ts](src/config/schema.ts#L274-L289)
 
 ### Serialization Formats and API Response Structures
 - Requests: ChatRequest, MetadataEnhanceRequest, SearchAnalyzeRequest, SearchRerankRequest, SearchContextRequest
@@ -507,12 +507,12 @@ ClientUtil-->>Client : SonarClient instance
 ```
 
 **Diagram sources**
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L98)
-- [schema.ts](file://src/config/schema.ts#L54-L88)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L98)
+- [schema.ts](src/config/schema.ts#L54-L88)
 
 **Section sources**
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L98)
-- [schema.ts](file://src/config/schema.ts#L54-L88)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L98)
+- [schema.ts](src/config/schema.ts#L54-L88)
 
 ### Data Transformation Patterns
 - Configuration normalization: Legacy fields are normalized during settings loading.
@@ -529,12 +529,12 @@ Validate --> Report["ValidationReport"]
 ```
 
 **Diagram sources**
-- [defaults.ts](file://src/config/defaults.ts#L107-L124)
-- [validator.ts](file://src/utils/validator.ts#L91-L203)
+- [defaults.ts](src/config/defaults.ts#L107-L124)
+- [validator.ts](src/utils/validator.ts#L91-L203)
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L107-L124)
-- [validator.ts](file://src/utils/validator.ts#L91-L203)
+- [defaults.ts](src/config/defaults.ts#L107-L124)
+- [validator.ts](src/utils/validator.ts#L91-L203)
 
 ### Type Guards and Utility Types
 - Type guards: Early-return patterns and strict pick utilities prevent undefined/null handling downstream.
@@ -545,7 +545,7 @@ Examples of usage patterns:
 - EnforceShape to restrict object properties and ensure immutability.
 
 **Section sources**
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
+- [validator.ts](src/utils/validator.ts#L32-L203)
 
 ## Dependency Analysis
 The type system exhibits low coupling and high cohesion:
@@ -565,26 +565,26 @@ VAL["validator.ts"] --> SCH
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L68)
-- [artifact.ts](file://src/types/artifact.ts#L1-L13)
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
-- [tools.ts](file://src/types/tools.ts#L1-L21)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L98)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L68)
+- [artifact.ts](src/types/artifact.ts#L1-L13)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
+- [tools.ts](src/types/tools.ts#L1-L21)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [validator.ts](src/utils/validator.ts#L32-L203)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L98)
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L68)
-- [artifact.ts](file://src/types/artifact.ts#L1-L13)
-- [reranking.ts](file://src/types/reranking.ts#L5-L29)
-- [sidecar.ts](file://src/types/sidecar.ts#L1-L30)
-- [tools.ts](file://src/types/tools.ts#L1-L21)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L98)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L68)
+- [artifact.ts](src/types/artifact.ts#L1-L13)
+- [reranking.ts](src/types/reranking.ts#L5-L29)
+- [sidecar.ts](src/types/sidecar.ts#L1-L30)
+- [tools.ts](src/types/tools.ts#L1-L21)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [validator.ts](src/utils/validator.ts#L32-L203)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L98)
 
 ## Performance Considerations
 - Prefer discriminated unions for request/response types to minimize runtime checks.
@@ -599,9 +599,9 @@ Common issues and resolutions:
 - Provider errors: Use SubstrateError enumeration to categorize failures and provide actionable suggestions.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L94-L138)
-- [validator.ts](file://src/utils/validator.ts#L191-L203)
-- [schema.ts](file://src/config/schema.ts#L274-L289)
+- [defaults.ts](src/config/defaults.ts#L94-L138)
+- [validator.ts](src/utils/validator.ts#L191-L203)
+- [schema.ts](src/config/schema.ts#L274-L289)
 
 ## Conclusion
 The Sonar Agent’s type system provides a robust foundation for configuration, messaging, tooling, validation, and error handling. By leveraging Zod schemas, discriminated unions, and strict typing patterns, the system ensures correctness, maintainability, and extensibility across components.

@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [Historian.ts](file://src/utils/Historian.ts)
-- [edge-generation-methods.md](file://docs/references/edge-generation-methods.md)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [the-weavers-handbook.md](file://playbooks/the-weavers-handbook.md)
-- [graph-enhancement-v1.md](file://docs/plans/graph-enhancement-v1.md)
-- [database-intelligence-test.ts](file://scripts/lab/database-intelligence-test.ts)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [Historian.ts](src/utils/Historian.ts)
+- [edge-generation-methods.md](docs/references/edge-generation-methods.md)
+- [timeline_check.ts](scripts/query/timeline_check.ts)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [the-weavers-handbook.md](playbooks/the-weavers-handbook.md)
+- [graph-enhancement-v1.md](docs/plans/graph-enhancement-v1.md)
+- [database-intelligence-test.ts](scripts/lab/database-intelligence-test.ts)
 </cite>
 
 ## Table of Contents
@@ -65,20 +65,20 @@ PLAN --> STRAT
 ```
 
 **Diagram sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L27)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts#L1-L47)
-- [edge-generation-methods.md](file://docs/references/edge-generation-methods.md#L1-L52)
-- [the-weavers-handbook.md](file://playbooks/the-weavers-handbook.md#L1-L35)
-- [graph-enhancement-v1.md](file://docs/plans/graph-enhancement-v1.md#L21-L41)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L27)
+- [timeline_check.ts](scripts/query/timeline_check.ts#L1-L47)
+- [edge-generation-methods.md](docs/references/edge-generation-methods.md#L1-L52)
+- [the-weavers-handbook.md](playbooks/the-weavers-handbook.md#L1-L35)
+- [graph-enhancement-v1.md](docs/plans/graph-enhancement-v1.md#L21-L41)
 
 **Section sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [edge-generation-methods.md](file://docs/references/edge-generation-methods.md#L1-L52)
-- [the-weavers-handbook.md](file://playbooks/the-weavers-handbook.md#L1-L35)
-- [graph-enhancement-v1.md](file://docs/plans/graph-enhancement-v1.md#L21-L41)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [edge-generation-methods.md](docs/references/edge-generation-methods.md#L1-L52)
+- [the-weavers-handbook.md](playbooks/the-weavers-handbook.md#L1-L35)
+- [graph-enhancement-v1.md](docs/plans/graph-enhancement-v1.md#L21-L41)
 
 ## Core Components
 - TimelineWeaver: Builds chronological edges between nodes by sorting on extracted dates and inserting successor links.
@@ -92,11 +92,11 @@ Key outcomes:
 - Enhanced discovery patterns aligned with narrative and historical understanding.
 
 **Section sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L61)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [Historian.ts](file://src/utils/Historian.ts#L31-L136)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L27)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts#L1-L47)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L61)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [Historian.ts](src/utils/Historian.ts#L31-L136)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L27)
+- [timeline_check.ts](scripts/query/timeline_check.ts#L1-L47)
 
 ## Architecture Overview
 The temporal layer integrates explicit metadata extraction with automated weaving and validation:
@@ -120,9 +120,9 @@ DB-->>Query : "Ordered rows"
 ```
 
 **Diagram sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L4-L60)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L10-L20)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts#L8-L45)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L4-L60)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L10-L20)
+- [timeline_check.ts](scripts/query/timeline_check.ts#L8-L45)
 
 ## Detailed Component Analysis
 
@@ -153,11 +153,11 @@ Exit --> Done(["Done"])
 ```
 
 **Diagram sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L7-L60)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L7-L60)
 
 **Section sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L61)
-- [edge-generation-methods.md](file://docs/references/edge-generation-methods.md#L13-L40)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L61)
+- [edge-generation-methods.md](docs/references/edge-generation-methods.md#L13-L40)
 
 ### Sonar Strategies: Date Extraction
 Purpose:
@@ -184,10 +184,10 @@ J --> |No| G
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 ### Historian: Temporal Persistence of Agent Sessions
 Purpose:
@@ -211,10 +211,10 @@ class Historian {
 ```
 
 **Diagram sources**
-- [Historian.ts](file://src/utils/Historian.ts#L31-L126)
+- [Historian.ts](src/utils/Historian.ts#L31-L126)
 
 **Section sources**
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
 
 ### Verification and Query Scripts
 - verify_timeline.ts: Runs the weaving logic and counts SUCCEEDS edges to validate temporal chaining.
@@ -225,8 +225,8 @@ Operational guidance:
 - Use timeline_check.ts to manually inspect the temporal ordering and identify potential inconsistencies.
 
 **Section sources**
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L27)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts#L1-L47)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L27)
+- [timeline_check.ts](scripts/query/timeline_check.ts#L1-L47)
 
 ### Temporal Navigation and Discovery Patterns
 - The Weaver’s Handbook emphasizes that a strong chronological spine is essential for narrative readability and discovery.
@@ -237,8 +237,8 @@ Practical implications:
 - Temporal traversal becomes a first-class operation, enabling historical trend analysis and narrative exploration.
 
 **Section sources**
-- [the-weavers-handbook.md](file://playbooks/the-weavers-handbook.md#L9-L35)
-- [graph-enhancement-v1.md](file://docs/plans/graph-enhancement-v1.md#L21-L27)
+- [the-weavers-handbook.md](playbooks/the-weavers-handbook.md#L9-L35)
+- [graph-enhancement-v1.md](docs/plans/graph-enhancement-v1.md#L21-L27)
 
 ## Dependency Analysis
 Temporal analysis depends on:
@@ -258,18 +258,18 @@ HIST["Historian.ts"] --> FS[".amalfa/sessions/..."]
 ```
 
 **Diagram sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L27)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts#L1-L47)
-- [Historian.ts](file://src/utils/Historian.ts#L39-L49)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L27)
+- [timeline_check.ts](scripts/query/timeline_check.ts#L1-L47)
+- [Historian.ts](src/utils/Historian.ts#L39-L49)
 
 **Section sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L27)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts#L1-L47)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L27)
+- [timeline_check.ts](scripts/query/timeline_check.ts#L1-L47)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
 
 ## Performance Considerations
 - Sorting and edge insertion scale linearly with the number of temporal nodes; ensure only relevant nodes are processed.
@@ -286,9 +286,9 @@ Common issues and resolutions:
 - Verification mismatch: If the edge count does not match expectations, re-run verification and inspect the raw database state.
 
 **Section sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L9-L14)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L161-L162)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L14-L20)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L9-L14)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L161-L162)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L14-L20)
 
 ## Conclusion
 The temporal layer in the knowledge graph engine is anchored by the TimelineWeaver, which transforms a collection of temporal nodes into a structured chronological chain. Robust date extraction strategies and persistence mechanisms further strengthen temporal fidelity. Together, these components enable powerful temporal traversal, time-based filtering, and historical trend analysis, significantly enhancing search relevance and discovery by aligning results with narrative and chronological understanding.
@@ -304,6 +304,6 @@ The temporal layer in the knowledge graph engine is anchored by the TimelineWeav
 - Enhance date extraction: Integrate LLM-based extraction for ambiguous or implicit dates.
 
 **Section sources**
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L27)
-- [timeline_check.ts](file://scripts/query/timeline_check.ts#L1-L47)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L27)
+- [timeline_check.ts](scripts/query/timeline_check.ts#L1-L47)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)

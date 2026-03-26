@@ -2,10 +2,10 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [enhance-commands.ts](src/cli/enhance-commands.ts)
 </cite>
 
 ## Table of Contents
@@ -38,14 +38,14 @@ LOGIC --> INF["Inference: Ollama"]
 ```
 
 **Diagram sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 ## Core Components
 - CLI command: Parses --batch and optional --limit, sends a POST request to the Sonar HTTP server.
@@ -58,8 +58,8 @@ Key behaviors:
 - Returns counts for successful, failed, and total processed nodes.
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L23-L54)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L23-L54)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 ## Architecture Overview
 The batch enhancement flow integrates CLI, HTTP server, and logic layer. The CLI triggers a request to the server, which delegates to the logic module. The logic module queries the database for eligible nodes, concurrently enhances them, and updates metadata.
@@ -92,9 +92,9 @@ CLI-->>User : Summary of processed/errors
 ```
 
 **Diagram sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L34-L50)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L72-L81)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L34-L50)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L72-L81)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 ## Detailed Component Analysis
 
@@ -120,7 +120,7 @@ Quality control:
 - Each enhancement updates node metadata with keywords, summary, and timestamps.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 ### Node Filtering Logic
 Behavior:
@@ -142,10 +142,10 @@ Aggregate --> End(["End"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L74-L93)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L74-L93)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L74-L93)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L74-L93)
 
 ### Concurrent Execution with Promise.allSettled
 Pattern:
@@ -158,7 +158,7 @@ Benefits:
 - Provides deterministic counts for reporting.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L89-L98)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L89-L98)
 
 ### Practical Examples and Configuration
 - CLI usage:
@@ -175,8 +175,8 @@ Benefits:
   - Logs include node IDs and error details for diagnostics.
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L23-L54)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L62-L64)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L23-L54)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L62-L64)
 
 ### Resource Management and Progress Tracking
 - Resource management:
@@ -189,8 +189,8 @@ Benefits:
   - The CLI prints processed and error counts after completion.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L74-L99)
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L47-L49)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L74-L99)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L47-L49)
 
 ### Quality Control Mechanisms
 - Metadata gating prevents duplicate enhancements.
@@ -198,8 +198,8 @@ Benefits:
 - Logging captures per-node failures for later inspection.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L76-L83)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L54-L61)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L76-L83)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L54-L61)
 
 ## Dependency Analysis
 The batch enhancement feature depends on:
@@ -218,14 +218,14 @@ Logic --> Infra["Inference (Ollama)"]
 ```
 
 **Diagram sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L6-L81)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L6-L81)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
 
 ## Performance Considerations
 - Concurrency tuning:
@@ -262,9 +262,9 @@ Common issues and resolutions:
   - With Promise.allSettled, individual failures are captured; review logs for node-specific errors.
 
 **Section sources**
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L10-L14)
-- [enhance-commands.ts](file://src/cli/enhance-commands.ts#L34-L50)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L32-L33)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L10-L14)
+- [enhance-commands.ts](src/cli/enhance-commands.ts#L34-L50)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L32-L33)
 
 ## Conclusion
 The batch enhancement workflow in the Sonar agent provides a robust, concurrent mechanism to enrich metadata across many nodes. By filtering eligible nodes, leveraging Promise.allSettled for resilient concurrency, and returning actionable metrics, it supports large-scale operations with clear quality control and progress tracking. Aligning CLI and server endpoints and tuning batch sizes will optimize throughput and reliability for production use.

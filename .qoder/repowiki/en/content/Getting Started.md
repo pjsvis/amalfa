@@ -2,18 +2,18 @@
 
 <cite>
 **Referenced Files in This Document**
-- [README.md](file://README.md)
-- [package.json](file://package.json)
-- [src/cli.ts](file://src/cli.ts)
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [.env.example](file://.env.example)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md)
-- [docs/setup/MCP_SETUP.md](file://docs/setup/MCP_SETUP.md)
-- [docs/setup/QUICK_START_MCP.md](file://docs/setup/QUICK_START_MCP.md)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md)
-- [docs/USER-MANUAL.md](file://docs/USER-MANUAL.md)
-- [src/cli/commands/init.ts](file://src/cli/commands/init.ts)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json)
+- [README.md](README.md)
+- [package.json](package.json)
+- [src/cli.ts](src/cli.ts)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [.env.example](.env.example)
+- [docs/API_KEYS.md](docs/API_KEYS.md)
+- [docs/setup/MCP_SETUP.md](docs/setup/MCP_SETUP.md)
+- [docs/setup/QUICK_START_MCP.md](docs/setup/QUICK_START_MCP.md)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md)
+- [docs/USER-MANUAL.md](docs/USER-MANUAL.md)
+- [src/cli/commands/init.ts](src/cli/commands/init.ts)
+- [amalfa.settings.example.json](amalfa.settings.example.json)
 </cite>
 
 ## Table of Contents
@@ -72,14 +72,14 @@ graph TD
 ```
 
 **Diagram sources**
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L46-L55)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L268-L513)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/mcp/index.ts](src/mcp/index.ts#L46-L55)
+- [src/mcp/index.ts](src/mcp/index.ts#L268-L513)
 
 **Section sources**
-- [README.md](file://README.md#L357-L380)
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L46-L55)
+- [README.md](README.md#L357-L380)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [src/mcp/index.ts](src/mcp/index.ts#L46-L55)
 
 ## Core Components
 - CLI: Central command router exposing commands for initialization, search, MCP server, and service management.
@@ -99,10 +99,10 @@ Key CLI commands (examples):
 - Manage services: amalfa watcher|vector|reranker|sonar|ember <action>
 
 **Section sources**
-- [README.md](file://README.md#L599-L641)
-- [src/cli.ts](file://src/cli.ts#L58-L111)
-- [src/cli.ts](file://src/cli.ts#L132-L268)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L67-L77)
+- [README.md](README.md#L599-L641)
+- [src/cli.ts](src/cli.ts#L58-L111)
+- [src/cli.ts](src/cli.ts#L132-L268)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L67-L77)
 
 ## Architecture Overview
 Amalfa’s runtime architecture integrates:
@@ -130,9 +130,9 @@ Engines --> Services
 ```
 
 **Diagram sources**
-- [README.md](file://README.md#L357-L380)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L147-L150)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
+- [README.md](README.md#L357-L380)
+- [src/mcp/index.ts](src/mcp/index.ts#L147-L150)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
 
 ## Detailed Component Analysis
 
@@ -147,11 +147,11 @@ Common gotchas:
 - trustedDependencies: Native build scripts are whitelisted; trust if needed.
 
 **Section sources**
-- [README.md](file://README.md#L381-L406)
-- [README.md](file://README.md#L414-L464)
-- [package.json](file://package.json#L44-L46)
-- [package.json](file://package.json#L96-L99)
-- [docs/USER-MANUAL.md](file://docs/USER-MANUAL.md#L24-L55)
+- [README.md](README.md#L381-L406)
+- [README.md](README.md#L414-L464)
+- [package.json](package.json#L44-L46)
+- [package.json](package.json#L96-L99)
+- [docs/USER-MANUAL.md](docs/USER-MANUAL.md#L24-L55)
 
 ### Prerequisites and API Keys
 - Environment configuration: Copy .env.example to .env and add API keys for providers.
@@ -167,8 +167,8 @@ Common gotchas:
   - Monitor usage and costs
 
 **Section sources**
-- [.env.example](file://.env.example#L1-L83)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L9-L443)
+- [.env.example](.env.example#L1-L83)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L9-L443)
 
 ### MCP Server Configuration
 Steps:
@@ -183,9 +183,9 @@ Notes:
 - Logs for MCP server are written to .amalfa/.
 
 **Section sources**
-- [docs/setup/MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [docs/setup/QUICK_START_MCP.md](file://docs/setup/QUICK_START_MCP.md#L1-L169)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json#L1-L56)
+- [docs/setup/MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [docs/setup/QUICK_START_MCP.md](docs/setup/QUICK_START_MCP.md#L1-L169)
+- [amalfa.settings.example.json](amalfa.settings.example.json#L1-L56)
 
 ### Initial Ingestion
 - The init command scans configured sources, validates files, and builds the graph.
@@ -208,10 +208,10 @@ Snapshot --> Done(["Initialization complete"])
 ```
 
 **Diagram sources**
-- [src/cli/commands/init.ts](file://src/cli/commands/init.ts#L12-L131)
+- [src/cli/commands/init.ts](src/cli/commands/init.ts#L12-L131)
 
 **Section sources**
-- [src/cli/commands/init.ts](file://src/cli/commands/init.ts#L12-L131)
+- [src/cli/commands/init.ts](src/cli/commands/init.ts#L12-L131)
 
 ### MCP Tools Reference
 Core tools available to agents:
@@ -242,13 +242,13 @@ MCP-->>Agent : "JSON results + metadata"
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L67-L77)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L67-L77)
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L67-L715)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L152-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L268-L513)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L67-L715)
+- [src/mcp/index.ts](src/mcp/index.ts#L152-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L268-L513)
 
 ### Quick Start Examples
 - Search: amalfa search "oauth patterns" --limit 10
@@ -260,7 +260,7 @@ MCP-->>Agent : "JSON results + metadata"
 - JSON output: amalfa search "auth" --json | jq '.[0].id'
 
 **Section sources**
-- [README.md](file://README.md#L166-L228)
+- [README.md](README.md#L166-L228)
 
 ### Security Best Practices
 - API keys:
@@ -276,8 +276,8 @@ MCP-->>Agent : "JSON results + metadata"
   - Use local or remote models via localhost:11434
 
 **Section sources**
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L9-L443)
-- [.env.example](file://.env.example#L1-L83)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L9-L443)
+- [.env.example](.env.example#L1-L83)
 
 ## Dependency Analysis
 - Runtime: Bun (TypeScript, stdio MCP transport)
@@ -304,12 +304,12 @@ Bun --> Proto
 ```
 
 **Diagram sources**
-- [package.json](file://package.json#L79-L95)
-- [package.json](file://package.json#L96-L99)
+- [package.json](package.json#L79-L95)
+- [package.json](package.json#L96-L99)
 
 **Section sources**
-- [README.md](file://README.md#L357-L380)
-- [package.json](file://package.json#L79-L95)
+- [README.md](README.md#L357-L380)
+- [package.json](package.json#L79-L95)
 
 ## Performance Considerations
 - Search pipeline:
@@ -338,9 +338,9 @@ Common issues and resolutions:
   - Regenerate MCP config with amalfa setup-mcp and update client config.
 
 **Section sources**
-- [README.md](file://README.md#L443-L464)
-- [docs/USER-MANUAL.md](file://docs/USER-MANUAL.md#L234-L281)
-- [docs/setup/MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L206-L258)
+- [README.md](README.md#L443-L464)
+- [docs/USER-MANUAL.md](docs/USER-MANUAL.md#L234-L281)
+- [docs/setup/MCP_SETUP.md](docs/setup/MCP_SETUP.md#L206-L258)
 
 ## Conclusion
 Amalfa delivers persistent, semantic knowledge for agents with a straightforward setup:
@@ -368,6 +368,6 @@ Amalfa delivers persistent, semantic knowledge for agents with a straightforward
 - Setup MCP: amalfa setup-mcp
 
 **Section sources**
-- [README.md](file://README.md#L381-L406)
-- [README.md](file://README.md#L599-L641)
-- [README.md](file://README.md#L166-L228)
+- [README.md](README.md#L381-L406)
+- [README.md](README.md#L599-L641)
+- [README.md](README.md#L166-L228)

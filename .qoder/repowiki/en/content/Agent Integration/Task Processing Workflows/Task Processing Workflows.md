@@ -2,18 +2,18 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [Notifications.ts](file://src/utils/Notifications.ts)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [Notifications.ts](src/utils/Notifications.ts)
+- [StatsTracker.ts](src/utils/StatsTracker.ts)
 </cite>
 
 ## Table of Contents
@@ -33,13 +33,13 @@ This document explains the Sonar agent’s task processing workflows across five
 
 ## Project Structure
 The Sonar agent is implemented as a Bun-based daemon with a clear separation of concerns:
-- Orchestrator and task watcher: [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- Task logic and handlers: [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- LLM strategies and routing: [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts), [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- HTTP API surface: [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- Core graph and vector engines: [GraphEngine.ts](file://src/core/GraphEngine.ts), [GraphGardener.ts](file://src/core/GraphGardener.ts), [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- Knowledge graph persistence: [db.ts](file://src/resonance/db.ts)
-- Utilities: notifications and telemetry [Notifications.ts](file://src/utils/Notifications.ts), [StatsTracker.ts](file://src/utils/StatsTracker.ts)
+- Orchestrator and task watcher: [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- Task logic and handlers: [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- LLM strategies and routing: [sonar-strategies.ts](src/daemon/sonar-strategies.ts), [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- HTTP API surface: [sonar-server.ts](src/daemon/sonar-server.ts)
+- Core graph and vector engines: [GraphEngine.ts](src/core/GraphEngine.ts), [GraphGardener.ts](src/core/GraphGardener.ts), [VectorEngine.ts](src/core/VectorEngine.ts)
+- Knowledge graph persistence: [db.ts](src/resonance/db.ts)
+- Utilities: notifications and telemetry [Notifications.ts](src/utils/Notifications.ts), [StatsTracker.ts](src/utils/StatsTracker.ts)
 
 ```mermaid
 graph TB
@@ -73,21 +73,21 @@ SA --> STATS
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L200)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L66)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L1-L218)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L200)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L66)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L1-L218)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
 
 ## Core Components
 - SonarTask type and request/response contracts define the shape of tasks and API calls.
@@ -96,10 +96,10 @@ SA --> STATS
 - Strategies encapsulate reusable LLM prompts for judgment, synthesis, and temporal anchoring.
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L19-L24)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L10-L38)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L19-L24)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L10-L38)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
 
 ## Architecture Overview
 The Sonar agent operates as a persistent daemon that:
@@ -153,14 +153,14 @@ Agent->>Agent : Optional notification
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L465)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L100)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L200)
-- [db.ts](file://src/resonance/db.ts#L194-L220)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L465)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L100)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L200)
+- [db.ts](src/resonance/db.ts#L194-L220)
 
 ## Detailed Component Analysis
 
@@ -194,12 +194,12 @@ Report --> End(["End synthesis"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
 
 #### Timeline
 - Purpose: Anchor nodes to temporal anchors using LLM extraction.
@@ -229,12 +229,12 @@ Loop --> End(["End timeline"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L391)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L391)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L391)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L391)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 #### Garden
 - Purpose: Discover and validate missing links using semantic and structural heuristics, plus temporal sequencing.
@@ -269,12 +269,12 @@ Report --> End(["End garden"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
 
 #### Research
 - Purpose: Autonomous discovery guided by a chain-of-thought planner and auditor.
@@ -306,10 +306,10 @@ Audit --> End(["End research"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
 
 #### Enhance Batch
 - Purpose: Bulk metadata enhancement for unprocessed nodes.
@@ -331,10 +331,10 @@ Report --> End(["End enhance_batch"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 ### Task Execution Pipeline
 - Task parsing and routing:
@@ -365,12 +365,12 @@ Agent->>Agent : Optional notification
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L217)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L217)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L138-L179)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L217)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L138-L179)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L217)
 
 ### Integration with Graph Operations, Vector Search, and Knowledge Graph Analysis
 - GraphEngine loads a hollow representation of nodes and edges into memory for fast traversal and analytics.
@@ -415,16 +415,16 @@ GraphEngine --> ResonanceDB : "loads from"
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L200)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L100)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L200)
-- [db.ts](file://src/resonance/db.ts#L194-L220)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L200)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L100)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L200)
+- [db.ts](src/resonance/db.ts#L194-L220)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L200)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L100)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L200)
-- [db.ts](file://src/resonance/db.ts#L194-L220)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L200)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L100)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L200)
+- [db.ts](src/resonance/db.ts#L194-L220)
 
 ### Context Management and API Surface
 - SonarContext is constructed in the daemon and passed to handlers for consistent access to engines and sessions.
@@ -445,13 +445,13 @@ Server-->>Client : JSON result
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
 
 ### Practical Examples
 
@@ -476,11 +476,11 @@ Server-->>Client : JSON result
   - The handler enhances metadata for a batch of nodes and reports counts.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L391)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L391)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)
 
 ## Dependency Analysis
 - Coupling:
@@ -508,15 +508,15 @@ SA --> STATS["StatsTracker.ts"]
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L1-L120)
-- [Notifications.ts](file://src/utils/Notifications.ts#L1-L66)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L1-L218)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L1-L120)
+- [Notifications.ts](src/utils/Notifications.ts#L1-L66)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L1-L218)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
 
 ## Performance Considerations
 - Vector search uses FAFCAS normalization and pure dot products for speed; ensure embeddings are present for optimal recall.
@@ -537,10 +537,10 @@ SA --> STATS["StatsTracker.ts"]
   - Use StatsTracker to monitor node/edge counts and embedding coverage; investigate regressions promptly.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L167-L177)
-- [Notifications.ts](file://src/utils/Notifications.ts#L8-L30)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L87-L119)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L113-L174)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L167-L177)
+- [Notifications.ts](src/utils/Notifications.ts#L8-L30)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L87-L119)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L113-L174)
 
 ## Conclusion
 The Sonar agent’s task processing workflows combine robust graph and vector operations with LLM-driven strategies to automate knowledge graph curation. By separating concerns into handlers, strategies, and inference routing, the system remains extensible and observable. Operators can enqueue tasks, monitor progress, and rely on notifications and reports to validate outcomes.
@@ -557,9 +557,9 @@ The Sonar agent’s task processing workflows combine robust graph and vector op
 - enhance_batch: Bulk metadata enhancement for nodes.
 
 **Section sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L16-L32)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L391)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L397-L465)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L69-L99)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L16-L32)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L391)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L397-L465)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L69-L99)

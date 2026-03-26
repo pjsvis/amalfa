@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md)
-- [profile_memory.ts](file://scripts/profile_memory.ts)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [defaults.ts](file://src/config/defaults.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [db.ts](src/resonance/db.ts)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md)
+- [profile_memory.ts](scripts/profile_memory.ts)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [defaults.ts](src/config/defaults.ts)
 </cite>
 
 ## Table of Contents
@@ -60,23 +60,23 @@ HC --> VE
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L1-L78)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L16)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L1-L78)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L16)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 ## Core Components
 - VectorEngine: Implements FAFCAS normalization, zero-copy views over BLOB embeddings, and a slim scan search pipeline that minimizes memory and I/O by loading only IDs and embeddings during candidate selection.
@@ -85,12 +85,12 @@ HC --> VE
 - Caching: Atomic cache writes and content-addressable caching to reduce repeated computation and I/O.
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 ## Architecture Overview
 The vector search pipeline follows a strict separation of concerns:
@@ -119,8 +119,8 @@ VE-->>Client : topK results
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [db.ts](file://src/resonance/db.ts#L368-L431)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [db.ts](src/resonance/db.ts#L368-L431)
 
 ## Detailed Component Analysis
 
@@ -144,10 +144,10 @@ Hydrate --> Return(["Return results"])
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
 
 ### Memory Management Strategies for Large Embedding Matrices
 - Zero-copy views: Float32Array views over BLOB buffers avoid copying raw bytes during scoring.
@@ -171,12 +171,12 @@ VectorEngine --> ResonanceDB : "uses"
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L83-L134)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L83-L134)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [db.ts](file://src/resonance/db.ts#L83-L134)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [db.ts](src/resonance/db.ts#L83-L134)
 
 ### SQLite Configuration Optimizations
 - WAL mode: Enables concurrency with readers and writers coexisting.
@@ -198,13 +198,13 @@ FK --> Done["Connection Ready"]
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L102)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L16)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L102)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L16)
 
 ### Profiling and Benchmarking
 - Memory profiling script measures RSS and heap deltas across steps: database load, model initialization, and search execution.
@@ -225,12 +225,12 @@ Prof->>Prof : log RSS/Heap deltas
 ```
 
 **Diagram sources**
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
 
 **Section sources**
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
 
 ### Out-of-Memory Handling and Result Caching
 - Out-of-memory safeguards: The slim scan and metadata hydration on top-K reduce peak memory footprint; zero-copy views avoid duplicating embedding data.
@@ -246,18 +246,18 @@ Persist --> Return["Return results"]
 ```
 
 **Diagram sources**
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 **Section sources**
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 ### Batch Processing Optimizations
 - Transactions: Wrap bulk inserts to achieve significant throughput improvements.
 - Column selection: Use targeted SELECT statements to avoid large BLOBs when scanning metadata-only subsets.
 
 **Section sources**
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L64-L72)
-- [db.ts](file://src/resonance/db.ts#L194-L239)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L64-L72)
+- [db.ts](src/resonance/db.ts#L194-L239)
 
 ## Dependency Analysis
 VectorEngine depends on ResonanceDB for database access and DatabaseFactory for a hardened connection. Benchmarks and profiling scripts depend on VectorEngine and ResonanceDB to measure performance and memory usage.
@@ -272,20 +272,20 @@ HC["HarvesterCache.ts"] -.-> VE
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L44-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L44-L68)
 
 ## Performance Considerations
 - Prefer WAL mode and avoid readonly connections in concurrent environments; readers must be able to update the shared memory file.
@@ -304,9 +304,9 @@ HC["HarvesterCache.ts"] -.-> VE
 - Memory spikes: Confirm slim scan is active and metadata hydration is limited to top-K results; monitor with the memory profiler.
 
 **Section sources**
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
 
 ## Conclusion
 The vector search engine employs a combination of slim scan, zero-copy views, FAFCAS normalization, and hardened SQLite configuration to deliver high-throughput, low-latency semantic search. Benchmarks and profiling provide continuous visibility into performance and memory behavior, while caching and batching further reduce I/O and CPU overhead. These techniques scale effectively to large knowledge bases with millions of nodes.
@@ -324,12 +324,12 @@ The vector search engine employs a combination of slim scan, zero-copy views, FA
 - Health checks to validate configuration
 
 **Section sources**
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L65)
-- [db.ts](file://src/resonance/db.ts#L361-L367)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L65)
+- [db.ts](src/resonance/db.ts#L361-L367)
 
 ### Appendix B: Configuration Directory Layout
 - Centralized directories for logs, runtime, agent, cache, and tasks to support observability and caching.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [defaults.ts](src/config/defaults.ts#L16-L59)

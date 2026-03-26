@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/tools/index.ts](file://src/tools/index.ts)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts)
-- [src/types/tools.ts](file://src/types/tools.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/config/schema.ts](file://src/config/schema.ts)
-- [src/config/defaults.ts](file://src/config/defaults.ts)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md)
-- [tests/scratchpad.test.ts](file://tests/scratchpad.test.ts)
-- [scripts/verify/tool-registry-test.ts](file://scripts/verify/tool-registry-test.ts)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/tools/index.ts](src/tools/index.ts)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts)
+- [src/types/tools.ts](src/types/tools.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/config/schema.ts](src/config/schema.ts)
+- [src/config/defaults.ts](src/config/defaults.ts)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md)
+- [tests/scratchpad.test.ts](tests/scratchpad.test.ts)
+- [scripts/verify/tool-registry-test.ts](scripts/verify/tool-registry-test.ts)
 </cite>
 
 ## Table of Contents
@@ -57,22 +57,22 @@ A --> G
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L142-L161)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L75)
-- [src/config/schema.ts](file://src/config/schema.ts#L110-L117)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
+- [src/mcp/index.ts](src/mcp/index.ts#L142-L161)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L59-L75)
+- [src/config/schema.ts](src/config/schema.ts#L110-L117)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L142-L161)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L59-L75)
-- [src/config/schema.ts](file://src/config/schema.ts#L110-L117)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L16-L40)
+- [src/mcp/index.ts](src/mcp/index.ts#L142-L161)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L59-L75)
+- [src/config/schema.ts](src/config/schema.ts#L110-L117)
+- [src/config/defaults.ts](src/config/defaults.ts#L16-L40)
 
 ## Core Components
 - MCP Server: Registers static tools and handles tool execution, wrapping large outputs with scratchpad caching.
@@ -87,12 +87,12 @@ Key responsibilities:
 - Integration: Static tools are served alongside dynamic tools returned by the registry.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L152-L250)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [src/config/schema.ts](file://src/config/schema.ts#L110-L117)
+- [src/mcp/index.ts](src/mcp/index.ts#L152-L250)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
+- [src/config/schema.ts](src/config/schema.ts#L110-L117)
 
 ## Architecture Overview
 The MCP server initializes configuration, sets up daemons, registers tools (static and dynamic), and exposes them via MCP. Tool execution is handled centrally; dynamic tools are resolved from the registry first, then static tools are checked by name.
@@ -125,10 +125,10 @@ Server-->>Client : ToolResponse
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L20-L26)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [src/mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L20-L26)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 ## Detailed Component Analysis
 
@@ -164,14 +164,14 @@ ToolImplementation --> ToolSchema : "has"
 ```
 
 **Diagram sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [src/types/tools.ts](file://src/types/tools.ts#L11-L20)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [src/types/tools.ts](src/types/tools.ts#L11-L20)
 
 **Section sources**
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts#L8-L27)
-- [src/types/tools.ts](file://src/types/tools.ts#L1-L21)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
-- [scripts/verify/tool-registry-test.ts](file://scripts/verify/tool-registry-test.ts#L6-L21)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts#L8-L27)
+- [src/types/tools.ts](src/types/tools.ts#L1-L21)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
+- [scripts/verify/tool-registry-test.ts](scripts/verify/tool-registry-test.ts#L6-L21)
 
 ### Static Tools: search_documents
 - Purpose: Semantic search across knowledge graph with bicameral retrieval and reranking.
@@ -198,12 +198,12 @@ Wrap --> End(["Return results + metadata"])
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L166-L179)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L80-L146)
+- [src/mcp/index.ts](src/mcp/index.ts#L166-L179)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L80-L146)
 
 ### Static Tools: read_node_content
 - Purpose: Read full markdown content of a document by node ID.
@@ -213,8 +213,8 @@ Wrap --> End(["Return results + metadata"])
 - Error handling: Node not found, missing source path, file not found.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L180-L189)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L515-L554)
+- [src/mcp/index.ts](src/mcp/index.ts#L180-L189)
+- [src/mcp/index.ts](src/mcp/index.ts#L515-L554)
 
 ### Static Tools: explore_links
 - Purpose: Traverse graph relationships from a node.
@@ -225,8 +225,8 @@ Wrap --> End(["Return results + metadata"])
 - Error handling: Graceful if no edges found.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L190-L202)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L556-L578)
+- [src/mcp/index.ts](src/mcp/index.ts#L190-L202)
+- [src/mcp/index.ts](src/mcp/index.ts#L556-L578)
 
 ### Static Tools: list_directory_structure
 - Purpose: List document source directories.
@@ -235,9 +235,9 @@ Wrap --> End(["Return results + metadata"])
 - Note: Currently static; planned to be dynamic.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L203-L208)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L580-L588)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L239-L268)
+- [src/mcp/index.ts](src/mcp/index.ts#L203-L208)
+- [src/mcp/index.ts](src/mcp/index.ts#L580-L588)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L239-L268)
 
 ### Static Tools: find_gaps
 - Purpose: Discover semantically similar but unlinked documents.
@@ -248,8 +248,8 @@ Wrap --> End(["Return results + metadata"])
 - Error handling: Propagates Sonar errors as tool error response.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L210-L220)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L590-L603)
+- [src/mcp/index.ts](src/mcp/index.ts#L210-L220)
+- [src/mcp/index.ts](src/mcp/index.ts#L590-L603)
 
 ### Static Tools: inject_tags
 - Purpose: Add metadata tags to markdown files via HTML comment.
@@ -260,8 +260,8 @@ Wrap --> End(["Return results + metadata"])
 - Behavior: Merges with existing tags and deduplicates.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L221-L242)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L605-L642)
+- [src/mcp/index.ts](src/mcp/index.ts#L221-L242)
+- [src/mcp/index.ts](src/mcp/index.ts#L605-L642)
 
 ### Static Tools: scratchpad_read
 - Purpose: Read cached large output by ID.
@@ -271,9 +271,9 @@ Wrap --> End(["Return results + metadata"])
 - Error handling: Entry not found returns error.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L222-L235)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L644-L658)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L195-L218)
+- [src/mcp/index.ts](src/mcp/index.ts#L222-L235)
+- [src/mcp/index.ts](src/mcp/index.ts#L644-L658)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L195-L218)
 
 ### Static Tools: scratchpad_list
 - Purpose: List cached entries with metadata and cache stats.
@@ -282,9 +282,9 @@ Wrap --> End(["Return results + metadata"])
 - Error handling: Graceful when no cache directory exists.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L236-L242)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L660-L671)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L223-L247)
+- [src/mcp/index.ts](src/mcp/index.ts#L236-L242)
+- [src/mcp/index.ts](src/mcp/index.ts#L660-L671)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L223-L247)
 
 ### Dynamic Tool: ember_extract
 - Purpose: Surgically extract symbols and relationships from files/directories using LangExtract and squash into the knowledge graph.
@@ -295,9 +295,9 @@ Wrap --> End(["Return results + metadata"])
 - Availability: Requires LangExtract sidecar.
 
 **Section sources**
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L12-L33)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L34-L138)
-- [src/tools/index.ts](file://src/tools/index.ts#L4-L6)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L12-L33)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L34-L138)
+- [src/tools/index.ts](src/tools/index.ts#L4-L6)
 
 ### Scratchpad Protocol
 - Caching: Automatically caches outputs exceeding a byte threshold; otherwise returns content directly.
@@ -317,13 +317,13 @@ G --> H["Return reference with preview and read instructions"]
 ```
 
 **Diagram sources**
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 **Section sources**
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L195-L247)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts#L272-L349)
-- [tests/scratchpad.test.ts](file://tests/scratchpad.test.ts#L47-L102)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L195-L247)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts#L272-L349)
+- [tests/scratchpad.test.ts](tests/scratchpad.test.ts#L47-L102)
 
 ## Dependency Analysis
 - Static tools depend on:
@@ -349,14 +349,14 @@ Dyn --> SS["SidecarSquasher"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L49-L55)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L58-L62)
+- [src/mcp/index.ts](src/mcp/index.ts#L49-L55)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L58-L62)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L49-L55)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts#L58-L62)
+- [src/mcp/index.ts](src/mcp/index.ts#L49-L55)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts#L58-L62)
 
 ## Performance Considerations
 - search_documents:
@@ -376,9 +376,9 @@ Common errors and resolutions:
 - Search errors: Indicates database/vector issues; run system diagnostics.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L524-L526)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L648-L653)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L661-L688)
+- [src/mcp/index.ts](src/mcp/index.ts#L524-L526)
+- [src/mcp/index.ts](src/mcp/index.ts#L648-L653)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L661-L688)
 
 ## Conclusion
 Amalfa’s MCP tools combine robust static tooling with a flexible dynamic tool registry. The server integrates caching, optional LLM enhancements, and a clear error model. Agents can compose workflows using search, traversal, gap detection, and scratchpad operations, with dynamic tools extending capabilities as needed.
@@ -408,13 +408,13 @@ Amalfa’s MCP tools combine robust static tooling with a flexible dynamic tool 
   - Error messages include actionable context (e.g., node not found, cache miss).
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L171-L178)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L184-L188)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L194-L201)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L213-L219)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L225-L234)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L245-L249)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L58-L60)
+- [src/mcp/index.ts](src/mcp/index.ts#L171-L178)
+- [src/mcp/index.ts](src/mcp/index.ts#L184-L188)
+- [src/mcp/index.ts](src/mcp/index.ts#L194-L201)
+- [src/mcp/index.ts](src/mcp/index.ts#L213-L219)
+- [src/mcp/index.ts](src/mcp/index.ts#L225-L234)
+- [src/mcp/index.ts](src/mcp/index.ts#L245-L249)
+- [src/mcp/index.ts](src/mcp/index.ts#L58-L60)
 
 ### Tool Capabilities, Limitations, and Performance
 - search_documents: Comprehensive semantic search with reranking and optional LLM refinement.
@@ -426,9 +426,9 @@ Amalfa’s MCP tools combine robust static tooling with a flexible dynamic tool 
 - scratchpad_read/list: Session-scoped cache; designed for large output management.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L689-L700)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L580-L588)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L590-L603)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L689-L700)
+- [src/mcp/index.ts](src/mcp/index.ts#L580-L588)
+- [src/mcp/index.ts](src/mcp/index.ts#L590-L603)
 
 ### Tool Chaining and Composition Patterns
 Recommended patterns for agent workflows:
@@ -438,5 +438,5 @@ Recommended patterns for agent workflows:
 - Proactive vs reactive search: proactive at session start; reactive on demand.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L558-L606)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L509-L547)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L558-L606)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L509-L547)

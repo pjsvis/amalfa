@@ -2,21 +2,21 @@
 
 <cite>
 **Referenced Files in This Document**
-- [server.ts](file://website/ssr-docs/server.ts)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx)
-- [index.ts](file://website/ssr-docs/templates/index.ts)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts)
-- [DOM-MAP.md](file://website/DOM-MAP.md)
-- [SSR-DOCS-SERVER.md](file://docs/SSR-DOCS-SERVER.md)
-- [terminal.css](file://website/ssr-docs/public/terminal-style.css)
-- [terminal.css](file://public/css/terminal.css)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
+- [server.ts](website/ssr-docs/server.ts)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts)
+- [base.tsx](website/ssr-docs/templates/base.tsx)
+- [index.ts](website/ssr-docs/templates/index.ts)
+- [paths.ts](website/ssr-docs/lib/paths.ts)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts)
+- [DOM-MAP.md](website/DOM-MAP.md)
+- [SSR-DOCS-SERVER.md](docs/SSR-DOCS-SERVER.md)
+- [terminal.css](website/ssr-docs/public/terminal-style.css)
+- [terminal.css](public/css/terminal.css)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
 </cite>
 
 ## Table of Contents
@@ -89,24 +89,24 @@ S -. reads .-> GE
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L150-L341)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L1-L261)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L1-L116)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L1-L97)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L1-L83)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L1-L70)
-- [terminal.css](file://website/ssr-docs/public/terminal-style.css#L164-L257)
-- [terminal.css](file://public/css/terminal.css#L382-L724)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L42-L100)
+- [server.ts](website/ssr-docs/server.ts#L150-L341)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L1-L261)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L1-L116)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L1-L97)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L1-L83)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L1-L70)
+- [terminal.css](website/ssr-docs/public/terminal-style.css#L164-L257)
+- [terminal.css](public/css/terminal.css#L382-L724)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L42-L100)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [SSR-DOCS-SERVER.md](file://docs/SSR-DOCS-SERVER.md#L1-L92)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [SSR-DOCS-SERVER.md](docs/SSR-DOCS-SERVER.md#L1-L92)
 
 ## Core Components
 - Server and routing: Central HTTP server with routes for dashboard, lexicon, documentation, and API endpoints. It injects configuration and stats into the base layout and serves static assets.
@@ -116,12 +116,12 @@ S -. reads .-> GE
 - CLI lifecycle: Manages the SSR docs server as a background service with start/stop/status/restart actions.
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L150-L341)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L123-L193)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L57-L181)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L1-L70)
+- [server.ts](website/ssr-docs/server.ts#L150-L341)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L123-L193)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L57-L181)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L1-L70)
 
 ## Architecture Overview
 The SSR system blends server-side rendering with lightweight client-side navigation:
@@ -150,14 +150,14 @@ Note over B,S : Subsequent navigations update content via fetch
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L300-L330)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L122-L132)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L135)
+- [server.ts](website/ssr-docs/server.ts#L300-L330)
+- [index.ts](website/ssr-docs/templates/index.ts#L122-L132)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L135)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L150-L341)
-- [SSR-DOCS-SERVER.md](file://docs/SSR-DOCS-SERVER.md#L51-L68)
+- [server.ts](website/ssr-docs/server.ts#L150-L341)
+- [SSR-DOCS-SERVER.md](docs/SSR-DOCS-SERVER.md#L51-L68)
 
 ## Detailed Component Analysis
 
@@ -190,11 +190,11 @@ CheckPath --> |404| NotFound["Return 404"]
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L154-L333)
+- [server.ts](website/ssr-docs/server.ts#L154-L333)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L150-L341)
-- [DOM-MAP.md](file://website/DOM-MAP.md#L204-L249)
+- [server.ts](website/ssr-docs/server.ts#L150-L341)
+- [DOM-MAP.md](website/DOM-MAP.md#L204-L249)
 
 ### Document Registry System
 - Scans configured folders recursively for markdown files.
@@ -217,10 +217,10 @@ Persist --> Cache["Cache in memory"]
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L137-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L137-L182)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
 
 ### Markdown Processor and Wiki-Links
 - Generates a hierarchical TOC from markdown headings with numbering.
@@ -238,10 +238,10 @@ Wiki --> Output["Return {html, toc, metadata}"]
 ```
 
 **Diagram sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L57-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L57-L181)
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
 
 ### Template System and Layout
 - Base layout provides:
@@ -283,16 +283,16 @@ DocPage --> Layout : "wraps"
 ```
 
 **Diagram sources**
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L32-L113)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L26-L94)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L45-L83)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L32-L113)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L26-L94)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L45-L83)
 
 **Section sources**
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L1-L261)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L1-L116)
-- [lexicon.tsx](file://website/ssr-docs/templates/lexicon.tsx#L1-L97)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L1-L83)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L1-L261)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L1-L116)
+- [lexicon.tsx](website/ssr-docs/templates/lexicon.tsx#L1-L97)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L1-L83)
 
 ### CLI Integration and Lifecycle
 - The SSR docs server is managed as a service with PID/log files.
@@ -319,10 +319,10 @@ Life-->>CLI : stopped
 ```
 
 **Diagram sources**
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L1-L70)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L1-L70)
 
 **Section sources**
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L1-L70)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L1-L70)
 
 ### Knowledge Graph Integration
 - The server reads from the knowledge graph database to populate dashboard metrics (node/edge counts, DB size).
@@ -339,14 +339,14 @@ Server -. optional .-> GraphEngine["GraphEngine.load(db)"]
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L281-L293)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L52-L94)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L90)
+- [server.ts](website/ssr-docs/server.ts#L281-L293)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L52-L94)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L90)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L276-L293)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L52-L94)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L42-L100)
+- [server.ts](website/ssr-docs/server.ts#L276-L293)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L52-L94)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L42-L100)
 
 ## Dependency Analysis
 - Internal dependencies:
@@ -372,14 +372,14 @@ CLI["src/cli/commands/ssr-docs.ts"] --> S
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L89-L94)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L8-L12)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L1-L13)
+- [server.ts](website/ssr-docs/server.ts#L89-L94)
+- [index.ts](website/ssr-docs/templates/index.ts#L8-L12)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L1-L13)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L89-L94)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L8-L12)
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L1-L13)
+- [server.ts](website/ssr-docs/server.ts#L89-L94)
+- [index.ts](website/ssr-docs/templates/index.ts#L8-L12)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L1-L13)
 
 ## Performance Considerations
 - SSR reduces time-to-content for initial visits.
@@ -413,10 +413,10 @@ Common issues and resolutions:
   - For CORS issues, confirm Access-Control-Allow-Origin headers are present.
 
 **Section sources**
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L38)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L123-L135)
-- [server.ts](file://website/ssr-docs/server.ts#L276-L293)
-- [terminal.css](file://website/ssr-docs/public/terminal-style.css#L164-L257)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L13-L38)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L123-L135)
+- [server.ts](website/ssr-docs/server.ts#L276-L293)
+- [terminal.css](website/ssr-docs/public/terminal-style.css#L164-L257)
 
 ## Conclusion
 Amalfa’s SSR documentation system provides a fast, accessible, and extensible way to browse and integrate documentation with the knowledge graph. Its modular design—document registry, markdown processor, template system, and CLI lifecycle—enables straightforward customization and growth. By leveraging Bun’s native capabilities and a terminal-inspired theme, it balances performance and usability for developers and operators alike.
@@ -431,8 +431,8 @@ Amalfa’s SSR documentation system provides a fast, accessible, and extensible 
 - Ensure prose and doc-specific selectors maintain readability and contrast.
 
 **Section sources**
-- [terminal.css](file://website/ssr-docs/public/terminal-style.css#L164-L257)
-- [terminal.css](file://public/css/terminal.css#L382-L724)
+- [terminal.css](website/ssr-docs/public/terminal-style.css#L164-L257)
+- [terminal.css](public/css/terminal.css#L382-L724)
 
 ### Adding New Content Types
 - Extend categorization logic to recognize new patterns in filenames.
@@ -440,8 +440,8 @@ Amalfa’s SSR documentation system provides a fast, accessible, and extensible 
 - Add routes and handlers in the server for specialized pages if needed.
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L100-L106)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L231-L269)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L100-L106)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L231-L269)
 
 ### Extending the Documentation Server
 - Add new routes in server.ts with appropriate SSR rendering or JSON responses.
@@ -449,8 +449,8 @@ Amalfa’s SSR documentation system provides a fast, accessible, and extensible 
 - Enhance templates with new widgets or layout components.
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L154-L333)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
+- [server.ts](website/ssr-docs/server.ts#L154-L333)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
 
 ### Deployment Considerations
 - Run via the CLI for standardized lifecycle management.
@@ -459,8 +459,8 @@ Amalfa’s SSR documentation system provides a fast, accessible, and extensible 
 - Persist registry and logs to appropriate locations in containerized environments.
 
 **Section sources**
-- [ssr-docs.ts](file://src/cli/commands/ssr-docs.ts#L1-L70)
-- [server.ts](file://website/ssr-docs/server.ts#L96-L97)
+- [ssr-docs.ts](src/cli/commands/ssr-docs.ts#L1-L70)
+- [server.ts](website/ssr-docs/server.ts#L96-L97)
 
 ### Relationship to the Knowledge Graph Engine
 - The SSR server consumes the knowledge graph for dashboard metrics and search placeholders.
@@ -468,5 +468,5 @@ Amalfa’s SSR documentation system provides a fast, accessible, and extensible 
 - Together, they enable a cohesive experience: documentation browsing with contextual knowledge insights.
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L281-L293)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L90)
+- [server.ts](website/ssr-docs/server.ts#L281-L293)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L90)

@@ -2,20 +2,20 @@
 
 <cite>
 **Referenced Files in This Document**
-- [AGENTS.md](file://AGENTS.md)
-- [AGENT_PROTOCOLS.md](file://docs/AGENT_PROTOCOLS.md)
-- [SCRATCHPAD-INNOVATION.md](file://docs/SCRATCHPAD-INNOVATION.md)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-client.ts](file://src/utils/sonar-client.ts)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [mcp/index.ts](file://src/mcp/index.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [2026-01-08-sonar-agent-refactor.md](file://debriefs/2026-01-08-sonar-agent-refactor.md)
-- [2026-01-13-scratchpad-protocol.md](file://debriefs/2026-01-13-scratchpad-protocol.md)
+- [AGENTS.md](AGENTS.md)
+- [AGENT_PROTOCOLS.md](docs/AGENT_PROTOCOLS.md)
+- [SCRATCHPAD-INNOVATION.md](docs/SCRATCHPAD-INNOVATION.md)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-client.ts](src/utils/sonar-client.ts)
+- [Scratchpad.ts](src/utils/Scratchpad.ts)
+- [mcp/index.ts](src/mcp/index.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [schema.ts](src/config/schema.ts)
+- [2026-01-08-sonar-agent-refactor.md](debriefs/2026-01-08-sonar-agent-refactor.md)
+- [2026-01-13-scratchpad-protocol.md](debriefs/2026-01-13-scratchpad-protocol.md)
 </cite>
 
 ## Table of Contents
@@ -85,24 +85,24 @@ Defaults --> Schema
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
+- [mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
+- [mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
 
 ## Core Components
 - Sonar Agent: Multi-purpose sub-agent that watches task queues, loads the graph, and executes tasks (research, synthesis, timeline, gardening, batch enhancement).
@@ -113,13 +113,13 @@ Defaults --> Schema
 - Configuration: Centralized schema and directory structure for runtime paths and feature flags.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [schema.ts](src/config/schema.ts#L1-L298)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Architecture Overview
 The Sonar agent is a long-running daemon that:
@@ -150,10 +150,10 @@ API-->>Client : message + sessionId
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L106-L179)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
+- [mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L106-L179)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
 
 ## Detailed Component Analysis
 
@@ -181,12 +181,12 @@ Report --> WatchLoop
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L60-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L53)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L60-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L53)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
 
 ### MCP Integration and Scratchpad Protocol
 - Tool registration: Provides search, read, explore, list, gaps, and scratchpad tools; dynamic tools are registered via a registry.
@@ -215,15 +215,15 @@ MCP-->>Client : full content
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L75-L92)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L195-L218)
+- [mcp/index.ts](src/mcp/index.ts#L75-L92)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L195-L218)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L152-L250)
-- [mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [SCRATCHPAD-INNOVATION.md](file://docs/SCRATCHPAD-INNOVATION.md#L1-L469)
+- [mcp/index.ts](src/mcp/index.ts#L152-L250)
+- [mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [SCRATCHPAD-INNOVATION.md](docs/SCRATCHPAD-INNOVATION.md#L1-L469)
 
 ### HTTP API: Chat, Search, and Context Services
 - Chat: Augments user messages with direct search results and graph neighbors, then queries the LLM for a contextual answer.
@@ -246,12 +246,12 @@ API-->>Client : message + sessionId
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
 
 ### Agent Strategies: Synthesis, Timeline, and Graph Judgments
 - Relationship judgment: Determines if two nodes are related and classifies the relationship type.
@@ -271,12 +271,12 @@ Date --> Anchor["Anchor to Date"]
 ```
 
 **Diagram sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
 
 **Section sources**
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
 
 ### Research Workflows: Recursive Discovery and Chain Verification
 - Research task: Iteratively decides between search, read, explore, or finish based on LLM guidance.
@@ -299,10 +299,10 @@ Verify --> Done([Report])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
 
 ### Configuration and Directory Management
 - AMALFA_DIRS centralizes paths for logs, runtime, cache, scratchpad, and task queues.
@@ -317,12 +317,12 @@ Dirs --> Cache["Cache<br/>scratchpad"]
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L110-L117)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [schema.ts](src/config/schema.ts#L110-L117)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
 
 ## Dependency Analysis
 Key dependencies and relationships:
@@ -346,26 +346,26 @@ Agent --> Config["defaults.ts / schema.ts"]
 ```
 
 **Diagram sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
+- [mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
 
 **Section sources**
-- [mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L1-L427)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [schema.ts](file://src/config/schema.ts#L1-L298)
+- [mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L1-L427)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [schema.ts](src/config/schema.ts#L1-L298)
 
 ## Performance Considerations
 - Context window management: The scratchpad protocol reduces context usage by orders of magnitude for large tool outputs, enabling broader searches and multi-hop exploration without context inflation.
@@ -385,10 +385,10 @@ Common issues and resolutions:
 - Configuration errors: Missing or invalid amalfa.settings.json causes immediate startup failure; ensure the schema is satisfied.
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
-- [mcp/index.ts](file://src/mcp/index.ts#L727-L743)
-- [2026-01-08-sonar-agent-refactor.md](file://debriefs/2026-01-08-sonar-agent-refactor.md#L1-L31)
-- [2026-01-13-scratchpad-protocol.md](file://debriefs/2026-01-13-scratchpad-protocol.md#L1-L35)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
+- [mcp/index.ts](src/mcp/index.ts#L727-L743)
+- [2026-01-08-sonar-agent-refactor.md](debriefs/2026-01-08-sonar-agent-refactor.md#L1-L31)
+- [2026-01-13-scratchpad-protocol.md](debriefs/2026-01-13-scratchpad-protocol.md#L1-L35)
 
 ## Conclusion
 Amalfa’s Sonar agent integrates tightly with the knowledge graph and vector engine to deliver robust, context-aware assistance. The MCP server’s scratchpad protocol solves the context window problem for large tool outputs, while the HTTP API and task system enable multi-modal workflows spanning search, analysis, and synthesis. Strategies for relationship judgment, community synthesis, and temporal anchoring automate knowledge discovery and curation. With careful configuration and observability, the agent scales from interactive chat to autonomous research and documentation synthesis.
@@ -404,9 +404,9 @@ Amalfa’s Sonar agent integrates tightly with the knowledge graph and vector en
 - Research prompts: Frame recursive discovery with clear decision points (search/read/explore/finish) and chain verification steps.
 
 **Section sources**
-- [AGENTS.md](file://AGENTS.md#L1-L38)
-- [AGENT_PROTOCOLS.md](file://docs/AGENT_PROTOCOLS.md#L1-L30)
-- [2026-01-08-sonar-agent-refactor.md](file://debriefs/2026-01-08-sonar-agent-refactor.md#L1-L31)
+- [AGENTS.md](AGENTS.md#L1-L38)
+- [AGENT_PROTOCOLS.md](docs/AGENT_PROTOCOLS.md#L1-L30)
+- [2026-01-08-sonar-agent-refactor.md](debriefs/2026-01-08-sonar-agent-refactor.md#L1-L31)
 
 ### Best Practices for Agent-Driven Documentation
 - Use synthesis tasks to generate canonical documentation nodes from clusters of related content.
@@ -415,7 +415,7 @@ Amalfa’s Sonar agent integrates tightly with the knowledge graph and vector en
 - Employ the scratchpad to preserve full context while keeping agent prompts lean.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L469-L664)
-- [SCRATCHPAD-INNOVATION.md](file://docs/SCRATCHPAD-INNOVATION.md#L1-L469)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L469-L664)
+- [SCRATCHPAD-INNOVATION.md](docs/SCRATCHPAD-INNOVATION.md#L1-L469)

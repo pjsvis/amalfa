@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [README.md](file://website/ssr-docs/README.md)
-- [server.ts](file://website/ssr-docs/server.ts)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts)
-- [index.ts](file://website/ssr-docs/templates/index.ts)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx)
-- [style.css](file://website/ssr-docs/public/style.css)
-- [DOM-MAP.md](file://website/DOM-MAP.md)
+- [README.md](website/ssr-docs/README.md)
+- [server.ts](website/ssr-docs/server.ts)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts)
+- [paths.ts](website/ssr-docs/lib/paths.ts)
+- [index.ts](website/ssr-docs/templates/index.ts)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx)
+- [style.css](website/ssr-docs/public/style.css)
+- [DOM-MAP.md](website/DOM-MAP.md)
 </cite>
 
 ## Table of Contents
@@ -60,25 +60,25 @@ T_brut --> CSS
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L150-L341)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L1-L115)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [style.css](file://website/ssr-docs/public/style.css#L1-L489)
+- [server.ts](website/ssr-docs/server.ts#L150-L341)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L1-L115)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [style.css](website/ssr-docs/public/style.css#L1-L489)
 
 **Section sources**
-- [README.md](file://website/ssr-docs/README.md#L1-L119)
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L1-L115)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
-- [style.css](file://website/ssr-docs/public/style.css#L1-L489)
+- [README.md](website/ssr-docs/README.md#L1-L119)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L1-L115)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
+- [style.css](website/ssr-docs/public/style.css#L1-L489)
 
 ## Core Components
 - Markdown parser and TOC generator: extracts headings, builds hierarchical TOC, and renders HTML via Bun’s native markdown renderer
@@ -96,11 +96,11 @@ Key responsibilities:
 - Server route handlers: orchestrate rendering and error handling
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L44-L181)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L123-L182)
-- [server.ts](file://website/ssr-docs/server.ts#L101-L148)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L122-L141)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L11-L41)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L44-L181)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L123-L182)
+- [server.ts](website/ssr-docs/server.ts#L101-L148)
+- [index.ts](website/ssr-docs/templates/index.ts#L122-L141)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L11-L41)
 
 ## Architecture Overview
 The SSR pipeline:
@@ -128,10 +128,10 @@ Server-->>Client : 200 OK HTML
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L310-L330)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L135)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L45-L112)
+- [server.ts](website/ssr-docs/server.ts#L310-L330)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L135)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L45-L112)
 
 ## Detailed Component Analysis
 
@@ -151,10 +151,10 @@ Render --> End(["Return {html, toc}"])
 ```
 
 **Diagram sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L60-L118)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L60-L118)
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L44-L118)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L44-L118)
 
 ### Heading Section Parsing and Anchor ID Strategy
 - The server parses the rendered HTML to segment content by h2/h3 headings
@@ -172,10 +172,10 @@ NextHeading --> |No| HEnd(["Return sections array"])
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L105-L148)
+- [server.ts](website/ssr-docs/server.ts#L105-L148)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L101-L148)
+- [server.ts](website/ssr-docs/server.ts#L101-L148)
 
 ### Wiki-Link Processing and Reference Resolution
 - Wiki-links: [[Target]] become anchors to internal references
@@ -190,10 +190,10 @@ Patterns --> WEnd(["Return processed HTML"])
 ```
 
 **Diagram sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L123-L150)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L123-L150)
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L123-L150)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L123-L150)
 
 ### Document Loading and Metadata Extraction
 - Reads file, splits frontmatter from content, parses markdown with TOC
@@ -217,10 +217,10 @@ Loader-->>Caller : {content, toc, metadata, html}
 ```
 
 **Diagram sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
 
 ### Document Registry and Caching
 - Scans configured folders recursively, skipping hidden directories
@@ -242,10 +242,10 @@ Persist --> CacheIt
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
 
 ### SSR Templates and TOC Rendering
 - The Doc template renders:
@@ -265,12 +265,12 @@ B --> BBody["SmartBlock content"]
 ```
 
 **Diagram sources**
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L45-L112)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L28-L112)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L45-L112)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L28-L112)
 
 **Section sources**
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L1-L115)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L1-L115)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L112)
 
 ### Server Routing and Rendering Orchestration
 - Routes:
@@ -302,12 +302,12 @@ Server-->>Client : 200 OK
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L212-L330)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L122-L141)
+- [server.ts](website/ssr-docs/server.ts#L212-L330)
+- [index.ts](website/ssr-docs/templates/index.ts#L122-L141)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L150-L341)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
+- [server.ts](website/ssr-docs/server.ts#L150-L341)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
 
 ## Dependency Analysis
 - server.ts depends on:
@@ -333,18 +333,18 @@ tpl_brut --> css
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L90-L94)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L43)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L42)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L13)
-- [doc.tsx](file://website/ssr-docs/templates/doc.tsx#L1-L18)
-- [brutalisimo-doc.tsx](file://website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L26)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [style.css](file://website/ssr-docs/public/style.css#L1-L489)
+- [server.ts](website/ssr-docs/server.ts#L90-L94)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L43)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L42)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L13)
+- [doc.tsx](website/ssr-docs/templates/doc.tsx#L1-L18)
+- [brutalisimo-doc.tsx](website/ssr-docs/templates/brutalisimo-doc.tsx#L1-L26)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [style.css](website/ssr-docs/public/style.css#L1-L489)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L90-L94)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L13)
+- [server.ts](website/ssr-docs/server.ts#L90-L94)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L13)
 
 ## Performance Considerations
 - Native markdown rendering: leverages Bun’s native markdown renderer for speed
@@ -373,9 +373,9 @@ Operational checks:
 - Inspect console warnings for failed reference loads
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L162-L164)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L62-L72)
-- [server.ts](file://website/ssr-docs/server.ts#L8-L11)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L162-L164)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L62-L72)
+- [server.ts](website/ssr-docs/server.ts#L8-L11)
 
 ## Conclusion
 Amalfa’s SSR markdown processing system combines efficient native markdown rendering, robust registry caching, and flexible wiki-link processing to deliver a fast, navigable documentation experience. The TOC generation and heading-based sectioning enable smooth in-page navigation, while the document registry integrates seamlessly with the broader knowledge graph infrastructure for content enrichment.
@@ -404,12 +404,12 @@ Amalfa’s SSR markdown processing system combines efficient native markdown ren
   - Terminal-inspired CSS ensures consistent presentation across pages
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L137-L156)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
-- [style.css](file://website/ssr-docs/public/style.css#L1-L489)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L137-L156)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
+- [style.css](website/ssr-docs/public/style.css#L1-L489)
 
 ### DOM and Routing Reference
 - Documentation page DOM structure and API endpoints are documented in the project’s DOM map
 
 **Section sources**
-- [DOM-MAP.md](file://website/DOM-MAP.md#L204-L249)
+- [DOM-MAP.md](website/DOM-MAP.md#L204-L249)

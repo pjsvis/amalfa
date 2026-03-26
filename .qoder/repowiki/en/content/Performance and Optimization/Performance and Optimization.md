@@ -2,23 +2,23 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts)
-- [stats.ts](file://src/resonance/services/stats.ts)
-- [simple_search_test.ts](file://scripts/verify/simple_search_test.ts)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts)
-- [profile_memory.ts](file://scripts/profile_memory.ts)
-- [comprehensive-search-tests.ts](file://scripts/lab/comprehensive-search-tests.ts)
-- [database-intelligence-test.ts](file://scripts/lab/database-intelligence-test.ts)
-- [2026-02-01-cross-domain-pipeline-ssot-violations.md](file://briefs/2026-02-01-cross-domain-pipeline-ssot-violations.md)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [db.ts](src/resonance/db.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md)
+- [StatsTracker.ts](src/utils/StatsTracker.ts)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts)
+- [stats.ts](src/resonance/services/stats.ts)
+- [simple_search_test.ts](scripts/verify/simple_search_test.ts)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts)
+- [reranker-hf.ts](src/services/reranker-hf.ts)
+- [profile_memory.ts](scripts/profile_memory.ts)
+- [comprehensive-search-tests.ts](scripts/lab/comprehensive-search-tests.ts)
+- [database-intelligence-test.ts](scripts/lab/database-intelligence-test.ts)
+- [2026-02-01-cross-domain-pipeline-ssot-violations.md](briefs/2026-02-01-cross-domain-pipeline-ssot-violations.md)
 </cite>
 
 ## Table of Contents
@@ -80,27 +80,27 @@ PM --> VE
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L423-L464)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L143)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L1-L218)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L1-L42)
-- [stats.ts](file://src/resonance/services/stats.ts#L1-L328)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L423-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L143)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L1-L218)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L1-L42)
+- [stats.ts](src/resonance/services/stats.ts#L1-L328)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L1-L218)
-- [stats.ts](file://src/resonance/services/stats.ts#L1-L328)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L1-L218)
+- [stats.ts](src/resonance/services/stats.ts#L1-L328)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
 
 ## Core Components
 - DatabaseFactory enforces SQLite standards (WAL, busy_timeout, synchronous, mmap, temp_store, foreign_keys) and provides health checks.
@@ -111,12 +111,12 @@ PM --> VE
 - Reranking service integrates cross-encoder reranking via Hugging Face Transformers.js.
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L102)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [stats.ts](file://src/resonance/services/stats.ts#L64-L328)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L42)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L130)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L102)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [stats.ts](src/resonance/services/stats.ts#L64-L328)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L42)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L130)
 
 ## Architecture Overview
 The system emphasizes local-first, in-process computation to minimize latency and network overhead. Vector search leverages FAFCAS normalization and dot products, while ingestion and search are monitored and benchmarked continuously.
@@ -140,9 +140,9 @@ VE-->>Client : "final ranked results"
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
 
 ## Detailed Component Analysis
 
@@ -166,14 +166,14 @@ Direct --> End
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L101)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L47-L78)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L9-L73)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L101)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L47-L78)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L9-L73)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L102)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L47-L78)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L9-L73)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L102)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L47-L78)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L9-L73)
 
 ### Vector Search Performance (FAFCAS Protocol)
 - Normalization: L2-normalize vectors to unit length prior to storage.
@@ -197,14 +197,14 @@ K --> L["Return results"]
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L74)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L74)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L143)
-- [db.ts](file://src/resonance/db.ts#L444-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L1-L143)
+- [db.ts](src/resonance/db.ts#L444-L464)
 
 ### Ingestion Monitoring and Baseline Verification
 - Tracks persona/experience domains: nodes, edges, vectors, semantic tokens.
@@ -221,18 +221,18 @@ V --> P["printVerification()/generateReport()"]
 ```
 
 **Diagram sources**
-- [stats.ts](file://src/resonance/services/stats.ts#L64-L328)
+- [stats.ts](src/resonance/services/stats.ts#L64-L328)
 
 **Section sources**
-- [stats.ts](file://src/resonance/services/stats.ts#L64-L328)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L218)
+- [stats.ts](src/resonance/services/stats.ts#L64-L328)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L218)
 
 ### Pipeline Telemetry and Observability
 - PipelineTelemetry maintains stage status and metrics for Discovery, Sync, Embedding, Weaving, Enrichment.
 - Telemetry logs updates with timestamps for visibility during long-running operations.
 
 **Section sources**
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L42)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L42)
 
 ### Benchmarking and Load Testing
 - Baseline search benchmark captures latency across difficulty levels and saves results for comparison.
@@ -257,30 +257,30 @@ VE-->>Runner : "final results + reranker latency"
 ```
 
 **Diagram sources**
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L15-L94)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L63-L158)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L95-L158)
+- [profile_memory.ts](scripts/profile_memory.ts#L15-L94)
 
 **Section sources**
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
-- [profile_memory.ts](file://scripts/profile_memory.ts#L1-L94)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L1-L164)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L1-L280)
+- [profile_memory.ts](scripts/profile_memory.ts#L1-L94)
 
 ### Cross-Encoder Reranking Optimization
 - HfBgeReranker singleton loads BGE model once and reranks query-document pairs using Transformers.js (ONNX quantized).
 - Benchmarking script orchestrates reranking modes and measures end-to-end latency.
 
 **Section sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L130)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L63-L90)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L130)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L63-L90)
 
 ### Search Validation and Intelligence Testing
 - Comprehensive search tests validate FAFCAS protocol adherence and relevance thresholds.
 - Database-driven intelligence tests evaluate conceptual, relational, temporal, comparative, and inferential capabilities.
 
 **Section sources**
-- [comprehensive-search-tests.ts](file://scripts/lab/comprehensive-search-tests.ts#L100-L141)
-- [database-intelligence-test.ts](file://scripts/lab/database-intelligence-test.ts#L33-L320)
+- [comprehensive-search-tests.ts](scripts/lab/comprehensive-search-tests.ts#L100-L141)
+- [database-intelligence-test.ts](scripts/lab/database-intelligence-test.ts#L33-L320)
 
 ## Dependency Analysis
 Key dependencies and their roles:
@@ -301,18 +301,18 @@ BR --> HF
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L16-L21)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L13-L22)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L16-L21)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L13-L22)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L16-L21)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L13-L22)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L16-L21)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L13-L22)
 
 ## Performance Considerations
 - Vector search
@@ -349,11 +349,11 @@ BR --> HF
   - Check reranker availability and port configuration; fallback to vector-only mode when needed.
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L9-L73)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
-- [stats.ts](file://src/resonance/services/stats.ts#L143-L209)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L63-L90)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L9-L73)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
+- [stats.ts](src/resonance/services/stats.ts#L143-L209)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L63-L90)
 
 ## Conclusion
 Amalfa’s performance strategy centers on local-first, in-process computation with rigorous database standards, FAFCAS vector normalization, and continuous benchmarking. By enforcing connection hygiene, validating ingestion baselines, and measuring reranking impact, the system achieves low-latency, scalable search suitable for agent interactions and large knowledge bases.
@@ -369,8 +369,8 @@ Amalfa’s performance strategy centers on local-first, in-process computation w
 - Periodically vacuum and optimize
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L60-L72)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L60-L72)
 
 ### B. Vector Search Tuning Tips
 - Keep vectors normalized to unit length
@@ -379,9 +379,9 @@ Amalfa’s performance strategy centers on local-first, in-process computation w
 - Monitor zero-vector detection and handle gracefully
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L74)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L74)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L29-L36)
 
 ### C. Benchmarking Methodology
 - Define difficulty buckets and representative queries
@@ -390,8 +390,8 @@ Amalfa’s performance strategy centers on local-first, in-process computation w
 - Store results for trend analysis
 
 **Section sources**
-- [benchmark-search-baseline.ts](file://scripts/benchmarks/benchmark-search-baseline.ts#L24-L158)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L25-L266)
+- [benchmark-search-baseline.ts](scripts/benchmarks/benchmark-search-baseline.ts#L24-L158)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L25-L266)
 
 ### D. Memory Profiling Workflow
 - Measure baseline memory usage
@@ -399,7 +399,7 @@ Amalfa’s performance strategy centers on local-first, in-process computation w
 - Use this to size deployments and set GC thresholds
 
 **Section sources**
-- [profile_memory.ts](file://scripts/profile_memory.ts#L15-L94)
+- [profile_memory.ts](scripts/profile_memory.ts#L15-L94)
 
 ### E. Capacity Planning Guidelines
 - Use StatsTracker to monitor growth trends and embedding coverage
@@ -407,7 +407,7 @@ Amalfa’s performance strategy centers on local-first, in-process computation w
 - Scale horizontally by adding workers and vertically by increasing memory/CPU
 
 **Section sources**
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L25-L218)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L25-L218)
 
 ### F. Agent Interaction Latency Reduction
 - Minimize cross-service calls; keep reranking local when possible
@@ -415,8 +415,8 @@ Amalfa’s performance strategy centers on local-first, in-process computation w
 - Use telemetry to identify slow stages and optimize accordingly
 
 **Section sources**
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L42)
-- [benchmark-reranking-comparison.ts](file://scripts/benchmarks/benchmark-reranking-comparison.ts#L118-L158)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L42)
+- [benchmark-reranking-comparison.ts](scripts/benchmarks/benchmark-reranking-comparison.ts#L118-L158)
 
 ### G. FAFCAS Compliance Audit
 - Ensure vectors are normalized before storage
@@ -424,5 +424,5 @@ Amalfa’s performance strategy centers on local-first, in-process computation w
 - Prevent SSOT violations by aligning pipelines with established protocols
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
-- [2026-02-01-cross-domain-pipeline-ssot-violations.md](file://briefs/2026-02-01-cross-domain-pipeline-ssot-violations.md#L92-L113)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L36)
+- [2026-02-01-cross-domain-pipeline-ssot-violations.md](briefs/2026-02-01-cross-domain-pipeline-ssot-violations.md#L92-L113)

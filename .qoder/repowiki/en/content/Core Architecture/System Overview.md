@@ -2,24 +2,24 @@
 
 <cite>
 **Referenced Files in This Document**
-- [docs/ARCHITECTURE.md](file://docs/ARCHITECTURE.md)
-- [docs/ARCHITECTURAL_OVERVIEW.md](file://docs/ARCHITECTURAL_OVERVIEW.md)
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md)
-- [docs/architecture/daemon-operations.md](file://docs/architecture/daemon-operations.md)
-- [docs/architecture/ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md)
-- [docs/architecture/pipeline.md](file://docs/architecture/pipeline.md)
-- [docs/references/Graph and Vector Database Best Practices.md](file://docs/references/Graph and Vector Database Best Practices.md)
-- [docs/references/hardened-sqlite.md](file://docs/references/hardened-sqlite.md)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [src/core/GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [src/daemon/index.ts](file://src/daemon/index.ts)
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [docs/ARCHITECTURAL_OVERVIEW.md](docs/ARCHITECTURAL_OVERVIEW.md)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md)
+- [docs/architecture/daemon-operations.md](docs/architecture/daemon-operations.md)
+- [docs/architecture/ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md)
+- [docs/architecture/pipeline.md](docs/architecture/pipeline.md)
+- [docs/references/Graph and Vector Database Best Practices.md](docs/references/Graph and Vector Database Best Practices.md)
+- [docs/references/hardened-sqlite.md](docs/references/hardened-sqlite.md)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts)
+- [src/core/GraphEngine.ts](src/core/GraphEngine.ts)
+- [src/daemon/index.ts](src/daemon/index.ts)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
 </cite>
 
 ## Table of Contents
@@ -79,17 +79,17 @@ ResDB --> SQLite
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [src/core/GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L1-L488)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [src/core/GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [src/resonance/db.ts](src/resonance/db.ts#L1-L488)
 
 **Section sources**
-- [docs/ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L10-L18)
-- [docs/ARCHITECTURAL_OVERVIEW.md](file://docs/ARCHITECTURAL_OVERVIEW.md#L1-L125)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#L10-L18)
+- [docs/ARCHITECTURAL_OVERVIEW.md](docs/ARCHITECTURAL_OVERVIEW.md#L1-L125)
 
 ## Core Components
 - Hollow nodes: Nodes store only metadata; content is read from the filesystem on demand. This reduces database size and improves Git friendliness.
@@ -99,10 +99,10 @@ ResDB --> SQLite
 - CLI, MCP, and background services: The same ingestion pipeline serves both CLI-triggered and daemon-triggered updates, ensuring consistency.
 
 **Section sources**
-- [docs/ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L21-L133)
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L1-L383)
-- [docs/architecture/ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L1-L226)
-- [docs/references/hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L85)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#L21-L133)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L1-L383)
+- [docs/architecture/ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L1-L226)
+- [docs/references/hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L85)
 
 ## Architecture Overview
 Amalfa’s architecture centers on treating markdown as the canonical source of truth. The ingestion pipeline transforms markdown into a knowledge graph, storing only metadata in SQLite while keeping content on disk. Vector embeddings are generated and stored in a normalized form for fast similarity search. Background daemons keep the graph synchronized and provide on-demand vector generation. MCP enables agents to query the graph and receive structured results.
@@ -133,12 +133,12 @@ MCP --> VecEng
 ```
 
 **Diagram sources**
-- [docs/ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L224-L272)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#L224-L272)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
 
 ## Detailed Component Analysis
 
@@ -159,13 +159,13 @@ Safety --> Ready(["Database Ready"])
 ```
 
 **Diagram sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [docs/references/hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L21-L60)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [docs/references/hardened-sqlite.md](docs/references/hardened-sqlite.md#L21-L60)
 
 **Section sources**
-- [docs/references/hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L85)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L44-L68)
+- [docs/references/hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L85)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [src/resonance/db.ts](src/resonance/db.ts#L44-L68)
 
 ### Service Daemon Architecture
 - MCP Server: Stateless, read-only server exposing tools to agents via stdio. Starts and manages background daemons as needed.
@@ -188,15 +188,15 @@ Note over Daemon,DB : "On file change, daemon triggers ingestion"
 ```
 
 **Diagram sources**
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L41-L211)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L139)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L77-L230)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L41-L211)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L139)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L77-L230)
 
 **Section sources**
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L1-L383)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L1-L383)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
 
 ### CLI Operations, MCP Integration, and Background Services
 - CLI triggers the ingestion pipeline, which mirrors the daemon’s behavior for consistency.
@@ -221,16 +221,16 @@ MCP-->>CLI : "results"
 ```
 
 **Diagram sources**
-- [docs/architecture/ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L1-L226)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L267-L513)
+- [docs/architecture/ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L1-L226)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [src/mcp/index.ts](src/mcp/index.ts#L267-L513)
 
 **Section sources**
-- [docs/architecture/ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L1-L226)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
+- [docs/architecture/ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L1-L226)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
 
 ### Ingestion Pipeline
 - Two-pass processing: create nodes first, then weave edges using a lexicon.
@@ -252,12 +252,12 @@ I --> J["Done"]
 ```
 
 **Diagram sources**
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts#L80-L124)
 
 **Section sources**
-- [docs/architecture/ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L34-L116)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [docs/architecture/ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L34-L116)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
 
 ### Graph Engine and Vector Search
 - GraphEngine loads nodes and edges into an in-memory graph for traversal and analysis.
@@ -290,14 +290,14 @@ VectorEngine --> ResonanceDB : "reads/writes vectors"
 ```
 
 **Diagram sources**
-- [src/core/GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L25-L431)
+- [src/core/GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [src/resonance/db.ts](src/resonance/db.ts#L25-L431)
 
 **Section sources**
-- [src/core/GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L1-L488)
+- [src/core/GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [src/resonance/db.ts](src/resonance/db.ts#L1-L488)
 
 ### Design Rationale and System Boundaries
 - Markdown as source of truth: Ensures deterministic rebuilds, Git-friendly content, and separation of concerns between metadata and content.
@@ -307,9 +307,9 @@ VectorEngine --> ResonanceDB : "reads/writes vectors"
 - MCP integration: Enables agents to query the graph and receive structured results, with optional LLM-powered re-ranking and context extraction.
 
 **Section sources**
-- [docs/ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L68-L133)
-- [docs/architecture/SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L300-L383)
-- [docs/references/Graph and Vector Database Best Practices.md](file://docs/references/Graph and Vector Database Best Practices.md#L1-L112)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#L68-L133)
+- [docs/architecture/SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L300-L383)
+- [docs/references/Graph and Vector Database Best Practices.md](docs/references/Graph and Vector Database Best Practices.md#L1-L112)
 
 ## Dependency Analysis
 The system exhibits loose coupling around the shared ResonanceDB, with clear boundaries between ingestion, storage, and agent-facing services.
@@ -325,16 +325,16 @@ F["Vector Daemon"] --> C
 ```
 
 **Diagram sources**
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/resonance/db.ts](file://src/resonance/db.ts#L1-L488)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/resonance/db.ts](src/resonance/db.ts#L1-L488)
 
 **Section sources**
-- [src/resonance/db.ts](file://src/resonance/db.ts#L1-L488)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
+- [src/resonance/db.ts](src/resonance/db.ts#L1-L488)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
 
 ## Performance Considerations
 - Vector search leverages FAFCAS normalization for near real-time similarity scoring.
@@ -351,10 +351,10 @@ F["Vector Daemon"] --> C
 - MCP server crashes: Review crash logs and ensure proper signal handling for clean PID file cleanup.
 
 **Section sources**
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L102)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L95)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L727-L743)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L102)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L95)
+- [src/mcp/index.ts](src/mcp/index.ts#L727-L743)
 
 ## Conclusion
 Amalfa’s architecture embraces markdown as the source of truth, SQLite with WAL for durable storage, and FAFCAS-normalized vectors for fast retrieval. The micro-daemon mesh enables persistent, background processing, while MCP integration provides a clean interface for agents. This design yields a local-first, deterministic, and extensible knowledge graph system suitable for both development and production use.

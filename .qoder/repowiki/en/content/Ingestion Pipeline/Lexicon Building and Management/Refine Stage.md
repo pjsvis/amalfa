@@ -2,13 +2,13 @@
 
 <cite>
 **Referenced Files in This Document**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts)
-- [README.md](file://src/pipeline/lexicon/README.md)
-- [client.ts](file://src/pipeline/lexicon/lib/client.ts)
-- [dashboard.ts](file://src/pipeline/lexicon/dashboard.ts)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts)
-- [refine-lexicon.ts](file://scripts/maintenance/refine-lexicon.ts)
-- [amalfa.settings.json](file://amalfa.settings.json)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts)
+- [README.md](src/pipeline/lexicon/README.md)
+- [client.ts](src/pipeline/lexicon/lib/client.ts)
+- [dashboard.ts](src/pipeline/lexicon/dashboard.ts)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts)
+- [refine-lexicon.ts](scripts/maintenance/refine-lexicon.ts)
+- [amalfa.settings.json](amalfa.settings.json)
 </cite>
 
 ## Table of Contents
@@ -44,10 +44,10 @@ H --> R --> E --> B --> S --> I
 ```
 
 **Diagram sources**
-- [README.md](file://src/pipeline/lexicon/README.md#L12-L51)
+- [README.md](src/pipeline/lexicon/README.md#L12-L51)
 
 **Section sources**
-- [README.md](file://src/pipeline/lexicon/README.md#L1-L52)
+- [README.md](src/pipeline/lexicon/README.md#L1-L52)
 
 ## Core Components
 - Quality filter rules: frequency threshold, length threshold, stop-word exclusion, pure noise detection, and hash/ID detection
@@ -62,10 +62,10 @@ Key configuration and behavior:
 - Golden Node metadata includes frequency, sources, and promotion timestamp
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L7-L11)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L12-L71)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L100-L142)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts#L36-L100)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L7-L11)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L12-L71)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L100-L142)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts#L36-L100)
 
 ## Architecture Overview
 The Refine Stage orchestrates a linear, streaming transformation with robust observability hooks.
@@ -94,10 +94,10 @@ Dash-->>Client : "SSE events"
 ```
 
 **Diagram sources**
-- [dashboard.ts](file://src/pipeline/lexicon/dashboard.ts#L214-L239)
-- [client.ts](file://src/pipeline/lexicon/lib/client.ts#L1-L44)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L89-L150)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts#L77-L87)
+- [dashboard.ts](src/pipeline/lexicon/dashboard.ts#L214-L239)
+- [client.ts](src/pipeline/lexicon/lib/client.ts#L1-L44)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L89-L150)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts#L77-L87)
 
 ## Detailed Component Analysis
 
@@ -134,11 +134,11 @@ Accept --> Out["Write to Golden"]
 These rules collectively reduce noise and ensure downstream stages operate on high-signal concepts.
 
 **Diagram sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L110-L114)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L110-L114)
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L12-L71)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L108-L138)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L12-L71)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L108-L138)
 
 ### Candidate Evaluation Criteria
 - Frequency threshold: minimum occurrence count to qualify as a candidate
@@ -150,7 +150,7 @@ These rules collectively reduce noise and ensure downstream stages operate on hi
 These criteria are defined in the refine stage and can be adjusted by editing the source thresholds and stop-word set.
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L12-L71)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L12-L71)
 
 ### Duplicate Detection and Alias Resolution
 - Duplicate detection: handled by the upstream harvesting stage; the refine stage expects normalized, deduplicated candidates
@@ -159,7 +159,7 @@ These criteria are defined in the refine stage and can be adjusted by editing th
 The refine stage focuses on signal quality rather than structural disambiguation, deferring alias merging to later stages.
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L125-L136)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L125-L136)
 
 ### Concept Clustering Techniques
 - Clustering: not performed in the refine stage
@@ -168,7 +168,7 @@ The refine stage focuses on signal quality rather than structural disambiguation
 The refine stage preserves candidate semantics for downstream clustering and relationship discovery.
 
 **Section sources**
-- [README.md](file://src/pipeline/lexicon/README.md#L34-L44)
+- [README.md](src/pipeline/lexicon/README.md#L34-L44)
 
 ### Golden Node Construction
 Accepted candidates are transformed into standardized Golden Nodes with:
@@ -201,10 +201,10 @@ Candidate --> GoldenNode : "normalize + build"
 ```
 
 **Diagram sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L125-L136)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L125-L136)
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L125-L136)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L125-L136)
 
 ### Observability and Telemetry
 - Dashboard: SSE endpoint streams step state, metrics, and logs
@@ -226,14 +226,14 @@ Dash-->>Client : "SSE /events"
 ```
 
 **Diagram sources**
-- [client.ts](file://src/pipeline/lexicon/lib/client.ts#L9-L29)
-- [dashboard.ts](file://src/pipeline/lexicon/dashboard.ts#L200-L239)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L140-L145)
+- [client.ts](src/pipeline/lexicon/lib/client.ts#L9-L29)
+- [dashboard.ts](src/pipeline/lexicon/dashboard.ts#L200-L239)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L140-L145)
 
 **Section sources**
-- [client.ts](file://src/pipeline/lexicon/lib/client.ts#L1-L44)
-- [dashboard.ts](file://src/pipeline/lexicon/dashboard.ts#L200-L239)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L89-L150)
+- [client.ts](src/pipeline/lexicon/lib/client.ts#L1-L44)
+- [dashboard.ts](src/pipeline/lexicon/dashboard.ts#L200-L239)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L89-L150)
 
 ### Maintenance Script for Post-Hoc Refinement
 A separate maintenance script supports iterative refinement of an existing golden lexicon:
@@ -244,7 +244,7 @@ A separate maintenance script supports iterative refinement of an existing golde
 This enables offline tuning and experimentation with thresholds and stop-word sets.
 
 **Section sources**
-- [refine-lexicon.ts](file://scripts/maintenance/refine-lexicon.ts#L1-L77)
+- [refine-lexicon.ts](scripts/maintenance/refine-lexicon.ts#L1-L77)
 
 ## Dependency Analysis
 The refine stage depends on:
@@ -260,16 +260,16 @@ C --> D["dashboard.ts"]
 ```
 
 **Diagram sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L1-L5)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts#L36-L100)
-- [client.ts](file://src/pipeline/lexicon/lib/client.ts#L1-L44)
-- [dashboard.ts](file://src/pipeline/lexicon/dashboard.ts#L214-L239)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L1-L5)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts#L36-L100)
+- [client.ts](src/pipeline/lexicon/lib/client.ts#L1-L44)
+- [dashboard.ts](src/pipeline/lexicon/dashboard.ts#L214-L239)
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L1-L5)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts#L36-L100)
-- [client.ts](file://src/pipeline/lexicon/lib/client.ts#L1-L44)
-- [dashboard.ts](file://src/pipeline/lexicon/dashboard.ts#L214-L239)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L1-L5)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts#L36-L100)
+- [client.ts](src/pipeline/lexicon/lib/client.ts#L1-L44)
+- [dashboard.ts](src/pipeline/lexicon/dashboard.ts#L214-L239)
 
 ## Performance Considerations
 - Streaming I/O: JSONL processing avoids loading entire files into memory, enabling large-scale refinement on constrained hardware
@@ -292,9 +292,9 @@ Operational hooks:
 - Structured logs for debugging
 
 **Section sources**
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts#L55-L75)
-- [client.ts](file://src/pipeline/lexicon/lib/client.ts#L31-L42)
-- [dashboard.ts](file://src/pipeline/lexicon/dashboard.ts#L200-L239)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts#L55-L75)
+- [client.ts](src/pipeline/lexicon/lib/client.ts#L31-L42)
+- [dashboard.ts](src/pipeline/lexicon/dashboard.ts#L200-L239)
 
 ## Conclusion
 The Refine Stage establishes a high-signal lexicon by applying strict, deterministic quality filters and normalizing candidate entries into standardized Golden Nodes. Its streaming design, observability hooks, and idempotent outputs make it resilient, auditable, and suitable for iterative tuning. Together with downstream enrichment and embedding, it forms a robust foundation for constructing the Resonance Knowledge Graph.

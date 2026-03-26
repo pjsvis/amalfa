@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [Logger.ts](file://src/utils/Logger.ts)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [index.ts](file://src/daemon/index.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [Logger.ts](src/utils/Logger.ts)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [index.ts](src/daemon/index.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts)
 </cite>
 
 ## Table of Contents
@@ -65,19 +65,19 @@ I --> H
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [index.ts](file://src/daemon/index.ts#L1-L293)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [index.ts](src/daemon/index.ts#L1-L293)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Core Components
 - Vector Daemon HTTP server: Provides /embed and /rerank endpoints, health checks, and lifecycle management.
@@ -93,12 +93,12 @@ Key responsibilities:
 - Integration with the ingestion and enrichment subsystems.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
 
 ## Architecture Overview
 The Vector Daemon sits alongside the main ingestion daemon and Sonar agent. It exposes HTTP endpoints for clients to generate embeddings and rerank results. Embeddings are normalized according to the FAFCAS protocol and stored in the Resonance database as BLOBs. VectorEngine performs similarity search using dot products on normalized vectors.
@@ -119,9 +119,9 @@ Note over Daemon,DB : Optional downstream usage via VectorEngine.search(...)
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L162-L219)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [db.ts](file://src/resonance/db.ts#L467-L487)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L162-L219)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [db.ts](src/resonance/db.ts#L467-L487)
 
 ## Detailed Component Analysis
 
@@ -148,9 +148,9 @@ Memory and model loading:
 - Reranker is lazily initialized on first rerank request.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
 
 ### VectorEngine (In-Process Embedding and Search)
 Responsibilities:
@@ -175,7 +175,7 @@ Optimizations:
 - Threshold filtering to prune near-zero similarities.
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
 
 ### ResonanceDB and FAFCAS Helpers
 Responsibilities:
@@ -190,7 +190,7 @@ FAFCAS protocol:
 - Dot product similarity for normalized vectors.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L1-L488)
+- [db.ts](src/resonance/db.ts#L1-L488)
 
 ### Integration with Main Amalfa System
 - The ingestion daemon watches source directories and updates the graph database.
@@ -220,12 +220,12 @@ VE --> DB
 ```
 
 **Diagram sources**
-- [index.ts](file://src/daemon/index.ts#L1-L293)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
+- [index.ts](src/daemon/index.ts#L1-L293)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [db.ts](src/resonance/db.ts#L1-L488)
 
 ## Dependency Analysis
 - vector-daemon.ts depends on:
@@ -254,14 +254,14 @@ DB --> DRZ["drizzle-orm"]
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [db.ts](src/resonance/db.ts#L1-L488)
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [db.ts](src/resonance/db.ts#L1-L488)
 
 ## Performance Considerations
 - Model loading:
@@ -308,10 +308,10 @@ Operational controls:
 - Inspect PID and log files under .amalfa/runtime and .amalfa/logs.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [db.ts](src/resonance/db.ts#L1-L488)
 
 ## Conclusion
 The Vector Daemon provides a fast, HTTP-accessible embedding and reranking service integrated with the FAFCAS protocol and the Resonance database. Its architecture emphasizes low-latency embeddings, efficient storage, and optimized similarity search. By leveraging lifecycle management, structured logging, and FAFCAS-compliant normalization, it fits seamlessly into the Amalfa ecosystem for knowledge graph operations.
@@ -340,7 +340,7 @@ Endpoints:
   - Errors: 400 for invalid parameters, 500 for reranking failure
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L82-L223)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L82-L223)
 
 ### FAFCAS Protocol Notes
 - Normalization: L2 norm to unit length.
@@ -349,6 +349,6 @@ Endpoints:
 - Compliance: Verified by dedicated tests.
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [db.ts](file://src/resonance/db.ts#L467-L487)
-- [fafcas_compliance.test.ts](file://tests/fafcas_compliance.test.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [db.ts](src/resonance/db.ts#L467-L487)
+- [fafcas_compliance.test.ts](tests/fafcas_compliance.test.ts)

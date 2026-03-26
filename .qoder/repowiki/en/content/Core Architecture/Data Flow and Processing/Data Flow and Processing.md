@@ -2,22 +2,22 @@
 
 <cite>
 **Referenced Files in This Document**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [schema.ts](file://src/resonance/drizzle/schema.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts)
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts)
-- [harvester.ts](file://src/core/Harvester.ts)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [embedder.ts](src/resonance/services/embedder.ts)
+- [db.ts](src/resonance/db.ts)
+- [schema.ts](src/resonance/drizzle/schema.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts)
+- [harvester.ts](src/core/Harvester.ts)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts)
 </cite>
 
 ## Table of Contents
@@ -81,21 +81,21 @@ CH --> GG
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L1-L126)
-- [db.ts](file://src/resonance/db.ts#L66-L372)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L51)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts#L1-L101)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L1-L42)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [embedder.ts](src/resonance/services/embedder.ts#L1-L126)
+- [db.ts](src/resonance/db.ts#L66-L372)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L51)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts#L1-L101)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L1-L42)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
 
 **Section sources**
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L1-L226)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L1-L226)
 
 ## Core Components
 - AmalfaIngestor: Discovers markdown files, performs two-pass ingestion, manages transactions, and coordinates edge weaving.
@@ -109,15 +109,15 @@ CH --> GG
 - Utilities: Telemetry, JSONL streaming, and content hydration.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L59)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L126)
-- [db.ts](file://src/resonance/db.ts#L83-L103)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L150)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L17-L42)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L59)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L126)
+- [db.ts](src/resonance/db.ts#L83-L103)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L150)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L17-L42)
 
 ## Architecture Overview
 The ingestion pipeline follows a deterministic, transactional flow:
@@ -156,13 +156,13 @@ AI-->>CLI : stats
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [db.ts](file://src/resonance/db.ts#L349-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [db.ts](src/resonance/db.ts#L349-L367)
 
 **Section sources**
-- [ingestion-pipeline.md](file://docs/architecture/ingestion-pipeline.md#L34-L58)
+- [ingestion-pipeline.md](docs/architecture/ingestion-pipeline.md#L34-L58)
 
 ## Detailed Component Analysis
 
@@ -187,10 +187,10 @@ WeaveEdges --> End(["Checkpoint & Report"])
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L253)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L253)
 
 ### Hollow Node Design Pattern
 - Nodes store metadata and FAFCAS vectors in SQLite; content is stored on disk and hydrated on demand.
@@ -223,14 +223,14 @@ NODES ||--o{ EDGES : "has"
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [db.ts](file://src/resonance/db.ts#L88-L91)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L229-L254)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [db.ts](src/resonance/db.ts#L88-L91)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L229-L254)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L83-L103)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L28)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L229-L254)
+- [db.ts](src/resonance/db.ts#L83-L103)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L28)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L229-L254)
 
 ### FAFCAS Protocol Implementation
 - Vectors are generated and normalized to unit length before storage.
@@ -257,17 +257,17 @@ end
 ```
 
 **Diagram sources**
-- [embedder.ts](file://src/resonance/services/embedder.ts#L97-L100)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L140)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts#L43-L93)
+- [embedder.ts](src/resonance/services/embedder.ts#L97-L100)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L140)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts#L43-L93)
 
 **Section sources**
-- [embeddings-and-fafcas-protocol-playbook.md](file://playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L140)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L37)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts#L43-L93)
+- [embeddings-and-fafcas-protocol-playbook.md](playbooks/embeddings-and-fafcas-protocol-playbook.md#L18-L140)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L37)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts#L43-L93)
 
 ### Content Extraction, Enrichment, and Graph Construction
 - Extraction: Frontmatter parsing, semantic token extraction, and markdown link/wikilink discovery.
@@ -292,13 +292,13 @@ EW->>DB : insertEdge(...)
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L439)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L439)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L375-L439)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L375-L439)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
 
 ### Relationship Discovery and Edge Weaving
 - Explicit relationships: wiki-links, markdown links, and metadata tags.
@@ -319,13 +319,13 @@ Gate --> |Rejected| Track["Track Rejection"]
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L122-L166)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L122-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L122-L166)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L122-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
 
 ### State Management and Transactions
 - Batched transactions minimize lock contention and improve throughput.
@@ -345,14 +345,14 @@ AI->>DB : verify db file exists and non-empty
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L196-L220)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L251-L270)
-- [db.ts](file://src/resonance/db.ts#L349-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L196-L220)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L251-L270)
+- [db.ts](src/resonance/db.ts#L349-L367)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L186-L220)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L251-L270)
-- [db.ts](file://src/resonance/db.ts#L349-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L186-L220)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L251-L270)
+- [db.ts](src/resonance/db.ts#L349-L367)
 
 ### Data Transformation Flows and Intermediate Representations
 - Raw content → parsed frontmatter + body
@@ -374,18 +374,18 @@ Edges --> Metrics["Telemetry Metrics"]
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L400-L430)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L97-L100)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L27-L38)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L400-L430)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [embedder.ts](src/resonance/services/embedder.ts#L97-L100)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L27-L38)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L400-L430)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L139)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L97-L100)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L27-L38)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L400-L430)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L139)
+- [embedder.ts](src/resonance/services/embedder.ts#L97-L100)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L27-L38)
 
 ### Content Hydration and Search Hydration
 - ContentHydrator reads content from filesystem via GraphGardener for display or downstream processing.
@@ -403,12 +403,12 @@ CH-->>Caller : hydrated result
 ```
 
 **Diagram sources**
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L16-L26)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L229-L254)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L16-L26)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L229-L254)
 
 **Section sources**
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L16-L26)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L229-L254)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L16-L26)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L229-L254)
 
 ## Dependency Analysis
 - AmalfaIngestor depends on Embedder for vectors, EdgeWeaver for relationships, and ResonanceDB for persistence.
@@ -431,22 +431,22 @@ DB --> DF["DatabaseFactory"]
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L36-L39)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L126)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L10)
-- [db.ts](file://src/resonance/db.ts#L66-L81)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L32)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L36-L39)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L126)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L10)
+- [db.ts](src/resonance/db.ts#L66-L81)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L32)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L36-L39)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L126)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L10)
-- [db.ts](file://src/resonance/db.ts#L66-L81)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L32)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L36-L39)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L126)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L10)
+- [db.ts](src/resonance/db.ts#L66-L81)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L32)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
 
 ## Performance Considerations
 - Two-pass ingestion reduces edge conflicts and improves correctness.
@@ -462,10 +462,10 @@ Recommendations:
 - Monitor telemetry stages to identify bottlenecks.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L186-L220)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts#L27-L38)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L186-L220)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts#L27-L38)
 
 ## Troubleshooting Guide
 Common issues and mitigations:
@@ -482,10 +482,10 @@ Actions:
 - Confirm root-relative paths are correctly converted to absolute for content reads.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L255-L270)
-- [03-fafcas-fix.ts](file://src/pipeline/cross-domain/03-fafcas-fix.ts#L43-L93)
-- [JsonlUtils.ts](file://src/utils/JsonlUtils.ts#L55-L75)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L205-L222)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L255-L270)
+- [03-fafcas-fix.ts](src/pipeline/cross-domain/03-fafcas-fix.ts#L43-L93)
+- [JsonlUtils.ts](src/utils/JsonlUtils.ts#L55-L75)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L205-L222)
 
 ## Conclusion
 Amalfa’s ingestion pipeline is a robust, transactional, and scalable system that:

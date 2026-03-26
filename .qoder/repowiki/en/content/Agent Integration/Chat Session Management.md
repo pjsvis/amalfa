@@ -2,13 +2,13 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl)
-- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](file://.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl)
-- [session-summary.md](file://.amalfa/session-summary.md)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [Scratchpad.ts](src/utils/Scratchpad.ts)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl)
+- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl)
+- [session-summary.md](.amalfa/session-summary.md)
 </cite>
 
 ## Table of Contents
@@ -40,29 +40,28 @@ Scratchpad --> Cache[".amalfa/cache/scratchpad/<hash>.json"]
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L46-L133)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L49-L190)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L46-L133)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L49-L190)
 
 ## Core Components
 - Chat session registry: A global Map keyed by session identifiers holds active session state for multi-turn conversations.
 - HTTP chat endpoint: Accepts chat requests with a session identifier and forwards them to the chat handler.
 - Inference engine: Provides unified access to local Ollama and cloud providers with model selection and request routing.
 - Scratchpad: Intercepts large tool outputs, caches them to disk, and returns compact references to preserve context window capacity.
-- Session persistence: Conversational events are written to JSONL files named after the session ID.
+- Session persistence: Conversational events may be written to JSONL files named after the session ID for external logging and audit trails.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 ## Architecture Overview
 The chat flow begins at the HTTP endpoint, which delegates to the chat handler with the session context. The handler interacts with the inference engine and may use the scratchpad to manage large outputs. All interactions are recorded in the session’s JSONL file.
@@ -87,11 +86,11 @@ S-->>C : JSON result
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L124-L124)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L124-L124)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
 
 ## Detailed Component Analysis
 
@@ -114,13 +113,13 @@ Respond --> End(["Done"])
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
-- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](file://.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl#L1-L2)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl#L1-L2)
 
 ### Context Preservation and Memory Management
 - In-memory registry: The Map stores active sessions to enable multi-turn conversations without reloading from disk.
@@ -142,10 +141,10 @@ SonarAgent --> ChatSession : "manages"
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
 
 ### Integration with Scratchpad System
 - Purpose: Reduce context window usage by caching large tool outputs and returning concise references.
@@ -165,10 +164,10 @@ end
 ```
 
 **Diagram sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 **Section sources**
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L49-L190)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L49-L190)
 
 ### Session Persistence and Replay
 - Persistence format: JSONL files named by session ID under the sessions directory.
@@ -183,17 +182,17 @@ C --> D["Append to .amalfa/sessions/<sessionId>.jsonl"]
 ```
 
 **Diagram sources**
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
 
 **Section sources**
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
-- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](file://.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl#L1-L2)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl#L1-L2)
 
 ### Practical Examples
 
 - Session creation
   - Send a POST request to the chat endpoint with a new session ID. The first request initializes the session and records a session_start event in the JSONL file.
-  - Example reference: [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L1)
+  - Example reference: [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L1)
 
 - Context switching
   - To switch contexts, reuse the same session ID for related questions or start a new session ID for a separate context. The registry preserves conversation history per session.
@@ -202,9 +201,9 @@ C --> D["Append to .amalfa/sessions/<sessionId>.jsonl"]
   - Read the JSONL file for a session ID to reconstruct recent turns. Use the scratchpad references to retrieve cached content when needed.
 
 **Section sources**
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
-- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](file://.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl#L1-L2)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L195-L218)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl](.amalfa/sessions/session_8ccabae9-8d3b-479e-af00-9f057891c3df.jsonl#L1-L2)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L195-L218)
 
 ## Dependency Analysis
 The chat subsystem depends on the server, agent, inference engine, and scratchpad utilities. The server routes requests to the agent, which coordinates with the inference engine and scratchpad, and persists events to JSONL.
@@ -219,16 +218,16 @@ Scratchpad --> Cache[".amalfa/cache/scratchpad/*.json"]
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L124-L124)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L124-L124)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L46-L133)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L19-L119)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L49-L190)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L46-L133)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L19-L119)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L49-L190)
 
 ## Performance Considerations
 - Context window management: Use the scratchpad to avoid sending large tool outputs in every turn. This keeps the conversation history compact and improves throughput.
@@ -241,22 +240,22 @@ Scratchpad --> Cache[".amalfa/cache/scratchpad/*.json"]
 ## Troubleshooting Guide
 - Session not found or unexpected resets
   - Sessions are stored in memory and not automatically persisted beyond JSONL events. If the process restarts, active sessions are lost. Ensure the process remains alive or implement external session storage if needed.
-  - Verify the session file exists and contains recent events: [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+  - Verify the session file exists and contains recent events: [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
 
 - Large outputs consuming context
-  - Enable the scratchpad to cache large tool outputs and return references. Confirm that maybeCache is invoked and references include the expected file path and preview: [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
+  - Enable the scratchpad to cache large tool outputs and return references. Confirm that maybeCache is invoked and references include the expected file path and preview: [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
 
 - Provider configuration issues
-  - If using cloud inference, ensure the API key is set in the environment or configuration. The inference engine logs warnings when cloud is enabled without credentials: [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L46-L54)
+  - If using cloud inference, ensure the API key is set in the environment or configuration. The inference engine logs warnings when cloud is enabled without credentials: [sonar-inference.ts](src/daemon/sonar-inference.ts#L46-L54)
 
 - Health checks
-  - Use the health endpoint to confirm provider availability and model selection: [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
+  - Use the health endpoint to confirm provider availability and model selection: [sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts#L46-L54)
-- [Scratchpad.ts](file://src/utils/Scratchpad.ts#L147-L190)
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts#L46-L54)
+- [Scratchpad.ts](src/utils/Scratchpad.ts#L147-L190)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
 
 ## Conclusion
 The Sonar agent’s chat session management combines an in-memory registry, JSONL-based persistence, and a scratchpad utility to support multi-turn conversations efficiently. While the current design focuses on simplicity and performance, enhancements such as session eviction policies, external persistence, and asynchronous I/O can improve scalability and reliability for production workloads.
@@ -270,8 +269,8 @@ The Sonar agent’s chat session management combines an in-memory registry, JSON
 - JSONL event: Encodes call/result entries with identifiers, timestamps, tool metadata, and payload.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L124)
-- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](file://.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L124)
+- [session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl](.amalfa/sessions/session_28df413d-b7ae-40fe-8ca5-c696b60e8b19.jsonl#L1-L4)
 
 ### Practical Notes
 - Session scaling: Consider horizontal scaling of the agent process and external session storage for distributed deployments.
@@ -279,5 +278,5 @@ The Sonar agent’s chat session management combines an in-memory registry, JSON
 - Observability: Use the health endpoint and session JSONL files to monitor provider status and conversation flow.
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L40-L53)
-- [session-summary.md](file://.amalfa/session-summary.md#L1-L249)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L40-L53)
+- [session-summary.md](.amalfa/session-summary.md#L1-L249)

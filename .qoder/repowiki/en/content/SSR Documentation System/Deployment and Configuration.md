@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [README.md](file://website/ssr-docs/README.md)
-- [server.ts](file://website/ssr-docs/server.ts)
-- [tsconfig.json](file://website/ssr-docs/tsconfig.json)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts)
-- [index.ts](file://website/ssr-docs/templates/index.ts)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx)
-- [package.json](file://package.json)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json)
-- [.env](file://.env)
-- [.env.example](file://.env.example)
+- [README.md](website/ssr-docs/README.md)
+- [server.ts](website/ssr-docs/server.ts)
+- [tsconfig.json](website/ssr-docs/tsconfig.json)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts)
+- [paths.ts](website/ssr-docs/lib/paths.ts)
+- [index.ts](website/ssr-docs/templates/index.ts)
+- [base.tsx](website/ssr-docs/templates/base.tsx)
+- [package.json](package.json)
+- [amalfa.settings.json](amalfa.settings.json)
+- [amalfa.settings.example.json](amalfa.settings.example.json)
+- [.env](.env)
+- [.env.example](.env.example)
 </cite>
 
 ## Table of Contents
@@ -62,38 +62,38 @@ ENV -. runtime .-> S
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L1-L287)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L1-L193)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L1-L41)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L1-L142)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L1-L261)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [package.json](file://package.json#L1-L105)
-- [.env](file://.env#L1-L3)
-- [.env.example](file://.env.example#L1-L83)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L1-L287)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L1-L193)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L1-L41)
+- [index.ts](website/ssr-docs/templates/index.ts#L1-L142)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L1-L261)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [package.json](package.json#L1-L105)
+- [.env](.env#L1-L3)
+- [.env.example](.env.example#L1-L83)
 
 **Section sources**
-- [README.md](file://website/ssr-docs/README.md#L1-L119)
-- [server.ts](file://website/ssr-docs/server.ts#L1-L385)
-- [tsconfig.json](file://website/ssr-docs/tsconfig.json#L1-L15)
+- [README.md](website/ssr-docs/README.md#L1-L119)
+- [server.ts](website/ssr-docs/server.ts#L1-L385)
+- [tsconfig.json](website/ssr-docs/tsconfig.json#L1-L15)
 
 ## Core Components
-- Server entrypoint and routing: [server.ts](file://website/ssr-docs/server.ts#L151-L341)
-- Markdown parsing and TOC generation: [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L57-L118)
-- Document registry and caching: [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- Path resolution utilities: [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L38)
-- Template integration and SSR rendering: [index.ts](file://website/ssr-docs/templates/index.ts#L52-L141), [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
-- Build and dev scripts: [package.json](file://package.json#L57-L77)
-- Configuration sources: [amalfa.settings.json](file://amalfa.settings.json#L1-L96), [amalfa.settings.example.json](file://amalfa.settings.example.json#L1-L56)
-- Environment variables: [.env](file://.env#L1-L3), [.env.example](file://.env.example#L1-L83)
+- Server entrypoint and routing: [server.ts](website/ssr-docs/server.ts#L151-L341)
+- Markdown parsing and TOC generation: [markdown.ts](website/ssr-docs/lib/markdown.ts#L57-L118)
+- Document registry and caching: [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- Path resolution utilities: [paths.ts](website/ssr-docs/lib/paths.ts#L13-L38)
+- Template integration and SSR rendering: [index.ts](website/ssr-docs/templates/index.ts#L52-L141), [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
+- Build and dev scripts: [package.json](package.json#L57-L77)
+- Configuration sources: [amalfa.settings.json](amalfa.settings.json#L1-L96), [amalfa.settings.example.json](amalfa.settings.example.json#L1-L56)
+- Environment variables: [.env](.env#L1-L3), [.env.example](.env.example#L1-L83)
 
 Key runtime configuration is loaded from amalfa.settings.json and exposed via safe API endpoints. The server supports static assets, SSR pages, and lightweight APIs for stats and configuration.
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L36-L58)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L30-L50)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
+- [server.ts](website/ssr-docs/server.ts#L36-L58)
+- [index.ts](website/ssr-docs/templates/index.ts#L30-L50)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
 
 ## Architecture Overview
 The SSR server is a Bun-based Hono application that renders JSX to HTML, serves static assets, and exposes JSON endpoints for configuration and metrics. It reads configuration from a single source of truth and integrates with the knowledge graph database for stats.
@@ -120,10 +120,10 @@ DB --> Hono
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L151-L341)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L57-L118)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [index.ts](file://website/ssr-docs/templates/index.ts#L52-L95)
+- [server.ts](website/ssr-docs/server.ts#L151-L341)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L57-L118)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [index.ts](website/ssr-docs/templates/index.ts#L52-L95)
 
 ## Detailed Component Analysis
 
@@ -152,12 +152,12 @@ S-->>C : HTML (Doc Viewer)
 ```
 
 **Diagram sources**
-- [server.ts](file://website/ssr-docs/server.ts#L212-L330)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
+- [server.ts](website/ssr-docs/server.ts#L212-L330)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L96-L341)
+- [server.ts](website/ssr-docs/server.ts#L96-L341)
 
 ### Markdown Parsing and TOC Generation
 - Parses markdown with Bun’s native markdown renderer.
@@ -175,10 +175,10 @@ Wiki --> Return["Return ParsedDoc"]
 ```
 
 **Diagram sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L155-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L155-L181)
 
 **Section sources**
-- [markdown.ts](file://website/ssr-docs/lib/markdown.ts#L57-L181)
+- [markdown.ts](website/ssr-docs/lib/markdown.ts#L57-L181)
 
 ### Document Registry and Caching
 - Persists a versioned registry to .amalfa/runtime/doc-registry.json.
@@ -197,17 +197,17 @@ Save --> Use
 ```
 
 **Diagram sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L62-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L62-L182)
 
 **Section sources**
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L44-L182)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L44-L182)
 
 ### Path Resolution Utilities
 - Locates project root using marker files.
 - Provides safe path resolution for assets and data.
 
 **Section sources**
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L38)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L13-L38)
 
 ### Template Integration and SSR Rendering
 - Loads configuration and database stats for SSR pages.
@@ -215,8 +215,8 @@ Save --> Use
 - Provides reusable layout and widget components.
 
 **Section sources**
-- [index.ts](file://website/ssr-docs/templates/index.ts#L30-L95)
-- [base.tsx](file://website/ssr-docs/templates/base.tsx#L36-L89)
+- [index.ts](website/ssr-docs/templates/index.ts#L30-L95)
+- [base.tsx](website/ssr-docs/templates/base.tsx#L36-L89)
 
 ### Configuration File Structure and Feature Toggles
 - Single source of truth: amalfa.settings.json.
@@ -260,13 +260,13 @@ SonarConfig --> Tasks
 ```
 
 **Diagram sources**
-- [index.ts](file://website/ssr-docs/templates/index.ts#L20-L28)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
+- [index.ts](website/ssr-docs/templates/index.ts#L20-L28)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
 
 **Section sources**
-- [index.ts](file://website/ssr-docs/templates/index.ts#L30-L50)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json#L1-L56)
+- [index.ts](website/ssr-docs/templates/index.ts#L30-L50)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [amalfa.settings.example.json](amalfa.settings.example.json#L1-L56)
 
 ### Environment Variable Handling
 - .env holds provider API keys and optional flags.
@@ -274,8 +274,8 @@ SonarConfig --> Tasks
 - Variables are intended for runtime services and providers outside this server.
 
 **Section sources**
-- [.env](file://.env#L1-L3)
-- [.env.example](file://.env.example#L1-L83)
+- [.env](.env#L1-L3)
+- [.env.example](.env.example#L1-L83)
 
 ## Dependency Analysis
 - Runtime: Bun (engine requirement), Hono.js (web framework), gray-matter (frontmatter), SQLite via bun:sqlite.
@@ -298,11 +298,11 @@ Playwright --> Bun
 ```
 
 **Diagram sources**
-- [package.json](file://package.json#L44-L95)
-- [server.ts](file://website/ssr-docs/server.ts#L1-L10)
+- [package.json](package.json#L44-L95)
+- [server.ts](website/ssr-docs/server.ts#L1-L10)
 
 **Section sources**
-- [package.json](file://package.json#L44-L95)
+- [package.json](package.json#L44-L95)
 
 ## Performance Considerations
 - Asset optimization
@@ -337,10 +337,10 @@ Playwright --> Bun
   - Run tests after starting the server locally to validate rendering and API responses.
 
 **Section sources**
-- [server.ts](file://website/ssr-docs/server.ts#L8-L11)
-- [paths.ts](file://website/ssr-docs/lib/paths.ts#L13-L29)
-- [doc-registry.ts](file://website/ssr-docs/lib/doc-registry.ts#L125-L182)
-- [amalfa.settings.json](file://amalfa.settings.json#L2-L8)
+- [server.ts](website/ssr-docs/server.ts#L8-L11)
+- [paths.ts](website/ssr-docs/lib/paths.ts#L13-L29)
+- [doc-registry.ts](website/ssr-docs/lib/doc-registry.ts#L125-L182)
+- [amalfa.settings.json](amalfa.settings.json#L2-L8)
 
 ## Conclusion
 Amalfa’s SSR documentation system is a focused, Bun-powered server that renders markdown documentation with SSR, integrates with a knowledge graph, and exposes configuration and metrics via simple endpoints. By centralizing configuration in amalfa.settings.json, leveraging a persisted document registry, and optimizing static assets, teams can deploy reliably in development and production environments. For high-traffic scenarios, combine horizontal scaling, reverse proxies, and CDN caching with robust monitoring and security controls.
@@ -356,9 +356,9 @@ Amalfa’s SSR documentation system is a focused, Bun-powered server that render
 - Optionally copy .env.example to .env and populate provider keys.
 
 **Section sources**
-- [package.json](file://package.json#L44-L46)
-- [amalfa.settings.example.json](file://amalfa.settings.example.json#L1-L56)
-- [.env.example](file://.env.example#L1-L83)
+- [package.json](package.json#L44-L46)
+- [amalfa.settings.example.json](amalfa.settings.example.json#L1-L56)
+- [.env.example](.env.example#L1-L83)
 
 ### B. Production Deployment Strategies
 - Process management
@@ -382,8 +382,8 @@ Amalfa’s SSR documentation system is a focused, Bun-powered server that render
   - Serve public/css and public/js via the reverse proxy or CDN with long-lived cache headers.
 
 **Section sources**
-- [package.json](file://package.json#L63-L65)
-- [tsconfig.json](file://website/ssr-docs/tsconfig.json#L9-L10)
+- [package.json](package.json#L63-L65)
+- [tsconfig.json](website/ssr-docs/tsconfig.json#L9-L10)
 
 ### D. Logging and Error Reporting
 - Logging

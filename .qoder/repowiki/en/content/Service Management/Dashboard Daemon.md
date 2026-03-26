@@ -2,18 +2,18 @@
 
 <cite>
 **Referenced Files in This Document**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts)
-- [dashboard.html](file://website/dashboard.html)
-- [DOM-MAP.md](file://website/DOM-MAP.md)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx)
-- [Logger.ts](file://src/utils/Logger.ts)
-- [PipelineTelemetry.ts](file://src/services/PipelineTelemetry.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [cli.ts](file://src/cli.ts)
-- [dashboard.ts](file://src/cli/commands/dashboard.ts)
-- [index.html](file://public/index.html)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts)
+- [dashboard.html](website/dashboard.html)
+- [DOM-MAP.md](website/DOM-MAP.md)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx)
+- [Logger.ts](src/utils/Logger.ts)
+- [PipelineTelemetry.ts](src/services/PipelineTelemetry.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [cli.ts](src/cli.ts)
+- [dashboard.ts](src/cli/commands/dashboard.ts)
+- [index.html](public/index.html)
+- [amalfa.settings.json](amalfa.settings.json)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts)
 </cite>
 
 ## Table of Contents
@@ -71,14 +71,14 @@ SET --> DD
 ```
 
 **Diagram sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L32)
-- [dashboard.ts](file://src/cli/commands/dashboard.ts#L11-L36)
-- [dashboard.html](file://website/dashboard.html#L1-L381)
-- [index.html](file://public/index.html#L1-L254)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L32)
+- [dashboard.ts](src/cli/commands/dashboard.ts#L11-L36)
+- [dashboard.html](website/dashboard.html#L1-L381)
+- [index.html](public/index.html#L1-L254)
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L1-L507)
-- [dashboard.ts](file://src/cli/commands/dashboard.ts#L1-L54)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L1-L507)
+- [dashboard.ts](src/cli/commands/dashboard.ts#L1-L54)
 
 ## Core Components
 The Dashboard Daemon consists of several interconnected components that work together to provide comprehensive system monitoring and administration:
@@ -96,9 +96,9 @@ The web interface provides both modern and legacy dashboard experiences, allowin
 The daemon aggregates data from multiple sources including the graph database, pipeline telemetry, and system logs to present a unified view of system state.
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L361-L386)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L145-L276)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L342-L359)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L361-L386)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L145-L276)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L342-L359)
 
 ## Architecture Overview
 The Dashboard Daemon follows a modular architecture with clear separation of concerns:
@@ -129,15 +129,15 @@ Note over Client,SSE : Continuous Real-time Updates
 ```
 
 **Diagram sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L42-L51)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L145-L276)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L95-L128)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L42-L51)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L145-L276)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L95-L128)
 
 The architecture implements a publish-subscribe pattern where the daemon continuously collects system data and publishes updates to connected clients via SSE. Administrative actions trigger CLI commands that manage the lifecycle of other system services.
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L34-L51)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L145-L276)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L34-L51)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L145-L276)
 
 ## Detailed Component Analysis
 
@@ -176,12 +176,12 @@ DashboardDaemon --> BunServer : "manages"
 ```
 
 **Diagram sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L489)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L489)
 
 The class implements a comprehensive API surface including static asset serving, dynamic content generation, service management, and real-time streaming capabilities.
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L25-L489)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L25-L489)
 
 ### Real-Time Streaming System
 The SSE implementation provides continuous updates to the dashboard interface:
@@ -210,12 +210,12 @@ CollectData --> GetLogs
 ```
 
 **Diagram sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L150-L275)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L150-L275)
 
 The streaming system updates multiple UI components simultaneously, ensuring the dashboard remains responsive and informative.
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L145-L276)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L145-L276)
 
 ### Service Management Interface
 The daemon provides administrative controls for managing other system services:
@@ -229,8 +229,8 @@ The daemon provides administrative controls for managing other system services:
 | Harvester | N/A | `.amalfa/runtime/daemon.pid` | start, stop, restart |
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L361-L386)
-- [dashboard.ts](file://src/cli/commands/dashboard.ts#L38-L54)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L361-L386)
+- [dashboard.ts](src/cli/commands/dashboard.ts#L38-L54)
 
 ### Web Interface Components
 The dashboard supports multiple interface styles:
@@ -255,13 +255,13 @@ S1 --> M3
 ```
 
 **Diagram sources**
-- [dashboard.html](file://website/dashboard.html#L1-L381)
-- [DOM-MAP.md](file://website/DOM-MAP.md#L24-L89)
-- [dashboard.tsx](file://website/ssr-docs/templates/dashboard.tsx#L1-L115)
+- [dashboard.html](website/dashboard.html#L1-L381)
+- [DOM-MAP.md](website/DOM-MAP.md#L24-L89)
+- [dashboard.tsx](website/ssr-docs/templates/dashboard.tsx#L1-L115)
 
 **Section sources**
-- [dashboard.html](file://website/dashboard.html#L268-L381)
-- [index.html](file://public/index.html#L131-L254)
+- [dashboard.html](website/dashboard.html#L268-L381)
+- [index.html](public/index.html#L131-L254)
 
 ## Dependency Analysis
 The Dashboard Daemon has several key dependencies that define its functionality and integration points:
@@ -299,16 +299,16 @@ DD --> Cache
 ```
 
 **Diagram sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L1-L12)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L1-L12)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
 
 The daemon's dependency structure emphasizes modularity and clear separation of concerns, with each component having a specific responsibility in the monitoring and administration ecosystem.
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L1-L12)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L1-L12)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
 
 ## Performance Considerations
 The Dashboard Daemon is designed for efficient real-time monitoring with several performance optimizations:
@@ -329,8 +329,8 @@ The Dashboard Daemon is designed for efficient real-time monitoring with several
 - **Compression**: Static assets are served compressed when possible
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L150-L275)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L342-L359)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L150-L275)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L342-L359)
 
 ## Security Considerations
 The Dashboard Daemon implements several security measures for safe operation:
@@ -351,8 +351,8 @@ The Dashboard Daemon implements several security measures for safe operation:
 - **Error Handling**: Graceful error handling prevents information leakage
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L95-L128)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L469-L484)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L95-L128)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L469-L484)
 
 ## Configuration Options
 The Dashboard Daemon supports various configuration options through the central settings system:
@@ -381,9 +381,9 @@ The Dashboard Daemon supports various configuration options through the central 
 | Sonar Agent | 3012 | `.amalfa/runtime/sonar.pid` | CLI, HTTP |
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L15-L16)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L15-L16)
 
 ## Troubleshooting Guide
 
@@ -401,8 +401,8 @@ The Dashboard Daemon supports various configuration options through the central 
 4. **Check Dependencies**: Ensure all required Node modules are installed
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L423-L445)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts#L76-L178)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L423-L445)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts#L76-L178)
 
 ### Performance Monitoring Problems
 **Problem**: Slow response times or delayed updates
@@ -418,8 +418,8 @@ The Dashboard Daemon supports various configuration options through the central 
 4. **Log Analysis**: Review daemon logs for performance bottlenecks
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L262-L275)
-- [Logger.ts](file://src/utils/Logger.ts#L15-L23)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L262-L275)
+- [Logger.ts](src/utils/Logger.ts#L15-L23)
 
 ### Administrative Interface Failures
 **Problem**: Service control actions fail or have no effect
@@ -435,8 +435,8 @@ The Dashboard Daemon supports various configuration options through the central 
 4. **CLI Testing**: Test service commands manually in terminal
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L95-L128)
-- [dashboard.ts](file://src/cli/commands/dashboard.ts#L38-L54)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L95-L128)
+- [dashboard.ts](src/cli/commands/dashboard.ts#L38-L54)
 
 ### Log Streaming Issues
 **Problem**: System logs not displaying in dashboard
@@ -452,8 +452,8 @@ The Dashboard Daemon supports various configuration options through the central 
 4. **Path Validation**: Verify log file paths in settings
 
 **Section sources**
-- [dashboard-daemon.ts](file://src/services/dashboard-daemon.ts#L447-L467)
-- [defaults.ts](file://src/config/defaults.ts#L18-L20)
+- [dashboard-daemon.ts](src/services/dashboard-daemon.ts#L447-L467)
+- [defaults.ts](src/config/defaults.ts#L18-L20)
 
 ## Conclusion
 The Dashboard Daemon provides a comprehensive solution for monitoring and administering the AMALFA system. Its modular architecture, real-time streaming capabilities, and extensive administrative features make it an essential component for system operators and developers.

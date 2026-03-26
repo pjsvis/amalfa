@@ -2,21 +2,21 @@
 
 <cite>
 **Referenced Files in This Document**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts)
-- [server.py](file://src/sidecars/lang-extract/server.py)
-- [schema.ts](file://src/config/schema.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts)
-- [sidecar.ts](file://src/types/sidecar.ts)
-- [harvest-lexicon.ts](file://src/cli/commands/harvest-lexicon.ts)
-- [README.md](file://tests/langextract-results/README.md)
-- [test-providers.ts](file://tests/ollama/test-providers.ts)
-- [test-models.ts](file://tests/langextract-comparison/test-models.ts)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts)
-- [2026-01-28-substrate-testing.md](file://debriefs/2026-01-28-substrate-testing.md)
-- [2026-01-31-lexicon-harvester.md](file://debriefs/2026-01-31-lexicon-harvester.md)
-- [Graph and Vector Database Best Practices.md.bak](file://docs/references/Graph and Vector Database Best Practices.md.bak)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts)
+- [server.py](src/sidecars/lang-extract/server.py)
+- [schema.ts](src/config/schema.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts)
+- [sidecar.ts](src/types/sidecar.ts)
+- [harvest-lexicon.ts](src/cli/commands/harvest-lexicon.ts)
+- [README.md](tests/langextract-results/README.md)
+- [test-providers.ts](tests/ollama/test-providers.ts)
+- [test-models.ts](tests/langextract-comparison/test-models.ts)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts)
+- [2026-01-28-substrate-testing.md](debriefs/2026-01-28-substrate-testing.md)
+- [2026-01-31-lexicon-harvester.md](debriefs/2026-01-31-lexicon-harvester.md)
+- [Graph and Vector Database Best Practices.md.bak](docs/references/Graph and Vector Database Best Practices.md.bak)
 </cite>
 
 ## Table of Contents
@@ -73,22 +73,22 @@ D --> |invokes| C
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L354)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L10-L69)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L176)
-- [harvest-lexicon.ts](file://src/cli/commands/harvest-lexicon.ts#L1-L28)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [schema.ts](file://src/config/schema.ts#L97-L108)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L354)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L10-L69)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L176)
+- [harvest-lexicon.ts](src/cli/commands/harvest-lexicon.ts#L1-L28)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [schema.ts](src/config/schema.ts#L97-L108)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L354)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [schema.ts](file://src/config/schema.ts#L97-L108)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L10-L69)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L176)
-- [harvest-lexicon.ts](file://src/cli/commands/harvest-lexicon.ts#L1-L28)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L354)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [schema.ts](src/config/schema.ts#L97-L108)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L10-L69)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L176)
+- [harvest-lexicon.ts](src/cli/commands/harvest-lexicon.ts#L1-L28)
 
 ## Core Components
 - LangExtractClient: Orchestrates extraction via an MCP sidecar, validates and parses results, caches outcomes, and surfaces provider-specific errors.
@@ -98,11 +98,11 @@ D --> |invokes| C
 - Configuration: Centralized schema defines providers, models, and fallback ordering.
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L354)
-- [server.py](file://src/sidecars/lang-extract/server.py#L31-L47)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L10-L69)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L176)
-- [schema.ts](file://src/config/schema.ts#L97-L108)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L354)
+- [server.py](src/sidecars/lang-extract/server.py#L31-L47)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L10-L69)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L176)
+- [schema.ts](src/config/schema.ts#L97-L108)
 
 ## Architecture Overview
 The extraction pipeline integrates a TypeScript client with a Python MCP sidecar. The client resolves provider configuration, connects to the sidecar, invokes the extraction tool, validates and parses the response, and caches results. The harvested sidecars feed the LexiconHarvester to produce a curated candidate list for the conceptual lexicon.
@@ -132,14 +132,14 @@ end
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L30-L63)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L30-L63)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L30-L63)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L30-L63)
 
 ## Detailed Component Analysis
 
@@ -183,16 +183,16 @@ LangExtractClient --> HarvesterCache : "uses"
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L354)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L10-L69)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L354)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L10-L69)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L59-L80)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L82-L104)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L186)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L246)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L63)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L59-L80)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L82-L104)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L186)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L246)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L63)
 
 ### LangExtract Sidecar
 Responsibilities:
@@ -223,18 +223,18 @@ CallOpenRouter --> Return
 ```
 
 **Diagram sources**
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
-- [server.py](file://src/sidecars/lang-extract/server.py#L31-L47)
-- [server.py](file://src/sidecars/lang-extract/server.py#L50-L88)
-- [server.py](file://src/sidecars/lang-extract/server.py#L90-L140)
-- [server.py](file://src/sidecars/lang-extract/server.py#L142-L196)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
+- [server.py](src/sidecars/lang-extract/server.py#L31-L47)
+- [server.py](src/sidecars/lang-extract/server.py#L50-L88)
+- [server.py](src/sidecars/lang-extract/server.py#L90-L140)
+- [server.py](src/sidecars/lang-extract/server.py#L142-L196)
 
 **Section sources**
-- [server.py](file://src/sidecars/lang-extract/server.py#L31-L47)
-- [server.py](file://src/sidecars/lang-extract/server.py#L50-L88)
-- [server.py](file://src/sidecars/lang-extract/server.py#L90-L140)
-- [server.py](file://src/sidecars/lang-extract/server.py#L142-L196)
-- [server.py](file://src/sidecars/lang-extract/server.py#L198-L222)
+- [server.py](src/sidecars/lang-extract/server.py#L31-L47)
+- [server.py](src/sidecars/lang-extract/server.py#L50-L88)
+- [server.py](src/sidecars/lang-extract/server.py#L90-L140)
+- [server.py](src/sidecars/lang-extract/server.py#L142-L196)
+- [server.py](src/sidecars/lang-extract/server.py#L198-L222)
 
 ### HarvesterCache
 Responsibilities:
@@ -252,10 +252,10 @@ D --> F["return null"]
 ```
 
 **Diagram sources**
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L63)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L63)
 
 **Section sources**
-- [HarvesterCache.ts](file://src/core/HarvesterCache.ts#L20-L63)
+- [HarvesterCache.ts](src/core/HarvesterCache.ts#L20-L63)
 
 ### LexiconHarvester
 Responsibilities:
@@ -281,16 +281,16 @@ DoneScan --> End(["done"])
 ```
 
 **Diagram sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L83-L111)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L113-L154)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L156-L174)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L83-L111)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L113-L154)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L156-L174)
 
 **Section sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L35-L52)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L57-L74)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L83-L111)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L113-L154)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L156-L174)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L35-L52)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L57-L74)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L83-L111)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L113-L154)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L156-L174)
 
 ### Configuration and Multi-Provider Strategy
 - Provider enum supports: gemini, ollama, ollama_cloud, openrouter
@@ -318,13 +318,13 @@ ProviderEnum <.. LangExtractConfigSchema : "used by"
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/config/schema.ts#L16-L21)
-- [schema.ts](file://src/config/schema.ts#L97-L108)
+- [schema.ts](src/config/schema.ts#L16-L21)
+- [schema.ts](src/config/schema.ts#L97-L108)
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L16-L21)
-- [schema.ts](file://src/config/schema.ts#L97-L108)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [schema.ts](src/config/schema.ts#L16-L21)
+- [schema.ts](src/config/schema.ts#L97-L108)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 ## Dependency Analysis
 - LangExtractClient depends on:
@@ -349,15 +349,15 @@ Lex --> Stop["stop-list.json"]
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L39-L43)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [server.py](file://src/sidecars/lang-extract/server.py#L31-L47)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L57-L74)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L39-L43)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [server.py](src/sidecars/lang-extract/server.py#L31-L47)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L57-L74)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L39-L43)
-- [server.py](file://src/sidecars/lang-extract/server.py#L31-L47)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L57-L74)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L39-L43)
+- [server.py](src/sidecars/lang-extract/server.py#L31-L47)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L57-L74)
 
 ## Performance Considerations
 - Caching: Content hashing and atomic file writes reduce repeated extractions and improve throughput.
@@ -387,11 +387,11 @@ Classify --> Action["Return SubstrateError + suggestion"]
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L186)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L186)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L186)
-- [2026-01-28-substrate-testing.md](file://debriefs/2026-01-28-substrate-testing.md#L53-L114)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L186)
+- [2026-01-28-substrate-testing.md](debriefs/2026-01-28-substrate-testing.md#L53-L114)
 
 ## Conclusion
 Amalfa’s entity extraction and enhancement pipeline combines a robust TypeScript client with a flexible Python MCP sidecar, a deterministic caching layer, and a triage-driven lexicon harvester. The multi-provider architecture enables controlled experimentation and fallback strategies, while configuration schemas enforce consistency and extensibility. Together, these components support high-quality, explainable entity recognition and relationship discovery suitable for knowledge graph construction.
@@ -415,9 +415,9 @@ Amalfa’s entity extraction and enhancement pipeline combines a robust TypeScri
   - langExtract.openrouter.model
 
 **Section sources**
-- [schema.ts](file://src/config/schema.ts#L97-L108)
-- [server.py](file://src/sidecars/lang-extract/server.py#L31-L47)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L62-L80)
+- [schema.ts](src/config/schema.ts#L97-L108)
+- [server.py](src/sidecars/lang-extract/server.py#L31-L47)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L62-L80)
 
 ### Entity Normalization and Disambiguation
 - Normalization: Lowercase and trim terms during aggregation.
@@ -425,9 +425,9 @@ Amalfa’s entity extraction and enhancement pipeline combines a robust TypeScri
 - Similarity grouping: Use embeddings to group synonyms for curation decisions.
 
 **Section sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L76-L78)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L35-L52)
-- [2026-01-31-lexicon-harvester.md](file://debriefs/2026-01-31-lexicon-harvester.md#L38-L41)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L76-L78)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L35-L52)
+- [2026-01-31-lexicon-harvester.md](debriefs/2026-01-31-lexicon-harvester.md#L38-L41)
 
 ### Relationship Mapping Techniques
 - Explicit tags: Parse structured tags to derive typed relationships.
@@ -435,7 +435,7 @@ Amalfa’s entity extraction and enhancement pipeline combines a robust TypeScri
 - Contextual weighting: Weight primary concepts higher in sidecar outputs.
 
 **Section sources**
-- [scripts/lab/cda.ts](file://scripts/lab/cda.ts#L127-L179)
+- [scripts/lab/cda.ts](scripts/lab/cda.ts#L127-L179)
 
 ### Quality Assessment and Validation
 - Automatic metrics: Entity count, relationship count, latency, success rate.
@@ -443,17 +443,17 @@ Amalfa’s entity extraction and enhancement pipeline combines a robust TypeScri
 - Persistent results: Store extraction outputs in JSONL for reproducibility and comparison.
 
 **Section sources**
-- [README.md](file://tests/langextract-results/README.md#L149-L188)
-- [README.md](file://tests/langextract-results/README.md#L25-L56)
+- [README.md](tests/langextract-results/README.md#L149-L188)
+- [README.md](tests/langextract-results/README.md#L25-L56)
 
 ### Examples of Workflows
 - Provider comparison: Test cloud vs. local models and compare results.
 - Extraction workflow: Load settings, initialize client, call extract, validate schema, cache result.
 
 **Section sources**
-- [test-providers.ts](file://tests/ollama/test-providers.ts#L144-L200)
-- [test-models.ts](file://tests/langextract-comparison/test-models.ts#L138-L163)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
+- [test-providers.ts](tests/ollama/test-providers.ts#L144-L200)
+- [test-models.ts](tests/langextract-comparison/test-models.ts#L138-L163)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
 
 ### Integration with External NLP Services
 - Gemini: Use Google Generative AI with JSON response format.
@@ -461,20 +461,20 @@ Amalfa’s entity extraction and enhancement pipeline combines a robust TypeScri
 - OpenRouter: Send chat completions with required headers and JSON format.
 
 **Section sources**
-- [server.py](file://src/sidecars/lang-extract/server.py#L50-L88)
-- [server.py](file://src/sidecars/lang-extract/server.py#L90-L140)
-- [server.py](file://src/sidecars/lang-extract/server.py#L142-L196)
+- [server.py](src/sidecars/lang-extract/server.py#L50-L88)
+- [server.py](src/sidecars/lang-extract/server.py#L90-L140)
+- [server.py](src/sidecars/lang-extract/server.py#L142-L196)
 
 ### Tokenization and Concept Building
 - Tokenizer vocabulary tagging: Protocol, Concept, Organization for downstream categorization.
 - Concept enrichment: Title-case labels and metadata for presentation fidelity.
 
 **Section sources**
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts#L56-L90)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts#L56-L90)
 
 ### Knowledge Graph Construction Notes
 - Density management: Apply Louvain constraints to manage edge density and improve traversal performance.
 - Agent-based validation: Establish the knowledge graph as authoritative ground truth.
 
 **Section sources**
-- [Graph and Vector Database Best Practices.md.bak](file://docs/references/Graph and Vector Database Best Practices.md.bak#L129-L212)
+- [Graph and Vector Database Best Practices.md.bak](docs/references/Graph and Vector Database Best Practices.md.bak#L129-L212)

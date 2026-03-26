@@ -2,18 +2,18 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [schema.ts](file://src/resonance/drizzle/schema.ts)
-- [drizzle.config.ts](file://drizzle.config.ts)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md)
-- [check_oh125.ts](file://scripts/verify/check_oh125.ts)
-- [utils.ts](file://src/cli/utils.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [db.ts](src/resonance/db.ts)
+- [schema.ts](src/resonance/drizzle/schema.ts)
+- [drizzle.config.ts](drizzle.config.ts)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md)
+- [check_oh125.ts](scripts/verify/check_oh125.ts)
+- [utils.ts](src/cli/utils.ts)
 </cite>
 
 ## Table of Contents
@@ -62,19 +62,19 @@ APP --> RF
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
-- [drizzle.config.ts](file://drizzle.config.ts#L3-L10)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
+- [drizzle.config.ts](drizzle.config.ts#L3-L10)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L25-L81)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
-- [drizzle.config.ts](file://drizzle.config.ts#L3-L10)
+- [db.ts](src/resonance/db.ts#L25-L81)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
+- [drizzle.config.ts](drizzle.config.ts#L3-L10)
 
 ## Core Components
 - DatabaseFactory: ensures WAL mode, busy_timeout, synchronous, foreign_keys, and mmap safety; returns a configured Database instance
@@ -89,10 +89,10 @@ Key behaviors:
 - WAL enforcement: all connections configured with WAL and busy_timeout; readers still require write access to -shm
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
-- [drizzle.config.ts](file://drizzle.config.ts#L3-L10)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
+- [drizzle.config.ts](drizzle.config.ts#L3-L10)
 
 ## Architecture Overview
 The runtime database architecture enforces:
@@ -122,12 +122,12 @@ RDB-->>App : ready
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [db.ts](file://src/resonance/db.ts#L54-L81)
-- [drizzle.config.ts](file://drizzle.config.ts#L3-L10)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [db.ts](src/resonance/db.ts#L54-L81)
+- [drizzle.config.ts](drizzle.config.ts#L3-L10)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 ## Detailed Component Analysis
 
@@ -144,8 +144,8 @@ Operational guarantees:
 - Foreign keys enabled for referential integrity
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L103)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L103)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
 
 ### ResonanceDB
 Responsibilities:
@@ -190,11 +190,11 @@ ResonanceDB --> DatabaseFactory : "uses for connection"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L25-L431)
+- [db.ts](src/resonance/db.ts#L25-L431)
 
 ### Drizzle Schema and Migrations
 Schema tables:
@@ -250,16 +250,16 @@ EDGES }o--|| NODES : "target"
 ```
 
 **Diagram sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
-- [0000_happy_thaddeus_ross.sql](file://src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
-- [0001_happy_serpent_society.sql](file://src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
-- [0002_curly_fat_cobra.sql](file://src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
+- [0000_happy_thaddeus_ross.sql](src/resonance/drizzle/migrations/0000_happy_thaddeus_ross.sql#L1-L31)
+- [0001_happy_serpent_society.sql](src/resonance/drizzle/migrations/0001_happy_serpent_society.sql#L1-L10)
+- [0002_curly_fat_cobra.sql](src/resonance/drizzle/migrations/0002_curly_fat_cobra.sql#L1-L1)
 
 ### Disposable Database Pattern and Regeneration
 - The database is designed to be disposable: regenerate from markdown sources without loss of fidelity
@@ -278,14 +278,14 @@ Verify --> End(["Ready"])
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L32-L81)
-- [drizzle.config.ts](file://drizzle.config.ts#L3-L10)
-- [utils.ts](file://src/cli/utils.ts#L7-L15)
+- [db.ts](src/resonance/db.ts#L32-L81)
+- [drizzle.config.ts](drizzle.config.ts#L3-L10)
+- [utils.ts](src/cli/utils.ts#L7-L15)
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L196-L231)
-- [db.ts](file://src/resonance/db.ts#L32-L81)
-- [utils.ts](file://src/cli/utils.ts#L7-L15)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L196-L231)
+- [db.ts](src/resonance/db.ts#L32-L81)
+- [utils.ts](src/cli/utils.ts#L7-L15)
 
 ## Dependency Analysis
 - ResonanceDB depends on DatabaseFactory for connection configuration and on Drizzle for migrations
@@ -302,15 +302,15 @@ RDB --> MIG
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [db.ts](file://src/resonance/db.ts#L54-L81)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
-- [drizzle.config.ts](file://drizzle.config.ts#L3-L10)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L54-L81)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
+- [drizzle.config.ts](drizzle.config.ts#L3-L10)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [db.ts](file://src/resonance/db.ts#L54-L81)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L54-L81)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
 
 ## Performance Considerations
 - WAL mode and busy_timeout enable concurrent readers and writers without SQLITE_BUSY
@@ -327,10 +327,10 @@ Optimization techniques:
 - Periodically vacuum and analyze for maintenance
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L64)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L64-L72)
-- [db.ts](file://src/resonance/db.ts#L194-L239)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L64)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L64-L72)
+- [db.ts](src/resonance/db.ts#L194-L239)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -346,10 +346,10 @@ Diagnostic steps:
 - Validate node hydration workflow
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L275)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L271-L321)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
-- [check_oh125.ts](file://scripts/verify/check_oh125.ts#L1-L21)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L275)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L271-L321)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
+- [check_oh125.ts](scripts/verify/check_oh125.ts#L1-L21)
 
 ## Conclusion
 Amalfa’s database architecture combines a hardened SQLite runtime with a declarative Drizzle schema and migrations. The hollow nodes pattern separates content from metadata, enabling portable, disposable databases regenerated from markdown sources. DatabaseFactory enforces concurrency-friendly settings, while ResonanceDB provides typed operations and transaction support. Adhering to the documented procedures ensures reliable evolution, maintenance, and scaling of the knowledge graph.
@@ -363,7 +363,7 @@ Amalfa’s database architecture combines a hardened SQLite runtime with a decla
 - ember_state: file_path primary key; sidecar_created stored as boolean
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L76)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L76)
 
 ### Transaction Handling
 - Begin/commit/rollback helpers wrap DML operations
@@ -371,8 +371,8 @@ Amalfa’s database architecture combines a hardened SQLite runtime with a decla
 - Batch operations to improve throughput
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L349-L363)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L75-L95)
+- [db.ts](src/resonance/db.ts#L349-L363)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L75-L95)
 
 ### WAL Mode and Backup Strategies
 - WAL mode enabled with busy_timeout; readers require write access to -shm
@@ -380,8 +380,8 @@ Amalfa’s database architecture combines a hardened SQLite runtime with a decla
 - Vacuum and analyze for maintenance; checkpoint truncates WAL
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L56)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L207-L231)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L56)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L207-L231)
 
 ### Scaling Considerations
 - Hollow nodes reduce DB size and improve concurrency
@@ -390,5 +390,5 @@ Amalfa’s database architecture combines a hardened SQLite runtime with a decla
 - Monitor lock wait times and adjust ingestion rates
 
 **Section sources**
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L108-L147)
-- [db.ts](file://src/resonance/db.ts#L194-L239)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L108-L147)
+- [db.ts](src/resonance/db.ts#L194-L239)

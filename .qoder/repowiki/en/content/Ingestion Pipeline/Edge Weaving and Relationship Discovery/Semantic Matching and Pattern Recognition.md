@@ -2,16 +2,16 @@
 
 <cite>
 **Referenced Files in This Document**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [TagInjector.ts](file://src/utils/TagInjector.ts)
-- [cda.ts](file://scripts/lab/cda.ts)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts)
-- [2026-01-28-consistent-id-generation.md](file://briefs/future/2026-01-28-consistent-id-generation.md)
-- [debug_node.ts](file://scripts/verify/debug_node.ts)
-- [Logger.ts](file://src/utils/Logger.ts)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [db.ts](src/resonance/db.ts)
+- [TagInjector.ts](src/utils/TagInjector.ts)
+- [cda.ts](scripts/lab/cda.ts)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts)
+- [2026-01-28-consistent-id-generation.md](briefs/future/2026-01-28-consistent-id-generation.md)
+- [debug_node.ts](scripts/verify/debug_node.ts)
+- [Logger.ts](src/utils/Logger.ts)
 </cite>
 
 ## Table of Contents
@@ -53,18 +53,18 @@ TI["TagInjector<br/>injectTag/injectLink"] --> EW
 ```
 
 **Diagram sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L16-L42)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L46-L84)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L16-L42)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [TagInjector.ts](src/utils/TagInjector.ts#L46-L84)
 
 **Section sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L1-L90)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [db.ts](file://src/resonance/db.ts#L374-L391)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L46-L84)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L1-L90)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [db.ts](src/resonance/db.ts#L374-L391)
+- [TagInjector.ts](src/utils/TagInjector.ts#L46-L84)
 
 ## Core Components
 - SemanticMatcher: Performs external semantic search using mgrep and parses structured output into candidate matches with file, line, and content context.
@@ -75,12 +75,12 @@ TI["TagInjector<br/>injectTag/injectLink"] --> EW
 - simpleTokenizer: Builds a vocabulary map for greedy matching with case-normalization and hyphen variant handling.
 
 **Section sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L9-L42)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L36)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L46-L84)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts#L92-L110)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L9-L42)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L36)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [TagInjector.ts](src/utils/TagInjector.ts#L46-L84)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts#L92-L110)
 
 ## Architecture Overview
 The semantic discovery architecture integrates explicit markup parsing with optional external semantic search and strict edge validation.
@@ -106,10 +106,10 @@ SM-->>EW : candidate matches (file, line, content)
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L16-L42)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L16-L42)
 
 ## Detailed Component Analysis
 
@@ -141,10 +141,10 @@ Finalize --> Done(["Return matches"])
 ```
 
 **Diagram sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L16-L88)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L16-L88)
 
 **Section sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L9-L90)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L9-L90)
 
 ### EdgeWeaver
 Role:
@@ -198,13 +198,13 @@ Gen --> |Found| E_L["insert LINKS_TO"]
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [db.ts](src/resonance/db.ts#L378-L391)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L378-L391)
 
 ### LouvainGate
 Purpose:
@@ -216,7 +216,7 @@ Validation logic:
 - If yes, checks for shared neighbor; rejects otherwise with a reason.
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L36)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L36)
 
 ### ResonanceDB ID Generation
 Purpose:
@@ -227,8 +227,8 @@ Path-awareness:
 - Preserves directory structure by converting slashes to dashes, enabling disambiguation across files with identical names in different folders.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [2026-01-28-consistent-id-generation.md](file://briefs/future/2026-01-28-consistent-id-generation.md#L42-L56)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [2026-01-28-consistent-id-generation.md](briefs/future/2026-01-28-consistent-id-generation.md#L42-L56)
 
 ### TagInjector
 Purpose:
@@ -239,7 +239,7 @@ Usage:
 - injectLink(filePath, targetId, label?) appends a wiki-link at the end of the file.
 
 **Section sources**
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L46-L84)
+- [TagInjector.ts](src/utils/TagInjector.ts#L46-L84)
 
 ### simpleTokenizer Vocabulary
 Purpose:
@@ -247,7 +247,7 @@ Purpose:
 - Handles hyphen-to-space variants to improve recall for IDs containing hyphens.
 
 **Section sources**
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts#L92-L110)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts#L92-L110)
 
 ## Dependency Analysis
 Key dependencies and interactions:
@@ -268,18 +268,18 @@ TI["TagInjector"] --> EW
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L16-L42)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L46-L84)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L16-L42)
+- [TagInjector.ts](src/utils/TagInjector.ts#L46-L84)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L16-L42)
-- [TagInjector.ts](file://src/utils/TagInjector.ts#L46-L84)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L16-L42)
+- [TagInjector.ts](src/utils/TagInjector.ts#L46-L84)
 
 ## Performance Considerations
 - Regex scanning is linear in content size; keep patterns minimal and anchored where possible.
@@ -321,11 +321,11 @@ Debugging aids:
 - Logging: configure logger level to capture warnings and reasons from LouvainGate and SemanticMatcher.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L24-L33)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [debug_node.ts](file://scripts/verify/debug_node.ts#L1-L42)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L24-L33)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [debug_node.ts](scripts/verify/debug_node.ts#L1-L42)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
 
 ## Conclusion
 Amalfa’s semantic matching system combines explicit markup parsing with optional external semantic search and strict edge validation. EdgeWeaver’s strict-mode scanning, slugification, and path-aware ID generation ensure precise relationship discovery, while LouvainGate prevents modularity violations. Utilities like TagInjector and the node debugger help authors and operators maintain high-quality graphs with fewer false positives and clearer diagnostics.

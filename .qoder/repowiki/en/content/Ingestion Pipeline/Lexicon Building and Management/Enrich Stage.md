@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts)
-- [README.md](file://src/pipeline/lexicon/README.md)
-- [04-embed.ts](file://src/pipeline/lexicon/04-embed.ts)
-- [05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts)
-- [07-classify-relevance.ts](file://src/pipeline/lexicon/07-classify-relevance.ts)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts)
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts)
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts)
-- [edge-generation-methods.md](file://docs/references/edge-generation-methods.md)
-- [Graph and Vector Database Best Practices.md.bak](file://docs/references/Graph and Vector Database Best Practices.md.bak)
-- [enriched-cda.ts](file://src/resonance/types/enriched-cda.ts)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts)
+- [README.md](src/pipeline/lexicon/README.md)
+- [04-embed.ts](src/pipeline/lexicon/04-embed.ts)
+- [05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts)
+- [07-classify-relevance.ts](src/pipeline/lexicon/07-classify-relevance.ts)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts)
+- [edge-generation-methods.md](docs/references/edge-generation-methods.md)
+- [Graph and Vector Database Best Practices.md.bak](docs/references/Graph and Vector Database Best Practices.md.bak)
+- [enriched-cda.ts](src/resonance/types/enriched-cda.ts)
 </cite>
 
 ## Table of Contents
@@ -55,10 +55,10 @@ end
 ```
 
 **Diagram sources**
-- [README.md](file://src/pipeline/lexicon/README.md#L12-L51)
+- [README.md](src/pipeline/lexicon/README.md#L12-L51)
 
 **Section sources**
-- [README.md](file://src/pipeline/lexicon/README.md#L1-L52)
+- [README.md](src/pipeline/lexicon/README.md#L1-L52)
 
 ## Core Components
 - Enrichment pipeline script orchestrating manifest indexing, sidecar lookup, and description injection
@@ -75,11 +75,11 @@ Key responsibilities:
 - Classify Relevance: Tag entities based on cross-domain connectivity and confidence
 
 **Section sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L1-L132)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L1-L153)
-- [04-embed.ts](file://src/pipeline/lexicon/04-embed.ts#L1-L68)
-- [05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts#L1-L103)
-- [07-classify-relevance.ts](file://src/pipeline/lexicon/07-classify-relevance.ts#L1-L49)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L1-L132)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L1-L153)
+- [04-embed.ts](src/pipeline/lexicon/04-embed.ts#L1-L68)
+- [05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts#L1-L103)
+- [07-classify-relevance.ts](src/pipeline/lexicon/07-classify-relevance.ts#L1-L49)
 
 ## Architecture Overview
 The enrichment stage reads golden nodes and attempts to attach descriptions from sidecars. It builds a temporary lookup table from the manifest to resolve source paths to hashes, then streams through nodes to enrich where possible.
@@ -105,7 +105,7 @@ ENC->>P : complete(stats)
 ```
 
 **Diagram sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L47-L129)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L47-L129)
 
 ## Detailed Component Analysis
 
@@ -140,10 +140,10 @@ ReadNodes --> Done(["Complete"])
 ```
 
 **Diagram sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L47-L129)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L47-L129)
 
 **Section sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L1-L132)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L1-L132)
 
 ### Golden Lexicon Refinement
 Refinement converts harvested candidates into canonical, high-signal nodes:
@@ -154,7 +154,7 @@ Refinement converts harvested candidates into canonical, high-signal nodes:
 These golden nodes serve as the input to enrichment and are later embedded and used to propose edges.
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L89-L150)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L89-L150)
 
 ### Embedding Stage
 Embedding generates dense vectors for enriched nodes:
@@ -167,7 +167,7 @@ Benefits:
 - Separation of node metadata and vectors simplifies ingestion and auditing
 
 **Section sources**
-- [04-embed.ts](file://src/pipeline/lexicon/04-embed.ts#L15-L67)
+- [04-embed.ts](src/pipeline/lexicon/04-embed.ts#L15-L67)
 
 ### Edge Survey Stage
 Edge survey proposes edges using sidecar-derived relationships:
@@ -181,7 +181,7 @@ Impact:
 - Incorporates explicit relationships from sidecars into the knowledge graph
 
 **Section sources**
-- [05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts#L45-L99)
+- [05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts#L45-L99)
 
 ### Relevance Classification
 Relevance classification tags lexicon entities based on cross-domain connectivity:
@@ -192,7 +192,7 @@ Relevance classification tags lexicon entities based on cross-domain connectivit
 This stage helps maintain a healthy, up-to-date lexicon and improves downstream search by prioritizing active concepts.
 
 **Section sources**
-- [07-classify-relevance.ts](file://src/pipeline/lexicon/07-classify-relevance.ts#L23-L49)
+- [07-classify-relevance.ts](src/pipeline/lexicon/07-classify-relevance.ts#L23-L49)
 
 ### Supporting Components
 
@@ -203,7 +203,7 @@ While not part of enrichment, harvesting establishes the initial candidate pool 
 - Outputs sorted candidates to JSONL
 
 **Section sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L175)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L175)
 
 #### SemanticMatcher
 Used in broader graph tasks to find semantically similar content blocks for context-aware linking:
@@ -212,7 +212,7 @@ Used in broader graph tasks to find semantically similar content blocks for cont
 - Supports fuzzy alignment of definitions to concepts
 
 **Section sources**
-- [SemanticMatcher.ts](file://src/core/SemanticMatcher.ts#L9-L89)
+- [SemanticMatcher.ts](src/core/SemanticMatcher.ts#L9-L89)
 
 #### SemanticWeaver
 Performs orphan rescue by connecting isolated nodes with similar embeddings:
@@ -223,7 +223,7 @@ Performs orphan rescue by connecting isolated nodes with similar embeddings:
 This demonstrates the importance of similarity thresholds and confidence-like heuristics in edge creation.
 
 **Section sources**
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L96)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L96)
 
 #### Tokenizer and Lexicon Tagging
 The tokenizer can tag extracted terms into categories (Concept, Protocol, Organization) and load lexicon entries to guide extraction:
@@ -231,13 +231,13 @@ The tokenizer can tag extracted terms into categories (Concept, Protocol, Organi
 - Tags extracted tokens accordingly for downstream processing
 
 **Section sources**
-- [simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts#L82-L90)
+- [simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts#L82-L90)
 
 #### Enriched CDA Types
 Defines typed structures for enriched concepts and documents, including extracted keywords and aliases, which inform matching and search:
 
 **Section sources**
-- [enriched-cda.ts](file://src/resonance/types/enriched-cda.ts#L84-L112)
+- [enriched-cda.ts](src/resonance/types/enriched-cda.ts#L84-L112)
 
 ## Dependency Analysis
 The enrichment stage depends on:
@@ -259,10 +259,10 @@ Edges --> Proposed["proposed-edges.jsonl"]
 ```
 
 **Diagram sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L9-L16)
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L8-L10)
-- [04-embed.ts](file://src/pipeline/lexicon/04-embed.ts#L8-L13)
-- [05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts#L8-L12)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L9-L16)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L8-L10)
+- [04-embed.ts](src/pipeline/lexicon/04-embed.ts#L8-L13)
+- [05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts#L8-L12)
 
 ## Performance Considerations
 - Temporary DB: Using WAL mode and batched inserts reduces I/O overhead during manifest indexing.
@@ -290,7 +290,7 @@ Operational checks:
 - Confirm that subsequent stages (embedding, edge survey) receive the enriched nodes.
 
 **Section sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L47-L129)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L47-L129)
 
 ## Conclusion
 The Lexicon Enrich Stage is a critical bridge between raw candidates and a semantically robust knowledge graph. By attaching authoritative descriptions from sidecars, it:
@@ -310,8 +310,8 @@ Together with refinement, embedding, edge survey, and relevance classification, 
 - Confidence scoring: Informal thresholds (e.g., 0.85) guide edge acceptance in rescue workflows.
 
 **Section sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L90-L119)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L77-L82)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L90-L119)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L77-L82)
 
 ### External Data Integration Patterns
 - Manifest-based path-to-hash resolution enables deterministic linkage to cached sidecars.
@@ -319,8 +319,8 @@ Together with refinement, embedding, edge survey, and relevance classification, 
 - Relationship extraction from sidecars informs edge proposals after ID validation.
 
 **Section sources**
-- [03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts#L83-L119)
-- [05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts#L62-L86)
+- [03-enrich.ts](src/pipeline/lexicon/03-enrich.ts#L83-L119)
+- [05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts#L62-L86)
 
 ### Enrichment Rule Configuration
 - Stop-list and refinement filters are defined in the refinement stage and influence which nodes reach enrichment.
@@ -328,9 +328,9 @@ Together with refinement, embedding, edge survey, and relevance classification, 
 - Edge survey accepts relationships with explicit types and weights; metadata records origin and description.
 
 **Section sources**
-- [02-refine.ts](file://src/pipeline/lexicon/02-refine.ts#L14-L71)
-- [04-embed.ts](file://src/pipeline/lexicon/04-embed.ts#L32-L50)
-- [05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts#L75-L85)
+- [02-refine.ts](src/pipeline/lexicon/02-refine.ts#L14-L71)
+- [04-embed.ts](src/pipeline/lexicon/04-embed.ts#L32-L50)
+- [05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts#L75-L85)
 
 ### How Enriched Lexicons Improve Accuracy and Search
 - Grounded definitions reduce ambiguity and improve matching quality.
@@ -338,6 +338,6 @@ Together with refinement, embedding, edge survey, and relevance classification, 
 - Cross-domain edges derived from sidecars connect concepts to documents and other entities, strengthening the semantic web.
 
 **Section sources**
-- [04-embed.ts](file://src/pipeline/lexicon/04-embed.ts#L32-L37)
-- [05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts#L67-L86)
-- [Graph and Vector Database Best Practices.md.bak](file://docs/references/Graph and Vector Database Best Practices.md.bak#L99-L101)
+- [04-embed.ts](src/pipeline/lexicon/04-embed.ts#L32-L37)
+- [05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts#L67-L86)
+- [Graph and Vector Database Best Practices.md.bak](docs/references/Graph and Vector Database Best Practices.md.bak#L99-L101)

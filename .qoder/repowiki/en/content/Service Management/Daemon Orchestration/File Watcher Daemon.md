@@ -2,18 +2,18 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/daemon/index.ts](file://src/daemon/index.ts)
-- [src/daemon/README.md](file://src/daemon/README.md)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/config/defaults.ts](file://src/config/defaults.ts)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [src/ember/index.ts](file://src/ember/index.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [tests/daemon-realtime.test.ts](file://tests/daemon-realtime.test.ts)
-- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](file://debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md)
-- [briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md](file://briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md)
+- [src/daemon/index.ts](src/daemon/index.ts)
+- [src/daemon/README.md](src/daemon/README.md)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/config/defaults.ts](src/config/defaults.ts)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [src/ember/index.ts](src/ember/index.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [tests/daemon-realtime.test.ts](tests/daemon-realtime.test.ts)
+- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md)
+- [briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md](briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md)
 </cite>
 
 ## Table of Contents
@@ -60,18 +60,18 @@ DMain -. optional .-> DAgent
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L1-L293)
-- [src/daemon/README.md](file://src/daemon/README.md#L1-L25)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
+- [src/daemon/index.ts](src/daemon/index.ts#L1-L293)
+- [src/daemon/README.md](src/daemon/README.md#L1-L25)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
 
 **Section sources**
-- [src/daemon/README.md](file://src/daemon/README.md#L1-L25)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
+- [src/daemon/README.md](src/daemon/README.md#L1-L25)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
 
 ## Core Components
 - File Watcher Daemon entry point: Monitors configured directories recursively, filters for Markdown files, debounces events, and triggers ingestion.
@@ -88,11 +88,11 @@ Key responsibilities:
 - Notification dispatch upon successful or failed updates.
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L52-L95)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L44-L134)
-- [src/ember/index.ts](file://src/ember/index.ts#L11-L26)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L151-L181)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L143)
+- [src/daemon/index.ts](src/daemon/index.ts#L52-L95)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L44-L134)
+- [src/ember/index.ts](src/ember/index.ts#L11-L26)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L151-L181)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L143)
 
 ## Architecture Overview
 The File Watcher Daemon operates as a background process integrated with the ingestion pipeline and optional enrichment subsystems. It relies on configuration-driven watch sources and coordinates with the database and vector services.
@@ -122,9 +122,9 @@ Watcher->>Notif : "Send success/error notification"
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L100-L289)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L44-L134)
-- [src/ember/index.ts](file://src/ember/index.ts#L59-L68)
+- [src/daemon/index.ts](src/daemon/index.ts#L100-L289)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L44-L134)
+- [src/ember/index.ts](src/ember/index.ts#L59-L68)
 
 ## Detailed Component Analysis
 
@@ -162,14 +162,14 @@ Notify --> End(["Idle until next batch"])
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L52-L95)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L100-L127)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
+- [src/daemon/index.ts](src/daemon/index.ts#L52-L95)
+- [src/daemon/index.ts](src/daemon/index.ts#L100-L127)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L52-L95)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L100-L127)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L132-L289)
+- [src/daemon/index.ts](src/daemon/index.ts#L52-L95)
+- [src/daemon/index.ts](src/daemon/index.ts#L100-L127)
+- [src/daemon/index.ts](src/daemon/index.ts#L132-L289)
 
 ### Incremental Ingestion Pipeline
 The ingestion pipeline processes only the files identified as changed, performing two passes:
@@ -201,12 +201,12 @@ Ingest->>DB : "wal_checkpoint(TRUNCATE)"
 ```
 
 **Diagram sources**
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L44-L134)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L374-L440)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L44-L134)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L374-L440)
 
 **Section sources**
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L44-L134)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L314-L343)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L44-L134)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L314-L343)
 
 ### Ember Enrichment Integration
 After ingestion, the daemon conditionally invokes Ember to analyze and generate sidecar artifacts for changed files. Two gates protect against unnecessary work:
@@ -228,11 +228,11 @@ Skip --> Done
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L162-L214)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L173-L198)
+- [src/daemon/index.ts](src/daemon/index.ts#L162-L214)
+- [src/daemon/index.ts](src/daemon/index.ts#L173-L198)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L162-L214)
+- [src/daemon/index.ts](src/daemon/index.ts#L162-L214)
 
 ### Daemon Lifecycle Management
 The Daemon Manager provides unified lifecycle control for the File Watcher Daemon and other daemons, including status checks, start/stop operations, and health probing for connected services.
@@ -264,12 +264,12 @@ DaemonManager --> ServiceLifecycle : "manages"
 ```
 
 **Diagram sources**
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L151-L181)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L151-L181)
 
 **Section sources**
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L17-L51)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L151-L181)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L17-L51)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L151-L181)
 
 ### Configuration Options
 Configuration is loaded from the Single Source of Truth and controls:
@@ -285,9 +285,9 @@ Runtime behavior:
 - Watch directories are verified at startup; missing directories are skipped with warnings.
 
 **Section sources**
-- [src/config/defaults.ts](file://src/config/defaults.ts#L84-L143)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L54-L78)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L314-L343)
+- [src/config/defaults.ts](src/config/defaults.ts#L84-L143)
+- [src/daemon/index.ts](src/daemon/index.ts#L54-L78)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L314-L343)
 
 ### Relationship with Other System Components
 - Vector Daemon: Provides embedding generation for ingestion; the File Watcher does not directly depend on it but benefits from vectorized queries.
@@ -296,10 +296,10 @@ Runtime behavior:
 - Ember: Optional enrichment subsystem invoked post-ingestion to generate sidecar artifacts.
 
 **Section sources**
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [src/resonance/services/reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [src/ember/index.ts](file://src/ember/index.ts#L1-L125)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [src/resonance/services/reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [src/ember/index.ts](src/ember/index.ts#L1-L125)
 
 ## Dependency Analysis
 The File Watcher Daemon depends on:
@@ -325,14 +325,14 @@ Watcher --> FS["Node fs.watch"]
 ```
 
 **Diagram sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L10-L23)
-- [src/config/defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
-- [src/ember/index.ts](file://src/ember/index.ts#L1-L125)
+- [src/daemon/index.ts](src/daemon/index.ts#L10-L23)
+- [src/config/defaults.ts](src/config/defaults.ts#L1-L143)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [src/ember/index.ts](src/ember/index.ts#L1-L125)
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L10-L23)
-- [src/pipeline/AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L1-L441)
+- [src/daemon/index.ts](src/daemon/index.ts#L10-L23)
+- [src/pipeline/AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L1-L441)
 
 ## Performance Considerations
 - Debounce tuning: Adjust the debounce interval to balance responsiveness and throughput. Longer debounce reduces churn but increases perceived latency.
@@ -342,9 +342,9 @@ Watcher --> FS["Node fs.watch"]
 - Targeted ingestion: The current implementation performs a full scan even when the exact changed files are known. An optimization would pass the known file list directly to the ingestor to avoid redundant discovery and hashing.
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L55-L56)
-- [src/daemon/index.ts](file://src/daemon/index.ts#L236-L289)
-- [briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md](file://briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md#L1-L54)
+- [src/daemon/index.ts](src/daemon/index.ts#L55-L56)
+- [src/daemon/index.ts](src/daemon/index.ts#L236-L289)
+- [briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md](briefs/archive/2026-01-17-documentation/2026-01-17-targeted-incremental-ingestion.md#L1-L54)
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -369,9 +369,9 @@ Operational checks:
 - Validate configuration schema using the settings loader.
 
 **Section sources**
-- [src/daemon/index.ts](file://src/daemon/index.ts#L123-L126)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts#L154-L165)
-- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](file://debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md#L1-L373)
+- [src/daemon/index.ts](src/daemon/index.ts#L123-L126)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts#L154-L165)
+- [debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md](debriefs/2026-01-17-daemon-file-watcher-naming-investigation.md#L1-L373)
 
 ## Conclusion
 The File Watcher Daemon provides a robust, event-driven mechanism for maintaining data freshness in the knowledge graph by monitoring Markdown file changes and triggering targeted ingestion. Its integration with the ingestion pipeline, optional enrichment via Ember, and unified lifecycle management through the Daemon Manager ensures reliable operation across diverse environments. While the current implementation performs a full scan even when specific files are known, the targeted ingestion approach already minimizes overhead and enables near real-time updates. Future enhancements should focus on optimizing discovery to process only known changed files and refining configuration management for improved clarity and operability.

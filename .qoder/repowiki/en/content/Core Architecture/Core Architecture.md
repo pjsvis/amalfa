@@ -2,23 +2,23 @@
 
 <cite>
 **Referenced Files in This Document**
-- [README.md](file://README.md)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md)
-- [SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md)
-- [thin-node.md](file://docs/architecture/thin-node.md)
-- [daemon-operations.md](file://docs/architecture/daemon-operations.md)
-- [BentoNormalizer.ts](file://src/core/BentoNormalizer.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [index.ts](file://src/daemon/index.ts)
-- [index.ts](file://src/mcp/index.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts)
+- [README.md](README.md)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md)
+- [thin-node.md](docs/architecture/thin-node.md)
+- [daemon-operations.md](docs/architecture/daemon-operations.md)
+- [BentoNormalizer.ts](src/core/BentoNormalizer.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [index.ts](src/daemon/index.ts)
+- [index.ts](src/mcp/index.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts)
 </cite>
 
 ## Table of Contents
@@ -94,21 +94,21 @@ LEC --> MCP
 ```
 
 **Diagram sources**
-- [index.ts](file://src/mcp/index.ts#L1-L748)
-- [index.ts](file://src/daemon/index.ts#L1-L293)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L1-L39)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L1-L209)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
+- [index.ts](src/mcp/index.ts#L1-L748)
+- [index.ts](src/daemon/index.ts#L1-L293)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L1-L39)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L1-L209)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
 
 **Section sources**
-- [README.md](file://README.md#L320-L380)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L10-L67)
+- [README.md](README.md#L320-L380)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L10-L67)
 
 ## Core Components
 - Hollow nodes: SQLite stores node metadata and vector embeddings; content is read from the filesystem via GraphGardener.
@@ -122,17 +122,17 @@ LEC --> MCP
 - LangExtractClient: Optional sidecar integration for structured extraction using external providers.
 
 **Section sources**
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L21-L67)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L68-L133)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L134-L222)
-- [db.ts](file://src/resonance/db.ts#L25-L134)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [index.ts](file://src/mcp/index.ts#L1-L748)
-- [index.ts](file://src/daemon/index.ts#L1-L293)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L38)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L354)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L21-L67)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L68-L133)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L134-L222)
+- [db.ts](src/resonance/db.ts#L25-L134)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [index.ts](src/mcp/index.ts#L1-L748)
+- [index.ts](src/daemon/index.ts#L1-L293)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L38)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L354)
 
 ## Architecture Overview
 The system is designed around markdown as the source of truth and SQLite as a disposable cache. The MCP server exposes tools to agents; the file watcher keeps the graph synchronized; the vector daemon accelerates embedding generation; and optional services (reranking, Sonar) enhance precision and context.
@@ -152,15 +152,15 @@ DB --> STATS["System Stats Resource"]
 ```
 
 **Diagram sources**
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L223-L272)
-- [index.ts](file://src/mcp/index.ts#L62-L723)
-- [index.ts](file://src/daemon/index.ts#L52-L95)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
-- [db.ts](file://src/resonance/db.ts#L305-L336)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L223-L272)
+- [index.ts](src/mcp/index.ts#L62-L723)
+- [index.ts](src/daemon/index.ts#L52-L95)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
+- [db.ts](src/resonance/db.ts#L305-L336)
 
 **Section sources**
-- [README.md](file://README.md#L320-L380)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L223-L272)
+- [README.md](README.md#L320-L380)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L223-L272)
 
 ## Detailed Component Analysis
 
@@ -189,14 +189,14 @@ GraphGardener <.. ContentHydrator : "provides content"
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L368-L431)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L204-L254)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L38)
+- [db.ts](src/resonance/db.ts#L368-L431)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L204-L254)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L38)
 
 **Section sources**
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L21-L67)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L204-L254)
-- [ContentHydrator.ts](file://src/utils/ContentHydrator.ts#L13-L38)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L21-L67)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L204-L254)
+- [ContentHydrator.ts](src/utils/ContentHydrator.ts#L13-L38)
 
 ### FAFCAS Protocol and Vector Search
 - Embeddings are generated with FastEmbed and normalized to unit length (FAFCAS).
@@ -218,14 +218,14 @@ Hydrate --> End(["Ranked Results"])
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L17-L139)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [db.ts](file://src/resonance/db.ts#L467-L487)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L17-L139)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [db.ts](src/resonance/db.ts#L467-L487)
 
 **Section sources**
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L68-L133)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [db.ts](file://src/resonance/db.ts#L467-L487)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L68-L133)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [db.ts](src/resonance/db.ts#L467-L487)
 
 ### MCP Server and Agent Integration
 - MCP server initializes database, vector engine, and grep engine per-request.
@@ -252,12 +252,12 @@ MCP-->>Agent : "JSON results with metadata"
 ```
 
 **Diagram sources**
-- [index.ts](file://src/mcp/index.ts#L252-L512)
-- [index.ts](file://src/mcp/index.ts#L62-L141)
+- [index.ts](src/mcp/index.ts#L252-L512)
+- [index.ts](src/mcp/index.ts#L62-L141)
 
 **Section sources**
-- [index.ts](file://src/mcp/index.ts#L1-L748)
-- [README.md](file://README.md#L140-L163)
+- [index.ts](src/mcp/index.ts#L1-L748)
+- [README.md](README.md#L140-L163)
 
 ### File Watcher Daemon and Incremental Ingestion
 - Watches configured source directories recursively for .md changes.
@@ -279,12 +279,12 @@ Notify --> Wait
 ```
 
 **Diagram sources**
-- [index.ts](file://src/daemon/index.ts#L100-L127)
-- [index.ts](file://src/daemon/index.ts#L132-L289)
+- [index.ts](src/daemon/index.ts#L100-L127)
+- [index.ts](src/daemon/index.ts#L132-L289)
 
 **Section sources**
-- [index.ts](file://src/daemon/index.ts#L1-L293)
-- [SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L68-L101)
+- [index.ts](src/daemon/index.ts#L1-L293)
+- [SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L68-L101)
 
 ### Vector Daemon and Embedding Acceleration
 - HTTP server on port 3010 providing /embed and /rerank endpoints.
@@ -309,12 +309,12 @@ VD-->>Client : "{results, count}"
 ```
 
 **Diagram sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L77-L224)
-- [db.ts](file://src/resonance/db.ts#L467-L487)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L77-L224)
+- [db.ts](src/resonance/db.ts#L467-L487)
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L103-L163)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L103-L163)
 
 ### Database Layer and Standards
 - DatabaseFactory enforces WAL mode, busy_timeout, synchronous, and foreign keys.
@@ -338,12 +338,12 @@ DatabaseFactory --> ResonanceDB : "ensures config"
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L134)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L25-L134)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [db.ts](file://src/resonance/db.ts#L25-L134)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [db.ts](src/resonance/db.ts#L25-L134)
 
 ### External Provider Integrations
 - LangExtractClient integrates structured extraction via a Python sidecar using MCP stdio transport.
@@ -366,11 +366,11 @@ LEC-->>Host : "ExtractedGraph"
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L188-L353)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L188-L353)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L1-L354)
-- [README.md](file://README.md#L11-L111)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L1-L354)
+- [README.md](README.md#L11-L111)
 
 ## Dependency Analysis
 - Service independence: MCP server, file watcher, and vector daemon can run independently.
@@ -390,14 +390,14 @@ MCP -. optional .-> LEC["LangExtractClient"]
 ```
 
 **Diagram sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [index.ts](file://src/mcp/index.ts#L94-L139)
-- [index.ts](file://src/daemon/index.ts#L52-L95)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L230)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [index.ts](src/mcp/index.ts#L94-L139)
+- [index.ts](src/daemon/index.ts#L52-L95)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L230)
 
 **Section sources**
-- [SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L196-L243)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L196-L243)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 ## Performance Considerations
 - FAFCAS dot-product similarity eliminates costly division operations.
@@ -414,10 +414,10 @@ MCP -. optional .-> LEC["LangExtractClient"]
 - MCP crashes: Centralized uncaughtException/unhandledRejection handlers write crash logs.
 
 **Section sources**
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
-- [ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts#L12-L209)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
-- [index.ts](file://src/mcp/index.ts#L725-L747)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
+- [ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts#L12-L209)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
+- [index.ts](src/mcp/index.ts#L725-L747)
 
 ## Conclusion
 Amalfa’s architecture balances simplicity and performance by treating markdown as the source of truth, using SQLite as a disposable cache, and applying FAFCAS normalization for fast vector search. The micro-daemon mesh enables flexible, optional enhancements, while MCP integration provides a robust agent interface. External provider integrations (Gemini, OpenRouter, Ollama) are supported through a structured sidecar pattern.
@@ -431,8 +431,8 @@ Amalfa’s architecture balances simplicity and performance by treating markdown
 - External boundaries: Agent clients (Claude Desktop), external inference providers, and filesystem.
 
 **Section sources**
-- [README.md](file://README.md#L357-L380)
-- [SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L1-L38)
+- [README.md](README.md#L357-L380)
+- [SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L1-L38)
 
 ### Deployment Topology
 - Single-process MCP server per request
@@ -440,5 +440,5 @@ Amalfa’s architecture balances simplicity and performance by treating markdown
 - Optional reranking daemon and Sonar agent for advanced scenarios
 
 **Section sources**
-- [SERVICE-ARCHITECTURE.md](file://docs/architecture/SERVICE-ARCHITECTURE.md#L41-L130)
-- [daemon-operations.md](file://docs/architecture/daemon-operations.md#L1-L49)
+- [SERVICE-ARCHITECTURE.md](docs/architecture/SERVICE-ARCHITECTURE.md#L41-L130)
+- [daemon-operations.md](docs/architecture/daemon-operations.md#L1-L49)

@@ -2,14 +2,14 @@
 
 <cite>
 **Referenced Files in This Document**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [validate.ts](file://src/cli/commands/validate.ts)
-- [validator.ts](file://src/utils/validator.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [db.ts](src/resonance/db.ts)
+- [validate.ts](src/cli/commands/validate.ts)
+- [validator.ts](src/utils/validator.ts)
 </cite>
 
 ## Table of Contents
@@ -66,17 +66,17 @@ GE --> VALUTIL
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [db.ts](file://src/resonance/db.ts#L83-L159)
-- [validate.ts](file://src/cli/commands/validate.ts#L42-L87)
-- [validator.ts](file://src/utils/validator.ts#L175-L264)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [db.ts](src/resonance/db.ts#L83-L159)
+- [validate.ts](src/cli/commands/validate.ts#L42-L87)
+- [validator.ts](src/utils/validator.ts#L175-L264)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [db.ts](file://src/resonance/db.ts#L83-L159)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [db.ts](src/resonance/db.ts#L83-L159)
 
 ## Core Components
 - GraphNode and GraphEdge define the minimal node and edge shapes used by the graph engine and ingestion pipeline.
@@ -88,15 +88,15 @@ GE --> VALUTIL
 - CLI and utility validators enforce integrity and surface issues.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L16-L29)
-- [db.ts](file://src/resonance/db.ts#L11-L23)
-- [db.ts](file://src/resonance/db.ts#L83-L159)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L4-L95)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [validate.ts](file://src/cli/commands/validate.ts#L42-L87)
-- [validator.ts](file://src/utils/validator.ts#L175-L264)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L16-L29)
+- [db.ts](src/resonance/db.ts#L11-L23)
+- [db.ts](src/resonance/db.ts#L83-L159)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L4-L95)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [validate.ts](src/cli/commands/validate.ts#L42-L87)
+- [validator.ts](src/utils/validator.ts#L175-L264)
 
 ## Architecture Overview
 The ingestion pipeline follows a strict two-pass strategy:
@@ -121,11 +121,11 @@ AI-->>DB : "Commit edges"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L359-L370)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [db.ts](file://src/resonance/db.ts#L83-L159)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L359-L370)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [db.ts](src/resonance/db.ts#L83-L159)
 
 ## Detailed Component Analysis
 
@@ -136,7 +136,7 @@ AI-->>DB : "Commit edges"
 These interfaces guide how the graph engine stores and queries node attributes and edge types.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L16-L29)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L16-L29)
 
 ### ResonanceDB: Node and Edge Persistence
 - Node insertion supports type, label (stored as title), domain, layer, embedding, hash, meta, and date.
@@ -152,12 +152,12 @@ Key behaviors:
 - Statistics and transaction helpers
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L11-L23)
-- [db.ts](file://src/resonance/db.ts#L83-L159)
-- [db.ts](file://src/resonance/db.ts#L165-L184)
-- [db.ts](file://src/resonance/db.ts#L349-L367)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
+- [db.ts](src/resonance/db.ts#L11-L23)
+- [db.ts](src/resonance/db.ts#L83-L159)
+- [db.ts](src/resonance/db.ts#L165-L184)
+- [db.ts](src/resonance/db.ts#L349-L367)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [db.ts](src/resonance/db.ts#L448-L464)
 
 ### Two-Pass Ingestion Strategy
 - Pass 1: For each file, parse frontmatter and content, compute hash, optionally embed, and insert node. Edges are intentionally skipped.
@@ -177,13 +177,13 @@ CKPT --> End(["Complete"])
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L359-L370)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L359-L370)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L359-L370)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L359-L370)
 
 ### EdgeWeaver: Structural Relationship Construction
 Responsibilities:
@@ -216,18 +216,18 @@ K --> |No| M["Reject (stats++)"]
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L96)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L122-L143)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L145-L166)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L96)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L122-L143)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L145-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L96)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L122-L143)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L145-L166)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L96)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L122-L143)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L145-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
 
 ### SemanticWeaver: Semantic Matching and Orphan Rescue
 Approach:
@@ -256,12 +256,12 @@ S11 --> |No| SEnd
 ```
 
 **Diagram sources**
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L4-L95)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L4-L95)
+- [db.ts](src/resonance/db.ts#L448-L464)
 
 **Section sources**
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L4-L95)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L4-L95)
+- [db.ts](src/resonance/db.ts#L448-L464)
 
 ### GraphEngine: In-Memory Graph Management
 - Loads nodes and edges from ResonanceDB into a MultiDirectedGraph
@@ -292,12 +292,12 @@ class GraphEngine {
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L313)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L313)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L178-L238)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L305-L312)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L178-L238)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L305-L312)
 
 ### GraphGardener: Gap Detection and Insights
 - Compares semantic neighbors (vector search) vs. graph neighbors to find semantic gaps
@@ -324,16 +324,16 @@ G10 --> G11["Done"]
 ```
 
 **Diagram sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L105-L115)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L143)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L105-L115)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L143)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L99)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L105-L115)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L143)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L99)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L105-L115)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L143)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 ### Node Attribute Management
 - Node attributes persisted via ResonanceDB: type, label/title, domain, layer, embedding, hash, meta, date
@@ -342,16 +342,16 @@ G10 --> G11["Done"]
 - GraphGardener resolves source paths and reads content for analysis
 
 Examples (paths only):
-- Node creation and attribute assignment: [processFile](file://src/pipeline/AmalfaIngestor.ts#L375-L439)
-- Node persistence: [insertNode](file://src/resonance/db.ts#L83-L134)
-- Attribute retrieval: [getNodeAttributes](file://src/core/GraphEngine.ts#L113-L116)
-- Source resolution: [resolveSource](file://src/core/GraphGardener.ts#L205-L222)
+- Node creation and attribute assignment: [processFile](src/pipeline/AmalfaIngestor.ts#L375-L439)
+- Node persistence: [insertNode](src/resonance/db.ts#L83-L134)
+- Attribute retrieval: [getNodeAttributes](src/core/GraphEngine.ts#L113-L116)
+- Source resolution: [resolveSource](src/core/GraphGardener.ts#L205-L222)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L412-L430)
-- [db.ts](file://src/resonance/db.ts#L83-L134)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L113-L116)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L205-L222)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L412-L430)
+- [db.ts](src/resonance/db.ts#L83-L134)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L113-L116)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L205-L222)
 
 ### Edge Typing and Relationship Semantics
 - Explicit structural edges:
@@ -362,40 +362,40 @@ Examples (paths only):
 - Semantic edges:
   - RELATED_TO: Generated by SemanticWeaver for orphan rescue based on embedding similarity
 - Additional semantic edge metadata:
-  - Confidence and veracity supported by [insertSemanticEdge](file://src/resonance/db.ts#L165-L184)
+  - Confidence and veracity supported by [insertSemanticEdge](src/resonance/db.ts#L165-L184)
 
 Examples (paths only):
-- Edge weaving: [weave](file://src/core/EdgeWeaver.ts#L54-L59)
-- Edge insertion: [insertEdge](file://src/resonance/db.ts#L140-L159)
-- Semantic edge insertion: [insertSemanticEdge](file://src/resonance/db.ts#L165-L184)
-- Orphan rescue: [SemanticWeaver.weave](file://src/core/SemanticWeaver.ts#L4-L95)
+- Edge weaving: [weave](src/core/EdgeWeaver.ts#L54-L59)
+- Edge insertion: [insertEdge](src/resonance/db.ts#L140-L159)
+- Semantic edge insertion: [insertSemanticEdge](src/resonance/db.ts#L165-L184)
+- Orphan rescue: [SemanticWeaver.weave](src/core/SemanticWeaver.ts#L4-L95)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
-- [db.ts](file://src/resonance/db.ts#L165-L184)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L4-L95)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [db.ts](src/resonance/db.ts#L140-L159)
+- [db.ts](src/resonance/db.ts#L165-L184)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L4-L95)
 
 ### Examples: Node Creation, Edge Establishment, Attribute Manipulation
 - Node creation:
-  - Read file, parse frontmatter, compute hash, optionally embed, construct Node, insert via [insertNode](file://src/resonance/db.ts#L83-L134)
-  - Example path: [processFile](file://src/pipeline/AmalfaIngestor.ts#L375-L439)
+  - Read file, parse frontmatter, compute hash, optionally embed, construct Node, insert via [insertNode](src/resonance/db.ts#L83-L134)
+  - Example path: [processFile](src/pipeline/AmalfaIngestor.ts#L375-L439)
 - Edge establishment:
-  - Pass 2: build lexicon, instantiate EdgeWeaver, call [weave](file://src/core/EdgeWeaver.ts#L54-L59), which delegates to [safeInsertEdge](file://src/core/EdgeWeaver.ts#L168-L181)
-  - Example path: [ingest](file://src/pipeline/AmalfaIngestor.ts#L222-L238)
+  - Pass 2: build lexicon, instantiate EdgeWeaver, call [weave](src/core/EdgeWeaver.ts#L54-L59), which delegates to [safeInsertEdge](src/core/EdgeWeaver.ts#L168-L181)
+  - Example path: [ingest](src/pipeline/AmalfaIngestor.ts#L222-L238)
 - Attribute manipulation:
-  - Update node date: [updateNodeDate](file://src/resonance/db.ts#L241-L243)
-  - Update node meta: [updateNodeMeta](file://src/resonance/db.ts#L393-L400)
-  - Retrieve node attributes: [getNodeAttributes](file://src/core/GraphEngine.ts#L113-L116)
+  - Update node date: [updateNodeDate](src/resonance/db.ts#L241-L243)
+  - Update node meta: [updateNodeMeta](src/resonance/db.ts#L393-L400)
+  - Retrieve node attributes: [getNodeAttributes](src/core/GraphEngine.ts#L113-L116)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L222-L238)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [db.ts](file://src/resonance/db.ts#L83-L134)
-- [db.ts](file://src/resonance/db.ts#L241-L243)
-- [db.ts](file://src/resonance/db.ts#L393-L400)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L113-L116)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L222-L238)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [db.ts](src/resonance/db.ts#L83-L134)
+- [db.ts](src/resonance/db.ts#L241-L243)
+- [db.ts](src/resonance/db.ts#L393-L400)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L113-L116)
 
 ## Dependency Analysis
 - AmalfaIngestor depends on ResonanceDB for persistence and on EdgeWeaver for edge creation
@@ -417,20 +417,20 @@ VALUTIL["Validator Utils"] --> DB
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L32)
-- [validate.ts](file://src/cli/commands/validate.ts#L42-L87)
-- [validator.ts](file://src/utils/validator.ts#L175-L264)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L32)
+- [validate.ts](src/cli/commands/validate.ts#L42-L87)
+- [validator.ts](src/utils/validator.ts#L175-L264)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L182-L242)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L100)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L32)
-- [validate.ts](file://src/cli/commands/validate.ts#L42-L87)
-- [validator.ts](file://src/utils/validator.ts#L175-L264)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L182-L242)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L100)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L32)
+- [validate.ts](src/cli/commands/validate.ts#L42-L87)
+- [validator.ts](src/utils/validator.ts#L175-L264)
 
 ## Performance Considerations
 - Two-pass ingestion minimizes edge conflicts and reduces lock contention
@@ -450,17 +450,17 @@ Common issues and remedies:
 - Integrity violations: Use CLI validator to detect duplicates, dangling edges, and structural anomalies
 
 Actions:
-- Validate graph integrity: [validate.ts](file://src/cli/commands/validate.ts#L42-L87)
-- Utility validations: [validator.ts](file://src/utils/validator.ts#L175-L264)
-- Edge filtering stats: [EdgeWeaver.getStats](file://src/core/EdgeWeaver.ts#L183-L185)
-- Node and edge persistence: [ResonanceDB.insertNode](file://src/resonance/db.ts#L83-L134), [ResonanceDB.insertEdge](file://src/resonance/db.ts#L140-L159)
+- Validate graph integrity: [validate.ts](src/cli/commands/validate.ts#L42-L87)
+- Utility validations: [validator.ts](src/utils/validator.ts#L175-L264)
+- Edge filtering stats: [EdgeWeaver.getStats](src/core/EdgeWeaver.ts#L183-L185)
+- Node and edge persistence: [ResonanceDB.insertNode](src/resonance/db.ts#L83-L134), [ResonanceDB.insertEdge](src/resonance/db.ts#L140-L159)
 
 **Section sources**
-- [validate.ts](file://src/cli/commands/validate.ts#L42-L87)
-- [validator.ts](file://src/utils/validator.ts#L175-L264)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L183-L185)
-- [db.ts](file://src/resonance/db.ts#L83-L134)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
+- [validate.ts](src/cli/commands/validate.ts#L42-L87)
+- [validator.ts](src/utils/validator.ts#L175-L264)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L183-L185)
+- [db.ts](src/resonance/db.ts#L83-L134)
+- [db.ts](src/resonance/db.ts#L140-L159)
 
 ## Conclusion
 The knowledge graph engine enforces a clean separation between node and edge creation, ensuring robustness and scalability. Nodes are created first with rich attributes and embeddings, followed by explicit and semantic edge weaving. The graph engine and validators maintain integrity and enable deep insights through traversal and clustering. EdgeWeaver and SemanticWeaver together balance explicit structure and semantic enrichment, while ResonanceDB provides reliable persistence and transactional guarantees.

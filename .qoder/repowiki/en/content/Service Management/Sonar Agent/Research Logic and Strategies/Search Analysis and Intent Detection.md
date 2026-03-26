@@ -2,20 +2,20 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [sonar-client.ts](file://src/utils/sonar-client.ts)
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [ResonanceDB.ts](file://src/resonance/db.ts)
-- [reaction-augment-intent-01.md](file://docs/reaction-augment-intent-01.md)
-- [reaction-augment-intent-02.md](file://docs/reaction-augment-intent-02.md)
-- [zero-magic-tokenization-playbook.md](file://playbooks/zero-magic-tokenization-playbook.md)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [sonar-client.ts](src/utils/sonar-client.ts)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [ResonanceDB.ts](src/resonance/db.ts)
+- [reaction-augment-intent-01.md](docs/reaction-augment-intent-01.md)
+- [reaction-augment-intent-02.md](docs/reaction-augment-intent-02.md)
+- [zero-magic-tokenization-playbook.md](playbooks/zero-magic-tokenization-playbook.md)
 </cite>
 
 ## Table of Contents
@@ -71,21 +71,21 @@ Client --> Inf
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L90-L130)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L319)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L55-L68)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [ResonanceDB.ts](file://src/resonance/db.ts)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L118-L255)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L90-L130)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L319)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L55-L68)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [ResonanceDB.ts](src/resonance/db.ts)
+- [sonar-client.ts](src/utils/sonar-client.ts#L118-L255)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L319)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L55-L68)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L319)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L55-L68)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
 
 ## Core Components
 - Query Analysis Endpoint: Parses user queries into structured intent, entities, and filters using a JSON schema and fallback behavior.
@@ -101,10 +101,10 @@ Key behaviors:
 - Client-side caching and timeout controls
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L90-L130)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L319)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L118-L255)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L90-L130)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L319)
+- [sonar-client.ts](src/utils/sonar-client.ts#L118-L255)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
 
 ## Architecture Overview
 The system integrates vector search and graph context to inform intent detection and result reranking. The HTTP server routes requests to logic handlers that orchestrate inference calls and fallbacks. The client utilities encapsulate retries, timeouts, and health checks.
@@ -134,9 +134,9 @@ Server-->>Client : JSON reranked results
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L90-L130)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L276)
-- [sonar-inference.ts](file://src/daemon/sonar-inference.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L90-L130)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L276)
+- [sonar-inference.ts](src/daemon/sonar-inference.ts)
 
 ## Detailed Component Analysis
 
@@ -165,8 +165,8 @@ Fallback --> End
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L218)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L218)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
 
 JSON Analysis Format:
 - Fields: intent, entities, filters
@@ -183,10 +183,10 @@ Quality Assurance:
 - Client-side health checks and timeouts prevent blocking operations
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L218)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts#L232-L250)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L118-L150)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L218)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts#L232-L250)
+- [sonar-client.ts](src/utils/sonar-client.ts#L118-L150)
 
 ### Result Reranking System
 Purpose:
@@ -218,8 +218,8 @@ Server-->>Client : JSON reranked results
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L104-L116)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L222-L276)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L104-L116)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L222-L276)
 
 Fallback Mechanism:
 - If JSON parsing fails or returns invalid structure, preserve original scores
@@ -230,9 +230,9 @@ Quality Assurance:
 - Client-side timeout and health checks ensure resilience
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L222-L276)
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts#L95-L156)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L152-L203)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L222-L276)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts#L95-L156)
+- [sonar-client.ts](src/utils/sonar-client.ts#L152-L203)
 
 ### Context Extraction System
 Purpose:
@@ -256,7 +256,7 @@ Fallback --> ReturnSnippet
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L281-L319)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L281-L319)
 
 Fallback Mechanism:
 - If model refuses to extract or returns empty, use a prefix of the content
@@ -267,9 +267,9 @@ Quality Assurance:
 - Client-side timeout and health checks ensure reliability
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L281-L319)
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts#L158-L230)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L205-L255)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L281-L319)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts#L158-L230)
+- [sonar-client.ts](src/utils/sonar-client.ts#L205-L255)
 
 ### Integration with Vector Search and Graph Context
 While the primary intent detection is performed via the analysis endpoint, downstream workflows integrate vector and graph context:
@@ -295,14 +295,14 @@ GE --> VA
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L90-L130)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L90-L130)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
 
 ### Intent Classification and Entity Extraction Patterns
 Intent classification:
@@ -320,12 +320,12 @@ Additional context:
 - Zero-magic tokenization playbook emphasizes brute-force extraction over fighting with external POS taggers
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L218)
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts#L232-L250)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L44-L49)
-- [reaction-augment-intent-01.md](file://docs/reaction-augment-intent-01.md#L1-L18)
-- [reaction-augment-intent-02.md](file://docs/reaction-augment-intent-02.md#L33-L74)
-- [zero-magic-tokenization-playbook.md](file://playbooks/zero-magic-tokenization-playbook.md#L46-L52)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L218)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts#L232-L250)
+- [sonar-client.ts](src/utils/sonar-client.ts#L44-L49)
+- [reaction-augment-intent-01.md](docs/reaction-augment-intent-01.md#L1-L18)
+- [reaction-augment-intent-02.md](docs/reaction-augment-intent-02.md#L33-L74)
+- [zero-magic-tokenization-playbook.md](playbooks/zero-magic-tokenization-playbook.md#L46-L52)
 
 ### Examples of Analyzed Queries, Intent Classifications, and Filter Detection
 Examples validated by tests:
@@ -340,8 +340,8 @@ Filter detection:
 Note: Specific intent labels and entity lists are derived from model responses and validated by tests.
 
 **Section sources**
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts#L232-L250)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L218)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts#L232-L250)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L218)
 
 ## Dependency Analysis
 The search analysis and intent detection system exhibits clear layering and separation of concerns:
@@ -363,16 +363,16 @@ Tests --> Client
 ```
 
 **Diagram sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts#L1-L28)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts#L1-L28)
 
 **Section sources**
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L24-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L17)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
-- [sonar-assessment.test.ts](file://tests/sonar-assessment.test.ts#L1-L28)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L24-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L17)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
+- [sonar-assessment.test.ts](tests/sonar-assessment.test.ts#L1-L28)
 
 ## Performance Considerations
 - Inference latency: The system uses short-form JSON prompts and moderate temperatures to reduce inference time
@@ -395,10 +395,10 @@ Operational tips:
 - Use client utilities to centralize error handling and timeouts
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L182-L218)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L222-L276)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L281-L319)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L118-L255)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L182-L218)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L222-L276)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L281-L319)
+- [sonar-client.ts](src/utils/sonar-client.ts#L118-L255)
 
 ## Conclusion
 The Sonar Agent's search analysis and intent detection system provides a robust, resilient foundation for understanding user queries and enhancing retrieval quality. Through strict JSON schemas, safe parsing, and comprehensive fallbacks, it ensures reliable behavior under varying conditions. Integration with vector search and graph context further improves relevance, while client utilities encapsulate health checks and timeouts for production-grade reliability.

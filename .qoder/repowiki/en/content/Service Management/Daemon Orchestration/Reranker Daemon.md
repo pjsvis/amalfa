@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts)
-- [reranker-client.ts](file://src/utils/reranker-client.ts)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [services.ts](file://src/cli/commands/services.ts)
-- [reranking.ts](file://src/types/reranking.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [amalfa.settings.json](file://amalfa.settings.json)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts)
+- [reranker-hf.ts](src/services/reranker-hf.ts)
+- [reranker-client.ts](src/utils/reranker-client.ts)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [DaemonManager.ts](src/utils/DaemonManager.ts)
+- [services.ts](src/cli/commands/services.ts)
+- [reranking.ts](src/types/reranking.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [amalfa.settings.json](amalfa.settings.json)
 </cite>
 
 ## Table of Contents
@@ -66,26 +66,26 @@ RT --> RC
 ```
 
 **Diagram sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
 
 ## Core Components
 - Reranker Daemon HTTP server: Exposes /health and /rerank endpoints, manages model lifecycle, and serves reranking requests.
@@ -97,14 +97,14 @@ RT --> RC
 - Configuration: Directory structure, environment overrides, and reranking configuration types.
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Architecture Overview
 The Reranker Daemon sits alongside the Vector Daemon in the search pipeline. Clients can either:
@@ -133,10 +133,10 @@ VD-->>Client : { results[], count }
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
 
 ## Detailed Component Analysis
 
@@ -170,11 +170,11 @@ RD-->>Client : 200 { results[], count }
 ```
 
 **Diagram sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L64-L127)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L74-L128)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L64-L127)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L74-L128)
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L43-L141)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L43-L141)
 
 ### BGE Reranker Implementation
 Responsibilities:
@@ -201,10 +201,10 @@ HfBgeReranker --> RerankResult : "produces"
 ```
 
 **Diagram sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L129)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L129)
 
 **Section sources**
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L22-L129)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L22-L129)
 
 ### Reranker Client Utility
 Capabilities:
@@ -226,10 +226,10 @@ MapResults --> ReturnReranked["Return reranked results"]
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L137-L209)
+- [reranker-client.ts](src/utils/reranker-client.ts#L137-L209)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
 
 ### Vector Daemon Integration
 The Vector Daemon provides:
@@ -240,7 +240,7 @@ The Vector Daemon provides:
 This enables clients to use a single daemon for both embeddings and reranking, simplifying deployment and reducing overhead.
 
 **Section sources**
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L72-L234)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L72-L234)
 
 ### Daemon Lifecycle Management
 The Daemon Manager centralizes:
@@ -266,12 +266,12 @@ DM-->>CLI : success
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L118-L149)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L118-L149)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
 
 ### Configuration Options
 - Environment override: RERANKER_PORT controls the daemon port (default 3011).
@@ -281,9 +281,9 @@ DM-->>CLI : success
 Note: The provided configuration file does not include explicit reranking settings; reranking parameters are applied at runtime in the client utility.
 
 **Section sources**
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L16-L24)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
-- [reranking.ts](file://src/types/reranking.ts#L7-L29)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L16-L24)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
+- [reranking.ts](src/types/reranking.ts#L7-L29)
 
 ## Dependency Analysis
 High-level dependencies:
@@ -307,26 +307,26 @@ RT["reranking.ts"] --> RC
 ```
 
 **Diagram sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
 
 **Section sources**
-- [reranker-client.ts](file://src/utils/reranker-client.ts#L1-L225)
-- [reranker-daemon.ts](file://src/resonance/services/reranker-daemon.ts#L1-L145)
-- [reranker-hf.ts](file://src/services/reranker-hf.ts#L1-L130)
-- [vector-daemon.ts](file://src/resonance/services/vector-daemon.ts#L1-L234)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [reranking.ts](file://src/types/reranking.ts#L1-L30)
+- [reranker-client.ts](src/utils/reranker-client.ts#L1-L225)
+- [reranker-daemon.ts](src/resonance/services/reranker-daemon.ts#L1-L145)
+- [reranker-hf.ts](src/services/reranker-hf.ts#L1-L130)
+- [vector-daemon.ts](src/resonance/services/vector-daemon.ts#L1-L234)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [reranking.ts](src/types/reranking.ts#L1-L30)
 
 ## Performance Considerations
 - Model caching: Both the Reranker Daemon and Vector Daemon keep the BGE model loaded in memory after lazy initialization, avoiding repeated model loading overhead.
@@ -364,9 +364,9 @@ Operational commands:
 - Restart daemon: services restart
 
 **Section sources**
-- [services.ts](file://src/cli/commands/services.ts#L141-L191)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L118-L149)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [services.ts](src/cli/commands/services.ts#L141-L191)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L118-L149)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ## Conclusion
 The Reranker Daemon provides a fast, reliable, and observable reranking service for contextual scoring of search results. By keeping the BGE model loaded in memory and exposing a simple HTTP API, it integrates seamlessly into the search pipeline. The client utility ensures resilience through graceful fallback, while the Daemon Manager offers straightforward lifecycle control. Together with the Vector Daemon, the system supports efficient hybrid search workflows with both embeddings and reranking capabilities.

@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [schema.ts](file://src/resonance/drizzle/schema.ts)
-- [stats.ts](file://src/resonance/services/stats.ts)
-- [weaver.test.ts](file://tests/weaver.test.ts)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts)
-- [ingestion-pipeline-status.md](file://public/reports/ingestion-pipeline-status.md)
-- [2026-01-17-ingestion-edge-reranking.md](file://briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [db.ts](src/resonance/db.ts)
+- [schema.ts](src/resonance/drizzle/schema.ts)
+- [stats.ts](src/resonance/services/stats.ts)
+- [weaver.test.ts](tests/weaver.test.ts)
+- [louvain_config.test.ts](tests/louvain_config.test.ts)
+- [ingestion-pipeline-status.md](public/reports/ingestion-pipeline-status.md)
+- [2026-01-17-ingestion-edge-reranking.md](briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md)
 </cite>
 
 ## Table of Contents
@@ -30,12 +30,12 @@ This document explains Amalfa’s edge types and properties management system. I
 
 ## Project Structure
 The edge management system spans several modules:
-- Edge extraction and weaving: [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- Safety and validation: [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- Database layer and schema: [db.ts](file://src/resonance/db.ts), [schema.ts](file://src/resonance/drizzle/schema.ts)
-- Metrics and observability: [stats.ts](file://src/resonance/services/stats.ts)
-- Tests validating behavior: [weaver.test.ts](file://tests/weaver.test.ts), [louvain_config.test.ts](file://tests/louvain_config.test.ts)
-- Additional guidance and proposals: [ingestion-pipeline-status.md](file://public/reports/ingestion-pipeline-status.md), [2026-01-17-ingestion-edge-reranking.md](file://briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md)
+- Edge extraction and weaving: [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- Safety and validation: [LouvainGate.ts](src/core/LouvainGate.ts)
+- Database layer and schema: [db.ts](src/resonance/db.ts), [schema.ts](src/resonance/drizzle/schema.ts)
+- Metrics and observability: [stats.ts](src/resonance/services/stats.ts)
+- Tests validating behavior: [weaver.test.ts](tests/weaver.test.ts), [louvain_config.test.ts](tests/louvain_config.test.ts)
+- Additional guidance and proposals: [ingestion-pipeline-status.md](public/reports/ingestion-pipeline-status.md), [2026-01-17-ingestion-edge-reranking.md](briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md)
 
 ```mermaid
 graph TB
@@ -69,26 +69,26 @@ BR --> EW
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [stats.ts](file://src/resonance/services/stats.ts#L1-L328)
-- [weaver.test.ts](file://tests/weaver.test.ts#L48-L134)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts#L42-L81)
-- [ingestion-pipeline-status.md](file://public/reports/ingestion-pipeline-status.md#L118-L150)
-- [2026-01-17-ingestion-edge-reranking.md](file://briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md#L1-L364)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [stats.ts](src/resonance/services/stats.ts#L1-L328)
+- [weaver.test.ts](tests/weaver.test.ts#L48-L134)
+- [louvain_config.test.ts](tests/louvain_config.test.ts#L42-L81)
+- [ingestion-pipeline-status.md](public/reports/ingestion-pipeline-status.md#L118-L150)
+- [2026-01-17-ingestion-edge-reranking.md](briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md#L1-L364)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
-- [stats.ts](file://src/resonance/services/stats.ts#L1-L328)
-- [weaver.test.ts](file://tests/weaver.test.ts#L48-L134)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts#L42-L81)
-- [ingestion-pipeline-status.md](file://public/reports/ingestion-pipeline-status.md#L118-L150)
-- [2026-01-17-ingestion-edge-reranking.md](file://briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md#L1-L364)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
+- [stats.ts](src/resonance/services/stats.ts#L1-L328)
+- [weaver.test.ts](tests/weaver.test.ts#L48-L134)
+- [louvain_config.test.ts](tests/louvain_config.test.ts#L42-L81)
+- [ingestion-pipeline-status.md](public/reports/ingestion-pipeline-status.md#L118-L150)
+- [2026-01-17-ingestion-edge-reranking.md](briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md#L1-L364)
 
 ## Core Components
 - EdgeWeaver: Extracts explicit relationships from content and inserts validated edges into the database.
@@ -104,11 +104,11 @@ Key responsibilities:
 - Provide transactional batch operations for performance.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L47-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L67)
-- [db.ts](file://src/resonance/db.ts#L140-L184)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L34-L51)
-- [stats.ts](file://src/resonance/services/stats.ts#L8-L131)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L47-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L67)
+- [db.ts](src/resonance/db.ts#L140-L184)
+- [schema.ts](src/resonance/drizzle/schema.ts#L34-L51)
+- [stats.ts](src/resonance/services/stats.ts#L8-L131)
 
 ## Architecture Overview
 The edge pipeline transforms textual content into typed relationships with safety and metadata.
@@ -136,10 +136,10 @@ end
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L34-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L140-L159)
+- [schema.ts](src/resonance/drizzle/schema.ts#L34-L51)
 
 ## Detailed Component Analysis
 
@@ -158,9 +158,9 @@ Extraction logic and examples are validated by tests:
 - Metadata block parsing for custom relations.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L166)
-- [weaver.test.ts](file://tests/weaver.test.ts#L48-L134)
-- [ingestion-pipeline-status.md](file://public/reports/ingestion-pipeline-status.md#L118-L129)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L166)
+- [weaver.test.ts](tests/weaver.test.ts#L48-L134)
+- [ingestion-pipeline-status.md](public/reports/ingestion-pipeline-status.md#L118-L129)
 
 ### Edge Property Schemas and Metadata Storage
 Edge schema supports:
@@ -176,8 +176,8 @@ Composite primary key ensures uniqueness of (source, target, type). Indices on s
 Additional metadata can be stored in node-level meta JSON for provenance and auditing.
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L34-L51)
-- [db.ts](file://src/resonance/db.ts#L165-L184)
+- [schema.ts](src/resonance/drizzle/schema.ts#L34-L51)
+- [db.ts](src/resonance/db.ts#L165-L184)
 
 ### Relationship Validation Rules
 Safety checks:
@@ -189,9 +189,9 @@ Validation flow:
 - Allow or reject with a reason.
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts#L42-L81)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [louvain_config.test.ts](tests/louvain_config.test.ts#L42-L81)
 
 ### Edge Insertion Process and Duplicate Prevention
 Insertion mechanics:
@@ -204,8 +204,8 @@ Duplicate prevention:
 - INSERT OR IGNORE avoids errors on repeated insertions.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L140-L184)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L44-L50)
+- [db.ts](src/resonance/db.ts#L140-L184)
+- [schema.ts](src/resonance/drizzle/schema.ts#L44-L50)
 
 ### Transaction Management
 - Begin and commit/rollback wrap bulk operations to ensure atomicity and improve throughput.
@@ -216,7 +216,7 @@ Best practices:
 - Use rollback on failure to maintain consistency.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L349-L359)
+- [db.ts](src/resonance/db.ts#L349-L359)
 
 ### Examples of Edge Creation Patterns
 Common patterns validated by tests:
@@ -228,8 +228,8 @@ Common patterns validated by tests:
 These patterns demonstrate how explicit content drives structured relationships.
 
 **Section sources**
-- [weaver.test.ts](file://tests/weaver.test.ts#L48-L134)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L166)
+- [weaver.test.ts](tests/weaver.test.ts#L48-L134)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L166)
 
 ### Relationship Querying
 - Retrieve outbound edges from a node using a typed accessor.
@@ -237,8 +237,8 @@ These patterns demonstrate how explicit content drives structured relationships.
 - For advanced queries (e.g., semantic rescues), leverage raw SQL with joins and vector similarity.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L426-L430)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L47-L50)
+- [db.ts](src/resonance/db.ts#L426-L430)
+- [schema.ts](src/resonance/drizzle/schema.ts#L47-L50)
 
 ### Edge Indexing Strategies
 - Source index: idx_edges_source
@@ -251,7 +251,7 @@ Recommendations:
 - Consider adding domain-specific indices if querying by type or metadata becomes common.
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L44-L50)
+- [schema.ts](src/resonance/drizzle/schema.ts#L44-L50)
 
 ### Performance Optimization for Large Graphs
 - Use transactions for batch inserts.
@@ -261,9 +261,9 @@ Recommendations:
 - Propose semantic edge enhancement (reranking) as a background phase to increase recall without impacting initial ingestion latency.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L349-L359)
-- [stats.ts](file://src/resonance/services/stats.ts#L64-L131)
-- [2026-01-17-ingestion-edge-reranking.md](file://briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md#L16-L36)
+- [db.ts](src/resonance/db.ts#L349-L359)
+- [stats.ts](src/resonance/services/stats.ts#L64-L131)
+- [2026-01-17-ingestion-edge-reranking.md](briefs/archive/2026-01-17-reranking/2026-01-17-ingestion-edge-reranking.md#L16-L36)
 
 ## Dependency Analysis
 ```mermaid
@@ -300,16 +300,16 @@ ResonanceDB --> Schema : "writes to"
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L67)
-- [db.ts](file://src/resonance/db.ts#L140-L430)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L34-L51)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L67)
+- [db.ts](src/resonance/db.ts#L140-L430)
+- [schema.ts](src/resonance/drizzle/schema.ts#L34-L51)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [db.ts](file://src/resonance/db.ts#L1-L488)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L1-L77)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [db.ts](src/resonance/db.ts#L1-L488)
+- [schema.ts](src/resonance/drizzle/schema.ts#L1-L77)
 
 ## Performance Considerations
 - Batch operations inside transactions to minimize WAL writes.
@@ -329,9 +329,9 @@ Common issues and resolutions:
 - Slow traversals: Confirm indices exist and queries filter appropriately.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L140-L184)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L66)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
+- [db.ts](src/resonance/db.ts#L140-L184)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L66)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
 
 ## Conclusion
 Amalfa’s edge management system combines explicit content parsing with safety validation and robust persistence. By leveraging lexicon-driven resolution, strict validation, and schema-backed metadata, it produces a reliable and extensible knowledge graph. Transactions and indices support performance at scale, while metrics and tests ensure correctness and detect regressions.
@@ -348,9 +348,9 @@ Amalfa’s edge management system combines explicit content parsing with safety 
 - Custom relations: Derived from metadata blocks with filtering of non-structural tags.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L166)
-- [weaver.test.ts](file://tests/weaver.test.ts#L48-L134)
-- [ingestion-pipeline-status.md](file://public/reports/ingestion-pipeline-status.md#L118-L129)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L166)
+- [weaver.test.ts](tests/weaver.test.ts#L48-L134)
+- [ingestion-pipeline-status.md](public/reports/ingestion-pipeline-status.md#L118-L129)
 
 ### Appendix B: Edge Property Reference
 - Required: source, target, type
@@ -358,8 +358,8 @@ Amalfa’s edge management system combines explicit content parsing with safety 
 - Uniqueness: composite key (source, target, type)
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L34-L51)
-- [db.ts](file://src/resonance/db.ts#L165-L184)
+- [schema.ts](src/resonance/drizzle/schema.ts#L34-L51)
+- [db.ts](src/resonance/db.ts#L165-L184)
 
 ### Appendix C: Validation Flow
 ```mermaid
@@ -375,6 +375,6 @@ Insert --> End
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L140-L184)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L140-L184)

@@ -2,134 +2,134 @@
 
 <cite>
 **Referenced Files in This Document**
-- [.amalfa/lexicon-candidates.jsonl](file://.amalfa/lexicon-candidates.jsonl)
-- [.amalfa/golden-lexicon.jsonl](file://.amalfa/golden-lexicon.jsonl)
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
-- [src/pipeline/lexicon/README.md](file://src/pipeline/lexicon/README.md)
-- [src/pipeline/lexicon/01-harvest.ts](file://src/pipeline/lexicon/01-harvest.ts)
-- [src/pipeline/lexicon/02-refine.ts](file://src/pipeline/lexicon/02-refine.ts)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
-- [src/pipeline/lexicon/04-embed.ts](file://src/pipeline/lexicon/04-embed.ts)
-- [src/pipeline/lexicon/05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts)
-- [src/pipeline/lexicon/06-ingest.ts](file://src/pipeline/lexicon/06-ingest.ts)
-- [src/pipeline/lexicon/07-classify-relevance.ts](file://src/pipeline/lexicon/07-classify-relevance.ts)
-- [src/core/LexiconHarvester.ts](file://src/core/LexiconHarvester.ts)
-- [src/core/Harvester.ts](file://src/core/Harvester.ts)
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [src/core/EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [src/core/GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [src/core/SidecarSquasher.ts](file://src/core/SidecarSquasher.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/resonance/types/enriched-cda.ts](file://src/resonance/types/enriched-cda.ts)
-- [src/utils/JsonlUtils.ts](file://src/utils/JsonlUtils.ts)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts)
-- [src/utils/StatsTracker.ts](file://src/utils/StatsTracker.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/pipeline/PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/resonance/services/stats.ts](file://src/resonance/services/stats.ts)
-- [src/resonance/services/simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts)
-- [src/types/artifact.ts](file://src/types/artifact.ts)
-- [src/types/reranking.ts](file://src/types/reranking.ts)
-- [src/cli/commands/stats.ts](file://src/cli/commands/stats.ts)
-- [src/cli/commands/search.ts](file://src/cli/commands/search.ts)
-- [src/cli/commands/read.ts](file://src/cli/commands/read.ts)
-- [src/cli/commands/squash.ts](file://src/cli/commands/squash.ts)
-- [src/cli/commands/validate.ts](file://src/cli/commands/validate.ts)
-- [src/cli/commands/init.ts](file://src/cli/commands/init.ts)
-- [src/cli/commands/doctor.ts](file://src/cli/commands/doctor.ts)
-- [src/cli/commands/explore.ts](file://src/cli/commands/explore.ts)
-- [src/cli/commands/enhance.ts](file://src/cli/commands/enhance.ts)
-- [src/cli/commands/find-gaps.ts](file://src/cli/commands/find-gaps.ts)
-- [src/cli/commands/inject-tags.ts](file://src/cli/commands/inject-tags.ts)
-- [src/cli/commands/setup.ts](file://src/cli/commands/setup.ts)
-- [src/cli/commands/setup-python.ts](file://src/cli/commands/setup-python.ts)
-- [src/cli/sonar-chat.ts](file://src/cli/sonar-chat.ts)
-- [src/cli/utils.ts](file://src/cli/utils.ts)
-- [src/cli/list-scripts.ts](file://src/cli/list-scripts.ts)
-- [src/daemon/sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [src/daemon/sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [src/daemon/sonar-inference.ts](file://src/daemon/sonar-inference.ts)
-- [src/daemon/sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [src/daemon/sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [src/daemon/sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [src/ember/index.ts](file://src/ember/index.ts)
-- [src/ember/analyzer.ts](file://src/ember/analyzer.ts)
-- [src/ember/types.ts](file://src/ember/types.ts)
-- [src/tools/EmberExtractTool.ts](file://src/tools/EmberExtractTool.ts)
-- [src/utils/ServiceLifecycle.ts](file://src/utils/ServiceLifecycle.ts)
-- [src/utils/sonar-client.ts](file://src/utils/sonar-client.ts)
-- [src/utils/ollama-discovery.ts](file://src/utils/ollama-discovery.ts)
-- [src/utils/reranker-client.ts](file://src/utils/reranker-client.ts)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/Notifications.ts](file://src/utils/Notifications.ts)
-- [src/utils/StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/Notifications.ts](file://src/utils/Notifications.ts)
-- [src/utils/StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/Notifications.ts](file://src/utils/Notifications.ts)
-- [src/utils/StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/Notifications.ts](file://src/utils/Notifications.ts)
-- [src/utils/StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/Notifications.ts](file://src/utils/Notifications.ts)
-- [src/utils/StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydrator.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/utils/Notifications.ts](file://src/utils/Notifications.ts)
-- [src/utils/StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [src/utils/Scratchpad.ts](file://src/utils/Scratchpad.ts)
-- [src/utils/Historian.ts](file://src/utils/Historian.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/ContentHydrator.ts](file://src/utils/ContentHydr......)
+- [.amalfa/lexicon-candidates.jsonl](.amalfa/lexicon-candidates.jsonl)
+- [.amalfa/golden-lexicon.jsonl](.amalfa/golden-lexicon.jsonl)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
+- [src/pipeline/lexicon/README.md](src/pipeline/lexicon/README.md)
+- [src/pipeline/lexicon/01-harvest.ts](src/pipeline/lexicon/01-harvest.ts)
+- [src/pipeline/lexicon/02-refine.ts](src/pipeline/lexicon/02-refine.ts)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
+- [src/pipeline/lexicon/04-embed.ts](src/pipeline/lexicon/04-embed.ts)
+- [src/pipeline/lexicon/05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts)
+- [src/pipeline/lexicon/06-ingest.ts](src/pipeline/lexicon/06-ingest.ts)
+- [src/pipeline/lexicon/07-classify-relevance.ts](src/pipeline/lexicon/07-classify-relevance.ts)
+- [src/core/LexiconHarvester.ts](src/core/LexiconHarvester.ts)
+- [src/core/Harvester.ts](src/core/Harvester.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [src/core/EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [src/core/GraphGardener.ts](src/core/GraphGardener.ts)
+- [src/core/SidecarSquasher.ts](src/core/SidecarSquasher.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/resonance/types/enriched-cda.ts](src/resonance/types/enriched-cda.ts)
+- [src/utils/JsonlUtils.ts](src/utils/JsonlUtils.ts)
+- [src/utils/Logger.ts](src/utils/Logger.ts)
+- [src/utils/StatsTracker.ts](src/utils/StatsTracker.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/pipeline/PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/resonance/services/stats.ts](src/resonance/services/stats.ts)
+- [src/resonance/services/simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts)
+- [src/types/artifact.ts](src/types/artifact.ts)
+- [src/types/reranking.ts](src/types/reranking.ts)
+- [src/cli/commands/stats.ts](src/cli/commands/stats.ts)
+- [src/cli/commands/search.ts](src/cli/commands/search.ts)
+- [src/cli/commands/read.ts](src/cli/commands/read.ts)
+- [src/cli/commands/squash.ts](src/cli/commands/squash.ts)
+- [src/cli/commands/validate.ts](src/cli/commands/validate.ts)
+- [src/cli/commands/init.ts](src/cli/commands/init.ts)
+- [src/cli/commands/doctor.ts](src/cli/commands/doctor.ts)
+- [src/cli/commands/explore.ts](src/cli/commands/explore.ts)
+- [src/cli/commands/enhance.ts](src/cli/commands/enhance.ts)
+- [src/cli/commands/find-gaps.ts](src/cli/commands/find-gaps.ts)
+- [src/cli/commands/inject-tags.ts](src/cli/commands/inject-tags.ts)
+- [src/cli/commands/setup.ts](src/cli/commands/setup.ts)
+- [src/cli/commands/setup-python.ts](src/cli/commands/setup-python.ts)
+- [src/cli/sonar-chat.ts](src/cli/sonar-chat.ts)
+- [src/cli/utils.ts](src/cli/utils.ts)
+- [src/cli/list-scripts.ts](src/cli/list-scripts.ts)
+- [src/daemon/sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [src/daemon/sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [src/daemon/sonar-inference.ts](src/daemon/sonar-inference.ts)
+- [src/daemon/sonar-server.ts](src/daemon/sonar-server.ts)
+- [src/daemon/sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [src/daemon/sonar-types.ts](src/daemon/sonar-types.ts)
+- [src/ember/index.ts](src/ember/index.ts)
+- [src/ember/analyzer.ts](src/ember/analyzer.ts)
+- [src/ember/types.ts](src/ember/types.ts)
+- [src/tools/EmberExtractTool.ts](src/tools/EmberExtractTool.ts)
+- [src/utils/ServiceLifecycle.ts](src/utils/ServiceLifecycle.ts)
+- [src/utils/sonar-client.ts](src/utils/sonar-client.ts)
+- [src/utils/ollama-discovery.ts](src/utils/ollama-discovery.ts)
+- [src/utils/reranker-client.ts](src/utils/reranker-client.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/Notifications.ts](src/utils/Notifications.ts)
+- [src/utils/StatsLogger.ts](src/utils/StatsLogger.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/Notifications.ts](src/utils/Notifications.ts)
+- [src/utils/StatsLogger.ts](src/utils/StatsLogger.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/Notifications.ts](src/utils/Notifications.ts)
+- [src/utils/StatsLogger.ts](src/utils/StatsLogger.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/Notifications.ts](src/utils/Notifications.ts)
+- [src/utils/StatsLogger.ts](src/utils/StatsLogger.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/Notifications.ts](src/utils/Notifications.ts)
+- [src/utils/StatsLogger.ts](src/utils/StatsLogger.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydrator.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/utils/Notifications.ts](src/utils/Notifications.ts)
+- [src/utils/StatsLogger.ts](src/utils/StatsLogger.ts)
+- [src/utils/Scratchpad.ts](src/utils/Scratchpad.ts)
+- [src/utils/Historian.ts](src/utils/Historian.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/ContentHydrator.ts](src/utils/ContentHydr......)
 </cite>
 
 ## Table of Contents
@@ -174,27 +174,27 @@ I --> J4
 ```
 
 **Diagram sources**
-- [src/pipeline/lexicon/01-harvest.ts](file://src/pipeline/lexicon/01-harvest.ts)
-- [src/pipeline/lexicon/02-refine.ts](file://src/pipeline/lexicon/02-refine.ts)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
-- [src/pipeline/lexicon/04-embed.ts](file://src/pipeline/lexicon/04-embed.ts)
-- [src/pipeline/lexicon/05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts)
-- [src/pipeline/lexicon/06-ingest.ts](file://src/pipeline/lexicon/06-ingest.ts)
-- [src/pipeline/lexicon/07-classify-relevance.ts](file://src/pipeline/lexicon/07-classify-relevance.ts)
-- [.amalfa/lexicon-candidates.jsonl](file://.amalfa/lexicon-candidates.jsonl)
-- [.amalfa/golden-lexicon.jsonl](file://.amalfa/golden-lexicon.jsonl)
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
+- [src/pipeline/lexicon/01-harvest.ts](src/pipeline/lexicon/01-harvest.ts)
+- [src/pipeline/lexicon/02-refine.ts](src/pipeline/lexicon/02-refine.ts)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
+- [src/pipeline/lexicon/04-embed.ts](src/pipeline/lexicon/04-embed.ts)
+- [src/pipeline/lexicon/05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts)
+- [src/pipeline/lexicon/06-ingest.ts](src/pipeline/lexicon/06-ingest.ts)
+- [src/pipeline/lexicon/07-classify-relevance.ts](src/pipeline/lexicon/07-classify-relevance.ts)
+- [.amalfa/lexicon-candidates.jsonl](.amalfa/lexicon-candidates.jsonl)
+- [.amalfa/golden-lexicon.jsonl](.amalfa/golden-lexicon.jsonl)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
 
 **Section sources**
-- [src/pipeline/lexicon/README.md](file://src/pipeline/lexicon/README.md)
-- [src/pipeline/lexicon/01-harvest.ts](file://src/pipeline/lexicon/01-harvest.ts)
-- [src/pipeline/lexicon/02-refine.ts](file://src/pipeline/lexicon/02-refine.ts)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
-- [src/pipeline/lexicon/04-embed.ts](file://src/pipeline/lexicon/04-embed.ts)
-- [src/pipeline/lexicon/05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts)
-- [src/pipeline/lexicon/06-ingest.ts](file://src/pipeline/lexicon/06-ingest.ts)
-- [src/pipeline/lexicon/07-classify-relevance.ts](file://src/pipeline/lexicon/07-classify-relevance.ts)
+- [src/pipeline/lexicon/README.md](src/pipeline/lexicon/README.md)
+- [src/pipeline/lexicon/01-harvest.ts](src/pipeline/lexicon/01-harvest.ts)
+- [src/pipeline/lexicon/02-refine.ts](src/pipeline/lexicon/02-refine.ts)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
+- [src/pipeline/lexicon/04-embed.ts](src/pipeline/lexicon/04-embed.ts)
+- [src/pipeline/lexicon/05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts)
+- [src/pipeline/lexicon/06-ingest.ts](src/pipeline/lexicon/06-ingest.ts)
+- [src/pipeline/lexicon/07-classify-relevance.ts](src/pipeline/lexicon/07-classify-relevance.ts)
 
 ## Core Components
 - LexiconCandidate: A candidate concept produced during harvesting, represented as a JSONL record with term, frequency, sources, type, and status fields.
@@ -208,10 +208,10 @@ Key JSONL record structures:
 - Enriched Concept: Same as Golden plus "summary": "..."
 
 **Section sources**
-- [.amalfa/lexicon-candidates.jsonl](file://.amalfa/lexicon-candidates.jsonl)
-- [.amalfa/golden-lexicon.jsonl](file://.amalfa/golden-lexicon.jsonl)
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
+- [.amalfa/lexicon-candidates.jsonl](.amalfa/lexicon-candidates.jsonl)
+- [.amalfa/golden-lexicon.jsonl](.amalfa/golden-lexicon.jsonl)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
 
 ## Architecture Overview
 The lexicon pipeline transforms raw candidates into enriched concepts through multiple stages, persisting intermediate and final artifacts as JSONL.
@@ -241,20 +241,20 @@ Cls->>Store : Write relevance classifications
 ```
 
 **Diagram sources**
-- [src/core/Harvester.ts](file://src/core/Harvester.ts)
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [src/core/EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [src/pipeline/lexicon/01-harvest.ts](file://src/pipeline/lexicon/01-harvest.ts)
-- [src/pipeline/lexicon/02-refine.ts](file://src/pipeline/lexicon/02-refine.ts)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
-- [src/pipeline/lexicon/04-embed.ts](file://src/pipeline/lexicon/04-embed.ts)
-- [src/pipeline/lexicon/05-survey-edges.ts](file://src/pipeline/lexicon/05-survey-edges.ts)
-- [src/pipeline/lexicon/06-ingest.ts](file://src/pipeline/lexicon/06-ingest.ts)
-- [src/pipeline/lexicon/07-classify-relevance.ts](file://src/pipeline/lexicon/07-classify-relevance.ts)
-- [.amalfa/lexicon-candidates.jsonl](file://.amalfa/lexicon-candidates.jsonl)
-- [.amalfa/golden-lexicon.jsonl](file://.amalfa/golden-lexicon.jsonl)
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
+- [src/core/Harvester.ts](src/core/Harvester.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [src/core/EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [src/pipeline/lexicon/01-harvest.ts](src/pipeline/lexicon/01-harvest.ts)
+- [src/pipeline/lexicon/02-refine.ts](src/pipeline/lexicon/02-refine.ts)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
+- [src/pipeline/lexicon/04-embed.ts](src/pipeline/lexicon/04-embed.ts)
+- [src/pipeline/lexicon/05-survey-edges.ts](src/pipeline/lexicon/05-survey-edges.ts)
+- [src/pipeline/lexicon/06-ingest.ts](src/pipeline/lexicon/06-ingest.ts)
+- [src/pipeline/lexicon/07-classify-relevance.ts](src/pipeline/lexicon/07-classify-relevance.ts)
+- [.amalfa/lexicon-candidates.jsonl](.amalfa/lexicon-candidates.jsonl)
+- [.amalfa/golden-lexicon.jsonl](.amalfa/golden-lexicon.jsonl)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
 
 ## Detailed Component Analysis
 
@@ -273,14 +273,14 @@ Persist --> NextStage["Next pipeline stage consumes candidates"]
 ```
 
 **Diagram sources**
-- [src/core/Harvester.ts](file://src/core/Harvester.ts)
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [.amalfa/lexicon-candidates.jsonl](file://.amalfa/lexicon-candidates.jsonl)
+- [src/core/Harvester.ts](src/core/Harvester.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [.amalfa/lexicon-candidates.jsonl](.amalfa/lexicon-candidates.jsonl)
 
 **Section sources**
-- [src/core/Harvester.ts](file://src/core/Harvester.ts)
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [.amalfa/lexicon-candidates.jsonl](file://.amalfa/lexicon-candidates.jsonl)
+- [src/core/Harvester.ts](src/core/Harvester.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [.amalfa/lexicon-candidates.jsonl](.amalfa/lexicon-candidates.jsonl)
 
 ### Golden Lexicon Schema and Promotion
 - Promotion: Candidates are transformed into GoldenLexiconConcepts with id, type, label, domain, layer, and meta.
@@ -296,12 +296,12 @@ AddMeta --> WriteGolden["Write to golden-lexicon.jsonl"]
 ```
 
 **Diagram sources**
-- [.amalfa/golden-lexicon.jsonl](file://.amalfa/golden-lexicon.jsonl)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
+- [.amalfa/golden-lexicon.jsonl](.amalfa/golden-lexicon.jsonl)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
 
 **Section sources**
-- [.amalfa/golden-lexicon.jsonl](file://.amalfa/golden-lexicon.jsonl)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
+- [.amalfa/golden-lexicon.jsonl](.amalfa/golden-lexicon.jsonl)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
 
 ### Enriched Lexicon Schema and Summaries
 - Enrichment: Adds human-readable summary text to GoldenLexiconConcepts.
@@ -314,12 +314,12 @@ Enrich --> WriteEnriched["Write to golden-lexicon-enriched.jsonl"]
 ```
 
 **Diagram sources**
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
 
 **Section sources**
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [src/pipeline/lexicon/03-enrich.ts](file://src/pipeline/lexicon/03-enrich.ts)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [src/pipeline/lexicon/03-enrich.ts](src/pipeline/lexicon/03-enrich.ts)
 
 ### JSONL Storage Formats and Persistence
 - Intermediate: lexicon-candidates.jsonl, golden-lexicon.jsonl, golden-lexicon-enriched.jsonl.
@@ -334,15 +334,15 @@ C --> D["public/data/lexicon.jsonl"]
 ```
 
 **Diagram sources**
-- [.amalfa/lexicon-candidates.jsonl](file://.amalfa/lexicon-candidates.jsonl)
-- [.amalfa/golden-lexicon.jsonl](file://.amalfa/golden-lexicon.jsonl)
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
-- [src/utils/JsonlUtils.ts](file://src/utils/JsonlUtils.ts)
+- [.amalfa/lexicon-candidates.jsonl](.amalfa/lexicon-candidates.jsonl)
+- [.amalfa/golden-lexicon.jsonl](.amalfa/golden-lexicon.jsonl)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
+- [src/utils/JsonlUtils.ts](src/utils/JsonlUtils.ts)
 
 **Section sources**
-- [src/utils/JsonlUtils.ts](file://src/utils/JsonlUtils.ts)
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
+- [src/utils/JsonlUtils.ts](src/utils/JsonlUtils.ts)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
 
 ### Source Attribution and Manifest-Based Mapping
 - Sources list: tracks files where a term appears, enabling provenance.
@@ -358,16 +358,16 @@ Inject --> Registry["Register tools via ToolRegistry"]
 ```
 
 **Diagram sources**
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/ember/types.ts](file://src/ember/types.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/ember/types.ts](src/ember/types.ts)
 
 **Section sources**
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/utils/TagInjector.ts](file://src/utils/TagInjector.ts)
-- [src/utils/ToolRegistry.ts](file://src/utils/ToolRegistry.ts)
-- [src/ember/types.ts](file://src/ember/types.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/utils/TagInjector.ts](src/utils/TagInjector.ts)
+- [src/utils/ToolRegistry.ts](src/utils/ToolRegistry.ts)
+- [src/ember/types.ts](src/ember/types.ts)
 
 ### Hash-to-Path Resolution and Database Integration
 - Hashing: HarvesterCache supports hashing of content to detect duplicates and maintain consistent identifiers.
@@ -382,18 +382,18 @@ DB --> Schema["Use drizzle schema for nodes/edges/meta"]
 ```
 
 **Diagram sources**
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts)
 
 **Section sources**
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [src/utils/projectRoot.ts](file://src/utils/projectRoot.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [src/resonance/drizzle/schema.ts](file://src/resonance/drizzle/schema.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [src/utils/projectRoot.ts](src/utils/projectRoot.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [src/resonance/drizzle/schema.ts](src/resonance/drizzle/schema.ts)
 
 ### Embedding and Vector Engine Integration
 - Embedding: VectorEngine and embedder services generate and normalize embeddings.
@@ -414,16 +414,16 @@ Eng->>DB : Store vectors and metadata
 ```
 
 **Diagram sources**
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
 
 **Section sources**
-- [src/core/VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
+- [src/core/VectorEngine.ts](src/core/VectorEngine.ts)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
 
 ### Edge Weaving and Graph Construction
 - EdgeWeaver constructs relationships between concepts based on embeddings and proximity.
@@ -439,16 +439,16 @@ Timeline --> PersistEdges["Persist edges to database"]
 ```
 
 **Diagram sources**
-- [src/core/EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [src/core/LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [src/core/TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
+- [src/core/EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [src/core/LouvainGate.ts](src/core/LouvainGate.ts)
+- [src/core/TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
 
 **Section sources**
-- [src/core/EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [src/core/LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [src/core/TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
+- [src/core/EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [src/core/LouvainGate.ts](src/core/LouvainGate.ts)
+- [src/core/TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
 
 ### Ingestion and Final Lexicon Output
 - Ingest: Final lexicon assembled from enriched concepts, edges, and metadata.
@@ -461,13 +461,13 @@ Assemble --> Output["Write public/data/lexicon.jsonl"]
 ```
 
 **Diagram sources**
-- [.amalfa/golden-lexicon-enriched.jsonl](file://.amalfa/golden-lexicon-enriched.jsonl)
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
-- [src/pipeline/lexicon/06-ingest.ts](file://src/pipeline/lexicon/06-ingest.ts)
+- [.amalfa/golden-lexicon-enriched.jsonl](.amalfa/golden-lexicon-enriched.jsonl)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
+- [src/pipeline/lexicon/06-ingest.ts](src/pipeline/lexicon/06-ingest.ts)
 
 **Section sources**
-- [public/data/lexicon.jsonl](file://public/data/lexicon.jsonl)
-- [src/pipeline/lexicon/06-ingest.ts](file://src/pipeline/lexicon/06-ingest.ts)
+- [public/data/lexicon.jsonl](public/data/lexicon.jsonl)
+- [src/pipeline/lexicon/06-ingest.ts](src/pipeline/lexicon/06-ingest.ts)
 
 ## Dependency Analysis
 The lexicon pipeline depends on core components for harvesting, caching, enrichment, embedding, and graph construction, with storage handled by JSONL and SQLite.
@@ -502,34 +502,34 @@ JS --> EW
 ```
 
 **Diagram sources**
-- [src/core/Harvester.ts](file://src/core/Harvester.ts)
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [src/core/EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [src/core/LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [src/core/TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [src/core/GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [src/core/SidecarSquasher.ts](file://src/core/SidecarSquasher.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/resonance/services/simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/utils/JsonlUtils.ts](file://src/utils/JsonlUtils.ts)
+- [src/core/Harvester.ts](src/core/Harvester.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [src/core/EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [src/core/LouvainGate.ts](src/core/LouvainGate.ts)
+- [src/core/TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [src/core/GraphGardener.ts](src/core/GraphGardener.ts)
+- [src/core/SidecarSquasher.ts](src/core/SidecarSquasher.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/resonance/services/simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/utils/JsonlUtils.ts](src/utils/JsonlUtils.ts)
 
 **Section sources**
-- [src/core/Harvester.ts](file://src/core/Harvester.ts)
-- [src/core/HarvesterCache.ts](file://src/core/HarvesterCache.ts)
-- [src/core/EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [src/core/LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [src/core/TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [src/core/GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [src/core/SidecarSquasher.ts](file://src/core/SidecarSquasher.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [src/resonance/db.ts](file://src/resonance/db.ts)
-- [src/resonance/services/simpleTokenizer.ts](file://src/resonance/services/simpleTokenizer.ts)
-- [src/resonance/services/embedder.ts](file://src/resonance/services/embedder.ts)
-- [src/resonance/services/vector-daemon.ts](file://src/resonance/services/vector-daemon.ts)
-- [src/utils/JsonlUtils.ts](file://src/utils/JsonlUtils.ts)
+- [src/core/Harvester.ts](src/core/Harvester.ts)
+- [src/core/HarvesterCache.ts](src/core/HarvesterCache.ts)
+- [src/core/EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [src/core/LouvainGate.ts](src/core/LouvainGate.ts)
+- [src/core/TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [src/core/GraphGardener.ts](src/core/GraphGardener.ts)
+- [src/core/SidecarSquasher.ts](src/core/SidecarSquasher.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [src/resonance/db.ts](src/resonance/db.ts)
+- [src/resonance/services/simpleTokenizer.ts](src/resonance/services/simpleTokenizer.ts)
+- [src/resonance/services/embedder.ts](src/resonance/services/embedder.ts)
+- [src/resonance/services/vector-daemon.ts](src/resonance/services/vector-daemon.ts)
+- [src/utils/JsonlUtils.ts](src/utils/JsonlUtils.ts)
 
 ## Performance Considerations
 - Streaming JSONL: Use JsonlUtils for efficient read/write of large artifacts.
@@ -554,11 +554,11 @@ Validation utilities and checks:
 - DaemonManager: Ensures vector daemon lifecycle is managed correctly.
 
 **Section sources**
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [src/utils/StatsTracker.ts](file://src/utils/StatsTracker.ts)
-- [src/utils/StatsLogger.ts](file://src/utils/StatsLogger.ts)
-- [src/utils/DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [src/resonance/DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [src/utils/StatsTracker.ts](src/utils/StatsTracker.ts)
+- [src/utils/StatsLogger.ts](src/utils/StatsLogger.ts)
+- [src/utils/DaemonManager.ts](src/utils/DaemonManager.ts)
+- [src/resonance/DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
 
 ## Conclusion
 The lexicon pipeline employs a robust JSONL-based artifact system with in-memory candidate management, frequency tracking, and source attribution. Golden and enriched schemas provide structured, human-readable concepts with provenance and summaries. Database integration ensures persistence of nodes, edges, and metadata, while embedding services enable vector-based reasoning. Proper use of normalization, caching, and validation utilities maintains data integrity across pipeline stages.

@@ -2,19 +2,19 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [schema.ts](file://src/resonance/drizzle/schema.ts)
-- [simple_search_test.ts](file://scripts/verify/simple_search_test.ts)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts)
-- [performance_audit.md](file://docs/reports/performance_audit.md)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md)
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [db.ts](src/resonance/db.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [schema.ts](src/resonance/drizzle/schema.ts)
+- [simple_search_test.ts](scripts/verify/simple_search_test.ts)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts)
+- [performance_audit.md](docs/reports/performance_audit.md)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [StatsTracker.ts](src/utils/StatsTracker.ts)
 </cite>
 
 ## Table of Contents
@@ -65,23 +65,23 @@ WALTRAP --> DF
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L68)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L11-L28)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [db.ts](src/resonance/db.ts#L25-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L11-L28)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L13-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L68)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L11-L28)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L13-L66)
+- [db.ts](src/resonance/db.ts#L25-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L11-L28)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
 
 ## Core Components
 - DatabaseFactory: Enforces hardened SQLite configuration (WAL, busy_timeout, synchronous, mmap, foreign_keys, temp_store) and validates health.
@@ -94,10 +94,10 @@ Key optimization highlights:
 - Centralized configuration via DatabaseFactory prevents WAL readonly pitfalls and ensures concurrency.
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [db.ts](file://src/resonance/db.ts#L194-L239)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [db.ts](src/resonance/db.ts#L194-L239)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
 
 ## Architecture Overview
 The system uses SQLite as a high-performance storage engine with FAFCAS vector normalization and Bun’s sqlite driver for zero-copy BLOB handling. WAL mode enables concurrency; strict pragmas ensure stability and performance.
@@ -119,14 +119,14 @@ VE-->>Client : topK results
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [db.ts](file://src/resonance/db.ts#L165-L196)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [db.ts](src/resonance/db.ts#L165-L196)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
 
 **Section sources**
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L252-L337)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [db.ts](file://src/resonance/db.ts#L165-L196)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L252-L337)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [db.ts](src/resonance/db.ts#L165-L196)
 
 ## Detailed Component Analysis
 
@@ -154,11 +154,11 @@ Map --> End(["Return Node[]"])
 ```
 
 **Diagram sources**
-- [db.ts](file://src/resonance/db.ts#L194-L239)
+- [db.ts](src/resonance/db.ts#L194-L239)
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L194-L239)
-- [performance_audit.md](file://docs/reports/performance_audit.md#L19-L27)
+- [db.ts](src/resonance/db.ts#L194-L239)
+- [performance_audit.md](docs/reports/performance_audit.md#L19-L27)
 
 ### VectorEngine: Centralized Optimization and Deprecation Strategy
 VectorEngine centralizes vector search with:
@@ -186,13 +186,13 @@ VE-->>Caller : Top-K results
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [performance_audit.md](file://docs/reports/performance_audit.md#L39-L42)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [performance_audit.md](docs/reports/performance_audit.md#L39-L42)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [performance_audit.md](file://docs/reports/performance_audit.md#L39-L42)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [performance_audit.md](docs/reports/performance_audit.md#L39-L42)
 
 ### SQLite Configuration Optimizations
 Hardened configuration enforced by DatabaseFactory:
@@ -218,13 +218,13 @@ FK --> Done["Connection Ready"]
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L63)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L24)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L63)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L18-L24)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L63)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L24)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L63)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L18-L24)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
 
 ### Connection Pooling Strategies and Lifecycle
 - Use DatabaseFactory for all connections to enforce standards.
@@ -246,13 +246,13 @@ CloseNow --> End
 ```
 
 **Diagram sources**
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L51-L73)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L51-L73)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
 
 **Section sources**
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L11-L28)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L51-L73)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L75-L95)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L11-L28)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L51-L73)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L75-L95)
 
 ### Indexing Strategies for Frequently Accessed Columns
 Recommended indexes based on schema and usage:
@@ -265,8 +265,8 @@ These support:
 - Efficient filtering and joins in graph operations.
 
 **Section sources**
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L317-L326)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L317-L326)
 
 ### Query Performance Analysis
 - Use EXPLAIN QUERY PLAN to analyze hotspots.
@@ -279,9 +279,9 @@ Operational commands:
 - VACUUM and ANALYZE for maintenance and query planner hints.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L305-L335)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts#L1-L7)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L219-L230)
+- [db.ts](src/resonance/db.ts#L305-L335)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts#L1-L7)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L219-L230)
 
 ### Database Maintenance Procedures
 - Pre-migration backup and post-migration verification.
@@ -290,9 +290,9 @@ Operational commands:
 - WAL checkpointing to reclaim space and reduce WAL file growth.
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L207-L230)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
-- [checkpoint.ts](file://scripts/pipeline/checkpoint.ts#L1-L7)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L207-L230)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [checkpoint.ts](scripts/pipeline/checkpoint.ts#L1-L7)
 
 ### Capacity Planning and Scaling Considerations
 - Monitor growth via StatsTracker snapshots (nodes, edges, embeddings, DB size).
@@ -301,8 +301,8 @@ Operational commands:
 - Consider partitioning by domain or layer if graph density grows significantly.
 
 **Section sources**
-- [StatsTracker.ts](file://src/utils/StatsTracker.ts#L192-L217)
-- [ARCHITECTURE.md](file://docs/ARCHITECTURE.md#L328-L337)
+- [StatsTracker.ts](src/utils/StatsTracker.ts#L192-L217)
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md#L328-L337)
 
 ## Dependency Analysis
 The following diagram shows key dependencies among database components and policies:
@@ -319,24 +319,24 @@ PROC["DATABASE-PROCEDURES.md"] --> RD
 ```
 
 **Diagram sources**
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L11-L28)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L68)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L11-L28)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [db.ts](src/resonance/db.ts#L25-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L27-L66)
-- [db.ts](file://src/resonance/db.ts#L25-L68)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L109)
-- [schema.ts](file://src/resonance/drizzle/schema.ts#L16-L51)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L14-L25)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L11-L28)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L27-L66)
+- [db.ts](src/resonance/db.ts#L25-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L109)
+- [schema.ts](src/resonance/drizzle/schema.ts#L16-L51)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L14-L25)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L11-L28)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
 
 ## Performance Considerations
 - Prefer slim scans: load only id and embedding for ranking; hydrate metadata for top-K.
@@ -355,9 +355,9 @@ Common issues and resolutions:
 - Schema mismatches: Use Drizzle migrations; backup before changes; verify with integrity checks.
 
 **Section sources**
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L271-L320)
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L274)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L271-L320)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L274)
 
 ## Conclusion
 Amalfa’s database optimization hinges on:
@@ -376,14 +376,14 @@ These practices ensure concurrency, performance, and reliability for large-scale
 - Pitfall: Never use readonly=true with WAL; readers must update SHM.
 
 **Section sources**
-- [sqlite-wal-readonly-trap.md](file://docs/references/sqlite-wal-readonly-trap.md#L1-L199)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md#L18-L24)
+- [sqlite-wal-readonly-trap.md](docs/references/sqlite-wal-readonly-trap.md#L1-L199)
+- [sqlite-standards.md](playbooks/sqlite-standards.md#L18-L24)
 
 ### Appendix B: Example Usage of Safe Queries
 - Use getNodes with limit/offset and excludeContent for metadata-only scans.
 - Use VectorEngine.search for vector similarity with slim scanning.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L194-L239)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L240)
-- [simple_search_test.ts](file://scripts/verify/simple_search_test.ts#L1-L30)
+- [db.ts](src/resonance/db.ts#L194-L239)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L240)
+- [simple_search_test.ts](scripts/verify/simple_search_test.ts#L1-L30)

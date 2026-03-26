@@ -2,14 +2,14 @@
 
 <cite>
 **Referenced Files in This Document**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts)
-- [weaver.test.ts](file://tests/weaver.test.ts)
-- [Graph and Vector Database Best Practices.md.bak](file://docs/references/Graph and Vector Database Best Practices.md.bak)
-- [graphology-playbook.md](file://public/docs/playbooks/graphology-playbook.md)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [run-community-detection.ts](scripts/run-community-detection.ts)
+- [louvain_config.test.ts](tests/louvain_config.test.ts)
+- [weaver.test.ts](tests/weaver.test.ts)
+- [Graph and Vector Database Best Practices.md.bak](docs/references/Graph and Vector Database Best Practices.md.bak)
+- [graphology-playbook.md](public/docs/playbooks/graphology-playbook.md)
 </cite>
 
 ## Table of Contents
@@ -60,16 +60,16 @@ RCD --> DB
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L1-L155)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L1-L155)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L314)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L1-L155)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L314)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L1-L155)
 
 ## Core Components
 - LouvainGate: Enforces a local modularity constraint by rejecting edges to “super nodes” unless triadic closure is satisfied. It exposes methods to detect super nodes and to check for shared neighbors.
@@ -82,11 +82,11 @@ Key configuration and behavior:
 - Statistics tracking: EdgeWeaver counts total checks and rejections for visibility into enforcement effectiveness.
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L128-L133)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L1-L155)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts#L15-L55)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L128-L133)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L1-L155)
+- [louvain_config.test.ts](tests/louvain_config.test.ts#L15-L55)
 
 ## Architecture Overview
 The system integrates Louvain-based constraints into the edge-creation pipeline and periodically recomputes communities for graph-wide partitioning.
@@ -111,8 +111,8 @@ end
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ## Detailed Component Analysis
 
@@ -137,10 +137,10 @@ Reject --> End2(["Return {allowed: false, reason}"])
 ```
 
 **Diagram sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L68)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L68)
 
 ### EdgeWeaver: Safe Edge Insertion with Threshold and Stats
 EdgeWeaver integrates mention resolution and edge insertion:
@@ -170,13 +170,13 @@ EdgeWeaver --> LouvainGate : "calls check()"
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L45)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L168-L181)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L67)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L45)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L168-L181)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L67)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L194)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts#L15-L80)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L194)
+- [louvain_config.test.ts](tests/louvain_config.test.ts#L15-L80)
 
 ### GraphEngine: In-Memory Community Detection and Metrics
 GraphEngine loads a hollow representation of the graph from ResonanceDB and supports:
@@ -203,10 +203,10 @@ class GraphEngine {
 ```
 
 **Diagram sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L128-L171)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L128-L171)
 
 ### Community Detection Pipeline: Python + Persistence
 The run-community-detection.ts script:
@@ -226,10 +226,10 @@ CLI->>DB : verify counts and report
 ```
 
 **Diagram sources**
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L24-L155)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L24-L155)
 
 **Section sources**
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L1-L155)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L1-L155)
 
 ## Dependency Analysis
 - EdgeWeaver depends on LouvainGate for enforcement and on ResonanceDB for edge insertion.
@@ -248,16 +248,16 @@ RCD --> DB
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L3)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L1)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L12)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L16-L84)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L3)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L1)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L12)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L16-L84)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L1-L3)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L1-L1)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L1-L12)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L16-L84)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L1-L3)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L1-L1)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L1-L12)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L16-L84)
 
 ## Performance Considerations
 - Super-node threshold tuning: Lower thresholds reduce the risk of super-node formation but may increase rejections. Higher thresholds allow more edges but risk clustering instability. Typical starting points:
@@ -289,9 +289,9 @@ Validation and tests:
 - Tests confirm default and configured thresholds, and verify stats counters for checked/rejected edges.
 
 **Section sources**
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts#L15-L80)
-- [weaver.test.ts](file://tests/weaver.test.ts#L12-L32)
-- [graphology-playbook.md](file://public/docs/playbooks/graphology-playbook.md#L199-L231)
+- [louvain_config.test.ts](tests/louvain_config.test.ts#L15-L80)
+- [weaver.test.ts](tests/weaver.test.ts#L12-L32)
+- [graphology-playbook.md](public/docs/playbooks/graphology-playbook.md#L199-L231)
 
 ## Conclusion
 Amalfa’s Louvain integration prevents super-node collapse by enforcing local modularity constraints during edge creation and by periodically computing and persisting community partitions. The EdgeWeaver and LouvainGate work together to maintain graph integrity, while GraphEngine enables efficient in-memory analytics. Proper tuning of the superNodeThreshold and periodic community detection yield scalable, coherent knowledge graphs suitable for downstream tasks.
@@ -306,16 +306,16 @@ Amalfa’s Louvain integration prevents super-node collapse by enforcing local m
 - Behavior: Degree threshold to classify a node as a super node; influences LouvainGate decisions.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L19-L21)
-- [louvain_config.test.ts](file://tests/louvain_config.test.ts#L32-L55)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L19-L21)
+- [louvain_config.test.ts](tests/louvain_config.test.ts#L32-L55)
 
 ### Community Detection Notes
 - The system supports both in-memory Louvain via GraphEngine and a Python-based pipeline via run-community-detection.ts.
 - Community IDs are persisted into node metadata for visualization and downstream use.
 
 **Section sources**
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L128-L133)
-- [run-community-detection.ts](file://scripts/run-community-detection.ts#L80-L151)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L128-L133)
+- [run-community-detection.ts](scripts/run-community-detection.ts#L80-L151)
 
 ### Principles and Stability Guarantees
 - Local modularity constraint: Prevents edges that would degrade intra-cluster compactness.
@@ -323,4 +323,4 @@ Amalfa’s Louvain integration prevents super-node collapse by enforcing local m
 - Topological defense: Mitigates “hairball” growth from semantic noise by prioritizing structurally relevant edges.
 
 **Section sources**
-- [Graph and Vector Database Best Practices.md.bak](file://docs/references/Graph and Vector Database Best Practices.md.bak#L95-L101)
+- [Graph and Vector Database Best Practices.md.bak](docs/references/Graph and Vector Database Best Practices.md.bak#L95-L101)

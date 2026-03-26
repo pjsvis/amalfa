@@ -2,22 +2,22 @@
 
 <cite>
 **Referenced Files in This Document**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [FractureLogic.ts](file://src/core/FractureLogic.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [the-weavers-handbook.md](file://playbooks/the-weavers-handbook.md)
-- [validator.ts](file://src/utils/validator.ts)
-- [validate_db.ts](file://scripts/verify/validate_db.ts)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts)
-- [verify_graph_integrity.ts](file://scripts/verify/verify_graph_integrity.ts)
-- [embedder.ts](file://src/resonance/services/embedder.ts)
-- [enriched-cda.ts](file://src/resonance/types/enriched-cda.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [FractureLogic.ts](src/core/FractureLogic.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [GraphEngine.ts](src/core/GraphEngine.ts)
+- [db.ts](src/resonance/db.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [the-weavers-handbook.md](playbooks/the-weavers-handbook.md)
+- [validator.ts](src/utils/validator.ts)
+- [validate_db.ts](scripts/verify/validate_db.ts)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts)
+- [verify_graph_integrity.ts](scripts/verify/verify_graph_integrity.ts)
+- [embedder.ts](src/resonance/services/embedder.ts)
+- [enriched-cda.ts](src/resonance/types/enriched-cda.ts)
 </cite>
 
 ## Table of Contents
@@ -73,18 +73,18 @@ GE --> RES
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [db.ts](src/resonance/db.ts#L25-L431)
 
 ## Core Components
 - EdgeWeaver: Scans content for explicit tags, wiki-links, metadata blocks, and markdown links, resolves targets via a lexicon, and inserts edges subject to LouvainGate filtering.
@@ -93,10 +93,10 @@ GE --> RES
 - FractureLogic: Supplies regex patterns to fragment content into meaningful chunks based on structural pivots, enumerations, digressions, and sentence boundaries.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L1-L23)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L1-L23)
 
 ## Architecture Overview
 The transformation architecture integrates ingestion, edge creation, semantic rescue, and timeline ordering. It enforces structural and density constraints via LouvainGate and validates outcomes using dedicated scripts and a pipeline validator.
@@ -121,11 +121,11 @@ DB-->>AI : "Commit and stats"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
-- [db.ts](file://src/resonance/db.ts#L83-L184)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
+- [db.ts](src/resonance/db.ts#L83-L184)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ## Detailed Component Analysis
 
@@ -170,14 +170,14 @@ Allowed --> |No| Reject["stats.rejected++"]
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
+- [db.ts](src/resonance/db.ts#L140-L159)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [db.ts](file://src/resonance/db.ts#L140-L159)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [db.ts](src/resonance/db.ts#L140-L159)
 
 ### SemanticWeaver: Semantic Rescue of Orphans
 SemanticWeaver rescues nodes with no edges and available embeddings by linking them to semantically similar “experience” nodes using FAFCAS-normalized vectors and cosine similarity.
@@ -203,14 +203,14 @@ end
 ```
 
 **Diagram sources**
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L4-L96)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L4-L96)
+- [db.ts](src/resonance/db.ts#L448-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
 
 **Section sources**
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L58-L74)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
+- [db.ts](src/resonance/db.ts#L448-L464)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L58-L74)
 
 ### TimelineWeaver: Temporal Ordering
 TimelineWeaver identifies debrief nodes, extracts dates from metadata or filename prefixes, sorts chronologically, and links them with a successor relationship.
@@ -230,10 +230,10 @@ I --> End
 ```
 
 **Diagram sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L4-L61)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L4-L61)
 
 **Section sources**
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
 
 ### FractureLogic: Content Fragmentation and Recombination
 FractureLogic defines regex heuristics for splitting text into coherent chunks:
@@ -245,7 +245,7 @@ FractureLogic defines regex heuristics for splitting text into coherent chunks:
 These patterns guide chunking strategies to preserve meaning and narrative flow.
 
 **Section sources**
-- [FractureLogic.ts](file://src/core/FractureLogic.ts#L1-L23)
+- [FractureLogic.ts](src/core/FractureLogic.ts#L1-L23)
 
 ### Data Mapping and Transformation Workflows
 - Ingestion to graph: AmalfaIngestor reads files, computes embeddings, and inserts nodes. Edges are created in a second pass after the lexicon is populated.
@@ -294,21 +294,21 @@ TimelineWeaver --> ResonanceDB : "insert edges"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L124)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L124)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [db.ts](file://src/resonance/db.ts#L83-L184)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L194)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L4-L96)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L4-L61)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L80-L124)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [db.ts](src/resonance/db.ts#L83-L184)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L194)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L4-L96)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L4-L61)
+- [embedder.ts](src/resonance/services/embedder.ts#L80-L124)
 
 ## Dependency Analysis
 Key dependencies and coupling:
@@ -331,25 +331,25 @@ AI --> EMB["Embedder"]
 ```
 
 **Diagram sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L68)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L124)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L68)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L124)
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L194)
-- [SemanticWeaver.ts](file://src/core/SemanticWeaver.ts#L3-L97)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L62)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L39-L314)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [embedder.ts](file://src/resonance/services/embedder.ts#L9-L124)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L194)
+- [SemanticWeaver.ts](src/core/SemanticWeaver.ts#L3-L97)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L62)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L39-L314)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [embedder.ts](src/resonance/services/embedder.ts#L9-L124)
 
 ## Performance Considerations
 - Vector similarity: FAFCAS normalization and dot product enable fast, unit-vector similarity comparisons.
@@ -377,14 +377,14 @@ D --> |No| F["Validation Passed"]
 ```
 
 **Diagram sources**
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
+- [validator.ts](src/utils/validator.ts#L32-L203)
 
 **Section sources**
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
-- [validate_db.ts](file://scripts/verify/validate_db.ts#L1-L27)
-- [verify_timeline.ts](file://scripts/verify/verify_timeline.ts#L1-L27)
-- [verify_graph_integrity.ts](file://scripts/verify/verify_graph_integrity.ts#L31-L107)
-- [the-weavers-handbook.md](file://playbooks/the-weavers-handbook.md#L55-L70)
+- [validator.ts](src/utils/validator.ts#L32-L203)
+- [validate_db.ts](scripts/verify/validate_db.ts#L1-L27)
+- [verify_timeline.ts](scripts/verify/verify_timeline.ts#L1-L27)
+- [verify_graph_integrity.ts](scripts/verify/verify_graph_integrity.ts#L31-L107)
+- [the-weavers-handbook.md](playbooks/the-weavers-handbook.md#L55-L70)
 
 ## Conclusion
 Amalfa’s transformation pipeline integrates explicit edge discovery, semantic rescue, temporal ordering, and robust validation. EdgeWeaver, SemanticWeaver, TimelineWeaver, and FractureLogic collaborate to produce a coherent, temporally grounded, and semantically dense knowledge graph. Built-in density controls, FAFCAS-normalized vectors, and integrity checks ensure scalability and reliability.
@@ -399,22 +399,22 @@ Amalfa’s transformation pipeline integrates explicit edge discovery, semantic 
 - Pipeline validator: Baseline capture, expectation setting, and structured reporting with errors/warnings.
 
 **Section sources**
-- [the-weavers-handbook.md](file://playbooks/the-weavers-handbook.md#L55-L70)
-- [validator.ts](file://src/utils/validator.ts#L32-L203)
-- [validate_db.ts](file://scripts/verify/validate_db.ts#L1-L27)
+- [the-weavers-handbook.md](playbooks/the-weavers-handbook.md#L55-L70)
+- [validator.ts](src/utils/validator.ts#L32-L203)
+- [validate_db.ts](scripts/verify/validate_db.ts#L1-L27)
 
 ### Referential Integrity and Efficient Querying
 - Referential integrity: Edges are inserted with ON CONFLICT semantics and validated via graph analytics and integrity checks.
 - Efficient querying: Hollow nodes for analytics, FAFCAS vectors for fast similarity, and indexed metadata enable targeted queries.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L165-L184)
-- [GraphEngine.ts](file://src/core/GraphEngine.ts#L50-L100)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L159-L242)
+- [db.ts](src/resonance/db.ts#L165-L184)
+- [GraphEngine.ts](src/core/GraphEngine.ts#L50-L100)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L159-L242)
 
 ### Relationship Typing and Enrichment
 - Candidate relationships: Structured intermediate schema for typed, confidence-weighted edges.
 - Enrichment pipeline: Supports both explicit and inferred relationships prior to ingestion.
 
 **Section sources**
-- [enriched-cda.ts](file://src/resonance/types/enriched-cda.ts#L8-L60)
+- [enriched-cda.ts](src/resonance/types/enriched-cda.ts#L8-L60)

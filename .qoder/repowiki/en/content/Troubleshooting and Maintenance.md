@@ -2,23 +2,23 @@
 
 <cite>
 **Referenced Files in This Document**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts)
-- [Logger.ts](file://src/utils/Logger.ts)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts)
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md)
-- [API_KEYS.md](file://docs/API_KEYS.md)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts)
-- [DAEMON-CONFIG-ROOT-CAUSE.md](file://docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
-- [remeda-self-healing-pipeline.md](file://playbooks/remeda-self-healing-pipeline.md)
-- [e2e-web-testing-playbook.md](file://playbooks/e2e-web-testing-playbook.md)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md)
-- [harden-and-flense-protocol.md](file://playbooks/harden-and-flense-protocol.md)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts)
+- [Logger.ts](src/utils/Logger.ts)
+- [DaemonManager.ts](src/utils/DaemonManager.ts)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md)
+- [API_KEYS.md](docs/API_KEYS.md)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts)
+- [analyze_health.ts](scripts/verify/analyze_health.ts)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts)
+- [DAEMON-CONFIG-ROOT-CAUSE.md](docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
+- [remeda-self-healing-pipeline.md](playbooks/remeda-self-healing-pipeline.md)
+- [e2e-web-testing-playbook.md](playbooks/e2e-web-testing-playbook.md)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md)
+- [harden-and-flense-protocol.md](playbooks/harden-and-flense-protocol.md)
 </cite>
 
 ## Table of Contents
@@ -77,28 +77,28 @@ V4 --> DM
 ```
 
 **Diagram sources**
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts#L143-L178)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts#L143-L178)
 
 **Section sources**
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts#L143-L178)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts#L143-L178)
 
 ## Core Components
 - DatabaseFactory: Centralized SQLite connection creation with enforced WAL mode, busy timeout, and integrity settings. Includes a health-check routine.
@@ -108,11 +108,11 @@ V4 --> DM
 - Self-Healing Pipelines: Playbook guidance for resilient ingestion with idempotent processing and error isolation.
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [remeda-self-healing-pipeline.md](file://playbooks/remeda-self-healing-pipeline.md#L71-L98)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [remeda-self-healing-pipeline.md](playbooks/remeda-self-healing-pipeline.md#L71-L98)
 
 ## Architecture Overview
 The maintenance architecture emphasizes:
@@ -137,16 +137,16 @@ K --> M["analyze_health.ts"]
 ```
 
 **Diagram sources**
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts#L143-L178)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts#L143-L178)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
 
 ## Detailed Component Analysis
 
@@ -168,13 +168,13 @@ Health --> End(["Ready"])
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L44-L66)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
-- [sqlite-standards.md](file://playbooks/sqlite-standards.md)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L44-L66)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
+- [sqlite-standards.md](playbooks/sqlite-standards.md)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L46-L100)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L46-L100)
 
 ### Logging System
 - Root logger configured with ISO timestamps and environment-controlled level.
@@ -196,10 +196,10 @@ LoggerModule --> PinoLogger : "creates"
 ```
 
 **Diagram sources**
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
 
 **Section sources**
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
 
 ### Daemon Lifecycle Management
 - Centralized management of vector, reranker, file watcher, and Sonar Agent daemons.
@@ -221,10 +221,10 @@ DM-->>Admin : ok
 ```
 
 **Diagram sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L103-L107)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L103-L107)
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
 
 ### MCP Connectivity Diagnostics
 - Setup includes absolute path generation, client configuration, and tool availability.
@@ -244,13 +244,13 @@ Verify-->>Client : pass/fail
 ```
 
 **Diagram sources**
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L124-L150)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L47-L76)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L124-L150)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L47-L76)
 
 **Section sources**
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
 
 ### Embedding Generation and API Key Issues
 - LangExtractClient parses substrate errors and maps them to standardized categories (missing/invalid API key, out of credit, network, timeout).
@@ -271,12 +271,12 @@ I --> |No| K["TIMEOUT or UNKNOWN"]
 ```
 
 **Diagram sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [API_KEYS.md](file://docs/API_KEYS.md#L342-L414)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [API_KEYS.md](docs/API_KEYS.md#L342-L414)
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [API_KEYS.md](file://docs/API_KEYS.md#L269-L414)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [API_KEYS.md](docs/API_KEYS.md#L269-L414)
 
 ### Search Performance Diagnostics
 - Dashboard E2E tests capture console errors and verify service action buttons, aiding in diagnosing UI-level issues.
@@ -296,11 +296,11 @@ S7 --> S8
 ```
 
 **Diagram sources**
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
 
 **Section sources**
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts#L143-L178)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts#L143-L178)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
 
 ## Dependency Analysis
 - DatabaseFactory depends on SQLite and enforces standards; it is consumed by ResonanceDB and diagnostics.
@@ -321,25 +321,25 @@ AH["analyze_health.ts"] --> DF
 ```
 
 **Diagram sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L1-L348)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L1-L348)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
 
 **Section sources**
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L1-L103)
-- [Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L1-L260)
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L1-L318)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L1-L103)
+- [Logger.ts](src/utils/Logger.ts#L1-L23)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L1-L260)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L1-L318)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
 
 ## Performance Considerations
 - Use WAL mode and busy_timeout to minimize contention and lock timeouts.
@@ -359,8 +359,8 @@ AH["analyze_health.ts"] --> DF
   - For schema mismatches, restore from a pre-migration backup and re-apply migrations.
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L234-L275)
-- [DatabaseFactory.ts](file://src/resonance/DatabaseFactory.ts#L72-L101)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L234-L275)
+- [DatabaseFactory.ts](src/resonance/DatabaseFactory.ts#L72-L101)
 
 ### Service Startup Failures
 - Symptoms: Daemons not running, stale PIDs, missing logs.
@@ -370,8 +370,8 @@ AH["analyze_health.ts"] --> DF
   - Validate environment and PATH for Bun-based daemons.
 
 **Section sources**
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L68-L79)
-- [DAEMON-CONFIG-ROOT-CAUSE.md](file://docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L324-L326)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L68-L79)
+- [DAEMON-CONFIG-ROOT-CAUSE.md](docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L324-L326)
 
 ### API Key Configuration Problems
 - Symptoms: Authentication errors, “API key not configured,” “API key rejected,” “Out of credit.”
@@ -381,8 +381,8 @@ AH["analyze_health.ts"] --> DF
   - For Ollama device keys, sign in once and ensure the daemon is running.
 
 **Section sources**
-- [API_KEYS.md](file://docs/API_KEYS.md#L342-L414)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
+- [API_KEYS.md](docs/API_KEYS.md#L342-L414)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
 
 ### MCP Connectivity Issues
 - Symptoms: Server not connecting, no results from search, ENOENT for paths.
@@ -392,9 +392,9 @@ AH["analyze_health.ts"] --> DF
   - Use lifecycle and concurrency verification scripts to isolate issues.
 
 **Section sources**
-- [MCP_SETUP.md](file://docs/setup/MCP_SETUP.md#L206-L257)
-- [test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L1-L79)
-- [test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [MCP_SETUP.md](docs/setup/MCP_SETUP.md#L206-L257)
+- [test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L1-L79)
+- [test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
 
 ### Embedding Generation Failures
 - Symptoms: Network errors, timeouts, provider quota limits.
@@ -403,8 +403,8 @@ AH["analyze_health.ts"] --> DF
   - Switch providers or increase timeouts; monitor usage and billing.
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L106-L148)
-- [API_KEYS.md](file://docs/API_KEYS.md#L342-L414)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L106-L148)
+- [API_KEYS.md](docs/API_KEYS.md#L342-L414)
 
 ### Search Performance Problems
 - Symptoms: Slow responses, fragmented graph, UI console errors.
@@ -414,9 +414,9 @@ AH["analyze_health.ts"] --> DF
   - Optimize ingestion batch sizes and reduce contention via WAL and busy_timeout.
 
 **Section sources**
-- [analyze_health.ts](file://scripts/verify/analyze_health.ts#L1-L88)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts#L143-L178)
-- [database-connection-hygiene.md](file://playbooks/database-connection-hygiene.md#L359-L365)
+- [analyze_health.ts](scripts/verify/analyze_health.ts#L1-L88)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts#L143-L178)
+- [database-connection-hygiene.md](playbooks/database-connection-hygiene.md#L359-L365)
 
 ### Maintenance Procedures
 - Database Regeneration:
@@ -428,9 +428,9 @@ AH["analyze_health.ts"] --> DF
   - Use component-scoped child loggers; filter by component and level; monitor stderr for critical errors.
 
 **Section sources**
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L207-L231)
-- [DaemonManager.ts](file://src/utils/DaemonManager.ts#L233-L246)
-- [Logger.ts](file://src/utils/Logger.ts#L20-L23)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L207-L231)
+- [DaemonManager.ts](src/utils/DaemonManager.ts#L233-L246)
+- [Logger.ts](src/utils/Logger.ts#L20-L23)
 
 ### Preventive Maintenance and Disaster Recovery
 - Preventive:
@@ -441,9 +441,9 @@ AH["analyze_health.ts"] --> DF
   - Use standardized logging and PID/log files to accelerate incident triage.
 
 **Section sources**
-- [remeda-self-healing-pipeline.md](file://playbooks/remeda-self-healing-pipeline.md#L71-L98)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L88-L99)
-- [harden-and-flense-protocol.md](file://playbooks/harden-and-flense-protocol.md#L21-L35)
+- [remeda-self-healing-pipeline.md](playbooks/remeda-self-healing-pipeline.md#L71-L98)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L88-L99)
+- [harden-and-flense-protocol.md](playbooks/harden-and-flense-protocol.md#L21-L35)
 
 ### Emergency Procedures
 - Immediate Actions:
@@ -453,8 +453,8 @@ AH["analyze_health.ts"] --> DF
   - Restore from the most recent pre-migration backup; reset Drizzle state and re-apply migrations.
 
 **Section sources**
-- [DAEMON-CONFIG-ROOT-CAUSE.md](file://docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L324-L326)
-- [DATABASE-PROCEDURES.md](file://src/resonance/DATABASE-PROCEDURES.md#L88-L99)
+- [DAEMON-CONFIG-ROOT-CAUSE.md](docs/audits/DAEMON-CONFIG-ROOT-CAUSE.md#L324-L326)
+- [DATABASE-PROCEDURES.md](src/resonance/DATABASE-PROCEDURES.md#L88-L99)
 
 ## Conclusion
 This guide consolidates Amalfa’s maintenance and troubleshooting practices around centralized database enforcement, robust logging, unified daemon lifecycle management, and rigorous MCP diagnostics. By following the documented procedures and leveraging the included scripts and playbooks, operators can quickly diagnose and resolve common issues, maintain system health, and recover from critical failures.
@@ -463,5 +463,5 @@ This guide consolidates Amalfa’s maintenance and troubleshooting practices aro
 - Additional references for observability and testing coverage are available in the e2e web testing playbook and dashboard tests.
 
 **Section sources**
-- [e2e-web-testing-playbook.md](file://playbooks/e2e-web-testing-playbook.md#L383-L399)
-- [dashboard-e2e.test.ts](file://tests/e2e/dashboard-e2e.test.ts#L143-L178)
+- [e2e-web-testing-playbook.md](playbooks/e2e-web-testing-playbook.md#L383-L399)
+- [dashboard-e2e.test.ts](tests/e2e/dashboard-e2e.test.ts#L143-L178)

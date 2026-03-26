@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts)
-- [Historian.ts](file://src/utils/Historian.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [ask_context.ts](file://scripts/verify/ask_context.ts)
+- [sonar-chat.ts](src/cli/sonar-chat.ts)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-server.ts](src/daemon/sonar-server.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [VectorEngine.ts](src/core/VectorEngine.ts)
+- [Historian.ts](src/utils/Historian.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [ask_context.ts](scripts/verify/ask_context.ts)
 </cite>
 
 ## Table of Contents
@@ -68,24 +68,24 @@ Agent --> Cfg
 ```
 
 **Diagram sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L1-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L1-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 **Section sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L1-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L1-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Core Components
 - Chat CLI loop: Starts/stops the Sonar Agent, sends user messages to /chat, prints responses, and maintains a session identifier.
@@ -96,12 +96,12 @@ Agent --> Cfg
 - Historian: Writes session events to .amalfa/sessions/session_{uuid}.jsonl for recall and debugging.
 
 **Section sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L1-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [Historian.ts](file://src/utils/Historian.ts#L31-L136)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L1-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [Historian.ts](src/utils/Historian.ts#L31-L136)
 
 ## Architecture Overview
 The chat flow integrates CLI input, HTTP routing, session management, vector search, graph discovery, and inference.
@@ -134,12 +134,12 @@ CLI-->>User : Assistant reply
 ```
 
 **Diagram sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L50-L114)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L47)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L240)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L50-L114)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L47)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L240)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
 
 ## Detailed Component Analysis
 
@@ -164,14 +164,14 @@ AppendAssistant --> Return(["Return {message, sessionId}"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L114-L178)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L240)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L114-L178)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L240)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L104-L179)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L10-L14)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L47-L47)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L104-L179)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L10-L14)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L47-L47)
 
 ### Message Handling and Context Augmentation
 - System prompt: A dynamic system message is injected at session creation, including the current date.
@@ -197,11 +197,11 @@ Logic->>Logic : Append user and assistant to session
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L130-L178)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L227-L240)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L130-L178)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L227-L240)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L114-L178)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L114-L178)
 
 ### Vector Search Integration
 - Direct search: VectorEngine.search() embeds the query and performs dot-product scoring against stored unit vectors, returning top-k results with metadata placeholders.
@@ -223,12 +223,12 @@ Union --> Context["Augment context"]
 ```
 
 **Diagram sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L115-L240)
-- [ask_context.ts](file://scripts/verify/ask_context.ts#L1-L43)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L115-L240)
+- [ask_context.ts](scripts/verify/ask_context.ts#L1-L43)
 
 **Section sources**
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L76-L242)
-- [ask_context.ts](file://scripts/verify/ask_context.ts#L1-L43)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L76-L242)
+- [ask_context.ts](scripts/verify/ask_context.ts#L1-L43)
 
 ### Session State Persistence and Recall
 - In-memory sessions: Maintained in a Map within the agent process.
@@ -255,20 +255,20 @@ ChatSession "1" o-- "*" Message : "history"
 ```
 
 **Diagram sources**
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L5-L14)
-- [Historian.ts](file://src/utils/Historian.ts#L20-L126)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L5-L14)
+- [Historian.ts](src/utils/Historian.ts#L20-L126)
 
 **Section sources**
-- [Historian.ts](file://src/utils/Historian.ts#L31-L136)
-- [defaults.ts](file://src/config/defaults.ts#L16-L59)
+- [Historian.ts](src/utils/Historian.ts#L31-L136)
+- [defaults.ts](src/config/defaults.ts#L16-L59)
 
 ### System Prompt Configuration
 - Dynamic system message: The session initializes with a system role message containing the current date, ensuring grounded temporal awareness.
 - Model override: The /chat endpoint supports an optional model field to route to a specific inference model.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L116-L124)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L58-L67)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L116-L124)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L58-L67)
 
 ### Relationship to the Broader Sonar Ecosystem
 - Agent daemon: Orchestrates engines, exposes HTTP endpoints, and manages task processing alongside chat.
@@ -277,9 +277,9 @@ ChatSession "1" o-- "*" Message : "history"
 - CLI chat: Provides a developer-friendly terminal interface to the agent’s /chat endpoint.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
 
 ## Dependency Analysis
 ```mermaid
@@ -294,24 +294,24 @@ Agent --> Cfg["defaults.ts"]
 ```
 
 **Diagram sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L1-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L1-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 **Section sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L1-L116)
-- [sonar-server.ts](file://src/daemon/sonar-server.ts#L1-L134)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [VectorEngine.ts](file://src/core/VectorEngine.ts#L1-L242)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [Historian.ts](file://src/utils/Historian.ts#L1-L136)
-- [defaults.ts](file://src/config/defaults.ts#L1-L143)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L1-L116)
+- [sonar-server.ts](src/daemon/sonar-server.ts#L1-L134)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [VectorEngine.ts](src/core/VectorEngine.ts#L1-L242)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [Historian.ts](src/utils/Historian.ts#L1-L136)
+- [defaults.ts](src/config/defaults.ts#L1-L143)
 
 ## Performance Considerations
 - Vector search hot loop: The FAFCAS protocol computes dot products over loaded embeddings; keep top-k reasonable to limit scoring iterations.
@@ -328,9 +328,9 @@ Agent --> Cfg["defaults.ts"]
 - Empty or low-quality context: If vector search returns no matches, the system falls back to minimal augmentation; verify embeddings and indexing.
 
 **Section sources**
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L5-L22)
-- [sonar-chat.ts](file://src/cli/sonar-chat.ts#L82-L108)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L110-L112)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L5-L22)
+- [sonar-chat.ts](src/cli/sonar-chat.ts#L82-L108)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L110-L112)
 
 ## Conclusion
 The Sonar Agent’s chat session management centers on a simple, effective pattern: create a session with a contextual system prompt, augment user queries with direct vector search results and graph-derived neighbors, and maintain a concise message history. VectorEngine and GraphEngine integrate seamlessly to provide precise and broad context, while the agent’s HTTP surface and CLI offer straightforward developer ergonomics. For production deployments, monitor performance, ensure robust logging, and consider extending session persistence to disk if long-lived conversations are required.

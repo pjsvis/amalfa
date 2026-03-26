@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts)
-- [Harvester.ts](file://src/core/Harvester.ts)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts)
-- [db.ts](file://src/resonance/db.ts)
-- [defaults.ts](file://src/config/defaults.ts)
-- [schema.ts](file://src/config/schema.ts)
-- [amalfa.settings.json](file://amalfa.settings.json)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts)
+- [Harvester.ts](src/core/Harvester.ts)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts)
+- [LouvainGate.ts](src/core/LouvainGate.ts)
+- [db.ts](src/resonance/db.ts)
+- [defaults.ts](src/config/defaults.ts)
+- [schema.ts](src/config/schema.ts)
+- [amalfa.settings.json](amalfa.settings.json)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts)
 </cite>
 
 ## Table of Contents
@@ -71,26 +71,26 @@ CFG --> LEC
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L61-L131)
-- [Harvester.ts](file://src/core/Harvester.ts#L4-L73)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L111)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L36)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L61-L131)
+- [Harvester.ts](src/core/Harvester.ts#L4-L73)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L111)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L36)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L61-L131)
-- [Harvester.ts](file://src/core/Harvester.ts#L4-L73)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L111)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L36)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L61-L131)
+- [Harvester.ts](src/core/Harvester.ts#L4-L73)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L111)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L36)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 ## Core Components
 - AmalfaIngestor: Orchestrates discovery, batched node insertion, and two-pass edge weaving with transaction batching and WAL checkpointing.
@@ -103,14 +103,14 @@ CFG --> LEC
 - LangExtractClient: Connects to a Python sidecar via MCP, caches results, and validates structured outputs.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L309)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L61-L131)
-- [Harvester.ts](file://src/core/Harvester.ts#L4-L73)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L111)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L36)
-- [db.ts](file://src/resonance/db.ts#L25-L431)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L353)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L309)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L61-L131)
+- [Harvester.ts](src/core/Harvester.ts#L4-L73)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L111)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L36)
+- [db.ts](src/resonance/db.ts#L25-L431)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L353)
 
 ## Architecture Overview
 The ingestion pipeline follows a strict two-pass design:
@@ -146,10 +146,10 @@ AI->>DB : "checkpoint()"
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [db.ts](file://src/resonance/db.ts#L349-L367)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [db.ts](src/resonance/db.ts#L349-L367)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ## Detailed Component Analysis
 
@@ -166,9 +166,9 @@ Key behaviors:
 - OH-104 pinch check to verify database file presence and non-empty after checkpoint.
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L139-L309)
-- [db.ts](file://src/resonance/db.ts#L349-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L139-L309)
+- [db.ts](src/resonance/db.ts#L349-L367)
 
 ### PreFlightAnalyzer: Validation and Optimization
 - Scans all source directories recursively for .md files.
@@ -183,10 +183,10 @@ Recommendations:
 - Ensure source directories contain valid markdown.
 
 **Section sources**
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L75-L131)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L167-L268)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L297-L337)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L342-L452)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L75-L131)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L167-L268)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L297-L337)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L342-L452)
 
 ### Harvester: Tag Discovery and Sorting
 - Scans directories for explicit tag tokens and builds a tag-to-files map.
@@ -198,7 +198,7 @@ Use cases:
 - Supporting downstream lexicon harvesting.
 
 **Section sources**
-- [Harvester.ts](file://src/core/Harvester.ts#L16-L73)
+- [Harvester.ts](src/core/Harvester.ts#L16-L73)
 
 ### LexiconHarvester: Conceptual Lexicon Builder
 - Loads a stop-list and a manifest mapping hashes to source paths.
@@ -210,9 +210,9 @@ Integration points:
 - Uses ResonanceDB for lexicon queries elsewhere in the system.
 
 **Section sources**
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L83-L111)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L113-L154)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L156-L174)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L83-L111)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L113-L154)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L156-L174)
 
 ### EdgeWeaver: Relationship Discovery and Insertion
 - Processes explicit tags, legacy tag-slug format, wiki-links, metadata blocks, and markdown links.
@@ -223,9 +223,9 @@ Edge types observed:
 - TAGGED_AS, EXEMPLIFIES, CITES, LINKS_TO.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L54-L59)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L96)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L122-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L54-L59)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L96)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L122-L166)
 
 ### LouvainGate: Edge Filtering for Stability
 - Identifies “super nodes” by degree threshold.
@@ -233,7 +233,7 @@ Edge types observed:
 - Tracks checked and rejected counts for diagnostics.
 
 **Section sources**
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L15-L36)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L15-L36)
 
 ### ResonanceDB: Persistence and Utilities
 - Typed node and edge operations with safe defaults and optional exclusion of large BLOBs.
@@ -242,12 +242,12 @@ Edge types observed:
 - Dot product and FAFCAS utilities for vector handling.
 
 **Section sources**
-- [db.ts](file://src/resonance/db.ts#L83-L134)
-- [db.ts](file://src/resonance/db.ts#L140-L184)
-- [db.ts](file://src/resonance/db.ts#L194-L239)
-- [db.ts](file://src/resonance/db.ts#L305-L336)
-- [db.ts](file://src/resonance/db.ts#L378-L391)
-- [db.ts](file://src/resonance/db.ts#L448-L464)
+- [db.ts](src/resonance/db.ts#L83-L134)
+- [db.ts](src/resonance/db.ts#L140-L184)
+- [db.ts](src/resonance/db.ts#L194-L239)
+- [db.ts](src/resonance/db.ts#L305-L336)
+- [db.ts](src/resonance/db.ts#L378-L391)
+- [db.ts](src/resonance/db.ts#L448-L464)
 
 ### LangExtractClient: Extraction and Caching
 - Detects sidecar availability and connects via MCP stdio transport.
@@ -256,8 +256,8 @@ Edge types observed:
 - Parses and surfaces substrate-level errors with suggestions.
 
 **Section sources**
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L49-L57)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L248-L343)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L49-L57)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L248-L343)
 
 ## Dependency Analysis
 High-level dependencies:
@@ -282,24 +282,24 @@ CFG --> LEC
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L39)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L16)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L20)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L43)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L30)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L61-L70)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L39)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L16)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L20)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L43)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L30)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L61-L70)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 **Section sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L32-L39)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L5-L16)
-- [LouvainGate.ts](file://src/core/LouvainGate.ts#L3-L20)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L31-L43)
-- [LexiconHarvester.ts](file://src/core/LexiconHarvester.ts#L25-L30)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L61-L70)
-- [defaults.ts](file://src/config/defaults.ts#L15-L59)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L32-L39)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L5-L16)
+- [LouvainGate.ts](src/core/LouvainGate.ts#L3-L20)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L31-L43)
+- [LexiconHarvester.ts](src/core/LexiconHarvester.ts#L25-L30)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L61-L70)
+- [defaults.ts](src/config/defaults.ts#L15-L59)
+- [schema.ts](src/config/schema.ts#L146-L266)
 
 ## Performance Considerations
 - Transaction batching: Reduces lock contention and improves throughput by committing in small groups.
@@ -327,10 +327,10 @@ Operational checks:
 - Incremental mode: Ensure only changed files are processed and edges are rebuilt for affected nodes.
 
 **Section sources**
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L297-L337)
-- [PreFlightAnalyzer.ts](file://src/pipeline/PreFlightAnalyzer.ts#L342-L452)
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L255-L270)
-- [LangExtractClient.ts](file://src/services/LangExtractClient.ts#L288-L343)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L297-L337)
+- [PreFlightAnalyzer.ts](src/pipeline/PreFlightAnalyzer.ts#L342-L452)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L255-L270)
+- [LangExtractClient.ts](src/services/LangExtractClient.ts#L288-L343)
 
 ## Conclusion
 Amalfa’s ingestion pipeline is designed for reliability and scalability: a two-pass approach ensures robust node and edge creation, while validation, caching, and transaction batching optimize performance. The modular components—orchestrator, analyzer, extractors, and graph engine—work together to produce a stable knowledge graph from markdown sources.
@@ -357,9 +357,9 @@ Practical tips:
 - Keep sidecar providers’ API keys secure in environment variables.
 
 **Section sources**
-- [amalfa.settings.json](file://amalfa.settings.json#L1-L96)
-- [schema.ts](file://src/config/schema.ts#L146-L266)
-- [defaults.ts](file://src/config/defaults.ts#L84-L139)
+- [amalfa.settings.json](amalfa.settings.json#L1-L96)
+- [schema.ts](src/config/schema.ts#L146-L266)
+- [defaults.ts](src/config/defaults.ts#L84-L139)
 
 ### Incremental Ingestion Workflow
 - Detect changed files (e.g., via file watcher).
@@ -378,8 +378,8 @@ Checkpoint --> End(["End"])
 ```
 
 **Diagram sources**
-- [AmalfaIngestor.ts](file://src/pipeline/AmalfaIngestor.ts#L45-L134)
-- [db.ts](file://src/resonance/db.ts#L349-L367)
+- [AmalfaIngestor.ts](src/pipeline/AmalfaIngestor.ts#L45-L134)
+- [db.ts](src/resonance/db.ts#L349-L367)
 
 ### Example: Custom Extraction Rules
 - Explicit tags: Use strict syntax to link to concepts.
@@ -394,5 +394,5 @@ Implementation anchors:
 - Markdown link extraction and normalization.
 
 **Section sources**
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L61-L96)
-- [EdgeWeaver.ts](file://src/core/EdgeWeaver.ts#L122-L166)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L61-L96)
+- [EdgeWeaver.ts](src/core/EdgeWeaver.ts#L122-L166)

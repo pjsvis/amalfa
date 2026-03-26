@@ -320,13 +320,16 @@ async function runServer() {
             const { Database } = await import("bun:sqlite");
             const db = new Database(DB_PATH, { readonly: true });
             
-            // Try to find the node by source path
-            const node = db.query("SELECT meta FROM nodes WHERE meta LIKE ?").get(`%"source":"${filename}"%`) as { meta: string } | undefined;
-            if (node) {
-              const dbMeta = JSON.parse(node.meta);
-              doc.metadata = { ...doc.metadata, ...dbMeta };
+            try {
+              // Try to find the node by source path
+              const node = db.query("SELECT meta FROM nodes WHERE meta LIKE ?").get(`%"source":"${filename}"%`) as { meta: string } | undefined;
+              if (node) {
+                const dbMeta = JSON.parse(node.meta);
+                doc.metadata = { ...doc.metadata, ...dbMeta };
+              }
+            } finally {
+              db.close();
             }
-            db.close();
           } catch (dbErr) {
             console.warn("Failed to fetch DB metadata for doc:", dbErr);
           }

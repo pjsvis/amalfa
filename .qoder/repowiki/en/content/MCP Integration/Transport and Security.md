@@ -2,17 +2,17 @@
 
 <cite>
 **Referenced Files in This Document**
-- [src/mcp/index.ts](file://src/mcp/index.ts)
-- [.env.example](file://.env.example)
-- [.env](file://.env)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts)
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md)
-- [src/utils/validator.ts](file://src/utils/validator.ts)
-- [docs/references/hardened-sqlite.md](file://docs/references/hardened-sqlite.md)
+- [src/mcp/index.ts](src/mcp/index.ts)
+- [.env.example](.env.example)
+- [.env](.env)
+- [docs/API_KEYS.md](docs/API_KEYS.md)
+- [src/utils/Logger.ts](src/utils/Logger.ts)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md)
+- [src/utils/validator.ts](src/utils/validator.ts)
+- [docs/references/hardened-sqlite.md](docs/references/hardened-sqlite.md)
 </cite>
 
 ## Table of Contents
@@ -60,24 +60,24 @@ I --> H
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L719-L723)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L45-L79)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [.env.example](file://.env.example#L1-L83)
-- [.env](file://.env#L1-L3)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L414)
+- [src/mcp/index.ts](src/mcp/index.ts#L719-L723)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L45-L79)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [.env.example](.env.example#L1-L83)
+- [.env](.env#L1-L3)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L414)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L748)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L45-L79)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [.env.example](file://.env.example#L1-L83)
-- [.env](file://.env#L1-L3)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L414)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L748)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L45-L79)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [.env.example](.env.example#L1-L83)
+- [.env](.env#L1-L3)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L414)
 
 ## Core Components
 - Stdio-based transport: The server instantiates StdioServerTransport and connects the MCP server to stdin/stdout, enabling agent clients to communicate via standard streams.
@@ -86,11 +86,11 @@ I --> H
 - Global error handling: Uncaught exceptions and unhandled rejections are logged and persisted to a crash log file.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L723)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L723)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
 
 ## Architecture Overview
 The MCP server follows a per-request connection model over stdio. Agents connect via JSON-RPC over stdin/stdout. The server validates inputs, executes tool logic, and returns structured responses. Logging is directed to stderr to preserve stdout for protocol messages.
@@ -114,9 +114,9 @@ Proc-->>Agent : "JSON-RPC result"
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L719-L723)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/mcp/index.ts](src/mcp/index.ts#L719-L723)
 
 ## Detailed Component Analysis
 
@@ -139,20 +139,20 @@ Crash --> |No| Ready
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L37-L42)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L139)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L719-L723)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
+- [src/mcp/index.ts](src/mcp/index.ts#L37-L42)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L139)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L719-L723)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L37-L42)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L94-L139)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L146-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L719-L723)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
+- [src/mcp/index.ts](src/mcp/index.ts#L37-L42)
+- [src/mcp/index.ts](src/mcp/index.ts#L94-L139)
+- [src/mcp/index.ts](src/mcp/index.ts#L146-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L719-L723)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
 
 ### Tool Handlers and Resource Access
 - Tools: The server registers handlers for search, read, explore, list, gaps, tag injection, and scratchpad operations. Each handler validates inputs, performs database or filesystem operations, and returns structured content.
@@ -177,14 +177,14 @@ P --> |No| R["Throw 'Resource not found'"]
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L717)
+- [src/mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L717)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L164-L250)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L717)
+- [src/mcp/index.ts](src/mcp/index.ts#L164-L250)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L717)
 
 ### Security Best Practices for Agent Communication
 - Input validation: Validate and sanitize all inputs from tool requests and resource URIs. Reject malformed or suspicious payloads early.
@@ -194,12 +194,12 @@ P --> |No| R["Throw 'Resource not found'"]
 - Transport hygiene: Keep stdout clean for protocol messages; use stderr for logs to prevent interference with MCP communication.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L717)
-- [.env.example](file://.env.example#L1-L83)
-- [.env](file://.env#L1-L3)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L414)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L717)
+- [.env.example](.env.example#L1-L83)
+- [.env](.env#L1-L3)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L414)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
 
 ### Environment Variable Management and .env Template
 - Template: The .env.example file documents provider keys, LangExtract configuration, database path, and development settings, including explicit security notes.
@@ -216,14 +216,14 @@ Runtime --> Policy
 ```
 
 **Diagram sources**
-- [.env.example](file://.env.example#L1-L83)
-- [.env](file://.env#L1-L3)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L414)
+- [.env.example](.env.example#L1-L83)
+- [.env](.env#L1-L3)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L414)
 
 **Section sources**
-- [.env.example](file://.env.example#L1-L83)
-- [.env](file://.env#L1-L3)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L414)
+- [.env.example](.env.example#L1-L83)
+- [.env](.env#L1-L3)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L414)
 
 ### Logging and Monitoring Strategies
 - Logger configuration: The logger writes to stderr and binds a component name for traceability.
@@ -245,18 +245,18 @@ Script->>Script : "assert JSON-RPC validity"
 ```
 
 **Diagram sources**
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L45-L79)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L45-L79)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
 
 **Section sources**
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L45-L79)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L45-L79)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
 
 ### Potential Security Vulnerabilities and Mitigations
 - Injection risks: Tool handlers that read files or manipulate content should reject unsafe paths and sanitize outputs.
@@ -273,10 +273,10 @@ Mitigations:
 - Harden SQLite access patterns and WAL permissions.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L252-L688)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L690-L717)
-- [src/utils/validator.ts](file://src/utils/validator.ts#L1-L265)
-- [docs/references/hardened-sqlite.md](file://docs/references/hardened-sqlite.md#L1-L16)
+- [src/mcp/index.ts](src/mcp/index.ts#L252-L688)
+- [src/mcp/index.ts](src/mcp/index.ts#L690-L717)
+- [src/utils/validator.ts](src/utils/validator.ts#L1-L265)
+- [docs/references/hardened-sqlite.md](docs/references/hardened-sqlite.md#L1-L16)
 
 ### Configuration Examples for Secure MCP Deployment
 - Agent integration: Configure agent clients to launch the MCP server via the CLI and pass serve arguments.
@@ -284,9 +284,9 @@ Mitigations:
 - Provider selection: Choose providers aligned with your privacy and latency goals; configure LangExtract accordingly.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L609-L647)
-- [.env.example](file://.env.example#L1-L83)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L381-L414)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L609-L647)
+- [.env.example](.env.example#L1-L83)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L381-L414)
 
 ## Dependency Analysis
 The MCP server depends on the SDK’s stdio transport, internal tool registry, and utility services. Logging is decoupled via pino. Verification scripts depend on spawning the server and asserting protocol behavior.
@@ -303,18 +303,18 @@ Verify3["scripts/verify/test_mcp_concurrent.ts"] --> MCP
 ```
 
 **Diagram sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L27)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L45-L79)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L27)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L45-L79)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L1-L27)
-- [src/utils/Logger.ts](file://src/utils/Logger.ts#L1-L23)
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_lifecycle.ts](file://scripts/verify/test_mcp_lifecycle.ts#L45-L79)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [src/mcp/index.ts](src/mcp/index.ts#L1-L27)
+- [src/utils/Logger.ts](src/utils/Logger.ts#L1-L23)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_lifecycle.ts](scripts/verify/test_mcp_lifecycle.ts#L45-L79)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
 
 ## Performance Considerations
 - Per-request connections: Database connections are created per request and closed afterward, reducing contention and simplifying error isolation.
@@ -323,9 +323,9 @@ Verify3["scripts/verify/test_mcp_concurrent.ts"] --> MCP
 - Logging overhead: Writing to stderr minimizes impact on protocol throughput.
 
 **Section sources**
-- [src/mcp/index.ts](file://src/mcp/index.ts#L49-L55)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L315-L331)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L76-L92)
+- [src/mcp/index.ts](src/mcp/index.ts#L49-L55)
+- [src/mcp/index.ts](src/mcp/index.ts#L315-L331)
+- [src/mcp/index.ts](src/mcp/index.ts#L76-L92)
 
 ## Troubleshooting Guide
 - Protocol handshake failures: Use the debug script to validate initialization and observe logs on stderr.
@@ -334,10 +334,10 @@ Verify3["scripts/verify/test_mcp_concurrent.ts"] --> MCP
 - Database integrity: Use the validator utility to capture baselines and detect anomalies.
 
 **Section sources**
-- [scripts/verify/debug_mcp_protocol.ts](file://scripts/verify/debug_mcp_protocol.ts#L1-L47)
-- [scripts/verify/test_mcp_concurrent.ts](file://scripts/verify/test_mcp_concurrent.ts#L61-L125)
-- [src/mcp/index.ts](file://src/mcp/index.ts#L725-L747)
-- [src/utils/validator.ts](file://src/utils/validator.ts#L1-L265)
+- [scripts/verify/debug_mcp_protocol.ts](scripts/verify/debug_mcp_protocol.ts#L1-L47)
+- [scripts/verify/test_mcp_concurrent.ts](scripts/verify/test_mcp_concurrent.ts#L61-L125)
+- [src/mcp/index.ts](src/mcp/index.ts#L725-L747)
+- [src/utils/validator.ts](src/utils/validator.ts#L1-L265)
 
 ## Conclusion
 Amalfa’s MCP server employs a robust stdio transport with per-request connections, structured logging, and comprehensive error handling. Security is addressed through strict input validation, controlled resource access, environment-based secret management, and hardened database practices. The included verification scripts and documentation provide practical guidance for secure deployment and agent integration.
@@ -347,5 +347,5 @@ Amalfa’s MCP server employs a robust stdio transport with per-request connecti
 - Environment configuration and API key management guidelines are provided in dedicated documentation.
 
 **Section sources**
-- [docs/MCP-TOOLS.md](file://docs/MCP-TOOLS.md#L609-L647)
-- [docs/API_KEYS.md](file://docs/API_KEYS.md#L1-L414)
+- [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md#L609-L647)
+- [docs/API_KEYS.md](docs/API_KEYS.md#L1-L414)

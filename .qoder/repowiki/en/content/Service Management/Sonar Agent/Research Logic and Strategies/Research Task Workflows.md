@@ -2,15 +2,15 @@
 
 <cite>
 **Referenced Files in This Document**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts)
-- [sonar-client.ts](file://src/utils/sonar-client.ts)
-- [research_promotion.ts](file://scripts/query/research_promotion.ts)
-- [tiered-inference-strategy.md](file://docs/architecture/tiered-inference-strategy.md)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts)
+- [sonar-types.ts](src/daemon/sonar-types.ts)
+- [GraphGardener.ts](src/core/GraphGardener.ts)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts)
+- [sonar-client.ts](src/utils/sonar-client.ts)
+- [research_promotion.ts](scripts/query/research_promotion.ts)
+- [tiered-inference-strategy.md](docs/architecture/tiered-inference-strategy.md)
 </cite>
 
 ## Table of Contents
@@ -61,16 +61,16 @@ GG --> TW
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
 
 ## Core Components
 - Sonar Agent daemon: Loads configuration, initializes engines, starts HTTP server, watches task queue, and routes tasks to handlers.
@@ -81,12 +81,12 @@ GG --> TW
 - Sonar Client: HTTP client wrapper for the daemon endpoints with caching and timeouts.
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
 
 ## Architecture Overview
 The Sonar Agent follows a modular, layered architecture:
@@ -108,12 +108,12 @@ Agent --> Client["sonar-client.ts"]
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L102-L133)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L184-L218)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L27-L32)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L3-L61)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L54-L270)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L102-L133)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L184-L218)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L27-L32)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L3-L61)
+- [sonar-client.ts](src/utils/sonar-client.ts#L54-L270)
 
 ## Detailed Component Analysis
 
@@ -148,16 +148,16 @@ Temp --> Done(["Done"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L396-L465)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L396-L465)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L396-L465)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L34-L84)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L396-L465)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L34-L84)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 #### Phase 2: Synthesis Tasks (Community Summarization)
 Synthesis groups related nodes into clusters and generates canonical labels and summaries.
@@ -188,14 +188,14 @@ Logic-->>Agent : "Synthesis report"
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L323-L364)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L120-L143)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L90-L142)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L323-L364)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L120-L143)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L90-L142)
 
 #### Phase 3: Timeline Tasks (Temporal Anchoring)
 Timeline tasks extract and apply temporal anchors to nodes lacking dates, enabling chronological chaining.
@@ -220,21 +220,21 @@ Next --> Done(["Done"])
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L369-L392)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L148-L186)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L369-L392)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L148-L186)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 #### Phase 4: Garden Tasks (Repeat)
 Phase 4 mirrors Phase 1, focusing on refining and validating links discovered in earlier phases, ensuring robustness and narrative coherence.
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L396-L465)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L38-L115)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L396-L465)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L38-L115)
 
 #### Phase 5: Autonomous Research (Recursive Discovery)
 Autonomous research performs iterative discovery guided by an LLM decision policy. It supports narrative investigation mode and includes a chain verification step.
@@ -283,13 +283,13 @@ Agent-->>User : "research report"
 ```
 
 **Diagram sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L470-L664)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L148-L150)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L256-L268)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L470-L664)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L148-L150)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L256-L268)
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L470-L664)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L256-L268)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L470-L664)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L256-L268)
 
 ### Decision-Making Algorithms and Action Selection
 - Action selection prompt enumerates SEARCH, READ, EXPLORE, FINISH with explicit JSON schema
@@ -306,9 +306,9 @@ Output formatting:
 - Optional auto-application of tags and synthesis artifacts
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L497-L523)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L605-L612)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L621-L632)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L497-L523)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L605-L612)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L621-L632)
 
 ### Context Analysis and Hub Identification
 - Hub identification combines PageRank and betweenness centrality to surface high-value entry points
@@ -316,9 +316,9 @@ Output formatting:
 - Temporal sequence weaving builds FOLLOWS edges within date-ordered communities
 
 **Section sources**
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L256-L268)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L483-L491)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L155-L195)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L256-L268)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L483-L491)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L155-L195)
 
 ### Throttling Mechanisms and Model Tiering
 - Free-tier models receive a 1-second delay per step to respect rate limits
@@ -326,9 +326,9 @@ Output formatting:
 - HTTP client caches health checks to reduce overhead
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L606-L607)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L10-L28)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L11-L14)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L606-L607)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L10-L28)
+- [sonar-client.ts](src/utils/sonar-client.ts#L11-L14)
 
 ### Performance Optimization Strategies
 - Task batching for metadata enhancement
@@ -337,17 +337,17 @@ Output formatting:
 - Limiting concurrent operations and applying throttling
 
 **Section sources**
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L70-L99)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L72-L113)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L63-L66)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L70-L99)
+- [sonar-client.ts](src/utils/sonar-client.ts#L72-L113)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L63-L66)
 
 ### Research Prompts and Examples
 - Example queries for recursive discovery and promotion research
 - Vector-based promotion of research topics using embeddings
 
 **Section sources**
-- [research_promotion.ts](file://scripts/query/research_promotion.ts#L10-L15)
-- [research_promotion.ts](file://scripts/query/research_promotion.ts#L23-L29)
+- [research_promotion.ts](scripts/query/research_promotion.ts#L10-L15)
+- [research_promotion.ts](scripts/query/research_promotion.ts#L23-L29)
 
 ## Dependency Analysis
 The following diagram shows key dependencies among components:
@@ -363,17 +363,17 @@ SL --> ST["sonar-types.ts"]
 ```
 
 **Diagram sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
-- [sonar-strategies.ts](file://src/daemon/sonar-strategies.ts#L1-L187)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L1-L270)
-- [TimelineWeaver.ts](file://src/core/TimelineWeaver.ts#L1-L62)
-- [sonar-types.ts](file://src/daemon/sonar-types.ts#L1-L69)
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L1-L309)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-strategies.ts](src/daemon/sonar-strategies.ts#L1-L187)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L1-L270)
+- [TimelineWeaver.ts](src/core/TimelineWeaver.ts#L1-L62)
+- [sonar-types.ts](src/daemon/sonar-types.ts#L1-L69)
+- [sonar-client.ts](src/utils/sonar-client.ts#L1-L309)
 
 **Section sources**
-- [sonar-agent.ts](file://src/daemon/sonar-agent.ts#L1-L221)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L1-L685)
+- [sonar-agent.ts](src/daemon/sonar-agent.ts#L1-L221)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L1-L685)
 
 ## Performance Considerations
 - Use free-tier throttling for rate-limited providers
@@ -390,9 +390,9 @@ Common issues and remedies:
 - Missing content: content resolution handles both summary and file-backed nodes
 
 **Section sources**
-- [sonar-client.ts](file://src/utils/sonar-client.ts#L72-L113)
-- [sonar-logic.ts](file://src/daemon/sonar-logic.ts#L669-L684)
-- [GraphGardener.ts](file://src/core/GraphGardener.ts#L229-L254)
+- [sonar-client.ts](src/utils/sonar-client.ts#L72-L113)
+- [sonar-logic.ts](src/daemon/sonar-logic.ts#L669-L684)
+- [GraphGardener.ts](src/core/GraphGardener.ts#L229-L254)
 
 ## Conclusion
 The Sonar Agent’s five-phase research methodology integrates semantic and structural graph analysis with LLM-guided recursive discovery. By combining gap detection, community synthesis, temporal anchoring, and narrative investigation, it enables robust, scalable knowledge exploration. Built-in throttling, model tiering, and performance optimizations ensure reliable operation across diverse environments.
