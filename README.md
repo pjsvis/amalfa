@@ -1,5 +1,8 @@
 # AMALFA
 
+> ⚠️ **Development Paused** — Last active: March 2026  
+> MCP integration remains functional. See [Installation](#installation) for current usage.
+
 ## Environment Configuration
 
 AMALFA uses environment variables for configuration. Copy `.env.example` to `.env` and fill in your API keys:
@@ -657,9 +660,22 @@ bun run format           # Biome format
 
 ---
 
+## Status
+
+**Development paused** as of March 2026. The core MCP server and semantic search remain functional and production-ready.
+
+**Current state:**
+- ✅ MCP server (stdio transport) — working
+- ✅ Vector search (FastEmbed) — working
+- ✅ CLI commands — working
+- ⚠️ Auto-augmentation (Phase 1) — incomplete
+- ⚠️ Ember service — incomplete
+
+**Future:** Development may resume. Check back later or feel free to fork.
+
 ## Contributing
 
-Amalfa is in active development. Contributions are welcome!
+Contributions welcome, but development is currently paused. Please open issues for bugs or feature requests.
 
 **How to contribute:**
 - ⭐ Star the repo if you find it useful
@@ -695,7 +711,7 @@ Amalfa evolved from patterns discovered in the [PolyVis](https://github.com/pjsv
 - ✅ Basic semantic search working
 - ✅ Initial release
 
-### v1.1+ (Future)
+### v1.1+ (On Hold)
 
 - Latent space clustering
 - Multi-agent knowledge sharing
@@ -704,7 +720,8 @@ Amalfa evolved from patterns discovered in the [PolyVis](https://github.com/pjsv
 
 ---
 
-**Built with ❤️ by developers frustrated with context loss.**
+> 📅 Development paused — last active March 2026  
+> **Built with ❤️ by developers frustrated with context loss.**
 
 ---
 
