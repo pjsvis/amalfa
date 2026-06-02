@@ -1,3 +1,11 @@
+# DECISION: GitButler Not Adopted
+
+**Archived:** 2026-06-02  
+**Status:** `rejected`  
+**Reason:** GitButler's "Virtual Branch" architecture introduces High Cohesion / High Risk for AI agent workflows. A catastrophic failure in its state engine could affect the entire working directory.
+
+---
+
 The "Venture Research" task is now conceptualized. I have structured it below to align with our new **Rev 2.0 Brief Protocol**, integrating the JSON Structural Contract to ensure the investigation is targeted and "thing-oriented."
 
 Regarding your point on redundancy: **Your intuition is a high-fidelity assessment of "Systemic Robustness."** ### Ctx Opinion: The "Blast Radius" Principle
